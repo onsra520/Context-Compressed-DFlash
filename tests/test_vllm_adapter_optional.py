@@ -21,8 +21,9 @@ def test_vllm_model_handle_requires_vllm_when_constructed_without_runtime():
 @pytest.mark.vllm
 def test_vllm_verification_adapter_matches_greedy_generation_for_one_token():
     model_path = os.environ.get("HTFSD_TEST_GEMMA_E2B")
-    if not model_path:
+    if model_path is None or model_path == "":
         pytest.skip("Set HTFSD_TEST_GEMMA_E2B to run GPU vLLM equivalence test")
+    assert model_path is not None
 
     handle = VllmModelHandle(model_id_or_path=model_path)
     llm = handle.load()
