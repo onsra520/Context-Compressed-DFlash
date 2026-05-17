@@ -2,6 +2,7 @@ import json
 
 from htfsd.cli.generate import write_trace_jsonl
 from htfsd.benchmarks.fixtures import load_prompt_fixtures
+from htfsd.benchmarks.baseline_e4b import baseline_row
 from htfsd.benchmarks.low_tier import write_benchmark_row
 from htfsd.types import CycleTrace
 
@@ -59,3 +60,18 @@ def test_write_benchmark_row_jsonl(tmp_path):
     rows = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
     assert rows[0]["prompt_id"] == "a"
     assert rows[0]["status"] == "ok"
+
+
+def test_baseline_row_shape():
+    row = baseline_row(
+        prompt_id="p1",
+        prompt_tokens=5,
+        generated_tokens=7,
+        total_ms=100.0,
+        output_text="hello",
+    )
+
+    assert row["prompt_id"] == "p1"
+    assert row["tokens_per_second"] == 70.0
+    assert row["latency_per_token_ms"] == 100.0 / 7
+    assert row["output_text"] == "hello"
