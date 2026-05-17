@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "htfsd"
+version = "0.1.0"
+description = "HTFSD Phase 0-2 MVP: vLLM-native baseline, D-Flash, and Low Tier verification"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pyyaml>=6.0.1",
+  "vllm>=0.5.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+benchmark = ["datasets>=2.19"]
+
+[project.scripts]
+htfsd-generate = "htfsd.cli.generate:main"
+htfsd-benchmark-low = "htfsd.cli.benchmark_low:main"
+htfsd-baseline-e4b = "htfsd.cli.baseline_e4b:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "gpu: requires GPU and local model access",
+  "vllm: requires vLLM runtime and model access",
+]

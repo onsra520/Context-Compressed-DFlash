@@ -430,3 +430,7 @@ FodyWeavers.xsd
 
 # Superpowers worktrees
 .worktrees/
+
+# HTFSD generated outputs
+runs/
+*.jsonl.tmp
