@@ -10,7 +10,7 @@ def _normalize_draft_text(value: str) -> str:
     return value.replace("\r\n", "\n").strip()
 
 
-def parse_dflash(raw_text: str) -> DFlashParseResult:
+def parse_dflash(raw_text: str) -> DFlashParseResult:  # pylint: disable=too-many-return-statements
     try:
         payload: Any = json.loads(raw_text)
     except json.JSONDecodeError:

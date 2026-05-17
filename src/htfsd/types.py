@@ -70,7 +70,7 @@ class BenchmarkConfig:
 
 
 @dataclass(frozen=True)
-class AppConfig:
+class AppConfig:  # pylint: disable=too-many-instance-attributes
     qwen_drafter: ModelConfig
     gemma_e2b: ModelConfig
     gemma_e4b_baseline: ModelConfig
@@ -117,7 +117,7 @@ class VerificationResult:
 
 
 @dataclass(frozen=True)
-class CycleTrace:
+class CycleTrace:  # pylint: disable=too-many-instance-attributes
     cycle_index: int
     context_tokens: int
     dflash_parse_ok: bool
@@ -139,7 +139,7 @@ class CycleTrace:
 
 
 @dataclass(frozen=True)
-class GenerationMetrics:
+class GenerationMetrics:  # pylint: disable=too-many-instance-attributes
     generated_tokens: int
     cycles: int
     drafted_candidate_tokens: int

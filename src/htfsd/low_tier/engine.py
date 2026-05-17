@@ -12,7 +12,7 @@ from htfsd.types import CycleTrace, GenerateResult, VerificationResult
 from htfsd.types import TokenResult
 
 
-class Drafter(Protocol):
+class Drafter(Protocol):  # pylint: disable=too-few-public-methods
     def draft(self, context_text: str, *, max_tokens: int) -> str:
         ...
 
@@ -44,8 +44,8 @@ class Verifier(Protocol):
         ...
 
 
-class LowTierEngine:
-    def __init__(
+class LowTierEngine:  # pylint: disable=too-few-public-methods
+    def __init__(  # pylint: disable=too-many-arguments
         self,
         *,
         drafter: Drafter,
@@ -62,7 +62,7 @@ class LowTierEngine:
         self._default_draft_max_tokens = default_draft_max_tokens
         self._hard_draft_max_tokens = hard_draft_max_tokens
 
-    def generate(
+    def generate(  # pylint: disable=too-many-arguments,too-many-locals,too-many-branches,too-many-statements
         self,
         prompt: str,
         *,
@@ -208,7 +208,7 @@ class LowTierEngine:
             return accepted[: eos_index + 1]
         return accepted
 
-    def _cycle_trace(
+    def _cycle_trace(  # pylint: disable=too-many-arguments,too-many-positional-arguments
         self,
         cycle_index: int,
         context_token_ids: list[int],
@@ -244,5 +244,5 @@ class LowTierEngine:
         )
 
 
-class _StaticTimer:
+class _StaticTimer:  # pylint: disable=too-few-public-methods
     elapsed_ms = 0.0

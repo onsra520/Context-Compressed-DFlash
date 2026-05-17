@@ -4,10 +4,11 @@ import json
 from pathlib import Path
 
 from htfsd.benchmarks.fixtures import load_prompt_fixtures
+from htfsd.benchmarks.rows import benchmark_error_row
 from htfsd.metrics.timers import timer_ms
 
 
-def baseline_row(
+def baseline_row(  # pylint: disable=too-many-arguments
     *,
     prompt_id: str,
     prompt_tokens: int,
@@ -59,10 +60,7 @@ def run_e4b_baseline(
                 )
                 row["status"] = "ok"
                 row["error"] = None
-            except Exception as exc:
-                row = {
-                    "prompt_id": fixture["id"],
-                    "status": "error",
-                    "error": str(exc),
-                }
+            except Exception as exc:  # pylint: disable=broad-exception-caught
+                # Benchmarks record per-prompt failures and continue the fixture run.
+                row = benchmark_error_row(prompt_id=fixture["id"], error=exc)
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")

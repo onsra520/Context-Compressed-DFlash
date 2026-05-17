@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from htfsd.benchmarks.fixtures import load_prompt_fixtures
+from htfsd.benchmarks.rows import benchmark_error_row
 from htfsd.config import validate_benchmark_decoding
 
 
@@ -40,11 +41,7 @@ def run_low_tier_benchmark(
                 "metrics": result.metrics.to_dict(),
                 "output_text": result.text,
             }
-        except Exception as exc:
-            row = {
-                "prompt_id": fixture["id"],
-                "status": "error",
-                "error": str(exc),
-                "prompt": fixture["prompt"],
-            }
+        except Exception as exc:  # pylint: disable=broad-exception-caught
+            # Benchmarks record per-prompt failures and continue the fixture run.
+            row = benchmark_error_row(prompt_id=fixture["id"], error=exc, prompt=fixture["prompt"])
         write_benchmark_row(output_path, row)

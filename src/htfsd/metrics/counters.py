@@ -6,7 +6,7 @@ from htfsd.types import GenerationMetrics
 
 
 @dataclass
-class GenerationCounter:
+class GenerationCounter:  # pylint: disable=too-many-instance-attributes
     execution_mode: str
     decoding_mode: str
     cycles: int = 0

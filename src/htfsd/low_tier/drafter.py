@@ -4,7 +4,7 @@ from htfsd.dflash.prompts import build_dflash_prompt
 from htfsd.runtime.vllm_adapter import VllmGenerationAdapter
 
 
-class QwenDFlashDrafter:
+class QwenDFlashDrafter:  # pylint: disable=too-few-public-methods
     def __init__(self, generation: VllmGenerationAdapter):
         self._generation = generation
 

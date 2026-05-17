@@ -8,12 +8,14 @@ from htfsd.low_tier.acceptance import greedy_exact_match
 from htfsd.types import ModelConfig, TokenResult, VerificationResult
 
 try:
-    from vllm import LLM, SamplingParams  # pyright: ignore[reportMissingImports] - optional runtime dependency.
-except Exception:
-    LLM = None
-    SamplingParams = None
+    from vllm import LLM as VLLM_LLM  # pyright: ignore[reportMissingImports] # pylint: disable=import-error
+    from vllm import SamplingParams as VLLM_SAMPLING_PARAMS  # pyright: ignore[reportMissingImports] # pylint: disable=import-error
+except Exception:  # pylint: disable=broad-exception-caught
+    # vLLM is optional for CPU/unit-test environments; runtime entrypoints check availability.
+    VLLM_LLM = None
+    VLLM_SAMPLING_PARAMS = None
 
-VLLM_AVAILABLE = LLM is not None and SamplingParams is not None
+VLLM_AVAILABLE = VLLM_LLM is not None and VLLM_SAMPLING_PARAMS is not None
 VERIFICATION_ADAPTER_VERSION = "generated-greedy-v1"
 
 
@@ -44,9 +46,9 @@ class VllmModelHandle:
     def load(self) -> Any:
         if self.llm is not None:
             return self.llm
-        if not VLLM_AVAILABLE or LLM is None:
+        if not VLLM_AVAILABLE or VLLM_LLM is None:
             raise RuntimeError("vLLM is not available in this environment")
-        llm_class = LLM
+        llm_class = VLLM_LLM
         kwargs: dict[str, Any] = {
             "model": self.model_id_or_path,
             "tensor_parallel_size": self.tensor_parallel_size,
@@ -58,7 +60,7 @@ class VllmModelHandle:
         return self.llm
 
 
-class VllmGenerationAdapter:
+class VllmGenerationAdapter:  # pylint: disable=too-few-public-methods
     def __init__(self, handle: VllmModelHandle):
         self._handle = handle
 
@@ -71,9 +73,9 @@ class VllmGenerationAdapter:
         top_p: float = 1.0,
     ) -> str:
         llm = self._handle.load()
-        if not VLLM_AVAILABLE or SamplingParams is None:
+        if not VLLM_AVAILABLE or VLLM_SAMPLING_PARAMS is None:
             raise RuntimeError("vLLM is not available in this environment")
-        sampling_params = SamplingParams
+        sampling_params = VLLM_SAMPLING_PARAMS
         params = sampling_params(
             temperature=temperature,
             top_p=top_p,
@@ -114,9 +116,9 @@ class VllmVerificationAdapter:
 
     def _greedy_ids_for_positions(self, *, context_token_ids: list[int], positions: int) -> list[int]:
         llm = self._handle.load()
-        if not VLLM_AVAILABLE or SamplingParams is None:
+        if not VLLM_AVAILABLE or VLLM_SAMPLING_PARAMS is None:
             raise RuntimeError("vLLM is not available in this environment")
-        sampling_params = SamplingParams
+        sampling_params = VLLM_SAMPLING_PARAMS
         params = sampling_params(
             temperature=0.0,
             max_tokens=positions,
