@@ -1,7 +1,11 @@
+"""Prompt construction for Qwen D-Flash drafts."""
+
 from __future__ import annotations
 
 
 def build_dflash_prompt(context: str, *, max_tokens: int) -> str:
+    """Build the strict JSON-only D-Flash instruction prompt."""
+
     return (
         "Return only one compact JSON object. "
         "Do not use Markdown fences. Do not explain. "

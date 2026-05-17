@@ -1,3 +1,5 @@
+"""Low Tier decoding engine for Qwen D-Flash drafts and Gemma verification."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -18,38 +20,60 @@ VerificationResult = _types.VerificationResult
 
 
 class Drafter(Protocol):  # pylint: disable=too-few-public-methods
+    """Protocol for D-Flash draft producers."""
+
     def draft(self, context_text: str, *, max_tokens: int) -> str:
-        ...
+        """Generate a raw D-Flash draft envelope from decoded context text."""
+
+        raise NotImplementedError
 
 
 class TokenizerBoundary(Protocol):
+    """Tokenizer operations required by the Low Tier engine."""
+
     @property
     def eos_token_id(self) -> int | None:
-        ...
+        """Return the tokenizer EOS token ID when available."""
+
+        raise NotImplementedError
 
     def encode_prompt(self, prompt: str) -> list[int]:
-        ...
+        """Encode the initial user prompt into verifier token IDs."""
+
+        raise NotImplementedError
 
     def retokenize_draft(self, draft_text: str, *, max_tokens: int) -> RetokenizedDraft:
-        ...
+        """Encode D-Flash draft text into verifier candidate token IDs."""
+
+        raise NotImplementedError
 
     def decode(self, token_ids: list[int]) -> str:
-        ...
+        """Decode verifier token IDs into text."""
+
+        raise NotImplementedError
 
 
 class Verifier(Protocol):
+    """Verifier operations required by the Low Tier engine."""
+
     def verify_greedy_prefix(
         self,
         context_token_ids: list[int],
         candidate_token_ids: list[int],
     ) -> VerificationResult:
-        ...
+        """Verify candidate token IDs against the verifier greedy path."""
+
+        raise NotImplementedError
 
     def greedy_next_token(self, context_token_ids: list[int]) -> TokenResult:
-        ...
+        """Return one greedy fallback token for the current context."""
+
+        raise NotImplementedError
 
 
 class LowTierEngine:  # pylint: disable=too-few-public-methods
+    """Own the Low Tier greedy speculative decoding loop."""
+
     def __init__(  # pylint: disable=too-many-arguments
         self,
         *,
@@ -76,6 +100,8 @@ class LowTierEngine:  # pylint: disable=too-few-public-methods
         stop_on_eos: bool = True,
         debug_trace: bool = True,
     ) -> GenerateResult:
+        """Generate text with D-Flash drafts and Gemma greedy verification."""
+
         if decoding != "greedy":
             raise ValueError("LowTierEngine correctness path only supports greedy decoding")
 

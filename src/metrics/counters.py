@@ -1,3 +1,5 @@
+"""Request-level metric counters for Low Tier generation."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -9,6 +11,8 @@ GenerationMetrics = _types.GenerationMetrics
 
 @dataclass
 class GenerationCounter:  # pylint: disable=too-many-instance-attributes
+    """Mutable accumulator converted into immutable generation metrics."""
+
     execution_mode: str
     decoding_mode: str
     cycles: int = 0
@@ -29,6 +33,8 @@ class GenerationCounter:  # pylint: disable=too-many-instance-attributes
         fallback_tokens: int,
         malformed_reason: str | None,
     ) -> None:
+        """Add one decode cycle worth of acceptance and fallback counts."""
+
         self.cycles += 1
         self.drafted_candidate_tokens += drafted_candidate_tokens
         self.accepted_tokens += accepted_tokens
@@ -48,6 +54,8 @@ class GenerationCounter:  # pylint: disable=too-many-instance-attributes
             self.dflash_schema_invalid_count += 1
 
     def to_metrics(self, *, total_ms: float, generated_tokens: int) -> GenerationMetrics:
+        """Build final request metrics from accumulated counters."""
+
         low_acceptance_rate = (
             self.accepted_tokens / self.drafted_candidate_tokens
             if self.drafted_candidate_tokens

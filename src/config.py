@@ -1,3 +1,5 @@
+"""YAML configuration loading and validation helpers."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -33,6 +35,8 @@ def _model_config(data: dict[str, Any]) -> ModelConfig:
 
 
 def load_config(path: str | Path) -> AppConfig:
+    """Load an HTFSD application config from a YAML file."""
+
     with Path(path).open("r", encoding="utf-8") as handle:
         raw = yaml.safe_load(handle)
     models = raw["models"]
@@ -92,6 +96,8 @@ def load_config(path: str | Path) -> AppConfig:
 
 
 def clamp_dflash_max_tokens(*, requested: int | None, default: int, hard: int) -> int:
+    """Clamp a requested D-Flash token cap to the configured hard limit."""
+
     value = default if requested is None else requested
     if value < 0:
         return 0
@@ -99,5 +105,7 @@ def clamp_dflash_max_tokens(*, requested: int | None, default: int, hard: int) -
 
 
 def validate_benchmark_decoding(decoding_mode: str) -> None:
+    """Reject benchmark decoding modes outside the greedy MVP path."""
+
     if decoding_mode != "greedy":
         raise ValueError("benchmark-low only supports greedy decoding in the MVP")

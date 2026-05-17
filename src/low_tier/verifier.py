@@ -1,3 +1,5 @@
+"""Verifier protocol for Gemma E2B greedy checks."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -9,12 +11,18 @@ VerificationResult = _types.VerificationResult
 
 
 class GemmaE2BVerifier(Protocol):
+    """Protocol implemented by Gemma E2B greedy verification adapters."""
+
     def verify_greedy_prefix(
         self,
         context_token_ids: list[int],
         candidate_token_ids: list[int],
     ) -> VerificationResult:
-        ...
+        """Return the accepted greedy prefix for candidate token IDs."""
+
+        raise NotImplementedError
 
     def greedy_next_token(self, context_token_ids: list[int]) -> TokenResult:
-        ...
+        """Return one greedy fallback token for the current context."""
+
+        raise NotImplementedError

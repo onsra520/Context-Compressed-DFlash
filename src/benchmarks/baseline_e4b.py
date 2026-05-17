@@ -1,3 +1,5 @@
+"""Gemma E4B autoregressive baseline benchmark runner."""
+
 from __future__ import annotations
 
 import json
@@ -17,6 +19,8 @@ def baseline_row(  # pylint: disable=too-many-arguments
     output_text: str,
     peak_vram_mb: float | None = None,
 ) -> dict:
+    """Build a successful Gemma E4B baseline benchmark row."""
+
     return {
         "prompt_id": prompt_id,
         "prompt_tokens": prompt_tokens,
@@ -36,6 +40,8 @@ def run_e4b_baseline(
     fixture_path: str | Path,
     output_path: str | Path,
 ) -> None:
+    """Run Gemma E4B baseline generation over a prompt fixture JSONL file."""
+
     output = Path(output_path)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("", encoding="utf-8")

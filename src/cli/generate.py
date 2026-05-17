@@ -1,3 +1,5 @@
+"""Command-line interface for interactive and single-prompt generation."""
+
 from __future__ import annotations
 
 import argparse
@@ -12,6 +14,8 @@ from tokenization.gemma import GemmaTokenizer
 
 
 def write_trace_jsonl(path: str | Path, trace) -> None:
+    """Write a per-cycle debug trace as JSONL."""
+
     output_path = Path(path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8") as handle:
@@ -20,6 +24,8 @@ def write_trace_jsonl(path: str | Path, trace) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Build the generate command argument parser."""
+
     parser = argparse.ArgumentParser(description="Run HTFSD Low Tier generation")
     parser.add_argument("--config", required=True)
     parser.add_argument("--prompt")
@@ -48,6 +54,8 @@ def _build_engine(config) -> LowTierEngine:
 
 
 def run_single_prompt(args: argparse.Namespace) -> int:
+    """Run one prompt through the Low Tier generation path."""
+
     config = load_config(args.config)
     decoding = args.decoding or config.decoding.default
     if decoding == "sampling":
@@ -68,6 +76,8 @@ def run_single_prompt(args: argparse.Namespace) -> int:
 
 
 def run_prompt_loop(args: argparse.Namespace) -> int:
+    """Read prompts from stdin until the user exits."""
+
     while True:
         prompt = input("htfsd> ").strip()
         if prompt in {"exit", "quit"}:
@@ -79,6 +89,8 @@ def run_prompt_loop(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the generate CLI."""
+
     parser = build_parser()
     args = parser.parse_args(argv)
     if args.prompt:

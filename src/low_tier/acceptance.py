@@ -1,3 +1,5 @@
+"""Greedy exact-match acceptance policy for Low Tier candidates."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -11,6 +13,8 @@ def greedy_exact_match(
     candidate_token_ids: list[int],
     greedy_token_ids: list[int],
 ) -> VerificationResult:
+    """Accept candidate tokens until the first mismatch with greedy tokens."""
+
     accepted: list[int] = []
     for index, candidate_token_id in enumerate(candidate_token_ids):
         if index >= len(greedy_token_ids):

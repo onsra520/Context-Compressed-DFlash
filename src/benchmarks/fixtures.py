@@ -1,3 +1,5 @@
+"""Prompt fixture loading for smoke and benchmark runs."""
+
 from __future__ import annotations
 
 import json
@@ -6,6 +8,8 @@ from typing import Any
 
 
 def load_prompt_fixtures(path: str | Path) -> list[dict[str, Any]]:
+    """Load JSONL prompt fixtures with normalized field types."""
+
     rows: list[dict[str, Any]] = []
     with Path(path).open("r", encoding="utf-8") as handle:
         for line in handle:

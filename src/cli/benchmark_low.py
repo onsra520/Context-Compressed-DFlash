@@ -1,3 +1,5 @@
+"""Command-line interface for Low Tier batch benchmarks."""
+
 from __future__ import annotations
 
 import argparse
@@ -8,6 +10,8 @@ from config import load_config, validate_benchmark_decoding
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Build the Low Tier benchmark argument parser."""
+
     parser = argparse.ArgumentParser(description="Run Low Tier batch benchmark")
     parser.add_argument("--config", required=True)
     parser.add_argument("--fixtures")
@@ -17,6 +21,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the Low Tier benchmark CLI."""
+
     args = build_parser().parse_args(argv)
     validate_benchmark_decoding(args.decoding)
     config = load_config(args.config)

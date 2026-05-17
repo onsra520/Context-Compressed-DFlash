@@ -1,3 +1,5 @@
+"""Command-line interface for the Gemma E4B baseline benchmark."""
+
 from __future__ import annotations
 
 import argparse
@@ -8,6 +10,8 @@ from runtime.vllm_adapter import VllmGenerationAdapter, VllmModelHandle
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Build the Gemma E4B baseline argument parser."""
+
     parser = argparse.ArgumentParser(description="Run Gemma E4B autoregressive baseline")
     parser.add_argument("--config", required=True)
     parser.add_argument("--fixtures")
@@ -16,6 +20,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Run the Gemma E4B baseline CLI."""
+
     args = build_parser().parse_args(argv)
     config = load_config(args.config)
     handle = VllmModelHandle.from_config(config.gemma_e4b_baseline)

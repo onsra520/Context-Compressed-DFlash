@@ -1,3 +1,5 @@
+"""Batch benchmark runner for the Low Tier greedy path."""
+
 from __future__ import annotations
 
 import json
@@ -10,6 +12,8 @@ from config import validate_benchmark_decoding
 
 
 def write_benchmark_row(path: str | Path, row: dict[str, Any]) -> None:
+    """Append one benchmark result row as JSONL."""
+
     output_path = Path(path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("a", encoding="utf-8") as handle:
@@ -23,6 +27,8 @@ def run_low_tier_benchmark(
     output_path: str | Path,
     decoding: str = "greedy",
 ) -> None:
+    """Run Low Tier generation over a prompt fixture JSONL file."""
+
     validate_benchmark_decoding(decoding)
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
     Path(output_path).write_text("", encoding="utf-8")

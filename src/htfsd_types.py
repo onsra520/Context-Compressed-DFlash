@@ -1,3 +1,5 @@
+"""Shared config, result, trace, and metrics data structures for HTFSD."""
+
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
@@ -6,6 +8,8 @@ from typing import Any
 
 @dataclass(frozen=True)
 class ModelConfig:
+    """Runtime model loading settings."""
+
     model_id_or_path: str
     tensor_parallel_size: int = 1
     dtype: str = "auto"
@@ -14,6 +18,8 @@ class ModelConfig:
 
 @dataclass(frozen=True)
 class RuntimeConfig:
+    """Global backend and execution-mode settings."""
+
     backend: str
     execution_mode: str
     max_context_tokens: int
@@ -22,12 +28,16 @@ class RuntimeConfig:
 
 @dataclass(frozen=True)
 class GenerationConfig:
+    """User-facing generation limits and stop behavior."""
+
     max_new_tokens: int
     stop_on_eos: bool
 
 
 @dataclass(frozen=True)
 class DFlashConfig:
+    """D-Flash parser and candidate-token limit settings."""
+
     parser: str
     required_fields: list[str]
     default_max_tokens: int
@@ -37,6 +47,8 @@ class DFlashConfig:
 
 @dataclass(frozen=True)
 class LowTierConfig:
+    """Low Tier acceptance and fallback policy settings."""
+
     acceptance_policy: str
     fallback_policy: str
     fallback_tokens_per_cycle: int
@@ -44,6 +56,8 @@ class LowTierConfig:
 
 @dataclass(frozen=True)
 class SamplingConfig:
+    """Experimental sampling-mode settings for interactive generation."""
+
     enabled: bool
     experimental: bool
     temperature: float
@@ -52,12 +66,16 @@ class SamplingConfig:
 
 @dataclass(frozen=True)
 class DecodingConfig:
+    """Default decoding mode and sampling settings."""
+
     default: str
     sampling: SamplingConfig
 
 
 @dataclass(frozen=True)
 class BenchmarkDatasetConfig:
+    """Optional external dataset benchmark settings."""
+
     enabled: bool
     name: str | None
     split: str | None
@@ -65,12 +83,16 @@ class BenchmarkDatasetConfig:
 
 @dataclass(frozen=True)
 class BenchmarkConfig:
+    """Benchmark fixture and dataset settings."""
+
     fixture_path: str
     dataset: BenchmarkDatasetConfig
 
 
 @dataclass(frozen=True)
 class AppConfig:  # pylint: disable=too-many-instance-attributes
+    """Complete application configuration assembled from YAML."""
+
     qwen_drafter: ModelConfig
     gemma_e2b: ModelConfig
     gemma_e4b_baseline: ModelConfig
@@ -84,6 +106,8 @@ class AppConfig:  # pylint: disable=too-many-instance-attributes
 
 @dataclass(frozen=True)
 class DraftResult:
+    """Parsed draft metadata returned by a drafter."""
+
     raw_text: str
     draft_text: str | None
     confidence: float | None
@@ -94,6 +118,8 @@ class DraftResult:
 
 @dataclass(frozen=True)
 class DFlashParseResult:
+    """Strict D-Flash parser result."""
+
     draft_text: str | None
     confidence: float | None
     max_tokens: int | None
@@ -103,6 +129,8 @@ class DFlashParseResult:
 
 @dataclass(frozen=True)
 class TokenResult:
+    """Single generated token and decoded metadata."""
+
     token_id: int
     text: str
     is_eos: bool = False
@@ -110,6 +138,8 @@ class TokenResult:
 
 @dataclass(frozen=True)
 class VerificationResult:
+    """Greedy prefix verification outcome in Gemma token space."""
+
     accepted_token_ids: list[int]
     rejected_token_id: int | None
     reject_position: int | None
@@ -118,6 +148,8 @@ class VerificationResult:
 
 @dataclass(frozen=True)
 class CycleTrace:  # pylint: disable=too-many-instance-attributes
+    """Per-cycle debug and timing trace for Low Tier generation."""
+
     cycle_index: int
     context_tokens: int
     dflash_parse_ok: bool
@@ -135,11 +167,15 @@ class CycleTrace:  # pylint: disable=too-many-instance-attributes
     cycle_ms: float
 
     def to_dict(self) -> dict[str, Any]:
+        """Return a JSON-serializable representation."""
+
         return asdict(self)
 
 
 @dataclass(frozen=True)
 class GenerationMetrics:  # pylint: disable=too-many-instance-attributes
+    """Aggregated request-level generation metrics."""
+
     generated_tokens: int
     cycles: int
     drafted_candidate_tokens: int
@@ -159,17 +195,23 @@ class GenerationMetrics:  # pylint: disable=too-many-instance-attributes
     decoding_mode: str
 
     def to_dict(self) -> dict[str, Any]:
+        """Return a JSON-serializable representation."""
+
         return asdict(self)
 
 
 @dataclass(frozen=True)
 class GenerateResult:
+    """Final generated text, token IDs, metrics, and optional trace."""
+
     text: str
     token_ids: list[int]
     metrics: GenerationMetrics
     trace: list[CycleTrace] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
+        """Return a JSON-serializable representation."""
+
         return {
             "text": self.text,
             "token_ids": self.token_ids,

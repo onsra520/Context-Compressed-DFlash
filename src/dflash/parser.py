@@ -1,3 +1,5 @@
+"""Strict parser for D-Flash JSON draft envelopes."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -13,6 +15,8 @@ def _normalize_draft_text(value: str) -> str:
 
 
 def parse_dflash(raw_text: str) -> DFlashParseResult:  # pylint: disable=too-many-return-statements
+    """Parse and minimally normalize a strict D-Flash JSON object."""
+
     try:
         payload: Any = json.loads(raw_text)
     except json.JSONDecodeError:

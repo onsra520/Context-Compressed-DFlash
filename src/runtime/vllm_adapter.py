@@ -1,3 +1,5 @@
+"""Optional vLLM adapters for generation and greedy verification."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -25,6 +27,8 @@ VERIFICATION_ADAPTER_VERSION = "generated-greedy-v1"
 
 
 def vllm_version() -> str:
+    """Return the installed vLLM version or a stable missing marker."""
+
     try:
         return metadata.version("vllm")
     except metadata.PackageNotFoundError:
@@ -33,6 +37,8 @@ def vllm_version() -> str:
 
 @dataclass
 class VllmModelHandle:
+    """Lazy vLLM model handle built from model configuration."""
+
     model_id_or_path: str
     tensor_parallel_size: int = 1
     dtype: str = "auto"
@@ -41,6 +47,8 @@ class VllmModelHandle:
 
     @classmethod
     def from_config(cls, config: ModelConfig) -> "VllmModelHandle":
+        """Create a model handle from project model configuration."""
+
         return cls(
             model_id_or_path=config.model_id_or_path,
             tensor_parallel_size=config.tensor_parallel_size,
@@ -49,6 +57,8 @@ class VllmModelHandle:
         )
 
     def load(self) -> Any:
+        """Load and cache the vLLM model instance."""
+
         if self.llm is not None:
             return self.llm
         if not VLLM_AVAILABLE or VLLM_LLM is None:
@@ -66,6 +76,8 @@ class VllmModelHandle:
 
 
 class VllmGenerationAdapter:  # pylint: disable=too-few-public-methods
+    """Text generation adapter backed by vLLM."""
+
     def __init__(self, handle: VllmModelHandle):
         self._handle = handle
 
@@ -77,6 +89,8 @@ class VllmGenerationAdapter:  # pylint: disable=too-few-public-methods
         temperature: float = 0.0,
         top_p: float = 1.0,
     ) -> str:
+        """Generate text from a prompt using vLLM sampling parameters."""
+
         llm = self._handle.load()
         if not VLLM_AVAILABLE or VLLM_SAMPLING_PARAMS is None:
             raise RuntimeError("vLLM is not available in this environment")
@@ -91,6 +105,8 @@ class VllmGenerationAdapter:  # pylint: disable=too-few-public-methods
 
 
 class VllmVerificationAdapter:
+    """Gemma greedy verifier backed by vLLM generation calls."""
+
     def __init__(self, handle: VllmModelHandle, tokenizer):
         self._handle = handle
         self._tokenizer = tokenizer
@@ -100,6 +116,8 @@ class VllmVerificationAdapter:
         context_token_ids: list[int],
         candidate_token_ids: list[int],
     ) -> VerificationResult:
+        """Verify candidate token IDs against greedy vLLM continuation IDs."""
+
         greedy_ids = self._greedy_ids_for_positions(
             context_token_ids=context_token_ids,
             positions=len(candidate_token_ids),
@@ -110,6 +128,8 @@ class VllmVerificationAdapter:
         )
 
     def greedy_next_token(self, context_token_ids: list[int]) -> TokenResult:
+        """Return one greedy token for the current context."""
+
         greedy_ids = self._greedy_ids_for_positions(context_token_ids=context_token_ids, positions=1)
         token_id = greedy_ids[0]
         text = self._tokenizer.decode([token_id], skip_special_tokens=True)
