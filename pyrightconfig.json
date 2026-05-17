@@ -1,5 +1,5 @@
 {
-  "include": ["src/htfsd", "tests"],
+  "include": ["src", "tests"],
   "exclude": ["**/__pycache__", ".venv", "build", "dist"],
   "venvPath": ".",
   "venv": ".venv",

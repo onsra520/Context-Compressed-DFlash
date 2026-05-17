@@ -1,6 +1,11 @@
-from htfsd.low_tier.engine import LowTierEngine
-from htfsd.tokenization.gemma import RetokenizedDraft
-from htfsd.types import TokenResult, VerificationResult
+from importlib import import_module
+
+from low_tier.engine import LowTierEngine
+from tokenization.gemma import RetokenizedDraft
+
+_types = import_module("htfsd_types")
+TokenResult = _types.TokenResult
+VerificationResult = _types.VerificationResult
 
 
 class FakeTokenizer:

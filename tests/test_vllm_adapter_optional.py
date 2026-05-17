@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from htfsd.runtime.vllm_adapter import VLLM_AVAILABLE, VllmModelHandle, VllmVerificationAdapter
+from runtime.vllm_adapter import VLLM_AVAILABLE, VllmModelHandle, VllmVerificationAdapter
 
 
 def test_vllm_availability_flag_is_boolean():

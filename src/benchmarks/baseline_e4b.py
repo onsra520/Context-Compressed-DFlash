@@ -3,9 +3,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from htfsd.benchmarks.fixtures import load_prompt_fixtures
-from htfsd.benchmarks.rows import benchmark_error_row
-from htfsd.metrics.timers import timer_ms
+from benchmarks.fixtures import load_prompt_fixtures
+from benchmarks.rows import benchmark_error_row
+from metrics.timers import timer_ms
 
 
 def baseline_row(  # pylint: disable=too-many-arguments

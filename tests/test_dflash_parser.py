@@ -1,5 +1,5 @@
-from htfsd.dflash.parser import parse_dflash
-from htfsd.dflash.prompts import build_dflash_prompt
+from dflash.parser import parse_dflash
+from dflash.prompts import build_dflash_prompt
 
 
 def test_parse_valid_minimal_envelope():

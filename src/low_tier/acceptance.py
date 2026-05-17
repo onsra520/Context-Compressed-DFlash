@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from htfsd.types import VerificationResult
+from importlib import import_module
+
+_types = import_module("htfsd_types")
+VerificationResult = _types.VerificationResult
 
 
 def greedy_exact_match(

@@ -4,11 +4,11 @@ import argparse
 import json
 from pathlib import Path
 
-from htfsd.config import load_config
-from htfsd.low_tier.drafter import QwenDFlashDrafter
-from htfsd.low_tier.engine import LowTierEngine
-from htfsd.runtime.vllm_adapter import VllmGenerationAdapter, VllmModelHandle, VllmVerificationAdapter
-from htfsd.tokenization.gemma import GemmaTokenizer
+from config import load_config
+from low_tier.drafter import QwenDFlashDrafter
+from low_tier.engine import LowTierEngine
+from runtime.vllm_adapter import VllmGenerationAdapter, VllmModelHandle, VllmVerificationAdapter
+from tokenization.gemma import GemmaTokenizer
 
 
 def write_trace_jsonl(path: str | Path, trace) -> None:

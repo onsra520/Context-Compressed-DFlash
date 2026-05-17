@@ -1,6 +1,6 @@
 import pytest
 
-from htfsd.tokenization.gemma import GemmaTokenizer, RetokenizedDraft, reject_empty_draft
+from tokenization.gemma import GemmaTokenizer, RetokenizedDraft, reject_empty_draft
 
 
 class FakeTokenizer:

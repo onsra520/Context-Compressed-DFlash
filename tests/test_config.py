@@ -1,6 +1,6 @@
 import pytest
 
-from htfsd.config import clamp_dflash_max_tokens, load_config, validate_benchmark_decoding
+from config import clamp_dflash_max_tokens, load_config, validate_benchmark_decoding
 
 
 def test_load_config_maps_yaml_to_dataclasses(tmp_path):

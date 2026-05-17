@@ -4,9 +4,9 @@ import json
 from pathlib import Path
 from typing import Any
 
-from htfsd.benchmarks.fixtures import load_prompt_fixtures
-from htfsd.benchmarks.rows import benchmark_error_row
-from htfsd.config import validate_benchmark_decoding
+from benchmarks.fixtures import load_prompt_fixtures
+from benchmarks.rows import benchmark_error_row
+from config import validate_benchmark_decoding
 
 
 def write_benchmark_row(path: str | Path, row: dict[str, Any]) -> None:

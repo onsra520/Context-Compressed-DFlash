@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+from importlib import import_module
 from typing import Protocol
 
-from htfsd.types import TokenResult, VerificationResult
+_types = import_module("htfsd_types")
+TokenResult = _types.TokenResult
+VerificationResult = _types.VerificationResult
 
 
 class GemmaE2BVerifier(Protocol):

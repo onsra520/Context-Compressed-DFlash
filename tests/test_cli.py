@@ -1,10 +1,12 @@
 import json
+from importlib import import_module
 
-from htfsd.cli.generate import write_trace_jsonl
-from htfsd.benchmarks.fixtures import load_prompt_fixtures
-from htfsd.benchmarks.baseline_e4b import baseline_row
-from htfsd.benchmarks.low_tier import write_benchmark_row
-from htfsd.types import CycleTrace
+from cli.generate import write_trace_jsonl
+from benchmarks.fixtures import load_prompt_fixtures
+from benchmarks.baseline_e4b import baseline_row
+from benchmarks.low_tier import write_benchmark_row
+
+CycleTrace = import_module("htfsd_types").CycleTrace
 
 
 def test_write_trace_jsonl(tmp_path):

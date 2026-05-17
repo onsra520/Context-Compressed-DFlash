@@ -1,5 +1,8 @@
-from htfsd.metrics.counters import GenerationCounter
-from htfsd.types import CycleTrace
+from importlib import import_module
+
+from metrics.counters import GenerationCounter
+
+CycleTrace = import_module("htfsd_types").CycleTrace
 
 
 def test_generation_counter_acceptance_and_fallback_rates():

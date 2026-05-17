@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from importlib import import_module
 import json
 from typing import Any
 
-from htfsd.types import DFlashParseResult
+_types = import_module("htfsd_types")
+DFlashParseResult = _types.DFlashParseResult
 
 
 def _normalize_draft_text(value: str) -> str:

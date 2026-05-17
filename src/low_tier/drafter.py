@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from htfsd.dflash.prompts import build_dflash_prompt
-from htfsd.runtime.vllm_adapter import VllmGenerationAdapter
+from dflash.prompts import build_dflash_prompt
+from runtime.vllm_adapter import VllmGenerationAdapter
 
 
 class QwenDFlashDrafter:  # pylint: disable=too-few-public-methods

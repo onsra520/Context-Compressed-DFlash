@@ -1,22 +1,22 @@
 from __future__ import annotations
 
+from importlib import import_module
 from pathlib import Path
 from typing import Any
 
 import yaml
 
-from htfsd.types import (
-    AppConfig,
-    BenchmarkConfig,
-    BenchmarkDatasetConfig,
-    DecodingConfig,
-    DFlashConfig,
-    GenerationConfig,
-    LowTierConfig,
-    ModelConfig,
-    RuntimeConfig,
-    SamplingConfig,
-)
+_types = import_module("htfsd_types")
+AppConfig = _types.AppConfig
+BenchmarkConfig = _types.BenchmarkConfig
+BenchmarkDatasetConfig = _types.BenchmarkDatasetConfig
+DecodingConfig = _types.DecodingConfig
+DFlashConfig = _types.DFlashConfig
+GenerationConfig = _types.GenerationConfig
+LowTierConfig = _types.LowTierConfig
+ModelConfig = _types.ModelConfig
+RuntimeConfig = _types.RuntimeConfig
+SamplingConfig = _types.SamplingConfig
 
 
 def _model_config(data: dict[str, Any]) -> ModelConfig:

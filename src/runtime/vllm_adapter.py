@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from importlib import import_module
 from importlib import metadata
 from typing import Any
 
-from htfsd.low_tier.acceptance import greedy_exact_match
-from htfsd.types import ModelConfig, TokenResult, VerificationResult
+from low_tier.acceptance import greedy_exact_match
+
+_types = import_module("htfsd_types")
+ModelConfig = _types.ModelConfig
+TokenResult = _types.TokenResult
+VerificationResult = _types.VerificationResult
 
 try:
     from vllm import LLM as VLLM_LLM  # pyright: ignore[reportMissingImports] # pylint: disable=import-error

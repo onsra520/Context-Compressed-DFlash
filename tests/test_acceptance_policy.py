@@ -1,4 +1,4 @@
-from htfsd.low_tier.acceptance import greedy_exact_match
+from low_tier.acceptance import greedy_exact_match
 
 
 def test_accepts_full_matching_prefix():

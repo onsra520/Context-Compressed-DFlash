@@ -1,15 +1,20 @@
 from __future__ import annotations
 
+from importlib import import_module
 import time
 from typing import Protocol
 
-from htfsd.config import clamp_dflash_max_tokens
-from htfsd.dflash.parser import parse_dflash
-from htfsd.metrics.counters import GenerationCounter
-from htfsd.metrics.timers import timer_ms
-from htfsd.tokenization.gemma import RetokenizedDraft
-from htfsd.types import CycleTrace, GenerateResult, VerificationResult
-from htfsd.types import TokenResult
+from config import clamp_dflash_max_tokens
+from dflash.parser import parse_dflash
+from metrics.counters import GenerationCounter
+from metrics.timers import timer_ms
+from tokenization.gemma import RetokenizedDraft
+
+_types = import_module("htfsd_types")
+CycleTrace = _types.CycleTrace
+GenerateResult = _types.GenerateResult
+TokenResult = _types.TokenResult
+VerificationResult = _types.VerificationResult
 
 
 class Drafter(Protocol):  # pylint: disable=too-few-public-methods

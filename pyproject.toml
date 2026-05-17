@@ -22,9 +22,12 @@ dev = [
 benchmark = ["datasets>=2.19"]
 
 [project.scripts]
-htfsd-generate = "htfsd.cli.generate:main"
-htfsd-benchmark-low = "htfsd.cli.benchmark_low:main"
-htfsd-baseline-e4b = "htfsd.cli.baseline_e4b:main"
+htfsd-generate = "cli.generate:main"
+htfsd-benchmark-low = "cli.benchmark_low:main"
+htfsd-baseline-e4b = "cli.baseline_e4b:main"
+
+[tool.setuptools]
+py-modules = ["config", "htfsd_types"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

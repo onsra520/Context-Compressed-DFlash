@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from importlib import import_module
 
-from htfsd.types import GenerationMetrics
+_types = import_module("htfsd_types")
+GenerationMetrics = _types.GenerationMetrics
 
 
 @dataclass
