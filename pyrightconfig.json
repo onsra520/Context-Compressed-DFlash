@@ -1,0 +1,10 @@
+{
+  "include": ["src/htfsd", "tests"],
+  "exclude": ["**/__pycache__", ".venv", "build", "dist"],
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.11",
+  "typeCheckingMode": "basic",
+  "reportMissingImports": "warning",
+  "reportMissingTypeStubs": "none"
+}

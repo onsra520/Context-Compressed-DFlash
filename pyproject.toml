@@ -14,7 +14,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0"]
+dev = [
+  "pytest>=8.0",
+  "pylint>=3.3",
+  "pyright>=1.1",
+]
 benchmark = ["datasets>=2.19"]
 
 [project.scripts]
@@ -31,3 +35,17 @@ markers = [
   "gpu: requires GPU and local model access",
   "vllm: requires vLLM runtime and model access",
 ]
+
+[tool.pylint.main]
+py-version = "3.11"
+jobs = 0
+
+[tool.pylint.messages_control]
+disable = [
+  "missing-module-docstring",
+  "missing-class-docstring",
+  "missing-function-docstring",
+]
+
+[tool.pylint.format]
+max-line-length = 120
