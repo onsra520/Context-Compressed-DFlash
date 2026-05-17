@@ -4,14 +4,16 @@ from htfsd.tokenization.gemma import GemmaTokenizer, RetokenizedDraft, reject_em
 
 
 class FakeTokenizer:
-    eos_token_id = 0
+    @property
+    def eos_token_id(self) -> int | None:
+        return 0
 
-    def encode(self, text, add_special_tokens=False):
+    def encode(self, text: str, add_special_tokens: bool = False) -> list[int]:
         if text == "":
             return []
         return [ord(char) for char in text]
 
-    def decode(self, token_ids, skip_special_tokens=True):
+    def decode(self, token_ids: list[int], skip_special_tokens: bool = True) -> str:
         return "".join(chr(token_id) for token_id in token_ids if token_id != self.eos_token_id)
 
 

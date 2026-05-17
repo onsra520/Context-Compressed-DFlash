@@ -7,7 +7,9 @@ from htfsd.config import clamp_dflash_max_tokens
 from htfsd.dflash.parser import parse_dflash
 from htfsd.metrics.counters import GenerationCounter
 from htfsd.metrics.timers import timer_ms
+from htfsd.tokenization.gemma import RetokenizedDraft
 from htfsd.types import CycleTrace, GenerateResult, VerificationResult
+from htfsd.types import TokenResult
 
 
 class Drafter(Protocol):
@@ -16,12 +18,14 @@ class Drafter(Protocol):
 
 
 class TokenizerBoundary(Protocol):
-    eos_token_id: int | None
+    @property
+    def eos_token_id(self) -> int | None:
+        ...
 
     def encode_prompt(self, prompt: str) -> list[int]:
         ...
 
-    def retokenize_draft(self, draft_text: str, *, max_tokens: int):
+    def retokenize_draft(self, draft_text: str, *, max_tokens: int) -> RetokenizedDraft:
         ...
 
     def decode(self, token_ids: list[int]) -> str:
@@ -36,7 +40,7 @@ class Verifier(Protocol):
     ) -> VerificationResult:
         ...
 
-    def greedy_next_token(self, context_token_ids: list[int]):
+    def greedy_next_token(self, context_token_ids: list[int]) -> TokenResult:
         ...
 
 

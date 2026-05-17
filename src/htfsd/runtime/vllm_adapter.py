@@ -8,7 +8,7 @@ from htfsd.low_tier.acceptance import greedy_exact_match
 from htfsd.types import ModelConfig, TokenResult, VerificationResult
 
 try:
-    from vllm import LLM, SamplingParams
+    from vllm import LLM, SamplingParams  # pyright: ignore[reportMissingImports] - optional runtime dependency.
 except Exception:
     LLM = None
     SamplingParams = None
@@ -44,8 +44,9 @@ class VllmModelHandle:
     def load(self) -> Any:
         if self.llm is not None:
             return self.llm
-        if not VLLM_AVAILABLE:
+        if not VLLM_AVAILABLE or LLM is None:
             raise RuntimeError("vLLM is not available in this environment")
+        llm_class = LLM
         kwargs: dict[str, Any] = {
             "model": self.model_id_or_path,
             "tensor_parallel_size": self.tensor_parallel_size,
@@ -53,7 +54,7 @@ class VllmModelHandle:
         }
         if self.gpu_memory_utilization is not None:
             kwargs["gpu_memory_utilization"] = self.gpu_memory_utilization
-        self.llm = LLM(**kwargs)
+        self.llm = llm_class(**kwargs)
         return self.llm
 
 
@@ -70,7 +71,10 @@ class VllmGenerationAdapter:
         top_p: float = 1.0,
     ) -> str:
         llm = self._handle.load()
-        params = SamplingParams(
+        if not VLLM_AVAILABLE or SamplingParams is None:
+            raise RuntimeError("vLLM is not available in this environment")
+        sampling_params = SamplingParams
+        params = sampling_params(
             temperature=temperature,
             top_p=top_p,
             max_tokens=max_tokens,
@@ -110,7 +114,10 @@ class VllmVerificationAdapter:
 
     def _greedy_ids_for_positions(self, *, context_token_ids: list[int], positions: int) -> list[int]:
         llm = self._handle.load()
-        params = SamplingParams(
+        if not VLLM_AVAILABLE or SamplingParams is None:
+            raise RuntimeError("vLLM is not available in this environment")
+        sampling_params = SamplingParams
+        params = sampling_params(
             temperature=0.0,
             max_tokens=positions,
             logprobs=1,

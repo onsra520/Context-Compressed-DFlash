@@ -1,22 +1,21 @@
 from htfsd.low_tier.engine import LowTierEngine
+from htfsd.tokenization.gemma import RetokenizedDraft
 from htfsd.types import TokenResult, VerificationResult
 
 
 class FakeTokenizer:
-    eos_token_id = 0
+    @property
+    def eos_token_id(self) -> int | None:
+        return 0
 
-    def encode_prompt(self, prompt):
+    def encode_prompt(self, prompt: str) -> list[int]:
         return [ord(char) for char in prompt]
 
-    def retokenize_draft(self, draft_text, *, max_tokens):
-        class Result:
-            def __init__(self, token_ids):
-                self.token_ids = token_ids
-                self.empty = len(token_ids) == 0
+    def retokenize_draft(self, draft_text: str, *, max_tokens: int) -> RetokenizedDraft:
+        token_ids = [ord(char) for char in draft_text][:max_tokens]
+        return RetokenizedDraft(token_ids=token_ids, empty=len(token_ids) == 0)
 
-        return Result([ord(char) for char in draft_text][:max_tokens])
-
-    def decode(self, token_ids):
+    def decode(self, token_ids: list[int]) -> str:
         return "".join(chr(token_id) for token_id in token_ids if token_id != 0)
 
 
@@ -24,7 +23,7 @@ class SequenceDrafter:
     def __init__(self, outputs):
         self.outputs = list(outputs)
 
-    def draft(self, context_text, *, max_tokens):
+    def draft(self, context_text: str, *, max_tokens: int) -> str:
         if self.outputs:
             return self.outputs.pop(0)
         return '{"draft_text":"x"}'
@@ -35,10 +34,14 @@ class FakeVerifier:
         self.verification_results = list(verification_results)
         self.fallback_tokens = list(fallback_tokens)
 
-    def verify_greedy_prefix(self, context_token_ids, candidate_token_ids):
+    def verify_greedy_prefix(
+        self,
+        context_token_ids: list[int],
+        candidate_token_ids: list[int],
+    ) -> VerificationResult:
         return self.verification_results.pop(0)
 
-    def greedy_next_token(self, context_token_ids):
+    def greedy_next_token(self, context_token_ids: list[int]) -> TokenResult:
         token_id = self.fallback_tokens.pop(0)
         return TokenResult(token_id=token_id, text=chr(token_id), is_eos=token_id == 0)
 

@@ -5,7 +5,9 @@ from typing import Protocol
 
 
 class TokenizerLike(Protocol):
-    eos_token_id: int | None
+    @property
+    def eos_token_id(self) -> int | None:
+        ...
 
     def encode(self, text: str, add_special_tokens: bool = False) -> list[int]:
         ...
