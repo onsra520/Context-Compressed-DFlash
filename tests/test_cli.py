@@ -1,6 +1,8 @@
 import json
 
 from htfsd.cli.generate import write_trace_jsonl
+from htfsd.benchmarks.fixtures import load_prompt_fixtures
+from htfsd.benchmarks.low_tier import write_benchmark_row
 from htfsd.types import CycleTrace
 
 
@@ -31,3 +33,29 @@ def test_write_trace_jsonl(tmp_path):
     rows = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
     assert rows[0]["cycle_index"] == 0
     assert rows[0]["candidate_exhausted"] is True
+
+
+def test_load_prompt_fixtures(tmp_path):
+    fixture = tmp_path / "prompts.jsonl"
+    fixture.write_text('{"id":"a","prompt":"Hello","max_new_tokens":3}\n', encoding="utf-8")
+
+    rows = load_prompt_fixtures(fixture)
+
+    assert rows == [{"id": "a", "prompt": "Hello", "max_new_tokens": 3}]
+
+
+def test_write_benchmark_row_jsonl(tmp_path):
+    output = tmp_path / "low.jsonl"
+    write_benchmark_row(
+        output,
+        {
+            "prompt_id": "a",
+            "status": "ok",
+            "error": None,
+            "metrics": {"generated_tokens": 1},
+        },
+    )
+
+    rows = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+    assert rows[0]["prompt_id"] == "a"
+    assert rows[0]["status"] == "ok"
