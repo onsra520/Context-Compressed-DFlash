@@ -1,8 +1,11 @@
 import json
+from argparse import Namespace
+from dataclasses import dataclass
 
 import pytest
 
-from cli.run_logging import RunLogSession
+import cli.run_logging as run_logging
+from cli.run_logging import RunLogSession, sanitize_argv
 
 
 def read_log(session: RunLogSession) -> dict:
@@ -91,3 +94,119 @@ def test_run_log_session_mark_error_for_nonzero_return(tmp_path):
     assert row["exit_code"] == 7
     assert row["error"]["exception_type"] == "CommandReturnedNonZero"
     assert row["error"]["message"] == "runner returned nonzero"
+
+
+@pytest.mark.parametrize(
+    ("argv", "expected"),
+    [
+        (["--prompt", "private prompt"], ["--prompt", "<redacted>"]),
+        (["--prompt=private prompt"], ["--prompt=<redacted>"]),
+    ],
+)
+def test_run_log_session_redacts_prompt_argv(tmp_path, argv, expected):
+    with RunLogSession("htfsd-generate", argv, log_dir=tmp_path) as session:
+        pass
+
+    row = read_log(session)
+    assert row["argv"] == {
+        "sanitized": expected,
+        "prompt_present": True,
+        "prompt_chars": len("private prompt"),
+        "prompt_sha256": None,
+    }
+    assert "private prompt" not in session.path.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("flag", ["--hf-token", "--token", "--api-key", "--password"])
+@pytest.mark.parametrize(
+    ("suffix", "expected"),
+    [
+        (["secret"], ["<redacted>"]),
+        (["=secret"], ["=<redacted>"]),
+    ],
+)
+def test_sanitize_argv_redacts_sensitive_values(flag, suffix, expected):
+    raw_argv = [flag + suffix[0]] if suffix[0].startswith("=") else [flag, suffix[0]]
+
+    sanitized = sanitize_argv(raw_argv)
+
+    assert sanitized["sanitized"] == [flag + expected[0]] if expected[0].startswith("=") else [flag, expected[0]]
+
+
+@dataclass(frozen=True)
+class FakeModelConfig:
+    model_id_or_path: str
+
+
+@dataclass(frozen=True)
+class FakeRuntimeConfig:
+    execution_mode: str
+
+
+@dataclass(frozen=True)
+class FakeDecodingConfig:
+    default: str
+
+
+@dataclass(frozen=True)
+class FakeConfig:
+    qwen_drafter: FakeModelConfig
+    gemma_e2b: FakeModelConfig
+    gemma_e4b_baseline: FakeModelConfig
+    runtime: FakeRuntimeConfig
+    decoding: FakeDecodingConfig
+
+
+def test_run_log_session_records_paths_and_config_metadata(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    config = FakeConfig(
+        qwen_drafter=FakeModelConfig("qwen-local"),
+        gemma_e2b=FakeModelConfig("gemma-e2b-local"),
+        gemma_e4b_baseline=FakeModelConfig("gemma-e4b-local"),
+        runtime=FakeRuntimeConfig("concurrent"),
+        decoding=FakeDecodingConfig("greedy"),
+    )
+
+    with RunLogSession("htfsd-benchmark-low", [], log_dir=tmp_path / "logs") as session:
+        session.record_cli_args(Namespace(config="configs/local.yaml"))
+        session.record_artifact("benchmark_output_path", tmp_path / "runs" / "low.jsonl")
+        session.record_config(config, config_path=tmp_path / "configs" / "local.yaml")
+
+    row = read_log(session)
+    assert row["paths"]["config_path"] == "configs/local.yaml"
+    assert row["paths"]["benchmark_output_path"] == "runs/low.jsonl"
+    assert row["runtime"]["execution_mode"] == "concurrent"
+    assert row["runtime"]["decoding_mode"] == "greedy"
+    assert row["models"] == {
+        "qwen_drafter": "qwen-local",
+        "gemma_e2b": "gemma-e2b-local",
+        "gemma_e4b_baseline": "gemma-e4b-local",
+    }
+
+
+def test_run_log_session_rejects_unknown_artifact_key(tmp_path):
+    with RunLogSession("htfsd-generate", [], log_dir=tmp_path) as session:
+        with pytest.raises(ValueError, match="unknown artifact key"):
+            session.record_artifact("transcript_path", tmp_path / "transcript.txt")
+
+
+def test_run_log_session_metadata_and_config_recording_are_best_effort(tmp_path):
+    with RunLogSession("htfsd-generate", [], log_dir=tmp_path) as session:
+        session.record_metadata(good_metadata={"nested": ["json"]}, bad_metadata=object())
+        session.record_config(object(), config_path=tmp_path / "configs" / "local.yaml")
+
+    row = read_log(session)
+    assert row["runtime"]["good_metadata"] == {"nested": ["json"]}
+    assert row["paths"]["config_path"]
+
+
+def test_run_log_session_records_runtime_versions_best_effort(tmp_path, monkeypatch):
+    monkeypatch.setattr(run_logging, "_git_commit", lambda: "abc123")
+    monkeypatch.setattr(run_logging, "_vllm_version", lambda: "9.9.9")
+
+    with RunLogSession("htfsd-generate", [], log_dir=tmp_path) as session:
+        pass
+
+    row = read_log(session)
+    assert row["runtime"]["git_commit"] == "abc123"
+    assert row["runtime"]["vllm_version"] == "9.9.9"
