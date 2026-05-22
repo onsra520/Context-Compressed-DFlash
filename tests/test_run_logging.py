@@ -101,6 +101,8 @@ def test_run_log_session_mark_error_for_nonzero_return(tmp_path):
     [
         (["--prompt", "private prompt"], ["--prompt", "<redacted>"]),
         (["--prompt=private prompt"], ["--prompt=<redacted>"]),
+        (["--pro", "private prompt"], ["--pro", "<redacted>"]),
+        (["--pro=private prompt"], ["--pro=<redacted>"]),
     ],
 )
 def test_run_log_session_redacts_prompt_argv(tmp_path, argv, expected):

@@ -24,6 +24,14 @@ KNOWN_ARTIFACT_KEYS = {
 }
 
 
+def _is_prompt_flag(flag: str) -> bool:
+    return len(flag) > len("--") and "--prompt".startswith(flag)
+
+
+def _is_sensitive_value_flag(flag: str) -> bool:
+    return flag in SENSITIVE_VALUE_FLAGS or _is_prompt_flag(flag)
+
+
 def sanitize_argv(argv: Sequence[str]) -> dict[str, JsonValue]:
     """Redact CLI values that should not be written to the run log."""
 
@@ -34,19 +42,19 @@ def sanitize_argv(argv: Sequence[str]) -> dict[str, JsonValue]:
     while index < len(argv):
         item = argv[index]
         flag, equals, value = item.partition("=")
-        if equals and flag in SENSITIVE_VALUE_FLAGS:
+        if equals and _is_sensitive_value_flag(flag):
             sanitized.append(f"{flag}=<redacted>")
-            if flag == "--prompt":
+            if _is_prompt_flag(flag):
                 prompt_present = True
                 prompt_chars = len(value)
             index += 1
             continue
-        if item in SENSITIVE_VALUE_FLAGS:
+        if _is_sensitive_value_flag(item):
             sanitized.append(item)
             next_index = index + 1
             if next_index < len(argv):
                 sanitized.append("<redacted>")
-                if item == "--prompt":
+                if _is_prompt_flag(item):
                     prompt_present = True
                     prompt_chars = len(argv[next_index])
                 index += 2
