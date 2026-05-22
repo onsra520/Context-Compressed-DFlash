@@ -29,6 +29,7 @@
     - [Option B: Pre-Download Models To Local Paths](#option-b-pre-download-models-to-local-paths)
   - [Configuration](#configuration)
   - [Usage](#usage)
+  - [Run Logs](#run-logs)
   - [Benchmarking](#benchmarking)
   - [Testing and Quality Gates](#testing-and-quality-gates)
   - [Research Guardrails](#research-guardrails)
@@ -351,6 +352,17 @@ htfsd-generate \
 ```
 
 Do not use sampling for correctness metrics or benchmark speedup claims.
+
+## Run Logs
+
+Each HTFSD CLI invocation writes a structured JSON run log under
+`logs/runs/*.json`. Run logs store command metadata, timing, artifact pointers,
+runtime and config metadata when available, and traceback or error details on
+CLI failure.
+
+Raw `--prompt` text and generated model output are not stored by default.
+Benchmark JSONL and `--debug-trace` JSONL stay separate artifacts; the run log
+points to their paths.
 
 ## Benchmarking
 
