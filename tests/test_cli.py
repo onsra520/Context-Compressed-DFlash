@@ -1,8 +1,11 @@
 import json
 from importlib import import_module
+from types import SimpleNamespace
 
 import pytest
 
+import cli.baseline_e4b as baseline_e4b
+import cli.benchmark_low as benchmark_low
 import cli.generate as generate
 from cli.generate import write_trace_jsonl
 from benchmarks.fixtures import load_prompt_fixtures
@@ -66,6 +69,17 @@ def latest_log(log_dir):
     return sorted(log_dir.glob("*.json"))[-1]
 
 
+def fake_cli_config():
+    return SimpleNamespace(
+        benchmark=SimpleNamespace(fixture_path="benchmarks/fixtures/default.jsonl"),
+        runtime=SimpleNamespace(execution_mode="concurrent"),
+        decoding=SimpleNamespace(default="greedy"),
+        qwen_drafter=SimpleNamespace(model_id_or_path="qwen-local"),
+        gemma_e2b=SimpleNamespace(model_id_or_path="e2b-local"),
+        gemma_e4b_baseline=SimpleNamespace(model_id_or_path="e4b-local"),
+    )
+
+
 def test_generate_main_records_run_log_without_model_output(tmp_path, monkeypatch, capsys):
     config_path = tmp_path / "generate.yaml"
     write_config(config_path)
@@ -100,6 +114,106 @@ def test_generate_config_load_failure_still_records_run_log(tmp_path, monkeypatc
     assert row["status"] == "error"
     assert row["paths"]["config_path"] == "missing.yaml"
     assert row["error"]["exception_type"] == "FileNotFoundError"
+
+
+def test_benchmark_low_records_output_pointer(tmp_path, monkeypatch):
+    config = fake_cli_config()
+    config_path = tmp_path / "configs" / "low.yaml"
+    fixture_path = tmp_path / "fixtures" / "prompts.jsonl"
+    output_path = tmp_path / "results" / "low.jsonl"
+    engine = object()
+    runner_call = {}
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(benchmark_low, "validate_benchmark_decoding", lambda _decoding: None)
+    monkeypatch.setattr(benchmark_low, "load_config", lambda _path: config)
+    monkeypatch.setattr(benchmark_low, "_build_engine", lambda _config: engine)
+    monkeypatch.setattr(
+        benchmark_low,
+        "run_low_tier_benchmark",
+        lambda **kwargs: runner_call.update(kwargs),
+    )
+
+    assert (
+        benchmark_low.main(
+            [
+                "--config",
+                str(config_path),
+                "--fixtures",
+                str(fixture_path),
+                "--output",
+                str(output_path),
+                "--decoding",
+                "greedy",
+            ]
+        )
+        == 0
+    )
+
+    row = json.loads(latest_log(tmp_path / "logs" / "runs").read_text(encoding="utf-8"))
+    assert row["status"] == "ok"
+    assert row["paths"]["benchmark_output_path"] == "results/low.jsonl"
+    assert runner_call == {
+        "engine": engine,
+        "fixture_path": str(fixture_path),
+        "output_path": str(output_path),
+        "decoding": "greedy",
+    }
+
+
+def test_baseline_records_output_pointer(tmp_path, monkeypatch):
+    config = fake_cli_config()
+    config_path = tmp_path / "configs" / "baseline.yaml"
+    fixture_path = tmp_path / "fixtures" / "prompts.jsonl"
+    output_path = tmp_path / "results" / "baseline.jsonl"
+    generation_adapter = object()
+    tokenizer = object()
+    runner_call = {}
+    monkeypatch.chdir(tmp_path)
+
+    class FakeLlm:
+        def get_tokenizer(self):
+            return tokenizer
+
+    class FakeHandle:
+        def load(self):
+            return FakeLlm()
+
+    monkeypatch.setattr(baseline_e4b, "load_config", lambda _path: config)
+    monkeypatch.setattr(
+        baseline_e4b.VllmModelHandle,
+        "from_config",
+        lambda _model_config: FakeHandle(),
+    )
+    monkeypatch.setattr(baseline_e4b, "VllmGenerationAdapter", lambda _handle: generation_adapter)
+    monkeypatch.setattr(
+        baseline_e4b,
+        "run_e4b_baseline",
+        lambda **kwargs: runner_call.update(kwargs),
+    )
+
+    assert (
+        baseline_e4b.main(
+            [
+                "--config",
+                str(config_path),
+                "--fixtures",
+                str(fixture_path),
+                "--output",
+                str(output_path),
+            ]
+        )
+        == 0
+    )
+
+    row = json.loads(latest_log(tmp_path / "logs" / "runs").read_text(encoding="utf-8"))
+    assert row["status"] == "ok"
+    assert row["paths"]["baseline_output_path"] == "results/baseline.jsonl"
+    assert runner_call == {
+        "generation_adapter": generation_adapter,
+        "tokenizer": tokenizer,
+        "fixture_path": str(fixture_path),
+        "output_path": str(output_path),
+    }
 
 
 def test_write_trace_jsonl(tmp_path):
