@@ -116,6 +116,28 @@ def test_generate_config_load_failure_still_records_run_log(tmp_path, monkeypatc
     assert row["error"]["exception_type"] == "FileNotFoundError"
 
 
+def test_generate_engine_failure_scrubs_prompt_from_run_log(tmp_path, monkeypatch):
+    config_path = tmp_path / "generate.yaml"
+    prompt = "PROMPT_SENTINEL"
+    write_config(config_path)
+    monkeypatch.chdir(tmp_path)
+
+    class FakeEngine:
+        def generate(self, received_prompt, *_args, **_kwargs):
+            raise RuntimeError(f"failed prompt {received_prompt}")
+
+    monkeypatch.setattr(generate, "_build_engine", lambda _config: FakeEngine())
+
+    with pytest.raises(RuntimeError, match=prompt):
+        generate.main(["--config", str(config_path), "--prompt", prompt])
+
+    log_text = latest_log(tmp_path / "logs" / "runs").read_text(encoding="utf-8")
+    row = json.loads(log_text)
+    assert row["status"] == "error"
+    assert row["error"]["exception_type"] == "RuntimeError"
+    assert prompt not in log_text
+
+
 def test_benchmark_low_records_output_pointer(tmp_path, monkeypatch):
     config = fake_cli_config()
     config_path = tmp_path / "configs" / "low.yaml"

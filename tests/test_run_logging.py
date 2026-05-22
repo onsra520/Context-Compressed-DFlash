@@ -40,6 +40,23 @@ def test_run_log_session_records_exception_and_reraises(tmp_path):
     assert "RuntimeError: boom" in row["error"]["traceback"]
 
 
+def test_run_log_session_scrubs_sensitive_argv_from_exception_payload(tmp_path):
+    prompt = "PROMPT_SENTINEL"
+
+    with pytest.raises(RuntimeError, match=prompt):
+        with RunLogSession("htfsd-generate", ["--prompt", prompt], log_dir=tmp_path) as session:
+            raise RuntimeError(f"failed prompt {prompt}")
+
+    log_text = session.path.read_text(encoding="utf-8")
+    row = json.loads(log_text)
+    assert row["status"] == "error"
+    assert row["exit_code"] == 1
+    assert row["error"]["exception_type"] == "RuntimeError"
+    assert prompt not in row["error"]["message"]
+    assert prompt not in row["error"]["traceback"]
+    assert prompt not in log_text
+
+
 def test_run_log_write_failure_warns_without_masking_command_exception(tmp_path, capsys):
     with pytest.raises(RuntimeError, match="command failed"):
         with RunLogSession("htfsd-generate", ["\udcff"], log_dir=tmp_path):
@@ -134,6 +151,31 @@ def test_sanitize_argv_redacts_sensitive_values(flag, suffix, expected):
     sanitized = sanitize_argv(raw_argv)
 
     assert sanitized["sanitized"] == expected_argv
+
+
+@pytest.mark.parametrize(
+    ("argv", "expected", "sentinel"),
+    [
+        (
+            ["--prompt", "--api-key", "API_KEY_SENTINEL"],
+            ["--prompt", "--api-key", "<redacted>"],
+            "API_KEY_SENTINEL",
+        ),
+        (
+            ["--token", "--prompt", "PROMPT_SENTINEL"],
+            ["--token", "--prompt", "<redacted>"],
+            "PROMPT_SENTINEL",
+        ),
+    ],
+)
+def test_run_log_session_redacts_adjacent_sensitive_argv(tmp_path, argv, expected, sentinel):
+    with RunLogSession("htfsd-generate", argv, log_dir=tmp_path) as session:
+        pass
+
+    row = read_log(session)
+    assert row["argv"]["sanitized"] == expected
+    assert sentinel not in row["argv"]["sanitized"]
+    assert sentinel not in session.path.read_text(encoding="utf-8")
 
 
 @dataclass(frozen=True)

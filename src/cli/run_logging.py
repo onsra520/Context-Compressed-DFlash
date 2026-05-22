@@ -32,9 +32,10 @@ def _is_sensitive_value_flag(flag: str) -> bool:
     return flag in SENSITIVE_VALUE_FLAGS or _is_prompt_flag(flag)
 
 
-def sanitize_argv(argv: Sequence[str]) -> dict[str, JsonValue]:
-    """Redact CLI values that should not be written to the run log."""
+def _sanitize_argv(argv: Sequence[str]) -> tuple[dict[str, JsonValue], tuple[str, ...]]:
+    """Return redacted argv metadata and the raw values removed from it."""
 
+    sensitive_values: list[str] = []
     sanitized: list[str] = []
     prompt_present = False
     prompt_chars: int | None = None
@@ -44,6 +45,7 @@ def sanitize_argv(argv: Sequence[str]) -> dict[str, JsonValue]:
         flag, equals, value = item.partition("=")
         if equals and _is_sensitive_value_flag(flag):
             sanitized.append(f"{flag}=<redacted>")
+            sensitive_values.append(value)
             if _is_prompt_flag(flag):
                 prompt_present = True
                 prompt_chars = len(value)
@@ -53,7 +55,12 @@ def sanitize_argv(argv: Sequence[str]) -> dict[str, JsonValue]:
             sanitized.append(item)
             next_index = index + 1
             if next_index < len(argv):
+                next_flag, _, _ = argv[next_index].partition("=")
+                if _is_sensitive_value_flag(next_flag):
+                    index += 1
+                    continue
                 sanitized.append("<redacted>")
+                sensitive_values.append(argv[next_index])
                 if _is_prompt_flag(item):
                     prompt_present = True
                     prompt_chars = len(argv[next_index])
@@ -62,12 +69,22 @@ def sanitize_argv(argv: Sequence[str]) -> dict[str, JsonValue]:
         else:
             sanitized.append(item)
         index += 1
-    return {
-        "sanitized": sanitized,
-        "prompt_present": prompt_present,
-        "prompt_chars": prompt_chars,
-        "prompt_sha256": None,
-    }
+    return (
+        {
+            "sanitized": sanitized,
+            "prompt_present": prompt_present,
+            "prompt_chars": prompt_chars,
+            "prompt_sha256": None,
+        },
+        tuple(sensitive_values),
+    )
+
+
+def sanitize_argv(argv: Sequence[str]) -> dict[str, JsonValue]:
+    """Redact CLI values that should not be written to the run log."""
+
+    sanitized, _ = _sanitize_argv(argv)
+    return sanitized
 
 
 def _safe_json_value(value: JsonValue) -> JsonValue:
@@ -135,6 +152,10 @@ class RunLogSession:  # pylint: disable=too-many-instance-attributes
         self.started_perf = perf_counter()
         timestamp = self.started_at.strftime("%Y%m%d-%H%M%S")
         self._path = self.log_dir / f"{timestamp}-{command_name}-{self.run_id}.json"
+        argv_row, sensitive_argv_values = _sanitize_argv(argv)
+        self._sensitive_argv_values = tuple(
+            sorted({value for value in sensitive_argv_values if value}, key=len, reverse=True)
+        )
         self._row: dict[str, JsonValue] = {
             "schema_version": 1,
             "run_id": self.run_id,
@@ -144,7 +165,7 @@ class RunLogSession:  # pylint: disable=too-many-instance-attributes
             "start_time": self.started_at.isoformat(),
             "end_time": None,
             "duration_ms": None,
-            "argv": sanitize_argv(argv),
+            "argv": argv_row,
             "paths": {
                 "config_path": None,
                 "benchmark_output_path": None,
@@ -194,7 +215,7 @@ class RunLogSession:  # pylint: disable=too-many-instance-attributes
         self._row["exit_code"] = exit_code
         self._row["error"] = {
             "exception_type": exception_type,
-            "message": message,
+            "message": self._scrub_sensitive_text(message),
             "traceback": None,
         }
 
@@ -253,9 +274,17 @@ class RunLogSession:  # pylint: disable=too-many-instance-attributes
         self._row["exit_code"] = exit_code
         self._row["error"] = {
             "exception_type": exc_type.__name__,
-            "message": str(exc),
-            "traceback": "".join(traceback.format_exception(exc_type, exc, tb)),
+            "message": self._scrub_sensitive_text(str(exc)),
+            "traceback": self._scrub_sensitive_text(
+                "".join(traceback.format_exception(exc_type, exc, tb))
+            ),
         }
+
+    def _scrub_sensitive_text(self, text: str) -> str:
+        scrubbed = text
+        for value in self._sensitive_argv_values:
+            scrubbed = scrubbed.replace(value, "<redacted>")
+        return scrubbed
 
     def _finish(self) -> None:
         ended_at = datetime.now().astimezone()
