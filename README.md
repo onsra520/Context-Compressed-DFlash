@@ -1,4 +1,4 @@
-# HTFSD: Hierarchical Token-Feature Speculative Decoding
+# HTFS-Decoding: Hierarchical Token-Feature Speculative Decoding
 
 <div align="center">
 
@@ -16,7 +16,7 @@
 
 ## Table of Contents
 
-- [HTFSD: Hierarchical Token-Feature Speculative Decoding](#htfsd-hierarchical-token-feature-speculative-decoding)
+- [HTFS-Decoding: Hierarchical Token-Feature Speculative Decoding](#htfs-decoding-hierarchical-token-feature-speculative-decoding)
   - [Table of Contents](#table-of-contents)
   - [About](#about)
   - [Current Scope](#current-scope)
