@@ -1,0 +1,4 @@
+[console_scripts]
+htfsd-baseline-e4b = cli.baseline_e4b:main
+htfsd-benchmark-low = cli.benchmark_low:main
+htfsd-generate = cli.generate:main

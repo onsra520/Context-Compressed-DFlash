@@ -16,21 +16,26 @@
 
 ## Table of Contents
 
-- [About](#about)
-- [Current Scope](#current-scope)
-- [Architecture](#architecture)
-- [Features](#features)
-- [Repository Layout](#repository-layout)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Benchmarking](#benchmarking)
-- [Testing and Quality Gates](#testing-and-quality-gates)
-- [Research Guardrails](#research-guardrails)
-- [Documentation for Agents](#documentation-for-agents)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- [HTFSD: Hierarchical Token-Feature Speculative Decoding](#htfsd-hierarchical-token-feature-speculative-decoding)
+  - [Table of Contents](#table-of-contents)
+  - [About](#about)
+  - [Current Scope](#current-scope)
+  - [Architecture](#architecture)
+  - [Features](#features)
+  - [Repository Layout](#repository-layout)
+  - [Installation](#installation)
+  - [Model Preparation](#model-preparation)
+    - [Option A: Let vLLM Use Hugging Face IDs](#option-a-let-vllm-use-hugging-face-ids)
+    - [Option B: Pre-Download Models To Local Paths](#option-b-pre-download-models-to-local-paths)
+  - [Configuration](#configuration)
+  - [Usage](#usage)
+  - [Benchmarking](#benchmarking)
+  - [Testing and Quality Gates](#testing-and-quality-gates)
+  - [Research Guardrails](#research-guardrails)
+  - [Documentation for Agents](#documentation-for-agents)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Contact](#contact)
 
 ## About
 
@@ -176,6 +181,99 @@ pip install -e ".[dev,benchmark]"
 
 The runtime dependency list includes `vllm`. Unit tests are designed so the
 optional vLLM/GPU path does not need to run during normal CPU-only validation.
+
+## Model Preparation
+
+Runtime commands need three model entries:
+
+| Config key                                   | Role                                    | Example value       |
+| -------------------------------------------- | --------------------------------------- | ------------------- |
+| `models.qwen_drafter.model_id_or_path`       | Low Tier D-Flash drafter                | `Qwen/Qwen3-0.6B`   |
+| `models.gemma_e2b.model_id_or_path`          | Low Tier greedy verifier/fallback model | `/models/gemma-e2b` |
+| `models.gemma_e4b_baseline.model_id_or_path` | Separate autoregressive baseline        | `/models/gemma-e4b` |
+
+`model_id_or_path` can be either:
+
+- a Hugging Face model ID that vLLM can download/cache at runtime; or
+- a local directory containing the downloaded model files.
+
+### Option A: Let vLLM Use Hugging Face IDs
+
+Use this when the machine has network access and the model license/access is
+already configured:
+
+```yaml
+models:
+  qwen_drafter:
+    model_id_or_path: "Qwen/Qwen3-0.6B"
+
+  gemma_e2b:
+    model_id_or_path: "<gemma-e2b-huggingface-repo>"
+
+  gemma_e4b_baseline:
+    model_id_or_path: "<gemma-e4b-huggingface-repo>"
+```
+
+For gated models, authenticate with Hugging Face before running vLLM:
+
+```bash
+pip install "huggingface_hub[cli]"
+hf auth login
+```
+
+Or provide a token through the environment:
+
+```bash
+export HF_TOKEN="<your-hugging-face-token>"
+```
+
+### Option B: Pre-Download Models To Local Paths
+
+Use this when you want reproducible local paths or the runtime machine should
+not download models during benchmark runs:
+
+```bash
+mkdir -p ./models
+
+hf download Qwen/Qwen3-0.6B \
+  --local-dir ./models/qwen3-0.6b
+
+hf download google/gemma-4-E2B-it \
+  --local-dir ./models/gemma-4-e2b-it
+
+hf download google/gemma-4-E4B-it \
+  --local-dir ./models/gemma-4-e4b-it
+```
+
+The current `hf download` command does not accept
+`--local-dir-use-symlinks`. If you are using a token without interactive login,
+add `--token "$HF_TOKEN"` to each `hf download` command.
+
+Then point `configs/local.yaml` at those directories:
+
+```yaml
+models:
+  qwen_drafter:
+    model_id_or_path: "/models/qwen3-0.6b"
+
+  gemma_e2b:
+    model_id_or_path: "/models/gemma-e2b"
+
+  gemma_e4b_baseline:
+    model_id_or_path: "/models/gemma-e4b"
+```
+
+Notes:
+
+- Replace the Gemma placeholders with the exact repositories or local model
+  directories available in your environment.
+- Keep E2B and E4B paths separate. A Gemma E4B repository should not be
+  downloaded into the `gemma_e2b` path.
+- The Gemma E4B model is only for the separate baseline command. It must not be
+  routed into the Low Tier interactive generation loop.
+- GPU/vLLM integration runs may require substantial VRAM. If concurrent Qwen +
+  Gemma E2B loading does not fit, use `runtime.execution_mode: "sequential"`
+  only as a debug/non-comparable mode.
 
 ## Configuration
 

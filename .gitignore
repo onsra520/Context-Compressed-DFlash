@@ -428,9 +428,18 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+# Python virtual environments
+**/venv/
+**/.venv/
+*cache/
+
 # Superpowers worktrees
 .worktrees/
 
 # HTFSD generated outputs
 runs/
 *.jsonl.tmp
+
+# Agents/LLM models
+.agents/
+models/
