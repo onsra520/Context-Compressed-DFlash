@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
+from cli.run_logging import RunLogSession
 from config import load_config
 from low_tier.drafter import QwenDFlashDrafter
 from low_tier.engine import LowTierEngine
@@ -53,10 +55,11 @@ def _build_engine(config) -> LowTierEngine:
     )
 
 
-def run_single_prompt(args: argparse.Namespace) -> int:
+def run_single_prompt(args: argparse.Namespace, *, config=None) -> int:
     """Run one prompt through the Low Tier generation path."""
 
-    config = load_config(args.config)
+    if config is None:
+        config = load_config(args.config)
     decoding = args.decoding or config.decoding.default
     if decoding == "sampling":
         print("sampling mode is experimental and not used for correctness metrics")
@@ -75,7 +78,7 @@ def run_single_prompt(args: argparse.Namespace) -> int:
     return 0
 
 
-def run_prompt_loop(args: argparse.Namespace) -> int:
+def run_prompt_loop(args: argparse.Namespace, *, config=None) -> int:
     """Read prompts from stdin until the user exits."""
 
     while True:
@@ -85,17 +88,28 @@ def run_prompt_loop(args: argparse.Namespace) -> int:
         if not prompt:
             continue
         args.prompt = prompt
-        run_single_prompt(args)
+        run_single_prompt(args, config=config)
 
 
 def main(argv: list[str] | None = None) -> int:
     """Run the generate CLI."""
 
-    parser = build_parser()
-    args = parser.parse_args(argv)
-    if args.prompt:
-        return run_single_prompt(args)
-    return run_prompt_loop(args)
+    command_argv = list(sys.argv[1:] if argv is None else argv)
+    with RunLogSession("htfsd-generate", command_argv) as run_log:
+        parser = build_parser()
+        args = parser.parse_args(command_argv)
+        run_log.record_cli_args(args)
+        if args.debug_trace:
+            run_log.record_artifact("debug_trace_path", args.debug_trace)
+
+        config = load_config(args.config)
+        run_log.record_config(config, config_path=args.config)
+        run_log.record_metadata(decoding_mode=args.decoding or config.decoding.default)
+
+        if args.prompt:
+            return run_single_prompt(args, config=config)
+        return run_prompt_loop(args, config=config)
+    return 0
 
 
 if __name__ == "__main__":
