@@ -435,6 +435,7 @@ FodyWeavers.xsd
 
 # Superpowers worktrees
 .worktrees/
+src/*.egg-info/
 
 # HTFSD generated outputs
 runs/
@@ -443,3 +444,4 @@ runs/
 # Agents/LLM models
 .agents/
 models/
+
