@@ -127,10 +127,11 @@ def test_run_log_session_redacts_prompt_argv(tmp_path, argv, expected):
 )
 def test_sanitize_argv_redacts_sensitive_values(flag, suffix, expected):
     raw_argv = [flag + suffix[0]] if suffix[0].startswith("=") else [flag, suffix[0]]
+    expected_argv = [flag + expected[0]] if expected[0].startswith("=") else [flag, expected[0]]
 
     sanitized = sanitize_argv(raw_argv)
 
-    assert sanitized["sanitized"] == [flag + expected[0]] if expected[0].startswith("=") else [flag, expected[0]]
+    assert sanitized["sanitized"] == expected_argv
 
 
 @dataclass(frozen=True)
