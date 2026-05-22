@@ -121,5 +121,5 @@ class RunLogSession:  # pylint: disable=too-many-instance-attributes
         try:
             self.log_dir.mkdir(parents=True, exist_ok=True)
             self.path.write_text(json.dumps(self._row, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        except OSError as error:
+        except Exception as error:  # pylint: disable=broad-exception-caught
             print(f"warning: failed to write HTFSD run log: {error}", file=sys.stderr)

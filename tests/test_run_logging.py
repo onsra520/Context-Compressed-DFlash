@@ -37,12 +37,32 @@ def test_run_log_session_records_exception_and_reraises(tmp_path):
     assert "RuntimeError: boom" in row["error"]["traceback"]
 
 
+def test_run_log_write_failure_warns_without_masking_command_exception(tmp_path, capsys):
+    with pytest.raises(RuntimeError, match="command failed"):
+        with RunLogSession("htfsd-generate", ["\udcff"], log_dir=tmp_path):
+            raise RuntimeError("command failed")
+
+    assert "warning: failed to write HTFSD run log:" in capsys.readouterr().err
+
+
 def test_run_log_session_treats_system_exit_zero_as_ok(tmp_path):
     with pytest.raises(SystemExit) as exit_info:
         with RunLogSession("htfsd-generate", ["--help"], log_dir=tmp_path) as session:
             raise SystemExit(0)
 
     assert exit_info.value.code == 0
+    row = read_log(session)
+    assert row["status"] == "ok"
+    assert row["exit_code"] == 0
+    assert row["error"] is None
+
+
+def test_run_log_session_treats_system_exit_none_as_ok(tmp_path):
+    with pytest.raises(SystemExit) as exit_info:
+        with RunLogSession("htfsd-generate", ["--help"], log_dir=tmp_path) as session:
+            raise SystemExit()
+
+    assert exit_info.value.code is None
     row = read_log(session)
     assert row["status"] == "ok"
     assert row["exit_code"] == 0
