@@ -69,11 +69,11 @@ def latest_log(log_dir):
     return sorted(log_dir.glob("*.json"))[-1]
 
 
-def fake_cli_config():
+def fake_cli_config(decoding_default="greedy"):
     return SimpleNamespace(
         benchmark=SimpleNamespace(fixture_path="benchmarks/fixtures/default.jsonl"),
         runtime=SimpleNamespace(execution_mode="concurrent"),
-        decoding=SimpleNamespace(default="greedy"),
+        decoding=SimpleNamespace(default=decoding_default),
         qwen_drafter=SimpleNamespace(model_id_or_path="qwen-local"),
         gemma_e2b=SimpleNamespace(model_id_or_path="e2b-local"),
         gemma_e4b_baseline=SimpleNamespace(model_id_or_path="e4b-local"),
@@ -158,6 +158,32 @@ def test_benchmark_low_records_output_pointer(tmp_path, monkeypatch):
         "output_path": str(output_path),
         "decoding": "greedy",
     }
+
+
+def test_benchmark_low_records_executed_decoding_mode(tmp_path, monkeypatch):
+    config = fake_cli_config(decoding_default="sampling")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(benchmark_low, "validate_benchmark_decoding", lambda _decoding: None)
+    monkeypatch.setattr(benchmark_low, "load_config", lambda _path: config)
+    monkeypatch.setattr(benchmark_low, "_build_engine", lambda _config: object())
+    monkeypatch.setattr(benchmark_low, "run_low_tier_benchmark", lambda **_kwargs: None)
+
+    assert (
+        benchmark_low.main(
+            [
+                "--config",
+                "configs/low.yaml",
+                "--output",
+                "results/low.jsonl",
+                "--decoding",
+                "greedy",
+            ]
+        )
+        == 0
+    )
+
+    row = json.loads(latest_log(tmp_path / "logs" / "runs").read_text(encoding="utf-8"))
+    assert row["runtime"]["decoding_mode"] == "greedy"
 
 
 def test_baseline_records_output_pointer(tmp_path, monkeypatch):

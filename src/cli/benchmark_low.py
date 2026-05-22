@@ -30,11 +30,11 @@ def main(argv: list[str] | None = None) -> int:
         args = build_parser().parse_args(command_argv)
         run_log.record_cli_args(args)
         run_log.record_artifact("benchmark_output_path", args.output)
-        run_log.record_metadata(decoding_mode=args.decoding, fixture_path=args.fixtures)
 
         validate_benchmark_decoding(args.decoding)
         config = load_config(args.config)
         run_log.record_config(config, config_path=args.config)
+        run_log.record_metadata(decoding_mode=args.decoding, fixture_path=args.fixtures)
         engine = _build_engine(config)
         run_low_tier_benchmark(
             engine=engine,
