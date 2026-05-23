@@ -80,6 +80,21 @@ def fake_cli_config(decoding_default="greedy"):
     )
 
 
+def test_generate_parser_defaults_to_local_config():
+    args = generate.build_parser().parse_args(["--prompt", "Hello"])
+
+    assert args.config == "configs/local.yaml"
+    assert args.prompt == "Hello"
+
+
+def test_generate_parser_explicit_config_overrides_default():
+    args = generate.build_parser().parse_args(
+        ["--config", "configs/other.yaml", "--prompt", "Hello"]
+    )
+
+    assert args.config == "configs/other.yaml"
+
+
 def test_generate_main_records_run_log_without_model_output(tmp_path, monkeypatch, capsys):
     config_path = tmp_path / "generate.yaml"
     write_config(config_path)
@@ -102,6 +117,48 @@ def test_generate_main_records_run_log_without_model_output(tmp_path, monkeypatc
     assert row["argv"]["prompt_chars"] == len("private prompt")
     assert "private prompt" not in log_text
     assert "generated model output" not in log_text
+
+
+def test_generate_default_config_records_effective_path(tmp_path, monkeypatch, capsys):
+    config_path = tmp_path / "configs" / "local.yaml"
+    config_path.parent.mkdir(parents=True)
+    write_config(config_path)
+    monkeypatch.chdir(tmp_path)
+
+    class FakeEngine:
+        def generate(self, *_args, **_kwargs):
+            return fake_generate_result("generated model output")
+
+    monkeypatch.setattr(generate, "_build_engine", lambda _config: FakeEngine())
+
+    assert generate.main(["--prompt", "private prompt"]) == 0
+
+    assert "generated model output" in capsys.readouterr().out
+    log_text = latest_log(tmp_path / "logs" / "runs").read_text(encoding="utf-8")
+    row = json.loads(log_text)
+    assert row["status"] == "ok"
+    assert row["paths"]["config_path"] == "configs/local.yaml"
+    assert "private prompt" not in log_text
+    assert "generated model output" not in log_text
+
+
+def test_generate_missing_default_config_fails_before_model_load(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+    def fail_if_called(_config):
+        raise AssertionError("_build_engine must not be called when default config is missing")
+
+    monkeypatch.setattr(generate, "_build_engine", fail_if_called)
+
+    with pytest.raises(FileNotFoundError, match="configs/local.yaml"):
+        generate.main(["--prompt", "private prompt"])
+
+    log_text = latest_log(tmp_path / "logs" / "runs").read_text(encoding="utf-8")
+    row = json.loads(log_text)
+    assert row["status"] == "error"
+    assert row["paths"]["config_path"] == "configs/local.yaml"
+    assert row["error"]["exception_type"] == "FileNotFoundError"
+    assert "private prompt" not in log_text
 
 
 def test_generate_config_load_failure_still_records_run_log(tmp_path, monkeypatch):
