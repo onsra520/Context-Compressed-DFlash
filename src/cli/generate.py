@@ -15,6 +15,9 @@ from runtime.vllm_adapter import VllmGenerationAdapter, VllmModelHandle, VllmVer
 from tokenization.gemma import GemmaTokenizer
 
 
+DEFAULT_CONFIG_PATH = "configs/local.yaml"
+
+
 def write_trace_jsonl(path: str | Path, trace) -> None:
     """Write a per-cycle debug trace as JSONL."""
 
@@ -29,13 +32,27 @@ def build_parser() -> argparse.ArgumentParser:
     """Build the generate command argument parser."""
 
     parser = argparse.ArgumentParser(description="Run HTFSD Low Tier generation")
-    parser.add_argument("--config", required=True)
+    parser.add_argument("--config", default=DEFAULT_CONFIG_PATH)
     parser.add_argument("--prompt")
     parser.add_argument("--max-new-tokens", type=int)
     parser.add_argument("--decoding", default=None, choices=["greedy", "sampling"])
     parser.add_argument("--temperature", type=float, default=None)
     parser.add_argument("--debug-trace")
     return parser
+
+
+def resolve_config_path(config_path: str) -> str:
+    """Return the effective config path or raise a clear default-config error."""
+
+    path = Path(config_path)
+    if path.exists():
+        return config_path
+    if config_path == DEFAULT_CONFIG_PATH:
+        raise FileNotFoundError(
+            "Default config configs/local.yaml was not found. "
+            "Create it from configs/local.example.yaml or pass --config <path>."
+        )
+    return config_path
 
 
 def _build_engine(config) -> LowTierEngine:
@@ -104,8 +121,9 @@ def main(argv: list[str] | None = None) -> int:
         if args.debug_trace:
             run_log.record_artifact("debug_trace_path", args.debug_trace)
 
-        config = load_config(args.config)
-        run_log.record_config(config, config_path=args.config)
+        config_path = resolve_config_path(args.config)
+        config = load_config(config_path)
+        run_log.record_config(config, config_path=config_path)
         run_log.record_metadata(decoding_mode=args.decoding or config.decoding.default)
 
         if args.prompt:
