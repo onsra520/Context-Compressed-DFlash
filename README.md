@@ -311,18 +311,19 @@ primary latency or speedup claims.
 
 ## Usage
 
+`htfsd-generate` uses `configs/local.yaml` by default; pass
+`--config <path>` only when running a different config file.
+
 Run one prompt through the Low Tier path:
 
 ```bash
-htfsd-generate \
-  --config configs/local.yaml \
-  --prompt "Liệt kê các tỉnh Việt Nam"
+htfsd-generate --prompt "Liệt kê các tỉnh Việt Nam"
 ```
 
 Run interactive prompt mode:
 
 ```bash
-htfsd-generate --config configs/local.yaml
+htfsd-generate
 ```
 
 Inside the prompt loop:
@@ -352,6 +353,13 @@ htfsd-generate \
 ```
 
 Do not use sampling for correctness metrics or benchmark speedup claims.
+
+For development checkouts without an editable install, use the file-backed
+module invocation:
+
+```bash
+PYTHONPATH=src python -m cli.generate --prompt "Hello"
+```
 
 ## Run Logs
 
