@@ -1,0 +1,24 @@
+Backup ID: 20260523-140439
+Source path: /home/quyseggs/HTFS-Decoding
+Git branch: main
+Git HEAD: c6b04b618e3a8b9c9beb5a9d21d8d80ade142b33
+
+Included top-level items:
+- src
+- tests
+- configs
+- benchmarks
+- docs
+- README.md
+- pyproject.toml
+- pyrightconfig.json
+- LICENSE
+
+Excluded top-level items:
+- .git
+- .venv
+- .pytest_cache
+- .worktrees
+- logs
+- models
+- backup
