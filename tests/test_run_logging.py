@@ -57,6 +57,24 @@ def test_run_log_session_scrubs_sensitive_argv_from_exception_payload(tmp_path):
     assert prompt not in log_text
 
 
+def test_run_log_session_scrubs_recorded_runtime_sensitive_value_from_exception_payload(tmp_path):
+    runtime_value = "RUNTIME_PROMPT_SENTINEL"
+
+    with pytest.raises(RuntimeError, match=runtime_value):
+        with RunLogSession("htfsd-generate", [], log_dir=tmp_path) as session:
+            session.record_sensitive_value(runtime_value)
+            raise RuntimeError(f"failed prompt {runtime_value}")
+
+    log_text = session.path.read_text(encoding="utf-8")
+    row = json.loads(log_text)
+    assert row["status"] == "error"
+    assert row["exit_code"] == 1
+    assert row["error"]["exception_type"] == "RuntimeError"
+    assert runtime_value not in row["error"]["message"]
+    assert runtime_value not in row["error"]["traceback"]
+    assert runtime_value not in log_text
+
+
 def test_run_log_write_failure_warns_without_masking_command_exception(tmp_path, capsys):
     with pytest.raises(RuntimeError, match="command failed"):
         with RunLogSession("htfsd-generate", ["\udcff"], log_dir=tmp_path):

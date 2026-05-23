@@ -153,7 +153,7 @@ class RunLogSession:  # pylint: disable=too-many-instance-attributes
         timestamp = self.started_at.strftime("%Y%m%d-%H%M%S")
         self._path = self.log_dir / f"{timestamp}-{command_name}-{self.run_id}.json"
         argv_row, sensitive_argv_values = _sanitize_argv(argv)
-        self._sensitive_argv_values = tuple(
+        self._sensitive_values = tuple(
             sorted({value for value in sensitive_argv_values if value}, key=len, reverse=True)
         )
         self._row: dict[str, JsonValue] = {
@@ -239,6 +239,15 @@ class RunLogSession:  # pylint: disable=too-many-instance-attributes
         runtime = self._row["runtime"]
         runtime.update({name: _safe_json_value(value) for name, value in fields.items()})
 
+    def record_sensitive_value(self, value: str | None) -> None:
+        """Register a runtime value that must be scrubbed from error payloads."""
+
+        if not value:
+            return
+        self._sensitive_values = tuple(
+            sorted({*self._sensitive_values, value}, key=len, reverse=True)
+        )
+
     def record_config(self, config: Any, config_path: str | Path) -> None:
         """Record the config metadata used to construct this run."""
 
@@ -282,7 +291,7 @@ class RunLogSession:  # pylint: disable=too-many-instance-attributes
 
     def _scrub_sensitive_text(self, text: str) -> str:
         scrubbed = text
-        for value in self._sensitive_argv_values:
+        for value in self._sensitive_values:
             scrubbed = scrubbed.replace(value, "<redacted>")
         return scrubbed
 

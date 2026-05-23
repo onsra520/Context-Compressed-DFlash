@@ -78,7 +78,7 @@ def run_single_prompt(args: argparse.Namespace, *, config=None) -> int:
     return 0
 
 
-def run_prompt_loop(args: argparse.Namespace, *, config=None) -> int:
+def run_prompt_loop(args: argparse.Namespace, *, config=None, run_log: RunLogSession | None = None) -> int:
     """Read prompts from stdin until the user exits."""
 
     while True:
@@ -87,6 +87,8 @@ def run_prompt_loop(args: argparse.Namespace, *, config=None) -> int:
             return 0
         if not prompt:
             continue
+        if run_log is not None:
+            run_log.record_sensitive_value(prompt)
         args.prompt = prompt
         run_single_prompt(args, config=config)
 
@@ -108,7 +110,7 @@ def main(argv: list[str] | None = None) -> int:
 
         if args.prompt:
             return run_single_prompt(args, config=config)
-        return run_prompt_loop(args, config=config)
+        return run_prompt_loop(args, config=config, run_log=run_log)
     return 0
 
 
