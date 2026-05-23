@@ -52,3 +52,35 @@ python -m pip install -e .
   - `htfsd-generate --prompt "Hello"`
   - `PYTHONPATH=src python -m cli.generate --prompt "Hello"`
 - Do not use stdin heredoc for commands that initialize vLLM under WSL.
+
+## Follow-up Runtime Smoke Result
+
+- Timestamp: 2026-05-23T13:41:00+07:00
+- Command:
+
+```bash
+timeout 600 htfsd-generate --prompt "Hello"
+```
+
+- Status: failed
+- Exit code: `124`
+- Observed terminal evidence:
+  - The original `<stdin>` spawn failure did not recur.
+  - vLLM started from the real console script and initialized an EngineCore process.
+  - Gemma E2B weights loaded successfully.
+  - The run was still in vLLM torch compile/cache activity near the 600 second timeout.
+  - `timeout` terminated the process before generation completed.
+- Run log:
+  - No new `logs/runs/*.json` file was written for this timed-out run.
+  - The newest run log after the timeout was still `logs/runs/20260523-132840-htfsd-generate-2408ed38.json`, from the earlier `--help` command.
+  - Likely reason: `timeout` terminated the process before `RunLogSession.__exit__` could finalize the JSON file.
+- Process cleanup check:
+  - `ps -ef | rg 'vllm|EngineCore|htfsd-generate|cli.generate'` showed no leftover runtime process after timeout.
+  - `nvidia-smi` reported GPU memory back near idle after timeout.
+- Diagnosis:
+  - The first recorded bug is fixed at the invocation layer: vLLM no longer fails on `<stdin>`.
+  - A new runtime blocker remains: first-run vLLM initialization/compile for the local Gemma E2B path exceeded the 600 second smoke-test timeout before any output was generated.
+- Recommendation:
+  - Treat this as the next debugging target, separate from the file-backed invocation fix.
+  - Do not claim Low Tier interactive generation passes yet.
+  - Next investigation should focus on vLLM startup/compile latency and timeout/logging behavior for terminated runs.
