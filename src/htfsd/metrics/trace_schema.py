@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any, Literal
 
-TraceMode = Literal["live", "controlled-fallback"]
+TraceMode = Literal["live", "controlled-fallback", "target-baseline"]
 
 SHARED_TRACE_FIELDS = frozenset(
     {
@@ -30,6 +30,18 @@ SHARED_TRACE_FIELDS = frozenset(
 )
 
 CONTROLLED_TRACE_FIELDS = frozenset({"case_id", "gemma_fallback_used"})
+
+BASELINE_TRACE_FIELDS = frozenset(
+    {
+        "prompt_id",
+        "gemma_model_file",
+        "gemma_expected_device",
+        "gemma_device_status",
+        "gemma_n_gpu_layers",
+        "latency_seconds",
+        "trace_kind",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -62,10 +74,21 @@ def required_controlled_trace_fields() -> frozenset[str]:
     return SHARED_TRACE_FIELDS | CONTROLLED_TRACE_FIELDS
 
 
+def required_baseline_trace_fields() -> frozenset[str]:
+    """Return fields required on target-only baseline trace records."""
+
+    return BASELINE_TRACE_FIELDS
+
+
 def validate_trace_record(record: dict[str, Any], *, mode: TraceMode) -> TraceRecordSchemaResult:
     """Validate one trace record has all fields required for its mode."""
 
-    required = required_controlled_trace_fields() if mode == "controlled-fallback" else required_live_trace_fields()
+    if mode == "target-baseline":
+        required = required_baseline_trace_fields()
+    elif mode == "controlled-fallback":
+        required = required_controlled_trace_fields()
+    else:
+        required = required_live_trace_fields()
     missing = sorted(field_name for field_name in required if field_name not in record)
     return TraceRecordSchemaResult(ok=not missing, missing_fields=missing)
 

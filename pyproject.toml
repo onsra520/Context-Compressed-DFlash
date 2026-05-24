@@ -50,6 +50,7 @@ htfsd-smoke-gemma = "htfsd.cli.smoke_gemma:main"
 htfsd-smoke-pair = "htfsd.cli.smoke_pair:main"
 htfsd-run-low-tier-trace = "htfsd.cli.run_low_tier_trace:main"
 htfsd-inspect-trace-schema = "htfsd.cli.inspect_trace_schema:main"
+htfsd-run-baseline-trace = "htfsd.cli.run_baseline_trace:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

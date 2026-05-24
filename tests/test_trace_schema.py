@@ -3,6 +3,7 @@ from pathlib import Path
 
 from htfsd.cli import inspect_trace_schema
 from htfsd.metrics.trace_schema import (
+    required_baseline_trace_fields,
     required_controlled_trace_fields,
     required_live_trace_fields,
     validate_trace_file,
@@ -39,6 +40,18 @@ CONTROLLED_RECORD = {
     "gemma_fallback_used": True,
 }
 
+BASELINE_RECORD = {
+    "prompt_id": "baseline-001",
+    "gemma_model_file": "models/gemma/model.gguf",
+    "gemma_expected_device": "cuda",
+    "gemma_device_status": "ok",
+    "gemma_n_gpu_layers": -1,
+    "latency_seconds": 1.0,
+    "trace_kind": "target_baseline",
+    "prompt_summary": "Prompt.",
+    "gemma_output_summary": "Output.",
+}
+
 
 def test_live_trace_required_fields_are_guarded():
     required = required_live_trace_fields()
@@ -59,6 +72,17 @@ def test_controlled_trace_required_fields_include_case_and_fallback_flag():
     assert validate_trace_record(CONTROLLED_RECORD, mode="controlled-fallback").ok is True
 
 
+def test_baseline_trace_required_fields_do_not_include_low_tier_fields():
+    required = required_baseline_trace_fields()
+
+    assert "trace_kind" in required
+    assert "gemma_model_file" in required
+    assert "qwen_model_file" not in required
+    assert "bridge_status" not in required
+    assert "fallback_count" not in required
+    assert validate_trace_record(BASELINE_RECORD, mode="target-baseline").ok is True
+
+
 def test_schema_validator_fails_when_required_field_is_missing():
     record = dict(LIVE_RECORD)
     record.pop("fallback_count")
@@ -67,6 +91,16 @@ def test_schema_validator_fails_when_required_field_is_missing():
 
     assert result.ok is False
     assert result.missing_fields == ["fallback_count"]
+
+
+def test_baseline_schema_validator_fails_when_required_field_is_missing():
+    record = dict(BASELINE_RECORD)
+    record.pop("trace_kind")
+
+    result = validate_trace_record(record, mode="target-baseline")
+
+    assert result.ok is False
+    assert result.missing_fields == ["trace_kind"]
 
 
 def test_schema_validator_does_not_require_raw_text_fields():

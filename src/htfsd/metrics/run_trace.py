@@ -175,11 +175,12 @@ def write_trace_json(
     records: list[dict[str, Any]],
     output_dir: Path,
     metadata: dict[str, Any] | None = None,
+    trace_kind: str = "low-tier",
 ) -> Path:
     """Write a compact JSON trace report for agent inspection."""
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    path = output_dir / f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}-low-tier-trace.json"
+    path = output_dir / f"{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}-{trace_kind}-trace.json"
     payload = {
         "metadata": metadata or {},
         "records": records,

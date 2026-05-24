@@ -12,7 +12,7 @@ from htfsd.metrics.trace_schema import TraceMode, validate_trace_file
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Validate a low-tier trace JSON schema.")
     parser.add_argument("trace_file")
-    parser.add_argument("--mode", choices=("live", "controlled-fallback"), required=True)
+    parser.add_argument("--mode", choices=("live", "controlled-fallback", "target-baseline"), required=True)
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     result = validate_trace_file(args.trace_file, mode=args.mode)

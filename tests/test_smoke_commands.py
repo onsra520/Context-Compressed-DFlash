@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from htfsd.cli import smoke_gemma, smoke_qwen
+from htfsd.cli import run_baseline_trace, smoke_gemma, smoke_qwen
 
 
 CONFIG_TEXT = """
@@ -118,3 +118,23 @@ def test_smoke_qwen_fails_when_model_discovery_fails(tmp_path: Path, monkeypatch
     output = capsys.readouterr().out
     assert exit_code == 1
     assert "qwen_drafter is not ready: missing_model_dir" in output
+
+
+def test_baseline_trace_command_uses_gemma_only_and_reports_target_baseline(tmp_path: Path, monkeypatch, capsys):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(run_baseline_trace, "LlamaCppBackend", FakeBackend)
+    monkeypatch.setattr(
+        run_baseline_trace,
+        "collect_environment_diagnostics",
+        lambda config: {"models": {"gemma_e2b": {"device_status": "ok"}}},
+    )
+
+    exit_code = run_baseline_trace.main(["--prompt", "Short prompt."])
+
+    output = capsys.readouterr().out
+    assert exit_code == 0
+    assert "Target baseline trace: ok" in output
+    assert "trace_records: 1" in output
+    assert "qwen" not in output.lower()
