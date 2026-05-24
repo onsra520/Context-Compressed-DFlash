@@ -148,6 +148,8 @@ def run_controlled_fallback_trace_cases(
                 "prompt_hash": _short_hash(prompt),
                 "prompt_summary": _summarize_text(prompt),
                 "controlled_qwen_draft": case["raw_draft"],
+                "qwen_model_file": str(qwen_model.discovered_model_file) if qwen_model.discovered_model_file else None,
+                "gemma_model_file": str(gemma_model.discovered_model_file) if gemma_model.discovered_model_file else None,
                 "qwen_expected_device": qwen_model.expected_device,
                 "gemma_expected_device": gemma_model.expected_device,
                 "qwen_device_status": qwen_diagnostics.get("device_status"),

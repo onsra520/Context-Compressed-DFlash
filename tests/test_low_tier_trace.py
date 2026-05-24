@@ -8,6 +8,7 @@ from htfsd.metrics.run_trace import (
     run_controlled_fallback_trace_cases,
     run_controlled_low_tier_trace,
 )
+from htfsd.metrics.trace_schema import validate_trace_record
 
 
 CONFIG_TEXT = """
@@ -83,6 +84,7 @@ def test_controlled_trace_runs_multiple_prompts_and_records_policy(tmp_path: Pat
     assert records[0]["prompt_id"] == "trace-001"
     assert records[0]["qwen_model_file"] == str(qwen_file)
     assert records[0]["gemma_model_file"] == str(gemma_file)
+    assert validate_trace_record(records[0], mode="live").ok is True
     assert records[0]["qwen_expected_device"] == "cpu"
     assert records[0]["qwen_n_gpu_layers"] == 0
     assert records[0]["qwen_device_status"] == "ok"
@@ -237,6 +239,9 @@ def test_controlled_fallback_trace_records_device_policy(tmp_path: Path):
     )
 
     record = records[0]
+    assert validate_trace_record(record, mode="controlled-fallback").ok is True
+    assert record["qwen_model_file"].endswith("qwen.gguf")
+    assert record["gemma_model_file"].endswith("gemma.gguf")
     assert record["qwen_expected_device"] == "cpu"
     assert record["qwen_n_gpu_layers"] == 0
     assert record["qwen_device_status"] == "ok"
