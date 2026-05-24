@@ -11,7 +11,9 @@ from typing import Sequence
 from htfsd.cli.error_report import write_runtime_error_report
 from htfsd.config import DEFAULT_CONFIG_PATH, load_config
 from htfsd.metrics.run_trace import (
+    DEFAULT_CONTROLLED_FALLBACK_CASES,
     DEFAULT_TRACE_PROMPTS,
+    run_controlled_fallback_trace_cases,
     run_controlled_low_tier_trace,
     write_trace_json,
 )
@@ -22,6 +24,7 @@ from htfsd.runtime.llama_cpp_backend import LlamaCppBackend
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Run a controlled low-tier runtime trace.")
     parser.add_argument("--config", default=None, help=f"Config path; defaults to {DEFAULT_CONFIG_PATH}")
+    parser.add_argument("--mode", choices=("live", "controlled-fallback"), default="live")
     parser.add_argument(
         "--prompt",
         action="append",
@@ -42,37 +45,60 @@ def main(argv: Sequence[str] | None = None) -> int:
             return 1
 
         diagnostics = collect_environment_diagnostics(config)
-        qwen_backend = LlamaCppBackend(
-            model_path=qwen_model.discovered_model_file,
-            n_ctx=config.runtime.n_ctx,
-            n_gpu_layers=qwen_model.n_gpu_layers,
-            seed=config.runtime.seed,
-        )
         gemma_backend = LlamaCppBackend(
             model_path=gemma_model.discovered_model_file,
             n_ctx=config.runtime.n_ctx,
             n_gpu_layers=gemma_model.n_gpu_layers,
             seed=config.runtime.seed,
         )
-        prompts = tuple(args.prompt) if args.prompt else DEFAULT_TRACE_PROMPTS
-        records = run_controlled_low_tier_trace(
-            prompts=prompts,
-            config=config,
-            diagnostics=diagnostics,
-            qwen_backend=qwen_backend,
-            gemma_backend=gemma_backend,
-        )
+        if args.mode == "controlled-fallback":
+            records = run_controlled_fallback_trace_cases(
+                cases=DEFAULT_CONTROLLED_FALLBACK_CASES,
+                config=config,
+                diagnostics=diagnostics,
+                gemma_backend=gemma_backend,
+            )
+        else:
+            qwen_backend = LlamaCppBackend(
+                model_path=qwen_model.discovered_model_file,
+                n_ctx=config.runtime.n_ctx,
+                n_gpu_layers=qwen_model.n_gpu_layers,
+                seed=config.runtime.seed,
+            )
+            prompts = tuple(args.prompt) if args.prompt else DEFAULT_TRACE_PROMPTS
+            records = run_controlled_low_tier_trace(
+                prompts=prompts,
+                config=config,
+                diagnostics=diagnostics,
+                qwen_backend=qwen_backend,
+                gemma_backend=gemma_backend,
+            )
         trace_path = write_trace_json(
             records=records,
             output_dir=config.repo_root / "logs/reports",
             metadata={
                 "config": _display_path(config.config_path, config.repo_root),
+                "mode": args.mode,
                 "runtime_policy": "qwen_cpu_gemma_cuda",
                 "raw_outputs_included": False,
+                "controlled_drafts_included": args.mode == "controlled-fallback",
             },
         )
 
         total_fallbacks = sum(int(record["fallback_count"]) for record in records)
+        if args.mode == "controlled-fallback":
+            valid_count = sum(1 for record in records if record["bridge_status"] == "valid")
+            rejected_count = sum(1 for record in records if record["bridge_status"] == "rejected")
+            print("controlled fallback trace: ok")
+            print(f"trace_file: {_display_path(trace_path, config.repo_root)}")
+            print(f"total_cases: {len(records)}")
+            print(f"valid_count: {valid_count}")
+            print(f"rejected_count: {rejected_count}")
+            print(f"fallback_count: {total_fallbacks}")
+            print(f"qwen_device_status: {diagnostics['models']['qwen_drafter']['device_status']}")
+            print(f"gemma_device_status: {diagnostics['models']['gemma_e2b']['device_status']}")
+            return 0
+
         print("Low-tier trace: ok")
         print(f"trace_file: {_display_path(trace_path, config.repo_root)}")
         print(f"trace_records: {len(records)}")

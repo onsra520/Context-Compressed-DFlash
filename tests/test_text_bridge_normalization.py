@@ -39,3 +39,11 @@ def test_blank_input_is_rejected():
     assert result.bridge_status == "rejected"
     assert result.normalized_text == ""
     assert result.rejection_reason == "empty_after_normalization"
+
+
+def test_empty_input_is_rejected():
+    result = normalize_qwen_draft("")
+
+    assert result.bridge_status == "rejected"
+    assert result.normalized_text == ""
+    assert result.rejection_reason == "empty_after_normalization"

@@ -2,7 +2,12 @@ from pathlib import Path
 
 from htfsd.config import load_config
 from htfsd.cli import run_low_tier_trace
-from htfsd.metrics.run_trace import DEFAULT_TRACE_PROMPTS, run_controlled_low_tier_trace
+from htfsd.metrics.run_trace import (
+    DEFAULT_CONTROLLED_FALLBACK_CASES,
+    DEFAULT_TRACE_PROMPTS,
+    run_controlled_fallback_trace_cases,
+    run_controlled_low_tier_trace,
+)
 
 
 CONFIG_TEXT = """
@@ -176,4 +181,96 @@ def test_low_tier_trace_cli_writes_compact_report(tmp_path: Path, monkeypatch, c
     assert exit_code == 0
     assert "Low-tier trace: ok" in output
     assert "trace_records: 1" in output
+    assert reports
+
+
+def test_controlled_fallback_trace_records_expected_cases(tmp_path: Path):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.gguf")
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    config = load_config(repo_root=tmp_path)
+    diagnostics = {
+        "models": {
+            "qwen_drafter": {"device_status": "ok"},
+            "gemma_e2b": {"device_status": "ok"},
+        }
+    }
+
+    records = run_controlled_fallback_trace_cases(
+        cases=DEFAULT_CONTROLLED_FALLBACK_CASES,
+        config=config,
+        diagnostics=diagnostics,
+        gemma_backend=SequenceBackend([" fallback output"]),
+    )
+
+    by_case = {record["case_id"]: record for record in records}
+    assert by_case["valid_plain_draft"]["bridge_status"] == "valid"
+    assert by_case["valid_plain_draft"]["fallback_count"] == 0
+    assert by_case["valid_plain_draft"]["gemma_fallback_used"] is False
+    assert by_case["empty_draft"]["bridge_status"] == "rejected"
+    assert by_case["empty_draft"]["rejection_reason"] == "empty_after_normalization"
+    assert by_case["empty_draft"]["fallback_count"] == 1
+    assert by_case["empty_draft"]["gemma_fallback_used"] is True
+    assert by_case["unclosed_think"]["rejection_reason"] == "contains_unclosed_think"
+    assert by_case["unclosed_think"]["fallback_count"] == 1
+    assert by_case["complete_think_then_empty"]["rejection_reason"] == "empty_after_normalization"
+    assert by_case["complete_think_then_empty"]["fallback_count"] == 1
+
+
+def test_controlled_fallback_trace_records_device_policy(tmp_path: Path):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.gguf")
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    config = load_config(repo_root=tmp_path)
+    diagnostics = {
+        "models": {
+            "qwen_drafter": {"device_status": "ok"},
+            "gemma_e2b": {"device_status": "ok"},
+        }
+    }
+
+    records = run_controlled_fallback_trace_cases(
+        cases=DEFAULT_CONTROLLED_FALLBACK_CASES[:1],
+        config=config,
+        diagnostics=diagnostics,
+        gemma_backend=SequenceBackend([" output"]),
+    )
+
+    record = records[0]
+    assert record["qwen_expected_device"] == "cpu"
+    assert record["qwen_n_gpu_layers"] == 0
+    assert record["qwen_device_status"] == "ok"
+    assert record["gemma_expected_device"] == "cuda"
+    assert record["gemma_n_gpu_layers"] == -1
+    assert record["gemma_device_status"] == "ok"
+
+
+def test_low_tier_trace_cli_controlled_fallback_mode_writes_report(tmp_path: Path, monkeypatch, capsys):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.gguf")
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(run_low_tier_trace, "LlamaCppBackend", lambda **kwargs: SequenceBackend([" gemma output"]))
+    monkeypatch.setattr(
+        run_low_tier_trace,
+        "collect_environment_diagnostics",
+        lambda config: {
+            "backend": {"llama_cpp_supports_gpu_offload": True},
+            "models": {
+                "qwen_drafter": {"device_status": "ok"},
+                "gemma_e2b": {"device_status": "ok"},
+            },
+        },
+    )
+
+    exit_code = run_low_tier_trace.main(["--mode", "controlled-fallback"])
+
+    output = capsys.readouterr().out
+    reports = list((tmp_path / "logs/reports").glob("*-low-tier-trace.json"))
+    assert exit_code == 0
+    assert "controlled fallback trace: ok" in output
+    assert "total_cases: 4" in output
+    assert "valid_count: 1" in output
+    assert "rejected_count: 3" in output
+    assert "fallback_count: 3" in output
     assert reports
