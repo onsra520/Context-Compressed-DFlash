@@ -68,6 +68,52 @@ class BridgeDraft:
 
 
 @dataclass(frozen=True)
+class PairSmokeResult:
+    """Result for the low-tier Qwen-to-Gemma pair smoke path."""
+
+    prompt: str
+    raw_draft_text: str
+    normalized_draft_text: str
+    gemma_output_text: str
+    bridge_status: str
+    rejection_reason: str | None
+    fallback_count: int
+    draft_valid_count: int
+    draft_rejected_count: int
+    latency_seconds: float
+    qwen_decode_tokens_per_second: float | None
+    gemma_decode_tokens_per_second: float | None
+
+    @property
+    def tokens_per_second(self) -> float | None:
+        values = [
+            value
+            for value in (
+                self.qwen_decode_tokens_per_second,
+                self.gemma_decode_tokens_per_second,
+            )
+            if value is not None
+        ]
+        if not values:
+            return None
+        return sum(values) / len(values)
+
+    @property
+    def metrics(self) -> dict[str, float | int | None]:
+        """Return allowed smoke metrics without speculative claims."""
+
+        return {
+            "draft_valid_count": self.draft_valid_count,
+            "draft_rejected_count": self.draft_rejected_count,
+            "fallback_count": self.fallback_count,
+            "latency_seconds": self.latency_seconds,
+            "tokens_per_second": self.tokens_per_second,
+            "qwen_decode_tokens_per_second": self.qwen_decode_tokens_per_second,
+            "gemma_decode_tokens_per_second": self.gemma_decode_tokens_per_second,
+        }
+
+
+@dataclass(frozen=True)
 class HTFSDConfig:
     """Complete loaded configuration with structured model discovery."""
 
