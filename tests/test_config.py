@@ -19,7 +19,6 @@ models:
 runtime:
   backend: llama_cpp
   n_ctx: 2048
-  n_gpu_layers: -1
   seed: 42
 generation:
   max_tokens: 64
@@ -55,6 +54,46 @@ def test_relative_model_dir_resolves_against_repo_root(tmp_path: Path):
     config = load_config(repo_root=tmp_path)
 
     assert config.models["qwen_drafter"].model_dir == tmp_path / "models/qwen3-0.6b"
+
+
+def test_model_device_policy_defaults_by_model_role(tmp_path: Path):
+    write_config(tmp_path)
+
+    config = load_config(repo_root=tmp_path)
+
+    assert config.models["qwen_drafter"].expected_device == "cpu"
+    assert config.models["qwen_drafter"].n_gpu_layers == 0
+    assert config.models["qwen_drafter"].optional is False
+    assert config.models["gemma_e2b"].expected_device == "cuda"
+    assert config.models["gemma_e2b"].n_gpu_layers == -1
+    assert config.models["gemma_e2b"].optional is False
+    assert config.models["gemma_e4b"].expected_device == "cuda"
+    assert config.models["gemma_e4b"].n_gpu_layers == -1
+    assert config.models["gemma_e4b"].optional is True
+
+
+def test_model_device_policy_can_be_explicitly_configured(tmp_path: Path):
+    config_text = CONFIG_TEXT.replace(
+        "model_file: null",
+        "model_file: null\n    expected_device: auto\n    n_gpu_layers: 12\n    optional: true",
+        1,
+    )
+    write_config(tmp_path, config_text)
+
+    config = load_config(repo_root=tmp_path)
+
+    model = config.models["qwen_drafter"]
+    assert model.expected_device == "auto"
+    assert model.n_gpu_layers == 12
+    assert model.optional is True
+
+
+def test_invalid_expected_device_is_rejected(tmp_path: Path):
+    config_text = CONFIG_TEXT.replace("model_file: null", "model_file: null\n    expected_device: tpu", 1)
+    write_config(tmp_path, config_text)
+
+    with pytest.raises(ValueError, match="expected_device"):
+        load_config(repo_root=tmp_path)
 
 
 def test_exactly_one_gguf_is_auto_selected(tmp_path: Path):

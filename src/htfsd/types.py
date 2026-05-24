@@ -24,6 +24,8 @@ class ModelDiscovery:
     error_code: str | None = None
     candidates: list[Path] = field(default_factory=list)
     optional: bool = False
+    expected_device: str = "auto"
+    n_gpu_layers: int = -1
 
     @property
     def ok(self) -> bool:
@@ -38,7 +40,6 @@ class RuntimeConfig:
 
     backend: str
     n_ctx: int
-    n_gpu_layers: int
     seed: int
 
 

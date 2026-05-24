@@ -17,7 +17,6 @@ models:
 runtime:
   backend: llama_cpp
   n_ctx: 2048
-  n_gpu_layers: -1
   seed: 42
 generation:
   max_tokens: 64
@@ -57,6 +56,7 @@ def test_diagnostics_report_environment_and_llama_cpp_status(tmp_path: Path):
     assert "is_wsl" in diagnostics["platform"]
     assert diagnostics["backend"]["name"] == "llama_cpp"
     assert diagnostics["backend"]["llama_cpp_importable"] in (True, False)
+    assert diagnostics["backend"]["llama_cpp_supports_gpu_offload"] in (True, False)
 
 
 def test_diagnostics_report_ok_model_discovery(tmp_path: Path):
@@ -70,6 +70,11 @@ def test_diagnostics_report_ok_model_discovery(tmp_path: Path):
     assert qwen["model_dir"] == str(tmp_path / "models/qwen3-0.6b")
     assert qwen["discovered_model_file"] == str(model_file)
     assert qwen["status"] == "ok"
+    assert qwen["expected_device"] == "cpu"
+    assert qwen["configured_n_gpu_layers"] == 0
+    assert qwen["observed_backend"] == "llama_cpp"
+    assert qwen["observed_gpu_offload"] in (True, False, None)
+    assert qwen["device_status"] in ("ok", "unknown", "functional_cpu_only")
     assert qwen["quantization"] == "Q5_K_M"
 
 
@@ -96,3 +101,36 @@ def test_missing_gemma_e4b_is_reported_as_optional_missing(tmp_path: Path):
     diagnostics = collect_environment_diagnostics(config)
 
     assert diagnostics["models"]["gemma_e4b"]["status"] == "optional_missing"
+    assert diagnostics["models"]["gemma_e4b"]["device_status"] == "optional_missing"
+
+
+def test_diagnostics_report_cuda_unavailable_for_gemma_policy(tmp_path: Path):
+    write_config(tmp_path)
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.Q4_K_M.gguf")
+    config = load_config(repo_root=tmp_path)
+
+    diagnostics = collect_environment_diagnostics(
+        config,
+        llama_cpp_supports_gpu_offload=False,
+        observed_gpu_offload={"gemma_e2b": False},
+    )
+
+    gemma = diagnostics["models"]["gemma_e2b"]
+    assert gemma["expected_device"] == "cuda"
+    assert gemma["configured_n_gpu_layers"] == -1
+    assert gemma["observed_gpu_offload"] is False
+    assert gemma["device_status"] == "cuda_backend_unavailable"
+
+
+def test_diagnostics_report_device_policy_mismatch_when_gemma_runs_cpu_with_cuda_backend(tmp_path: Path):
+    write_config(tmp_path)
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.Q4_K_M.gguf")
+    config = load_config(repo_root=tmp_path)
+
+    diagnostics = collect_environment_diagnostics(
+        config,
+        llama_cpp_supports_gpu_offload=True,
+        observed_gpu_offload={"gemma_e2b": False},
+    )
+
+    assert diagnostics["models"]["gemma_e2b"]["device_status"] == "device_policy_mismatch"

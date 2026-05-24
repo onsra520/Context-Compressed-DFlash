@@ -17,7 +17,6 @@ models:
 runtime:
   backend: llama_cpp
   n_ctx: 2048
-  n_gpu_layers: -1
   seed: 42
 generation:
   max_tokens: 64
@@ -72,6 +71,8 @@ def test_smoke_qwen_uses_default_config_and_prints_draft(tmp_path: Path, monkeyp
     assert exit_code == 0
     assert "Qwen smoke: ok" in output
     assert "chat output" in output
+    assert "expected_device: cpu" in output
+    assert "n_gpu_layers: 0" in output
     assert str(model_path.relative_to(tmp_path)) in output
 
 
@@ -87,6 +88,9 @@ def test_smoke_gemma_default_uses_chat_generation_and_prints_non_empty_text(tmp_
     assert exit_code == 0
     assert "Gemma E2B smoke: ok" in output
     assert "prompt_mode: chat" in output
+    assert "expected_device: cuda" in output
+    assert "n_gpu_layers: -1" in output
+    assert "device_status:" in output
     assert "chat output" in output
     assert str(model_path.relative_to(tmp_path)) in output
 

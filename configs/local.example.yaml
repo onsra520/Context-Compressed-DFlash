@@ -2,19 +2,25 @@ models:
   qwen_drafter:
     model_dir: models/qwen3-0.6b
     model_file: null
+    expected_device: cpu
+    n_gpu_layers: 0
 
   gemma_e2b:
     model_dir: models/gemma-4-e2b-it
     model_file: null
+    expected_device: cuda
+    n_gpu_layers: -1
 
   gemma_e4b:
     model_dir: models/gemma-4-e4b-it
     model_file: null
+    expected_device: cuda
+    n_gpu_layers: -1
+    optional: true
 
 runtime:
   backend: llama_cpp
   n_ctx: 2048
-  n_gpu_layers: -1
   seed: 42
 
 generation:

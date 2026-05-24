@@ -20,6 +20,12 @@ from htfsd.types import (
 
 DEFAULT_CONFIG_PATH = Path("configs/local.example.yaml")
 REQUIRED_MODEL_KEYS = ("qwen_drafter", "gemma_e2b", "gemma_e4b")
+ALLOWED_EXPECTED_DEVICES = {"cpu", "cuda", "auto"}
+DEFAULT_MODEL_POLICY = {
+    "qwen_drafter": {"expected_device": "cpu", "n_gpu_layers": 0, "optional": False},
+    "gemma_e2b": {"expected_device": "cuda", "n_gpu_layers": -1, "optional": False},
+    "gemma_e4b": {"expected_device": "cuda", "n_gpu_layers": -1, "optional": True},
+}
 
 
 def find_repo_root(start: Path | None = None) -> Path:
@@ -73,7 +79,6 @@ def load_config(
         runtime=RuntimeConfig(
             backend=str(runtime.get("backend", "llama_cpp")),
             n_ctx=int(runtime.get("n_ctx", 2048)),
-            n_gpu_layers=int(runtime.get("n_gpu_layers", -1)),
             seed=int(runtime.get("seed", 42)),
         ),
         generation=GenerationConfig(
@@ -92,12 +97,21 @@ def _load_models(raw_models: Any, *, repo_root: Path) -> dict[str, ModelDiscover
         raw_model = raw_models.get(name)
         if not isinstance(raw_model, dict):
             raise ValueError(f"models.{name} must be a mapping")
+        default_policy = DEFAULT_MODEL_POLICY[name]
+        expected_device = str(raw_model.get("expected_device", default_policy["expected_device"]))
+        if expected_device not in ALLOWED_EXPECTED_DEVICES:
+            raise ValueError(
+                f"models.{name}.expected_device must be one of "
+                f"{sorted(ALLOWED_EXPECTED_DEVICES)}"
+            )
         discoveries[name] = discover_model_file(
             name=name,
             model_dir=raw_model.get("model_dir"),
             model_file=raw_model.get("model_file"),
             repo_root=repo_root,
-            optional=name == "gemma_e4b",
+            optional=bool(raw_model.get("optional", default_policy["optional"])),
+            expected_device=expected_device,
+            n_gpu_layers=int(raw_model.get("n_gpu_layers", default_policy["n_gpu_layers"])),
         )
     return discoveries
 
@@ -109,6 +123,8 @@ def discover_model_file(
     model_file: str | Path | None,
     repo_root: Path,
     optional: bool = False,
+    expected_device: str = "auto",
+    n_gpu_layers: int = -1,
 ) -> ModelDiscovery:
     """Resolve a model GGUF file from an optional override or directory scan."""
 
@@ -127,6 +143,8 @@ def discover_model_file(
                 status=MODEL_STATUS_MISSING_FILE,
                 error_code="model_file_not_gguf",
                 optional=optional,
+                expected_device=expected_device,
+                n_gpu_layers=n_gpu_layers,
             )
         if not resolved_file.exists():
             return ModelDiscovery(
@@ -137,6 +155,8 @@ def discover_model_file(
                 status=MODEL_STATUS_MISSING_FILE,
                 error_code="missing_model_file",
                 optional=optional,
+                expected_device=expected_device,
+                n_gpu_layers=n_gpu_layers,
             )
         return ModelDiscovery(
             name=name,
@@ -146,6 +166,8 @@ def discover_model_file(
             status=MODEL_STATUS_OK,
             candidates=[resolved_file],
             optional=optional,
+            expected_device=expected_device,
+            n_gpu_layers=n_gpu_layers,
         )
 
     if not resolved_dir.is_dir():
@@ -157,6 +179,8 @@ def discover_model_file(
             status=MODEL_STATUS_MISSING_DIR,
             error_code="missing_model_dir",
             optional=optional,
+            expected_device=expected_device,
+            n_gpu_layers=n_gpu_layers,
         )
 
     candidates = sorted(path for path in resolved_dir.iterdir() if path.is_file() and path.suffix.lower() == ".gguf")
@@ -169,6 +193,8 @@ def discover_model_file(
             status=MODEL_STATUS_OK,
             candidates=candidates,
             optional=optional,
+            expected_device=expected_device,
+            n_gpu_layers=n_gpu_layers,
         )
     if not candidates:
         return ModelDiscovery(
@@ -179,6 +205,8 @@ def discover_model_file(
             status=MODEL_STATUS_MISSING_FILE,
             error_code="missing_model",
             optional=optional,
+            expected_device=expected_device,
+            n_gpu_layers=n_gpu_layers,
         )
     return ModelDiscovery(
         name=name,
@@ -189,6 +217,8 @@ def discover_model_file(
         error_code="ambiguous_model",
         candidates=candidates,
         optional=optional,
+        expected_device=expected_device,
+        n_gpu_layers=n_gpu_layers,
     )
 
 

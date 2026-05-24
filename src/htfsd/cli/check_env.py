@@ -46,10 +46,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"Python: {diagnostics['python']['version']}")
     print(f"Backend: {diagnostics['backend']['name']}")
     print(f"llama_cpp importable: {diagnostics['backend']['llama_cpp_importable']}")
+    print(f"llama_cpp supports GPU offload: {diagnostics['backend']['llama_cpp_supports_gpu_offload']}")
     print("Models:")
     for name, model in diagnostics["models"].items():
         print(f"  {name}: {model['status']}")
         print(f"    model_dir: {_display_path(Path(model['model_dir']), config.repo_root)}")
+        print(f"    expected_device: {model['expected_device']}")
+        print(f"    configured_n_gpu_layers: {model['configured_n_gpu_layers']}")
+        print(f"    device_status: {model['device_status']}")
         if model["discovered_model_file"]:
             print(f"    discovered_model_file: {_display_path(Path(model['discovered_model_file']), config.repo_root)}")
         if model["candidates"]:
@@ -60,6 +64,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     e4b_status = diagnostics["models"]["gemma_e4b"]["status"]
     if e4b_status != "ok":
         print("warning: Gemma E4B is optional for current low-tier smoke tests.")
+    for name in ("gemma_e2b", "gemma_e4b"):
+        device_status = diagnostics["models"][name]["device_status"]
+        if device_status in {"cuda_backend_unavailable", "device_policy_mismatch"}:
+            print(
+                f"warning: {name} expected CUDA but runtime appears CPU-only "
+                f"({device_status})."
+            )
 
     failed_required = [
         name for name in REQUIRED_LOW_TIER_MODELS if diagnostics["models"][name]["status"] != "ok"

@@ -30,16 +30,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         if not gemma_model.ok:
             print(f"gemma_e2b is not ready: {gemma_model.status}")
             return 1
+        diagnostics = collect_environment_diagnostics(config)
+        qwen_device_status = diagnostics["models"]["qwen_drafter"]["device_status"]
+        gemma_device_status = diagnostics["models"]["gemma_e2b"]["device_status"]
         qwen_backend = LlamaCppBackend(
             model_path=qwen_model.discovered_model_file,
             n_ctx=config.runtime.n_ctx,
-            n_gpu_layers=config.runtime.n_gpu_layers,
+            n_gpu_layers=qwen_model.n_gpu_layers,
             seed=config.runtime.seed,
         )
         gemma_backend = LlamaCppBackend(
             model_path=gemma_model.discovered_model_file,
             n_ctx=config.runtime.n_ctx,
-            n_gpu_layers=config.runtime.n_gpu_layers,
+            n_gpu_layers=gemma_model.n_gpu_layers,
             seed=config.runtime.seed,
         )
         result = run_pair_smoke(
@@ -50,6 +53,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             temperature=config.generation.temperature,
         )
         print("Pair smoke: ok")
+        print(f"qwen_expected_device: {qwen_model.expected_device}")
+        print(f"qwen_n_gpu_layers: {qwen_model.n_gpu_layers}")
+        print(f"qwen_device_status: {qwen_device_status}")
+        print(f"gemma_expected_device: {gemma_model.expected_device}")
+        print(f"gemma_n_gpu_layers: {gemma_model.n_gpu_layers}")
+        print(f"gemma_device_status: {gemma_device_status}")
+        if gemma_device_status in {"cuda_backend_unavailable", "device_policy_mismatch"}:
+            print(f"warning: Gemma expected CUDA but runtime appears CPU-only ({gemma_device_status}).")
         print(f"bridge_status: {result.bridge_status}")
         print(f"rejection_reason: {result.rejection_reason}")
         print(f"fallback_count: {result.fallback_count}")

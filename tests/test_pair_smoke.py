@@ -18,7 +18,6 @@ models:
 runtime:
   backend: llama_cpp
   n_ctx: 2048
-  n_gpu_layers: -1
   seed: 42
 generation:
   max_tokens: 64
@@ -120,10 +119,17 @@ def test_smoke_pair_cli_requires_qwen_and_gemma_e2b_only(tmp_path: Path, monkeyp
     assert "Pair smoke: ok" in output
     assert "bridge_status: valid" in output
     assert "fallback_count: 0" in output
+    assert "qwen_expected_device: cpu" in output
+    assert "qwen_n_gpu_layers: 0" in output
+    assert "gemma_expected_device: cuda" in output
+    assert "gemma_n_gpu_layers: -1" in output
+    assert "gemma_device_status:" in output
     assert "gemma_e4b" not in output
     assert "acceptance rate" not in output.lower()
     assert "lossless" not in output.lower()
     assert "speedup" not in output.lower()
+    assert FakeCliBackend.instances[0].kwargs["n_gpu_layers"] == 0
+    assert FakeCliBackend.instances[1].kwargs["n_gpu_layers"] == -1
 
 
 def test_smoke_pair_cli_fails_when_gemma_e2b_missing(tmp_path: Path, monkeypatch, capsys):

@@ -32,7 +32,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         backend = LlamaCppBackend(
             model_path=model.discovered_model_file,
             n_ctx=config.runtime.n_ctx,
-            n_gpu_layers=config.runtime.n_gpu_layers,
+            n_gpu_layers=model.n_gpu_layers,
             seed=config.runtime.seed,
         )
         drafter = QwenTextDrafter(backend)
@@ -52,6 +52,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         elapsed = time.perf_counter() - start
         print("Qwen smoke: ok")
         print(f"model_file: {_display_path(model.discovered_model_file, config.repo_root)}")
+        print(f"expected_device: {model.expected_device}")
+        print(f"n_gpu_layers: {model.n_gpu_layers}")
         print(f"prompt_mode: {args.prompt_mode}")
         print(f"latency_seconds: {elapsed:.6f}")
         print(f"draft_text:{text}")
