@@ -59,6 +59,15 @@ class TextGenerationResult:
 
 
 @dataclass(frozen=True)
+class BridgeDraft:
+    """Normalized Qwen draft text for the Gemma text bridge."""
+
+    bridge_status: str
+    normalized_text: str
+    rejection_reason: str | None = None
+
+
+@dataclass(frozen=True)
 class HTFSDConfig:
     """Complete loaded configuration with structured model discovery."""
 
