@@ -1,4 +1,5 @@
 from pathlib import Path
+import tomllib
 
 import pytest
 
@@ -182,3 +183,9 @@ def test_non_gguf_explicit_model_file_is_rejected(tmp_path: Path):
 def test_missing_default_config_raises_clear_error(tmp_path: Path):
     with pytest.raises(FileNotFoundError, match="configs/local.example.yaml"):
         load_config(repo_root=tmp_path)
+
+
+def test_llama_cpp_python_is_not_a_main_dependency():
+    pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+
+    assert "llama-cpp-python" not in "\n".join(pyproject["project"]["dependencies"])

@@ -5,17 +5,42 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "htfsd"
 version = "0.1.0"
-description = "Hierarchical Token-Feature Speculative Decoding GGUF scaffold"
+description = "Hierarchical Token-Feature Speculative Decoding research prototype"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11,<3.13"
+license = { text = "MIT" }
+authors = [
+  { name = "HTFSD Contributors" }
+]
+
 dependencies = [
   "pyyaml>=6.0.1",
-  "llama-cpp-python>=0.2.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8.0",
+  "pytest>=8.0.0",
+  "pyright>=1.1.390",
+  "pylint>=3.0.0",
+]
+
+gguf-cpu = [
+  "llama-cpp-python==0.3.23",
+]
+
+hf = [
+  "torch>=2.3.0",
+  "transformers>=4.45.0",
+  "accelerate>=0.33.0",
+]
+
+bench = [
+  "datasets>=2.20.0",
+  "pandas>=2.2.0",
+]
+
+all = [
+  "htfsd[dev,hf,bench]",
 ]
 
 [project.scripts]
@@ -29,3 +54,52 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.pyright]
+include = ["src", "tests"]
+exclude = [
+  "**/__pycache__",
+  ".venv",
+  "venv",
+  "build",
+  "dist",
+  "*.egg-info",
+  "models",
+  "runs",
+]
+pythonVersion = "3.12"
+typeCheckingMode = "basic"
+reportMissingImports = "warning"
+reportMissingTypeStubs = "none"
+
+[tool.htfsd.cuda_llama_cpp]
+version = "0.3.23"
+backend = "GGML_CUDA"
+cuda_toolkit = "12.5"
+cuda_compiler = "/usr/local/cuda-12.5/bin/nvcc"
+cuda_architectures = "89"
+verified_gpu = "NVIDIA GeForce RTX 4070 Laptop GPU"
+verified_compute_capability = "8.9"
+verified_system_info_contains = [
+  "ggml_cuda_init: found 1 CUDA devices",
+  "compute capability 8.9",
+  "CUDA : ARCHS = 890",
+]
+install_command = '''
+CMAKE_ARGS="-DGGML_CUDA=ON -DCMAKE_CUDA_COMPILER=/usr/local/cuda-12.5/bin/nvcc -DCMAKE_CUDA_ARCHITECTURES=89" \
+FORCE_CMAKE=1 \
+python -m pip install --no-cache-dir --force-reinstall llama-cpp-python==0.3.23
+'''
+test_command = '''
+python - <<'PY'
+import llama_cpp
+from llama_cpp import llama_print_system_info
+
+print("version:", llama_cpp.__version__)
+info = llama_print_system_info()
+if isinstance(info, bytes):
+    info = info.decode(errors="ignore")
+print(info)
+PY
+'''

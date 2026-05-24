@@ -1,7 +1,11 @@
 from pathlib import Path
 
 from htfsd.config import load_config
-from htfsd.runtime.diagnostics import collect_environment_diagnostics, infer_quantization
+from htfsd.runtime.diagnostics import (
+    collect_environment_diagnostics,
+    infer_quantization,
+    system_info_has_cuda_backend,
+)
 
 CONFIG_TEXT = """
 models:
@@ -134,3 +138,42 @@ def test_diagnostics_report_device_policy_mismatch_when_gemma_runs_cpu_with_cuda
     )
 
     assert diagnostics["models"]["gemma_e2b"]["device_status"] == "device_policy_mismatch"
+
+
+def test_system_info_detects_cuda_backend_indicators():
+    system_info = """
+    ggml_cuda_init: found 1 CUDA devices
+    Device 0: NVIDIA GeForce RTX 4070 Laptop GPU, compute capability 8.9
+    CUDA : ARCHS = 890
+    """
+
+    assert system_info_has_cuda_backend(system_info) is True
+
+
+def test_diagnostics_report_ok_when_gemma_expects_cuda_and_backend_is_available(tmp_path: Path):
+    write_config(tmp_path)
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.Q4_K_M.gguf")
+    config = load_config(repo_root=tmp_path)
+
+    diagnostics = collect_environment_diagnostics(
+        config,
+        llama_cpp_system_info="ggml_cuda_init: found 1 CUDA devices\nCUDA : ARCHS = 890",
+    )
+
+    gemma = diagnostics["models"]["gemma_e2b"]
+    assert gemma["expected_device"] == "cuda"
+    assert gemma["configured_n_gpu_layers"] == -1
+    assert gemma["device_status"] == "ok"
+
+
+def test_qwen_cpu_policy_is_ok_even_when_cuda_backend_is_available(tmp_path: Path):
+    write_config(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.Q8_0.gguf")
+    config = load_config(repo_root=tmp_path)
+
+    diagnostics = collect_environment_diagnostics(
+        config,
+        llama_cpp_system_info="ggml_cuda_init: found 1 CUDA devices\nCUDA : ARCHS = 890",
+    )
+
+    assert diagnostics["models"]["qwen_drafter"]["device_status"] == "ok"

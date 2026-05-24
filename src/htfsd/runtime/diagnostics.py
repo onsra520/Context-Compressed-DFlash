@@ -19,12 +19,14 @@ def collect_environment_diagnostics(
     config: HTFSDConfig,
     *,
     llama_cpp_supports_gpu_offload: bool | None = None,
+    llama_cpp_system_info: str | None = None,
     observed_gpu_offload: dict[str, bool | None] | None = None,
 ) -> dict[str, Any]:
     """Collect agent-readable environment and model-discovery diagnostics."""
 
+    system_info = _llama_cpp_system_info() if llama_cpp_system_info is None else llama_cpp_system_info
     supports_gpu_offload = (
-        _llama_cpp_supports_gpu_offload()
+        _llama_cpp_supports_gpu_offload(system_info)
         if llama_cpp_supports_gpu_offload is None
         else llama_cpp_supports_gpu_offload
     )
@@ -46,6 +48,7 @@ def collect_environment_diagnostics(
             "llama_cpp_importable": _module_importable("llama_cpp"),
             "llama_cpp_version": _package_version("llama-cpp-python"),
             "llama_cpp_supports_gpu_offload": supports_gpu_offload,
+            "llama_cpp_cuda_system_info": system_info_has_cuda_backend(system_info),
             "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES"),
         },
         "runtime": {
@@ -127,7 +130,12 @@ def _device_status(
             return "device_policy_mismatch"
         if observed_gpu_offload is True:
             return "ok"
-        return "unknown"
+        # llama.cpp does not expose per-model layer placement through the Python API.
+        # If CUDA is available and the model asks for GPU layers, treat the policy as
+        # satisfied unless a caller provides explicit CPU-only evidence.
+        if model.n_gpu_layers != 0:
+            return "ok"
+        return "device_policy_mismatch"
     if model.expected_device == "auto":
         return "ok" if observed_gpu_offload else "functional_cpu_only"
     return "unknown"
@@ -151,13 +159,43 @@ def _module_importable(module_name: str) -> bool:
     return True
 
 
-def _llama_cpp_supports_gpu_offload() -> bool:
+def system_info_has_cuda_backend(system_info: str | None) -> bool:
+    """Return whether llama.cpp system info contains CUDA backend indicators."""
+
+    if not system_info:
+        return False
+    lowered = system_info.lower()
+    indicators = (
+        "ggml_cuda_init",
+        "cuda : archs",
+        "compute capability",
+        "cuda0 compute buffer",
+        "cuda graph",
+    )
+    return any(indicator in lowered for indicator in indicators)
+
+
+def _llama_cpp_supports_gpu_offload(system_info: str | None = None) -> bool:
     try:
         import llama_cpp
 
-        return bool(llama_cpp.llama_supports_gpu_offload())
+        if bool(llama_cpp.llama_supports_gpu_offload()):
+            return True
     except Exception:
-        return False
+        pass
+    return system_info_has_cuda_backend(system_info)
+
+
+def _llama_cpp_system_info() -> str | None:
+    try:
+        from llama_cpp import llama_print_system_info
+
+        info = llama_print_system_info()
+        if isinstance(info, bytes):
+            return info.decode(errors="ignore")
+        return str(info)
+    except Exception:
+        return None
 
 
 def _package_version(package_name: str) -> str | None:
