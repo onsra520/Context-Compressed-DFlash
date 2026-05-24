@@ -53,6 +53,7 @@ htfsd-inspect-trace-schema = "htfsd.cli.inspect_trace_schema:main"
 htfsd-run-baseline-trace = "htfsd.cli.run_baseline_trace:main"
 htfsd-compare-trace-report = "htfsd.cli.compare_trace_report:main"
 htfsd-prepare-output-comparison = "htfsd.cli.prepare_output_comparison:main"
+htfsd-preview-output-comparison = "htfsd.cli.preview_output_comparison:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
