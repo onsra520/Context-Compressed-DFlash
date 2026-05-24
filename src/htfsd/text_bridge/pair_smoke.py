@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import time
+from typing import Sequence
 
 from htfsd.text_bridge.normalization import normalize_qwen_draft
 from htfsd.types import PairSmokeResult
@@ -15,6 +16,7 @@ def run_pair_smoke(
     gemma_backend,
     max_tokens: int,
     temperature: float,
+    stop: Sequence[str] | None = None,
 ) -> PairSmokeResult:
     """Run a minimal pair smoke flow without speculative acceptance claims."""
 
@@ -24,6 +26,7 @@ def run_pair_smoke(
         prompt,
         max_tokens=max_tokens,
         temperature=temperature,
+        stop=stop,
     )
     qwen_elapsed = time.perf_counter() - qwen_start
 
@@ -44,6 +47,7 @@ def run_pair_smoke(
         gemma_prompt,
         max_tokens=max_tokens,
         temperature=temperature,
+        stop=stop,
     )
     gemma_elapsed = time.perf_counter() - gemma_start
     elapsed = time.perf_counter() - start

@@ -5,6 +5,8 @@ from __future__ import annotations
 import time
 from typing import Any
 
+from htfsd.metrics.generation_settings import GenerationSettings, build_generation_settings
+from htfsd.metrics.prompt_sets import DEFAULT_TRACE_PROMPT_SET
 from htfsd.metrics.run_trace import _short_hash, _summarize_text
 from htfsd.types import HTFSDConfig
 
@@ -15,9 +17,11 @@ def run_target_baseline_trace(
     config: HTFSDConfig,
     diagnostics: dict[str, Any],
     gemma_backend,
+    generation_settings: GenerationSettings | None = None,
 ) -> list[dict[str, Any]]:
     """Run Gemma E2B directly over prompts and record compact metadata."""
 
+    settings = generation_settings or build_generation_settings(config)
     gemma_model = config.models["gemma_e2b"]
     gemma_diagnostics = diagnostics.get("models", {}).get("gemma_e2b", {})
     records: list[dict[str, Any]] = []
@@ -26,25 +30,35 @@ def run_target_baseline_trace(
         start = time.perf_counter()
         result = gemma_backend.generate_text(
             prompt,
-            max_tokens=config.generation.max_tokens,
-            temperature=config.generation.temperature,
+            max_tokens=settings.max_tokens,
+            temperature=settings.temperature,
+            stop=settings.stop,
         )
         elapsed = time.perf_counter() - start
-        records.append(
-            {
-                "prompt_id": f"baseline-{index:03d}",
-                "prompt_hash": _short_hash(prompt),
-                "prompt_summary": _summarize_text(prompt),
-                "gemma_model_file": str(gemma_model.discovered_model_file) if gemma_model.discovered_model_file else None,
-                "gemma_expected_device": gemma_model.expected_device,
-                "gemma_device_status": gemma_diagnostics.get("device_status"),
-                "gemma_n_gpu_layers": gemma_model.n_gpu_layers,
-                "latency_seconds": elapsed,
-                "gemma_decode_tokens_per_second": _tokens_per_second(result.completion_tokens, elapsed),
-                "gemma_output_summary": _summarize_text(result.text),
-                "trace_kind": "target_baseline",
-            }
-        )
+        record = {
+            "prompt_id": f"baseline-{index:03d}",
+            "prompt_hash": _short_hash(prompt),
+            "prompt_summary": _summarize_text(prompt, settings.output_summary_max_chars),
+            "prompt_set_id": DEFAULT_TRACE_PROMPT_SET.prompt_set_id,
+            "gemma_model_file": str(gemma_model.discovered_model_file) if gemma_model.discovered_model_file else None,
+            "gemma_expected_device": gemma_model.expected_device,
+            "gemma_device_status": gemma_diagnostics.get("device_status"),
+            "gemma_n_gpu_layers": gemma_model.n_gpu_layers,
+            "latency_seconds": elapsed,
+            "gemma_decode_tokens_per_second": _tokens_per_second(result.completion_tokens, elapsed),
+            "gemma_output_summary": _summarize_text(result.text, settings.output_summary_max_chars),
+            "trace_kind": "target_baseline",
+            "generation_settings": settings.to_metadata(),
+            "capture_raw_output": settings.capture_raw_output,
+        }
+        if settings.capture_raw_output:
+            record.update(
+                {
+                    "raw_prompt": prompt,
+                    "baseline_raw_output": result.text,
+                }
+            )
+        records.append(record)
     return records
 
 

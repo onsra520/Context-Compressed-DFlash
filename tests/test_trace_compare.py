@@ -21,6 +21,16 @@ LOW_RECORD_1 = {
     "qwen_model_file": "models/qwen.gguf",
     "gemma_model_file": "models/gemma.gguf",
     "latency_seconds": 2.0,
+    "generation_settings": {
+        "max_tokens": 64,
+        "temperature": 0.0,
+        "seed": 42,
+        "stop": None,
+        "prompt_mode": "raw",
+        "capture_raw_output": False,
+        "output_summary_max_chars": 120,
+    },
+    "capture_raw_output": False,
 }
 
 LOW_RECORD_2 = {
@@ -40,6 +50,16 @@ BASELINE_RECORD_1 = {
     "gemma_n_gpu_layers": -1,
     "latency_seconds": 1.0,
     "trace_kind": "target_baseline",
+    "generation_settings": {
+        "max_tokens": 64,
+        "temperature": 0.0,
+        "seed": 42,
+        "stop": None,
+        "prompt_mode": "raw",
+        "capture_raw_output": False,
+        "output_summary_max_chars": 120,
+    },
+    "capture_raw_output": False,
 }
 
 BASELINE_RECORD_3 = {
@@ -86,6 +106,33 @@ def test_compare_trace_files_reports_accounting_latency_and_runtime_metadata(tmp
     assert result["gemma_model_file_match"] is True
 
 
+def test_compare_trace_files_reports_generation_settings_metadata(tmp_path: Path):
+    low_path = write_trace(tmp_path / "low.json", [LOW_RECORD_1], "live")
+    baseline_path = write_trace(tmp_path / "baseline.json", [BASELINE_RECORD_1], "target-baseline")
+
+    result = compare_trace_files(low_tier_path=low_path, baseline_path=baseline_path)
+
+    assert result["generation_settings_match"] is True
+    assert result["capture_raw_output_status"] == {"low_tier": [False], "baseline": [False]}
+    assert result["max_tokens_match"] is True
+    assert result["temperature_match"] is True
+    assert result["prompt_mode_match"] is True
+
+
+def test_compare_trace_files_reports_generation_settings_mismatch(tmp_path: Path):
+    mismatched_baseline = {
+        **BASELINE_RECORD_1,
+        "generation_settings": {**BASELINE_RECORD_1["generation_settings"], "max_tokens": 16},
+    }
+    low_path = write_trace(tmp_path / "low.json", [LOW_RECORD_1], "live")
+    baseline_path = write_trace(tmp_path / "baseline.json", [mismatched_baseline], "target-baseline")
+
+    result = compare_trace_files(low_tier_path=low_path, baseline_path=baseline_path)
+
+    assert result["generation_settings_match"] is False
+    assert result["max_tokens_match"] is False
+
+
 def test_compare_trace_files_reports_schema_failures_before_comparing(tmp_path: Path):
     bad_low = dict(LOW_RECORD_1)
     bad_low.pop("fallback_count")
@@ -109,6 +156,8 @@ def test_comparison_markdown_includes_non_claims_without_forbidden_claim_phrases
     assert "No performance-improvement claim is made." in markdown
     assert "No output-equivalence claim is made." in markdown
     assert "No draft-acceptance metric is reported." in markdown
+    assert "generation_settings_match" in markdown
+    assert "capture_raw_output_status" in markdown
     lowered = markdown.lower()
     assert "speedup" not in lowered
     assert "lossless" not in lowered

@@ -11,6 +11,8 @@ from typing import Sequence
 from htfsd.cli.error_report import write_runtime_error_report
 from htfsd.config import DEFAULT_CONFIG_PATH, load_config
 from htfsd.metrics.baseline_trace import run_target_baseline_trace
+from htfsd.metrics.generation_settings import build_generation_settings
+from htfsd.metrics.prompt_sets import DEFAULT_TRACE_PROMPT_SET
 from htfsd.metrics.run_trace import DEFAULT_TRACE_PROMPTS, write_trace_json
 from htfsd.runtime.diagnostics import collect_environment_diagnostics
 from htfsd.runtime.llama_cpp_backend import LlamaCppBackend
@@ -19,6 +21,9 @@ from htfsd.runtime.llama_cpp_backend import LlamaCppBackend
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Run a target-model-only baseline trace.")
     parser.add_argument("--config", default=None, help=f"Config path; defaults to {DEFAULT_CONFIG_PATH}")
+    parser.add_argument("--capture-raw-output", action="store_true", help="Include raw prompt and model output fields.")
+    parser.add_argument("--max-tokens", type=int, default=None, help="Override trace generation max tokens.")
+    parser.add_argument("--temperature", type=float, default=None, help="Override trace generation temperature.")
     parser.add_argument(
         "--prompt",
         action="append",
@@ -29,6 +34,12 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         config = load_config(args.config)
+        generation_settings = build_generation_settings(
+            config,
+            max_tokens=args.max_tokens,
+            temperature=args.temperature,
+            capture_raw_output=args.capture_raw_output,
+        )
         gemma_model = config.models["gemma_e2b"]
         if not gemma_model.ok:
             print(f"gemma_e2b is not ready: {gemma_model.status}")
@@ -47,6 +58,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             config=config,
             diagnostics=diagnostics,
             gemma_backend=gemma_backend,
+            generation_settings=generation_settings,
         )
         trace_path = write_trace_json(
             records=records,
@@ -55,7 +67,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "config": _display_path(config.config_path, config.repo_root),
                 "mode": "target-baseline",
                 "runtime_policy": "gemma_cuda",
-                "raw_outputs_included": False,
+                "prompt_set_id": DEFAULT_TRACE_PROMPT_SET.prompt_set_id,
+                "generation_settings": generation_settings.to_metadata(),
+                "capture_raw_output": generation_settings.capture_raw_output,
+                "raw_outputs_included": generation_settings.capture_raw_output,
             },
             trace_kind="target-baseline",
         )

@@ -27,6 +27,11 @@ def compare_trace_files(*, low_tier_path: str | Path, baseline_path: str | Path)
     low_ids.discard("")
     base_ids.discard("")
 
+    low_settings = _single_value(low_records, "generation_settings")
+    base_settings = _single_value(base_records, "generation_settings")
+    settings_available = isinstance(low_settings, dict) and isinstance(base_settings, dict)
+    generation_settings_match = settings_available and low_settings == base_settings
+
     return {
         "low_tier_path": str(low_path),
         "baseline_path": str(base_path),
@@ -46,6 +51,15 @@ def compare_trace_files(*, low_tier_path: str | Path, baseline_path: str | Path)
         "baseline_gemma_device_statuses": _unique_values(base_records, "gemma_device_status"),
         "qwen_device_statuses": _unique_values(low_records, "qwen_device_status"),
         "gemma_model_file_match": _single_value(low_records, "gemma_model_file") == _single_value(base_records, "gemma_model_file"),
+        "generation_settings_match": generation_settings_match,
+        "capture_raw_output_status": {
+            "low_tier": _unique_values(low_records, "capture_raw_output"),
+            "baseline": _unique_values(base_records, "capture_raw_output"),
+        },
+        "max_tokens_match": _settings_field_matches(low_settings, base_settings, "max_tokens"),
+        "temperature_match": _settings_field_matches(low_settings, base_settings, "temperature"),
+        "prompt_mode_match": _settings_field_matches(low_settings, base_settings, "prompt_mode"),
+        "stop_match": _settings_field_matches(low_settings, base_settings, "stop"),
     }
 
 
@@ -87,6 +101,15 @@ def render_trace_comparison_markdown(result: dict[str, Any]) -> str:
             f"- low_tier_gemma_device_statuses: {result['low_tier_gemma_device_statuses']}",
             f"- baseline_gemma_device_statuses: {result['baseline_gemma_device_statuses']}",
             f"- gemma_model_file_match: {result['gemma_model_file_match']}",
+            "",
+            "## Generation Settings Metadata",
+            "",
+            f"- generation_settings_match: {result['generation_settings_match']}",
+            f"- capture_raw_output_status: {result['capture_raw_output_status']}",
+            f"- max_tokens_match: {result['max_tokens_match']}",
+            f"- temperature_match: {result['temperature_match']}",
+            f"- prompt_mode_match: {result['prompt_mode_match']}",
+            f"- stop_match: {result['stop_match']}",
             "",
             "## Low-Tier Bridge Accounting",
             "",
@@ -161,5 +184,20 @@ def _unique_values(records: list[dict[str, Any]], field: str) -> list[Any]:
 
 
 def _single_value(records: list[dict[str, Any]], field: str) -> Any:
-    values = _unique_values(records, field)
-    return values[0] if len(values) == 1 else None
+    values = [record.get(field) for record in records if record.get(field) is not None]
+    if not values:
+        return None
+    first = values[0]
+    if all(_stable_value_key(value) == _stable_value_key(first) for value in values):
+        return first
+    return None
+
+
+def _settings_field_matches(left: Any, right: Any, field: str) -> bool:
+    if not isinstance(left, dict) or not isinstance(right, dict):
+        return False
+    return left.get(field) == right.get(field)
+
+
+def _stable_value_key(value: Any) -> str:
+    return json.dumps(value, sort_keys=True, default=str)

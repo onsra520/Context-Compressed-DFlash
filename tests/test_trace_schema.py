@@ -30,6 +30,16 @@ LIVE_RECORD = {
     "prompt_summary": "Prompt.",
     "qwen_output_summary": "Draft.",
     "gemma_output_summary": "Output.",
+    "generation_settings": {
+        "max_tokens": 64,
+        "temperature": 0.0,
+        "seed": 42,
+        "stop": None,
+        "prompt_mode": "raw",
+        "capture_raw_output": False,
+        "output_summary_max_chars": 120,
+    },
+    "capture_raw_output": False,
 }
 
 
@@ -50,6 +60,16 @@ BASELINE_RECORD = {
     "trace_kind": "target_baseline",
     "prompt_summary": "Prompt.",
     "gemma_output_summary": "Output.",
+    "generation_settings": {
+        "max_tokens": 64,
+        "temperature": 0.0,
+        "seed": 42,
+        "stop": None,
+        "prompt_mode": "raw",
+        "capture_raw_output": False,
+        "output_summary_max_chars": 120,
+    },
+    "capture_raw_output": False,
 }
 
 
@@ -111,6 +131,20 @@ def test_schema_validator_does_not_require_raw_text_fields():
     assert result.ok is True
     assert "raw_draft_text" not in record
     assert "gemma_output_text" not in record
+
+
+def test_schema_validator_accepts_optional_raw_text_fields():
+    record = {
+        **LIVE_RECORD,
+        "capture_raw_output": True,
+        "raw_prompt": "Prompt.",
+        "qwen_raw_output": "Draft.",
+        "gemma_raw_output": "Output.",
+    }
+
+    result = validate_trace_record(record, mode="live")
+
+    assert result.ok is True
 
 
 def test_validate_trace_file_checks_all_records(tmp_path: Path):
