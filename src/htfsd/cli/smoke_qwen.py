@@ -19,7 +19,8 @@ from htfsd.token_tier.qwen_drafter import QwenTextDrafter
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Run a tiny Qwen GGUF smoke test.")
     parser.add_argument("--config", default=None, help=f"Config path; defaults to {DEFAULT_CONFIG_PATH}")
-    parser.add_argument("--prompt", default="Write one short sentence about speculative decoding.")
+    parser.add_argument("--prompt", default="Write a five word greeting.")
+    parser.add_argument("--prompt-mode", choices=("chat", "raw"), default="chat")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     try:
@@ -36,14 +37,22 @@ def main(argv: Sequence[str] | None = None) -> int:
         )
         drafter = QwenTextDrafter(backend)
         start = time.perf_counter()
-        text = drafter.draft(
-            args.prompt,
-            max_tokens=config.generation.max_tokens,
-            temperature=config.generation.temperature,
-        )
+        if args.prompt_mode == "chat":
+            text = backend.generate_chat(
+                [{"role": "user", "content": args.prompt}],
+                max_tokens=config.generation.max_tokens,
+                temperature=config.generation.temperature,
+            ).text
+        else:
+            text = drafter.draft(
+                args.prompt,
+                max_tokens=config.generation.max_tokens,
+                temperature=config.generation.temperature,
+            )
         elapsed = time.perf_counter() - start
         print("Qwen smoke: ok")
         print(f"model_file: {_display_path(model.discovered_model_file, config.repo_root)}")
+        print(f"prompt_mode: {args.prompt_mode}")
         print(f"latency_seconds: {elapsed:.6f}")
         print(f"draft_text:{text}")
         return 0

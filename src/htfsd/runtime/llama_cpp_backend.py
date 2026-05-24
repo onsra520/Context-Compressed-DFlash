@@ -56,6 +56,31 @@ class LlamaCppBackend:
             completion_tokens=usage.get("completion_tokens"),
         )
 
+    def generate_chat(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        max_tokens: int,
+        temperature: float = 0.0,
+        stop: Sequence[str] | None = None,
+    ) -> TextGenerationResult:
+        """Generate text using the model chat template when available."""
+
+        model = self._load()
+        raw = model.create_chat_completion(
+            messages,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            stop=list(stop) if stop is not None else None,
+        )
+        choice = raw.get("choices", [{}])[0] if isinstance(raw, dict) else {}
+        message = choice.get("message", {}) if isinstance(choice, dict) else {}
+        usage = raw.get("usage", {}) if isinstance(raw, dict) else {}
+        return TextGenerationResult(
+            text=str(message.get("content", "")),
+            completion_tokens=usage.get("completion_tokens"),
+        )
+
     def _load(self):
         if self.model is not None:
             return self.model

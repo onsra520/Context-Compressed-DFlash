@@ -112,7 +112,7 @@ should use the model chat template or a better default prompt.
 - `gemma_decode_tokens_per_second`: `2.622228078754627`
 - Output summary: Qwen produced draft text, the text bridge marked it valid, and Gemma E2B generated a continuation from the combined prompt.
 
-No speculative acceptance rate, target-model equivalence, or speedup claim was
+No draft acceptance-rate metric, target-model equivalence, or speedup claim was
 measured or reported.
 
 ## Runtime Warnings

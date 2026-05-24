@@ -28,12 +28,22 @@ generation:
 class FakeBackend:
     def __init__(self, **kwargs):
         self.kwargs = kwargs
+        self.text_prompts = []
+        self.chat_messages = []
 
     def generate_text(self, prompt: str, *, max_tokens: int, temperature: float, stop=None):
+        self.text_prompts.append(prompt)
         assert prompt
         assert max_tokens == 64
         assert temperature == 0.0
-        return type("Result", (), {"text": " fake output", "completion_tokens": 2})()
+        return type("Result", (), {"text": " raw output", "completion_tokens": 2})()
+
+    def generate_chat(self, messages, *, max_tokens: int, temperature: float, stop=None):
+        self.chat_messages.append(messages)
+        assert messages == [{"role": "user", "content": "Write a five word greeting."}]
+        assert max_tokens == 64
+        assert temperature == 0.0
+        return type("Result", (), {"text": " chat output", "completion_tokens": 2})()
 
 
 def write_project(repo_root: Path) -> None:
@@ -61,11 +71,11 @@ def test_smoke_qwen_uses_default_config_and_prints_draft(tmp_path: Path, monkeyp
     output = capsys.readouterr().out
     assert exit_code == 0
     assert "Qwen smoke: ok" in output
-    assert "fake output" in output
+    assert "chat output" in output
     assert str(model_path.relative_to(tmp_path)) in output
 
 
-def test_smoke_gemma_uses_default_config_and_prints_generation(tmp_path: Path, monkeypatch, capsys):
+def test_smoke_gemma_default_uses_chat_generation_and_prints_non_empty_text(tmp_path: Path, monkeypatch, capsys):
     write_project(tmp_path)
     model_path = touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
     monkeypatch.chdir(tmp_path)
@@ -76,8 +86,23 @@ def test_smoke_gemma_uses_default_config_and_prints_generation(tmp_path: Path, m
     output = capsys.readouterr().out
     assert exit_code == 0
     assert "Gemma E2B smoke: ok" in output
-    assert "fake output" in output
+    assert "prompt_mode: chat" in output
+    assert "chat output" in output
     assert str(model_path.relative_to(tmp_path)) in output
+
+
+def test_smoke_gemma_raw_mode_preserves_raw_generation_path(tmp_path: Path, monkeypatch, capsys):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(smoke_gemma, "LlamaCppBackend", FakeBackend)
+
+    exit_code = smoke_gemma.main(["--prompt-mode", "raw", "--prompt", "Plain prompt"])
+
+    output = capsys.readouterr().out
+    assert exit_code == 0
+    assert "prompt_mode: raw" in output
+    assert "raw output" in output
 
 
 def test_smoke_qwen_fails_when_model_discovery_fails(tmp_path: Path, monkeypatch, capsys):

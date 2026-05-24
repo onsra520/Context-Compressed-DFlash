@@ -14,6 +14,13 @@ class FakeLlama:
         self.calls.append((prompt, kwargs))
         return {"choices": [{"text": " generated text"}], "usage": {"completion_tokens": 2}}
 
+    def create_chat_completion(self, messages, **kwargs):
+        self.calls.append((messages, kwargs))
+        return {
+            "choices": [{"message": {"content": " chat text"}}],
+            "usage": {"completion_tokens": 3},
+        }
+
 
 def test_backend_exposes_llama_cpp_capabilities(tmp_path: Path):
     model_path = tmp_path / "model.gguf"
@@ -54,6 +61,34 @@ def test_backend_loads_lazily_and_generates_text(tmp_path: Path):
     assert backend.model.kwargs["seed"] == 42
     assert backend.model.calls == [
         ("Hello", {"max_tokens": 3, "temperature": 0.0, "stop": ["</s>"]})
+    ]
+
+
+def test_backend_generates_chat_with_model_template(tmp_path: Path):
+    model_path = tmp_path / "model.gguf"
+    model_path.write_text("fake", encoding="utf-8")
+    backend = LlamaCppBackend(
+        model_path=model_path,
+        n_ctx=1024,
+        n_gpu_layers=0,
+        seed=42,
+        llama_cls=FakeLlama,
+    )
+
+    result = backend.generate_chat(
+        [{"role": "user", "content": "Hello"}],
+        max_tokens=5,
+        temperature=0.0,
+        stop=None,
+    )
+
+    assert result.text == " chat text"
+    assert result.completion_tokens == 3
+    assert backend.model.calls == [
+        (
+            [{"role": "user", "content": "Hello"}],
+            {"max_tokens": 5, "temperature": 0.0, "stop": None},
+        )
     ]
 
 
