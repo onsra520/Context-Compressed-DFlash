@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "htfsd"
+version = "0.1.0"
+description = "Hierarchical Token-Feature Speculative Decoding GGUF scaffold"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "pyyaml>=6.0.1",
+  "llama-cpp-python>=0.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[project.scripts]
+htfsd-check-env = "htfsd.cli.check_env:main"
+htfsd-smoke-qwen = "htfsd.cli.smoke_qwen:main"
+htfsd-smoke-gemma = "htfsd.cli.smoke_gemma:main"
+htfsd-smoke-pair = "htfsd.cli.smoke_pair:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
