@@ -51,6 +51,14 @@ class GenerationConfig:
 
 
 @dataclass(frozen=True)
+class TextGenerationResult:
+    """Text returned by a runtime backend plus optional token count."""
+
+    text: str
+    completion_tokens: int | None = None
+
+
+@dataclass(frozen=True)
 class HTFSDConfig:
     """Complete loaded configuration with structured model discovery."""
 
