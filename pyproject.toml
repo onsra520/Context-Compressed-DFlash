@@ -48,6 +48,7 @@ htfsd-check-env = "htfsd.cli.check_env:main"
 htfsd-smoke-qwen = "htfsd.cli.smoke_qwen:main"
 htfsd-smoke-gemma = "htfsd.cli.smoke_gemma:main"
 htfsd-smoke-pair = "htfsd.cli.smoke_pair:main"
+htfsd-run-low-tier-trace = "htfsd.cli.run_low_tier_trace:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
