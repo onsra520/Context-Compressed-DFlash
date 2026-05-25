@@ -11,7 +11,7 @@ from typing import Sequence
 from htfsd.cli.error_report import write_runtime_error_report
 from htfsd.config import DEFAULT_CONFIG_PATH, load_config
 from htfsd.metrics.generation_settings import build_generation_settings
-from htfsd.metrics.prompt_sets import DEFAULT_TRACE_PROMPT_SET
+from htfsd.metrics.prompt_sets import DEFAULT_TRACE_PROMPT_SET, get_trace_prompt_set, trace_prompt_set_ids
 from htfsd.metrics.run_trace import (
     DEFAULT_CONTROLLED_FALLBACK_CASES,
     DEFAULT_TRACE_PROMPTS,
@@ -31,6 +31,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--max-tokens", type=int, default=None, help="Override trace generation max tokens.")
     parser.add_argument("--temperature", type=float, default=None, help="Override trace generation temperature.")
     parser.add_argument("--prompt-mode", choices=("raw", "chat"), default="raw", help="Prompt formatting mode for trace generation.")
+    parser.add_argument(
+        "--prompt-set",
+        default=DEFAULT_TRACE_PROMPT_SET.prompt_set_id,
+        choices=trace_prompt_set_ids(),
+        help="Named prompt set for live traces.",
+    )
     parser.add_argument(
         "--prompt",
         action="append",
@@ -79,9 +85,14 @@ def main(argv: Sequence[str] | None = None) -> int:
                 n_gpu_layers=qwen_model.n_gpu_layers,
                 seed=config.runtime.seed,
             )
-            prompts = tuple(args.prompt) if args.prompt else DEFAULT_TRACE_PROMPTS
+            prompt_set = get_trace_prompt_set(args.prompt_set)
+            prompts = tuple(args.prompt) if args.prompt else tuple(prompt.text for prompt in prompt_set.prompts)
+            prompt_ids = None if args.prompt else tuple(prompt.prompt_id for prompt in prompt_set.prompts)
+            prompt_set_id = "custom-cli-prompts" if args.prompt else prompt_set.prompt_set_id
             records = run_controlled_low_tier_trace(
                 prompts=prompts,
+                prompt_ids=prompt_ids,
+                prompt_set_id=prompt_set_id,
                 config=config,
                 diagnostics=diagnostics,
                 qwen_backend=qwen_backend,
@@ -95,7 +106,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "config": _display_path(config.config_path, config.repo_root),
                 "mode": args.mode,
                 "runtime_policy": "qwen_cpu_gemma_cuda",
-                "prompt_set_id": DEFAULT_TRACE_PROMPT_SET.prompt_set_id,
+                "prompt_set_id": "controlled-fallback-cases" if args.mode == "controlled-fallback" else prompt_set_id,
+                "prompt_count": len(records),
                 "generation_settings": generation_settings.to_metadata(),
                 "capture_raw_output": generation_settings.capture_raw_output,
                 "raw_outputs_included": generation_settings.capture_raw_output,

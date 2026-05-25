@@ -1,9 +1,10 @@
+import json
 from pathlib import Path
 
 from htfsd.config import load_config
 from htfsd.cli import run_low_tier_trace
 from htfsd.metrics.generation_settings import build_generation_settings
-from htfsd.metrics.prompt_sets import default_trace_prompt_texts
+from htfsd.metrics.prompt_sets import default_trace_prompt_texts, get_trace_prompt_set
 from htfsd.metrics.run_trace import (
     DEFAULT_CONTROLLED_FALLBACK_CASES,
     DEFAULT_TRACE_PROMPTS,
@@ -116,6 +117,35 @@ def test_controlled_trace_uses_default_prompt_set():
     assert len(DEFAULT_TRACE_PROMPTS) == 3
     assert DEFAULT_TRACE_PROMPTS[0].startswith("Explain speculative decoding")
     assert DEFAULT_TRACE_PROMPTS == default_trace_prompt_texts()
+
+
+def test_controlled_trace_accepts_prompt_ids_and_prompt_set_metadata(tmp_path: Path):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.gguf")
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    config = load_config(repo_root=tmp_path)
+    diagnostics = {
+        "models": {
+            "qwen_drafter": {"device_status": "ok"},
+            "gemma_e2b": {"device_status": "ok"},
+        }
+    }
+    prompt_set = get_trace_prompt_set("phase-2-controlled-eligibility-v1")
+
+    records = run_controlled_low_tier_trace(
+        prompts=tuple(prompt.text for prompt in prompt_set.prompts[:2]),
+        prompt_ids=tuple(prompt.prompt_id for prompt in prompt_set.prompts[:2]),
+        prompt_set_id=prompt_set.prompt_set_id,
+        config=config,
+        diagnostics=diagnostics,
+        qwen_backend=SequenceBackend([" draft one", " draft two"]),
+        gemma_backend=SequenceBackend([" output one", " output two"]),
+        generation_settings=build_generation_settings(config, capture_raw_output=True),
+    )
+
+    assert [record["prompt_id"] for record in records] == ["elig-001", "elig-002"]
+    assert {record["prompt_set_id"] for record in records} == {"phase-2-controlled-eligibility-v1"}
+    assert records[0]["raw_prompt"] == "Answer with only: ready"
 
 
 def test_controlled_trace_does_not_store_long_raw_output_by_default(tmp_path: Path):
@@ -440,3 +470,40 @@ def test_low_tier_trace_cli_accepts_prompt_mode_chat(tmp_path: Path, monkeypatch
     text = report.read_text(encoding="utf-8")
     assert exit_code == 0
     assert '"prompt_mode": "chat"' in text
+
+
+def test_low_tier_trace_cli_accepts_prompt_set_and_records_metadata(tmp_path: Path, monkeypatch):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.gguf")
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(run_low_tier_trace, "LlamaCppBackend", lambda **kwargs: SequenceBackend([" raw output"]))
+    monkeypatch.setattr(
+        run_low_tier_trace,
+        "collect_environment_diagnostics",
+        lambda config: {
+            "backend": {"llama_cpp_supports_gpu_offload": True},
+            "models": {
+                "qwen_drafter": {"device_status": "ok"},
+                "gemma_e2b": {"device_status": "ok"},
+            },
+        },
+    )
+
+    exit_code = run_low_tier_trace.main(
+        [
+            "--capture-raw-output",
+            "--prompt-set",
+            "phase-2-controlled-eligibility-v1",
+        ]
+    )
+
+    report = next((tmp_path / "logs/reports").glob("*-low-tier-trace.json"))
+    payload = json.loads(report.read_text(encoding="utf-8"))
+    assert exit_code == 0
+    assert payload["metadata"]["prompt_set_id"] == "phase-2-controlled-eligibility-v1"
+    assert payload["metadata"]["prompt_count"] == 16
+    assert len(payload["records"]) == 16
+    assert payload["records"][0]["prompt_id"] == "elig-001"
+    assert payload["records"][0]["prompt_set_id"] == "phase-2-controlled-eligibility-v1"
+    assert payload["records"][0]["raw_prompt"] == "Answer with only: ready"

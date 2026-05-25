@@ -61,6 +61,8 @@ class PairSmokeTrace:
 def run_controlled_low_tier_trace(
     *,
     prompts: list[str] | tuple[str, ...],
+    prompt_ids: list[str] | tuple[str, ...] | None = None,
+    prompt_set_id: str = DEFAULT_TRACE_PROMPT_SET.prompt_set_id,
     config: HTFSDConfig,
     diagnostics: dict[str, Any],
     qwen_backend,
@@ -76,7 +78,11 @@ def run_controlled_low_tier_trace(
     gemma_diagnostics = diagnostics.get("models", {}).get("gemma_e2b", {})
     records: list[dict[str, Any]] = []
 
+    if prompt_ids is not None and len(prompt_ids) != len(prompts):
+        raise ValueError("prompt_ids must have the same length as prompts")
+
     for index, prompt in enumerate(prompts, start=1):
+        prompt_id = prompt_ids[index - 1] if prompt_ids is not None else f"trace-{index:03d}"
         result = run_pair_smoke(
             prompt=prompt,
             qwen_backend=qwen_backend,
@@ -87,8 +93,9 @@ def run_controlled_low_tier_trace(
             prompt_mode=settings.prompt_mode,
         )
         record = _base_low_tier_record(
-            prompt_id=f"trace-{index:03d}",
+            prompt_id=prompt_id,
             prompt=prompt,
+            prompt_set_id=prompt_set_id,
             result=result,
             qwen_model=qwen_model,
             gemma_model=gemma_model,
@@ -141,6 +148,7 @@ def run_controlled_fallback_trace_cases(
         record = _base_low_tier_record(
             prompt_id=f"controlled-{index:03d}",
             prompt=prompt,
+            prompt_set_id="controlled-fallback-cases",
             result=result,
             qwen_model=qwen_model,
             gemma_model=gemma_model,
@@ -201,6 +209,7 @@ def _base_low_tier_record(
     *,
     prompt_id: str,
     prompt: str,
+    prompt_set_id: str,
     result,
     qwen_model,
     gemma_model,
@@ -212,7 +221,7 @@ def _base_low_tier_record(
         "prompt_id": prompt_id,
         "prompt_hash": _short_hash(prompt),
         "prompt_summary": _summarize_text(prompt, settings.output_summary_max_chars),
-        "prompt_set_id": DEFAULT_TRACE_PROMPT_SET.prompt_set_id,
+        "prompt_set_id": prompt_set_id,
         "qwen_model_file": str(qwen_model.discovered_model_file) if qwen_model.discovered_model_file else None,
         "gemma_model_file": str(gemma_model.discovered_model_file) if gemma_model.discovered_model_file else None,
         "qwen_expected_device": qwen_model.expected_device,
