@@ -17,13 +17,16 @@ def run_pair_smoke(
     max_tokens: int,
     temperature: float,
     stop: Sequence[str] | None = None,
+    prompt_mode: str = "raw",
 ) -> PairSmokeResult:
     """Run a minimal pair smoke flow without speculative acceptance claims."""
 
     start = time.perf_counter()
     qwen_start = time.perf_counter()
-    qwen_result = qwen_backend.generate_text(
+    qwen_result = _generate_with_prompt_mode(
+        qwen_backend,
         prompt,
+        prompt_mode=prompt_mode,
         max_tokens=max_tokens,
         temperature=temperature,
         stop=stop,
@@ -43,8 +46,10 @@ def run_pair_smoke(
         draft_rejected_count = 1
 
     gemma_start = time.perf_counter()
-    gemma_result = gemma_backend.generate_text(
+    gemma_result = _generate_with_prompt_mode(
+        gemma_backend,
         gemma_prompt,
+        prompt_mode=prompt_mode,
         max_tokens=max_tokens,
         temperature=temperature,
         stop=stop,
@@ -78,3 +83,27 @@ def _join_prompt_and_draft(prompt: str, draft_text: str) -> str:
     if not prompt or prompt[-1].isspace() or not draft_text:
         return f"{prompt}{draft_text}"
     return f"{prompt} {draft_text}"
+
+
+def _generate_with_prompt_mode(
+    backend,
+    prompt: str,
+    *,
+    prompt_mode: str,
+    max_tokens: int,
+    temperature: float,
+    stop: Sequence[str] | None,
+):
+    if prompt_mode == "chat":
+        return backend.generate_chat(
+            [{"role": "user", "content": prompt}],
+            max_tokens=max_tokens,
+            temperature=temperature,
+            stop=stop,
+        )
+    return backend.generate_text(
+        prompt,
+        max_tokens=max_tokens,
+        temperature=temperature,
+        stop=stop,
+    )

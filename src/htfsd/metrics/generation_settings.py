@@ -41,6 +41,9 @@ def build_generation_settings(
 ) -> GenerationSettings:
     """Build trace settings from config plus explicit CLI overrides."""
 
+    if prompt_mode not in {"raw", "chat"}:
+        raise ValueError(f"Unsupported prompt_mode: {prompt_mode}")
+
     return GenerationSettings(
         max_tokens=int(max_tokens if max_tokens is not None else config.generation.max_tokens),
         temperature=float(temperature if temperature is not None else config.generation.temperature),

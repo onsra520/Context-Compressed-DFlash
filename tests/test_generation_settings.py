@@ -45,6 +45,37 @@ def test_generation_settings_accept_cli_overrides(tmp_path):
     assert settings.capture_raw_output is True
 
 
+def test_generation_settings_accept_prompt_mode_chat(tmp_path):
+    config = HTFSDConfig(
+        repo_root=tmp_path,
+        config_path=tmp_path / "configs/local.example.yaml",
+        models={},
+        runtime=RuntimeConfig(backend="llama_cpp", n_ctx=2048, seed=42),
+        generation=GenerationConfig(max_tokens=64, temperature=0.0),
+    )
+
+    settings = build_generation_settings(config, prompt_mode="chat")
+
+    assert settings.prompt_mode == "chat"
+
+
+def test_generation_settings_reject_unknown_prompt_mode(tmp_path):
+    config = HTFSDConfig(
+        repo_root=tmp_path,
+        config_path=tmp_path / "configs/local.example.yaml",
+        models={},
+        runtime=RuntimeConfig(backend="llama_cpp", n_ctx=2048, seed=42),
+        generation=GenerationConfig(max_tokens=64, temperature=0.0),
+    )
+
+    try:
+        build_generation_settings(config, prompt_mode="template")
+    except ValueError as error:
+        assert "Unsupported prompt_mode" in str(error)
+    else:
+        raise AssertionError("expected unsupported prompt mode to be rejected")
+
+
 def test_default_trace_prompt_set_is_centralized():
     prompts = default_trace_prompts()
 

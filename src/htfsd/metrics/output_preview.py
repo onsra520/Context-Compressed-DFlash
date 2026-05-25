@@ -36,6 +36,7 @@ def build_output_normalization_preview(
         "normalization_policy": NORMALIZATION_POLICY,
         "preview_max_chars": preview_max_chars,
         "preview_records": [],
+        "output_health": _output_health([]),
     }
     if not precheck["output_comparison_ready"]:
         return result
@@ -70,6 +71,7 @@ def build_output_normalization_preview(
             }
         )
     result["preview_records"] = preview_records
+    result["output_health"] = _output_health(preview_records)
     return result
 
 
@@ -139,6 +141,10 @@ def render_output_normalization_preview_markdown(result: dict[str, Any]) -> str:
             "## Exact String Match Preview",
             "",
             f"- exact_string_match_preview: {_match_flags(records)}",
+            "",
+            "## Output Health Checks",
+            "",
+            f"- output_health: {result['output_health']}",
             "",
             "## Non-Claims",
             "",
@@ -225,3 +231,26 @@ def _match_flags(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
         }
         for record in records
     ]
+
+
+def _output_health(records: list[dict[str, Any]]) -> dict[str, Any]:
+    low_empty_count = sum(1 for record in records if record["low_tier_empty_after_normalization"])
+    baseline_empty_count = sum(1 for record in records if record["baseline_empty_after_normalization"])
+    all_low_present = bool(records) and all(record["low_tier_output_present"] for record in records)
+    all_baseline_present = bool(records) and all(record["baseline_output_present"] for record in records)
+    warnings: list[str] = []
+    prompt_mode_risk = "none"
+    if baseline_empty_count:
+        prompt_mode_risk = "baseline_empty_outputs"
+        warnings.append("baseline outputs contain empty normalized text; output comparison diagnostics may be uninformative")
+    elif low_empty_count:
+        prompt_mode_risk = "low_tier_empty_outputs"
+        warnings.append("low-tier outputs contain empty normalized text; output comparison diagnostics may be uninformative")
+    return {
+        "low_tier_empty_after_normalization_count": low_empty_count,
+        "baseline_empty_after_normalization_count": baseline_empty_count,
+        "all_low_tier_outputs_present": all_low_present,
+        "all_baseline_outputs_present": all_baseline_present,
+        "prompt_mode_risk": prompt_mode_risk,
+        "warnings": warnings,
+    }

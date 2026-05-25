@@ -35,10 +35,16 @@ class FakeGemmaBackend:
         self.outputs = outputs
         self.tokens = tokens
         self.prompts = []
+        self.chat_messages = []
 
     def generate_text(self, prompt: str, *, max_tokens: int, temperature: float, stop=None):
         self.prompts.append(prompt)
         text = self.outputs[min(len(self.prompts) - 1, len(self.outputs) - 1)]
+        return type("Result", (), {"text": text, "completion_tokens": self.tokens})()
+
+    def generate_chat(self, messages: list[dict[str, str]], *, max_tokens: int, temperature: float, stop=None):
+        self.chat_messages.append(messages)
+        text = self.outputs[min(len(self.chat_messages) - 1, len(self.outputs) - 1)]
         return type("Result", (), {"text": text, "completion_tokens": self.tokens})()
 
 
@@ -146,6 +152,27 @@ def test_baseline_trace_stores_raw_output_only_when_enabled(tmp_path: Path):
     assert record["baseline_raw_output"] == " raw baseline output"
 
 
+def test_baseline_trace_uses_chat_backend_when_prompt_mode_is_chat(tmp_path: Path):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    config = load_config(repo_root=tmp_path)
+    diagnostics = {"models": {"gemma_e2b": {"device_status": "ok"}}}
+    backend = FakeGemmaBackend([" chat output"])
+
+    records = run_target_baseline_trace(
+        prompts=["Prompt."],
+        config=config,
+        diagnostics=diagnostics,
+        gemma_backend=backend,
+        generation_settings=build_generation_settings(config, prompt_mode="chat", capture_raw_output=True),
+    )
+
+    assert backend.prompts == []
+    assert backend.chat_messages == [[{"role": "user", "content": "Prompt."}]]
+    assert records[0]["generation_settings"]["prompt_mode"] == "chat"
+    assert records[0]["baseline_raw_output"] == " chat output"
+
+
 def test_baseline_trace_cli_writes_report(tmp_path: Path, monkeypatch, capsys):
     write_project(tmp_path)
     touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
@@ -190,3 +217,24 @@ def test_baseline_trace_cli_raw_capture_flag_writes_raw_fields(tmp_path: Path, m
     assert exit_code == 0
     assert '"capture_raw_output": true' in text
     assert '"raw_prompt": "Short prompt."' in text
+
+
+def test_baseline_trace_cli_accepts_prompt_mode_chat(tmp_path: Path, monkeypatch):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    backend = FakeGemmaBackend([" chat output"])
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(run_baseline_trace, "LlamaCppBackend", lambda **kwargs: backend)
+    monkeypatch.setattr(
+        run_baseline_trace,
+        "collect_environment_diagnostics",
+        lambda config: {"models": {"gemma_e2b": {"device_status": "ok"}}},
+    )
+
+    exit_code = run_baseline_trace.main(["--prompt", "Short prompt.", "--capture-raw-output", "--prompt-mode", "chat"])
+
+    report = next((tmp_path / "logs/reports").glob("*-target-baseline-trace.json"))
+    text = report.read_text(encoding="utf-8")
+    assert exit_code == 0
+    assert backend.chat_messages == [[{"role": "user", "content": "Short prompt."}]]
+    assert '"prompt_mode": "chat"' in text

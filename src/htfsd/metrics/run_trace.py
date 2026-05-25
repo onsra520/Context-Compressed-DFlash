@@ -84,6 +84,7 @@ def run_controlled_low_tier_trace(
             max_tokens=settings.max_tokens,
             temperature=settings.temperature,
             stop=settings.stop,
+            prompt_mode=settings.prompt_mode,
         )
         record = _base_low_tier_record(
             prompt_id=f"trace-{index:03d}",
@@ -134,6 +135,7 @@ def run_controlled_fallback_trace_cases(
             max_tokens=settings.max_tokens,
             temperature=settings.temperature,
             stop=settings.stop,
+            prompt_mode=settings.prompt_mode,
         )
         fallback_used = result.fallback_count > 0
         record = _base_low_tier_record(
@@ -239,4 +241,14 @@ class _FixedDraftBackend:
         self.text = text
 
     def generate_text(self, prompt: str, *, max_tokens: int, temperature: float, stop=None) -> TextGenerationResult:
+        return TextGenerationResult(text=self.text, completion_tokens=None)
+
+    def generate_chat(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        max_tokens: int,
+        temperature: float,
+        stop=None,
+    ) -> TextGenerationResult:
         return TextGenerationResult(text=self.text, completion_tokens=None)

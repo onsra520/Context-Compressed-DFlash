@@ -130,6 +130,26 @@ def test_preview_records_lengths_empty_flags_and_match_preview(tmp_path: Path):
     assert record["normalized_outputs_exact_string_match"] is False
 
 
+def test_preview_reports_empty_output_health_counts_and_warning(tmp_path: Path):
+    low_record = {**LOW_RECORD, "gemma_raw_output": "low output"}
+    baseline_record = {**BASELINE_RECORD, "baseline_raw_output": "  \n  "}
+    low_path = write_trace(tmp_path / "low.json", [low_record], "live")
+    baseline_path = write_trace(tmp_path / "baseline.json", [baseline_record], "target-baseline")
+
+    result = build_output_normalization_preview(low_tier_path=low_path, baseline_path=baseline_path)
+
+    assert result["output_health"] == {
+        "low_tier_empty_after_normalization_count": 0,
+        "baseline_empty_after_normalization_count": 1,
+        "all_low_tier_outputs_present": True,
+        "all_baseline_outputs_present": True,
+        "prompt_mode_risk": "baseline_empty_outputs",
+        "warnings": [
+            "baseline outputs contain empty normalized text; output comparison diagnostics may be uninformative"
+        ],
+    }
+
+
 def test_preview_truncates_preview_text(tmp_path: Path):
     low_record = {**LOW_RECORD, "gemma_raw_output": "x" * 240}
     baseline_record = {**BASELINE_RECORD, "baseline_raw_output": "y" * 240}
@@ -157,6 +177,8 @@ def test_preview_markdown_includes_explicit_non_claims(tmp_path: Path):
     assert "No correctness claim is made." in markdown
     assert "No lossless-generation claim is made." in markdown
     assert "No benchmark claim is made." in markdown
+    assert "## Output Health Checks" in markdown
+    assert "prompt_mode_risk" in markdown
     lowered = markdown.lower()
     assert ("outputs are " + "equal") not in lowered
     assert "speed" + "up" not in lowered

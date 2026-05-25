@@ -30,6 +30,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--capture-raw-output", action="store_true", help="Include raw prompt and model output fields.")
     parser.add_argument("--max-tokens", type=int, default=None, help="Override trace generation max tokens.")
     parser.add_argument("--temperature", type=float, default=None, help="Override trace generation temperature.")
+    parser.add_argument("--prompt-mode", choices=("raw", "chat"), default="raw", help="Prompt formatting mode for trace generation.")
     parser.add_argument(
         "--prompt",
         action="append",
@@ -44,6 +45,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             config,
             max_tokens=args.max_tokens,
             temperature=args.temperature,
+            prompt_mode=args.prompt_mode,
             capture_raw_output=args.capture_raw_output,
         )
         qwen_model = config.models["qwen_drafter"]

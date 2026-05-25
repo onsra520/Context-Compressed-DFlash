@@ -28,8 +28,10 @@ def run_target_baseline_trace(
 
     for index, prompt in enumerate(prompts, start=1):
         start = time.perf_counter()
-        result = gemma_backend.generate_text(
+        result = _generate_with_prompt_mode(
+            gemma_backend,
             prompt,
+            prompt_mode=settings.prompt_mode,
             max_tokens=settings.max_tokens,
             temperature=settings.temperature,
             stop=settings.stop,
@@ -66,3 +68,27 @@ def _tokens_per_second(tokens: int | None, elapsed: float) -> float | None:
     if tokens is None or elapsed <= 0:
         return None
     return tokens / elapsed
+
+
+def _generate_with_prompt_mode(
+    backend,
+    prompt: str,
+    *,
+    prompt_mode: str,
+    max_tokens: int,
+    temperature: float,
+    stop,
+):
+    if prompt_mode == "chat":
+        return backend.generate_chat(
+            [{"role": "user", "content": prompt}],
+            max_tokens=max_tokens,
+            temperature=temperature,
+            stop=stop,
+        )
+    return backend.generate_text(
+        prompt,
+        max_tokens=max_tokens,
+        temperature=temperature,
+        stop=stop,
+    )

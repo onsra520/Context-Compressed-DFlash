@@ -39,10 +39,16 @@ class SequenceBackend:
         self.outputs = outputs
         self.tokens = tokens
         self.prompts = []
+        self.chat_messages = []
 
     def generate_text(self, prompt: str, *, max_tokens: int, temperature: float, stop=None):
         self.prompts.append(prompt)
         text = self.outputs[min(len(self.prompts) - 1, len(self.outputs) - 1)]
+        return type("Result", (), {"text": text, "completion_tokens": self.tokens})()
+
+    def generate_chat(self, messages: list[dict[str, str]], *, max_tokens: int, temperature: float, stop=None):
+        self.chat_messages.append(messages)
+        text = self.outputs[min(len(self.chat_messages) - 1, len(self.outputs) - 1)]
         return type("Result", (), {"text": text, "completion_tokens": self.tokens})()
 
 
@@ -168,6 +174,37 @@ def test_controlled_trace_stores_raw_output_only_when_enabled(tmp_path: Path):
     assert record["raw_prompt"] == "Prompt."
     assert record["qwen_raw_output"] == " raw draft"
     assert record["gemma_raw_output"] == " raw output"
+
+
+def test_controlled_trace_uses_chat_backends_when_prompt_mode_is_chat(tmp_path: Path):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.gguf")
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    config = load_config(repo_root=tmp_path)
+    diagnostics = {
+        "models": {
+            "qwen_drafter": {"device_status": "ok"},
+            "gemma_e2b": {"device_status": "ok"},
+        }
+    }
+    qwen = SequenceBackend([" valid draft"])
+    gemma = SequenceBackend([" chat final"])
+
+    records = run_controlled_low_tier_trace(
+        prompts=["Prompt."],
+        config=config,
+        diagnostics=diagnostics,
+        qwen_backend=qwen,
+        gemma_backend=gemma,
+        generation_settings=build_generation_settings(config, prompt_mode="chat", capture_raw_output=True),
+    )
+
+    assert qwen.prompts == []
+    assert qwen.chat_messages == [[{"role": "user", "content": "Prompt."}]]
+    assert gemma.prompts == []
+    assert gemma.chat_messages == [[{"role": "user", "content": "Prompt. valid draft"}]]
+    assert records[0]["generation_settings"]["prompt_mode"] == "chat"
+    assert records[0]["gemma_raw_output"] == " chat final"
 
 
 def test_controlled_trace_does_not_introduce_forbidden_claims(tmp_path: Path):
@@ -346,3 +383,30 @@ def test_low_tier_trace_cli_raw_capture_flag_writes_raw_fields(tmp_path: Path, m
     assert exit_code == 0
     assert '"capture_raw_output": true' in text
     assert '"raw_prompt": "Short prompt."' in text
+
+
+def test_low_tier_trace_cli_accepts_prompt_mode_chat(tmp_path: Path, monkeypatch):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.gguf")
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    backend = SequenceBackend([" chat output"])
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setattr(run_low_tier_trace, "LlamaCppBackend", lambda **kwargs: backend)
+    monkeypatch.setattr(
+        run_low_tier_trace,
+        "collect_environment_diagnostics",
+        lambda config: {
+            "backend": {"llama_cpp_supports_gpu_offload": True},
+            "models": {
+                "qwen_drafter": {"device_status": "ok"},
+                "gemma_e2b": {"device_status": "ok"},
+            },
+        },
+    )
+
+    exit_code = run_low_tier_trace.main(["--prompt", "Short prompt.", "--capture-raw-output", "--prompt-mode", "chat"])
+
+    report = next((tmp_path / "logs/reports").glob("*-low-tier-trace.json"))
+    text = report.read_text(encoding="utf-8")
+    assert exit_code == 0
+    assert '"prompt_mode": "chat"' in text
