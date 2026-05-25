@@ -278,16 +278,16 @@ def test_baseline_trace_cli_accepts_prompt_set_and_records_metadata(tmp_path: Pa
         [
             "--capture-raw-output",
             "--prompt-set",
-            "phase-2-controlled-eligibility-v1",
+            "phase-2-controlled-eligibility-v2",
         ]
     )
 
     report = next((tmp_path / "logs/reports").glob("*-target-baseline-trace.json"))
     payload = json.loads(report.read_text(encoding="utf-8"))
     assert exit_code == 0
-    assert payload["metadata"]["prompt_set_id"] == "phase-2-controlled-eligibility-v1"
+    assert payload["metadata"]["prompt_set_id"] == "phase-2-controlled-eligibility-v2"
     assert payload["metadata"]["prompt_count"] == 16
     assert len(payload["records"]) == 16
-    assert payload["records"][0]["prompt_id"] == "elig-001"
-    assert payload["records"][0]["prompt_set_id"] == "phase-2-controlled-eligibility-v1"
-    assert payload["records"][0]["raw_prompt"] == "Answer with only: ready"
+    assert payload["records"][0]["prompt_id"] == "elig2-001"
+    assert payload["records"][0]["prompt_set_id"] == "phase-2-controlled-eligibility-v2"
+    assert payload["records"][0]["raw_prompt"] == "A short readiness reply is"

@@ -91,9 +91,128 @@ PHASE_2_CONTROLLED_ELIGIBILITY_PROMPT_SET = TracePromptSet(
     ),
 )
 
+PHASE_2_REFINED_ELIGIBILITY_PROMPT_SET = TracePromptSet(
+    prompt_set_id="phase-2-controlled-eligibility-v2",
+    prompts=(
+        TracePrompt(
+            "elig2-001",
+            "A short readiness reply is",
+            "continuation",
+            "short phrase",
+            'Replaces forced "Answer with only" shape.',
+        ),
+        TracePrompt(
+            "elig2-002",
+            "Latency in one short phrase is",
+            "continuation",
+            "short phrase",
+            "Replaces exact three-word constraint.",
+        ),
+        TracePrompt(
+            "elig2-003",
+            "Two common colors are",
+            "continuation",
+            "short list-like completion",
+            "Replaces bare list request.",
+        ),
+        TracePrompt(
+            "elig2-004",
+            "Caching means",
+            "continuation",
+            "short definition",
+            "Keeps successful caching topic in continuation form.",
+        ),
+        TracePrompt(
+            "elig2-005",
+            "GPU inference is useful because",
+            "continuation",
+            "short explanatory completion",
+            "Replaces exact sentence command.",
+        ),
+        TracePrompt(
+            "elig2-006",
+            "Two common operating systems are",
+            "continuation",
+            "two-name completion",
+            "Replaces direct naming command.",
+        ),
+        TracePrompt(
+            "elig2-007",
+            "A fast model can be described as",
+            "continuation",
+            "short phrase",
+            "Replaces rewrite command.",
+        ),
+        TracePrompt(
+            "elig2-008",
+            "Machine learning is",
+            "continuation",
+            "short definition or completion",
+            "Keeps successful sentence stem.",
+        ),
+        TracePrompt(
+            "elig2-009",
+            "Batching helps because",
+            "continuation",
+            "short explanation",
+            "Keeps successful batching topic in continuation form.",
+        ),
+        TracePrompt(
+            "elig2-010",
+            "A friendly greeting could be",
+            "continuation",
+            "short greeting",
+            "Replaces exact five-word constraint.",
+        ),
+        TracePrompt(
+            "elig2-011",
+            "CUDA is related to",
+            "continuation",
+            "short technical completion",
+            "Replaces direct question.",
+        ),
+        TracePrompt(
+            "elig2-012",
+            "API stands for",
+            "continuation",
+            "acronym expansion",
+            "Replaces command-style acronym prompt.",
+        ),
+        TracePrompt(
+            "elig2-013",
+            "RAM differs from storage because",
+            "continuation",
+            "short contrast",
+            "Keeps successful RAM/storage topic.",
+        ),
+        TracePrompt(
+            "elig2-014",
+            "Reliable systems are usually",
+            "continuation",
+            "short descriptive completion",
+            "Replaces exact two-word constraint.",
+        ),
+        TracePrompt(
+            "elig2-015",
+            "A small draft model is",
+            "continuation",
+            "short description",
+            "Replaces exact three-word summary.",
+        ),
+        TracePrompt(
+            "elig2-016",
+            "A verifier checks",
+            "continuation",
+            "short completion",
+            "Keeps successful verifier stem.",
+        ),
+    ),
+)
+
 TRACE_PROMPT_SETS = {
     DEFAULT_TRACE_PROMPT_SET.prompt_set_id: DEFAULT_TRACE_PROMPT_SET,
     PHASE_2_CONTROLLED_ELIGIBILITY_PROMPT_SET.prompt_set_id: PHASE_2_CONTROLLED_ELIGIBILITY_PROMPT_SET,
+    PHASE_2_REFINED_ELIGIBILITY_PROMPT_SET.prompt_set_id: PHASE_2_REFINED_ELIGIBILITY_PROMPT_SET,
 }
 
 
