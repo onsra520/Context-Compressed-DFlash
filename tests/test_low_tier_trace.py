@@ -10,6 +10,7 @@ from htfsd.metrics.run_trace import (
     run_controlled_fallback_trace_cases,
     run_controlled_low_tier_trace,
 )
+from htfsd.metrics.output_diagnostics import summarize_low_tier_classifications
 from htfsd.metrics.trace_schema import validate_trace_record
 
 
@@ -294,6 +295,35 @@ def test_controlled_fallback_trace_records_expected_cases(tmp_path: Path):
     assert by_case["unclosed_think"]["fallback_count"] == 1
     assert by_case["complete_think_then_empty"]["rejection_reason"] == "empty_after_normalization"
     assert by_case["complete_think_then_empty"]["fallback_count"] == 1
+
+
+def test_controlled_fallback_trace_classifies_rejected_records(tmp_path: Path):
+    write_project(tmp_path)
+    touch_model(tmp_path, "models/qwen3-0.6b", "qwen.gguf")
+    touch_model(tmp_path, "models/gemma-4-e2b-it", "gemma.gguf")
+    config = load_config(repo_root=tmp_path)
+    diagnostics = {
+        "models": {
+            "qwen_drafter": {"device_status": "ok"},
+            "gemma_e2b": {"device_status": "ok"},
+        }
+    }
+
+    records = run_controlled_fallback_trace_cases(
+        cases=DEFAULT_CONTROLLED_FALLBACK_CASES,
+        config=config,
+        diagnostics=diagnostics,
+        gemma_backend=SequenceBackend([" fallback output"]),
+        generation_settings=build_generation_settings(config),
+    )
+
+    summary = summarize_low_tier_classifications(records)
+
+    assert summary.total_records == 4
+    assert summary.valid_draft_continuation_count == 1
+    assert summary.fallback_after_rejection_count == 3
+    assert summary.fallback_only_count == 0
+    assert summary.unknown_contribution_count == 0
 
 
 def test_controlled_fallback_trace_records_device_policy(tmp_path: Path):
