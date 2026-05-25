@@ -54,20 +54,20 @@ def main(argv: Sequence[str] | None = None) -> int:
             prompt_mode=args.prompt_mode,
             capture_raw_output=args.capture_raw_output,
         )
-        qwen_model = config.models["qwen_drafter"]
-        gemma_model = config.models["gemma_e2b"]
-        if not qwen_model.ok:
-            print(f"qwen_drafter is not ready: {qwen_model.status}")
+        drafter_model = config.models["drafter"]
+        verifier_model = config.models["verifier"]
+        if not drafter_model.ok:
+            print(f"drafter is not ready: {drafter_model.status}")
             return 1
-        if not gemma_model.ok:
-            print(f"gemma_e2b is not ready: {gemma_model.status}")
+        if not verifier_model.ok:
+            print(f"verifier is not ready: {verifier_model.status}")
             return 1
 
         diagnostics = collect_environment_diagnostics(config)
         gemma_backend = LlamaCppBackend(
-            model_path=gemma_model.discovered_model_file,
+            model_path=verifier_model.discovered_model_file,
             n_ctx=config.runtime.n_ctx,
-            n_gpu_layers=gemma_model.n_gpu_layers,
+            n_gpu_layers=verifier_model.n_gpu_layers,
             seed=config.runtime.seed,
         )
         if args.mode == "controlled-fallback":
@@ -80,9 +80,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         else:
             qwen_backend = LlamaCppBackend(
-                model_path=qwen_model.discovered_model_file,
+                model_path=drafter_model.discovered_model_file,
                 n_ctx=config.runtime.n_ctx,
-                n_gpu_layers=qwen_model.n_gpu_layers,
+                n_gpu_layers=drafter_model.n_gpu_layers,
                 seed=config.runtime.seed,
             )
             prompt_set = get_trace_prompt_set(args.prompt_set)
@@ -105,7 +105,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             metadata={
                 "config": _display_path(config.config_path, config.repo_root),
                 "mode": args.mode,
-                "runtime_policy": "qwen_cpu_gemma_cuda",
+                "runtime_policy": "drafter_cpu_verifier_cuda",
                 "prompt_set_id": "controlled-fallback-cases" if args.mode == "controlled-fallback" else prompt_set_id,
                 "prompt_count": len(records),
                 "generation_settings": generation_settings.to_metadata(),
@@ -125,16 +125,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             print(f"valid_count: {valid_count}")
             print(f"rejected_count: {rejected_count}")
             print(f"fallback_count: {total_fallbacks}")
-            print(f"qwen_device_status: {diagnostics['models']['qwen_drafter']['device_status']}")
-            print(f"gemma_device_status: {diagnostics['models']['gemma_e2b']['device_status']}")
+            print(f"drafter_device_status: {_model_diagnostics(diagnostics, 'drafter')['device_status']}")
+            print(f"verifier_device_status: {_model_diagnostics(diagnostics, 'verifier')['device_status']}")
             return 0
 
         print("Low-tier trace: ok")
         print(f"trace_file: {_display_path(trace_path, config.repo_root)}")
         print(f"trace_records: {len(records)}")
         print(f"fallback_count: {total_fallbacks}")
-        print(f"qwen_device_status: {diagnostics['models']['qwen_drafter']['device_status']}")
-        print(f"gemma_device_status: {diagnostics['models']['gemma_e2b']['device_status']}")
+        print(f"drafter_device_status: {_model_diagnostics(diagnostics, 'drafter')['device_status']}")
+        print(f"verifier_device_status: {_model_diagnostics(diagnostics, 'verifier')['device_status']}")
         return 0
     except Exception as error:  # pylint: disable=broad-exception-caught
         print(str(error))
@@ -162,6 +162,12 @@ def _display_path(path: Path, repo_root: Path) -> str:
         return str(path.relative_to(repo_root))
     except ValueError:
         return str(path)
+
+
+def _model_diagnostics(diagnostics: dict, role: str) -> dict:
+    models = diagnostics.get("models", {})
+    aliases = {"drafter": "qwen_drafter", "verifier": "gemma_e2b", "target": "gemma_e4b"}
+    return models.get(role) or models.get(aliases.get(role, role), {})
 
 
 if __name__ == "__main__":

@@ -4,12 +4,19 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Iterator
 
 
 MODEL_STATUS_OK = "ok"
 MODEL_STATUS_MISSING_DIR = "missing_model_dir"
 MODEL_STATUS_MISSING_FILE = "missing_model_file"
 MODEL_STATUS_AMBIGUOUS = "ambiguous_model_files"
+
+MODEL_ROLE_ALIASES = {
+    "qwen_drafter": "drafter",
+    "gemma_e2b": "verifier",
+    "gemma_e4b": "target",
+}
 
 
 @dataclass(frozen=True)
@@ -32,6 +39,33 @@ class ModelDiscovery:
         """Return whether the model has one usable GGUF file."""
 
         return self.status == MODEL_STATUS_OK and self.discovered_model_file is not None
+
+
+class ModelRegistry(dict[str, ModelDiscovery]):
+    """Role-keyed model registry with deprecated model-specific aliases."""
+
+    def __init__(self, models: dict[str, ModelDiscovery]) -> None:
+        super().__init__(models)
+
+    def canonical_key(self, key: str) -> str:
+        return MODEL_ROLE_ALIASES.get(key, key)
+
+    def __getitem__(self, key: str) -> ModelDiscovery:
+        return super().__getitem__(self.canonical_key(key))
+
+    def get(self, key: str, default=None):  # type: ignore[override]
+        return super().get(self.canonical_key(key), default)
+
+    def __contains__(self, key: object) -> bool:
+        if isinstance(key, str):
+            key = self.canonical_key(key)
+        return super().__contains__(key)
+
+    def keys(self):  # type: ignore[override]
+        return super().keys()
+
+    def __iter__(self) -> Iterator[str]:
+        return super().__iter__()
 
 
 @dataclass(frozen=True)
@@ -69,8 +103,8 @@ class BridgeDraft:
 
 
 @dataclass(frozen=True)
-class PairSmokeResult:
-    """Result for the low-tier Qwen-to-Gemma pair smoke path."""
+class LowTierTraceResult:
+    """Result for the low-tier drafter-to-verifier trace path."""
 
     prompt: str
     raw_draft_text: str
@@ -82,16 +116,16 @@ class PairSmokeResult:
     draft_valid_count: int
     draft_rejected_count: int
     latency_seconds: float
-    qwen_decode_tokens_per_second: float | None
-    gemma_decode_tokens_per_second: float | None
+    drafter_decode_tokens_per_second: float | None
+    verifier_decode_tokens_per_second: float | None
 
     @property
     def tokens_per_second(self) -> float | None:
         values = [
             value
             for value in (
-                self.qwen_decode_tokens_per_second,
-                self.gemma_decode_tokens_per_second,
+                self.drafter_decode_tokens_per_second,
+                self.verifier_decode_tokens_per_second,
             )
             if value is not None
         ]
@@ -101,7 +135,7 @@ class PairSmokeResult:
 
     @property
     def metrics(self) -> dict[str, float | int | None]:
-        """Return allowed smoke metrics without speculative claims."""
+        """Return allowed trace metrics without speculative claims."""
 
         return {
             "draft_valid_count": self.draft_valid_count,
@@ -109,8 +143,8 @@ class PairSmokeResult:
             "fallback_count": self.fallback_count,
             "latency_seconds": self.latency_seconds,
             "tokens_per_second": self.tokens_per_second,
-            "qwen_decode_tokens_per_second": self.qwen_decode_tokens_per_second,
-            "gemma_decode_tokens_per_second": self.gemma_decode_tokens_per_second,
+            "drafter_decode_tokens_per_second": self.drafter_decode_tokens_per_second,
+            "verifier_decode_tokens_per_second": self.verifier_decode_tokens_per_second,
         }
 
 
@@ -120,6 +154,6 @@ class HTFSDConfig:
 
     repo_root: Path
     config_path: Path
-    models: dict[str, ModelDiscovery]
+    models: ModelRegistry
     runtime: RuntimeConfig
     generation: GenerationConfig

@@ -47,10 +47,16 @@ def compare_trace_files(*, low_tier_path: str | Path, baseline_path: str | Path)
         "low_tier_total_draft_rejected_count": _sum_int(low_records, "draft_rejected_count"),
         "low_tier_latency_seconds_summary": _latency_summary(low_records),
         "baseline_latency_seconds_summary": _latency_summary(base_records),
-        "low_tier_gemma_device_statuses": _unique_values(low_records, "gemma_device_status"),
-        "baseline_gemma_device_statuses": _unique_values(base_records, "gemma_device_status"),
-        "qwen_device_statuses": _unique_values(low_records, "qwen_device_status"),
-        "gemma_model_file_match": _single_value(low_records, "gemma_model_file") == _single_value(base_records, "gemma_model_file"),
+        "low_tier_verifier_device_statuses": _unique_values(low_records, "verifier_device_status", "gemma_device_status"),
+        "baseline_verifier_device_statuses": _unique_values(base_records, "verifier_device_status", "gemma_device_status"),
+        "drafter_device_statuses": _unique_values(low_records, "drafter_device_status", "qwen_device_status"),
+        "verifier_model_file_match": _single_value(low_records, "verifier_model_file", "gemma_model_file")
+        == _single_value(base_records, "verifier_model_file", "gemma_model_file"),
+        "low_tier_gemma_device_statuses": _unique_values(low_records, "verifier_device_status", "gemma_device_status"),
+        "baseline_gemma_device_statuses": _unique_values(base_records, "verifier_device_status", "gemma_device_status"),
+        "qwen_device_statuses": _unique_values(low_records, "drafter_device_status", "qwen_device_status"),
+        "gemma_model_file_match": _single_value(low_records, "verifier_model_file", "gemma_model_file")
+        == _single_value(base_records, "verifier_model_file", "gemma_model_file"),
         "generation_settings_match": generation_settings_match,
         "capture_raw_output_status": {
             "low_tier": _unique_values(low_records, "capture_raw_output"),
@@ -97,10 +103,10 @@ def render_trace_comparison_markdown(result: dict[str, Any]) -> str:
             "",
             "## Runtime Policy Metadata",
             "",
-            f"- qwen_device_statuses: {result['qwen_device_statuses']}",
-            f"- low_tier_gemma_device_statuses: {result['low_tier_gemma_device_statuses']}",
-            f"- baseline_gemma_device_statuses: {result['baseline_gemma_device_statuses']}",
-            f"- gemma_model_file_match: {result['gemma_model_file_match']}",
+            f"- drafter_device_statuses: {result['drafter_device_statuses']}",
+            f"- low_tier_verifier_device_statuses: {result['low_tier_verifier_device_statuses']}",
+            f"- baseline_verifier_device_statuses: {result['baseline_verifier_device_statuses']}",
+            f"- verifier_model_file_match: {result['verifier_model_file_match']}",
             "",
             "## Generation Settings Metadata",
             "",
@@ -179,17 +185,25 @@ def _latency_summary(records: list[dict[str, Any]]) -> dict[str, float | int | N
     }
 
 
-def _unique_values(records: list[dict[str, Any]], field: str) -> list[Any]:
-    return sorted({record.get(field) for record in records if record.get(field) is not None})
+def _unique_values(records: list[dict[str, Any]], field: str, alias: str | None = None) -> list[Any]:
+    return sorted({_record_value(record, field, alias) for record in records if _record_value(record, field, alias) is not None})
 
 
-def _single_value(records: list[dict[str, Any]], field: str) -> Any:
-    values = [record.get(field) for record in records if record.get(field) is not None]
+def _single_value(records: list[dict[str, Any]], field: str, alias: str | None = None) -> Any:
+    values = [_record_value(record, field, alias) for record in records if _record_value(record, field, alias) is not None]
     if not values:
         return None
     first = values[0]
     if all(_stable_value_key(value) == _stable_value_key(first) for value in values):
         return first
+    return None
+
+
+def _record_value(record: dict[str, Any], field: str, alias: str | None) -> Any:
+    if field in record:
+        return record.get(field)
+    if alias is not None:
+        return record.get(alias)
     return None
 
 

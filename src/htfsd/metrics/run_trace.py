@@ -1,4 +1,4 @@
-"""JSON-friendly trace helpers for smoke runs."""
+"""JSON-friendly trace helpers for controlled low-tier runs."""
 
 from __future__ import annotations
 
@@ -42,15 +42,15 @@ DEFAULT_CONTROLLED_FALLBACK_CASES = (
 )
 
 @dataclass(frozen=True)
-class PairSmokeTrace:
-    """One low-tier pair smoke trace."""
+class LowTierTrace:
+    """One low-tier trace summary."""
 
     bridge_status: str
     rejection_reason: str | None
     fallback_count: int
     latency_seconds: float
-    qwen_decode_tokens_per_second: float | None
-    gemma_decode_tokens_per_second: float | None
+    drafter_decode_tokens_per_second: float | None
+    verifier_decode_tokens_per_second: float | None
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-friendly dictionary."""
@@ -72,10 +72,10 @@ def run_controlled_low_tier_trace(
     """Run the existing pair smoke path over a fixed prompt set."""
 
     settings = generation_settings or build_generation_settings(config)
-    qwen_model = config.models["qwen_drafter"]
-    gemma_model = config.models["gemma_e2b"]
-    qwen_diagnostics = diagnostics.get("models", {}).get("qwen_drafter", {})
-    gemma_diagnostics = diagnostics.get("models", {}).get("gemma_e2b", {})
+    drafter_model = config.models["drafter"]
+    verifier_model = config.models["verifier"]
+    drafter_diagnostics = _role_diagnostics(diagnostics, "drafter")
+    verifier_diagnostics = _role_diagnostics(diagnostics, "verifier")
     records: list[dict[str, Any]] = []
 
     if prompt_ids is not None and len(prompt_ids) != len(prompts):
@@ -97,10 +97,10 @@ def run_controlled_low_tier_trace(
             prompt=prompt,
             prompt_set_id=prompt_set_id,
             result=result,
-            qwen_model=qwen_model,
-            gemma_model=gemma_model,
-            qwen_diagnostics=qwen_diagnostics,
-            gemma_diagnostics=gemma_diagnostics,
+            drafter_model=drafter_model,
+            verifier_model=verifier_model,
+            drafter_diagnostics=drafter_diagnostics,
+            verifier_diagnostics=verifier_diagnostics,
             settings=settings,
         )
         if settings.capture_raw_output:
@@ -126,10 +126,10 @@ def run_controlled_fallback_trace_cases(
     """Run controlled draft cases through the pair path with injected Qwen output."""
 
     settings = generation_settings or build_generation_settings(config)
-    qwen_model = config.models["qwen_drafter"]
-    gemma_model = config.models["gemma_e2b"]
-    qwen_diagnostics = diagnostics.get("models", {}).get("qwen_drafter", {})
-    gemma_diagnostics = diagnostics.get("models", {}).get("gemma_e2b", {})
+    drafter_model = config.models["drafter"]
+    verifier_model = config.models["verifier"]
+    drafter_diagnostics = _role_diagnostics(diagnostics, "drafter")
+    verifier_diagnostics = _role_diagnostics(diagnostics, "verifier")
     records: list[dict[str, Any]] = []
 
     for index, case in enumerate(cases, start=1):
@@ -150,10 +150,10 @@ def run_controlled_fallback_trace_cases(
             prompt=prompt,
             prompt_set_id="controlled-fallback-cases",
             result=result,
-            qwen_model=qwen_model,
-            gemma_model=gemma_model,
-            qwen_diagnostics=qwen_diagnostics,
-            gemma_diagnostics=gemma_diagnostics,
+            drafter_model=drafter_model,
+            verifier_model=verifier_model,
+            drafter_diagnostics=drafter_diagnostics,
+            verifier_diagnostics=verifier_diagnostics,
             settings=settings,
         )
         record.update(
@@ -211,37 +211,70 @@ def _base_low_tier_record(
     prompt: str,
     prompt_set_id: str,
     result,
-    qwen_model,
-    gemma_model,
-    qwen_diagnostics: dict[str, Any],
-    gemma_diagnostics: dict[str, Any],
+    drafter_model,
+    verifier_model,
+    drafter_diagnostics: dict[str, Any],
+    verifier_diagnostics: dict[str, Any],
     settings: GenerationSettings,
 ) -> dict[str, Any]:
-    return {
+    record = {
         "prompt_id": prompt_id,
         "prompt_hash": _short_hash(prompt),
         "prompt_summary": _summarize_text(prompt, settings.output_summary_max_chars),
         "prompt_set_id": prompt_set_id,
-        "qwen_model_file": str(qwen_model.discovered_model_file) if qwen_model.discovered_model_file else None,
-        "gemma_model_file": str(gemma_model.discovered_model_file) if gemma_model.discovered_model_file else None,
-        "qwen_expected_device": qwen_model.expected_device,
-        "gemma_expected_device": gemma_model.expected_device,
-        "qwen_device_status": qwen_diagnostics.get("device_status"),
-        "gemma_device_status": gemma_diagnostics.get("device_status"),
-        "qwen_n_gpu_layers": qwen_model.n_gpu_layers,
-        "gemma_n_gpu_layers": gemma_model.n_gpu_layers,
+        "drafter_model_file": str(drafter_model.discovered_model_file)
+        if drafter_model.discovered_model_file
+        else None,
+        "verifier_model_file": str(verifier_model.discovered_model_file)
+        if verifier_model.discovered_model_file
+        else None,
+        "drafter_expected_device": drafter_model.expected_device,
+        "verifier_expected_device": verifier_model.expected_device,
+        "drafter_device_status": drafter_diagnostics.get("device_status"),
+        "verifier_device_status": verifier_diagnostics.get("device_status"),
+        "drafter_n_gpu_layers": drafter_model.n_gpu_layers,
+        "verifier_n_gpu_layers": verifier_model.n_gpu_layers,
         "bridge_status": result.bridge_status,
         "rejection_reason": result.rejection_reason,
         "fallback_count": result.fallback_count,
         "draft_valid_count": result.draft_valid_count,
         "draft_rejected_count": result.draft_rejected_count,
         "latency_seconds": result.latency_seconds,
-        "qwen_decode_tokens_per_second": result.qwen_decode_tokens_per_second,
-        "gemma_decode_tokens_per_second": result.gemma_decode_tokens_per_second,
+        "drafter_decode_tokens_per_second": result.drafter_decode_tokens_per_second,
+        "verifier_decode_tokens_per_second": result.verifier_decode_tokens_per_second,
         "qwen_output_summary": _summarize_text(result.raw_draft_text, settings.output_summary_max_chars),
         "gemma_output_summary": _summarize_text(result.gemma_output_text, settings.output_summary_max_chars),
         "generation_settings": settings.to_metadata(),
         "capture_raw_output": settings.capture_raw_output,
+    }
+    record.update(_low_tier_compatibility_aliases(record))
+    return record
+
+
+def _role_diagnostics(diagnostics: dict[str, Any], role: str) -> dict[str, Any]:
+    models = diagnostics.get("models", {})
+    if role in models:
+        return models[role]
+    aliases = {
+        "drafter": "qwen_drafter",
+        "verifier": "gemma_e2b",
+        "target": "gemma_e4b",
+    }
+    return models.get(aliases.get(role, role), {})
+
+
+def _low_tier_compatibility_aliases(record: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "qwen_model_file": record["drafter_model_file"],
+        "gemma_model_file": record["verifier_model_file"],
+        "qwen_expected_device": record["drafter_expected_device"],
+        "gemma_expected_device": record["verifier_expected_device"],
+        "qwen_device_status": record["drafter_device_status"],
+        "gemma_device_status": record["verifier_device_status"],
+        "qwen_n_gpu_layers": record["drafter_n_gpu_layers"],
+        "gemma_n_gpu_layers": record["verifier_n_gpu_layers"],
+        "qwen_decode_tokens_per_second": record["drafter_decode_tokens_per_second"],
+        "gemma_decode_tokens_per_second": record["verifier_decode_tokens_per_second"],
     }
 
 

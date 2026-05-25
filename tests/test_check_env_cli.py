@@ -50,9 +50,9 @@ def test_check_env_uses_default_config_when_omitted(tmp_path: Path, monkeypatch,
     output = capsys.readouterr().out
     assert exit_code == 0
     assert "Config: configs/local.example.yaml" in output
-    assert "qwen_drafter: ok" in output
-    assert "gemma_e2b: ok" in output
-    assert "gemma_e4b: optional_missing" in output
+    assert "drafter: ok" in output
+    assert "verifier: ok" in output
+    assert "target: optional_missing" in output
     assert "warning" in output
 
 
@@ -64,9 +64,9 @@ def test_check_env_fails_for_required_missing_models(tmp_path: Path, monkeypatch
 
     output = capsys.readouterr().out
     assert exit_code == 1
-    assert "qwen_drafter: missing_model_dir" in output
-    assert "gemma_e2b: missing_model_dir" in output
-    assert "Gemma E4B is optional for current low-tier smoke tests" in output
+    assert "drafter: missing_model_dir" in output
+    assert "verifier: missing_model_dir" in output
+    assert "target model is optional for current low-tier diagnostics" in output
 
 
 def test_check_env_fails_for_ambiguous_required_model(tmp_path: Path, monkeypatch, capsys):
@@ -80,7 +80,7 @@ def test_check_env_fails_for_ambiguous_required_model(tmp_path: Path, monkeypatc
 
     output = capsys.readouterr().out
     assert exit_code == 1
-    assert "gemma_e2b: ambiguous_model_files" in output
+    assert "verifier: ambiguous_model_files" in output
     assert "a.gguf" in output
     assert "b.gguf" in output
 

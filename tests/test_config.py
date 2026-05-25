@@ -8,6 +8,26 @@ from htfsd.config import DEFAULT_CONFIG_PATH, load_config, resolve_config_path
 
 CONFIG_TEXT = """
 models:
+  drafter:
+    model_dir: models/qwen3-0.6b
+    model_file: null
+  verifier:
+    model_dir: models/gemma-4-e2b-it
+    model_file: null
+  target:
+    model_dir: models/gemma-4-e4b-it
+    model_file: null
+runtime:
+  backend: llama_cpp
+  n_ctx: 2048
+  seed: 42
+generation:
+  max_tokens: 64
+  temperature: 0.0
+"""
+
+LEGACY_CONFIG_TEXT = """
+models:
   qwen_drafter:
     model_dir: models/qwen3-0.6b
     model_file: null
@@ -54,7 +74,9 @@ def test_relative_model_dir_resolves_against_repo_root(tmp_path: Path):
 
     config = load_config(repo_root=tmp_path)
 
-    assert config.models["qwen_drafter"].model_dir == tmp_path / "models/qwen3-0.6b"
+    assert config.models["drafter"].model_dir == tmp_path / "models/qwen3-0.6b"
+    assert config.models["qwen_drafter"] is config.models["drafter"]
+    assert list(config.models.keys()) == ["drafter", "verifier", "target"]
 
 
 def test_model_device_policy_defaults_by_model_role(tmp_path: Path):
@@ -62,15 +84,27 @@ def test_model_device_policy_defaults_by_model_role(tmp_path: Path):
 
     config = load_config(repo_root=tmp_path)
 
-    assert config.models["qwen_drafter"].expected_device == "cpu"
-    assert config.models["qwen_drafter"].n_gpu_layers == 0
-    assert config.models["qwen_drafter"].optional is False
-    assert config.models["gemma_e2b"].expected_device == "cuda"
-    assert config.models["gemma_e2b"].n_gpu_layers == -1
-    assert config.models["gemma_e2b"].optional is False
-    assert config.models["gemma_e4b"].expected_device == "cuda"
-    assert config.models["gemma_e4b"].n_gpu_layers == -1
-    assert config.models["gemma_e4b"].optional is True
+    assert config.models["drafter"].expected_device == "cpu"
+    assert config.models["drafter"].n_gpu_layers == 0
+    assert config.models["drafter"].optional is False
+    assert config.models["verifier"].expected_device == "cuda"
+    assert config.models["verifier"].n_gpu_layers == -1
+    assert config.models["verifier"].optional is False
+    assert config.models["target"].expected_device == "cuda"
+    assert config.models["target"].n_gpu_layers == -1
+    assert config.models["target"].optional is True
+
+
+def test_legacy_model_keys_map_to_role_based_models(tmp_path: Path):
+    write_config(tmp_path, LEGACY_CONFIG_TEXT)
+
+    config = load_config(repo_root=tmp_path)
+
+    assert list(config.models.keys()) == ["drafter", "verifier", "target"]
+    assert config.models["qwen_drafter"] is config.models["drafter"]
+    assert config.models["gemma_e2b"] is config.models["verifier"]
+    assert config.models["gemma_e4b"] is config.models["target"]
+    assert config.models["drafter"].name == "drafter"
 
 
 def test_model_device_policy_can_be_explicitly_configured(tmp_path: Path):

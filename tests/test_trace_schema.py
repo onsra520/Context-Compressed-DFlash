@@ -18,14 +18,14 @@ LIVE_RECORD = {
     "fallback_count": 0,
     "draft_valid_count": 1,
     "draft_rejected_count": 0,
-    "qwen_expected_device": "cpu",
-    "gemma_expected_device": "cuda",
-    "qwen_device_status": "ok",
-    "gemma_device_status": "ok",
-    "qwen_n_gpu_layers": 0,
-    "gemma_n_gpu_layers": -1,
-    "qwen_model_file": "models/qwen/model.gguf",
-    "gemma_model_file": "models/gemma/model.gguf",
+    "drafter_expected_device": "cpu",
+    "verifier_expected_device": "cuda",
+    "drafter_device_status": "ok",
+    "verifier_device_status": "ok",
+    "drafter_n_gpu_layers": 0,
+    "verifier_n_gpu_layers": -1,
+    "drafter_model_file": "models/qwen/model.gguf",
+    "verifier_model_file": "models/gemma/model.gguf",
     "latency_seconds": 1.0,
     "prompt_summary": "Prompt.",
     "qwen_output_summary": "Draft.",
@@ -52,14 +52,14 @@ CONTROLLED_RECORD = {
 
 BASELINE_RECORD = {
     "prompt_id": "baseline-001",
-    "gemma_model_file": "models/gemma/model.gguf",
-    "gemma_expected_device": "cuda",
-    "gemma_device_status": "ok",
-    "gemma_n_gpu_layers": -1,
+    "verifier_model_file": "models/gemma/model.gguf",
+    "verifier_expected_device": "cuda",
+    "verifier_device_status": "ok",
+    "verifier_n_gpu_layers": -1,
     "latency_seconds": 1.0,
     "trace_kind": "target_baseline",
     "prompt_summary": "Prompt.",
-    "gemma_output_summary": "Output.",
+    "verifier_output_summary": "Output.",
     "generation_settings": {
         "max_tokens": 64,
         "temperature": 0.0,
@@ -77,7 +77,7 @@ def test_live_trace_required_fields_are_guarded():
     required = required_live_trace_fields()
 
     assert "fallback_count" in required
-    assert "gemma_device_status" in required
+    assert "verifier_device_status" in required
     assert "raw_draft_text" not in required
     assert "gemma_output_text" not in required
     assert validate_trace_record(LIVE_RECORD, mode="live").ok is True
@@ -96,8 +96,8 @@ def test_baseline_trace_required_fields_do_not_include_low_tier_fields():
     required = required_baseline_trace_fields()
 
     assert "trace_kind" in required
-    assert "gemma_model_file" in required
-    assert "qwen_model_file" not in required
+    assert "verifier_model_file" in required
+    assert "drafter_model_file" not in required
     assert "bridge_status" not in required
     assert "fallback_count" not in required
     assert validate_trace_record(BASELINE_RECORD, mode="target-baseline").ok is True
@@ -183,7 +183,7 @@ def test_inspect_trace_schema_cli_reports_ok(tmp_path: Path, capsys):
 def test_inspect_trace_schema_cli_reports_missing_fields(tmp_path: Path, capsys):
     trace_path = tmp_path / "trace.json"
     bad_record = dict(LIVE_RECORD)
-    bad_record.pop("gemma_device_status")
+    bad_record.pop("verifier_device_status")
     trace_path.write_text(
         json.dumps({"metadata": {"mode": "live"}, "records": [bad_record]}),
         encoding="utf-8",
@@ -195,4 +195,4 @@ def test_inspect_trace_schema_cli_reports_missing_fields(tmp_path: Path, capsys)
     assert exit_code == 1
     assert "trace schema: failed" in output
     assert "missing_fields:" in output
-    assert "- gemma_device_status" in output
+    assert "- verifier_device_status" in output

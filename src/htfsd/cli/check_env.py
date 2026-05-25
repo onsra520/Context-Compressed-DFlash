@@ -13,7 +13,7 @@ from htfsd.config import DEFAULT_CONFIG_PATH, load_config
 from htfsd.runtime.diagnostics import collect_environment_diagnostics
 from htfsd.cli.error_report import write_runtime_error_report
 
-REQUIRED_LOW_TIER_MODELS = ("qwen_drafter", "gemma_e2b")
+REQUIRED_LOW_TIER_MODELS = ("drafter", "verifier")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -61,10 +61,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             for candidate in model["candidates"]:
                 print(f"      - {_display_path(Path(candidate), config.repo_root)}")
 
-    e4b_status = diagnostics["models"]["gemma_e4b"]["status"]
-    if e4b_status != "ok":
-        print("warning: Gemma E4B is optional for current low-tier smoke tests.")
-    for name in ("gemma_e2b", "gemma_e4b"):
+    target_status = diagnostics["models"]["target"]["status"]
+    if target_status != "ok":
+        print("warning: target model is optional for current low-tier diagnostics.")
+    for name in ("verifier", "target"):
         device_status = diagnostics["models"][name]["device_status"]
         if device_status in {"cuda_backend_unavailable", "device_policy_mismatch"}:
             print(

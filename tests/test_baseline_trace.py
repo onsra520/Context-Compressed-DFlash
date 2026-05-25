@@ -81,9 +81,13 @@ def test_baseline_trace_runs_with_fake_gemma_backend(tmp_path: Path):
     assert records[0]["trace_kind"] == "target_baseline"
     assert records[0]["prompt_id"] == "baseline-001"
     assert records[0]["gemma_model_file"] == str(gemma_file)
+    assert records[0]["verifier_model_file"] == str(gemma_file)
     assert records[0]["gemma_expected_device"] == "cuda"
     assert records[0]["gemma_device_status"] == "ok"
     assert records[0]["gemma_n_gpu_layers"] == -1
+    assert records[0]["verifier_expected_device"] == "cuda"
+    assert records[0]["verifier_device_status"] == "ok"
+    assert records[0]["verifier_n_gpu_layers"] == -1
     assert records[0]["generation_settings"]["max_tokens"] == 64
     assert records[0]["generation_settings"]["prompt_mode"] == "raw"
     assert records[0]["capture_raw_output"] is False

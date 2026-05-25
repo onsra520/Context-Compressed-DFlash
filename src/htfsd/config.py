@@ -14,17 +14,19 @@ from htfsd.types import (
     MODEL_STATUS_MISSING_DIR,
     MODEL_STATUS_MISSING_FILE,
     MODEL_STATUS_OK,
+    MODEL_ROLE_ALIASES,
     ModelDiscovery,
+    ModelRegistry,
     RuntimeConfig,
 )
 
 DEFAULT_CONFIG_PATH = Path("configs/local.example.yaml")
-REQUIRED_MODEL_KEYS = ("qwen_drafter", "gemma_e2b", "gemma_e4b")
+REQUIRED_MODEL_KEYS = ("drafter", "verifier", "target")
 ALLOWED_EXPECTED_DEVICES = {"cpu", "cuda", "auto"}
 DEFAULT_MODEL_POLICY = {
-    "qwen_drafter": {"expected_device": "cpu", "n_gpu_layers": 0, "optional": False},
-    "gemma_e2b": {"expected_device": "cuda", "n_gpu_layers": -1, "optional": False},
-    "gemma_e4b": {"expected_device": "cuda", "n_gpu_layers": -1, "optional": True},
+    "drafter": {"expected_device": "cpu", "n_gpu_layers": 0, "optional": False},
+    "verifier": {"expected_device": "cuda", "n_gpu_layers": -1, "optional": False},
+    "target": {"expected_device": "cuda", "n_gpu_layers": -1, "optional": True},
 }
 
 
@@ -88,13 +90,13 @@ def load_config(
     )
 
 
-def _load_models(raw_models: Any, *, repo_root: Path) -> dict[str, ModelDiscovery]:
+def _load_models(raw_models: Any, *, repo_root: Path) -> ModelRegistry:
     if not isinstance(raw_models, dict):
         raise ValueError("config must contain a models mapping")
 
     discoveries: dict[str, ModelDiscovery] = {}
     for name in REQUIRED_MODEL_KEYS:
-        raw_model = raw_models.get(name)
+        raw_model = _raw_model_for_role(raw_models, name)
         if not isinstance(raw_model, dict):
             raise ValueError(f"models.{name} must be a mapping")
         default_policy = DEFAULT_MODEL_POLICY[name]
@@ -113,7 +115,16 @@ def _load_models(raw_models: Any, *, repo_root: Path) -> dict[str, ModelDiscover
             expected_device=expected_device,
             n_gpu_layers=int(raw_model.get("n_gpu_layers", default_policy["n_gpu_layers"])),
         )
-    return discoveries
+    return ModelRegistry(discoveries)
+
+
+def _raw_model_for_role(raw_models: dict[str, Any], role: str) -> Any:
+    if role in raw_models:
+        return raw_models[role]
+    for alias, canonical in MODEL_ROLE_ALIASES.items():
+        if canonical == role and alias in raw_models:
+            return raw_models[alias]
+    return None
 
 
 def discover_model_file(

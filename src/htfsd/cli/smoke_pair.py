@@ -67,8 +67,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"draft_valid_count: {result.draft_valid_count}")
         print(f"draft_rejected_count: {result.draft_rejected_count}")
         print(f"latency_seconds: {result.latency_seconds:.6f}")
-        print(f"qwen_decode_tokens_per_second: {result.qwen_decode_tokens_per_second}")
-        print(f"gemma_decode_tokens_per_second: {result.gemma_decode_tokens_per_second}")
+        print(f"drafter_decode_tokens_per_second: {result.drafter_decode_tokens_per_second}")
+        print(f"verifier_decode_tokens_per_second: {result.verifier_decode_tokens_per_second}")
         print(f"gemma_output_text:{result.gemma_output_text}")
         return 0
     except Exception as error:  # pylint: disable=broad-exception-caught

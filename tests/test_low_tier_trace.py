@@ -95,6 +95,8 @@ def test_controlled_trace_runs_multiple_prompts_and_records_policy(tmp_path: Pat
     assert records[0]["prompt_id"] == "trace-001"
     assert records[0]["qwen_model_file"] == str(qwen_file)
     assert records[0]["gemma_model_file"] == str(gemma_file)
+    assert records[0]["drafter_model_file"] == str(qwen_file)
+    assert records[0]["verifier_model_file"] == str(gemma_file)
     assert validate_trace_record(records[0], mode="live").ok is True
     assert records[0]["qwen_expected_device"] == "cpu"
     assert records[0]["qwen_n_gpu_layers"] == 0
@@ -102,6 +104,12 @@ def test_controlled_trace_runs_multiple_prompts_and_records_policy(tmp_path: Pat
     assert records[0]["gemma_expected_device"] == "cuda"
     assert records[0]["gemma_n_gpu_layers"] == -1
     assert records[0]["gemma_device_status"] == "ok"
+    assert records[0]["drafter_expected_device"] == "cpu"
+    assert records[0]["drafter_n_gpu_layers"] == 0
+    assert records[0]["drafter_device_status"] == "ok"
+    assert records[0]["verifier_expected_device"] == "cuda"
+    assert records[0]["verifier_n_gpu_layers"] == -1
+    assert records[0]["verifier_device_status"] == "ok"
     assert records[0]["bridge_status"] == "valid"
     assert records[0]["generation_settings"]["max_tokens"] == 64
     assert records[0]["generation_settings"]["temperature"] == 0.0

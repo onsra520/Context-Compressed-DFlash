@@ -48,16 +48,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             prompt_mode=args.prompt_mode,
             capture_raw_output=args.capture_raw_output,
         )
-        gemma_model = config.models["gemma_e2b"]
-        if not gemma_model.ok:
-            print(f"gemma_e2b is not ready: {gemma_model.status}")
+        verifier_model = config.models["verifier"]
+        if not verifier_model.ok:
+            print(f"verifier is not ready: {verifier_model.status}")
             return 1
 
         diagnostics = collect_environment_diagnostics(config)
         gemma_backend = LlamaCppBackend(
-            model_path=gemma_model.discovered_model_file,
+            model_path=verifier_model.discovered_model_file,
             n_ctx=config.runtime.n_ctx,
-            n_gpu_layers=gemma_model.n_gpu_layers,
+            n_gpu_layers=verifier_model.n_gpu_layers,
             seed=config.runtime.seed,
         )
         prompt_set = get_trace_prompt_set(args.prompt_set)
@@ -79,7 +79,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             metadata={
                 "config": _display_path(config.config_path, config.repo_root),
                 "mode": "target-baseline",
-                "runtime_policy": "gemma_cuda",
+                "runtime_policy": "verifier_cuda",
                 "prompt_set_id": prompt_set_id,
                 "prompt_count": len(records),
                 "generation_settings": generation_settings.to_metadata(),
@@ -92,7 +92,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("Target baseline trace: ok")
         print(f"trace_file: {_display_path(trace_path, config.repo_root)}")
         print(f"trace_records: {len(records)}")
-        print(f"gemma_device_status: {diagnostics['models']['gemma_e2b']['device_status']}")
+        print(f"verifier_device_status: {_model_diagnostics(diagnostics, 'verifier')['device_status']}")
         return 0
     except Exception as error:  # pylint: disable=broad-exception-caught
         print(str(error))
@@ -120,6 +120,12 @@ def _display_path(path: Path, repo_root: Path) -> str:
         return str(path.relative_to(repo_root))
     except ValueError:
         return str(path)
+
+
+def _model_diagnostics(diagnostics: dict, role: str) -> dict:
+    models = diagnostics.get("models", {})
+    aliases = {"drafter": "qwen_drafter", "verifier": "gemma_e2b", "target": "gemma_e4b"}
+    return models.get(role) or models.get(aliases.get(role, role), {})
 
 
 if __name__ == "__main__":

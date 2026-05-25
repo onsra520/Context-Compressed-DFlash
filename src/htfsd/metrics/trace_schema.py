@@ -17,14 +17,14 @@ SHARED_TRACE_FIELDS = frozenset(
         "fallback_count",
         "draft_valid_count",
         "draft_rejected_count",
-        "qwen_expected_device",
-        "gemma_expected_device",
-        "qwen_device_status",
-        "gemma_device_status",
-        "qwen_n_gpu_layers",
-        "gemma_n_gpu_layers",
-        "qwen_model_file",
-        "gemma_model_file",
+        "drafter_expected_device",
+        "verifier_expected_device",
+        "drafter_device_status",
+        "verifier_device_status",
+        "drafter_n_gpu_layers",
+        "verifier_n_gpu_layers",
+        "drafter_model_file",
+        "verifier_model_file",
         "latency_seconds",
     }
 )
@@ -34,14 +34,25 @@ CONTROLLED_TRACE_FIELDS = frozenset({"case_id", "gemma_fallback_used"})
 BASELINE_TRACE_FIELDS = frozenset(
     {
         "prompt_id",
-        "gemma_model_file",
-        "gemma_expected_device",
-        "gemma_device_status",
-        "gemma_n_gpu_layers",
+        "verifier_model_file",
+        "verifier_expected_device",
+        "verifier_device_status",
+        "verifier_n_gpu_layers",
         "latency_seconds",
         "trace_kind",
     }
 )
+
+TRACE_FIELD_ALIASES = {
+    "drafter_expected_device": "qwen_expected_device",
+    "verifier_expected_device": "gemma_expected_device",
+    "drafter_device_status": "qwen_device_status",
+    "verifier_device_status": "gemma_device_status",
+    "drafter_n_gpu_layers": "qwen_n_gpu_layers",
+    "verifier_n_gpu_layers": "gemma_n_gpu_layers",
+    "drafter_model_file": "qwen_model_file",
+    "verifier_model_file": "gemma_model_file",
+}
 
 
 @dataclass(frozen=True)
@@ -89,7 +100,7 @@ def validate_trace_record(record: dict[str, Any], *, mode: TraceMode) -> TraceRe
         required = required_controlled_trace_fields()
     else:
         required = required_live_trace_fields()
-    missing = sorted(field_name for field_name in required if field_name not in record)
+    missing = sorted(field_name for field_name in required if not _has_field_or_alias(record, field_name))
     return TraceRecordSchemaResult(ok=not missing, missing_fields=missing)
 
 
@@ -112,3 +123,7 @@ def validate_trace_file(path: str | Path, *, mode: TraceMode) -> TraceFileSchema
         record_count=len(records),
         record_errors=record_errors,
     )
+
+
+def _has_field_or_alias(record: dict[str, Any], field_name: str) -> bool:
+    return field_name in record or TRACE_FIELD_ALIASES.get(field_name) in record

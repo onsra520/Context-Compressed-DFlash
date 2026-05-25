@@ -1,4 +1,4 @@
-"""Minimal low-tier Qwen-to-Gemma pair smoke path."""
+"""Minimal low-tier drafter-to-verifier trace path."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import time
 from typing import Sequence
 
 from htfsd.text_bridge.normalization import normalize_qwen_draft
-from htfsd.types import PairSmokeResult
+from htfsd.types import LowTierTraceResult
 
 
 def run_pair_smoke(
@@ -18,8 +18,8 @@ def run_pair_smoke(
     temperature: float,
     stop: Sequence[str] | None = None,
     prompt_mode: str = "raw",
-) -> PairSmokeResult:
-    """Run a minimal pair smoke flow without speculative acceptance claims."""
+) -> LowTierTraceResult:
+    """Run a minimal low-tier trace flow without speculative acceptance claims."""
 
     start = time.perf_counter()
     qwen_start = time.perf_counter()
@@ -57,7 +57,7 @@ def run_pair_smoke(
     gemma_elapsed = time.perf_counter() - gemma_start
     elapsed = time.perf_counter() - start
 
-    return PairSmokeResult(
+    return LowTierTraceResult(
         prompt=prompt,
         raw_draft_text=qwen_result.text,
         normalized_draft_text=bridge.normalized_text,
@@ -68,8 +68,8 @@ def run_pair_smoke(
         draft_valid_count=draft_valid_count,
         draft_rejected_count=draft_rejected_count,
         latency_seconds=elapsed,
-        qwen_decode_tokens_per_second=_tokens_per_second(qwen_result.completion_tokens, qwen_elapsed),
-        gemma_decode_tokens_per_second=_tokens_per_second(gemma_result.completion_tokens, gemma_elapsed),
+        drafter_decode_tokens_per_second=_tokens_per_second(qwen_result.completion_tokens, qwen_elapsed),
+        verifier_decode_tokens_per_second=_tokens_per_second(gemma_result.completion_tokens, gemma_elapsed),
     )
 
 

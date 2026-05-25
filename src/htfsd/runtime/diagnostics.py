@@ -10,7 +10,7 @@ import re
 import sys
 from typing import Any
 
-from htfsd.types import HTFSDConfig, MODEL_STATUS_OK, ModelDiscovery
+from htfsd.types import HTFSDConfig, MODEL_ROLE_ALIASES, MODEL_STATUS_OK, ModelDiscovery, ModelRegistry
 
 QUANTIZATION_PATTERN = re.compile(r"(Q\d(?:_[A-Z0-9]+)+|Q\d)")
 
@@ -55,16 +55,25 @@ def collect_environment_diagnostics(
             "n_ctx": config.runtime.n_ctx,
             "seed": config.runtime.seed,
         },
-        "models": {
+        "models": ModelRegistry({
             name: _model_diagnostics(
                 model,
                 observed_backend=config.runtime.backend,
-                observed_gpu_offload=observed.get(name),
+                observed_gpu_offload=_observed_offload(observed, name),
                 llama_cpp_supports_gpu_offload=supports_gpu_offload,
             )
             for name, model in config.models.items()
-        },
+        }),
     }
+
+
+def _observed_offload(observed: dict[str, bool | None], role: str) -> bool | None:
+    if role in observed:
+        return observed[role]
+    for alias, canonical in MODEL_ROLE_ALIASES.items():
+        if canonical == role and alias in observed:
+            return observed[alias]
+    return None
 
 
 def infer_quantization(path: Path | None) -> str | None:

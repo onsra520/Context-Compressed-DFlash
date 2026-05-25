@@ -1,17 +1,17 @@
 models:
-  qwen_drafter:
+  drafter:
     model_dir: models/qwen3-0.6b
     model_file: null
     expected_device: cpu
     n_gpu_layers: 0
 
-  gemma_e2b:
+  verifier:
     model_dir: models/gemma-4-e2b-it
     model_file: null
     expected_device: cuda
     n_gpu_layers: -1
 
-  gemma_e4b:
+  target:
     model_dir: models/gemma-4-e4b-it
     model_file: null
     expected_device: cuda
