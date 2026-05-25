@@ -58,6 +58,7 @@ htfsd-classify-low-tier-trace = "htfsd.cli.classify_low_tier_trace:main"
 htfsd-summarize-output-diagnostics = "htfsd.cli.summarize_output_diagnostics:main"
 htfsd-diagnose-output-comparison = "htfsd.cli.diagnose_output_comparison:main"
 htfsd-select-diagnostic-records = "htfsd.cli.select_diagnostic_records:main"
+htfsd-inspect-eligible-records = "htfsd.cli.inspect_eligible_records:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
