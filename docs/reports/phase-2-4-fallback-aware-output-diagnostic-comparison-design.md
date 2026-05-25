@@ -296,7 +296,7 @@ No target-equivalence claim is made.
 No correctness claim is made.
 No lossless-generation claim is made.
 No benchmark claim is made.
-No draft acceptance rate is reported.
+No draft-acceptance metric is reported.
 
 ## Recommended Next Step
 

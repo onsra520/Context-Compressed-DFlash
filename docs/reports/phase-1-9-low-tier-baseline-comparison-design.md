@@ -6,7 +6,7 @@ Phase 1.9 defines the comparison rules for the current low-tier and target-basel
 
 This phase is design only. It does not add benchmark logic, output matching, token-level draft verification, or high-tier feature implementation.
 
-The current comparison layer may summarize trace metadata, runtime placement, bridge accounting, and latency fields descriptively. It must not present those summaries as a benchmark result or as proof of output parity.
+The current comparison layer may summarize trace metadata, runtime placement, bridge accounting, and latency fields descriptively. It must not present those summaries as a benchmark claim or as proof of output parity.
 
 ## Current Trace Capabilities
 

@@ -109,7 +109,7 @@ Forbidden-claim scan passed with zero matches.
 
 - Comparison v0 does not compare output equality.
 - Comparison v0 does not report quality or correctness.
-- Comparison v0 does not compute or claim performance improvement.
+- Comparison v0 does not compute or claim runtime improvement.
 - Exact token-level speculative acceptance remains out of scope.
 
 ## Conclusion

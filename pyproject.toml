@@ -56,6 +56,7 @@ htfsd-prepare-output-comparison = "htfsd.cli.prepare_output_comparison:main"
 htfsd-preview-output-comparison = "htfsd.cli.preview_output_comparison:main"
 htfsd-classify-low-tier-trace = "htfsd.cli.classify_low_tier_trace:main"
 htfsd-summarize-output-diagnostics = "htfsd.cli.summarize_output_diagnostics:main"
+htfsd-diagnose-output-comparison = "htfsd.cli.diagnose_output_comparison:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
