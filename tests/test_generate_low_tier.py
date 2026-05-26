@@ -181,6 +181,39 @@ def test_generate_cli_prints_text_output_with_metrics(capsys) -> None:
     assert "bridge_valid_block_count:" in output
     assert "cycle_fallback_count:" in output
     assert "response_cleanup_applied:" in output
+    assert "INTERPRETATION GUARDS:" in output
+    assert "bridge_valid_block_count: structural bridge metadata only" in output
+    assert "cycle_fallback_count: fallback event metadata only" in output
+
+
+def test_generate_cli_quiet_mode_prints_response_without_metrics(capsys) -> None:
+    exit_code = generate_main(
+        [
+            "--prompt",
+            "Hello. Reply in one short sentence.",
+            "--draft-block-size",
+            "8",
+            "--max-cycles",
+            "1",
+            "--quiet",
+            "--fake",
+        ]
+    )
+
+    assert exit_code == 0
+    captured = capsys.readouterr()
+    assert "RESPONSE:" in captured.out
+    assert "METRICS:" not in captured.out
+    assert captured.err == ""
+
+
+def test_generate_cli_sends_validation_errors_to_stderr(capsys) -> None:
+    exit_code = generate_main(["--prompt", "   ", "--fake"])
+
+    captured = capsys.readouterr()
+    assert exit_code != 0
+    assert captured.out == ""
+    assert "prompt must not be blank" in captured.err
 
 
 def test_generate_cli_writes_json_and_trace(tmp_path: Path, capsys) -> None:
@@ -217,6 +250,53 @@ def test_generate_cli_writes_json_and_trace(tmp_path: Path, capsys) -> None:
     assert "response_cleanup_applied" in trace_payload["metrics"]
 
 
+def test_generate_cli_json_stdout_stays_parseable_when_fake_backend_logs(capsys) -> None:
+    exit_code = generate_main(
+        [
+            "--prompt",
+            "Explain caching.",
+            "--draft-block-size",
+            "8",
+            "--max-cycles",
+            "1",
+            "--json",
+            "--fake-runtime-log",
+            "--fake",
+        ]
+    )
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    payload = json.loads(captured.out)
+    assert payload["trace_type"] == "low_tier_cycle_generate"
+    assert "fake runtime log" in captured.err
+    assert "fake runtime log" not in captured.out
+
+
+def test_generate_cli_json_verbose_still_keeps_stdout_parseable(capsys) -> None:
+    exit_code = generate_main(
+        [
+            "--prompt",
+            "Explain caching.",
+            "--draft-block-size",
+            "8",
+            "--max-cycles",
+            "1",
+            "--json",
+            "--verbose",
+            "--fake-runtime-log",
+            "--fake",
+        ]
+    )
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    payload = json.loads(captured.out)
+    assert payload["trace_type"] == "low_tier_cycle_generate"
+    assert "fake runtime log" in captured.err
+    assert "fake runtime log" not in captured.out
+
+
 def test_generate_cli_accepts_quiet_and_verbose_args(capsys) -> None:
     exit_code = generate_main(["--prompt", "Hello", "--quiet", "--fake"])
 
@@ -232,24 +312,24 @@ def test_generate_cli_rejects_blank_prompt(capsys) -> None:
     exit_code = generate_main(["--prompt", "   ", "--fake"])
 
     assert exit_code != 0
-    assert "prompt must not be blank" in capsys.readouterr().out
+    assert "prompt must not be blank" in capsys.readouterr().err
 
 
 def test_generate_cli_rejects_invalid_cycle_controls(capsys) -> None:
     exit_code = generate_main(["--prompt", "Hello", "--draft-block-size", "0", "--fake"])
 
     assert exit_code != 0
-    assert "draft-block-size must be greater than 0" in capsys.readouterr().out
+    assert "draft-block-size must be greater than 0" in capsys.readouterr().err
 
     exit_code = generate_main(["--prompt", "Hello", "--max-cycles", "0", "--fake"])
 
     assert exit_code != 0
-    assert "max-cycles must be greater than 0" in capsys.readouterr().out
+    assert "max-cycles must be greater than 0" in capsys.readouterr().err
 
     exit_code = generate_main(["--prompt", "Hello", "--max-total-chars", "0", "--fake"])
 
     assert exit_code != 0
-    assert "max-total-chars must be greater than 0" in capsys.readouterr().out
+    assert "max-total-chars must be greater than 0" in capsys.readouterr().err
 
 
 def _all_keys(value) -> set[str]:  # type: ignore[no-untyped-def]

@@ -21,6 +21,7 @@ class LlamaCppBackend:
         n_ctx: int,
         n_gpu_layers: int,
         seed: int,
+        verbose: bool = False,
         llama_cls: type | None = None,
         import_llama: Callable[[], type] | None = None,
     ) -> None:
@@ -28,6 +29,7 @@ class LlamaCppBackend:
         self.n_ctx = n_ctx
         self.n_gpu_layers = n_gpu_layers
         self.seed = seed
+        self.verbose = verbose
         self._llama_cls = llama_cls
         self._import_llama = import_llama or _import_llama
         self.model = None
@@ -98,6 +100,7 @@ class LlamaCppBackend:
             n_ctx=self.n_ctx,
             n_gpu_layers=self.n_gpu_layers,
             seed=self.seed,
+            verbose=self.verbose,
         )
         return self.model
 

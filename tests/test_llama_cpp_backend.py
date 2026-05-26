@@ -59,9 +59,28 @@ def test_backend_loads_lazily_and_generates_text(tmp_path: Path):
     assert backend.model.kwargs["n_ctx"] == 1024
     assert backend.model.kwargs["n_gpu_layers"] == 0
     assert backend.model.kwargs["seed"] == 42
+    assert backend.model.kwargs["verbose"] is False
     assert backend.model.calls == [
         ("Hello", {"max_tokens": 3, "temperature": 0.0, "stop": ["</s>"]})
     ]
+
+
+def test_backend_can_allow_verbose_llama_cpp_logs(tmp_path: Path):
+    model_path = tmp_path / "model.gguf"
+    model_path.write_text("fake", encoding="utf-8")
+    backend = LlamaCppBackend(
+        model_path=model_path,
+        n_ctx=1024,
+        n_gpu_layers=0,
+        seed=42,
+        verbose=True,
+        llama_cls=FakeLlama,
+    )
+
+    backend.generate_text("Hello", max_tokens=3, temperature=0.0)
+
+    assert backend.model is not None
+    assert backend.model.kwargs["verbose"] is True
 
 
 def test_backend_generates_chat_with_model_template(tmp_path: Path):
