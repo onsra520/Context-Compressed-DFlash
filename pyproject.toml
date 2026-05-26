@@ -61,6 +61,7 @@ htfsd-select-diagnostic-records = "htfsd.cli.select_diagnostic_records:main"
 htfsd-inspect-eligible-records = "htfsd.cli.inspect_eligible_records:main"
 htfsd-run-benchmark-readiness = "htfsd.cli.run_benchmark_readiness:main"
 htfsd-run-low-tier-cycle-trace = "htfsd.cli.run_low_tier_cycle_trace:main"
+htfsd-generate-low-tier = "htfsd.cli.generate_low_tier:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
