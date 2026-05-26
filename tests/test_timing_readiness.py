@@ -134,3 +134,82 @@ def test_benchmark_readiness_cli_writes_artifacts(tmp_path: Path) -> None:
     assert list(tmp_path.glob("*-run-manifest.json"))
     assert list(tmp_path.glob("*-timing-summary.json"))
     assert list(tmp_path.glob("*-benchmark-readiness-report.md"))
+
+
+def test_benchmark_readiness_cli_routes_to_low_tier_cycle_dry_run(tmp_path: Path) -> None:
+    exit_code = run_benchmark_readiness_main(
+        [
+            "--output-dir",
+            str(tmp_path),
+            "--dry-run",
+            "--trace-kind",
+            "low-tier-cycle",
+            "--prompt-set",
+            "phase-2-controlled-eligibility-v2",
+            "--prompt-mode",
+            "raw",
+            "--draft-block-size",
+            "8",
+            "--max-cycles",
+            "4",
+            "--repetitions",
+            "1",
+            "--fake-cycle-trace",
+        ]
+    )
+
+    assert exit_code == 0
+    summary_path = next(tmp_path.glob("*-timing-summary.json"))
+    report_path = next(tmp_path.glob("*-benchmark-readiness-report.md"))
+    summary = json.loads(summary_path.read_text())
+    encoded = json.dumps(summary)
+
+    assert summary["trace_kind"] == "low-tier-cycle"
+    assert summary["dry_run"] is True
+    assert summary["repetitions_requested"] == 1
+    assert summary["draft_block_size"] == 8
+    assert summary["max_cycles"] == 4
+    assert summary["repetition_summaries"][0]["trace_records"] == 1
+    assert summary["repetition_summaries"][0]["total_cycles"] == 4
+    assert summary["repetition_summaries"][0]["bridge_valid_block_count"] == 4
+    assert summary["repetition_summaries"][0]["cycle_fallback_count"] == 0
+    assert "bridge_valid_block_count is a bridge-level structural diagnostic count only." in summary[
+        "interpretation_guards"
+    ]
+    assert "cycle_fallback_count is a cycle-level fallback count only." in summary["interpretation_guards"]
+    for forbidden in (
+        "speedup",
+        "performance_gain",
+        "benchmark_score",
+        "acceptance_rate",
+        "accepted_tokens",
+        "accepted_blocks",
+    ):
+        assert forbidden not in encoded
+
+    report_text = report_path.read_text()
+    assert "bridge_valid_block_count is a bridge-level structural diagnostic count only." in report_text
+    assert "It is not accepted block count." in report_text
+    assert "cycle_fallback_count is a cycle-level fallback count only." in report_text
+    assert "It is not correctness evidence." in report_text
+
+
+def test_low_tier_cycle_dry_run_allows_null_timing_boundaries(tmp_path: Path) -> None:
+    exit_code = run_benchmark_readiness_main(
+        [
+            "--output-dir",
+            str(tmp_path),
+            "--dry-run",
+            "--trace-kind",
+            "low-tier-cycle",
+            "--repetitions",
+            "1",
+            "--fake-cycle-trace",
+        ]
+    )
+
+    assert exit_code == 0
+    summary = json.loads(next(tmp_path.glob("*-timing-summary.json")).read_text())
+
+    assert summary["boundaries"]["model_load_time_seconds"] is None
+    assert summary["boundaries"]["diagnostic_overhead_seconds"] is None

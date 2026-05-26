@@ -26,6 +26,26 @@ TIMING_CATEGORIES: tuple[str, ...] = (
     "excluded_unknown_contribution_record",
 )
 
+BLOCK_CYCLE_TIMING_CATEGORIES: tuple[str, ...] = (
+    "bridge_valid_block",
+    "bridge_rejected_block",
+    "cycle_fallback",
+    "cycle_no_fallback",
+)
+
+BLOCK_CYCLE_INTERPRETATION_GUARDS: tuple[str, ...] = (
+    "bridge_valid_block_count is a bridge-level structural diagnostic count only.",
+    "It is not accepted block count.",
+    "It is not accepted token count.",
+    "It is not acceptance-rate evidence.",
+    "It is not target-equivalence evidence.",
+    "cycle_fallback_count is a cycle-level fallback count only.",
+    "It is not correctness evidence.",
+    "It is not performance evidence.",
+    "It is not benchmark evidence.",
+    "It is not a quality score.",
+)
+
 NON_CLAIMS: tuple[str, ...] = (
     "This is not a benchmark report.",
     "This is not a performance comparison.",
@@ -85,6 +105,30 @@ class TimingCategorySummary:
 
 
 @dataclass(frozen=True)
+class TimingRepetitionSummary:
+    """One dry-run repetition summary."""
+
+    repetition_id: str
+    trace_kind: str
+    cycle_trace_path: str | None
+    started_at_utc: str
+    ended_at_utc: str
+    total_wall_time_seconds: float | None
+    generation_time_seconds: float | None
+    diagnostic_overhead_seconds: float | None
+    trace_records: int
+    total_cycles: int
+    bridge_valid_block_count: int
+    bridge_rejected_block_count: int
+    cycle_fallback_count: int
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return JSON-friendly repetition data."""
+
+        return asdict(self)
+
+
+@dataclass(frozen=True)
 class TimingSummary:
     """Trace-level timing-readiness summary."""
 
@@ -96,6 +140,18 @@ class TimingSummary:
     latency_seconds_descriptive: float | None = None
     total_prompt_tokens: int | None = None
     total_completion_tokens: int | None = None
+    trace_kind: str | None = None
+    dry_run: bool = False
+    repetitions_requested: int | None = None
+    prompt_set_id: str | None = None
+    prompt_count: int | None = None
+    prompt_mode: str | None = None
+    draft_block_size: int | None = None
+    max_cycles: int | None = None
+    capture_raw_output: bool | None = None
+    cycle_trace_artifact_paths: list[str] = field(default_factory=list)
+    repetition_summaries: list[TimingRepetitionSummary] = field(default_factory=list)
+    interpretation_guards: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         """Return JSON-friendly summary data."""
@@ -109,6 +165,18 @@ class TimingSummary:
             "latency_seconds_descriptive": self.latency_seconds_descriptive,
             "total_prompt_tokens": self.total_prompt_tokens,
             "total_completion_tokens": self.total_completion_tokens,
+            "trace_kind": self.trace_kind,
+            "dry_run": self.dry_run,
+            "repetitions_requested": self.repetitions_requested,
+            "prompt_set_id": self.prompt_set_id,
+            "prompt_count": self.prompt_count,
+            "prompt_mode": self.prompt_mode,
+            "draft_block_size": self.draft_block_size,
+            "max_cycles": self.max_cycles,
+            "capture_raw_output": self.capture_raw_output,
+            "cycle_trace_artifact_paths": self.cycle_trace_artifact_paths,
+            "repetition_summaries": [summary.to_dict() for summary in self.repetition_summaries],
+            "interpretation_guards": self.interpretation_guards,
         }
 
 
