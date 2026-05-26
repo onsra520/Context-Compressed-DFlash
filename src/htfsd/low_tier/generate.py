@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 import json
 from pathlib import Path
+import re
 from typing import Any, Sequence
 import time
 
@@ -77,6 +78,7 @@ class LowTierGenerateResult:
     """Result for one prompt through the low-tier block-cycle generation path."""
 
     prompt: str
+    effective_prompt: str
     response_text: str
     prompt_hash: str
     prompt_mode: str
@@ -119,7 +121,8 @@ def run_low_tier_generate(
     """Run one prompt through the low-tier block-cycle generation path."""
 
     start = time.perf_counter()
-    current_context = prompt
+    effective_prompt = apply_prompt_policy(prompt, prompt_mode)
+    current_context = effective_prompt
     response_parts: list[str] = []
     cycles: list[LowTierGenerateCycle] = []
     drafter_latency_total = 0.0
@@ -194,7 +197,12 @@ def run_low_tier_generate(
         if max_total_chars is not None and len(response_text) >= max_total_chars:
             break
 
-    response_text = _join_text_sequence(response_parts)
+    raw_response_text = _join_text_sequence(response_parts)
+    response_text, response_cleanup_applied = cleanup_response_text(
+        raw_response_text,
+        prompt=prompt,
+        effective_prompt=effective_prompt,
+    )
     total_wall_time = time.perf_counter() - start
     valid_count = sum(1 for cycle in cycles if cycle.bridge_status == "valid")
     rejected_count = sum(1 for cycle in cycles if cycle.bridge_status == "rejected")
@@ -206,6 +214,7 @@ def run_low_tier_generate(
         "bridge_latency_seconds_total": bridge_latency_total,
         "output_chars": len(response_text),
         "response_chars": len(response_text),
+        "response_cleanup_applied": response_cleanup_applied,
         "draft_text_chunk_count": len(cycles),
         "verifier_text_chunk_count": len(cycles),
         "tokens_per_second_descriptive": None,
@@ -213,6 +222,7 @@ def run_low_tier_generate(
     }
     return LowTierGenerateResult(
         prompt=prompt,
+        effective_prompt=effective_prompt,
         response_text=response_text,
         prompt_hash=short_hash(prompt),
         prompt_mode=prompt_mode,
@@ -246,6 +256,7 @@ def with_trace_path(result: LowTierGenerateResult, trace_path: str | None) -> Lo
 
     return LowTierGenerateResult(
         prompt=result.prompt,
+        effective_prompt=result.effective_prompt,
         response_text=result.response_text,
         prompt_hash=result.prompt_hash,
         prompt_mode=result.prompt_mode,
@@ -281,12 +292,48 @@ def _generate_with_prompt_mode(
             temperature=temperature,
             stop=stop,
         )
+    if prompt_mode == "instruction":
+        return backend.generate_text(
+            prompt,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            stop=stop,
+        )
     return backend.generate_text(
         prompt,
         max_tokens=max_tokens,
         temperature=temperature,
         stop=stop,
     )
+
+
+def apply_prompt_policy(prompt: str, prompt_mode: str) -> str:
+    """Return the effective prompt for the selected user-facing prompt policy."""
+
+    if prompt_mode == "instruction":
+        return (
+            "You are a concise assistant. Follow the user request directly.\n"
+            f"User: {prompt}\n"
+            "Assistant:"
+        )
+    return prompt
+
+
+def cleanup_response_text(
+    response_text: str,
+    *,
+    prompt: str,
+    effective_prompt: str,
+) -> tuple[str, bool]:
+    """Conservatively normalize final display text and flag whether it changed."""
+
+    cleaned = response_text.replace("\r\n", "\n").replace("\r", "\n").strip()
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+    for echo in (effective_prompt, prompt):
+        echo = echo.strip()
+        if echo and cleaned.startswith(echo):
+            cleaned = cleaned[len(echo) :].lstrip()
+    return cleaned, cleaned != response_text
 
 
 def _join_text(left: str, right: str) -> str:
@@ -300,4 +347,3 @@ def _join_text_sequence(parts: list[str]) -> str:
     for part in parts:
         output = _join_text(output, part)
     return output.strip()
-

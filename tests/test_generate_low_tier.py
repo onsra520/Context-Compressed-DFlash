@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from htfsd.cli.generate_low_tier import main as generate_main
-from htfsd.low_tier.generate import run_low_tier_generate
+from htfsd.low_tier.generate import apply_prompt_policy, cleanup_response_text, run_low_tier_generate
 from htfsd.types import TextGenerationResult
 
 
@@ -112,6 +112,53 @@ def test_generate_result_serializes_without_forbidden_fields() -> None:
     assert "No draft-acceptance metric is reported." in result.non_claims
 
 
+def test_instruction_prompt_policy_wraps_user_prompt() -> None:
+    effective = apply_prompt_policy("Explain caching.", "instruction")
+
+    assert effective == (
+        "You are a concise assistant. Follow the user request directly.\n"
+        "User: Explain caching.\n"
+        "Assistant:"
+    )
+
+
+def test_instruction_mode_records_effective_prompt_and_uses_wrapper() -> None:
+    drafter = SequenceBackend(["draft"])
+    verifier = SequenceBackend(["verifier"])
+
+    result = run_low_tier_generate(
+        prompt="Explain caching.",
+        prompt_mode="instruction",
+        drafter_backend=drafter,
+        verifier_backend=verifier,
+        draft_block_size=8,
+        max_cycles=1,
+        max_total_chars=None,
+        temperature=0.0,
+        stop=None,
+        capture_raw_output=False,
+    )
+
+    assert result.prompt_mode == "instruction"
+    assert result.effective_prompt.startswith("You are a concise assistant.")
+    assert drafter.prompts[0] == result.effective_prompt
+
+
+def test_raw_mode_remains_available_without_instruction_wrapper() -> None:
+    assert apply_prompt_policy("Explain caching.", "raw") == "Explain caching."
+
+
+def test_response_cleanup_strips_whitespace_normalizes_newlines_and_removes_echo() -> None:
+    cleaned, applied = cleanup_response_text(
+        "Hello. Reply in one short sentence.\r\n\r\n\r\n  Done.  ",
+        prompt="Hello. Reply in one short sentence.",
+        effective_prompt="wrapped",
+    )
+
+    assert cleaned == "Done."
+    assert applied is True
+
+
 def test_generate_cli_prints_text_output_with_metrics(capsys) -> None:
     exit_code = generate_main(
         [
@@ -130,8 +177,10 @@ def test_generate_cli_prints_text_output_with_metrics(capsys) -> None:
     assert "RESPONSE:" in output
     assert "METRICS:" in output
     assert "trace_type: low_tier_cycle_generate" in output
+    assert "prompt_mode: instruction" in output
     assert "bridge_valid_block_count:" in output
     assert "cycle_fallback_count:" in output
+    assert "response_cleanup_applied:" in output
 
 
 def test_generate_cli_writes_json_and_trace(tmp_path: Path, capsys) -> None:
@@ -154,12 +203,53 @@ def test_generate_cli_writes_json_and_trace(tmp_path: Path, capsys) -> None:
     assert exit_code == 0
     payload = json.loads(capsys.readouterr().out)
     assert payload["trace_type"] == "low_tier_cycle_generate"
+    assert payload["prompt_mode"] == "instruction"
+    assert payload["effective_prompt"].startswith("You are a concise assistant.")
     assert payload["response_text"]
+    assert "interpretation_guards" in payload
+    assert "non_claims" in payload
     trace_files = list(tmp_path.glob("*-low-tier-generate-trace.json"))
     assert trace_files
     trace_payload = json.loads(trace_files[0].read_text())
     assert trace_payload["trace_type"] == "low_tier_cycle_generate"
     assert trace_payload["response_text"] == payload["response_text"]
+    assert trace_payload["effective_prompt"] == payload["effective_prompt"]
+    assert "response_cleanup_applied" in trace_payload["metrics"]
+
+
+def test_generate_cli_accepts_quiet_and_verbose_args(capsys) -> None:
+    exit_code = generate_main(["--prompt", "Hello", "--quiet", "--fake"])
+
+    assert exit_code == 0
+    assert "RESPONSE:" in capsys.readouterr().out
+
+    exit_code = generate_main(["--prompt", "Hello", "--verbose", "--fake"])
+
+    assert exit_code == 0
+
+
+def test_generate_cli_rejects_blank_prompt(capsys) -> None:
+    exit_code = generate_main(["--prompt", "   ", "--fake"])
+
+    assert exit_code != 0
+    assert "prompt must not be blank" in capsys.readouterr().out
+
+
+def test_generate_cli_rejects_invalid_cycle_controls(capsys) -> None:
+    exit_code = generate_main(["--prompt", "Hello", "--draft-block-size", "0", "--fake"])
+
+    assert exit_code != 0
+    assert "draft-block-size must be greater than 0" in capsys.readouterr().out
+
+    exit_code = generate_main(["--prompt", "Hello", "--max-cycles", "0", "--fake"])
+
+    assert exit_code != 0
+    assert "max-cycles must be greater than 0" in capsys.readouterr().out
+
+    exit_code = generate_main(["--prompt", "Hello", "--max-total-chars", "0", "--fake"])
+
+    assert exit_code != 0
+    assert "max-total-chars must be greater than 0" in capsys.readouterr().out
 
 
 def _all_keys(value) -> set[str]:  # type: ignore[no-untyped-def]

@@ -29,15 +29,22 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--draft-block-size", type=int, default=8)
     parser.add_argument("--max-cycles", type=int, default=4)
     parser.add_argument("--max-total-chars", type=int, default=None)
-    parser.add_argument("--prompt-mode", choices=("raw", "chat"), default="raw")
+    parser.add_argument("--prompt-mode", choices=("raw", "instruction", "chat"), default="instruction")
     parser.add_argument("--capture-raw-output", action="store_true")
     parser.add_argument("--json", action="store_true", help="Print the full result as JSON.")
     parser.add_argument("--write-trace", action="store_true")
     parser.add_argument("--output-dir", default=None)
+    verbosity = parser.add_mutually_exclusive_group()
+    verbosity.add_argument("--quiet", action="store_true", help="Prefer compact CLI output when possible.")
+    verbosity.add_argument("--verbose", action="store_true", help="Allow verbose runtime output.")
     parser.add_argument("--fake", action="store_true", help="Use deterministic fake backends for CLI tests.")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     try:
+        validation_error = _validate_args(args)
+        if validation_error:
+            print(validation_error)
+            return 2
         config = load_config(args.config)
         drafter_model = config.models["drafter"]
         verifier_model = config.models["verifier"]
@@ -128,6 +135,7 @@ def _print_text_result(result: LowTierGenerateResult) -> None:
         "bridge_latency_seconds_total",
         "output_chars",
         "response_chars",
+        "response_cleanup_applied",
     ):
         print(f"{key}: {result.metrics[key]}")
     if result.trace_path:
@@ -139,6 +147,18 @@ def _display_path(path: Path, repo_root: Path) -> str:
         return str(path.relative_to(repo_root))
     except ValueError:
         return str(path)
+
+
+def _validate_args(args) -> str | None:  # type: ignore[no-untyped-def]
+    if not args.prompt.strip():
+        return "prompt must not be blank"
+    if args.draft_block_size <= 0:
+        return "draft-block-size must be greater than 0"
+    if args.max_cycles <= 0:
+        return "max-cycles must be greater than 0"
+    if args.max_total_chars is not None and args.max_total_chars <= 0:
+        return "max-total-chars must be greater than 0"
+    return None
 
 
 class _RepeatingBackend:
@@ -154,4 +174,3 @@ class _RepeatingBackend:
 
 if __name__ == "__main__":
     sys.exit(main())
-
