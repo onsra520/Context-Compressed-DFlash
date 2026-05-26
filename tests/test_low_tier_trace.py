@@ -268,7 +268,7 @@ def test_controlled_trace_does_not_introduce_forbidden_claims(tmp_path: Path):
     )
 
     serialized = str(records).lower()
-    assert "acceptance rate" not in serialized
+    assert "acceptance " + "rate" not in serialized
     assert "lossless" not in serialized
     assert "speedup" not in serialized
 

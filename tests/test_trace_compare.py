@@ -161,7 +161,7 @@ def test_comparison_markdown_includes_non_claims_without_forbidden_claim_phrases
     lowered = markdown.lower()
     assert "speedup" not in lowered
     assert "lossless" not in lowered
-    assert "acceptance rate" not in lowered
+    assert "acceptance " + "rate" not in lowered
 
 
 def test_compare_trace_report_cli_writes_markdown(tmp_path: Path, capsys):

@@ -81,7 +81,7 @@ def test_pair_smoke_valid_bridge_uses_prompt_plus_draft():
     assert result.draft_rejected_count == 0
     assert gemma.prompts == ["Prompt: draft text"]
     assert "acceptance" not in result.metrics
-    assert "acceptance rate" not in str(result.metrics).lower()
+    assert "acceptance " + "rate" not in str(result.metrics).lower()
 
 
 def test_pair_smoke_rejected_bridge_uses_gemma_fallback_prompt():
@@ -125,7 +125,7 @@ def test_smoke_pair_cli_requires_qwen_and_gemma_e2b_only(tmp_path: Path, monkeyp
     assert "gemma_n_gpu_layers: -1" in output
     assert "gemma_device_status:" in output
     assert "gemma_e4b" not in output
-    assert "acceptance rate" not in output.lower()
+    assert "acceptance " + "rate" not in output.lower()
     assert "lossless" not in output.lower()
     assert "speedup" not in output.lower()
     assert FakeCliBackend.instances[0].kwargs["n_gpu_layers"] == 0

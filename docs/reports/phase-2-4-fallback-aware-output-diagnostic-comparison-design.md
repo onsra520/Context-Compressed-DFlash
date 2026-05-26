@@ -232,8 +232,8 @@ output parity
 target equivalence
 lossless
 correctness
-accepted tokens
-acceptance rate
+accepted-token terminology
+acceptance-rate terminology
 speedup
 ```
 

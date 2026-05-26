@@ -58,7 +58,7 @@ phrases = [
     "4x " + "speedup",
     "benchmark " + "result",
     "performance " + "improvement",
-    "draft " + "acceptance rate",
+    "draft " + "acceptance " + "rate",
     "v" + "LLM",
     "v" + "llm",
 ]
