@@ -107,6 +107,11 @@ def test_generate_result_serializes_without_forbidden_fields() -> None:
         "speedup",
         "performance_gain",
         "benchmark_score",
+        "accepted_target_token_count",
+        "rejected_target_token_count",
+        "first_rejection_position",
+        "target_equivalent",
+        "lossless",
     ):
         assert forbidden not in _all_keys(data)
     assert "No draft-acceptance metric is reported." in result.non_claims
@@ -330,6 +335,20 @@ def test_generate_cli_rejects_invalid_cycle_controls(capsys) -> None:
 
     assert exit_code != 0
     assert "max-total-chars must be greater than 0" in capsys.readouterr().err
+
+
+def test_phase_3_9_closure_report_documents_v02_boundary() -> None:
+    report_path = Path("docs/reports/phase-3-9-low-tier-generation-pipeline-closure.md")
+
+    report = report_path.read_text(encoding="utf-8")
+
+    assert "Low-Tier Block-Cycle Generation Pipeline v0.2" in report
+    assert "Phase 3.9 closes the low-tier block-cycle generation pipeline as an engineering milestone." in report
+    assert "Phase 3.9 does not close D-Flash correctness." in report
+    assert "D-Flash correctness work begins at Phase 3.10 with specification." in report
+    assert "bridge_valid_block_count is structural bridge metadata only." in report
+    assert "cycle_fallback_count is fallback event metadata only." in report
+    assert "No target-equivalence claim is made." in report
 
 
 def _all_keys(value) -> set[str]:  # type: ignore[no-untyped-def]
