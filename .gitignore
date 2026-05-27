@@ -1,7 +1,166 @@
+# ============================================================
+# Python environments
+# ============================================================
 .venv/
+venv/
+env/
+ENV/
+.conda/
+conda-meta/
+
+# ============================================================
+# Python cache / compiled files
+# ============================================================
 __pycache__/
 *.py[cod]
-.pytest_cache/
+*$py.class
+*.so
+
+# ============================================================
+# Build / packaging artifacts
+# ============================================================
+build/
+dist/
 *.egg-info/
+.eggs/
+pip-wheel-metadata/
+wheels/
+
+# ============================================================
+# Test / coverage / lint cache
+# ============================================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+.dmypy.json
+dmypy.json
+
+# ============================================================
+# Jupyter / notebooks
+# ============================================================
+.ipynb_checkpoints/
+
+# ============================================================
+# Logs / runtime artifacts
+# ============================================================
 logs/
+*.log
+*.out
+*.err
+runs/
+outputs/
+artifacts/
+tmp/
+temp/
+
+# ============================================================
+# Local models / large ML assets
+# ============================================================
 models/
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.ckpt
+
+# Hugging Face / model caches if accidentally created inside project
+.cache/
+huggingface/
+hf_cache/
+transformers_cache/
+
+# ============================================================
+# Dataset / benchmark generated files
+# ============================================================
+data/raw/
+data/interim/
+data/processed/
+benchmarks/results/
+benchmark_results/
+*.jsonl.tmp
+
+# Keep dataset placeholders if needed
+!data/.gitkeep
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+
+# ============================================================
+# Config / secrets / local overrides
+# ============================================================
+.env
+.env.*
+!.env.example
+
+*.local
+*.local.yaml
+*.local.yml
+*.local.json
+
+configs/*.local.yaml
+configs/*.local.yml
+configs/local.yaml
+configs/local.yml
+
+# ============================================================
+# IDE / editor
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# OS / filesystem metadata
+# ============================================================
+desktop.ini
+$RECYCLE.BIN/
+
+# ============================================================
+# Llama.cpp / native build artifacts
+# ============================================================
+*.o
+*.a
+*.dll
+*.dylib
+*.exe
+
+# If llama.cpp or native libs are built inside project
+vendor/llama.cpp/build/
+llama.cpp/build/
+
+# ============================================================
+# Generated docs / reports
+# ============================================================
+site/
+docs/_build/
+docs/.doctrees/
+
+# ============================================================
+# Agent / local scratch files
+# ============================================================
+.agents/tmp/
+.agents/cache/
+.agents/logs/
+
+# Keep important agent docs/specs if you use them
+!.agents/docs/
+!.agents/docs/**
+
+# backups / temp files
+backups/
+ui/_split_failed_backup
+ui/ui.backup.html

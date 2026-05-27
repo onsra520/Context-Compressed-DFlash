@@ -209,10 +209,24 @@ PHASE_2_REFINED_ELIGIBILITY_PROMPT_SET = TracePromptSet(
     ),
 )
 
+MANUAL_LOW_TIER_TEST_PROMPT_SET = TracePromptSet(
+    prompt_set_id="manual-low-tier-test-v1",
+    prompts=(
+        TracePrompt(
+            "manual-001",
+            "What is AI?",
+            "manual test",
+            "short answer",
+            "Manual low-tier prompt test.",
+        ),
+    ),
+)
+
 TRACE_PROMPT_SETS = {
     DEFAULT_TRACE_PROMPT_SET.prompt_set_id: DEFAULT_TRACE_PROMPT_SET,
     PHASE_2_CONTROLLED_ELIGIBILITY_PROMPT_SET.prompt_set_id: PHASE_2_CONTROLLED_ELIGIBILITY_PROMPT_SET,
     PHASE_2_REFINED_ELIGIBILITY_PROMPT_SET.prompt_set_id: PHASE_2_REFINED_ELIGIBILITY_PROMPT_SET,
+    MANUAL_LOW_TIER_TEST_PROMPT_SET.prompt_set_id: MANUAL_LOW_TIER_TEST_PROMPT_SET,
 }
 
 

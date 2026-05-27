@@ -39,8 +39,14 @@ bench = [
   "pandas>=2.2.0",
 ]
 
+ui = [
+  "fastapi>=0.140.0",
+  "uvicorn>=0.34.0",
+  
+]
+
 all = [
-  "htfsd[dev,hf,bench]",
+  "htfsd[dev,hf,bench,ui]",
 ]
 
 [project.scripts]

@@ -48,6 +48,7 @@ class ModelRegistry(dict[str, ModelDiscovery]):
         super().__init__(models)
 
     def canonical_key(self, key: str) -> str:
+        """Return the canonical key for a given model key."""
         return MODEL_ROLE_ALIASES.get(key, key)
 
     def __getitem__(self, key: str) -> ModelDiscovery:
@@ -121,6 +122,7 @@ class LowTierTraceResult:
 
     @property
     def tokens_per_second(self) -> float | None:
+        """Return the average tokens per second for the drafter and verifier."""
         values = [
             value
             for value in (

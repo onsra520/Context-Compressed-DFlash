@@ -11,7 +11,11 @@ from typing import Sequence
 from htfsd.cli.error_report import write_runtime_error_report
 from htfsd.config import DEFAULT_CONFIG_PATH, load_config
 from htfsd.metrics.generation_settings import build_generation_settings
-from htfsd.metrics.prompt_sets import DEFAULT_TRACE_PROMPT_SET, get_trace_prompt_set, trace_prompt_set_ids
+from htfsd.metrics.prompt_sets import (
+    DEFAULT_TRACE_PROMPT_SET,
+    get_trace_prompt_set,
+    trace_prompt_set_ids,
+)
 from htfsd.metrics.run_trace import (
     DEFAULT_CONTROLLED_FALLBACK_CASES,
     DEFAULT_TRACE_PROMPTS,
@@ -24,13 +28,38 @@ from htfsd.runtime.llama_cpp_backend import LlamaCppBackend
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Run a controlled low-tier runtime trace.")
-    parser.add_argument("--config", default=None, help=f"Config path; defaults to {DEFAULT_CONFIG_PATH}")
-    parser.add_argument("--mode", choices=("live", "controlled-fallback"), default="live")
-    parser.add_argument("--capture-raw-output", action="store_true", help="Include raw prompt and model output fields.")
-    parser.add_argument("--max-tokens", type=int, default=None, help="Override trace generation max tokens.")
-    parser.add_argument("--temperature", type=float, default=None, help="Override trace generation temperature.")
-    parser.add_argument("--prompt-mode", choices=("raw", "chat"), default="raw", help="Prompt formatting mode for trace generation.")
+    parser = argparse.ArgumentParser(
+        description="Run a controlled low-tier runtime trace."
+    )
+    parser.add_argument(
+        "--config", default=None, help=f"Config path; defaults to {DEFAULT_CONFIG_PATH}"
+    )
+    parser.add_argument(
+        "--mode", choices=("live", "controlled-fallback"), default="live"
+    )
+    parser.add_argument(
+        "--capture-raw-output",
+        action="store_true",
+        help="Include raw prompt and model output fields.",
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=None,
+        help="Override trace generation max tokens.",
+    )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=None,
+        help="Override trace generation temperature.",
+    )
+    parser.add_argument(
+        "--prompt-mode",
+        choices=("raw", "chat"),
+        default="raw",
+        help="Prompt formatting mode for trace generation.",
+    )
     parser.add_argument(
         "--prompt-set",
         default=DEFAULT_TRACE_PROMPT_SET.prompt_set_id,
@@ -86,9 +115,19 @@ def main(argv: Sequence[str] | None = None) -> int:
                 seed=config.runtime.seed,
             )
             prompt_set = get_trace_prompt_set(args.prompt_set)
-            prompts = tuple(args.prompt) if args.prompt else tuple(prompt.text for prompt in prompt_set.prompts)
-            prompt_ids = None if args.prompt else tuple(prompt.prompt_id for prompt in prompt_set.prompts)
-            prompt_set_id = "custom-cli-prompts" if args.prompt else prompt_set.prompt_set_id
+            prompts = (
+                tuple(args.prompt)
+                if args.prompt
+                else tuple(prompt.text for prompt in prompt_set.prompts)
+            )
+            prompt_ids = (
+                None
+                if args.prompt
+                else tuple(prompt.prompt_id for prompt in prompt_set.prompts)
+            )
+            prompt_set_id = (
+                "custom-cli-prompts" if args.prompt else prompt_set.prompt_set_id
+            )
             records = run_controlled_low_tier_trace(
                 prompts=prompts,
                 prompt_ids=prompt_ids,
@@ -106,7 +145,11 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "config": _display_path(config.config_path, config.repo_root),
                 "mode": args.mode,
                 "runtime_policy": "drafter_cpu_verifier_cuda",
-                "prompt_set_id": "controlled-fallback-cases" if args.mode == "controlled-fallback" else prompt_set_id,
+                "prompt_set_id": (
+                    "controlled-fallback-cases"
+                    if args.mode == "controlled-fallback"
+                    else prompt_set_id
+                ),
                 "prompt_count": len(records),
                 "generation_settings": generation_settings.to_metadata(),
                 "capture_raw_output": generation_settings.capture_raw_output,
@@ -117,24 +160,36 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         total_fallbacks = sum(int(record["fallback_count"]) for record in records)
         if args.mode == "controlled-fallback":
-            valid_count = sum(1 for record in records if record["bridge_status"] == "valid")
-            rejected_count = sum(1 for record in records if record["bridge_status"] == "rejected")
+            valid_count = sum(
+                1 for record in records if record["bridge_status"] == "valid"
+            )
+            rejected_count = sum(
+                1 for record in records if record["bridge_status"] == "rejected"
+            )
             print("controlled fallback trace: ok")
             print(f"trace_file: {_display_path(trace_path, config.repo_root)}")
             print(f"total_cases: {len(records)}")
             print(f"valid_count: {valid_count}")
             print(f"rejected_count: {rejected_count}")
             print(f"fallback_count: {total_fallbacks}")
-            print(f"drafter_device_status: {_model_diagnostics(diagnostics, 'drafter')['device_status']}")
-            print(f"verifier_device_status: {_model_diagnostics(diagnostics, 'verifier')['device_status']}")
+            print(
+                f"drafter_device_status: {_model_diagnostics(diagnostics, 'drafter')['device_status']}"
+            )
+            print(
+                f"verifier_device_status: {_model_diagnostics(diagnostics, 'verifier')['device_status']}"
+            )
             return 0
 
         print("Low-tier trace: ok")
         print(f"trace_file: {_display_path(trace_path, config.repo_root)}")
         print(f"trace_records: {len(records)}")
         print(f"fallback_count: {total_fallbacks}")
-        print(f"drafter_device_status: {_model_diagnostics(diagnostics, 'drafter')['device_status']}")
-        print(f"verifier_device_status: {_model_diagnostics(diagnostics, 'verifier')['device_status']}")
+        print(
+            f"drafter_device_status: {_model_diagnostics(diagnostics, 'drafter')['device_status']}"
+        )
+        print(
+            f"verifier_device_status: {_model_diagnostics(diagnostics, 'verifier')['device_status']}"
+        )
         return 0
     except Exception as error:  # pylint: disable=broad-exception-caught
         print(str(error))
@@ -145,14 +200,22 @@ def main(argv: Sequence[str] | None = None) -> int:
             pass
         write_runtime_error_report(
             summary="Controlled low-tier runtime trace failed.",
-            command=["htfsd-run-low-tier-trace", *([] if args.config is None else ["--config", args.config])],
+            command=[
+                "htfsd-run-low-tier-trace",
+                *([] if args.config is None else ["--config", args.config]),
+            ],
             environment=diagnostics,
-            model_context=diagnostics.get("models", {}) if isinstance(diagnostics, dict) else {},
+            model_context=(
+                diagnostics.get("models", {}) if isinstance(diagnostics, dict) else {}
+            ),
             error_message=str(error),
             traceback_text=traceback.format_exc(),
             suspected_cause="One of the low-tier GGUF models could not be loaded or traced.",
             proposed_fix="Run python scripts/check_env.py and verify Qwen CPU plus Gemma CUDA policy first.",
-            verification_steps=["python scripts/check_env.py", "python scripts/run_low_tier_trace.py"],
+            verification_steps=[
+                "python scripts/check_env.py",
+                "python scripts/run_low_tier_trace.py",
+            ],
         )
         return 1
 
@@ -166,7 +229,11 @@ def _display_path(path: Path, repo_root: Path) -> str:
 
 def _model_diagnostics(diagnostics: dict, role: str) -> dict:
     models = diagnostics.get("models", {})
-    aliases = {"drafter": "qwen_drafter", "verifier": "gemma_e2b", "target": "gemma_e4b"}
+    aliases = {
+        "drafter": "qwen_drafter",
+        "verifier": "gemma_e2b",
+        "target": "gemma_e4b",
+    }
     return models.get(role) or models.get(aliases.get(role, role), {})
 
 
