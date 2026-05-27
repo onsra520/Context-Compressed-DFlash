@@ -90,51 +90,7 @@
 
         /* color utility classes moved to ui/styles/theme.css */
 
-        .hero {
-            min-height: 100vh;
-            position: relative;
-            overflow: hidden;
-            display: grid;
-            align-items: center;
-            padding: 80px 6vw;
-            border-bottom: var(--border)
-        }
-
-        .hero:before {
-            content: "";
-            position: absolute;
-            right: -160px;
-            top: 30px;
-            width: 520px;
-            height: 520px;
-            background-size: 28px 28px;
-            opacity: .55;
-            transform: rotate(12deg)
-        }
-
-        .hero:after {
-            content: "SPEED ✦ VERIFY ✦ DRAFT";
-            position: absolute;
-            right: -60px;
-            bottom: 55px;
-            font-family: var(--display);
-            font-size: 86px;
-            transform: rotate(-7deg);
-            white-space: nowrap
-        }
-
-        .hero-inner {
-            position: relative;
-            z-index: 1;
-            max-width: 980px
-        }
-
-        .hero-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 9px;
-            margin-bottom: 24px
-        }
+        /* Hero layout moved to ui/styles/layout.css */
 
         .hero-title {
             font-family: var(--display);
@@ -233,33 +189,9 @@
             margin-top: 18px
         }
 
-        @media(max-width:700px) {
-            .section-header {
-                grid-template-columns: 1fr
-            }
+        /* Responsive layout adjustments moved to ui/styles/layout.css */
 
-            .section-no {
-                width: max-content
-            }
-
-            .section-title {
-                font-size: 44px
-            }
-
-            .hero-title {
-                letter-spacing: -1px
-            }
-        }
-
-        .overview-board {
-            max-width: 1180px;
-            margin: 0 auto;
-            background: var(--paper);
-            border: var(--border);
-            box-shadow: var(--shadow-lg);
-            padding: 30px;
-            position: relative
-        }
+        /* Overview board wrapper moved to ui/styles/layout.css */
 
         .explain-strip {
             background: var(--black);
@@ -271,22 +203,7 @@
             margin-bottom: 24px
         }
 
-        .big-flow {
-            display: flex;
-            flex-direction: column;
-            gap: 26px
-        }
-
-        .flow-row {
-            display: grid;
-            grid-template-columns: 1fr 90px 1fr;
-            gap: 20px;
-            align-items: center
-        }
-
-        .flow-row.single {
-            grid-template-columns: 1fr
-        }
+        /* Flow layout moved to ui/styles/layout.css */
 
         .flow-node {
             border: var(--border);
@@ -502,14 +419,7 @@
             }
         }
 
-        .bench {
-            max-width: 1240px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 310px 1fr;
-            gap: 28px;
-            align-items: start
-        }
+        /* Benchmark wrapper layout moved to ui/styles/layout.css */
 
         .controls {
             background: var(--paper);
@@ -582,11 +492,7 @@
             margin-top: 16px
         }
 
-        .bench-main {
-            display: flex;
-            flex-direction: column;
-            gap: 20px
-        }
+        /* Benchmark main flow moved to ui/styles/layout.css */
 
         .stepper {
             background: var(--paper);
@@ -633,11 +539,7 @@
             }
         }
 
-        .results-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 22px
-        }
+        /* Results grid layout moved to ui/styles/layout.css */
 
         .result-card {
             background: var(--paper);
@@ -849,28 +751,7 @@
             background: #fff4c9
         }
 
-        @media(max-width:950px) {
-            .bench {
-                grid-template-columns: 1fr
-            }
-
-            .controls {
-                position: relative;
-                top: auto
-            }
-
-            .results-grid {
-                grid-template-columns: 1fr
-            }
-
-            .steps {
-                grid-template-columns: 1fr 1fr
-            }
-
-            .proscons {
-                grid-template-columns: 1fr
-            }
-        }
+        /* Benchmark responsive layout moved to ui/styles/layout.css */
 
         .metric-defs {
             max-width: 1180px;
@@ -898,13 +779,7 @@
             font-weight: 600
         }
 
-        .notes {
-            max-width: 1180px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px
-        }
+        /* Notes wrapper layout moved to ui/styles/layout.css */
 
         .note-card {
             border: var(--border);
@@ -924,44 +799,15 @@
             font-weight: 700
         }
 
-        .boundary {
-            grid-column: 1/-1;
-            background: var(--black);
-            color: var(--green);
-            font-family: var(--mono);
-            border: var(--border);
-            box-shadow: var(--shadow-lg);
-            padding: 24px;
-            line-height: 1.7
-        }
+        /* Boundary layout moved to ui/styles/layout.css (visuals remain in theme/base) */
 
         .boundary strong {
             color: var(--red)
         }
 
-        @media(max-width:800px) {
-            .notes {
-                grid-template-columns: 1fr
-            }
-        }
+        /* Notes responsive layout moved to ui/styles/layout.css */
 
-        footer {
-            background: var(--black);
-            color: white;
-            padding: 30px 6vw;
-            border-top: 5px solid var(--hot);
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            flex-wrap: wrap;
-            font-family: var(--mono)
-        }
-
-        footer b {
-            font-family: var(--display);
-            color: var(--cyan);
-            font-size: 24px
-        }
+        /* Footer layout moved to ui/styles/layout.css; footer visuals remain in theme.css/base.css */
 
 
         /* ===== arc.html native architecture section (scoped) ===== */
@@ -1007,11 +853,7 @@
             background-image: none;
         }
 
-        .arc-native .app {
-            max-width: 1880px;
-            margin: 0 auto;
-            padding: 16px 10px 24px
-        }
+        /* arc-native app wrapper moved to ui/styles/layout.css */
 
         .arc-native header {
             display: flex;
@@ -1091,32 +933,7 @@
             color: #92400e
         }
 
-        .arc-native .layout {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 430px;
-            gap: 16px;
-            align-items: start
-        }
-
-        @media (max-width:1280px) {
-            .arc-native .layout {
-                display: block
-            }
-
-            .arc-native .controls {
-                justify-content: flex-start;
-                min-width: 0
-            }
-
-            .arc-native .graph-wrap {
-                overflow-x: auto
-            }
-
-            .arc-native .side {
-                grid-template-columns: 1fr !important;
-                margin-top: 16px
-            }
-        }
+        /* arc-native layout and responsive rules moved to ui/styles/layout.css */
 
         .arc-native .graph-wrap {
             background: rgba(255, 255, 255, .98);
@@ -1161,14 +978,7 @@
             color: #475569
         }
 
-        .arc-native .graph-viewport {
-            position: relative;
-            overflow: auto;
-            border-radius: 24px;
-            max-width: 100%;
-            height: 830px;
-            background: linear-gradient(180deg, #fbfdff 0%, #f4f7fb 100%)
-        }
+        /* arc-native graph viewport sizing moved to ui/styles/layout.css */
 
         .arc-native .graph-title {
             display: flex;
