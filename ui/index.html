@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>HTFSD — Final Demo UI v4 Step1 Fixed</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&amp;family=Space+Mono:wght@400;700&amp;family=Rajdhani:wght@500;600;700&amp;display=swap"
+        rel="stylesheet" />
+        <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/theme.css" />
+    <link rel="stylesheet" href="./styles/layout.css" />
+    <link rel="stylesheet" href="./styles/components.css" />
+    <link rel="stylesheet" href="./styles/purikura.css" />
+    <link rel="stylesheet" href="./styles/architecture-graph.css" />
+    <link rel="stylesheet" href="./styles/benchmark.css" />
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-brand">HTFSD</div><a href="#hero">Home</a><a href="#overview">Architecture</a><a
+            href="#lowtier">Low Tier</a><a href="#full">Full HTFSD</a><a href="#metrics">Metrics</a><a
+            href="#notes">Notes</a>
+    </nav>
+    <section class="hero" id="hero">
+        <div aria-hidden="true" class="puri-layer puri-hero-dense"><span
+                class="puri-word puri-word--a puri-word--yellow">SPEED</span><span
+                class="puri-word puri-word--b puri-word--purple">VERIFY</span><span
+                class="puri-word puri-word--c puri-word--cyan">DRAFT</span><span
+                class="puri-sticker puri-sticker--hot puri-s1">HOT DEMO</span><span
+                class="puri-sticker puri-sticker--cyan puri-s2">D-FLASH</span><span
+                class="puri-sticker puri-sticker--lime puri-s3">FAST PATH</span><span
+                class="puri-sticker puri-sticker--purple puri-s4">PROF CHECK</span><span
+                class="puri-sticker puri-sticker--orange puri-s5">MOCK RUN</span><span
+                class="puri-doodle puri-doodle--black puri-d1">xoxo ♡
+                verify me!</span><span class="puri-doodle puri-doodle--purple puri-d2">→ same prompt</span><span
+                class="puri-doodle puri-doodle--cyan puri-d3">★ low tier ★</span><span
+                class="puri-sparkle puri-sparkle--yellow puri-x1">✦</span><span
+                class="puri-sparkle puri-sparkle--purple puri-x2">♡</span><span
+                class="puri-sparkle puri-sparkle--cyan puri-x3">✧</span></div>
+        <div class="hero-inner">
+            <div class="hero-badges"><span class="sticker s-hot">Final Demo</span><span class="sticker s-yellow">UI
+                    Only</span><span class="sticker s-cyan">Mock Data</span><span
+                    class="sticker s-blue">D-Flash</span><span class="sticker s-green">Low-tier</span><span
+                    class="sticker s-purple">High-tier</span><span class="sticker s-orange">Benchmark</span></div>
+            <h1 class="hero-title">HT<span>FSD</span></h1>
+            <div class="hero-subtitle">Hierarchical Token-Feature Speculative Decoding</div>
+            <p class="hero-desc">A visual benchmark interface for comparing normal autoregressive baselines against
+                HTFSD-style speculative decoding. Built for final instructor demo — colorful, readable, and ready for
+                future backend API integration.</p>
+            <div class="notice">⚠ UI-only final demo. Current values are mock/static data. Backend model runtime,
+                D-Flash verifier, token acceptance, strict rejection, high-tier integration, and benchmark harness are
+                handled by a separate implementation agent.</div>
+        </div>
+    </section>
+    <section class="section" id="overview">
+        <div aria-hidden="true" class="puri-layer"><span class="puri-word puri-word--a puri-word--cyan">FLOW</span><span
+                class="puri-word puri-word--b puri-word--purple">BRIDGE</span><span
+                class="puri-sticker puri-sticker--cyan puri-s1">ACCEPT</span><span
+                class="puri-sticker puri-sticker--orange puri-s2">FALLBACK</span><span
+                class="puri-sticker puri-sticker--purple puri-s3">HIGH TIER</span><span
+                class="puri-doodle puri-doodle--black puri-d1">draft → verify</span><span
+                class="puri-doodle puri-doodle--purple puri-d2">hidden states ♡</span><span
+                class="puri-sparkle puri-sparkle--yellow puri-x1">★</span><span
+                class="puri-sparkle puri-sparkle--cyan puri-x2">✦</span></div>
+        <header class="section-header">
+            <div class="section-no">02</div>
+            <div>
+                <h2 class="section-title">Overview Architecture</h2>
+                <p class="section-sub">One native graph from arc.html: run the HTFSD data flow step by step with zoom,
+                    status, payload, and trace.</p>
+                <div class="stickers-row"><span class="sticker s-cyan">Low-tier first</span><span
+                        class="sticker s-hot">Verify before trust</span><span class="sticker s-green">Accepted
+                        stream</span><span class="sticker s-purple">High-tier output</span></div>
+            </div>
+        </header>
+        <div class="arc-native">
+            <main class="app">
+                <section class="layout">
+                    <div class="graph-wrap">
+                        <div class="graph-title">
+                            <h2>Architecture Graph</h2>
+                            <div class="graph-toolbar">
+                                <div class="arc-controls">
+                                    <button class="run" id="runBtn">▶ Run</button>
+                                    <button id="prevBtn">← Prev Step</button>
+                                    <button id="nextBtn">Next Step</button>
+                                    <button class="auto" id="autoBtn">Auto Play</button>
+                                    <button id="resetBtn">Reset</button>
+                                </div>
+                                <div class="zoom-tools">
+                                    <button id="zoomOutBtn" type="button">−</button>
+                                    <div class="zoom-level" id="zoomLevel">100%</div>
+                                    <button id="zoomInBtn" type="button">+</button>
+                                    <button id="zoomResetBtn" type="button">Reset Zoom</button>
+                                    <button id="zoomFitBtn" type="button">Fit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="graph-viewport" id="graphViewport">
+                            <div class="graph" id="graph">
+                                <div class="graph-scene" id="graphScene">
+                                    <svg class="edges">
+                                        <defs>
+                                            <marker id="arrow" markerheight="10" markerunits="strokeWidth"
+                                                markerwidth="10" orient="auto" refx="8" refy="3">
+                                                <path d="M0,0 L0,6 L9,3 z" fill="#94a3b8"></path>
+                                            </marker>
+                                        </defs>
+                                        <!-- External architecture edges connect cluster-to-cluster, not directly into inner nodes -->
+                                        <path class="edge" d="M290 233 L390 233" id="ePromptQwen"
+                                            marker-end="url(#arrow)"></path>
+                                        <path class="edge" d="M730 233 L850 233" id="eQwenVerify"
+                                            marker-end="url(#arrow)"></path>
+                                        <path class="edge" d="M1080 233 L1200 233" id="eVerifyBuffer"
+                                            marker-end="url(#arrow)"></path>
+                                        <path class="edge loop" d="M1315 276 L1315 350 L615 350 L615 286"
+                                            id="eBufferQwen" marker-end="url(#arrow)"></path>
+                                        <path class="edge futureEdge" d="M960 382 L960 492" id="eLowHigh"
+                                            marker-end="url(#arrow)"></path>
+                                        <path class="edge futureEdge" d="M1200 645 L1080 645" id="eHiddenEagle"
+                                            marker-end="url(#arrow)"></path>
+                                        <path class="edge futureEdge" d="M850 645 L730 645" id="eEagleE4B"
+                                            marker-end="url(#arrow)"></path>
+                                        <path class="edge futureEdge" d="M390 645 L290 645" id="eE4BFinal"
+                                            marker-end="url(#arrow)"></path>
+                                    </svg>
+                                    <div class="cluster low" id="clusterLow">
+                                        <div class="cluster-label">Low-tier D-Flash <span
+                                                class="mini-badge current">CURRENT</span></div>
+                                    </div>
+                                    <div class="cluster high" id="clusterHigh">
+                                        <div class="cluster-label">High-tier EAGLE-2 <span
+                                                class="mini-badge future">FUTURE</span></div>
+                                    </div>
+                                    <div class="node" id="nPrompt">
+                                        <div class="n-top">
+                                            <div class="icon">P</div>
+                                            <h3>User Prompt</h3>
+                                        </div>
+                                        <p>“Explain caching in one sentence.”</p>
+                                    </div>
+                                    <div class="node" id="nQwen">
+                                        <div class="n-top">
+                                            <div class="icon">Q</div>
+                                            <h3>Qwen3-0.6B Drafter</h3>
+                                        </div>
+                                        <p>Sinh draft block 8 token từ context hiện tại.</p>
+                                    </div>
+                                    <div class="node" id="nVerify">
+                                        <div class="n-top">
+                                            <div class="icon">G2</div>
+                                            <h3>Gemma E2B Verifier</h3>
+                                        </div>
+                                        <p>Accept prefix, deny first mismatch, fallback 1 token.</p>
+                                    </div>
+                                    <div class="node" id="nBuffer">
+                                        <div class="n-top">
+                                            <div class="icon">↺</div>
+                                            <h3>Accepted Context Buffer</h3>
+                                        </div>
+                                        <p>Context mới = context cũ + accepted prefix + fallback.</p>
+                                    </div>
+                                    <div class="node bridgeNode" id="nHidden">
+                                        <div class="n-top">
+                                            <div class="icon">h</div>
+                                            <h3>Gemma E2B Hidden States</h3>
+                                        </div>
+                                        <p>Token đã accept được chuyển thành feature vectors h1, h2...</p>
+                                    </div>
+                                    <div class="node futureNode" id="nEagle">
+                                        <div class="n-top">
+                                            <div class="icon">E2</div>
+                                            <h3>EAGLE-2 Speculator</h3>
+                                        </div>
+                                        <p>Dự đoán feature/token path tiếp theo, không thay thinking.</p>
+                                    </div>
+                                    <div class="node futureNode" id="nE4B">
+                                        <div class="n-top">
+                                            <div class="icon">G4</div>
+                                            <h3>Gemma E4B Verifier</h3>
+                                        </div>
+                                        <p>Main target kiểm high-tier speculation, giữ final authority.</p>
+                                    </div>
+                                    <div class="node" id="nFinal">
+                                        <div class="n-top">
+                                            <div class="icon">✓</div>
+                                            <h3>Final Output</h3>
+                                        </div>
+                                        <p>Output đã commit sau low-tier + high-tier path.</p>
+                                    </div>
+                                    <div class="cycle-label" id="cycleLabel">Cycle: idle</div>
+                                    <div class="flow-token" id="packet">prompt</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="packet-note">
+                            <div class="legend">
+                                <span class="pill current"><span class="dot"></span>CURRENT</span>
+                                <span class="pill bridge"><span class="dot"></span>BRIDGE</span>
+                                <span class="pill future"><span class="dot"></span>FUTURE</span>
+                            </div>
+                        </div>
+                    </div>
+                    <aside class="side">
+                        <div class="panel">
+                            <h2>Status <span class="cycle-chip" id="cycleChip">Idle</span></h2>
+                            <p class="step-title" id="stepTitle">Ready</p>
+                            <p class="step-desc" id="stepDesc">Bấm Run hoặc Next Step để bắt đầu mô phỏng architecture
+                                graph.
+                            </p>
+                            <div class="progress">
+                                <div class="bar" id="bar"></div>
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <h2>Live Data</h2>
+                            <div class="kv">
+                                <div class="kv-row">
+                                    <div class="kv-label">Current Context</div>
+                                    <div class="context" id="contextBox">Explain caching in one sentence.</div>
+                                </div>
+                                <div class="kv-row">
+                                    <div class="kv-label">Draft / Feature Payload</div>
+                                    <div class="tokens" id="payloadBox"><span class="tok">—</span></div>
+                                </div>
+                                <div class="kv-row">
+                                    <div class="kv-label">Verification Result</div>
+                                    <div class="tokens" id="resultBox"><span class="tok">—</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <h2>Trace Log</h2>
+                            <div class="log" id="logBox">
+                                <div>System initialized.</div>
+                            </div>
+                        </div>
+                    </aside>
+                </section>
+            </main>
+        </div>
+    </section>
+    <section class="section section-lt" id="lowtier">
+        <div aria-hidden="true" class="puri-layer"><span class="puri-word puri-word--a puri-word--cyan">LOW
+                TIER</span><span class="puri-word puri-word--b puri-word--yellow">SHOWDOWN</span><span
+                class="puri-sticker puri-sticker--orange puri-s1">E2B BASELINE</span><span
+                class="puri-sticker puri-sticker--cyan puri-s2">DRAFT</span><span
+                class="puri-sticker puri-sticker--lime puri-s3">SPEED?</span><span
+                class="puri-doodle puri-doodle--black puri-d1">baseline first!</span><span
+                class="puri-sparkle puri-sparkle--purple puri-x1">♡</span></div>
+        <header class="section-header">
+            <div class="section-no">03</div>
+            <div>
+                <h2 class="section-title">Low-tier Showdown</h2>
+                <p class="section-sub">Baseline-first test: run Gemma4:E2B normally, then run D-Flash Low-tier on the
+                    same prompt, then compare speed, acceptance behavior, fallback cost, and response quality notes.</p>
+                <div class="stickers-row"><span class="sticker s-orange">Baseline first</span><span
+                        class="sticker s-cyan">D-Flash second</span><span class="sticker s-yellow">Same
+                        prompt</span><span class="sticker s-red">Not parallel</span></div>
+            </div>
+        </header>
+        <div class="bench">
+            <aside class="controls">
+                <h3>🎮 Low-tier Controls</h3><textarea class="prompt"
+                    id="ltPrompt">Explain how speculative decoding works and why it can speed up inference.</textarea><button
+                    class="btn btn-start" id="ltStart">▶ Start Low-tier Benchmark</button><button class="btn btn-reset"
+                    id="ltReset">↻ Reset</button>
+                <div class="rules">✓ Baseline Gemma4:E2B runs first<br />✓ D-Flash Low-tier runs second<br />✓ same
+                    prompt for both<br />✓ sequential, not parallel<br />✓ model load time excluded<br />✓ mock data
+                    only</div>
+            </aside>
+            <main class="bench-main">
+                <section class="stepper">
+                    <h3>Low-tier Pipeline</h3>
+                    <div class="steps" id="ltSteps">
+                        <div class="step">1. E2B baseline</div>
+                        <div class="step">2. Baseline result</div>
+                        <div class="step">3. D-Flash test</div>
+                        <div class="step">4. D-Flash result</div>
+                        <div class="step">5. Compare</div>
+                    </div>
+                </section>
+                <div class="results-grid">
+                    <article class="result-card" id="ltBaseCard">
+                        <div class="card-head baseline-head">
+                            <h3>Gemma4:E2B Baseline</h3><span class="status" id="ltBaseStatus">IDLE</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress-wrap" id="ltBaseProg">
+                                <div class="progress-fill" id="ltBaseFill"></div>
+                            </div>
+                            <div class="response" id="ltBaseResp">Waiting for baseline run...</div>
+                            <div class="metrics" id="ltBaseMetrics"></div>
+                        </div>
+                    </article>
+                    <article class="result-card" id="ltArchCard">
+                        <div class="card-head arch-head">
+                            <h3>D-Flash Low-tier</h3><span class="status" id="ltArchStatus">IDLE</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress-wrap" id="ltArchProg">
+                                <div class="progress-fill" id="ltArchFill"></div>
+                            </div>
+                            <div class="response" id="ltArchResp">Waiting for D-Flash run...</div>
+                            <div class="metrics" id="ltArchMetrics"></div>
+                        </div>
+                    </article>
+                </div>
+                <section class="compare" id="ltCompare">
+                    <h3>Low-tier Comparison Dashboard</h3>
+                    <p id="ltCompareBody"></p>
+                    <div class="proscons">
+                        <div class="pros"><b>Advantages</b><br />Higher decode throughput, many accepted draft tokens,
+                            lower latency in this mock run.</div>
+                        <div class="cons"><b>Trade-offs</b><br />Rejected and fallback tokens add overhead. Correctness
+                            must be checked by strict verifier logic later.</div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </section>
+    <section class="section section-full" id="full">
+        <div aria-hidden="true" class="puri-layer"><span class="puri-word puri-word--a puri-word--hot">FULL
+                STACK</span><span class="puri-word puri-word--b puri-word--purple">TARGET</span><span
+                class="puri-sticker puri-sticker--purple puri-s1">E4B TARGET</span><span
+                class="puri-sticker puri-sticker--hot puri-s2">FINAL ARCH</span><span
+                class="puri-sticker puri-sticker--yellow puri-s3">HIGH TIER</span><span
+                class="puri-doodle puri-doodle--purple puri-d1">feature magic ✦</span><span
+                class="puri-sparkle puri-sparkle--cyan puri-x1">✧</span></div>
+        <header class="section-header">
+            <div class="section-no">04</div>
+            <div>
+                <h2 class="section-title">Full Stack Showdown</h2>
+                <p class="section-sub">Baseline-first test: run Gemma4:E4B normally, then run the full HTFSD
+                    architecture on the same prompt, then compare end-to-end speedup and tier-level behavior.</p>
+                <div class="stickers-row"><span class="sticker s-purple">E4B baseline first</span><span
+                        class="sticker s-hot">Full HTFSD second</span><span class="sticker s-yellow">Same
+                        prompt</span><span class="sticker s-green">Final architecture</span></div>
+            </div>
+        </header>
+        <div class="bench">
+            <aside class="controls">
+                <h3>🎮 Full Controls</h3><textarea class="prompt"
+                    id="fullPrompt">Describe the hierarchical speculative decoding process and its advantages for multi-tier verification.</textarea><button
+                    class="btn btn-start" id="fullStart">▶ Start Full Benchmark</button><button class="btn btn-reset"
+                    id="fullReset">↻ Reset</button>
+                <div class="rules">✓ Baseline Gemma4:E4B runs first<br />✓ Full HTFSD runs second<br />✓ same prompt for
+                    both<br />✓ sequential, not parallel<br />✓ model load time excluded<br />✓ mock data only</div>
+            </aside>
+            <main class="bench-main">
+                <section class="stepper">
+                    <h3>Full HTFSD Pipeline</h3>
+                    <div class="steps" id="fullSteps">
+                        <div class="step">1. E4B baseline</div>
+                        <div class="step">2. Baseline result</div>
+                        <div class="step">3. Full HTFSD</div>
+                        <div class="step">4. HTFSD result</div>
+                        <div class="step">5. Compare</div>
+                    </div>
+                </section>
+                <div class="results-grid">
+                    <article class="result-card" id="fullBaseCard">
+                        <div class="card-head e4b-head">
+                            <h3>Gemma4:E4B Baseline</h3><span class="status" id="fullBaseStatus">IDLE</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress-wrap" id="fullBaseProg">
+                                <div class="progress-fill" id="fullBaseFill"></div>
+                            </div>
+                            <div class="response" id="fullBaseResp">Waiting for E4B baseline run...</div>
+                            <div class="metrics" id="fullBaseMetrics"></div>
+                        </div>
+                    </article>
+                    <article class="result-card" id="fullArchCard">
+                        <div class="card-head full-head">
+                            <h3>Full HTFSD</h3><span class="status" id="fullArchStatus">IDLE</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress-wrap" id="fullArchProg">
+                                <div class="progress-fill" id="fullArchFill"></div>
+                            </div>
+                            <div class="response" id="fullArchResp">Waiting for Full HTFSD run...</div>
+                            <div class="metrics" id="fullArchMetrics"></div>
+                        </div>
+                    </article>
+                </div>
+                <section class="compare" id="fullCompare">
+                    <h3>Full Architecture Comparison Dashboard</h3>
+                    <p id="fullCompareBody"></p>
+                    <div class="proscons">
+                        <div class="pros"><b>Advantages</b><br />End-to-end speedup, tier-level visibility, verified
+                            stream before high-tier target path.</div>
+                        <div class="cons"><b>Trade-offs</b><br />More moving parts than a single baseline. Needs real
+                            correctness harness before scientific claims.</div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </section>
+    <section class="section section-metrics" id="metrics">
+        <div aria-hidden="true" class="puri-layer"><span
+                class="puri-word puri-word--a puri-word--lime">METRICS</span><span
+                class="puri-word puri-word--b puri-word--cyan">TOKENS</span><span
+                class="puri-sticker puri-sticker--lime puri-s1">SPEEDUP</span><span
+                class="puri-sticker puri-sticker--cyan puri-s2">ACCEPT RATE</span><span
+                class="puri-doodle puri-doodle--black puri-d1">latency ↓ tok/s ↑</span><span
+                class="puri-sparkle puri-sparkle--yellow puri-x1">★</span></div>
+        <header class="section-header">
+            <div class="section-no">05</div>
+            <div>
+                <h2 class="section-title">Metrics Explained</h2>
+                <p class="section-sub">The dashboard keeps the original metric plan: speed, token counts,
+                    acceptance/rejection/fallback behavior, and comparison notes.</p>
+                <div class="stickers-row"><span class="sticker s-green">Benchmark board</span><span
+                        class="sticker s-yellow">Definitions</span></div>
+            </div>
+        </header>
+        <div class="metric-defs" id="metricDefs"></div>
+    </section>
+    <section class="section section-notes" id="notes">
+        <div aria-hidden="true" class="puri-layer"><span class="puri-word puri-word--a puri-word--hot">MOCK</span><span
+                class="puri-word puri-word--b puri-word--purple">UI ONLY</span><span
+                class="puri-sticker puri-sticker--hot puri-s1">BACKEND SEPARATE</span><span
+                class="puri-sticker puri-sticker--yellow puri-s2">FINAL DEMO</span><span
+                class="puri-doodle puri-doodle--black puri-d1">do not claim real benchmark!</span><span
+                class="puri-sparkle puri-sparkle--purple puri-x1">♡</span></div>
+        <header class="section-header">
+            <div class="section-no">06</div>
+            <div>
+                <h2 class="section-title">Final Demo Notes</h2>
+                <p class="section-sub">This UI is a visual layer only. The backend agent owns the real HTFSD runtime
+                    work.</p>
+            </div>
+        </header>
+        <div class="notes">
+            <div class="note-card">
+                <h3>✅ UI Does</h3>
+                <ul>
+                    <li>Explains HTFSD architecture visually</li>
+                    <li>Simulates baseline-first benchmark flow</li>
+                    <li>Displays response outputs and metrics</li>
+                    <li>Prepares a replaceable data contract</li>
+                </ul>
+            </div>
+            <div class="note-card">
+                <h3>❌ UI Does Not</h3>
+                <ul>
+                    <li>Load real models</li>
+                    <li>Run real D-Flash verification</li>
+                    <li>Implement accept/reject logic</li>
+                    <li>Make scientific claims from mock data</li>
+                </ul>
+            </div>
+            <div class="boundary"><strong>BOUNDARY NOTICE:</strong><br />This UI currently uses mock/static data only.
+                Backend runtime, model loading, verifier logic, strict accept/reject, high-tier integration, and
+                benchmark harness are handled separately by the backend implementation agent.</div>
+        </div>
+    </section>
+    <footer>
+        <div><b>HTFSD</b><br />Hierarchical Token-Feature Speculative Decoding</div>
+        <div>Final Demo UI v4 · Mock data · UI only · Backend separate</div>
+    </footer>    <script src="./scripts/main.js"></script>
+</body>
+
+</html>
