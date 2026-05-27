@@ -1,3 +1,0 @@
-{"id":"vn-provinces","prompt":"Liet ke mot vai tinh thanh cua Viet Nam.","max_new_tokens":64}
-{"id":"python-fib","prompt":"Viet ham Python tinh Fibonacci bang vong lap.","max_new_tokens":96}
-{"id":"short-summary","prompt":"Tom tat loi ich cua speculative decoding trong ba cau ngan.","max_new_tokens":96}
