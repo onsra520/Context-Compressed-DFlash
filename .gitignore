@@ -161,6 +161,6 @@ docs/.doctrees/
 !.agents/docs/**
 
 # backups / temp files
-backups/
+backup/
 ui/_split_failed_backup
 ui/ui.backup.html
