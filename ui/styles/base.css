@@ -157,31 +157,7 @@
 
         /* Results grid layout moved to ui/styles/layout.css */
 
-        .section-lt {
-            background: #fff8d8
-        }
-
-        .section-full {
-            background: #ffe8f1
-        }
-
-        .section-metrics {
-            background: #e8ffd8
-        }
-
-        .section-notes {
-            background: #fff4c9
-        }
-
-        /* Benchmark responsive layout moved to ui/styles/layout.css */
-
-        .metric-defs {
-            max-width: 1180px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
-            gap: 16px
-        }
+        /* Benchmark section visuals moved to ui/styles/benchmark.css */
 
         /* Notes wrapper layout moved to ui/styles/layout.css */
 
