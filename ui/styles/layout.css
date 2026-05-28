@@ -47,14 +47,14 @@
 .hero-badges { display:flex; flex-wrap:wrap; gap:9px; margin-bottom:24px }
 
 /* Section and header layout */
-.section { padding: 72px 6vw 88px; border-bottom: var(--border); position: relative }
+.section { padding: 72px 1.4vw 88px; border-bottom: var(--border); position: relative }
 
 .section-header {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 20px;
     align-items: start;
-    max-width: 1180px;
+    max-width: none;
     margin: 0 auto 42px;
 }
 
@@ -81,7 +81,7 @@
 }
 
 /* Benchmark section wrappers */
-.bench { max-width:1240px; margin:0 auto; display:grid; grid-template-columns: 310px 1fr; gap:28px; align-items:start }
+.bench { max-width: none; display:grid; grid-template-columns: 310px 1fr; gap:28px; align-items:start }
 .bench-main { display:flex; flex-direction:column; gap:20px }
 .results-grid { display:grid; grid-template-columns: 1fr 1fr; gap:22px }
 
@@ -95,7 +95,7 @@
 
 /* Notes and footer layout */
 .notes { max-width:1180px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:20px }
-.boundary { grid-column: 1/-1; padding:24px; line-height:1.7 }
+.boundary { grid-column: 1/-1; padding:24px; line-height:1.7; margin-top:24px; font-family: var(--mono); }
 
 @media(max-width:800px) { .notes { grid-template-columns: 1fr } }
 
@@ -109,7 +109,7 @@ footer {
 }
 
 /* Arc native layout pieces */
-.arc-native .app { max-width: 1880px; margin: 0 auto; padding: 16px 10px 24px }
+.arc-native .app { max-width: none; width: 100%; padding: 0 }
 .arc-native .layout { display: grid; grid-template-columns: minmax(0, 1fr) 430px; gap: 16px; align-items: start }
 
 @media (max-width:1280px) {
@@ -118,5 +118,14 @@ footer {
     .arc-native .side { grid-template-columns: 1fr !important; margin-top: 16px }
 }
 
-.arc-native .graph-viewport { position: relative; overflow: auto; border-radius: 24px; max-width:100%; height:830px }
-/* Intentionally empty for safe-first split. Source of truth is ui.backup.html CSS currently in base.css. */
+.arc-native .graph-viewport { position: relative; overflow: auto; border-radius: 0; max-width:100%; height:830px }
+.arc-native .side { position: sticky; top: 12px; margin-top: 0; display: grid; grid-template-columns: 1fr; gap: 14px; align-self: start; min-width: 0 }
+
+/* Integration fixes from backup */
+.arc-native header { display: none !important }
+.arc-native .graph-title { align-items: flex-start }
+.arc-native .graph-toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end }
+.arc-native .graph-toolbar .arc-controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; min-width: 0 }
+.arc-native .packet-note { justify-content: flex-start; flex-wrap: wrap }
+.arc-native .packet-note .legend { display: flex; gap: 8px; flex-wrap: wrap }
+.arc-native .packet-note strong { display: none }

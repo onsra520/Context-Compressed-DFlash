@@ -54,4 +54,28 @@ body {
 .hero-desc { background: rgba(0, 0, 0, .84); color: var(--paper); }
 
 .notice { background: var(--red); color: white }
-/* Intentionally empty for safe-first split. Source of truth is ui.backup.html CSS currently in base.css. */
+
+/* Boundary visuals */
+.boundary {
+    background: var(--black);
+    color: var(--green);
+    border: var(--border);
+    box-shadow: var(--shadow-lg);
+}
+
+.boundary strong {
+    color: var(--red);
+}
+
+/* Footer visuals */
+footer {
+    background: var(--black);
+    color: white;
+    border-top: 5px solid var(--hot);
+}
+
+footer b {
+    font-family: var(--display);
+    color: var(--cyan);
+    font-size: 24px;
+}
