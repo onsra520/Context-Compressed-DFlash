@@ -381,3 +381,21 @@ export const defaultPrompts = {
     fullStack:
         "Describe the hierarchical speculative decoding process and its advantages for multi-tier verification.",
 };
+
+export const data = {
+    low: {
+        baseline: benchmarkData.lowTier.baseline,
+        arch: benchmarkData.lowTier.dflash,
+    },
+    full: {
+        baseline: benchmarkData.fullStack.baseline,
+        arch: benchmarkData.fullStack.htfsd,
+    },
+};
+
+export const cycles = architectureFlowData.cycles;
+
+export const metricDefs = metricDefinitions.map(({ label, description }) => [
+    label,
+    description,
+]);

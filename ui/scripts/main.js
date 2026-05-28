@@ -1,5 +1,5 @@
-const data = { low: { baseline: { architecture: 'Gemma4:E2B Baseline', models: 'Gemma4:E2B only', latency_seconds: 0.56, decode_tokens_per_sec: 115.6, total_tokens_per_sec: 178.2, prompt_tokens: 36, completion_tokens: 64, total_tokens: 100, prefill_ms: 91, decode_ms: 469, memory_gb: '5.8 GB', draft_block_size: '-', cycle_count: '-', accepted_draft_tokens: '-', rejected_draft_tokens: '-', fallback_tokens: '-', acceptance_rate: '-', verification_mode: 'none', correctness_note: 'baseline reference', speedup: '1.00x', response: 'Baseline E2B generates token by token without a separate drafter. This is slower in the mock run, but simpler and easier to reason about.' }, arch: { architecture: 'D-Flash Low-tier', models: 'Qwen3-0.6B + Gemma4:E2B', latency_seconds: 0.42, decode_tokens_per_sec: 152.8, total_tokens_per_sec: 214.5, prompt_tokens: 36, completion_tokens: 64, total_tokens: 100, prefill_ms: 84, decode_ms: 336, memory_gb: '6.4 GB', draft_block_size: 8, cycle_count: 8, accepted_draft_tokens: 47, rejected_draft_tokens: 12, fallback_tokens: 5, acceptance_rate: '73.4%', verification_mode: 'text-prefix mock', correctness_note: 'needs strict verifier later', speedup: '1.32x', response: 'D-Flash Low-tier lets Qwen propose draft blocks and uses Gemma4:E2B to verify them. Accepted tokens move faster; rejected tokens fall back safely.' } }, full: { baseline: { architecture: 'Gemma4:E4B Baseline', models: 'Gemma4:E4B only', latency_seconds: 1.24, decode_tokens_per_sec: 68.2, total_tokens_per_sec: 104.7, prompt_tokens: 44, completion_tokens: 96, total_tokens: 140, prefill_ms: 180, decode_ms: 1060, memory_gb: '8.9 GB', low_tier_accepted_tokens: '-', low_tier_rejected_tokens: '-', low_tier_fallback_tokens: '-', high_tier_accepted_tokens: '-', high_tier_rejected_tokens: '-', high_tier_fallback_tokens: '-', low_tier_acceptance_rate: '-', high_tier_acceptance_rate: '-', verification_mode: 'none', correctness_note: 'baseline reference', speedup: '1.00x', response: 'The E4B baseline generates every output token autoregressively through the stronger target model. It is the clean reference path for final comparison.' }, arch: { architecture: 'Full HTFSD', models: 'Qwen3-0.6B + Gemma4:E2B + Gemma4:E4B', latency_seconds: 0.88, decode_tokens_per_sec: 96.4, total_tokens_per_sec: 142.1, prompt_tokens: 44, completion_tokens: 96, total_tokens: 140, prefill_ms: 146, decode_ms: 734, memory_gb: '9.7 GB', low_tier_accepted_tokens: 68, low_tier_rejected_tokens: 18, low_tier_fallback_tokens: 10, high_tier_accepted_tokens: 72, high_tier_rejected_tokens: 14, high_tier_fallback_tokens: 10, low_tier_acceptance_rate: '70.8%', high_tier_acceptance_rate: '75.0%', verification_mode: 'hierarchical mock', correctness_note: 'needs equivalence harness later', speedup: '1.41x', response: 'Full HTFSD drafts candidate text, verifies it through the low-tier path, then prepares a cleaner accepted stream for the high-tier Gemma4:E4B target.' } } };
-        const metricDefs = [['Latency', 'Total measured request time after models are already loaded. Lower is better.'], ['Decode tokens/sec', 'Generated output tokens per second during decode. Higher is better.'], ['Total tokens/sec', 'Prompt plus completion throughput. Useful for end-to-end comparison.'], ['Prompt tokens', 'How many tokens are in the input prompt.'], ['Completion tokens', 'How many tokens are generated as output.'], ['Total tokens', 'Prompt tokens plus generated tokens.'], ['Prefill ms', 'Mock time spent preparing the prompt/context before decoding.'], ['Decode ms', 'Mock time spent generating output tokens.'], ['Memory GB', 'Mock memory footprint shown for demo discussion.'], ['Draft block size', 'How many tokens the drafter proposes at once.'], ['Cycle count', 'How many draft/verify cycles occurred.'], ['Accepted draft tokens', 'Drafted tokens approved by the verifier. More accepted tokens usually means more speedup.'], ['Rejected draft tokens', 'Drafted tokens rejected by the verifier and discarded.'], ['Fallback tokens', 'Tokens regenerated safely through the target path.'], ['Acceptance rate', 'Percentage of draft tokens accepted.'], ['Speedup', 'Architecture speed compared with baseline. 1.32x means 32% faster than baseline.'], ['Verification mode', 'How the mock UI labels the future verifier behavior.'], ['Correctness note', 'Reminder that real correctness needs backend verifier and equivalence tests.']];
+import { data, cycles, metricDefs } from "../mocks/mock-data.js";
+
         function metricClass(k) { k = k.toLowerCase(); if (k.includes('speedup')) return 'm-speed'; if (k.includes('accepted') || k.includes('acceptance')) return 'm-accept'; if (k.includes('rejected')) return 'm-reject'; if (k.includes('fallback')) return 'm-fallback'; if (k.includes('tokens/sec')) return 'm-tps'; if (k.includes('latency')) return 'm-lat'; return 'm-token' }
         function metricsFor(obj, kind) { const keys = kind === 'low' ? ['latency_seconds', 'decode_tokens_per_sec', 'total_tokens_per_sec', 'prompt_tokens', 'completion_tokens', 'total_tokens', 'prefill_ms', 'decode_ms', 'memory_gb', 'draft_block_size', 'cycle_count', 'accepted_draft_tokens', 'rejected_draft_tokens', 'fallback_tokens', 'acceptance_rate', 'verification_mode', 'correctness_note', 'speedup'] : ['latency_seconds', 'decode_tokens_per_sec', 'total_tokens_per_sec', 'prompt_tokens', 'completion_tokens', 'total_tokens', 'prefill_ms', 'decode_ms', 'memory_gb', 'low_tier_accepted_tokens', 'low_tier_rejected_tokens', 'low_tier_fallback_tokens', 'high_tier_accepted_tokens', 'high_tier_rejected_tokens', 'high_tier_fallback_tokens', 'low_tier_acceptance_rate', 'high_tier_acceptance_rate', 'verification_mode', 'correctness_note', 'speedup']; return keys.map(k => ({ label: k.replaceAll('_', ' '), value: obj[k], cls: metricClass(k) })) }
         function renderMetrics(id, arr) { document.getElementById(id).innerHTML = arr.map(m => `<div class="metric ${m.cls}"><span>${m.label}</span><b>${m.value}</b></div>`).join('') }
@@ -14,39 +14,6 @@ const data = { low: { baseline: { architecture: 'Gemma4:E2B Baseline', models: '
         document.getElementById('ltStart').addEventListener('click', startLow); document.getElementById('ltReset').addEventListener('click', resetLow); document.getElementById('fullStart').addEventListener('click', startFull); document.getElementById('fullReset').addEventListener('click', resetFull); document.getElementById('metricDefs').innerHTML = metricDefs.map((d, i) => { const metricColors = ["var(--yellow)", "var(--cyan)", "var(--green)", "var(--paper)", "var(--silver)", "#fff", "var(--orange)", "var(--hot)", "var(--purple)", "var(--cyan)", "var(--yellow)", "var(--green)", "var(--red)", "var(--orange)", "var(--purple)", "var(--hot)", "var(--silver)", "#fff"]; const whiteText = [6, 7, 8, 12, 13, 14, 15].includes(i); return `<div class="def-card" style="background:${metricColors[i % metricColors.length]};${whiteText ? 'color:white;' : ''}"><h3>${d[0]}</h3><p>${d[1]}</p></div>` }).join('');
 
 /* ===== arc.html native graph simulator ===== */
-
-        const cycles = [
-            {
-                id: 1,
-                contextIn: 'Explain caching in one sentence.',
-                draft: ['Caching', 'stores', 'data', 'temporarily', 'so', 'future', 'access', 'faster'],
-                accepted: ['Caching', 'stores', 'data', 'temporarily'],
-                denied: 'so',
-                unused: ['future', 'access', 'faster'],
-                fallback: 'to',
-                contextOut: 'Caching stores data temporarily to'
-            },
-            {
-                id: 2,
-                contextIn: 'Caching stores data temporarily to',
-                draft: ['speed', 'up', 'future', 'requests', 'and', 'reduce', 'latency', '.'],
-                accepted: ['speed', 'up', 'future', 'requests', 'and', 'reduce', 'latency', '.'],
-                denied: null,
-                unused: [],
-                fallback: null,
-                contextOut: 'Caching stores data temporarily to speed up future requests and reduce latency.'
-            },
-            {
-                id: 3,
-                contextIn: 'Caching stores data temporarily to speed up future requests and reduce latency.',
-                draft: ['It', 'avoids', 'repeated', 'work', 'by', 'reusing', 'results', '.'],
-                accepted: ['It', 'avoids', 'repeated'],
-                denied: 'work',
-                unused: ['by', 'reusing', 'results', '.'],
-                fallback: 'computation',
-                contextOut: 'Caching stores data temporarily to speed up future requests and reduce latency. It avoids repeated computation'
-            }
-        ];
 
         const steps = [
             { title: 'Prompt enters system', desc: 'Prompt bắt đầu đi vào architecture graph.', node: 'nPrompt', edge: null, packet: 'prompt', pos: [155, 223], cycle: 'Start', type: 'normal', payload: ['Explain', 'caching', '...'], result: [] },
