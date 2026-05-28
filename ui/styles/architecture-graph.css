@@ -1,1 +1,1452 @@
-/* Intentionally empty for safe-first split. Source of truth is ui.backup.html CSS currently in base.css. */
+/* Architecture Graph Styles (Phase CSS-5)
+   Extracted from base.css. Scoped to .arc-native or graph-specific IDs/classes.
+*/
+
+.arc-native {
+    --bg: #f7f9fc;
+    --paper: #ffffff;
+    --paper2: #f1f5f9;
+    --ink: #132033;
+    --muted: #64748b;
+    --line: #cbd5e1;
+    --line2: #94a3b8;
+    --blue: #2563eb;
+    --cyan: #0891b2;
+    --green: #16a34a;
+    --red: #dc2626;
+    --orange: #ea580c;
+    --purple: #7c3aed;
+    --pink: #db2777;
+    --amber: #d97706;
+    --shadow: 0 2px 8px rgba(15, 23, 42, .055);
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.arc-native * {
+    box-sizing: border-box
+}
+
+.arc-native,
+.arc-native {
+    margin: 0;
+    min-height: 100%;
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg)
+}
+
+.arc-native:before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: none;
+}
+
+/* arc-native app wrapper moved to ui/styles/layout.css */
+
+.arc-native header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 14px
+}
+
+.arc-native .kicker {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    font-weight: 700;
+    margin-bottom: 8px
+}
+
+.arc-native h1 {
+    font-size: clamp(24px, 3.2vw, 42px);
+    line-height: 1.04;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -.045em
+}
+
+.arc-native .sub {
+    margin: 8px 0 0;
+    color: var(--muted);
+    max-width: 740px;
+    font-size: 14px;
+    line-height: 1.5
+}
+
+.arc-native .controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    min-width: 340px
+}
+
+.arc-native button {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+    padding: 10px 13px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .05);
+    transition: background .12s ease, border-color .12s ease
+}
+
+.arc-native button:hover:not(:disabled) {
+    box-shadow: 0 2px 8px rgba(15, 23, 42, .07);
+    border-color: var(--line2)
+}
+
+.arc-native button:disabled {
+    opacity: .45;
+    cursor: not-allowed
+}
+
+.arc-native .run {
+    background: linear-gradient(135deg, #2563eb, #0891b2);
+    color: white;
+    border-color: transparent
+}
+
+.arc-native .auto.active {
+    background: #fef3c7;
+    border-color: #f59e0b;
+    color: #92400e
+}
+
+/* arc-native layout and responsive rules moved to ui/styles/layout.css */
+
+.arc-native .graph-wrap {
+    background: rgba(255, 255, 255, .98);
+    border: 1px solid rgba(148, 163, 184, .45);
+    border-radius: 30px;
+    box-shadow: var(--shadow);
+    padding: 16px 12px 16px;
+    position: relative;
+    overflow: hidden;
+    min-width: 0
+}
+
+.arc-native .graph-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap
+}
+
+.arc-native .zoom-tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 6px 8px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, .05)
+}
+
+.arc-native .zoom-tools button {
+    padding: 7px 10px;
+    border-radius: 10px;
+    font-size: 11px
+}
+
+.arc-native .zoom-level {
+    min-width: 48px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #475569
+}
+
+/* arc-native graph viewport sizing moved to ui/styles/layout.css */
+
+.arc-native .graph-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 14px;
+    padding: 0 2px
+}
+
+.arc-native .graph-title h2 {
+    margin: 0;
+    font-size: 15px;
+    font-family: var(--mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #334155
+}
+
+.arc-native .legend {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted)
+}
+
+.arc-native .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    padding: 5px 9px;
+    border: 1px solid var(--line);
+    background: #fff
+}
+
+.arc-native .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor
+}
+
+.arc-native .current {
+    color: var(--blue)
+}
+
+.arc-native .future {
+    color: var(--purple)
+}
+
+.arc-native .bridge {
+    color: var(--cyan)
+}
+
+.arc-native .graph {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    height: 830px;
+    max-width: none;
+    border-radius: 24px;
+    background: linear-gradient(180deg, #fbfdff 0%, #f4f7fb 100%);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    margin: 0
+}
+
+.arc-native .graph::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 31px, rgba(148, 163, 184, .08) 32px), linear-gradient(90deg, transparent 31px, rgba(148, 163, 184, .08) 32px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    opacity: .45
+}
+
+.arc-native .graph-scene {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1560px;
+    height: 830px;
+    transform-origin: top left;
+    transition: transform .18s ease
+}
+
+.arc-native .graph:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 23% 24%, rgba(37, 99, 235, .08), transparent 34%), radial-gradient(circle at 75% 68%, rgba(124, 58, 237, .08), transparent 34%);
+    pointer-events: none
+}
+
+.arc-native svg.edges {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none
+}
+
+.arc-native .edge {
+    stroke: #cbd5e1;
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 8 9;
+    transition: stroke .18s ease, stroke-width .18s ease, opacity .18s ease;
+    vector-effect: non-scaling-stroke;
+    opacity: .85
+}
+
+.arc-native .edge.active {
+    stroke: #2563eb;
+    stroke-width: 5;
+    stroke-dasharray: 10 8;
+    animation: dashFlow 1.15s linear infinite, edgePulse 1.2s ease-in-out infinite;
+    opacity: 1
+}
+
+.arc-native .edge.futureEdge.active {
+    stroke: #7c3aed;
+}
+
+.arc-native .edge.loop.active {
+    stroke: #ea580c;
+}
+
+@keyframes dashFlow {
+    from {
+        stroke-dashoffset: 0
+    }
+
+    to {
+        stroke-dashoffset: -36
+    }
+}
+
+@keyframes edgePulse {
+
+    0%,
+    100% {
+        filter: none
+    }
+
+    50% {
+        filter: drop-shadow(0 0 3px rgba(37, 99, 235, .28))
+    }
+}
+
+.arc-native .flow-token {
+    position: absolute;
+    z-index: 4;
+    display: none;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 12px;
+    background: #0f172a;
+    color: white;
+    border-radius: 999px;
+    padding: 7px 11px;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, .18);
+    transform: translate(-50%, -50%) scale(.96);
+    opacity: 0;
+    transition: left .24s ease, top .24s ease, opacity .18s ease, transform .18s ease;
+    pointer-events: none;
+    white-space: nowrap
+}
+
+.arc-native .flow-token.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1)
+}
+
+.arc-native .cluster {
+    position: absolute;
+    border-radius: 26px;
+    border: 1px dashed #cbd5e1;
+    background: rgba(248, 250, 252, .72);
+    z-index: 2;
+    padding: 18px 16px 16px;
+    transition: border-color .22s ease, box-shadow .22s ease, background .22s ease
+}
+
+.arc-native .cluster.low {
+    left: 390px;
+    top: 82px;
+    width: 1140px;
+    height: 300px;
+    border-color: rgba(37, 99, 235, .25);
+    background: rgba(239, 246, 255, .64)
+}
+
+.arc-native .cluster.high {
+    left: 390px;
+    top: 492px;
+    width: 1140px;
+    height: 300px;
+    border-color: rgba(124, 58, 237, .25);
+    background: rgba(250, 245, 255, .62)
+}
+
+.arc-native .cluster.active {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .10), 0 10px 22px rgba(37, 99, 235, .10)
+}
+
+.arc-native .cluster.high.active {
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, .10), 0 10px 22px rgba(124, 58, 237, .10)
+}
+
+.arc-native .cluster-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: #475569;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.arc-native .mini-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    border-radius: 999px;
+    padding: 3px 7px;
+    border: 1px solid currentColor;
+    background: white
+}
+
+.arc-native .node {
+    position: absolute;
+    z-index: 3;
+    width: 210px;
+    min-height: 92px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, .06);
+    padding: 14px 16px;
+    transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease
+}
+
+.arc-native .node .n-top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    min-height: 32px
+}
+
+.arc-native .icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-family: var(--mono);
+    background: #eff6ff;
+    color: var(--blue);
+    border: 1px solid #bfdbfe;
+    position: absolute;
+    left: 0;
+    top: 0
+}
+
+.arc-native .node h3 {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.18;
+    letter-spacing: -.01em;
+    text-align: center;
+    width: 100%;
+    padding: 0 36px
+}
+
+.arc-native .node p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11.5px;
+    line-height: 1.42
+}
+
+.arc-native .node.active {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .12), 0 8px 18px rgba(37, 99, 235, .12);
+    transform: translateY(-2px)
+}
+
+.arc-native .node.done {
+    border-color: rgba(22, 163, 74, .45);
+    background: #f0fdf4
+}
+
+.arc-native .node.futureNode .icon {
+    background: #faf5ff;
+    color: var(--purple);
+    border-color: #ddd6fe
+}
+
+.arc-native .node.futureNode.active {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, .13), 0 8px 18px rgba(124, 58, 237, .10);
+    transform: translateY(-2px)
+}
+
+.arc-native .node.bridgeNode .icon {
+    background: #ecfeff;
+    color: var(--cyan);
+    border-color: #a5f3fc
+}
+
+.arc-native #nPrompt {
+    left: 60px;
+    top: 180px;
+    width: 230px
+}
+
+.arc-native #nQwen {
+    left: 500px;
+    top: 190px;
+    width: 230px
+}
+
+.arc-native #nVerify {
+    left: 850px;
+    top: 190px;
+    width: 230px
+}
+
+.arc-native #nBuffer {
+    left: 1200px;
+    top: 190px;
+    width: 230px
+}
+
+.arc-native #nHidden {
+    left: 1200px;
+    top: 602px;
+    width: 230px
+}
+
+.arc-native #nEagle {
+    left: 850px;
+    top: 602px;
+    width: 230px
+}
+
+.arc-native #nE4B {
+    left: 500px;
+    top: 602px;
+    width: 230px
+}
+
+.arc-native #nFinal {
+    left: 60px;
+    top: 570px;
+    width: 230px
+}
+
+.arc-native .cycle-label {
+    position: absolute;
+    z-index: 3;
+    left: 412px;
+    top: 332px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #9a3412;
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    border-radius: 999px;
+    padding: 7px 12px;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, .08)
+}
+
+.arc-native .packet-note {
+    margin-top: 16px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 13px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #475569;
+    font-size: 13px;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, .05)
+}
+
+.arc-native .packet-note strong {
+    color: var(--ink)
+}
+
+.arc-native .side {
+    position: sticky;
+    top: 12px;
+    margin-top: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    align-self: start;
+    min-width: 0
+}
+
+.arc-native .panel {
+    background: rgba(255, 255, 255, .98);
+    border: 1px solid rgba(148, 163, 184, .45);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 16px
+}
+
+.arc-native .panel h2 {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: #475569;
+    margin: 0 0 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px
+}
+
+.arc-native .step-title {
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.12;
+    margin: 0 0 8px;
+    color: #0f172a
+}
+
+.arc-native .step-desc {
+    font-size: 13px;
+    line-height: 1.55;
+    color: #475569;
+    margin: 0 0 12px
+}
+
+.arc-native .cycle-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--blue);
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    padding: 4px 8px;
+    white-space: nowrap
+}
+
+.arc-native .kv {
+    display: grid;
+    gap: 8px
+}
+
+.arc-native .kv-row {
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 9px
+}
+
+.arc-native .kv-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 7px
+}
+
+.arc-native .tokens {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap
+}
+
+.arc-native .tok {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    border-radius: 8px;
+    padding: 5px 7px;
+    color: #334155
+}
+
+.arc-native .tok.accept {
+    background: #dcfce7;
+    border-color: #86efac;
+    color: #166534
+}
+
+.arc-native .tok.deny {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #991b1b
+}
+
+.arc-native .tok.fallback {
+    background: #ede9fe;
+    border-color: #c4b5fd;
+    color: #5b21b6
+}
+
+.arc-native .tok.unused {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+    text-decoration-color: #cbd5e1
+}
+
+.arc-native .tok.feature {
+    background: #cffafe;
+    border-color: #67e8f9;
+    color: #155e75
+}
+
+.arc-native .tok.pred {
+    background: #fae8ff;
+    border-color: #e879f9;
+    color: #86198f
+}
+
+.arc-native .tok.e4b {
+    background: #dcfce7;
+    border-color: #86efac;
+    color: #14532d
+}
+
+.arc-native .context {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.6;
+    color: #0f766e;
+    background: #ecfeff;
+    border: 1px solid #a5f3fc;
+    border-radius: 12px;
+    padding: 10px;
+    min-height: 42px
+}
+
+.arc-native .log {
+    max-height: 230px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #475569;
+    scroll-behavior: smooth
+}
+
+.arc-native .log div {
+    border-left: 3px solid #cbd5e1;
+    padding-left: 8px;
+    line-height: 1.42
+}
+
+.arc-native .log .ok {
+    border-left-color: #16a34a
+}
+
+.arc-native .log .warn {
+    border-left-color: #ea580c
+}
+
+.arc-native .log .futureLog {
+    border-left-color: #7c3aed
+}
+
+.arc-native .progress {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 8px
+}
+
+.arc-native .bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #2563eb, #0891b2, #7c3aed);
+    transition: width .32s ease
+}
+
+.arc-native .packet-note strong {
+    display: none
+}
+
+@media(max-width:1280px) {
+    .arc-native .graph-toolbar {
+        justify-content: flex-start
+    }
+
+    .arc-native .layout {
+        display: block
+    }
+
+    .arc-native .side {
+        margin-top: 16px
+    }
+}
+
+.arc-native {
+    --arc-shell-shadow: 9px 9px 0 var(--black);
+    --arc-shell-shadow-sm: 5px 5px 0 var(--black);
+}
+
+.arc-native .graph-wrap {
+    background: var(--paper);
+    border: var(--border);
+    border-radius: 0;
+    box-shadow: var(--arc-shell-shadow);
+    padding: 16px;
+}
+
+.arc-native .graph-title {
+    background: var(--black);
+    color: var(--paper);
+    border: 3px solid var(--black);
+    box-shadow: var(--arc-shell-shadow-sm);
+    padding: 10px 12px;
+    margin-bottom: 16px;
+}
+
+.arc-native .graph-title h2 {
+    color: var(--cyan);
+    font-family: var(--display);
+    font-size: 20px;
+    letter-spacing: .06em;
+}
+
+.arc-native .graph-toolbar button,
+.arc-native .zoom-tools button {
+    border: 3px solid var(--black);
+    border-radius: 0;
+    box-shadow: 4px 4px 0 var(--black);
+    font-family: var(--mono);
+    text-transform: uppercase;
+    background: var(--yellow);
+    color: var(--black);
+}
+
+.arc-native .graph-toolbar button:hover:not(:disabled),
+.arc-native .zoom-tools button:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--black);
+}
+
+.arc-native .graph-toolbar .run {
+    background: var(--hot);
+    color: #fff;
+    border-color: var(--black);
+}
+
+.arc-native .graph-toolbar .auto.active {
+    background: var(--green);
+    color: var(--black);
+    border-color: var(--black);
+}
+
+.arc-native .zoom-tools {
+    background: var(--cyan);
+    border: 3px solid var(--black);
+    border-radius: 0;
+    box-shadow: 4px 4px 0 var(--black);
+}
+
+.arc-native .zoom-level {
+    background: var(--black);
+    color: var(--green);
+    border: 2px solid var(--black);
+    padding: 7px 8px;
+    min-width: 58px;
+    font-weight: 800;
+}
+
+.arc-native .graph-viewport {
+    border: 4px solid var(--black);
+    border-radius: 0;
+    background: var(--cream);
+    box-shadow: inset 0 0 0 3px rgba(0, 0, 0, .04);
+}
+
+.arc-native .graph {
+    border-radius: 0;
+}
+
+.arc-native .packet-note {
+    background: var(--black);
+    color: var(--paper);
+    border: 4px solid var(--black);
+    border-radius: 0;
+    box-shadow: var(--arc-shell-shadow-sm);
+    padding: 14px 16px;
+}
+
+.arc-native .packet-note .legend {
+    gap: 10px;
+}
+
+.arc-native .packet-note .pill {
+    border: 3px solid var(--black);
+    border-radius: 0;
+    box-shadow: 4px 4px 0 var(--black);
+    background: var(--paper);
+    color: var(--black);
+    font-weight: 900;
+}
+
+.arc-native .packet-note .pill.current {
+    background: var(--cyan);
+    color: var(--black)
+}
+
+.arc-native .packet-note .pill.bridge {
+    background: var(--green);
+    color: var(--black)
+}
+
+.arc-native .packet-note .pill.future {
+    background: var(--purple);
+    color: white
+}
+
+.arc-native .side {
+    gap: 18px;
+}
+
+.arc-native .panel {
+    background: var(--paper);
+    border: var(--border);
+    border-radius: 0;
+    box-shadow: var(--arc-shell-shadow);
+    padding: 18px;
+}
+
+.arc-native .panel:nth-child(1) {
+    background: var(--yellow)
+}
+
+.arc-native .panel:nth-child(2) {
+    background: var(--cyan)
+}
+
+.arc-native .panel:nth-child(3) {
+    background: var(--pink)
+}
+
+.arc-native .panel h2 {
+    color: var(--black);
+    font-family: var(--display);
+    font-size: 20px;
+    letter-spacing: .04em;
+    border-bottom: 3px solid var(--black);
+    padding-bottom: 9px;
+    align-items: center;
+}
+
+.arc-native .step-title {
+    font-family: var(--display);
+    font-size: 24px;
+    color: var(--black);
+    line-height: 1.02;
+}
+
+.arc-native .step-desc {
+    color: var(--black);
+    font-family: var(--body);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.arc-native .cycle-chip {
+    background: var(--black);
+    color: var(--green);
+    border: 3px solid var(--black);
+    border-radius: 0;
+    font-family: var(--mono);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, .25);
+}
+
+.arc-native .progress {
+    height: 14px;
+    background: var(--paper);
+    border: 3px solid var(--black);
+    border-radius: 0;
+}
+
+.arc-native .bar {
+    background: repeating-linear-gradient(90deg, var(--hot) 0 16px, var(--cyan) 16px 32px, var(--green) 32px 48px, var(--purple) 48px 64px);
+}
+
+.arc-native .kv-row {
+    background: var(--paper);
+    border: 3px solid var(--black);
+    border-radius: 0;
+    box-shadow: 4px 4px 0 var(--black);
+    padding: 12px;
+}
+
+.arc-native .kv-label {
+    color: var(--black);
+    font-weight: 900;
+    letter-spacing: .11em;
+    border-bottom: 2px solid var(--black);
+    padding-bottom: 6px;
+}
+
+.arc-native .context {
+    background: var(--black);
+    color: var(--green);
+    border: 3px solid var(--black);
+    border-radius: 0;
+}
+
+.arc-native .log {
+    background: var(--black);
+    color: var(--paper);
+    border: 3px solid var(--black);
+    padding: 12px;
+    max-height: 260px;
+}
+
+.arc-native .log div {
+    border-left-width: 5px;
+    background: rgba(255, 255, 255, .06);
+    padding: 7px 8px;
+    color: var(--paper);
+}
+
+.arc-native .log .ok {
+    border-left-color: var(--green)
+}
+
+.arc-native .log .warn {
+    border-left-color: var(--orange)
+}
+
+.arc-native .log .futureLog {
+    border-left-color: var(--purple)
+}
+
+.arc-native .tok {
+    border: 2px solid var(--black);
+    border-radius: 0;
+    box-shadow: 2px 2px 0 var(--black);
+    font-weight: 900;
+}
+
+
+
+/* ===== arc graph full style sync: nodes, clusters, edges, graph interior ===== */
+.arc-native .graph {
+    background:
+        radial-gradient(circle at 13% 18%, rgba(255, 31, 122, .24) 0 118px, transparent 120px),
+        radial-gradient(circle at 88% 18%, rgba(0, 223, 252, .24) 0 134px, transparent 136px),
+        radial-gradient(circle at 82% 78%, rgba(131, 255, 0, .20) 0 128px, transparent 130px),
+        linear-gradient(135deg, #fffaf0 0%, #fff3c7 38%, #ffe8f1 72%, #e7fbff 100%) !important;
+    border: 4px solid var(--black) !important;
+    box-shadow: inset 0 0 0 3px rgba(0, 0, 0, .05);
+    overflow: hidden;
+}
+
+.arc-native .graph::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle, rgba(0, 0, 0, .18) 1.2px, transparent 1.7px) 0 0/24px 24px,
+        repeating-linear-gradient(90deg, transparent 0 34px, rgba(0, 0, 0, .08) 35px 37px, transparent 38px 68px),
+        repeating-linear-gradient(0deg, transparent 0 34px, rgba(0, 0, 0, .055) 35px 37px, transparent 38px 68px) !important;
+    opacity: .42 !important;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.arc-native .graph::after {
+    content: "HTFSD FLOW";
+    position: absolute;
+    right: 24px;
+    bottom: 18px;
+    z-index: 0;
+    font-family: var(--display);
+    font-size: 82px;
+    line-height: .9;
+    color: rgba(0, 0, 0, .06);
+    letter-spacing: .04em;
+    transform: rotate(-5deg);
+    pointer-events: none;
+}
+
+.arc-native svg.edges {
+    z-index: 1
+}
+
+.arc-native marker path {
+    fill: var(--black) !important
+}
+
+.arc-native .edge {
+    stroke: var(--black) !important;
+    stroke-width: 4.5 !important;
+    stroke-dasharray: 10 8;
+    opacity: .72;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, .12));
+}
+
+.arc-native .edge.active {
+    stroke: var(--hot) !important;
+    stroke-width: 6 !important;
+    opacity: 1;
+    animation: dashFlow 1.15s linear infinite, edgeBrutalPulse 1.1s ease-in-out infinite !important;
+    filter: drop-shadow(0 0 6px rgba(255, 31, 122, .45));
+}
+
+.arc-native .edge.futureEdge.active {
+    stroke: var(--purple) !important;
+    filter: drop-shadow(0 0 6px rgba(141, 0, 255, .42));
+}
+
+.arc-native .edge.loop.active {
+    stroke: var(--orange) !important;
+    filter: drop-shadow(0 0 6px rgba(255, 106, 0, .46));
+}
+
+@keyframes edgeBrutalPulse {
+
+    0%,
+    100% {
+        stroke-width: 6
+    }
+
+    50% {
+        stroke-width: 7.5
+    }
+}
+
+.arc-native .cluster {
+    border: 4px dashed var(--black) !important;
+    border-radius: 0 !important;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, .92);
+    padding: 18px 16px 16px;
+    overflow: visible;
+}
+
+.arc-native .cluster.low {
+    background: rgba(0, 223, 252, .30) !important;
+    border-color: var(--black) !important;
+}
+
+.arc-native .cluster.high {
+    background: rgba(141, 0, 255, .22) !important;
+    border-color: var(--black) !important;
+}
+
+.arc-native .cluster.active {
+    box-shadow: 10px 10px 0 var(--black), 0 0 0 6px rgba(255, 31, 122, .23) !important;
+    background: rgba(255, 238, 0, .30) !important;
+}
+
+.arc-native .cluster.high.active {
+    box-shadow: 10px 10px 0 var(--black), 0 0 0 6px rgba(141, 0, 255, .22) !important;
+    background: rgba(192, 0, 255, .28) !important;
+}
+
+.arc-native .cluster-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    background: var(--paper);
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    padding: 7px 10px;
+    color: var(--black) !important;
+    font-family: var(--display) !important;
+    font-size: 15px !important;
+    letter-spacing: .04em !important;
+    transform: rotate(-1deg);
+}
+
+.arc-native .mini-badge {
+    border: 2px solid var(--black) !important;
+    border-radius: 0 !important;
+    color: var(--black) !important;
+    background: var(--yellow) !important;
+    font-family: var(--mono) !important;
+    box-shadow: 2px 2px 0 var(--black);
+}
+
+.arc-native .mini-badge.future {
+    background: var(--purple) !important;
+    color: white !important
+}
+
+.arc-native .node {
+    border: 4px solid var(--black) !important;
+    border-radius: 0 !important;
+    box-shadow: 7px 7px 0 var(--black) !important;
+    color: var(--black);
+    padding: 13px 14px;
+    background: var(--paper) !important;
+}
+
+.arc-native .node:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 9px 9px 0 var(--black) !important;
+}
+
+.arc-native #nPrompt {
+    background: var(--yellow) !important
+}
+
+.arc-native #nQwen {
+    background: var(--cyan) !important
+}
+
+.arc-native #nVerify {
+    background: var(--hot) !important;
+    color: white !important
+}
+
+.arc-native #nBuffer {
+    background: var(--green) !important
+}
+
+.arc-native #nHidden {
+    background: var(--orange) !important;
+    color: white !important
+}
+
+.arc-native #nEagle {
+    background: var(--purple) !important;
+    color: white !important
+}
+
+.arc-native #nE4B {
+    background: var(--violet) !important;
+    color: white !important
+}
+
+.arc-native #nFinal {
+    background: var(--blue) !important;
+    color: white !important
+}
+
+.arc-native .node .n-top {
+    justify-content: center;
+    margin-bottom: 8px;
+    min-height: 34px
+}
+
+.arc-native .node h3 {
+    font-family: var(--display) !important;
+    font-size: 16px !important;
+    line-height: 1.04 !important;
+    letter-spacing: .015em !important;
+    text-transform: uppercase;
+    color: inherit !important;
+    text-align: center;
+    padding: 0 34px !important;
+}
+
+.arc-native .node p {
+    font-family: var(--body) !important;
+    color: inherit !important;
+    opacity: .92;
+    font-weight: 800;
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+    text-align: center;
+}
+
+.arc-native .icon {
+    border: 3px solid var(--black) !important;
+    border-radius: 0 !important;
+    background: var(--paper) !important;
+    color: var(--black) !important;
+    box-shadow: 3px 3px 0 var(--black);
+    font-family: var(--mono) !important;
+    font-weight: 900;
+}
+
+.arc-native .node.active {
+    transform: translate(-4px, -4px) rotate(-1deg) !important;
+    box-shadow: 11px 11px 0 var(--black), 0 0 0 6px rgba(255, 238, 0, .46) !important;
+    border-color: var(--black) !important;
+    outline: 4px solid var(--yellow);
+    outline-offset: 2px;
+}
+
+.arc-native .node.done {
+    border-color: var(--black) !important;
+    filter: saturate(.9);
+    opacity: .88;
+}
+
+.arc-native .futureNode.active {
+    box-shadow: 11px 11px 0 var(--black), 0 0 0 6px rgba(192, 0, 255, .35) !important;
+    outline: 4px solid var(--purple);
+}
+
+.arc-native .bridgeNode.active {
+    box-shadow: 11px 11px 0 var(--black), 0 0 0 6px rgba(255, 106, 0, .35) !important;
+    outline: 4px solid var(--orange);
+}
+
+.arc-native .cycle-label {
+    background: var(--black) !important;
+    color: var(--yellow) !important;
+    border: 3px solid var(--black) !important;
+    border-radius: 0 !important;
+    box-shadow: 5px 5px 0 var(--black);
+    font-family: var(--mono) !important;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.arc-native .flow-token {
+    background: var(--red) !important;
+    color: white !important;
+    border: 3px solid var(--black);
+    border-radius: 0 !important;
+    box-shadow: 5px 5px 0 var(--black);
+    font-family: var(--mono) !important;
+    text-transform: uppercase;
+}
+
+.arc-native .tok.accept {
+    background: var(--green) !important;
+    color: var(--black) !important;
+    border-color: var(--black) !important
+}
+
+.arc-native .tok.deny {
+    background: var(--red) !important;
+    color: white !important;
+    border-color: var(--black) !important
+}
+
+.arc-native .tok.fallback {
+    background: var(--orange) !important;
+    color: white !important;
+    border-color: var(--black) !important
+}
+
+.arc-native .tok.unused {
+    background: var(--silver) !important;
+    color: rgba(0, 0, 0, .55) !important;
+    border-color: var(--black) !important
+}
+
+.arc-native .tok.feature {
+    background: var(--cyan) !important;
+    color: var(--black) !important;
+    border-color: var(--black) !important
+}
+
+.arc-native .tok.pred {
+    background: var(--purple) !important;
+    color: white !important;
+    border-color: var(--black) !important
+}
+
+.arc-native .tok.e4b {
+    background: var(--blue) !important;
+    color: white !important;
+    border-color: var(--black) !important
+}
+
+
+/* ===== fix: keep only one visible graph background during zoom ===== */
+.arc-native .graph-viewport {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.arc-native .graph {
+    margin: 0 !important;
+}
+
+
+/* ===== interaction fix: keep architecture graph contained, never cover benchmark sections ===== */
+#overview {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+#lowtier,
+#full,
+#metrics,
+#notes,
+footer {
+    position: relative;
+    z-index: 5;
+    isolation: isolate;
+}
+
+.arc-native {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    contain: layout paint;
+}
+
+.arc-native .graph-wrap,
+.arc-native .graph-viewport,
+.arc-native .graph {
+    position: relative;
+    z-index: 1;
+}
+
+.arc-native .graph-wrap {
+    overflow: hidden;
+    contain: layout paint;
+}
+
+.arc-native .graph-viewport {
+    overflow: auto !important;
+    contain: layout paint;
+}
+
+.arc-native .graph-scene {
+    pointer-events: none;
+}
+
+.arc-native .graph-toolbar,
+.arc-native .graph-toolbar *,
+.arc-native .zoom-tools,
+.arc-native .zoom-tools *,
+.arc-native .side,
+.arc-native .side * {
+    pointer-events: auto;
+}
+
+#lowtier *,
+#full *,
+#metrics *,
+#notes *,
+footer * {
+    pointer-events: auto;
+}
+
+
+/* ===== fix: keep architecture layout click-safe but visually transparent ===== */
+.arc-native,
+.arc-native .app,
+.arc-native .layout {
+    background: transparent !important;
+}
+
+.arc-native .layout::before,
+.arc-native .layout::after {
+    content: none !important;
+}
