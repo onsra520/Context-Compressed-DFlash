@@ -1413,12 +1413,25 @@ footer {
 }
 
 .arc-native .graph-viewport {
-    overflow: auto !important;
+    overflow: hidden !important;
     contain: layout paint;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.arc-native .graph-viewport::-webkit-scrollbar {
+    display: none;
 }
 
 .arc-native .graph-scene {
     pointer-events: none;
+    transform-origin: 0 0;
+    will-change: transform;
+    transition: transform 120ms ease-out;
 }
 
 .arc-native .graph-toolbar,

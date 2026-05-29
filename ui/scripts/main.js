@@ -3,6 +3,21 @@ import { data, cycles, metricDefs } from "../mocks/mock-data.js";
 const cycle0 = cycles[0] ?? null;
 const cycle1 = cycles[1] ?? cycle0;
 const cycle2 = cycles[2] ?? cycle1 ?? cycle0;
+const GRAPH_SCENE_WIDTH = 1560;
+const GRAPH_SCENE_HEIGHT = 830;
+
+const graphViewState = {
+    scale: 1,
+    translateX: 0,
+    translateY: 0,
+    minScale: 0.35,
+    maxScale: 2.2,
+    isDragging: false,
+    dragStartX: 0,
+    dragStartY: 0,
+    startTranslateX: 0,
+    startTranslateY: 0,
+};
 
         function metricClass(k) { k = k.toLowerCase(); if (k.includes('speedup')) return 'm-speed'; if (k.includes('accepted') || k.includes('acceptance')) return 'm-accept'; if (k.includes('rejected')) return 'm-reject'; if (k.includes('fallback')) return 'm-fallback'; if (k.includes('tokens/sec')) return 'm-tps'; if (k.includes('latency')) return 'm-lat'; return 'm-token' }
         function metricsFor(obj, kind) { const keys = kind === 'low' ? ['latency_seconds', 'decode_tokens_per_sec', 'total_tokens_per_sec', 'prompt_tokens', 'completion_tokens', 'total_tokens', 'prefill_ms', 'decode_ms', 'memory_gb', 'draft_block_size', 'cycle_count', 'accepted_draft_tokens', 'rejected_draft_tokens', 'fallback_tokens', 'acceptance_rate', 'verification_mode', 'correctness_note', 'speedup'] : ['latency_seconds', 'decode_tokens_per_sec', 'total_tokens_per_sec', 'prompt_tokens', 'completion_tokens', 'total_tokens', 'prefill_ms', 'decode_ms', 'memory_gb', 'low_tier_accepted_tokens', 'low_tier_rejected_tokens', 'low_tier_fallback_tokens', 'high_tier_accepted_tokens', 'high_tier_rejected_tokens', 'high_tier_fallback_tokens', 'low_tier_acceptance_rate', 'high_tier_acceptance_rate', 'verification_mode', 'correctness_note', 'speedup']; return keys.map(k => ({ label: k.replaceAll('_', ' '), value: obj[k], cls: metricClass(k) })) }
@@ -46,46 +61,73 @@ const cycle2 = cycles[2] ?? cycle1 ?? cycle0;
         const graphViewport = el('graphViewport');
         const BASE_GRAPH_W = 1560;
         const BASE_GRAPH_H = 830;
-        let zoom = 1;
-        const MIN_ZOOM = 0.45;
-        const MAX_ZOOM = 1.8;
-        let panState = null;
         function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
-        function updateZoomLabel() { el('zoomLevel').textContent = Math.round(zoom * 100) + '%'; }
-        function applyZoom(center = false) {
-            const scaledW = BASE_GRAPH_W * zoom;
-            const scaledH = BASE_GRAPH_H * zoom;
-            const vw = graphViewport ? graphViewport.clientWidth : BASE_GRAPH_W;
-            const vh = graphViewport ? graphViewport.clientHeight : BASE_GRAPH_H;
-            const surfaceW = Math.max(vw, scaledW);
-            const surfaceH = Math.max(vh, scaledH);
-            graphEl.style.width = surfaceW + 'px';
-            graphEl.style.height = surfaceH + 'px';
-            const tx = scaledW < surfaceW ? (surfaceW - scaledW) / 2 : 0;
-            const ty = scaledH < surfaceH ? (surfaceH - scaledH) / 2 : 0;
-            graphScene.style.transform = `translate(${tx}px, ${ty}px) scale(${zoom})`;
+        function updateZoomLabel() { el('zoomLevel').textContent = Math.round(graphViewState.scale * 100) + '%'; }
+
+        function getViewportRect() {
+            return graphViewport?.getBoundingClientRect() ?? { left: 0, top: 0, width: BASE_GRAPH_W, height: BASE_GRAPH_H };
+        }
+
+        function applyGraphTransform() {
+            if (!graphScene) return;
+            graphScene.style.transformOrigin = '0 0';
+            graphScene.style.transform = `translate3d(${graphViewState.translateX}px, ${graphViewState.translateY}px, 0) scale(${graphViewState.scale})`;
             updateZoomLabel();
-            if (center && graphViewport) {
-                graphViewport.scrollLeft = Math.max(0, (surfaceW - vw) / 2);
-                graphViewport.scrollTop = Math.max(0, (surfaceH - vh) / 2);
-            }
         }
-        function setZoom(next, center = false) {
-            const nextZoom = clamp(next, MIN_ZOOM, MAX_ZOOM);
-            if (nextZoom === zoom) return;
-            zoom = nextZoom;
-            applyZoom(center);
+
+        function setGraphScale(nextScale, anchorClientX, anchorClientY) {
+            const oldScale = graphViewState.scale;
+            const scale = clamp(nextScale, graphViewState.minScale, graphViewState.maxScale);
+            if (scale === oldScale) return;
+
+            const rect = getViewportRect();
+            const centerX = anchorClientX ?? rect.left + rect.width / 2;
+            const centerY = anchorClientY ?? rect.top + rect.height / 2;
+            const worldX = (centerX - rect.left - graphViewState.translateX) / oldScale;
+            const worldY = (centerY - rect.top - graphViewState.translateY) / oldScale;
+
+            graphViewState.scale = scale;
+            graphViewState.translateX = centerX - rect.left - worldX * scale;
+            graphViewState.translateY = centerY - rect.top - worldY * scale;
+            applyGraphTransform();
         }
-        function zoomIn() { setZoom(zoom + 0.08); }
-        function zoomOut() { setZoom(zoom - 0.08); }
-        function zoomReset() { setZoom(1, true); }
-        function zoomFit() {
-            if (!graphViewport) return;
-            const fitW = (graphViewport.clientWidth - 8) / BASE_GRAPH_W;
-            const fitH = ((graphViewport.clientHeight || BASE_GRAPH_H) - 8) / BASE_GRAPH_H;
-            const fit = Math.min(fitW, fitH, 1);
-            setZoom(Math.max(MIN_ZOOM, fit), true);
+
+        function zoomGraphAt(nextScale, clientX, clientY) {
+            setGraphScale(nextScale, clientX, clientY);
         }
+
+        function zoomIn() {
+            const rect = getViewportRect();
+            zoomGraphAt(graphViewState.scale * 1.12, rect.left + rect.width / 2, rect.top + rect.height / 2);
+        }
+
+        function zoomOut() {
+            const rect = getViewportRect();
+            zoomGraphAt(graphViewState.scale / 1.12, rect.left + rect.width / 2, rect.top + rect.height / 2);
+        }
+
+        function centerGraphInViewport(scale = graphViewState.scale) {
+            const rect = getViewportRect();
+            graphViewState.translateX = (rect.width - GRAPH_SCENE_WIDTH * scale) / 2;
+            graphViewState.translateY = (rect.height - GRAPH_SCENE_HEIGHT * scale) / 2;
+            graphViewState.scale = scale;
+            applyGraphTransform();
+        }
+
+        function resetGraphView() {
+            centerGraphInViewport(1);
+        }
+
+        function fitGraphToViewport() {
+            const rect = getViewportRect();
+            const fitW = (rect.width - 24) / GRAPH_SCENE_WIDTH;
+            const fitH = (rect.height - 24) / GRAPH_SCENE_HEIGHT;
+            const fit = clamp(Math.min(fitW, fitH), graphViewState.minScale, graphViewState.maxScale);
+            centerGraphInViewport(fit);
+        }
+
+        function zoomReset() { resetGraphView(); }
+        function zoomFit() { fitGraphToViewport(); }
 
         function isInteractiveElement(target) {
             return !!target?.closest('button, a, input, textarea, select, label, [role="button"]');
@@ -96,42 +138,40 @@ const cycle2 = cycles[2] ?? cycle1 ?? cycle0;
             graphViewport.style.cursor = 'grab';
             graphViewport.style.touchAction = 'none';
             graphViewport.style.userSelect = 'none';
-            graphEl.style.transition = 'width 160ms ease, height 160ms ease';
-            graphScene.style.transition = 'transform 160ms ease';
+            graphViewport.style.overscrollBehavior = 'contain';
+            graphScene.style.transition = 'transform 120ms ease-out';
 
             const startPan = (e, pointerId) => {
-                if (panState || e.button !== 0 || isInteractiveElement(e.target)) return;
+                if (graphViewState.isDragging || e.button !== 0 || isInteractiveElement(e.target)) return;
                 e.preventDefault();
-                panState = {
-                    pointerId: pointerId ?? null,
-                    startX: e.clientX,
-                    startY: e.clientY,
-                    startLeft: graphViewport.scrollLeft,
-                    startTop: graphViewport.scrollTop,
-                };
+                graphViewState.isDragging = true;
+                graphViewState.dragStartX = e.clientX;
+                graphViewState.dragStartY = e.clientY;
+                graphViewState.startTranslateX = graphViewState.translateX;
+                graphViewState.startTranslateY = graphViewState.translateY;
                 graphViewport.style.cursor = 'grabbing';
                 if (pointerId != null) {
                     graphViewport.setPointerCapture?.(pointerId);
                 }
+                graphScene.style.transition = 'none';
             };
 
             const movePan = (e, pointerId) => {
-                if (!panState || (pointerId != null && panState.pointerId != null && pointerId !== panState.pointerId)) return;
+                if (!graphViewState.isDragging) return;
                 e.preventDefault();
-                if (!panState.pointerId && pointerId != null) {
-                    panState.pointerId = pointerId;
-                }
-                const dx = e.clientX - panState.startX;
-                const dy = e.clientY - panState.startY;
-                graphViewport.scrollLeft = panState.startLeft - dx;
-                graphViewport.scrollTop = panState.startTop - dy;
+                const dx = e.clientX - graphViewState.dragStartX;
+                const dy = e.clientY - graphViewState.dragStartY;
+                graphViewState.translateX = graphViewState.startTranslateX + dx;
+                graphViewState.translateY = graphViewState.startTranslateY + dy;
+                applyGraphTransform();
             };
 
             const stopPan = (e, pointerId) => {
-                if (!panState) return;
-                if (pointerId != null && panState.pointerId != null && pointerId !== panState.pointerId) return;
-                panState = null;
+                if (!graphViewState.isDragging) return;
+                if (pointerId != null && e?.pointerId != null && pointerId !== e.pointerId) return;
+                graphViewState.isDragging = false;
                 graphViewport.style.cursor = 'grab';
+                graphScene.style.transition = 'transform 120ms ease-out';
             };
 
             graphViewport.addEventListener('pointerdown', (e) => startPan(e, e.pointerId));
@@ -305,17 +345,27 @@ const cycle2 = cycles[2] ?? cycle1 ?? cycle0;
         }
         function next() { if (idx < steps.length - 1) { navigateTo(idx + 1); } else stopAuto(); }
         function prev() { stopAuto(); if (idx > -1) { navigateTo(idx - 1); } }
-        function run() { reset(); startAuto(980); }
+        function run() { reset(); navigateTo(0); }
         function startAuto(ms = 1150) { stopAuto(false); el('autoBtn').classList.add('active'); el('autoBtn').textContent = 'Pause'; timer = setInterval(() => { if (idx >= steps.length - 1) { stopAuto(); } else next(); }, ms); }
         function stopAuto(update = true) { if (timer) clearInterval(timer); timer = null; if (update) { el('autoBtn').classList.remove('active'); el('autoBtn').textContent = 'Auto Play'; } }
-        function reset() { stopAuto(); animLock = false; idx = -1; el('nextBtn').disabled = false; el('prevBtn').disabled = true; render(); }
+        function reset() { stopAuto(); animLock = false; idx = -1; resetGraphView(); el('nextBtn').disabled = false; el('prevBtn').disabled = true; render(); }
 
         el('runBtn').addEventListener('click', run);
         el('zoomInBtn').addEventListener('click', zoomIn);
         el('zoomOutBtn').addEventListener('click', zoomOut);
         el('zoomResetBtn').addEventListener('click', zoomReset);
         el('zoomFitBtn').addEventListener('click', zoomFit);
-        graphViewport.addEventListener('wheel', (e) => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); setZoom(zoom + (e.deltaY < 0 ? 0.08 : -0.08)); } }, { passive: false });
+        graphViewport.addEventListener('wheel', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                e.preventDefault();
+                zoomGraphAt(graphViewState.scale * (e.deltaY < 0 ? 1.12 : 1 / 1.12), e.clientX, e.clientY);
+                return;
+            }
+            e.preventDefault();
+            graphViewState.translateX -= e.deltaX;
+            graphViewState.translateY -= e.deltaY;
+            applyGraphTransform();
+        }, { passive: false });
         el('prevBtn').addEventListener('click', prev);
         el('nextBtn').addEventListener('click', next);
         el('autoBtn').addEventListener('click', () => timer ? stopAuto() : startAuto());
