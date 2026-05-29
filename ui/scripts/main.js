@@ -1,5 +1,9 @@
 import { data, cycles, metricDefs } from "../mocks/mock-data.js";
 
+const cycle0 = cycles[0] ?? null;
+const cycle1 = cycles[1] ?? cycle0;
+const cycle2 = cycles[2] ?? cycle1 ?? cycle0;
+
         function metricClass(k) { k = k.toLowerCase(); if (k.includes('speedup')) return 'm-speed'; if (k.includes('accepted') || k.includes('acceptance')) return 'm-accept'; if (k.includes('rejected')) return 'm-reject'; if (k.includes('fallback')) return 'm-fallback'; if (k.includes('tokens/sec')) return 'm-tps'; if (k.includes('latency')) return 'm-lat'; return 'm-token' }
         function metricsFor(obj, kind) { const keys = kind === 'low' ? ['latency_seconds', 'decode_tokens_per_sec', 'total_tokens_per_sec', 'prompt_tokens', 'completion_tokens', 'total_tokens', 'prefill_ms', 'decode_ms', 'memory_gb', 'draft_block_size', 'cycle_count', 'accepted_draft_tokens', 'rejected_draft_tokens', 'fallback_tokens', 'acceptance_rate', 'verification_mode', 'correctness_note', 'speedup'] : ['latency_seconds', 'decode_tokens_per_sec', 'total_tokens_per_sec', 'prompt_tokens', 'completion_tokens', 'total_tokens', 'prefill_ms', 'decode_ms', 'memory_gb', 'low_tier_accepted_tokens', 'low_tier_rejected_tokens', 'low_tier_fallback_tokens', 'high_tier_accepted_tokens', 'high_tier_rejected_tokens', 'high_tier_fallback_tokens', 'low_tier_acceptance_rate', 'high_tier_acceptance_rate', 'verification_mode', 'correctness_note', 'speedup']; return keys.map(k => ({ label: k.replaceAll('_', ' '), value: obj[k], cls: metricClass(k) })) }
         function renderMetrics(id, arr) { document.getElementById(id).innerHTML = arr.map(m => `<div class="metric ${m.cls}"><span>${m.label}</span><b>${m.value}</b></div>`).join('') }
@@ -17,16 +21,16 @@ import { data, cycles, metricDefs } from "../mocks/mock-data.js";
 
         const steps = [
             { title: 'Prompt enters system', desc: 'Prompt bắt đầu đi vào architecture graph.', node: 'nPrompt', edge: null, packet: 'prompt', pos: [155, 223], cycle: 'Start', type: 'normal', payload: ['Explain', 'caching', '...'], result: [] },
-            { title: 'Enter Low-tier D-Flash', desc: 'Hệ thống đi vào low-tier: Qwen draft + Gemma E2B verify + context loop.', node: 'nQwen', edge: 'ePromptQwen', packet: 'context', pos: [340, 233], cycle: 'Cycle 1 / 3', cluster: 'clusterLow', type: 'normal', data: cycles[0], phase: 'draft' },
-            { title: 'Cycle 1 — Qwen drafts block', desc: 'Qwen sinh block 8 token. Đây chỉ là nháp, chưa phải output chính thức.', node: 'nQwen', edge: null, packet: 'draft x8', pos: [615, 233], cycle: 'Cycle 1 / 3', cluster: 'clusterLow', type: 'normal', data: cycles[0], phase: 'draft' },
-            { title: 'Cycle 1 — Gemma E2B verifies', desc: 'Gemma accept prefix đúng, deny token “so”, fallback đúng 1 token “to”.', node: 'nVerify', edge: 'eQwenVerify', packet: 'verify', pos: [960, 233], cycle: 'Cycle 1 / 3', cluster: 'clusterLow', type: 'warn', data: cycles[0], phase: 'verify' },
-            { title: 'Cycle 1 — Update context', desc: 'Context được cộng accepted prefix + fallback. Unused suffix không dùng lại.', node: 'nBuffer', edge: 'eVerifyBuffer', packet: 'context+', pos: [1315, 233], cycle: 'Cycle 1 / 3', cluster: 'clusterLow', type: 'ok', data: cycles[0], phase: 'buffer' },
-            { title: 'Loop to next cycle', desc: 'Context mới quay lại Qwen để sinh draft block mới.', node: 'nQwen', edge: 'eBufferQwen', packet: 'loop', pos: [615, 350], cycle: 'Cycle 2 / 3', cluster: 'clusterLow', type: 'normal', data: cycles[1], phase: 'draft' },
-            { title: 'Cycle 2 — Full block accepted', desc: 'Gemma E2B accept toàn bộ 8 token, không cần fallback.', node: 'nVerify', edge: 'eQwenVerify', packet: 'accept all', pos: [960, 233], cycle: 'Cycle 2 / 3', cluster: 'clusterLow', type: 'ok', data: cycles[1], phase: 'verify' },
-            { title: 'Cycle 2 — Context grows', desc: 'Accepted context dài hơn và tiếp tục loop.', node: 'nBuffer', edge: 'eVerifyBuffer', packet: 'context+', pos: [1315, 233], cycle: 'Cycle 2 / 3', cluster: 'clusterLow', type: 'ok', data: cycles[1], phase: 'buffer' },
-            { title: 'Cycle 3 — New draft', desc: 'Qwen draft tiếp từ context mới.', node: 'nQwen', edge: 'eBufferQwen', packet: 'loop', pos: [615, 350], cycle: 'Cycle 3 / 3', cluster: 'clusterLow', type: 'normal', data: cycles[2], phase: 'draft' },
-            { title: 'Cycle 3 — First mismatch', desc: 'Gemma accept “It avoids repeated”, deny “work”, fallback “computation”.', node: 'nVerify', edge: 'eQwenVerify', packet: 'verify', pos: [960, 233], cycle: 'Cycle 3 / 3', cluster: 'clusterLow', type: 'warn', data: cycles[2], phase: 'verify' },
-            { title: 'Low-tier context committed', desc: 'Low-tier đã có accepted context ổn định để đưa sang feature bridge.', node: 'nBuffer', edge: 'eVerifyBuffer', packet: 'context+', pos: [1315, 233], cycle: 'Low-tier done', cluster: 'clusterLow', type: 'ok', data: cycles[2], phase: 'buffer' },
+            { title: 'Enter Low-tier D-Flash', desc: 'Hệ thống đi vào low-tier: Qwen draft + Gemma E2B verify + context loop.', node: 'nQwen', edge: 'ePromptQwen', packet: 'context', pos: [340, 233], cycle: 'Cycle 1 / 3', cluster: 'clusterLow', type: 'normal', data: cycle0, phase: 'draft' },
+            { title: 'Cycle 1 — Qwen drafts block', desc: 'Qwen sinh block 8 token. Đây chỉ là nháp, chưa phải output chính thức.', node: 'nQwen', edge: null, packet: 'draft x8', pos: [615, 233], cycle: 'Cycle 1 / 3', cluster: 'clusterLow', type: 'normal', data: cycle0, phase: 'draft' },
+            { title: 'Cycle 1 — Gemma E2B verifies', desc: 'Gemma accept prefix đúng, deny token “so”, fallback đúng 1 token “to”.', node: 'nVerify', edge: 'eQwenVerify', packet: 'verify', pos: [960, 233], cycle: 'Cycle 1 / 3', cluster: 'clusterLow', type: 'warn', data: cycle0, phase: 'verify' },
+            { title: 'Cycle 1 — Update context', desc: 'Context được cộng accepted prefix + fallback. Unused suffix không dùng lại.', node: 'nBuffer', edge: 'eVerifyBuffer', packet: 'context+', pos: [1315, 233], cycle: 'Cycle 1 / 3', cluster: 'clusterLow', type: 'ok', data: cycle0, phase: 'buffer' },
+            { title: 'Loop to next cycle', desc: 'Context mới quay lại Qwen để sinh draft block mới.', node: 'nQwen', edge: 'eBufferQwen', packet: 'loop', pos: [615, 350], cycle: 'Cycle 2 / 3', cluster: 'clusterLow', type: 'normal', data: cycle1, phase: 'draft' },
+            { title: 'Cycle 2 — Full block accepted', desc: 'Gemma E2B accept toàn bộ 8 token, không cần fallback.', node: 'nVerify', edge: 'eQwenVerify', packet: 'accept all', pos: [960, 233], cycle: 'Cycle 2 / 3', cluster: 'clusterLow', type: 'ok', data: cycle1, phase: 'verify' },
+            { title: 'Cycle 2 — Context grows', desc: 'Accepted context dài hơn và tiếp tục loop.', node: 'nBuffer', edge: 'eVerifyBuffer', packet: 'context+', pos: [1315, 233], cycle: 'Cycle 2 / 3', cluster: 'clusterLow', type: 'ok', data: cycle1, phase: 'buffer' },
+            { title: 'Cycle 3 — New draft', desc: 'Qwen draft tiếp từ context mới.', node: 'nQwen', edge: 'eBufferQwen', packet: 'loop', pos: [615, 350], cycle: 'Cycle 3 / 3', cluster: 'clusterLow', type: 'normal', data: cycle2, phase: 'draft' },
+            { title: 'Cycle 3 — First mismatch', desc: 'Gemma accept “It avoids repeated”, deny “work”, fallback “computation”.', node: 'nVerify', edge: 'eQwenVerify', packet: 'verify', pos: [960, 233], cycle: 'Cycle 3 / 3', cluster: 'clusterLow', type: 'warn', data: cycle2, phase: 'verify' },
+            { title: 'Low-tier context committed', desc: 'Low-tier đã có accepted context ổn định để đưa sang feature bridge.', node: 'nBuffer', edge: 'eVerifyBuffer', packet: 'context+', pos: [1315, 233], cycle: 'Low-tier done', cluster: 'clusterLow', type: 'ok', data: cycle2, phase: 'buffer' },
             { title: 'Extract hidden states', desc: 'Gemma E2B chuyển accepted tokens thành hidden states / feature vectors h1, h2, h3...', node: 'nHidden', edge: 'eLowHigh', packet: 'h states', pos: [1315, 645], cycle: 'Bridge', cluster: null, type: 'future', phase: 'hidden' },
             { title: 'EAGLE-2 speculates', desc: 'EAGLE-2 dùng feature path để dự đoán path tiếp theo: by, reusing, results...', node: 'nEagle', edge: 'eHiddenEagle', packet: 'pred_h', pos: [960, 645], cycle: 'Future', cluster: 'clusterHigh', type: 'future', phase: 'eagle' },
             { title: 'Gemma E4B verifies', desc: 'Gemma E4B kiểm token candidates và giữ quyền quyết định cuối cùng.', node: 'nE4B', edge: 'eEagleE4B', packet: 'verify G4', pos: [615, 645], cycle: 'Future', cluster: 'clusterHigh', type: 'future', phase: 'e4b' },
@@ -43,8 +47,9 @@ import { data, cycles, metricDefs } from "../mocks/mock-data.js";
         const BASE_GRAPH_W = 1560;
         const BASE_GRAPH_H = 830;
         let zoom = 1;
-        const MIN_ZOOM = 0.58;
+        const MIN_ZOOM = 0.45;
         const MAX_ZOOM = 1.8;
+        let panState = null;
         function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
         function updateZoomLabel() { el('zoomLevel').textContent = Math.round(zoom * 100) + '%'; }
         function applyZoom(center = false) {
@@ -65,9 +70,14 @@ import { data, cycles, metricDefs } from "../mocks/mock-data.js";
                 graphViewport.scrollTop = Math.max(0, (surfaceH - vh) / 2);
             }
         }
-        function setZoom(next, center = false) { zoom = clamp(next, MIN_ZOOM, MAX_ZOOM); applyZoom(center); }
-        function zoomIn() { setZoom(zoom + 0.1); }
-        function zoomOut() { setZoom(zoom - 0.1); }
+        function setZoom(next, center = false) {
+            const nextZoom = clamp(next, MIN_ZOOM, MAX_ZOOM);
+            if (nextZoom === zoom) return;
+            zoom = nextZoom;
+            applyZoom(center);
+        }
+        function zoomIn() { setZoom(zoom + 0.08); }
+        function zoomOut() { setZoom(zoom - 0.08); }
         function zoomReset() { setZoom(1, true); }
         function zoomFit() {
             if (!graphViewport) return;
@@ -75,6 +85,63 @@ import { data, cycles, metricDefs } from "../mocks/mock-data.js";
             const fitH = ((graphViewport.clientHeight || BASE_GRAPH_H) - 8) / BASE_GRAPH_H;
             const fit = Math.min(fitW, fitH, 1);
             setZoom(Math.max(MIN_ZOOM, fit), true);
+        }
+
+        function isInteractiveElement(target) {
+            return !!target?.closest('button, a, input, textarea, select, label, [role="button"]');
+        }
+
+        function initGraphPan() {
+            if (!graphViewport) return;
+            graphViewport.style.cursor = 'grab';
+            graphViewport.style.touchAction = 'none';
+            graphViewport.style.userSelect = 'none';
+            graphEl.style.transition = 'width 160ms ease, height 160ms ease';
+            graphScene.style.transition = 'transform 160ms ease';
+
+            const startPan = (e, pointerId) => {
+                if (panState || e.button !== 0 || isInteractiveElement(e.target)) return;
+                e.preventDefault();
+                panState = {
+                    pointerId: pointerId ?? null,
+                    startX: e.clientX,
+                    startY: e.clientY,
+                    startLeft: graphViewport.scrollLeft,
+                    startTop: graphViewport.scrollTop,
+                };
+                graphViewport.style.cursor = 'grabbing';
+                if (pointerId != null) {
+                    graphViewport.setPointerCapture?.(pointerId);
+                }
+            };
+
+            const movePan = (e, pointerId) => {
+                if (!panState || (pointerId != null && panState.pointerId != null && pointerId !== panState.pointerId)) return;
+                e.preventDefault();
+                if (!panState.pointerId && pointerId != null) {
+                    panState.pointerId = pointerId;
+                }
+                const dx = e.clientX - panState.startX;
+                const dy = e.clientY - panState.startY;
+                graphViewport.scrollLeft = panState.startLeft - dx;
+                graphViewport.scrollTop = panState.startTop - dy;
+            };
+
+            const stopPan = (e, pointerId) => {
+                if (!panState) return;
+                if (pointerId != null && panState.pointerId != null && pointerId !== panState.pointerId) return;
+                panState = null;
+                graphViewport.style.cursor = 'grab';
+            };
+
+            graphViewport.addEventListener('pointerdown', (e) => startPan(e, e.pointerId));
+            graphViewport.addEventListener('pointermove', (e) => movePan(e, e.pointerId));
+            graphViewport.addEventListener('pointerup', (e) => stopPan(e, e.pointerId));
+            graphViewport.addEventListener('pointercancel', (e) => stopPan(e, e.pointerId));
+            graphViewport.addEventListener('lostpointercapture', (e) => stopPan(e, e.pointerId));
+            document.addEventListener('mousedown', (e) => startPan(e, null));
+            document.addEventListener('mousemove', (e) => movePan(e, null));
+            document.addEventListener('mouseup', (e) => stopPan(e, null));
         }
 
         function tok(text, cls = '') { return `<span class="tok ${cls}">${escapeHtml(text)}</span>`; }
@@ -168,15 +235,15 @@ import { data, cycles, metricDefs } from "../mocks/mock-data.js";
                     result = [tok('context updated', 'accept')];
                 }
             } else if (step.phase === 'hidden') {
-                context = cycles[2].contextOut;
+                context = cycle2.contextOut;
                 payload = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', '...'].map(x => tok(x, 'feature'));
                 result = [tok('feature path ready', 'feature')];
             } else if (step.phase === 'eagle') {
-                context = cycles[2].contextOut;
+                context = cycle2.contextOut;
                 payload = ['pred_h18', 'pred_h19', 'pred_h20', 'pred_h21'].map(x => tok(x, 'pred'));
                 result = ['by', 'reusing', 'results', '.'].map(x => tok(x, 'fallback'));
             } else if (step.phase === 'e4b') {
-                context = cycles[2].contextOut;
+                context = cycle2.contextOut;
                 payload = ['by', 'reusing', 'results', '.'].map(x => tok(x, 'fallback'));
                 result = ['by ✅', 'reusing ✅', 'results ✅', '. ✅'].map(x => tok(x, 'e4b'));
             } else if (step.phase === 'final') {
@@ -257,6 +324,7 @@ import { data, cycles, metricDefs } from "../mocks/mock-data.js";
             if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
             if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
         });
+        initGraphPan();
         render();
         requestAnimationFrame(() => setTimeout(zoomFit, 40));
 
