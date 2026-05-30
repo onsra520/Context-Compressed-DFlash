@@ -152,6 +152,7 @@ docs/.doctrees/
 # ============================================================
 # Agent / local scratch files
 # ============================================================
+.agent/
 .agents/tmp/
 .agents/cache/
 .agents/logs/
