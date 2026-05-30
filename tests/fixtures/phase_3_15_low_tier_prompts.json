@@ -1,0 +1,42 @@
+[
+  {
+    "prompt_id": "cat_A_001",
+    "category": "short_factual",
+    "prompt": "What is the capital of France?"
+  },
+  {
+    "prompt_id": "cat_B_001",
+    "category": "instruction_following",
+    "prompt": "Write a one-sentence summary of photosynthesis."
+  },
+  {
+    "prompt_id": "cat_C_001",
+    "category": "code_like",
+    "prompt": "Write a Python function that returns the sum of a list of numbers."
+  },
+  {
+    "prompt_id": "cat_D_001",
+    "category": "reasoning_style",
+    "prompt": "If all mammals are warm-blooded and all whales are mammals, are all whales warm-blooded?"
+  },
+  {
+    "prompt_id": "cat_E_001",
+    "category": "newline_format_sensitive",
+    "prompt": "List three benefits of regular exercise, one per line."
+  },
+  {
+    "prompt_id": "cat_F_001",
+    "category": "unicode_punctuation",
+    "prompt": "Translate 'hello' to French, Spanish, and Japanese."
+  },
+  {
+    "prompt_id": "cat_G_001",
+    "category": "stop_sequence_sensitive",
+    "prompt": "Answer in exactly one word: What color is the sky?"
+  },
+  {
+    "prompt_id": "cat_H_001",
+    "category": "fallback_heavy",
+    "prompt": "Generate a sequence of random-looking words: zyx, wvut, srqpon."
+  }
+]
