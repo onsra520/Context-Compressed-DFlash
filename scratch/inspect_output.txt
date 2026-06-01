@@ -1,0 +1,50 @@
+ChatCompletionRequestResponseFormat: <class 'typing_extensions._TypedDictMeta'>
+ChatCompletionRequestUserMessage: <class 'typing_extensions._TypedDictMeta'>
+LLAMA_MODEL_META_KEY_SAMPLING_SEQUENCE: <class 'int'>
+LLAMA_ROPE_TYPE_NORM: <class 'int'>
+LLAMA_STATE_SEQ_FLAGS_ON_DEVICE: <class 'int'>
+LLAMA_STATE_SEQ_FLAGS_PARTIAL_ONLY: <class 'int'>
+LLAMA_STATE_SEQ_FLAGS_SWA_ONLY: <class 'int'>
+LLAMA_STATE_SEQ_MAGIC: <class 'int'>
+LLAMA_STATE_SEQ_VERSION: <class 'int'>
+LLAMA_TOKEN_ATTR_NORMAL: <class 'int'>
+LLAMA_TOKEN_ATTR_NORMALIZED: <class 'int'>
+LLAMA_TOKEN_TYPE_NORMAL: <class 'int'>
+MinTokensLogitsProcessor: <class 'abc.ABCMeta'>
+Sequence: <class 'typing._SpecialGenericAlias'>
+llama_adapter_get_alora_invocation_tokens: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_adapter_get_alora_n_invocation_tokens: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_chat_format: <class 'module'>
+llama_get_embeddings_seq: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_kv_cache_p: <class 'typing.NewType'>
+llama_kv_cache_p_ctypes: <class '_ctypes.PyCSimpleType'>
+llama_max_parallel_sequences: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_memory_clear: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_memory_seq_add: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_memory_seq_cp: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_memory_seq_div: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_memory_seq_keep: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_memory_seq_pos_max: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_memory_seq_pos_min: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_memory_seq_rm: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_n_ctx_seq: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_n_seq_max: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_sampler_chain_remove: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_sampler_seq_config: <class '_ctypes.PyCStructType'>
+llama_seq_id: <class '_ctypes.PyCSimpleType'>
+llama_set_warmup: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_state_seq_flags: <class '_ctypes.PyCSimpleType'>
+llama_state_seq_get_data: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_state_seq_get_data_ext: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_state_seq_get_size: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_state_seq_get_size_ext: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_state_seq_load_file: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_state_seq_save_file: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_state_seq_set_data: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_state_seq_set_data_ext: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+llama_vocab_n_tokens: <class 'ctypes.CDLL.__init__.<locals>._FuncPtr'>
+
+=== Llama class methods ===
+__format__: <method '__format__' of 'object' objects>
+eval_tokens: <property object at 0x7d0e3a5dd210>
+reset: <function Llama.reset at 0x7d0e3a5e8fe0>

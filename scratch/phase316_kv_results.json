@@ -1,0 +1,72 @@
+{
+  "phase": "3.16",
+  "benchmark": "kv_cache_comparison",
+  "n_prompts": 8,
+  "max_new_tokens": 32,
+  "max_cycles": 16,
+  "seed": 42,
+  "verifier": "gemma-4-E2B-it-UD-Q4_K_XL.gguf",
+  "drafter": "Qwen3-0.6B-UD-Q8_K_XL.gguf",
+  "baseline_total_ms": 18280.199744996935,
+  "baseline_avg_ms": 2285.024968124617,
+  "summary_by_k": [
+    {
+      "K": 4,
+      "baseline_total_ms": 18280.199744996935,
+      "fr_total_ms": 63182.7927280101,
+      "ikv_total_ms": 80885.5579810006,
+      "fr_equiv": 6,
+      "fr_diverged": 2,
+      "ikv_equiv": 0,
+      "ikv_diverged": 8,
+      "fr_accepted": 84,
+      "fr_candidates": 247,
+      "fr_acceptance_ratio": 0.340080971659919,
+      "ikv_accepted": 86,
+      "ikv_candidates": 299,
+      "ikv_acceptance_ratio": 0.28762541806020064,
+      "fr_speedup_vs_baseline": 0.28932243979289923,
+      "ikv_speedup_vs_baseline": 0.22600078680659919,
+      "ikv_speedup_vs_fr": 0.7811381203904318,
+      "ikv_replay_time_saved_ms": -4208.8276670110645,
+      "pass_conditions": {
+        "equiv_ok": false,
+        "no_diverge": false,
+        "accepted_gt0": true,
+        "ikv_faster_than_baseline": false,
+        "speedup_candidate": false
+      },
+      "all_pass": false
+    },
+    {
+      "K": 8,
+      "baseline_total_ms": 18280.199744996935,
+      "fr_total_ms": 80140.12597200417,
+      "ikv_total_ms": 120947.03130200287,
+      "fr_equiv": 8,
+      "fr_diverged": 0,
+      "ikv_equiv": 0,
+      "ikv_diverged": 8,
+      "fr_accepted": 92,
+      "fr_candidates": 422,
+      "fr_acceptance_ratio": 0.21800947867298578,
+      "ikv_accepted": 58,
+      "ikv_candidates": 687,
+      "ikv_acceptance_ratio": 0.08442503639010189,
+      "fr_speedup_vs_baseline": 0.2281029574545823,
+      "ikv_speedup_vs_baseline": 0.15114219463023906,
+      "ikv_speedup_vs_fr": 0.6626051512739946,
+      "ikv_replay_time_saved_ms": -22628.827039025055,
+      "pass_conditions": {
+        "equiv_ok": false,
+        "no_diverge": false,
+        "accepted_gt0": true,
+        "ikv_faster_than_baseline": false,
+        "speedup_candidate": false
+      },
+      "all_pass": false
+    }
+  ],
+  "primary_blocker": "verifier_sampling_bottleneck",
+  "blocker_note": "Verifier sampling dominates. GPU verifier or batched verify needed."
+}

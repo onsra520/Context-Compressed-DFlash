@@ -141,6 +141,7 @@ $RECYCLE.BIN/
 # If llama.cpp or native libs are built inside project
 vendor/llama.cpp/build/
 llama.cpp/build/
+llama.cpp/
 
 # ============================================================
 # Generated docs / reports
@@ -162,6 +163,7 @@ docs/.doctrees/
 !.agents/docs/**
 
 # backups / temp files
+.archives/
 backup/
 ui/_split_failed_backup
 ui/ui.backup.html
