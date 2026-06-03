@@ -8,7 +8,7 @@ Date: 2026-06-03
 - Updated `src/ccdf/compression/passthrough.py` to return `(text, info_dict)` with the required fields.
 - Adjusted `tests/test_compression.py` to validate the richer passthrough payload.
 - Replaced the placeholder Understand-Anything task log in `docs/plans/task.md` with a real CCDF task plan.
-- Preserved the old task log in `docs/reports/understand-anything-task-log.md` for traceability.
+- Preserved the old task log in `docs/reports/06-understand-anything-task-log.md` for traceability.
 - Added STATUS comments to `src/ccdf/benchmark/metrics.py` to mark skeleton-level metrics clearly.
 - Removed the empty placeholder `docs/paper/CC-DFlash.docx`.
 

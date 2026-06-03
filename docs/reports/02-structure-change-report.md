@@ -25,9 +25,9 @@ Date: 2026-06-03
 - `config.yml`
 - `requirements.txt`
 - `setup.sh`
-- `docs/reports/structure-scan-report.md`
-- `docs/reports/structure-change-report.md`
-- `docs/reports/next-actions.md`
+- `docs/reports/01-structure-scan-report.md`
+- `docs/reports/02-structure-change-report.md`
+- `docs/reports/05-next-actions.md`
 - `models/.gitkeep`
 - `data/raw/.gitkeep`
 - `data/processed/.gitkeep`
