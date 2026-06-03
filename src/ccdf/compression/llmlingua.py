@@ -30,12 +30,27 @@ class LLMLinguaCompressor(CompressorBase):
         self,
         model_name: str = DEFAULT_LLM_LINGUA_2_MODEL,
         device_map: str = "cpu",
+        use_llmlingua2: bool = True,
+        default_keep_rate: float = 0.5,
         llmlingua2_config: dict[str, Any] | None = None,
     ) -> None:
         self.model_name = model_name
         self.device_map = device_map
+        self.use_llmlingua2 = use_llmlingua2
+        self.default_keep_rate = default_keep_rate
         self.llmlingua2_config = llmlingua2_config or {}
         self._compressor = None
+
+    @classmethod
+    def from_config(cls, config: dict[str, Any] | None = None) -> "LLMLinguaCompressor":
+        cfg = (((config or {}).get("compression") or {}).get("llmlingua") or {})
+        return cls(
+            model_name=cfg.get("model_name", DEFAULT_LLM_LINGUA_2_MODEL),
+            device_map=cfg.get("device_map", "cpu"),
+            use_llmlingua2=bool(cfg.get("use_llmlingua2", True)),
+            default_keep_rate=float(cfg.get("default_keep_rate", 0.5)),
+            llmlingua2_config=cfg.get("llmlingua2_config") or {},
+        )
 
     def _get_compressor(self):
         if PromptCompressor is None:
@@ -47,12 +62,14 @@ class LLMLinguaCompressor(CompressorBase):
             self._compressor = PromptCompressor(
                 model_name=self.model_name,
                 device_map=self.device_map,
-                use_llmlingua2=True,
+                use_llmlingua2=self.use_llmlingua2,
                 llmlingua2_config=self.llmlingua2_config,
             )
         return self._compressor
 
-    def compress(self, context: Any, question: Any, keep_rate: float):
+    def compress(self, context: Any, question: Any, keep_rate: float | None):
+        if keep_rate is None:
+            keep_rate = self.default_keep_rate
         if not 0.0 < keep_rate <= 1.0:
             raise ValueError("keep_rate must be in the interval (0, 1].")
 

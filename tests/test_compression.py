@@ -103,3 +103,48 @@ def test_llmlingua_compressor_preserves_question_when_context_is_empty(monkeypat
     assert info["N_original"] == 0
     assert info["N_compressed"] == 0
     assert info["R_actual"] == pytest.approx(1.0)
+
+
+def test_llmlingua_compressor_accepts_explicit_model_and_device_from_config(monkeypatch):
+    captured = {}
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            captured["init"] = {
+                "model_name": model_name,
+                "device_map": device_map,
+                "use_llmlingua2": use_llmlingua2,
+                "llmlingua2_config": llmlingua2_config,
+            }
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            return {
+                "compressed_prompt": "config driven context",
+                "origin_tokens": 18,
+                "compressed_tokens": 9,
+                "ratio": "2.0x",
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    compressor = LLMLinguaCompressor.from_config(
+        {
+            "compression": {
+                "llmlingua": {
+                    "model_name": "custom/llmlingua-model",
+                    "device_map": "cpu",
+                    "use_llmlingua2": True,
+                    "default_keep_rate": 0.33,
+                }
+            }
+        }
+    )
+
+    merged_text, info = compressor.compress(context="alpha beta gamma", question="Protected?", keep_rate=None)
+
+    assert captured["init"]["model_name"] == "custom/llmlingua-model"
+    assert captured["init"]["device_map"] == "cpu"
+    assert captured["init"]["use_llmlingua2"] is True
+    assert compressor.default_keep_rate == pytest.approx(0.33)
+    assert merged_text == "config driven context\n\nProtected?"
+    assert info["keep_rate"] == pytest.approx(0.33)
