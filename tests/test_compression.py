@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import pytest
+
 from ccdf.compression import PassthroughCompressor, merge, segment_gsm8k
+from ccdf.compression.llmlingua import LLMLinguaCompressor
 
 
 def test_passthrough_compressor_returns_original_context():
@@ -23,3 +26,80 @@ def test_segment_and_merge_gsm8k_prompt():
     assert segmented.context == "context block"
     assert segmented.question == "What is 2 + 2?"
     assert merge(segmented.context, segmented.question) == "context block\n\nWhat is 2 + 2?"
+
+
+def test_llmlingua_compressor_merges_original_question_and_reports_metadata(monkeypatch):
+    captured = {}
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            captured["init"] = {
+                "model_name": model_name,
+                "device_map": device_map,
+                "use_llmlingua2": use_llmlingua2,
+                "llmlingua2_config": llmlingua2_config,
+            }
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            captured["call"] = {
+                "context": context,
+                "question": question,
+                "rate": rate,
+                "concate_question": concate_question,
+                "kwargs": kwargs,
+            }
+            return {
+                "compressed_prompt": "shortened context",
+                "origin_tokens": 20,
+                "compressed_tokens": 8,
+                "ratio": "2.5x",
+                "rate": "40.0%",
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    compressor = LLMLinguaCompressor()
+    merged_text, info = compressor.compress(
+        context="Long supporting context that should shrink.",
+        question="What is 7 + 5?",
+        keep_rate=0.4,
+    )
+
+    assert merged_text == "shortened context\n\nWhat is 7 + 5?"
+    assert info["N_original"] == 20
+    assert info["N_compressed"] == 8
+    assert info["R_actual"] == pytest.approx(2.5)
+    assert info["t_compress_ms"] >= 0.0
+    assert info["keep_rate"] == pytest.approx(0.4)
+    assert info["strategy"] == "llmlingua-2"
+    assert captured["init"]["device_map"] == "cpu"
+    assert captured["init"]["use_llmlingua2"] is True
+    assert captured["call"]["context"] == ["Long supporting context that should shrink."]
+    assert captured["call"]["question"] == "What is 7 + 5?"
+    assert captured["call"]["concate_question"] is False
+
+
+def test_llmlingua_compressor_rejects_invalid_keep_rate():
+    compressor = LLMLinguaCompressor()
+
+    with pytest.raises(ValueError):
+        compressor.compress(context="ctx", question="q", keep_rate=0.0)
+
+    with pytest.raises(ValueError):
+        compressor.compress(context="ctx", question="q", keep_rate=1.1)
+
+
+def test_llmlingua_compressor_preserves_question_when_context_is_empty(monkeypatch):
+    class FakePromptCompressor:
+        def __init__(self, *args, **kwargs):
+            raise AssertionError("compressor should not be initialized for empty context")
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    compressor = LLMLinguaCompressor()
+    merged_text, info = compressor.compress(context="", question="Protected question?", keep_rate=0.5)
+
+    assert merged_text == "Protected question?"
+    assert info["N_original"] == 0
+    assert info["N_compressed"] == 0
+    assert info["R_actual"] == pytest.approx(1.0)
