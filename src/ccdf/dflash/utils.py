@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-# STATUS: skeleton-only placeholder. Do not treat this as the upstream DFlash implementation.
-
 from typing import Optional
 
 import torch
@@ -13,7 +11,9 @@ def build_target_layer_ids(num_target_layers: int, num_draft_layers: int):
     start = 1
     end = num_target_layers - 3
     span = end - start
-    return [int(round(start + (i * span) / (num_draft_layers - 1))) for i in range(num_draft_layers)]
+    return [
+        int(round(start + (i * span) / (num_draft_layers - 1))) for i in range(num_draft_layers)
+    ]
 
 
 def extract_context_feature(
@@ -21,7 +21,7 @@ def extract_context_feature(
     layer_ids: Optional[list[int]],
 ) -> torch.Tensor:
     offset = 1
-    selected_states = [hidden_states[layer_id + offset] for layer_id in layer_ids or []]
+    selected_states = [hidden_states[layer_id + offset] for layer_id in layer_ids]
     return torch.cat(selected_states, dim=-1)
 
 
