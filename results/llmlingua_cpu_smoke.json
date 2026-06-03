@@ -1,0 +1,18 @@
+{
+  "model_name": "microsoft/llmlingua-2-xlm-roberta-large-meetingbank",
+  "device": "cpu",
+  "keep_rate": 0.5,
+  "context_word_count": 42,
+  "merged_word_count": 30,
+  "question": "How many math books does the library have now?",
+  "question_preserved": true,
+  "merged": "city library bought 48 math 16 science local donor added 12 math building old newspapers chairs posters notes book counts question\n\nHow many math books does the library have now?",
+  "info": {
+    "t_compress_ms": 1004.4160070028738,
+    "R_actual": 2.2,
+    "N_original": 52,
+    "N_compressed": 24,
+    "keep_rate": 0.5,
+    "strategy": "llmlingua-2"
+  }
+}
