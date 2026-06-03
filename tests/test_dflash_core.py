@@ -23,6 +23,16 @@ def test_dflash_split_modules_do_not_import_raw_references():
     assert bad == []
 
 
+def test_synthetic_probe_has_dry_run_and_no_raw_imports():
+    text = pathlib.Path("scripts/synthetic_probe.py").read_text(encoding="utf-8")
+
+    assert "--dry-run" in text
+    assert "import model_raw" not in text
+    assert "import benchmark_raw" not in text
+    assert "from ccdf import model_raw" not in text
+    assert "from ccdf.benchmark import benchmark_raw" not in text
+
+
 def test_key_split_symbols_are_exported_from_real_modules():
     assert dflash.DFlashDraftModel is DFlashDraftModel
     assert dflash.Qwen3DFlashAttention is Qwen3DFlashAttention
