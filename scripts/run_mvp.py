@@ -254,8 +254,8 @@ def main() -> None:
         raise SystemExit(f"Only DFlash-R1 is supported by this smoke runner, got {args.condition}")
 
     config = _read_config(args.config)
-    n_prompts = max(1, min(args.n, len(PROMPTS)))
-    prompts = PROMPTS[:n_prompts]
+    n_prompts = max(1, args.n)
+    prompts = [PROMPTS[i % len(PROMPTS)] for i in range(n_prompts)]
 
     print("DFlash-R1 smoke benchmark")
     print("Compression: none")
