@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CC-DFlash Architecture Document v4.0</title>
+<style>
+:root{
+  --bg:#f7f7f3;--paper:#ffffff;--soft:#f1f1ec;--text:#171717;--muted:#64645f;
+  --line:#deded6;--line-strong:#c8c8bf;--ink:#111111;--radius:18px;
+  --shadow:0 22px 70px rgba(0,0,0,.06);
+  --go:#0f6e56;--go-bg:#e1f5ee;--go-line:#9fe1cb;
+  --warn:#854f0b;--warn-bg:#faeeda;--warn-line:#fac775;
+  --stop:#993c1d;--stop-bg:#faece7;--stop-line:#f5c4b3;
+  --info:#185fa5;--info-bg:#e6f1fb;--info-line:#b5d4f4;
+  --neu:#3c3489;--neu-bg:#eeedfe;--neu-line:#cecbf6;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --serif:Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--sans);color:var(--text);
+  background:radial-gradient(circle at 0 0,rgba(0,0,0,.045),transparent 34rem),
+  linear-gradient(180deg,#fbfbf8 0%,var(--bg) 45%,#f2f2ed 100%);line-height:1.68}
+.page{width:min(1120px,calc(100% - 40px));margin:0 auto;padding:44px 0 76px}
+.hero{padding:clamp(32px,6vw,62px);border:1px solid var(--line);border-radius:30px;
+  background:rgba(255,255,255,.84);box-shadow:var(--shadow)}
+.kicker{display:inline-flex;gap:10px;align-items:center;color:var(--muted);
+  font-size:.88rem;letter-spacing:.055em;text-transform:uppercase}
+.kicker::before{content:"";width:8px;height:8px;border-radius:999px;background:var(--ink)}
+.verdict-strip{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.verdict{padding:10px 16px;border-radius:999px;font-size:.92rem;font-weight:600}
+.verdict.go{background:var(--go-bg);color:var(--go);border:1px solid var(--go-line)}
+.verdict.warn{background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-line)}
+.verdict.stop{background:var(--stop-bg);color:var(--stop);border:1px solid var(--stop-line)}
+h1,h2,h3,h4{line-height:1.18;letter-spacing:-.035em;margin:0}
+h1{max-width:940px;margin-top:20px;font-size:clamp(2.1rem,5vw,4.2rem);font-weight:780}
+.subtitle{margin-top:20px;font-size:clamp(1rem,2vw,1.25rem);color:#333;max-width:900px}
+.meta{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--soft);color:#30302d;
+  border-radius:999px;padding:8px 13px;font-size:.92rem}
+.pill.new{background:var(--neu-bg);border-color:var(--neu-line);color:var(--neu)}
+section{margin-top:56px}
+h2{font-size:clamp(1.6rem,3.5vw,2.5rem);font-weight:760}
+h3{margin-top:32px;font-size:1.28rem;font-weight:720}
+h4{margin-top:22px;font-size:1.05rem;font-weight:680;color:#222}
+p{margin:12px 0 0;color:#2f2f2c}
+/* Cards */
+.card{margin-top:18px;padding:22px 24px;border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--paper);box-shadow:0 10px 28px rgba(0,0,0,.03)}
+/* Status notes */
+.note{margin-top:16px;padding:15px 18px 15px 20px;border-radius:14px;font-size:.94rem}
+.note.go{background:var(--go-bg);border-left:4px solid var(--go);color:#0d4035}
+.note.warn{background:var(--warn-bg);border-left:4px solid var(--warn);color:#5a3407}
+.note.stop{background:var(--stop-bg);border-left:4px solid var(--stop);color:#6b2910}
+.note.info{background:var(--info-bg);border-left:4px solid var(--info);color:#0d3d6e}
+.note.neu{background:var(--neu-bg);border-left:4px solid var(--neu);color:#28216b}
+/* Tables */
+.table-wrap{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;background:var(--paper);box-shadow:0 10px 30px rgba(0,0,0,.03)}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{padding:12px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:#ecece6;font-weight:740;color:#20201d}
+tr:last-child td{border-bottom:none}
+td.status-go{background:var(--go-bg);color:var(--go);font-weight:600}
+td.status-warn{background:var(--warn-bg);color:var(--warn);font-weight:600}
+td.status-stop{background:var(--stop-bg);color:var(--stop);font-weight:600}
+td.status-info{background:var(--info-bg);color:var(--info);font-weight:600}
+/* Code */
+code,pre{font-family:var(--mono)}
+pre{margin-top:16px;padding:18px 20px;border-radius:var(--radius);background:#111;
+  color:#f6f6f6;overflow-x:auto;font-size:.88rem;line-height:1.55}
+.code-label{display:inline-block;margin-top:14px;padding:4px 10px;
+  background:#222;color:#aaa;font-family:var(--mono);font-size:.78rem;
+  border-radius:6px 6px 0 0}
+/* Formulas */
+.formula{margin-top:16px;min-height:72px;padding:18px 22px;border:1px solid var(--line);
+  border-radius:var(--radius);background:var(--paper);display:grid;
+  grid-template-columns:1fr auto;align-items:center;gap:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.03)}
+.formula-main{text-align:center;font-family:var(--serif);font-size:clamp(1rem,2.1vw,1.32rem);line-height:1.7}
+.eqno{font-family:var(--serif);font-size:1.05rem;white-space:nowrap;color:#222}
+.frac{display:inline-grid;grid-template-rows:auto auto;vertical-align:middle;
+  text-align:center;line-height:1.18;margin:0 .14em}
+.frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .2em .07em}
+.frac>span:last-child{padding:.07em .2em 0}
+/* Decision log */
+.delta{margin-top:14px;padding:14px 16px;border-radius:12px;background:#f8f8f4;
+  border:1px solid var(--line);font-size:.91rem}
+.delta .old{color:var(--stop);text-decoration:line-through}
+.delta .new-val{color:var(--go);font-weight:600}
+/* Risk badge */
+.risk-hi{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.78rem;
+  font-weight:700;background:var(--stop-bg);color:var(--stop);border:1px solid var(--stop-line)}
+.risk-md{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.78rem;
+  font-weight:700;background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-line)}
+.risk-lo{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.78rem;
+  font-weight:700;background:var(--go-bg);color:var(--go);border:1px solid var(--go-line)}
+/* Timeline */
+.timeline{margin-top:20px;position:relative;padding-left:28px}
+.timeline::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;
+  width:2px;background:var(--line)}
+.tl-item{position:relative;margin-top:22px}
+.tl-item::before{content:"";position:absolute;left:-24px;top:6px;width:12px;height:12px;
+  border-radius:50%;background:var(--ink);border:3px solid var(--bg)}
+.tl-label{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tl-title{font-size:1rem;font-weight:700;margin-top:2px}
+.tl-desc{font-size:.91rem;color:#444;margin-top:4px}
+/* Probe box */
+.probe-box{margin-top:20px;border:2px solid var(--stop);border-radius:var(--radius);overflow:hidden}
+.probe-header{background:var(--stop);color:#fff;padding:12px 18px;font-weight:700;font-size:.95rem;
+  display:flex;align-items:center;gap:10px}
+.probe-header::before{content:"⚡";font-size:1.1rem}
+.probe-body{padding:20px}
+/* Pipeline SVG wrapper */
+figure{margin:20px 0 0}
+figcaption{margin-top:10px;text-align:center;color:var(--muted);font-size:.88rem}
+.pipeline-svg{width:100%;height:auto;display:block}
+.node rect{fill:#fafaf8;stroke:#cfcfc7;stroke-width:1.4}
+.out-node rect{fill:#111;stroke:#111}
+.fix-node rect{fill:#e1f5ee;stroke:#9fe1cb;stroke-width:1.6}
+.node-title{font-size:19px;font-weight:760;fill:#151515}
+.fix-node .node-title{fill:#0f6e56}
+.node-sub{font-size:13px;fill:#5f5f59}
+.fix-node .node-sub{fill:#1d9e75}
+.out-node .node-title{fill:#fff;font-size:16px}
+/* Footer */
+.footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:.88rem}
+ol.clean{margin:16px 0 0;padding-left:1.3rem}
+ol.clean li{margin:7px 0;color:#2f2f2c}
+@media(max-width:760px){
+  .page{width:min(100% - 20px,1120px);padding-top:22px}
+  .hero{border-radius:22px}
+  .table-wrap{overflow-x:auto}
+  table{min-width:600px}
+  .formula{grid-template-columns:1fr;gap:8px;padding:16px}
+  .eqno{text-align:right}
+}
+</style>
+</head>
+<body>
+<main class="page">
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="kicker">CC-DFlash: Context-Compressed DFlash | Architecture Document v4.0 · 2026</div>
+  <h1>CC-DFlash v4.0: Tổng hợp Kiến trúc &amp; Kiểm toán</h1>
+  <p class="subtitle">
+    Tài liệu tổng hợp từ bản thảo v3.0 (CC-DFlash.html), Báo cáo Kiểm toán Kỹ thuật (DRR),
+    và chuỗi phân tích phản biện. Mọi claim đã được đối chiếu với nguồn chính thức.
+    Mọi quyết định kiến trúc đã có lý do &amp; điều kiện rõ ràng.
+  </p>
+  <div class="verdict-strip">
+    <span class="verdict go">✓ Go — Prototype MVP</span>
+    <span class="verdict warn">⚠ No-go — Claims mạnh về 8 GB deploy</span>
+    <span class="verdict warn">⚠ Pending — Synthetic Probe (blocker)</span>
+    <span class="verdict stop">✗ Phase 2 — Gemma4-E2B compressor</span>
+  </div>
+  <div class="meta">
+    <span class="pill">[Tên tác giả] · [Trường/Khoa] · 2026</span>
+    <span class="pill">DFlash arXiv:2602.06036</span>
+    <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
+    <span class="pill new">v4.0 — Tích hợp DRR + Phân tích phản biện</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════
+     TÓM TẮT ĐIỀU HÀNH
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>Tóm tắt Điều hành</h2>
+  <p>
+    CC-DFlash đề xuất một <em>lớp nén đầu vào độc lập</em> đặt trước pipeline DFlash —
+    không sửa bên trong DFlash, không thay đổi không gian từ vựng, không sinh meta-token.
+    Compressor nhận C<sub>gốc</sub> (N tokens), sinh C<sub>nén</sub> (N/R tokens) ở dạng
+    text tự nhiên, rồi đưa C<sub>nén</sub> vào cặp Target/Draft như prompt thông thường.
+  </p>
+  <p>
+    Claim chính xác của hệ thống: <strong>lossy input compression + lossless speculative decoding
+    trên compressed context</strong>. Không phải lossless end-to-end.
+  </p>
+
+  <div class="note go">
+    <strong>Verdict DRR (báo cáo kiểm toán chính thức):</strong> Khả thi như một prototype nghiên cứu —
+    đặc biệt nếu đi theo đường ít rủi ro nhất là LLMLingua-2 + Qwen3-4B DFlash non-thinking +
+    backend Transformers. Chưa khả thi như một claim "đã chốt kiến trúc deploy" vì nhiều giả định
+    triển khai chưa được xác minh thực nghiệm.
+  </div>
+
+  <div class="note warn">
+    <strong>Lỗi lớn nhất của v3.0 (đã sửa trong v4.0):</strong> Con số VRAM 2.5 GB cho Target và
+    1.5 GB cho Draft ở FP16/BF16 là sai — Qwen3-4B ở FP16 chiếm ~8 GB chỉ riêng trọng số.
+    v4.0 sửa lại với số liệu đúng và chiến lược quantization rõ ràng.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     1. QUYẾT ĐỊNH KIẾN TRÚC ĐÃ CHỐT
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>1. Quyết định Kiến trúc Đã Chốt</h2>
+
+  <h3>1.1 Cặp Model và Backend</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Thành phần</th><th>Model / Config</th><th>Params</th><th>Precision</th><th>VRAM thực tế</th><th>Vai trò</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DFlash Target</td>
+          <td>Qwen/Qwen3-4B</td>
+          <td>4.0B</td>
+          <td><strong>4-bit NF4</strong> (bitsandbytes)</td>
+          <td>~2.0–2.5 GB</td>
+          <td>Verify token, sinh H<sub>target</sub></td>
+        </tr>
+        <tr>
+          <td>DFlash Draft</td>
+          <td>z-lab/Qwen3-4B-DFlash-b16</td>
+          <td>~0.5B</td>
+          <td>BF16 (dtype="auto")</td>
+          <td>~1.0 GB</td>
+          <td>Sinh K=16 token song song</td>
+        </tr>
+        <tr>
+          <td>Compressor MVP</td>
+          <td>LLMLingua-2 multilingual-BERT</td>
+          <td>~0.18B</td>
+          <td>FP32 (CPU)</td>
+          <td>0 GPU VRAM</td>
+          <td>Extractive compression — baseline chính</td>
+        </tr>
+        <tr>
+          <td>Backend</td>
+          <td>transformers==4.57.3 + torch==2.9.1</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>Hỗ trợ Qwen3 + DFlash trust_remote_code</td>
+        </tr>
+        <tr>
+          <td>GPU target</td>
+          <td>NVIDIA 8 GB VRAM (consumer)</td>
+          <td>—</td>
+          <td>—</td>
+          <td>~3.5 GB models + ~2 GB KV cache</td>
+          <td>Feasible với target 4-bit, draft BF16</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note go">
+    <strong>Điểm chốt quan trọng về VRAM:</strong> Draft model Qwen3-4B-DFlash-b16 chỉ có ~0.5B tham số
+    (không phải 4B — tên "4B" chỉ class target tương ứng). Ở BF16 nó chiếm ~1 GB.
+    Chỉ có Target cần 4-bit NF4. Tổng VRAM thực tế: ~3.5 GB models + ~1–2 GB KV cache = ~5.5 GB peak,
+    <em>lọt vào 8 GB nhưng cần xác nhận bằng đo thực tế</em> trước khi claim chắc chắn.
+  </div>
+
+  <div class="note warn">
+    <strong>Khóa cứng Thinking Mode:</strong> Draft Qwen3-4B-DFlash-b16 được đặc tả rõ cho non-thinking.
+    Mọi benchmark trong MVP phải dùng <code>enable_thinking=False</code> trong chat template.
+    Nếu Target kích hoạt thinking nhưng Draft không hỗ trợ, Acceptance Rate rớt về gần 0 và
+    DFlash mất toàn bộ lợi ích.
+  </div>
+
+  <h3>1.2 Bản đồ Phiên bản (Version Matrix)</h3>
+  <div class="note stop">
+    <strong>Rủi ro tái lập cao (DRR):</strong> pyproject.toml của DFlash repo pin transformers==4.57.1 (extra
+    "transformers"), trong khi model card dùng 4.57.3. Cần chọn một phiên bản duy nhất, kiểm tra
+    compatibility, và giữ lockfile cố định trong suốt thực nghiệm.
+  </div>
+  <div class="code-label">requirements.txt (locked)</div>
+  <pre><code>transformers==4.57.3
+torch==2.9.1+cu121
+accelerate>=0.30.0
+bitsandbytes>=0.43.0        # for NF4 quantization
+llmlingua>=0.2.0
+datasets>=2.14.0
+# DFlash from source — pin commit hash
+# git+https://github.com/z-lab/dflash.git@{COMMIT_HASH}</code></pre>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     2. PIPELINE V4.0
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>2. Pipeline CC-DFlash v4.0</h2>
+
+  <figure>
+    <svg class="pipeline-svg" viewBox="0 0 980 1020" role="img" aria-label="CC-DFlash v4.0 pipeline">
+      <defs>
+        <marker id="arr" markerWidth="12" markerHeight="12" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+          <path d="M0,0 L0,6 L9,3 z" fill="#1f2937"/>
+        </marker>
+      </defs>
+      <rect x="1" y="1" width="978" height="1018" rx="24" fill="#fff" stroke="#deded8"/>
+
+      <!-- Step 0: Input -->
+      <g class="node">
+        <rect x="220" y="40" width="540" height="70" rx="16"/>
+        <text x="490" y="68" text-anchor="middle" class="node-title">C<tspan baseline-shift="sub" font-size="12">gốc</tspan>: N tokens</text>
+        <text x="490" y="91" text-anchor="middle" class="node-sub">Context đầu vào gốc — chưa qua xử lý</text>
+      </g>
+
+      <!-- Step 1: Segment -->
+      <g class="fix-node">
+        <rect x="140" y="168" width="700" height="78" rx="16"/>
+        <text x="490" y="198" text-anchor="middle" class="node-title">Segment Tách cấu trúc prompt</text>
+        <text x="490" y="220" text-anchor="middle" class="node-sub">[Wikipedia context]  +  [GSM8K question] — câu hỏi toán học được tách ra, KHÔNG nén</text>
+      </g>
+
+      <!-- Step 2: Compressor -->
+      <g class="node">
+        <rect x="140" y="304" width="700" height="88" rx="16"/>
+        <text x="490" y="336" text-anchor="middle" class="node-title">LLMLingua-2 Compressor (CPU)</text>
+        <text x="490" y="358" text-anchor="middle" class="node-sub">compress_prompt(context=wiki_chunk, question=gsm8k_q, rate=1/R)</text>
+        <text x="490" y="378" text-anchor="middle" class="node-sub">BERT 512-token window nội bộ — không cần manual chunking</text>
+      </g>
+
+      <!-- Step 3: C_nen -->
+      <g class="node">
+        <rect x="200" y="450" width="580" height="70" rx="16"/>
+        <text x="490" y="478" text-anchor="middle" class="node-title">C<tspan baseline-shift="sub" font-size="12">nén</tspan> + GSM8K question</text>
+        <text x="490" y="500" text-anchor="middle" class="node-sub">Text tự nhiên · cùng vocabulary Qwen3 · không phải meta-token</text>
+      </g>
+
+      <!-- Step 4: Prefill -->
+      <g class="fix-node">
+        <rect x="160" y="578" width="660" height="88" rx="16"/>
+        <text x="490" y="608" text-anchor="middle" class="node-title">DFlash Prefill — Qwen3-4B (4-bit NF4)</text>
+        <text x="490" y="630" text-anchor="middle" class="node-sub">O((N/R)²) thay vì O(N²) · sinh H<tspan baseline-shift="sub" font-size="12">target</tspan> từ compressed context</text>
+        <text x="490" y="650" text-anchor="middle" class="node-sub">Cần Synthetic Probe để xác nhận H<tspan baseline-shift="sub" font-size="12">target</tspan> còn nguyên vẹn qua Linear4bit</text>
+      </g>
+
+      <!-- Step 5: Draft -->
+      <g class="node">
+        <rect x="140" y="724" width="700" height="72" rx="16"/>
+        <text x="490" y="752" text-anchor="middle" class="node-title">DFlash Draft — Qwen3-4B-DFlash-b16 (BF16)</text>
+        <text x="490" y="774" text-anchor="middle" class="node-sub">Sinh K=16 token song song · KV Injection từ H<tspan baseline-shift="sub" font-size="12">target</tspan> · enable_thinking=False</text>
+      </g>
+
+      <!-- Step 6: Verify -->
+      <g class="node">
+        <rect x="160" y="854" width="660" height="72" rx="16"/>
+        <text x="490" y="882" text-anchor="middle" class="node-title">DFlash Verify — Qwen3-4B (4-bit NF4)</text>
+        <text x="490" y="904" text-anchor="middle" class="node-sub">Lossless speculative decoding trên C<tspan baseline-shift="sub" font-size="12">nén</tspan> · đo Acceptance Length τ</text>
+      </g>
+
+      <!-- Output -->
+      <g class="node out-node">
+        <rect x="300" y="980" width="380" height="36" rx="16"/>
+        <text x="490" y="1002" text-anchor="middle" class="node-title">Output tokens</text>
+      </g>
+
+      <!-- Arrows -->
+      <g stroke="#1f2937" stroke-width="2.2" marker-end="url(#arr)">
+        <line x1="490" y1="110" x2="490" y2="158"/>
+        <line x1="490" y1="246" x2="490" y2="294"/>
+        <line x1="490" y1="392" x2="490" y2="440"/>
+        <line x1="490" y1="520" x2="490" y2="568"/>
+        <line x1="490" y1="666" x2="490" y2="714"/>
+        <line x1="490" y1="796" x2="490" y2="844"/>
+        <line x1="490" y1="926" x2="490" y2="970"/>
+      </g>
+    </svg>
+    <figcaption>Pipeline v4.0 — Bước màu xanh là thay đổi mới so với v3.0. = blocker cần Synthetic Probe.</figcaption>
+  </figure>
+
+  <div class="note go">
+    <strong>Tại sao không có Vocabulary Mismatch:</strong> C<sub>nén</sub> là text tự nhiên, cùng vocabulary Qwen3.
+    Target nhận C<sub>nén</sub> như prompt bình thường — không có meta-token, không có latent vector,
+    không cần sửa bên trong DFlash. Đây là lý do kiến trúc này tránh được vấn đề mà các
+    "Token Compression inside DFlash" approaches gặp phải.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     3. SYNTHETIC PROBE — BLOCKER
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>3. Synthetic Probe — Blocker Trước Mọi Thứ Khác</h2>
+
+  <p>
+    Đây là bước duy nhất cần chạy và pass trước khi commit vào bất kỳ benchmark nào.
+    Nếu Probe fail, toàn bộ pipeline CC-DFlash không hoạt động và mọi số liệu tiếp theo vô nghĩa.
+  </p>
+
+  <div class="probe-box">
+    <div class="probe-header">CRITICAL PATH — Chạy cái này trước, không có ngoại lệ</div>
+    <div class="probe-body">
+      <p>
+        <strong>Câu hỏi cần trả lời:</strong> Khi Target Qwen3-4B được load ở 4-bit NF4
+        (bitsandbytes), các lớp <code>nn.Linear</code> bị thay bằng <code>Linear4bit</code>.
+        Code custom của DFlash draft (trust_remote_code) có thể đang check
+        <code>isinstance(module, nn.Linear)</code> để biết tầng nào cần KV injection.
+        Sau quantization, check này trả về <code>False</code> — injection có thể bị skip
+        <em>âm thầm</em> (silent failure), không crash, không error, chỉ acceptance rate về 0.
+      </p>
+
+      <div class="code-label">synthetic_probe.py</div>
+      <pre><code>import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import AutoModel
+
+# ── 1. Load Target với 4-bit NF4 ──────────────────────────────
+bnb_cfg = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.bfloat16,
+    bnb_4bit_use_double_quant=True,
+)
+
+target = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen3-4B",
+    quantization_config=bnb_cfg,
+    device_map="cuda:0",
+)
+target.eval()
+tok = AutoTokenizer.from_pretrained("Qwen/Qwen3-4B")
+
+# ── 2. Forward pass ngắn, hook vào layer DFlash dự kiến dùng ─
+probe_input = tok(
+    "The factory produced 847 units. How many units were made?",
+    return_tensors="pt"
+).to("cuda:0")
+
+hidden_states_captured = {}
+def make_hook(name):
+    def hook(module, inp, out):
+        if isinstance(out, tuple):
+            hidden_states_captured[name] = out[0].detach()
+        else:
+            hidden_states_captured[name] = out.detach()
+    return hook
+
+# Hook vào last hidden layer — DFlash thường dùng đây làm H_target
+handle = target.model.layers[-1].register_forward_hook(make_hook("last_layer"))
+
+with torch.no_grad():
+    out = target(**probe_input, output_hidden_states=True)
+
+handle.remove()
+
+# ── 3. Kiểm tra H_target ──────────────────────────────────────
+h = out.hidden_states[-1]
+print(f"H_target shape  : {h.shape}")      # expect [1, seq_len, hidden_dim]
+print(f"H_target dtype  : {h.dtype}")      # phải là bfloat16 hoặc float16, KHÔNG float32
+print(f"H_target device : {h.device}")     # phải là cuda:0
+print(f"H_target has NaN: {torch.isnan(h).any()}")   # phải False
+print(f"H_target norm   : {h.norm().item():.4f}")    # phải > 0
+
+# ── 4. Load Draft và chạy inference có KV injection ──────────
+draft = AutoModel.from_pretrained(
+    "z-lab/Qwen3-4B-DFlash-b16",
+    trust_remote_code=True,
+    torch_dtype=torch.bfloat16,
+    device_map="cuda:0",
+).eval()
+
+# Nếu có DFlash generate API — gọi với dummy input và đo acceptance length
+# Nếu acceptance_length > 0 → KV injection hoạt động qua Linear4bit
+# Nếu acceptance_length == 0 → silent failure → cần patch trust_remote_code
+
+vram_used = torch.cuda.memory_allocated("cuda:0") / 1e9
+print(f"\nTotal VRAM used : {vram_used:.2f} GB")
+print("Probe PASS nếu: dtype=bfloat16, no NaN, norm>0, acceptance_length>0")</code></pre>
+
+      <p style="margin-top:14px">
+        <strong>Kết quả cần đạt:</strong> H_target dtype là <code>bfloat16</code>,
+        không có NaN, norm &gt; 0, và acceptance length &gt; 0 khi chạy inference thật.
+        Nếu acceptance length = 0 nhưng H_target intact → tìm đoạn <code>isinstance(module, nn.Linear)</code>
+        trong custom code của DFlash và patch thành
+        <code>hasattr(module, 'weight')</code> hoặc string-match tên class.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     4. CHIẾN LƯỢC NÉN
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>4. Chiến lược Nén Đầu vào</h2>
+
+  <h3>4.1 LLMLingua-2 với Answer-Aware Compression (MVP)</h3>
+  <p>
+    Giải pháp đúng cho bài toán "compressor cắt mất số toán học trong GSM8K"
+    không phải là <code>force_tokens</code> (không thể liệt kê trước mọi số có thể có)
+    và không phải manual chunking (phá vỡ global coherence). Giải pháp là:
+    tách prompt thành segment bảo vệ và segment nén, kết hợp tham số <code>question=</code>
+    để compressor biết phải bias importance score về phía gì.
+  </p>
+
+  <div class="code-label">compress_gsm8k.py — MVP pattern</div>
+  <pre><code>from llmlingua import PromptCompressor
+
+compressor = PromptCompressor(
+    model_name="microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+    use_llmlingua2=True,
+    device_map="cpu",           # LLMLingua-2 chạy CPU, không chiếm GPU VRAM
+)
+
+def compress_augmented_gsm8k(wiki_context: str, math_question: str, ratio: float) -> str:
+    """
+    wiki_context  : đoạn Wikipedia thêm vào (phần dài cần nén)
+    math_question : câu hỏi GSM8K gốc (được bảo vệ, không qua compressor)
+    ratio         : tỷ lệ GIỮ LẠI (0.33 = giữ 33%, tương đương R≈3)
+    """
+    compressed_wiki = compressor.compress_prompt(
+        context=wiki_context,
+        question=math_question,     # bias toward tokens relevant to answering
+        rate=ratio,
+        force_tokens=["\n", "?"],   # giữ cấu trúc xuống dòng và dấu hỏi
+    )["compressed_prompt"]
+
+    # Câu hỏi toán học KHÔNG đi qua compressor — nối vào sau
+    return compressed_wiki.strip() + "\n\n" + math_question
+
+# Ví dụ: ratio=0.33 → R_actual ≈ 3 (cần đo R_act thực tế sau khi chạy)
+final_prompt = compress_augmented_gsm8k(wiki_chunk, gsm8k_q, ratio=0.33)</code></pre>
+
+  <div class="note info">
+    <strong>Tại sao pattern này đúng:</strong> (1) <code>question=</code> bias token classification
+    về phía các số và đơn vị liên quan đến đáp án. (2) Câu hỏi toán học không bao giờ đi qua
+    compressor nên không thể bị cắt. (3) LLMLingua-2's BERT base có hard cap 512 tokens —
+    nó đã tự xử lý sliding window nội bộ cho input dài hơn, không cần manual chunking.
+    Với scope 500–1.500 tokens của CC-DFlash MVP, đây là hoàn toàn đủ.
+  </div>
+
+  <h3>4.2 Ranh giới Công cụ theo Độ dài Context</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Vùng context</th><th>Compressor đúng</th><th>Lý do</th><th>Phase</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>500 – 1.500 tokens</td>
+          <td>LLMLingua-2 + <code>question=</code></td>
+          <td>BERT 512-token window tự xử lý · API đủ · latency ~10ms CPU</td>
+          <td class="status-go">MVP</td>
+        </tr>
+        <tr>
+          <td>1.500 – 4.000 tokens</td>
+          <td>LLMLingua-2 với xlm-roberta-large variant</td>
+          <td>Large variant hỗ trợ context dài hơn · cần đo T_comp thực tế</td>
+          <td class="status-warn">Cần đánh giá</td>
+        </tr>
+        <tr>
+          <td>4.000+ tokens</td>
+          <td>LongLLMLingua</td>
+          <td>Coarse-to-fine: document ranking → token pruning · thiết kế cho long-context</td>
+          <td class="status-stop">Phase 2</td>
+        </tr>
+        <tr>
+          <td>Mọi độ dài</td>
+          <td class="status-stop">Manual chunking thủ công</td>
+          <td>Phá vỡ global coherence · boundary artifacts · tái lập nội bộ LLMLingua kém hơn</td>
+          <td class="status-stop">Không dùng</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>4.3 Gemma4-E2B Compressor — Phase 2, Nhánh Riêng</h3>
+  <div class="note stop">
+    Gemma4-E2B là abstractive compressor (viết lại thay vì classify token).
+    Không có nguồn nào trong tập DRR chứng minh nó tốt hơn LLMLingua-2 cho prompt compression.
+    Rủi ro "mất số" khi abstractive compression là structural — không thể patch bằng force_tokens.
+    Phải tách hoàn toàn sang nhánh nghiên cứu riêng sau khi LLMLingua-2 baseline chạy ổn.
+    <strong>Không gộp chung vào MVP.</strong>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     5. PHÂN TÍCH T_TOTAL VÀ BREAKEVEN
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>5. Phân tích T<sub>total</sub> và Breakeven Condition</h2>
+
+  <div class="formula">
+    <div class="formula-main">
+      T<sub>total</sub> = T<sub>compress</sub> + T<sub>prefill</sub>(N/R) + T<sub>draft</sub> + T<sub>verify</sub> + T<sub>decode</sub>
+    </div>
+    <div class="eqno">(1)</div>
+  </div>
+
+  <div class="formula">
+    <div class="formula-main">
+      T<sub>prefill</sub>(N/R) ≈ <span class="frac"><span>T<sub>prefill</sub>(N)</span><span>R²</span></span>
+      &nbsp;— chỉ đúng cho prefill stage
+    </div>
+    <div class="eqno">(2)</div>
+  </div>
+
+  <div class="formula">
+    <div class="formula-main">
+      T<sub>prefill</sub>(N) · (1 − 1/R²) &gt; T<sub>compress</sub> &nbsp;← Breakeven condition
+    </div>
+    <div class="eqno">(3)</div>
+  </div>
+
+  <div class="note warn">
+    <strong>Quan điểm đúng về Breakeven (từ phân tích phản biện):</strong>
+    Nhiệm vụ của thực nghiệm là <em>đo</em> breakeven curve thực tế, không phải
+    <em>uốn nắn</em> dữ liệu để breakeven nằm ở một mốc cụ thể.
+    Nếu breakeven thực tế nằm ở N = 1.000 thay vì N = 500, đó vẫn là kết quả nghiên cứu có giá trị.
+    Đặc biệt cần đo T<sub>compress</sub> thực tế với LLMLingua-2 trên CPU của môi trường cụ thể
+    trước khi claim bất kỳ speedup nào.
+  </div>
+
+  <h3>5.1 Tác động đến Acceptance Rate α</h3>
+  <div class="formula">
+    <div class="formula-main">
+      ‖ H<sub>target</sub>(C<sub>gốc</sub>) − H<sub>target</sub>(C<sub>nén</sub>) ‖ ≤ ε(R)
+    </div>
+    <div class="eqno">(4)</div>
+  </div>
+  <p>
+    ε(R) tăng theo R. Giả thuyết R* ≈ 3 là điểm Pareto-optimal cần xác nhận thực nghiệm.
+    Metric đo acceptance rate phải là <strong>Acceptance Length τ</strong> (theo chuẩn DFlash paper),
+    không chỉ α (%).
+  </p>
+
+  <h3>5.2 Amortization trong Multi-turn / RAG</h3>
+  <div class="formula">
+    <div class="formula-main">
+      T<sub>compress,eff</sub> = <span class="frac"><span>T<sub>compress</sub></span><span>Q</span></span> → 0 &nbsp;khi Q → ∞
+    </div>
+    <div class="eqno">(5)</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     6. THIẾT KẾ THỰC NGHIỆM
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>6. Thiết kế Thực nghiệm</h2>
+
+  <h3>6.1 Môi trường — Khóa cứng trước khi chạy</h3>
+  <div class="code-label">setup.sh</div>
+  <pre><code>pip install transformers==4.57.3
+pip install torch==2.9.1 --index-url https://download.pytorch.org/whl/cu121
+pip install accelerate bitsandbytes>=0.43.0
+pip install git+https://github.com/z-lab/dflash.git@{COMMIT_HASH}
+pip install llmlingua datasets
+
+# Kiểm tra version sau khi cài
+python -c "import transformers; print(transformers.__version__)"
+python -c "import bitsandbytes; print(bitsandbytes.__version__)"
+python -c "import torch; print(torch.cuda.memory_allocated()/1e9, 'GB baseline')"</code></pre>
+
+  <h3>6.2 MVP Code — Cấu trúc Chạy Chuẩn</h3>
+  <div class="code-label">run_mvp.py — skeleton đầy đủ</div>
+  <pre><code>import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
+from transformers import BitsAndBytesConfig
+from llmlingua import PromptCompressor
+
+# ── Target: 4-bit NF4 ──────────────────────────────────────────
+bnb_cfg = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_compute_dtype=torch.bfloat16,
+    bnb_4bit_use_double_quant=True,
+)
+target = AutoModelForCausalLM.from_pretrained(
+    "Qwen/Qwen3-4B",
+    quantization_config=bnb_cfg,
+    device_map="cuda:0",
+).eval()
+
+# ── Draft: BF16 (0.5B — không cần quantize) ────────────────────
+draft = AutoModel.from_pretrained(
+    "z-lab/Qwen3-4B-DFlash-b16",
+    trust_remote_code=True,
+    torch_dtype=torch.bfloat16,
+    device_map="cuda:0",
+).eval()
+
+# ── Compressor: CPU ─────────────────────────────────────────────
+compressor = PromptCompressor(
+    model_name="microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+    use_llmlingua2=True,
+    device_map="cpu",
+)
+
+# ── Tokenizer với Thinking Mode TẮT ────────────────────────────
+tok = AutoTokenizer.from_pretrained("Qwen/Qwen3-4B")
+
+def build_prompt(wiki_context, math_question, ratio):
+    compressed_wiki = compressor.compress_prompt(
+        context=wiki_context,
+        question=math_question,
+        rate=ratio,
+        force_tokens=["\n", "?"],
+    )["compressed_prompt"]
+    combined = compressed_wiki.strip() + "\n\n" + math_question
+    return tok.apply_chat_template(
+        [{"role": "user", "content": combined}],
+        tokenize=False,
+        add_generation_prompt=True,
+        enable_thinking=False,          # ← KHÔNG ĐƯỢC BỎ DÒNG NÀY
+    )
+
+# ── Đo VRAM thực tế ─────────────────────────────────────────────
+print(f"VRAM sau load: {torch.cuda.memory_allocated('cuda:0')/1e9:.2f} GB")</code></pre>
+
+  <h3>6.3 Hai Nhóm Thực nghiệm</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Nhóm</th><th>Dataset</th><th>N tokens</th><th>Mục đích</th><th>Metrics ưu tiên</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Short-Context</td>
+          <td>GSM8K test gốc (1.319 samples)</td>
+          <td>100 – 300</td>
+          <td>Kiểm tra quality — compression có phá reasoning không?</td>
+          <td>EM, IOR, τ (acceptance length)</td>
+        </tr>
+        <tr>
+          <td>Long-Context</td>
+          <td>GSM8K + Wikipedia augment<br><em>(pipeline tạo dữ liệu phải được document rõ)</em></td>
+          <td>500 – 1.500</td>
+          <td>Kiểm tra speedup thật — nơi breakeven có thể thỏa</td>
+          <td>τ, T_prefill, T_compress, tok/s, breakeven curve</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>6.4 Bộ Baseline Bắt buộc</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Điều kiện</th><th>Compressor</th><th>R</th><th>Mục đích</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Baseline-AR</td><td>Không</td><td>1.0</td><td>Tốc độ floor — autoregressive thuần</td></tr>
+        <tr><td>DFlash-R1</td><td>Không</td><td>1.0</td><td>Baseline chính — DFlash không compression</td></tr>
+        <tr>
+          <td class="status-info">LLMLingua-AR</td>
+          <td class="status-info">LLMLingua-2</td>
+          <td class="status-info">2.0 / 3.0</td>
+          <td class="status-info">Baseline quan trọng — lợi ích đến từ compression hay từ DFlash?</td>
+        </tr>
+        <tr><td>CC-LLM-R2</td><td>LLMLingua-2</td><td>2.0</td><td>CC-DFlash nhẹ</td></tr>
+        <tr><td>CC-LLM-R3</td><td>LLMLingua-2</td><td>3.0</td><td>Điểm kỳ vọng tối ưu R*</td></tr>
+        <tr><td>CC-LLM-R4</td><td>LLMLingua-2</td><td>4.0</td><td>Kiểm tra giới hạn chất lượng</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note info">
+    Baseline "LLMLingua-AR" (compression + AR, không DFlash) là bắt buộc. Nếu CC-DFlash-R3
+    nhanh hơn DFlash-R1 nhưng LLMLingua-AR cũng nhanh tương đương — lợi ích đến từ compression,
+    không phải DFlash. Thiếu baseline này dẫn đến kết luận sai về nguồn gốc speedup.
+  </div>
+
+  <h3>6.5 Bộ Chỉ số Đánh giá — v4.0 (10 chỉ số)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Nhóm</th><th>Chỉ số</th><th>Ký hiệu</th><th>Ghi chú v4.0</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Hiệu năng</td><td>Throughput</td><td>tok/s</td><td>n_tokens / elapsed</td></tr>
+        <tr><td>2</td><td>Hiệu năng</td><td>Tổng Speedup</td><td>S<sub>total</sub></td><td>tok/s / tok/s<sub>AR</sub></td></tr>
+        <tr><td>3</td><td>Hiệu năng</td><td>Prefill Latency</td><td>T_pf (ms)</td><td>torch.cuda.synchronize()</td></tr>
+        <tr><td>4</td><td>Hiệu năng</td><td>Compress Overhead</td><td>T_comp (ms)</td><td>Đo riêng, CPU-side</td></tr>
+        <tr>
+          <td>5</td><td>DFlash</td>
+          <td><strong>Acceptance Length</strong></td>
+          <td><strong>τ (tokens)</strong></td>
+          <td class="status-info"><strong>Metric hạng nhất của DFlash paper — mới thêm vào v4.0. Thay thế α (%) làm primary metric.</strong></td>
+        </tr>
+        <tr><td>6</td><td>DFlash</td><td>Acceptance Rate</td><td>α (%)</td><td>Vẫn đo nhưng secondary metric</td></tr>
+        <tr><td>7</td><td>Chất lượng</td><td>Exact Match</td><td>EM (%)</td><td>Short-context priority</td></tr>
+        <tr><td>8</td><td>Chất lượng</td><td>Invalid Output Rate</td><td>IOR (%)</td><td>Cả hai nhóm</td></tr>
+        <tr><td>9</td><td>Compression</td><td>Actual Ratio</td><td>R<sub>act</sub></td><td>N_gốc / N_nén đo thực tế</td></tr>
+        <tr><td>10</td><td>Compression</td><td>Semantic Score</td><td>Sem</td><td>Metric phụ — task fidelity (EM) là primary</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>6.6 Batch Size và Wall-clock Time</h3>
+  <div class="note warn">
+    <strong>Batch Size = 1 cho toàn bộ MVP.</strong> DFlash với backend Transformers thuần
+    không có PagedAttention. Padding trong batch &gt; 1 sẽ gây lỗi index khi map H<sub>target</sub>
+    sang vị trí không bị padding trong draft. Hệ quả: wall-clock time benchmark dài hơn,
+    nhưng kết quả đúng hơn. Báo cáo total wall-clock time trong paper là minh bạch, không phải lỗi.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     7. RISK REGISTER
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>7. Risk Register</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Rủi ro</th><th>Mức độ</th><th>Trạng thái</th><th>Giải pháp / Mitigation</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>KV Injection silent failure qua Linear4bit</td>
+          <td><span class="risk-hi">Cao</span></td>
+          <td class="status-warn">Pending Probe</td>
+          <td>Chạy Synthetic Probe — xem Section 3. Nếu fail: patch isinstance check trong trust_remote_code.</td>
+        </tr>
+        <tr>
+          <td>Thinking mode không khóa → α rớt về 0</td>
+          <td><span class="risk-hi">Cao</span></td>
+          <td class="status-go">Đã giải quyết</td>
+          <td><code>enable_thinking=False</code> trong mọi chat template call. Xem code Section 6.2.</td>
+        </tr>
+        <tr>
+          <td>Compressor cắt số toán học trong GSM8K</td>
+          <td><span class="risk-hi">Cao</span></td>
+          <td class="status-go">Đã giải quyết</td>
+          <td>Segment separation + <code>question=math_q</code> parameter. Xem Section 4.1.</td>
+        </tr>
+        <tr>
+          <td>VRAM OOM khi load cả hai model</td>
+          <td><span class="risk-md">Trung bình</span></td>
+          <td class="status-warn">Cần đo thực tế</td>
+          <td>Target 4-bit NF4 (~2.5GB) + Draft BF16 (~1GB) = ~3.5GB. Probe sẽ đo VRAM thực. Chưa claim 5.5GB.</td>
+        </tr>
+        <tr>
+          <td>Version conflict (pyproject.toml vs model card)</td>
+          <td><span class="risk-md">Trung bình</span></td>
+          <td class="status-warn">Cần lockfile</td>
+          <td>Pin transformers==4.57.3, pin DFlash commit hash. Test install sạch trên fresh env.</td>
+        </tr>
+        <tr>
+          <td>LLMLingua-2 OOM cho context 10k+ tokens</td>
+          <td><span class="risk-lo">Thấp</span></td>
+          <td class="status-go">Không áp dụng MVP</td>
+          <td>BERT hard cap 512 tokens — LLMLingua-2 tự xử lý windowing. MVP scope 500–1.500 tokens. Phase 2 dùng LongLLMLingua.</td>
+        </tr>
+        <tr>
+          <td>Gemma4-E2B cắt số khi abstractive compression</td>
+          <td><span class="risk-hi">Cao</span></td>
+          <td class="status-go">Tách Phase 2</td>
+          <td>Không đưa Gemma4 vào MVP. Rủi ro structural — không patch được bằng force_tokens.</td>
+        </tr>
+        <tr>
+          <td>Benchmark không tái lập (GSM8K augmented)</td>
+          <td><span class="risk-md">Trung bình</span></td>
+          <td class="status-warn">Cần document</td>
+          <td>Document rõ: nguồn Wikipedia, chiến lược augment, kiểm soát leakage, cách giữ answer token. Dùng official benchmarks trước.</td>
+        </tr>
+        <tr>
+          <td>K-Flat TPU v5p claim không có nguồn xác minh</td>
+          <td><span class="risk-md">Trung bình</span></td>
+          <td class="status-stop">Cần xóa hoặc caveat</td>
+          <td>Không dùng K-Flat như fact nền tảng trong paper. Chuyển thành "chưa kiểm chứng" hoặc xóa hẳn khỏi lập luận chính.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     8. DECISION LOG — Những gì thay đổi từ v3.0
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>8. Decision Log — v3.0 → v4.0</h2>
+
+  <h4>D1: VRAM Budget (lỗi lớn nhất của v3.0)</h4>
+  <div class="delta">
+    <div><span class="old">v3.0: Target ~2.5 GB FP16 + Draft ~1.5 GB FP16 = ~4 GB total</span></div>
+    <div><span class="new-val">v4.0: Target 4.0B params → 8 GB FP16 → cần 4-bit NF4 → ~2.5 GB. Draft 0.5B params → 1 GB BF16 không cần quantize. Total ~3.5 GB + KV cache. Cần đo thực tế bằng Synthetic Probe.</span></div>
+    <div style="margin-top:6px;color:var(--muted);font-size:.86rem">Lý do: Qwen3-4B = 4.0B × 2 bytes = 8 GB FP16. Con số 2.5 GB v3.0 là không thể ở FP16.</div>
+  </div>
+
+  <h4>D2: Thinking Mode</h4>
+  <div class="delta">
+    <div><span class="old">v3.0: Không đặc tả thinking/non-thinking cho benchmark</span></div>
+    <div><span class="new-val">v4.0: enable_thinking=False khóa cứng trong mọi experiment. Draft Qwen3-4B-DFlash-b16 non-thinking only.</span></div>
+  </div>
+
+  <h4>D3: Compressor Strategy cho GSM8K</h4>
+  <div class="delta">
+    <div><span class="old">v3.0: force_tokens=["\n", "?"] — không đủ để bảo vệ số toán học</span></div>
+    <div><span class="new-val">v4.0: Segment separation + question= parameter (answer-aware compression). Câu hỏi toán học không đi qua compressor.</span></div>
+  </div>
+
+  <h4>D4: Manual Chunking</h4>
+  <div class="delta">
+    <div><span class="old">v3.0: Không đề cập — rủi ro implicit nếu implement naively</span></div>
+    <div><span class="new-val">v4.0: KHÔNG làm manual chunking. LLMLingua-2 tự xử lý BERT 512-token windowing nội bộ. Phase 2 dùng LongLLMLingua cho 4k+ tokens.</span></div>
+  </div>
+
+  <h4>D5: Primary Metric DFlash</h4>
+  <div class="delta">
+    <div><span class="old">v3.0: α (%) — acceptance rate percentage</span></div>
+    <div><span class="new-val">v4.0: τ (acceptance length) — metric hạng nhất của DFlash paper. α vẫn đo nhưng secondary.</span></div>
+  </div>
+
+  <h4>D6: Gemma4-E2B trong Pipeline</h4>
+  <div class="delta">
+    <div><span class="old">v3.0: Gemma4-E2B fine-tuned là Compressor B trong cùng MVP pipeline</span></div>
+    <div><span class="new-val">v4.0: Gemma4-E2B tách hoàn toàn sang Phase 2. Không để hypothesis phụ làm nhiễu MVP. LLMLingua-2 là compressor duy nhất trong MVP.</span></div>
+  </div>
+
+  <h4>D7: Baseline Matrix</h4>
+  <div class="delta">
+    <div><span class="old">v3.0: AR / DFlash-R1 / CC-LLM / CC-Gemma</span></div>
+    <div><span class="new-val">v4.0: Thêm "LLMLingua-AR" (compression không DFlash) để tách nguồn gốc speedup: đến từ compression hay từ speculative decoding?</span></div>
+  </div>
+
+  <h4>D8: K-Flat TPU Claim</h4>
+  <div class="delta">
+    <div><span class="old">v3.0: "TPU v5p, chi phí verify K=1024 ≈ K=16 token" — dùng như fact nền tảng</span></div>
+    <div><span class="new-val">v4.0: Claim chưa xác minh được nguồn chính thức. Xóa khỏi phần lập luận chính hoặc đánh dấu "unverified".</span></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     9. TIMELINE ĐỀ XUẤT
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>9. Timeline Đề xuất (Stage-Gate)</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-label">Gate 0 — Ngay lập tức</div>
+      <div class="tl-title">Synthetic Probe + Lockfile</div>
+      <div class="tl-desc">Chạy synthetic_probe.py. Khóa version matrix. Xác nhận VRAM thực tế. Đây là điều kiện tiên quyết — không có Gate này, không làm bước tiếp theo.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Tuần 1–2 — Làm sạch đặc tả</div>
+      <div class="tl-title">Sửa claims VRAM · Document benchmark augmentation pipeline · Xóa K-Flat claim</div>
+      <div class="tl-desc">Cập nhật bản thảo để claims phản ánh đúng thực đo, không phải giả định. Effort thấp, impact lớn về credibility.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Tuần 2–4 — MVP Baseline</div>
+      <div class="tl-title">DFlash Qwen3-4B non-thinking · Tích hợp LLMLingua-2 · Benchmark short + long</div>
+      <div class="tl-desc">Chạy 8 điều kiện (Baseline-AR, DFlash-R1, LLMLingua-AR, CC-LLM-R2/R3/R4) với Batch Size=1. Đo đủ 10 metrics. Xây Pareto frontier.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Tuần 4–5 — Phân tích</div>
+      <div class="tl-title">Pareto Speedup vs Quality · Xác định R* thực nghiệm · Breakeven curve thực</div>
+      <div class="tl-desc">Quyết định go/no-go cho Phase 2 (Gemma4-E2B) dựa trên kết quả LLMLingua-2 baseline.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Tuần 5–7 — Chuẩn hóa báo cáo</div>
+      <div class="tl-title">Viết lại paper draft với claims định lượng khiêm tốn</div>
+      <div class="tl-desc">Chuyển từ "paper khẳng định" sang "research plan có giả thuyết rõ, baseline chuẩn, claims empirically grounded".</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-label">Sau Gate 4 — Phase 2</div>
+      <div class="tl-title">Gemma4-E2B compressor · LongLLMLingua · Multi-domain benchmark</div>
+      <div class="tl-desc">Chỉ mở nhánh này khi LLMLingua-2 baseline đã chạy ổn và có kết quả tích cực. Tách hoàn toàn khỏi MVP.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     10. CÂU HỎI MỞ (từ DRR — chưa trả lời)
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>10. Câu hỏi Mở Cần Trả lời Trước Submission</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Câu hỏi</th><th>Tại sao quan trọng</th><th>Cách trả lời</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GSM8K augmented context tạo như thế nào?</td>
+          <td>Nếu không document, benchmark không tái lập được</td>
+          <td>Viết pipeline script, nêu nguồn Wikipedia, chiến lược augment, kiểm soát leakage</td>
+        </tr>
+        <tr>
+          <td>Project tối ưu cho use case nào?</td>
+          <td>Proposal đang trộn reasoning, coding, RAG — không rõ claim chính</td>
+          <td>Chọn một use case chính (reasoning/GSM8K) cho MVP, phần còn lại là future work</td>
+        </tr>
+        <tr>
+          <td>T_compress thực tế là bao nhiêu ms?</td>
+          <td>Breakeven claim phụ thuộc vào số này</td>
+          <td>Đo trong Synthetic Probe với warmup, batch size=1, CPU cụ thể</td>
+        </tr>
+        <tr>
+          <td>VRAM peak thực tế là bao nhiêu GB?</td>
+          <td>5.5 GB v3.0 là con số chưa đo</td>
+          <td>torch.cuda.memory_allocated() sau load cả hai model + KV cache nhỏ nhất</td>
+        </tr>
+        <tr>
+          <td>τ (acceptance length) với compressed context là bao nhiêu?</td>
+          <td>Metric hạng nhất của DFlash — phải đo, không giả định</td>
+          <td>DFlash built-in metric sau Synthetic Probe pass</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     KÝ HIỆU & TÀI LIỆU THAM KHẢO
+═══════════════════════════════════════════════════ -->
+<section>
+  <h2>Phụ lục A: Ký hiệu Thống nhất</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Ký hiệu</th><th>Định nghĩa</th></tr></thead>
+      <tbody>
+        <tr><td>C<sub>original</sub></td><td>Context đầu vào gốc (N tokens)</td></tr>
+        <tr><td>C<sub>compressed</sub></td><td>Context đã nén (N/R tokens, text tự nhiên)</td></tr>
+        <tr><td>R</td><td>Compression ratio = N<sub>original</sub> / N<sub>compressed</sub></td></tr>
+        <tr><td>R*</td><td>Compression ratio Pareto-optimal — cần xác nhận thực nghiệm (giả thuyết R*≈3)</td></tr>
+        <tr><td>τ</td><td>Acceptance length (DFlash primary metric) — số token draft được accept trung bình mỗi verification step</td></tr>
+        <tr><td>α</td><td>Acceptance rate (%) — secondary metric</td></tr>
+        <tr><td>H<sub>target</sub></td><td>Hidden states Target Model từ C<sub>compressed</sub> — cần Synthetic Probe xác nhận qua 4-bit</td></tr>
+        <tr><td>T<sub>compress</sub></td><td>Thời gian nén — đo thực tế, không giả định</td></tr>
+        <tr><td>T<sub>prefill</sub></td><td>Thời gian prefill C<sub>compressed</sub> qua Target Model (4-bit NF4)</td></tr>
+        <tr><td>ε(R)</td><td>Sai số H_target(C_gốc) vs H_target(C_nén) — tăng theo R</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Tài liệu Tham khảo</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Nguồn</th></tr></thead>
+      <tbody>
+        <tr><td>[1]</td><td><a href="https://arxiv.org/html/2602.06036v2" target="_blank">Chen, Liang, Liu (2026). DFlash: Block Diffusion for Flash Speculative Decoding. arXiv:2602.06036. Z Lab, UCSD.</a></td></tr>
+        <tr><td>[2]</td><td>Pan et al. (2024). LLMLingua-2: Data Distillation for Efficient and Faithful Task-Agnostic Prompt Compression. ACL 2024. arXiv:2403.12968.</td></tr>
+        <tr><td>[3]</td><td>Leviathan, Kalman, Matias (2023). Fast Inference from Transformers via Speculative Decoding. ICML 2023.</td></tr>
+        <tr><td>[4]</td><td>Jiang et al. (2023). LLMLingua: Compressing Prompts for Accelerated Inference of Large Language Models. EMNLP 2023.</td></tr>
+        <tr><td>[5]</td><td>Chen et al. (2023). LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios. arXiv:2310.06839.</td></tr>
+        <tr><td>[6]</td><td>Arriola et al. (2025). Block Diffusion: Interpolating Between Autoregressive and Diffusion Language Models. ICLR 2025 Oral.</td></tr>
+        <tr><td>[7]</td><td>Hao et al. (2024). Coconut: Training LLMs to Reason in a Continuous Latent Space. Meta AI. arXiv:2412.06769.</td></tr>
+        <tr><td>[DRR]</td><td>Deep Research Report: Đánh giá khả thi Project CC-DFlash. 2026. [Tài liệu kiểm toán nội bộ — tích hợp vào v4.0]</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer class="footer">
+  CC-DFlash Architecture Document v4.0 · 2026 ·
+  Tổng hợp từ CC-DFlash.html v3.0 + Deep Research Report + Chuỗi phân tích phản biện ·
+  Mọi con số footprint/latency cần xác nhận bằng thực đo trước khi đưa vào claim chính thức
+</footer>
+
+</main>
+</body>
+</html>

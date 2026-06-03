@@ -169,3 +169,6 @@ ui/_split_failed_backup
 ui/ui.backup.html
 # git worktrees
 .worktrees/
+
+# Agents plugins / Skills
+.understand-anything/

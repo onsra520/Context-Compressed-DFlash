@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CC-DFlash Research Paper v3.0</title>
+    <style>
+        :root {
+            --bg: #f7f7f3;
+            --paper: #ffffff;
+            --soft: #f1f1ec;
+            --text: #171717;
+            --muted: #64645f;
+            --line: #deded6;
+            --line-strong: #c8c8bf;
+            --ink: #111111;
+            --radius: 18px;
+            --shadow: 0 22px 70px rgba(0, 0, 0, .06);
+            --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--sans);
+            color: var(--text);
+            background:
+                radial-gradient(circle at 0 0, rgba(0, 0, 0, .045), transparent 34rem),
+                linear-gradient(180deg, #fbfbf8 0%, var(--bg) 45%, #f2f2ed 100%);
+            line-height: 1.68;
+        }
+
+        .page {
+            width: min(1120px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 44px 0 76px;
+        }
+
+        .hero {
+            padding: clamp(32px, 6vw, 62px);
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            background: rgba(255, 255, 255, .84);
+            box-shadow: var(--shadow);
+        }
+
+        .kicker {
+            display: inline-flex;
+            gap: 10px;
+            align-items: center;
+            color: var(--muted);
+            font-size: .88rem;
+            letter-spacing: .055em;
+            text-transform: uppercase;
+        }
+
+        .kicker::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--ink);
+        }
+
+        h1,
+        h2,
+        h3 {
+            line-height: 1.18;
+            letter-spacing: -.035em;
+            margin: 0;
+        }
+
+        h1 {
+            max-width: 940px;
+            margin-top: 20px;
+            font-size: clamp(2.3rem, 6vw, 4.9rem);
+            font-weight: 780;
+        }
+
+        .subtitle {
+            margin-top: 20px;
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: #333;
+            max-width: 900px;
+        }
+
+        .meta {
+            margin-top: 26px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            border: 1px solid var(--line);
+            background: var(--soft);
+            color: #30302d;
+            border-radius: 999px;
+            padding: 8px 13px;
+            font-size: .92rem;
+        }
+
+        section {
+            margin-top: 56px;
+        }
+
+        h2 {
+            font-size: clamp(1.7rem, 4vw, 2.75rem);
+            font-weight: 760;
+        }
+
+        h3 {
+            margin-top: 34px;
+            font-size: 1.32rem;
+            font-weight: 720;
+        }
+
+        p {
+            margin: 14px 0 0;
+            color: #2f2f2c;
+        }
+
+        .card {
+            margin-top: 18px;
+            padding: 22px 24px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--paper);
+            box-shadow: 0 12px 34px rgba(0, 0, 0, .035);
+        }
+
+        .note {
+            margin-top: 18px;
+            padding: 17px 20px;
+            border-left: 4px solid var(--ink);
+            border-radius: 14px;
+            background: var(--soft);
+            color: #30302d;
+        }
+
+        ol.clean {
+            margin: 18px 0 0;
+            padding-left: 1.35rem;
+        }
+
+        ol.clean li {
+            margin: 8px 0;
+        }
+
+        .table-wrap {
+            margin-top: 22px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--paper);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .95rem;
+        }
+
+        th,
+        td {
+            padding: 13px 15px;
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid var(--line);
+        }
+
+        th {
+            background: #ecece6;
+            font-weight: 740;
+            color: #20201d;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        code,
+        pre {
+            font-family: var(--mono);
+        }
+
+        pre {
+            margin-top: 18px;
+            padding: 18px 20px;
+            border-radius: var(--radius);
+            background: #111;
+            color: #f6f6f6;
+            overflow-x: auto;
+            font-size: .92rem;
+            line-height: 1.55;
+        }
+
+        .formula {
+            margin-top: 18px;
+            min-height: 82px;
+            padding: 20px 24px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--paper);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 18px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, .03);
+        }
+
+        .formula-main {
+            text-align: center;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.05rem, 2.3vw, 1.42rem);
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        .eqno {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.1rem;
+            white-space: nowrap;
+            color: #222;
+        }
+
+        .frac {
+            display: inline-grid;
+            grid-template-rows: auto auto;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 1.18;
+            margin: 0 .15em;
+        }
+
+        .frac>span:first-child {
+            border-bottom: 1.6px solid currentColor;
+            padding: 0 .22em .08em;
+        }
+
+        .frac>span:last-child {
+            padding: .08em .22em 0;
+        }
+
+        .flow-card {
+            margin: 22px 0 0;
+            padding: 0;
+        }
+
+        .pipeline-svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .node rect {
+            fill: #fafaf8;
+            stroke: #cfcfc7;
+            stroke-width: 1.4;
+        }
+
+        .out-node rect {
+            fill: #111;
+            stroke: #111;
+        }
+
+        .node-title {
+            font-size: 20px;
+            font-weight: 760;
+            fill: #151515;
+        }
+
+        .node-sub {
+            font-size: 15px;
+            fill: #5f5f59;
+        }
+
+        .out-node .node-title {
+            fill: #fff;
+            font-size: 18px;
+        }
+
+        figcaption {
+            margin-top: 10px;
+            text-align: center;
+            color: var(--muted);
+            font-size: .92rem;
+        }
+
+        .footer {
+            margin-top: 72px;
+            padding-top: 24px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: .92rem;
+        }
+
+        @media (max-width: 760px) {
+            .page {
+                width: min(100% - 24px, 1120px);
+                padding-top: 22px;
+            }
+
+            .hero {
+                border-radius: 22px;
+            }
+
+            .table-wrap {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 680px;
+            }
+
+            .formula {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 18px;
+            }
+
+            .eqno {
+                text-align: right;
+            }
+
+            .node-title {
+                font-size: 18px;
+            }
+
+            .node-sub {
+                font-size: 14px;
+            }
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <main class="page">
+
+        <header class="hero">
+            <div class="kicker">CC-DFlash: Context-Compressed DFlash | Research Paper v3.0 · 2026</div>
+            <h1>CC-DFlash: Long-Context DFlash qua Nén Ngữ cảnh Đầu vào</h1>
+            <p class="subtitle">Lossy Input Compression + Lossless Speculative Decoding trên Compressed Context</p>
+            <div class="meta">
+                <span class="pill">[Tên tác giả] · [Trường/Khoa] · 2026</span>
+                <span class="pill">Dựa trên: DFlash arXiv:2602.06036 · LLMLingua-2 arXiv:2403.12968</span>
+            </div>
+        </header>
+
+        <section>
+            <h2>Tóm tắt</h2>
+
+            <ul class="summary-list">
+                <li>
+                    Bài báo đề xuất <em>CC-DFlash (Context-Compressed DFlash)</em> — tích hợp một
+                    <em>Compressor Module độc lập</em> vào phía đầu vào của pipeline DFlash
+                    (Chen et al., 2026).
+                </li>
+
+                <li>
+                    Mục tiêu chính là <em>giảm chi phí prefill</em> khi xử lý ngữ cảnh dài,
+                    đặc biệt với trường hợp <em>N &gt; 500 tokens</em>.
+                </li>
+
+                <li>
+                    Kiến trúc pipeline gồm Compressor
+                    (<em>LLMLingua-2</em> hoặc <em>Gemma4-E2B fine-tuned</em>)
+                    sinh C<sub>nén</sub> ở dạng <em>text tự nhiên</em>.
+                </li>
+
+                <li>
+                    Sau đó, C<sub>nén</sub> được đưa vào DFlash với cặp mô hình
+                    <em>Target: Qwen3-4B</em> và <em>Draft: Qwen3-4B-DFlash-b16</em>,
+                    sử dụng <em>backend Transformers</em>.
+                </li>
+
+                <li>
+                    Claim chính xác của hệ thống là:
+                    <em>lossy input compression + lossless speculative decoding trên compressed context</em>,
+                    không phải <em>lossless toàn pipeline</em>.
+                </li>
+
+                <li>
+                    Lợi ích <em>O(R<sup>2</sup>)</em> chỉ áp dụng cho <em>prefill stage</em>;
+                    tổng speedup vẫn phụ thuộc vào <em>breakeven condition</em> trong Eq. 7.
+                </li>
+
+                <li>
+                    Thực nghiệm được chia thành hai nhóm:
+                    <em>Short-Context</em> (&lt;300 tokens, đo EM) và
+                    <em>Long-Context</em> (500–1500 tokens, đo speedup thật) trên GSM8K,
+                    với <em>9 chỉ số đánh giá</em>.
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>1. Giới thiệu</h2>
+            <p>DFlash (<a href="https://arxiv.org/html/2602.06036v2" target="_blank" rel="noopener noreferrer">Chen et al.,
+                    2026</a>) đạt speedup hơn 6.17× lossless so với autoregressive và 2.5× so với EAGLE-3
+                nhờ cơ chế Block Diffusion với KV Injection, sử dụng hidden features H<sub>target</sub> của Target Model
+                để điều kiện hóa Draft Model sinh song song block K token. Tuy nhiên, với ngữ cảnh đầu vào N lớn, giai
+                đoạn prefill với chi phí O(N<sup>2</sup>) tạo ra bottleneck mới chưa được DFlash gốc giải quyết.</p>
+            <p>Bài báo này lấp đầy khoảng trống đó. Thay vì sửa bên trong DFlash — hướng dễ gặp Vocabulary Mismatch nếu
+                cố nhét token compression vào trong speculative decoding — chúng tôi đặt compressor trước toàn bộ
+                pipeline, sinh C<sub>nén</sub> ở dạng text tự nhiên. Target Model nhận C<sub>nén</sub> như prompt thông
+                thường: không có meta-token, không có latent-vector, không cần sửa đổi bên trong DFlash.</p>
+            <h3>1.1 Đóng góp chính</h3>
+            <ol class="clean">
+                <li>Xác định prefill bottleneck trong DFlash với long-context và đề xuất pre-processing compression
+                    layer độc lập, tránh hoàn toàn Vocabulary Mismatch.</li>
+                <li>Làm rõ claim chính xác: CC-DFlash là lossy input compression + lossless speculative decoding trên
+                    compressed context — không phải lossless toàn pipeline.</li>
+                <li>Phân tích công thức T<sub>total</sub> đầy đủ và điều kiện breakeven: compression chỉ có lợi khi phần
+                    tiết kiệm prefill &gt; overhead compress (Eq. 7).</li>
+                <li>Thiết kế thực nghiệm hai nhóm (short/long context) với 9 chỉ số, so sánh LLMLingua-2 (baseline
+                    nhanh) và Gemma4-E2B fine-tuned (contribution chính).</li>
+                <li>Xây dựng Pareto curve Speedup vs Quality để xác định R<sup>*</sup> tối ưu thực nghiệm.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>2. Nền tảng Lý thuyết</h2>
+            <h3>2.1 DFlash và K-Flat Phenomenon</h3>
+            <p>DFlash sinh song song block K token thông qua KV Injection. Phân phối xác suất toàn khối với hidden
+                states H<sub>target</sub>:</p>
+            <div class="formula">
+                <div class="formula-main">P(X ∣ C, H<sub>target</sub>) = ∏<sup>K</sup><sub>i=1</sub> P(x<sub>i</sub> ∣
+                    C, H<sub>target</sub>)</div>
+                <div class="eqno">(1)</div>
+            </div>
+            <p>K-Flat Phenomenon: trên TPU v5p, chi phí verify K = 1024 ≈ K = 16 token. Bottleneck dịch chuyển sang
+                draft quality và prefill cost khi N lớn — đây là nền tảng cho đề xuất của bài báo này.</p>
+            <h3>2.2 Nén Ngữ cảnh: LLMLingua-2</h3>
+            <p>LLMLingua-2 (Pan et al., 2024) nén prompt bằng token classification score. Compression ratio:</p>
+            <div class="formula">
+                <div class="formula-main">R = <span
+                        class="frac"><span>N<sub>original</sub></span><span>N<sub>compressed</sub></span></span></div>
+                <div class="eqno">(2)</div>
+            </div>
+            <p>Kết quả thực nghiệm trên GSM8K: compression ratio 2×–5× với end-to-end latency giảm 1.6×–2.9× và EM giảm
+                &lt; 2% tại R ≤ 3.</p>
+        </section>
+
+        <section>
+            <h2>3. Kiến trúc CC-DFlash</h2>
+            <h3>3.1 Pipeline và Cặp Mô hình Đã Chốt</h3>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Thành phần</th>
+                            <th>Model / Config</th>
+                            <th>VRAM</th>
+                            <th>Vai trò</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DFlash Target</td>
+                            <td>Qwen/Qwen3-4B (float16)</td>
+                            <td>~2.5 GB</td>
+                            <td>Verify token, sinh H<sub>target</sub></td>
+                        </tr>
+                        <tr>
+                            <td>DFlash Draft</td>
+                            <td>z-lab/Qwen3-4B-DFlash-b16 (float16)</td>
+                            <td>~1.5 GB</td>
+                            <td>Sinh K token song song</td>
+                        </tr>
+                        <tr>
+                            <td>Compressor A</td>
+                            <td>LLMLingua-2 BERT multilingual (CPU)</td>
+                            <td>~0.5 GB</td>
+                            <td>Baseline nhanh — so sánh</td>
+                        </tr>
+                        <tr>
+                            <td>Compressor B</td>
+                            <td>Gemma4-E2B fine-tuned 4-bit (GPU)</td>
+                            <td>~0.9 GB</td>
+                            <td>Contribution chính</td>
+                        </tr>
+                        <tr>
+                            <td>Backend</td>
+                            <td>Transformers==4.57.3 + torch==2.9.1</td>
+                            <td>—</td>
+                            <td>Hỗ trợ Qwen3 + LLaMA-3.1</td>
+                        </tr>
+                        <tr>
+                            <td>GPU</td>
+                            <td>NVIDIA 8GB VRAM</td>
+                            <td>~5.5 GB total</td>
+                            <td>Compressor A+B an toàn</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note">Lưu ý quan trọng về backend: Transformers backend của DFlash chỉ hỗ trợ Qwen3 và LLaMA-3.1
+                — không hỗ trợ Gemma4. Gemma4-E2B chỉ đóng vai trò Compressor, không phải Target/Draft trong DFlash
+                pipeline.</div>
+            <h3>3.2 Pipeline Flow</h3>
+
+            <figure class="flow-card">
+                <svg class="pipeline-svg" viewBox="0 0 980 970" role="img" aria-label="CC-DFlash pipeline flow">
+                    <defs>
+                        <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="3" orient="auto"
+                            markerUnits="strokeWidth">
+                            <path d="M0,0 L0,6 L9,3 z" fill="#1f2937" />
+                        </marker>
+                    </defs>
+                    <rect x="1" y="1" width="978" height="968" rx="28" fill="#ffffff" stroke="#deded8" />
+                    <g class="node">
+                        <rect x="210" y="45" width="560" height="78" rx="18" />
+                        <text x="490" y="76" text-anchor="middle" class="node-title">C<tspan baseline-shift="sub"
+                                font-size="13">gốc</tspan>: N tokens</text>
+                        <text x="490" y="101" text-anchor="middle" class="node-sub">Context đầu vào gốc</text>
+                    </g>
+                    <g class="node">
+                        <rect x="150" y="180" width="680" height="92" rx="18" />
+                        <text x="490" y="212" text-anchor="middle" class="node-title">Compressor Module</text>
+                        <text x="490" y="238" text-anchor="middle" class="node-sub">LLMLingua-2 (CPU, ~10ms) hoặc
+                            Gemma4-E2B (GPU, ~200ms)</text>
+                    </g>
+                    <g class="node">
+                        <rect x="190" y="332" width="600" height="92" rx="18" />
+                        <text x="490" y="364" text-anchor="middle" class="node-title">C<tspan baseline-shift="sub"
+                                font-size="13">nén</tspan>: N/R tokens</text>
+                        <text x="490" y="390" text-anchor="middle" class="node-sub">Text tự nhiên - không phải
+                            meta-token hay latent vector</text>
+                    </g>
+                    <g class="node">
+                        <rect x="170" y="484" width="640" height="92" rx="18" />
+                        <text x="490" y="516" text-anchor="middle" class="node-title">DFlash Prefill: Qwen3-4B</text>
+                        <text x="490" y="542" text-anchor="middle" class="node-sub">O((N/R)²) thay vì O(N²) - sinh
+                            Htarget</text>
+                    </g>
+                    <g class="node">
+                        <rect x="145" y="636" width="690" height="92" rx="18" />
+                        <text x="490" y="668" text-anchor="middle" class="node-title">DFlash Draft:
+                            Qwen3-4B-DFlash-b16</text>
+                        <text x="490" y="694" text-anchor="middle" class="node-sub">Sinh K=16 token song song bằng KV
+                            Injection</text>
+                    </g>
+                    <g class="node">
+                        <rect x="165" y="788" width="650" height="92" rx="18" />
+                        <text x="490" y="820" text-anchor="middle" class="node-title">DFlash Verify: Qwen3-4B</text>
+                        <text x="490" y="846" text-anchor="middle" class="node-sub">Lossless trên Cnén - K-Flat: ~const
+                            cost</text>
+                    </g>
+                    <g class="node out-node">
+                        <rect x="290" y="915" width="400" height="42" rx="18" />
+                        <text x="490" y="942" text-anchor="middle" class="node-title">Output tokens</text>
+                    </g>
+                    <g stroke="#1f2937" stroke-width="2.4" marker-end="url(#arrow)">
+                        <line x1="490" y1="123" x2="490" y2="170" />
+                        <line x1="490" y1="272" x2="490" y2="322" />
+                        <line x1="490" y1="424" x2="490" y2="474" />
+                        <line x1="490" y1="576" x2="490" y2="626" />
+                        <line x1="490" y1="728" x2="490" y2="778" />
+                        <line x1="490" y1="880" x2="490" y2="905" />
+                    </g>
+                </svg>
+                <figcaption>Pipeline Flow của CC-DFlash được vẽ lại từ ASCII graph trong file gốc.</figcaption>
+            </figure>
+            <p>Tại sao không có Vocabulary Mismatch: C<sub>nén</sub> là text tự nhiên trong cùng vocabulary Qwen3.
+                Target Model nhận C<sub>nén</sub> như prompt bình thường — không có bước verify token space lạ nào.</p>
+            <h3>3.3 Phân tích T<sub>total</sub> và Breakeven Condition</h3>
+            <p>Công thức tổng latency đầy đủ (không bỏ sót thành phần):</p>
+            <div class="formula">
+                <div class="formula-main">T<sub>total</sub> = T<sub>compress</sub> + T<sub>prefill</sub>(N/R) +
+                    T<sub>draft</sub> + T<sub>verify</sub> + T<sub>decode</sub></div>
+                <div class="eqno">(3)</div>
+            </div>
+            <p>Lợi ích O(R<sup>2</sup>) chỉ áp dụng cho prefill stage:</p>
+            <div class="formula">
+                <div class="formula-main">T<sub>prefill</sub>(N/R) ≈ <span
+                        class="frac"><span>T<sub>prefill</sub>(N)</span><span>R<sup>2</sup></span></span></div>
+                <div class="eqno">(4)</div>
+            </div>
+            <p>— chỉ đúng cho prefill stage</p>
+            <p>Breakeven condition: Compression có lợi khi và chỉ khi:</p>
+            <div class="formula">
+                <div class="formula-main">T<sub>prefill</sub>(N) · (1 − 1/R²) &gt; T<sub>compress</sub></div>
+                <div class="eqno">(5)</div>
+            </div>
+            <p>Hệ quả thực tế: Với N &lt; 200 tokens hoặc compressor chạy CPU chậm, lợi ích có thể âm. Phải đo
+                T<sub>compress</sub> thực tế ở môi trường cụ thể trước khi claim speedup.</p>
+            <h3>3.4 Tác động đến Acceptance Rate α</h3>
+            <p>H<sub>target</sub> được trích xuất từ C<sub>nén</sub> thay vì C<sub>gốc</sub>. Điều kiện để α không bị
+                ảnh hưởng đáng kể:</p>
+            <div class="formula">
+                <div class="formula-main">‖ H<sub>target</sub>(C<sub>gốc</sub>) − H<sub>target</sub>(C<sub>nén</sub>) ‖
+                    ≤ ε(R)</div>
+                <div class="eqno">(6)</div>
+            </div>
+            <p>ε(R) tăng theo R. Giả thuyết R<sup>*</sup> ≈ 3 dựa trên LLMLingua-2 benchmark trên GSM8K. R<sup>*</sup>
+                là điểm tối ưu cần xác nhận thực nghiệm.</p>
+        </section>
+
+        <section>
+            <h2>4. Phương pháp Thực nghiệm</h2>
+            <h3>4.1 Môi trường và Cài đặt</h3>
+            <pre><code># Cài đúng version — KHÔNG thay đổi
+pip install transformers==4.57.3
+pip install torch==2.9.1 --index-url https://download.pytorch.org/whl/cu121
+pip install accelerate
+pip install git+https://github.com/z-lab/dflash.git
+pip install llmlingua datasets</code></pre>
+            <h3>4.2 Thiết kế Hai Nhóm Thực nghiệm</h3>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nhóm</th>
+                            <th>Dataset</th>
+                            <th>N tokens</th>
+                            <th>Mục đích đo</th>
+                            <th>Chỉ số ưu tiên</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Short-Context</td>
+                            <td>GSM8K test gốc<br>(1.319 samples)</td>
+                            <td>100–300</td>
+                            <td>Kiểm tra quality — compression có làm hỏng reasoning không?</td>
+                            <td>EM, Invalid output rate</td>
+                        </tr>
+                        <tr>
+                            <td>Long-Context</td>
+                            <td>GSM8K-augmented<br>(thêm Wikipedia context)</td>
+                            <td>500–1.500</td>
+                            <td>Kiểm tra speedup thật — vùng compression có lợi rõ</td>
+                            <td>tok/s, T<sub>prefill</sub>, Breakeven</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Lý do tách hai nhóm: GSM8K gốc (~200 tokens) có T<sub>prefill</sub> nhỏ nên speedup không rõ.
+                Long-context group mới là nơi breakeven condition (Eq. 5) được thỏa mãn.</p>
+            <h3>4.3 Điều kiện Thực nghiệm</h3>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Điều kiện</th>
+                            <th>Compressor</th>
+                            <th>Compression Ratio R</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Baseline-AR</td>
+                            <td>Không dùng</td>
+                            <td>1.0</td>
+                            <td>Autoregressive thuần — tốc độ thấp nhất</td>
+                        </tr>
+                        <tr>
+                            <td>DFlash-R1</td>
+                            <td>Không dùng</td>
+                            <td>1.0</td>
+                            <td>DFlash gốc — baseline chính</td>
+                        </tr>
+                        <tr>
+                            <td>CC-LLM-R2</td>
+                            <td>LLMLingua-2</td>
+                            <td>2.0</td>
+                            <td>Baseline nhanh</td>
+                        </tr>
+                        <tr>
+                            <td>CC-LLM-R3</td>
+                            <td>LLMLingua-2</td>
+                            <td>3.0</td>
+                            <td>Điểm kỳ vọng tối ưu</td>
+                        </tr>
+                        <tr>
+                            <td>CC-LLM-R4</td>
+                            <td>LLMLingua-2</td>
+                            <td>4.0</td>
+                            <td>Nén mạnh — kiểm tra giới hạn</td>
+                        </tr>
+                        <tr>
+                            <td>CC-Gemma-R2</td>
+                            <td>Gemma4-E2B FT</td>
+                            <td>2.0</td>
+                            <td>Contribution chính</td>
+                        </tr>
+                        <tr>
+                            <td>CC-Gemma-R3</td>
+                            <td>Gemma4-E2B FT</td>
+                            <td>3.0</td>
+                            <td>Điểm kỳ vọng tối ưu</td>
+                        </tr>
+                        <tr>
+                            <td>CC-Gemma-R4</td>
+                            <td>Gemma4-E2B FT</td>
+                            <td>4.0</td>
+                            <td>Nén mạnh — so sánh với LLM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3>4.4 Bộ Chỉ số Đánh giá (9 chỉ số)</h3>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nhóm</th>
+                            <th>Chỉ số</th>
+                            <th>Ký hiệu</th>
+                            <th>Cách tính</th>
+                            <th>Nhóm áp dụng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Hiệu năng</td>
+                            <td>Throughput</td>
+                            <td>tok/s</td>
+                            <td>n_tokens / elapsed</td>
+                            <td>Cả hai</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Hiệu năng</td>
+                            <td>Tổng Speedup</td>
+                            <td>S<sub>total</sub></td>
+                            <td>tok/s / tok/s<sub>AR</sub></td>
+                            <td>Cả hai</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Hiệu năng</td>
+                            <td>Prefill Latency</td>
+                            <td>T_pf (ms)</td>
+                            <td>torch.cuda.synchronize()</td>
+                            <td>Cả hai</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Hiệu năng</td>
+                            <td>Compress Overhead</td>
+                            <td>T_comp (ms)</td>
+                            <td>Đo riêng compressor</td>
+                            <td>Cả hai</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>DFlash</td>
+                            <td>Acceptance Rate</td>
+                            <td>α (%)</td>
+                            <td>DFlash built-in metric</td>
+                            <td>Cả hai</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Chất lượng</td>
+                            <td>Exact Match</td>
+                            <td>EM (%)</td>
+                            <td>Đáp án cuối đúng/sai</td>
+                            <td>Short-context</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Chất lượng</td>
+                            <td>Invalid Output Rate</td>
+                            <td>IOR (%)</td>
+                            <td>Output sai format/rỗng</td>
+                            <td>Cả hai</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Compression</td>
+                            <td>Actual Ratio</td>
+                            <td>R<sub>act</sub></td>
+                            <td>N_gốc / N_nén</td>
+                            <td>Cả hai</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Compression</td>
+                            <td>Semantic Score</td>
+                            <td>Sem</td>
+                            <td>Cosine sim. embeddings</td>
+                            <td>Cả hai</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>5. Kết quả Dự kiến</h2>
+            <h3>5.1 Short-Context — Quality Check</h3>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Điều kiện</th>
+                            <th>T_comp (ms)</th>
+                            <th>T_pf (ms)</th>
+                            <th>tok/s</th>
+                            <th>α (%)</th>
+                            <th>EM (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Baseline-AR</td>
+                            <td>—</td>
+                            <td>~120</td>
+                            <td>~15</td>
+                            <td>—</td>
+                            <td>~87</td>
+                        </tr>
+                        <tr>
+                            <td>DFlash-R1</td>
+                            <td>—</td>
+                            <td>~120</td>
+                            <td>~90</td>
+                            <td>~75</td>
+                            <td>~87</td>
+                        </tr>
+                        <tr>
+                            <td>CC-LLM-R2</td>
+                            <td>~10</td>
+                            <td>~65</td>
+                            <td>~98</td>
+                            <td>~73</td>
+                            <td>~86</td>
+                        </tr>
+                        <tr>
+                            <td>CC-LLM-R3</td>
+                            <td>~10</td>
+                            <td>~45</td>
+                            <td>~105</td>
+                            <td>~70</td>
+                            <td>~85</td>
+                        </tr>
+                        <tr>
+                            <td>CC-Gemma-R2</td>
+                            <td>~200</td>
+                            <td>~65</td>
+                            <td>~93</td>
+                            <td>~73</td>
+                            <td>~86</td>
+                        </tr>
+                        <tr>
+                            <td>CC-Gemma-R3</td>
+                            <td>~200</td>
+                            <td>~45</td>
+                            <td>~96</td>
+                            <td>~70</td>
+                            <td>~85</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Quan sát kỳ vọng — Short-Context: Speedup nhỏ vì T<sub>compress</sub> chiếm tỷ lệ lớn (breakeven
+                condition có thể không thỏa). EM giảm &lt; 2% — bằng chứng compression không phá vỡ reasoning.</p>
+            <h3>5.2 Long-Context — Speedup Thật</h3>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Điều kiện</th>
+                            <th>N (tok)</th>
+                            <th>T_comp (ms)</th>
+                            <th>T_pf (ms)</th>
+                            <th>tok/s</th>
+                            <th>α (%)</th>
+                            <th>EM (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DFlash-R1 (baseline)</td>
+                            <td>~800</td>
+                            <td>—</td>
+                            <td>~1.200</td>
+                            <td>~90</td>
+                            <td>~75</td>
+                            <td>~85</td>
+                        </tr>
+                        <tr>
+                            <td>CC-LLM-R2</td>
+                            <td>~400</td>
+                            <td>~10</td>
+                            <td>~320</td>
+                            <td>~130</td>
+                            <td>~73</td>
+                            <td>~84</td>
+                        </tr>
+                        <tr>
+                            <td>CC-LLM-R3</td>
+                            <td>~267</td>
+                            <td>~10</td>
+                            <td>~145</td>
+                            <td>~165</td>
+                            <td>~70</td>
+                            <td>~83</td>
+                        </tr>
+                        <tr>
+                            <td>CC-Gemma-R2</td>
+                            <td>~400</td>
+                            <td>~200</td>
+                            <td>~320</td>
+                            <td>~122</td>
+                            <td>~73</td>
+                            <td>~84</td>
+                        </tr>
+                        <tr>
+                            <td>CC-Gemma-R3</td>
+                            <td>~267</td>
+                            <td>~200</td>
+                            <td>~145</td>
+                            <td>~155</td>
+                            <td>~70</td>
+                            <td>~84</td>
+                        </tr>
+                        <tr>
+                            <td>CC-Gemma-R4</td>
+                            <td>~200</td>
+                            <td>~200</td>
+                            <td>~82</td>
+                            <td>~175</td>
+                            <td>~62</td>
+                            <td>~78</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Quan sát kỳ vọng — Long-Context: CC-LLM-R3 đạt speedup ~1.8× so với DFlash-R1. CC-Gemma-R3 thấp hơn một
+                chút (~1.7×) nhưng EM cao hơn ~1% — đây là bằng chứng fine-tuned compressor tốt hơn general LLMLingua-2
+                về chất lượng với cùng R.</p>
+            <h3>5.3 Bốn Biểu đồ Cần Có</h3>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hình</th>
+                            <th>Nội dung</th>
+                            <th>Insight</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Hình 1</td>
+                            <td>T<sub>prefill</sub> vs N (log-log scale) cho R=1,2,3,4</td>
+                            <td>Xác nhận slope O(N²/R²) trên log-log plot</td>
+                        </tr>
+                        <tr>
+                            <td>Hình 2</td>
+                            <td>Speedup và α vs R — tách short/long context</td>
+                            <td>Long: speedup lớn; Short: nhỏ → thể hiện breakeven rõ</td>
+                        </tr>
+                        <tr>
+                            <td>Hình 3</td>
+                            <td>EM vs R cho CC-LLM vs CC-Gemma</td>
+                            <td>Gemma giữ EM tốt hơn LLMLingua tại R=3–4</td>
+                        </tr>
+                        <tr>
+                            <td>Hình 4</td>
+                            <td>Pareto Frontier: S<sub>total</sub> vs EM (mỗi điểm = 1 điều kiện)</td>
+                            <td>R<sup>*</sup>=3 là Pareto-optimal; R=4 dominated</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>6. Amortization và KV Cache Reuse</h2>
+            <p>Trong scenario multi-turn conversation hoặc RAG, cùng context được query Q lần. T<sub>compress</sub> chỉ
+                tốn một lần, amortized overhead per query:</p>
+            <div class="formula">
+                <div class="formula-main">T<sub>compress,eff</sub> = <span
+                        class="frac"><span>T<sub>compress</sub></span><span>Q</span></span> → 0 khi Q → ∞</div>
+                <div class="eqno">(7)</div>
+            </div>
+            <p>Kết hợp với KV Cache: KV Cache của C<sub>nén</sub> nhỏ hơn R× so với C<sub>gốc</sub> — giảm memory
+                footprint, cho phép batch size lớn hơn trên cùng VRAM.</p>
+        </section>
+
+        <section>
+            <h2>7. Hạn chế và Hướng Tương lai</h2>
+            <h3>7.1 Hạn chế Thực tế</h3>
+            <ol class="clean">
+                <li>Không lossless toàn pipeline: output distribution thay đổi khi context bị nén. Không tương đương
+                    DFlash lossless gốc.</li>
+                <li>T<sub>compress</sub> Gemma4-E2B chưa xác nhận: giả định ~200ms có thể sai nếu chạy CPU (worst case
+                    5–15s). Phải đo thực tế trước khi claim speedup.</li>
+                <li>Domain-specific: Gemma4-E2B fine-tuned trên GSM8K — generalization sang domain khác chưa kiểm chứng.
+                </li>
+                <li>Consumer GPU: Kết quả trên 8GB VRAM có thể không scale trực tiếp sang datacenter hardware.</li>
+            </ol>
+            <h3>7.2 Hướng Tương lai</h3>
+            <ol class="clean">
+                <li>Adaptive R: tự động chọn compression ratio theo độ phức tạp query.</li>
+                <li>Encoder-only compressor thay Gemma4-E2B decoder để giảm T<sub>compress</sub> về ~10ms.</li>
+                <li>Multi-domain benchmark: HumanEval (code), CNN/DM (summarization), LongBench.</li>
+                <li>Continuous Latent Compression (Coconut style) — loại bỏ hoàn toàn lossy step.</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>8. Kết luận</h2>
+            <p>CC-DFlash giải quyết bottleneck prefill của DFlash với long-context bằng cách tích hợp Compressor Module
+                độc lập — không sửa đổi DFlash bên trong, tránh hoàn toàn Vocabulary Mismatch. Pipeline chốt: Target
+                Qwen3-4B + Draft Qwen3-4B-DFlash-b16 + backend Transformers, compressor LLMLingua-2 (baseline) và
+                Gemma4-E2B fine-tuned (contribution chính). Claim được phát biểu chính xác: lossy input compression +
+                lossless speculative decoding trên compressed context, với lợi ích O(R<sup>2</sup>) có điều kiện cho
+                prefill stage. Điểm tối ưu R<sup>*</sup> ≈ 3 cần xác nhận thực nghiệm qua Pareto curve.</p>
+        </section>
+
+        <section>
+            <h2>Tài liệu Tham khảo</h2>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>[1]</th>
+                            <th>
+                                <a href="https://arxiv.org/html/2602.06036v2">Chen, Liang, Liu (2026). DFlash: Block Diffusion for Flash Speculative Decoding arXiv:2602.06036. Z Lab, UCSD.</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[2]</td>
+                            <td>Arriola et al. (2025). Block Diffusion: Interpolating Between Autoregressive and
+                                Diffusion Language Models. ICLR 2025 Oral.</td>
+                        </tr>
+                        <tr>
+                            <td>[3]</td>
+                            <td>Leviathan, Kalman, Matias (2023). Fast Inference from Transformers via Speculative
+                                Decoding. ICML 2023.</td>
+                        </tr>
+                        <tr>
+                            <td>[4]</td>
+                            <td>Pan et al. (2024). LLMLingua-2: Data Distillation for Efficient and Faithful
+                                Task-Agnostic Prompt Compression. ACL 2024. arXiv:2403.12968.</td>
+                        </tr>
+                        <tr>
+                            <td>[5]</td>
+                            <td>Jiang et al. (2023). LLMLingua: Compressing Prompts for Accelerated Inference of Large
+                                Language Models. EMNLP 2023.</td>
+                        </tr>
+                        <tr>
+                            <td>[6]</td>
+                            <td>Hao et al. (2024). Coconut: Training LLMs to Reason in a Continuous Latent Space. Meta
+                                AI. arXiv:2412.06769.</td>
+                        </tr>
+                        <tr>
+                            <td>[7]</td>
+                            <td>Han et al. (2023). Unsloth: 2x Faster, 70% Less Memory LLM Finetuning. GitHub:
+                                unslothai/unsloth.</td>
+                        </tr>
+                        <tr>
+                            <td>[8]</td>
+                            <td>Google TPU Research Team (2026). Supercharging LLM Inference on TPUs: 3x Speedups with
+                                Diffusion-Style Speculative Decoding. Google Developers Blog.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h2>Phụ lục A: Ký hiệu Thống nhất</h2>
+            <div class="table-wrap ">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ký hiệu</th>
+                            <th>Định nghĩa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>C<sub>original</sub></td>
+                            <td>Context đầu vào gốc (N tokens)</td>
+                        </tr>
+                        <tr>
+                            <td>C<sub>compressed</sub></td>
+                            <td>Context đã nén (N/R tokens, dạng text tự nhiên)</td>
+                        </tr>
+                        <tr>
+                            <td>R</td>
+                            <td>Compression ratio = N<sub>original</sub> / N<sub>compressed</sub></td>
+                        </tr>
+                        <tr>
+                            <td>N</td>
+                            <td>Số token của C<sub>original</sub></td>
+                        </tr>
+                        <tr>
+                            <td>K</td>
+                            <td>Block size của DFlash draft (mặc định K=16)</td>
+                        </tr>
+                        <tr>
+                            <td>H<sub>target</sub></td>
+                            <td>Hidden states của Target Model từ C<sub>compressed</sub></td>
+                        </tr>
+                        <tr>
+                            <td>α</td>
+                            <td>Acceptance probability của DFlash draft model</td>
+                        </tr>
+                        <tr>
+                            <td>T<sub>compress</sub></td>
+                            <td>Thời gian nén C<sub>original</sub> thành C<sub>compressed</sub></td>
+                        </tr>
+                        <tr>
+                            <td>T<sub>prefill</sub></td>
+                            <td>Thời gian prefill C<sub>compressed</sub> qua Target Model</td>
+                        </tr>
+                        <tr>
+                            <td>R<sup>*</sup></td>
+                            <td>Compression ratio tối ưu (kỳ vọng R<sup>*</sup>≈3)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <footer class="footer">CC-DFlash Research Paper v3.0 · 2026 · arXiv:2602.06036 + arXiv:2403.12968</footer>
+    </main>
+</body>
+
+</html>

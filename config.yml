@@ -1,0 +1,18 @@
+model:
+  target_id: Qwen/Qwen3-4B
+  draft_id: z-lab/Qwen3-4B-DFlash-b16
+  tokenizer_id: Qwen/Qwen3-4B
+
+runtime:
+  device: cuda:0
+  load_in_4bit: true
+
+compression:
+  strategy: passthrough
+  keep_rate: 1.0
+
+benchmark:
+  dataset: gsm8k
+  max_new_tokens: 128
+  block_size: 16
+  temperature: 0.0
