@@ -251,6 +251,25 @@ def _format_prompt(tokenizer, text: str) -> torch.Tensor:
     return tokenizer.encode(prompt, return_tensors="pt")
 
 
+def _generated_text_info(
+    tokenizer,
+    output_ids,
+    *,
+    input_tokens: int,
+    store_generated_text: bool,
+) -> dict:
+    if not store_generated_text:
+        return {}
+    if hasattr(output_ids, "detach"):
+        generated_token_ids = output_ids[0, input_tokens:].detach().cpu().tolist()
+    else:
+        generated_token_ids = output_ids[0][input_tokens:]
+    return {
+        "generated_text": tokenizer.decode(generated_token_ids, skip_special_tokens=True),
+        "generated_token_count": len(generated_token_ids),
+    }
+
+
 def _run_prompt(
     prompt_id: int,
     prompt: str,
@@ -260,6 +279,7 @@ def _run_prompt(
     draft,
     config: SmokeConfig,
     compression_info: dict | None = None,
+    store_generated_text: bool = False,
 ) -> PromptMetrics:
     input_ids = _format_prompt(tokenizer, prompt).to(config.device)
     stop_token_ids = [tokenizer.eos_token_id] if tokenizer.eos_token_id is not None else None
@@ -284,6 +304,15 @@ def _run_prompt(
     acceptance_lengths = list(result.acceptance_lengths)
     tau_mean = statistics.mean(acceptance_lengths) if acceptance_lengths else 0.0
     vram_after = _vram(f"after prompt {prompt_id}")
+    row_info = compression_info or {}
+    row_info.update(
+        _generated_text_info(
+            tokenizer,
+            result.output_ids,
+            input_tokens=int(result.num_input_tokens),
+            store_generated_text=store_generated_text,
+        )
+    )
 
     print(
         f"prompt_id={prompt_id} input_tokens={int(result.num_input_tokens)} "
@@ -301,7 +330,7 @@ def _run_prompt(
         acceptance_lengths=acceptance_lengths,
         tau_mean=tau_mean,
         vram_after=vram_after,
-        compression_info=compression_info or {},
+        compression_info=row_info,
     )
 
 
@@ -313,6 +342,7 @@ def _run_ar_prompt(
     target,
     config: SmokeConfig,
     compression_info: dict | None = None,
+    store_generated_text: bool = False,
 ) -> PromptMetrics:
     input_ids = _format_prompt(tokenizer, prompt).to(config.device)
     generate_kwargs = {
@@ -337,6 +367,15 @@ def _run_ar_prompt(
     output_tokens = int(output_ids.shape[-1] - input_ids.shape[-1])
     tok_per_s = output_tokens / elapsed if elapsed > 0 else 0.0
     vram_after = _vram(f"after prompt {prompt_id}")
+    row_info = compression_info or {}
+    row_info.update(
+        _generated_text_info(
+            tokenizer,
+            output_ids,
+            input_tokens=input_tokens,
+            store_generated_text=store_generated_text,
+        )
+    )
 
     print(
         f"prompt_id={prompt_id} input_tokens={input_tokens} "
@@ -353,7 +392,7 @@ def _run_ar_prompt(
         acceptance_lengths=[],
         tau_mean=0.0,
         vram_after=vram_after,
-        compression_info=compression_info or {},
+        compression_info=row_info,
     )
 
 
@@ -425,6 +464,7 @@ def main() -> None:
     parser.add_argument("--output", default="results/dflash_r1_smoke.jsonl")
     parser.add_argument("--prompt-source", choices=["smoke", "fixture"], default="smoke")
     parser.add_argument("--fixture", type=Path, default=None)
+    parser.add_argument("--store-generated-text", action="store_true")
     args = parser.parse_args()
 
     config = _read_config(args.config)
@@ -509,6 +549,7 @@ def main() -> None:
                     target=target,
                     config=config,
                     compression_info=compression_info,
+                    store_generated_text=args.store_generated_text,
                 )
             else:
                 metric = _run_prompt(
@@ -519,6 +560,7 @@ def main() -> None:
                     draft=draft,
                     config=config,
                     compression_info=compression_info,
+                    store_generated_text=args.store_generated_text,
                 )
             if item.metadata:
                 metric.compression_info.update(item.metadata)

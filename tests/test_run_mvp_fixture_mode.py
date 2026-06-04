@@ -7,6 +7,7 @@ from scripts.run_mvp import (
     PROMPTS,
     PromptMetrics,
     VramSnapshot,
+    _generated_text_info,
     _print_summary,
     _prepare_cc_prompt,
     _select_prompt_items,
@@ -139,3 +140,19 @@ def test_summary_ignores_fixture_metadata_without_compression_fields(capsys):
     output = capsys.readouterr().out
     assert "average tok/s: 10.00" in output
     assert "average t_compress_ms" not in output
+
+
+def test_generated_text_info_is_opt_in():
+    class FakeTokenizer:
+        def decode(self, token_ids, skip_special_tokens=True):
+            assert token_ids == [7, 8]
+            assert skip_special_tokens is True
+            return "decoded answer"
+
+    output_ids = [[1, 2, 7, 8]]
+
+    assert _generated_text_info(FakeTokenizer(), output_ids, input_tokens=2, store_generated_text=False) == {}
+    assert _generated_text_info(FakeTokenizer(), output_ids, input_tokens=2, store_generated_text=True) == {
+        "generated_text": "decoded answer",
+        "generated_token_count": 2,
+    }
