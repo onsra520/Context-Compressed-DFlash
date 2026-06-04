@@ -413,11 +413,12 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 40 (next)</span>
+                <span class="sv info">→ Current: Task 41 (next)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 39. Task 39 (T_prefill measurement) is complete.
-                Next technical task is Task 40 (breakeven curve v1).
+                This roadmap is synced through Task 40. Task 40 (breakeven curve v1) is PARTIAL/preliminary
+                because compressed-condition T_prefill is not yet measured. Next technical task is Task 41
+                (dataset builder).
             </div>
         </header>
 
@@ -855,12 +856,12 @@
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T40</span></td>
+                            <td><span class="tnum done">T40</span></td>
                             <td>Breakeven Curve v1</td>
                             <td>Use actual T_prefill and T_compress to produce preliminary breakeven curve across
                                 context lengths; update breakeven analysis script; create report
                                 <code>40-breakeven-curve-v1-report.md</code></td>
-                            <td class="muted">Planned</td>
+                            <td class="warn">PARTIAL, preliminary</td>
                         </tr>
 
                         <!-- Dataset -->
@@ -1142,7 +1143,7 @@
                             <td><code>40-breakeven-curve-v1-report.md</code></td>
                             <td>T40</td>
                             <td>Breakeven Curve v1 Report</td>
-                            <td class="muted">Planned</td>
+                            <td class="go">Exists</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1248,6 +1249,12 @@
                             <td>Baseline-AR + T_prefill</td>
                             <td>1</td>
                         </tr>
+                        <tr>
+                            <td><code>results/task40_breakeven_curve_v1_summary.json</code></td>
+                            <td>T40</td>
+                            <td>Breakeven v1 summary</td>
+                            <td>—</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1257,8 +1264,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 39</span>
-                <span class="sv info">Current next: Task 40</span>
+                <span class="sv go">Synced through Task 40</span>
+                <span class="sv info">Current next: Task 41</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">Final Benchmark: NOT DONE</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1326,6 +1333,15 @@
                     <strong>Task 39 — T_prefill Measurement — PASS, preliminary</strong><br>
                     Added CUDA-synchronized target prefill timing fields to smoke JSONL rows and wrote a tiny
                     n=1 Baseline-AR artifact for Task 40 breakeven analysis.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 40 — Breakeven Curve v1 — PARTIAL, preliminary</strong><br>
+                    Added a pure artifact analysis script and JSON summary. The output uses measured Task 39
+                    Baseline-AR T_prefill plus Task 31 T_compress/R_actual, but compressed-condition T_prefill
+                    remains missing.
                 </div>
             </div>
         </section>

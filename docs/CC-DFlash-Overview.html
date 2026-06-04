@@ -723,8 +723,9 @@
             <div class="note warn">
                 <strong>Status:</strong> Breakeven has not been confirmed. T_prefill is now captured as a
                 CUDA-synchronized smoke measurement in Task 39 artifacts. T_compress from CPU is captured per run,
-                but a breakeven curve has not been formally derived. This remains a hypothesis pending Task 40
-                analysis.
+                and Task 40 derives a preliminary breakeven-readiness summary. Compressed-condition T_prefill is
+                still not measured in the existing compressed artifacts, so this remains a hypothesis pending larger
+                controlled measurements.
             </div>
         </section>
 
@@ -1367,8 +1368,8 @@
                         </tr>
                         <tr>
                             <td>T_prefill smoke measurement only</td>
-                            <td>Breakeven curve still preliminary</td>
-                            <td>Task 40: derive curve from T_prefill + T_compress</td>
+                            <td>Breakeven curve v1 is partial/preliminary</td>
+                            <td>Task 40: summary exists; still needs compressed-condition T_prefill</td>
                         </tr>
                         <tr>
                             <td>VRAM not measured under load</td>
@@ -1378,7 +1379,7 @@
                         <tr>
                             <td>CPU T_compress may dominate for short contexts</td>
                             <td>CC paths may not break even</td>
-                            <td>Task 40: breakeven curve from T_prefill + T_compress</td>
+                            <td>Task 40: partial summary from T_prefill + T_compress</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1477,7 +1478,7 @@
                 <ul style="padding-left:1.3rem;color:#302f2c;margin-top:8px">
                     <li>Implement <strong>Baseline-AR</strong> condition (Tasks 37–38)</li>
                     <li>Use Task 39 <strong>T_prefill</strong> smoke measurement in breakeven analysis</li>
-                    <li>Draw <strong>breakeven curve</strong> from actual T_prefill vs T_compress measurements (Task 40)
+                    <li>Use Task 40 <strong>breakeven v1</strong> summary as a preliminary planning artifact
                     </li>
                     <li>Build <strong>GSM8K + Wikipedia augmented dataset</strong> with reproducible script (Tasks
                         41–42)</li>
