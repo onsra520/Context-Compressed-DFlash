@@ -66,6 +66,10 @@ class PromptMetrics:
     acceptance_lengths: list[int]
     tau_mean: float
     vram_after: VramSnapshot
+    t_prefill_ms: float = 0.0
+    t_prefill_mode: str = "not_measured"
+    prefill_vram_allocated_gib: float | None = None
+    prefill_vram_reserved_gib: float | None = None
     compression_info: dict = field(default_factory=dict)
 
 
@@ -76,6 +80,14 @@ class PromptItem:
     context: str | None = None
     question: str | None = None
     metadata: dict = field(default_factory=dict)
+
+
+@dataclass
+class PrefillMeasurement:
+    elapsed_ms: float
+    mode: str
+    vram_allocated_gib: float | None
+    vram_reserved_gib: float | None
 
 
 def _read_config(path: str | Path) -> SmokeConfig:
@@ -220,6 +232,42 @@ def _vram(label: str) -> VramSnapshot:
     return snapshot
 
 
+def _uses_cuda(device: str) -> bool:
+    return str(device).startswith("cuda") and torch.cuda.is_available()
+
+
+def _measure_target_prefill(target, input_ids: torch.Tensor, *, device: str) -> PrefillMeasurement:
+    uses_cuda = _uses_cuda(device)
+    if uses_cuda:
+        torch.cuda.synchronize()
+
+    started = time.perf_counter()
+    with torch.inference_mode():
+        target(
+            input_ids=input_ids,
+            attention_mask=torch.ones_like(input_ids),
+            use_cache=True,
+        )
+    if uses_cuda:
+        torch.cuda.synchronize()
+    elapsed_ms = (time.perf_counter() - started) * 1000.0
+
+    if not uses_cuda:
+        return PrefillMeasurement(
+            elapsed_ms=elapsed_ms,
+            mode="cpu_timer",
+            vram_allocated_gib=None,
+            vram_reserved_gib=None,
+        )
+
+    return PrefillMeasurement(
+        elapsed_ms=elapsed_ms,
+        mode="cuda_synchronized",
+        vram_allocated_gib=torch.cuda.memory_allocated() / 1024**3,
+        vram_reserved_gib=torch.cuda.memory_reserved() / 1024**3,
+    )
+
+
 def _load_target_4bit(target_path: Path, device: str, attn_implementation: str):
     if importlib.util.find_spec("bitsandbytes") is None:
         raise RuntimeError("bitsandbytes is required for 4-bit NF4 target loading")
@@ -282,6 +330,7 @@ def _run_prompt(
     store_generated_text: bool = False,
 ) -> PromptMetrics:
     input_ids = _format_prompt(tokenizer, prompt).to(config.device)
+    prefill = _measure_target_prefill(target, input_ids, device=config.device)
     stop_token_ids = [tokenizer.eos_token_id] if tokenizer.eos_token_id is not None else None
 
     torch.cuda.synchronize()
@@ -318,7 +367,7 @@ def _run_prompt(
         f"prompt_id={prompt_id} input_tokens={int(result.num_input_tokens)} "
         f"output_tokens={output_tokens} generation_time_s={elapsed:.4f} "
         f"tok/s={tok_per_s:.2f} acceptance_lengths={acceptance_lengths} "
-        f"tau_mean={tau_mean:.2f}"
+        f"tau_mean={tau_mean:.2f} t_prefill_ms={prefill.elapsed_ms:.2f}"
     )
     return PromptMetrics(
         prompt_id=prompt_id,
@@ -330,6 +379,10 @@ def _run_prompt(
         acceptance_lengths=acceptance_lengths,
         tau_mean=tau_mean,
         vram_after=vram_after,
+        t_prefill_ms=prefill.elapsed_ms,
+        t_prefill_mode=prefill.mode,
+        prefill_vram_allocated_gib=prefill.vram_allocated_gib,
+        prefill_vram_reserved_gib=prefill.vram_reserved_gib,
         compression_info=row_info,
     )
 
@@ -345,6 +398,7 @@ def _run_ar_prompt(
     store_generated_text: bool = False,
 ) -> PromptMetrics:
     input_ids = _format_prompt(tokenizer, prompt).to(config.device)
+    prefill = _measure_target_prefill(target, input_ids, device=config.device)
     generate_kwargs = {
         "input_ids": input_ids,
         "attention_mask": torch.ones_like(input_ids),
@@ -380,7 +434,8 @@ def _run_ar_prompt(
     print(
         f"prompt_id={prompt_id} input_tokens={input_tokens} "
         f"output_tokens={output_tokens} generation_time_s={elapsed:.4f} "
-        f"tok/s={tok_per_s:.2f} acceptance_lengths=[] tau_mean=0.00"
+        f"tok/s={tok_per_s:.2f} acceptance_lengths=[] tau_mean=0.00 "
+        f"t_prefill_ms={prefill.elapsed_ms:.2f}"
     )
     return PromptMetrics(
         prompt_id=prompt_id,
@@ -392,6 +447,10 @@ def _run_ar_prompt(
         acceptance_lengths=[],
         tau_mean=0.0,
         vram_after=vram_after,
+        t_prefill_ms=prefill.elapsed_ms,
+        t_prefill_mode=prefill.mode,
+        prefill_vram_allocated_gib=prefill.vram_allocated_gib,
+        prefill_vram_reserved_gib=prefill.vram_reserved_gib,
         compression_info=row_info,
     )
 
@@ -442,6 +501,10 @@ def _write_jsonl(
                 "tok_per_sec": metric.tok_per_s,
                 "acceptance_lengths": metric.acceptance_lengths,
                 "tau_mean": metric.tau_mean,
+                "t_prefill_ms": metric.t_prefill_ms,
+                "t_prefill_mode": metric.t_prefill_mode,
+                "prefill_vram_allocated_gib": metric.prefill_vram_allocated_gib,
+                "prefill_vram_reserved_gib": metric.prefill_vram_reserved_gib,
                 "max_new_tokens": config.max_new_tokens,
                 "block_size": config.block_size,
                 "device": config.device,

@@ -413,11 +413,11 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 39 (next)</span>
+                <span class="sv info">→ Current: Task 40 (next)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 38. Task 38 (Baseline-AR smoke artifact) is complete.
-                Next technical task is Task 39 (T_prefill measurement).
+                This roadmap is synced through Task 39. Task 39 (T_prefill measurement) is complete.
+                Next technical task is Task 40 (breakeven curve v1).
             </div>
         </header>
 
@@ -847,12 +847,12 @@
                             <td colspan="4">Prefill Measurement &amp; Breakeven (Tasks 39–40)</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T39</span></td>
+                            <td><span class="tnum done">T39</span></td>
                             <td>T_prefill Measure</td>
                             <td>Add CUDA-sync prefill timing measurement to <code>metrics.py</code>; add tests; run
                                 smoke to confirm T_prefill captured; measure VRAM under full load; create report
                                 <code>39-t-prefill-measurement-report.md</code></td>
-                            <td class="muted">Planned</td>
+                            <td class="go">PASS</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T40</span></td>
@@ -1136,7 +1136,7 @@
                             <td><code>39-t-prefill-measurement-report.md</code></td>
                             <td>T39</td>
                             <td>T_prefill Measurement Report</td>
-                            <td class="muted">Planned</td>
+                            <td class="go">Exists</td>
                         </tr>
                         <tr>
                             <td><code>40-breakeven-curve-v1-report.md</code></td>
@@ -1242,6 +1242,12 @@
                             <td>Baseline-AR</td>
                             <td>3</td>
                         </tr>
+                        <tr>
+                            <td><code>results/task39_t_prefill_smoke.jsonl</code></td>
+                            <td>T39</td>
+                            <td>Baseline-AR + T_prefill</td>
+                            <td>1</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1251,8 +1257,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 38</span>
-                <span class="sv info">Current next: Task 39</span>
+                <span class="sv go">Synced through Task 39</span>
+                <span class="sv info">Current next: Task 40</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">Final Benchmark: NOT DONE</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1312,6 +1318,14 @@
                     <strong>Task 38 — Baseline-AR Smoke Artifact — PASS, preliminary</strong><br>
                     Ran a tiny n=3 Baseline-AR smoke artifact and verified target-only autoregressive rows with
                     no compression, no DFlash, and no draft model.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 39 — T_prefill Measurement — PASS, preliminary</strong><br>
+                    Added CUDA-synchronized target prefill timing fields to smoke JSONL rows and wrote a tiny
+                    n=1 Baseline-AR artifact for Task 40 breakeven analysis.
                 </div>
             </div>
         </section>

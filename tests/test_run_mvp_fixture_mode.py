@@ -3,11 +3,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import torch
+
 from scripts.run_mvp import (
     PROMPTS,
     PromptMetrics,
     VramSnapshot,
     _generated_text_info,
+    _measure_target_prefill,
     _print_summary,
     _prepare_cc_prompt,
     _select_prompt_items,
@@ -159,6 +162,27 @@ def test_generated_text_info_is_opt_in():
     }
 
 
+def test_measure_target_prefill_is_cpu_safe():
+    calls = []
+
+    class FakeTarget:
+        def __call__(self, **kwargs):
+            calls.append(kwargs)
+            return object()
+
+    input_ids = torch.tensor([[1, 2, 3]])
+
+    measurement = _measure_target_prefill(FakeTarget(), input_ids, device="cpu")
+
+    assert measurement.elapsed_ms >= 0.0
+    assert measurement.mode == "cpu_timer"
+    assert measurement.vram_allocated_gib is None
+    assert measurement.vram_reserved_gib is None
+    assert calls[0]["input_ids"] is input_ids
+    assert calls[0]["attention_mask"].tolist() == [[1, 1, 1]]
+    assert calls[0]["use_cache"] is True
+
+
 def test_write_jsonl_marks_baseline_ar_as_target_only(tmp_path: Path):
     snapshot = VramSnapshot(
         label="after prompt",
@@ -204,3 +228,7 @@ def test_write_jsonl_marks_baseline_ar_as_target_only(tmp_path: Path):
     assert row["draft_path"] is None
     assert row["acceptance_lengths"] == []
     assert row["tau_mean"] == 0.0
+    assert row["t_prefill_ms"] == 0.0
+    assert row["t_prefill_mode"] == "not_measured"
+    assert row["prefill_vram_allocated_gib"] is None
+    assert row["prefill_vram_reserved_gib"] is None
