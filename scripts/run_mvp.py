@@ -69,6 +69,15 @@ class PromptMetrics:
     compression_info: dict = field(default_factory=dict)
 
 
+@dataclass
+class PromptItem:
+    prompt_id: int
+    text: str
+    context: str | None = None
+    question: str | None = None
+    metadata: dict = field(default_factory=dict)
+
+
 def _read_config(path: str | Path) -> SmokeConfig:
     config = load_config(path)
     model_cfg = config.get("model", {})
@@ -118,6 +127,63 @@ def _prepare_cc_prompt(
         "question_preserved": question in merged_prompt,
     }
     return merged_prompt, compression_info
+
+
+def _load_fixture_rows(path: Path) -> list[dict]:
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            rows.append(json.loads(line))
+    if not rows:
+        raise ValueError(f"fixture contains no rows: {path}")
+    return rows
+
+
+def _prompt_from_fixture_row(row: dict) -> str:
+    return f"{row['context']}\n\n{row['question']}"
+
+
+def _fixture_metadata(row: dict) -> dict:
+    return {
+        "prompt_source": "fixture",
+        "fixture_id": row["id"],
+        "domain": row["domain"],
+        "expected_answer": row["expected_answer"],
+        "evidence": row["evidence"],
+        "approximate_context_words": row["approximate_context_words"],
+    }
+
+
+def _select_prompt_items(
+    *,
+    prompt_source: str,
+    n_prompts: int,
+    fixture_path: Path | None,
+) -> list[PromptItem]:
+    if prompt_source == "smoke":
+        return [
+            PromptItem(prompt_id=index + 1, text=PROMPTS[index % len(PROMPTS)])
+            for index in range(n_prompts)
+        ]
+    if prompt_source != "fixture":
+        raise ValueError(f"Unsupported prompt source: {prompt_source}")
+    if fixture_path is None:
+        raise ValueError("--fixture is required when --prompt-source=fixture")
+
+    rows = _load_fixture_rows(fixture_path)
+    items = []
+    for index in range(n_prompts):
+        row = rows[index % len(rows)]
+        items.append(
+            PromptItem(
+                prompt_id=index + 1,
+                text=_prompt_from_fixture_row(row),
+                context=row["context"],
+                question=row["question"],
+                metadata=_fixture_metadata(row),
+            )
+        )
+    return items
 
 
 def _require_cuda() -> None:
@@ -353,13 +419,19 @@ def main() -> None:
     parser.add_argument("--condition", default="DFlash-R1")
     parser.add_argument("--n", type=int, default=3)
     parser.add_argument("--output", default="results/dflash_r1_smoke.jsonl")
+    parser.add_argument("--prompt-source", choices=["smoke", "fixture"], default="smoke")
+    parser.add_argument("--fixture", type=Path, default=None)
     args = parser.parse_args()
 
     config = _read_config(args.config)
     keep_rate = _condition_keep_rate(args.condition, config.raw_config.get("compression", {}).get("llmlingua", {}).get("default_keep_rate", 0.5))
     is_ar = _is_ar_condition(args.condition)
     n_prompts = max(1, args.n)
-    prompts = [PROMPTS[i % len(PROMPTS)] for i in range(n_prompts)]
+    prompt_items = _select_prompt_items(
+        prompt_source=args.prompt_source,
+        n_prompts=n_prompts,
+        fixture_path=args.fixture,
+    )
     compressor = None
     if keep_rate is not None:
         compressor = LLMLinguaCompressor.from_config(config.raw_config)
@@ -372,7 +444,10 @@ def main() -> None:
     print(f"Device: {config.device}")
     print(f"Block size: {config.block_size}")
     print(f"Max new tokens: {config.max_new_tokens}")
-    print(f"Prompt count: {len(prompts)}")
+    print(f"Prompt source: {args.prompt_source}")
+    if args.fixture is not None:
+        print(f"Fixture path: {args.fixture}")
+    print(f"Prompt count: {len(prompt_items)}")
 
     try:
         _require_cuda()
@@ -400,17 +475,20 @@ def main() -> None:
             vram_snapshots.append(_vram("after draft load"))
 
         metrics = []
-        for idx, prompt in enumerate(prompts, start=1):
-            prompt_for_generation = prompt
+        for item in prompt_items:
+            prompt_for_generation = item.text
             compression_info = None
             if compressor is not None:
+                compression_context = item.context if item.context is not None else CC_SMOKE_CONTEXT
+                compression_question = item.question if item.question is not None else item.text
                 prompt_for_generation, compression_info = _prepare_cc_prompt(
-                    prompt,
+                    compression_question,
                     compressor,
                     keep_rate,
+                    context=compression_context,
                 )
                 if not compression_info["question_preserved"]:
-                    raise RuntimeError(f"protected question was not preserved for prompt {idx}")
+                    raise RuntimeError(f"protected question was not preserved for prompt {item.prompt_id}")
 
             if is_ar:
                 compression_info = compression_info or {}
@@ -421,7 +499,7 @@ def main() -> None:
                     }
                 )
                 metric = _run_ar_prompt(
-                    idx,
+                    item.prompt_id,
                     prompt_for_generation,
                     tokenizer=tokenizer,
                     target=target,
@@ -430,7 +508,7 @@ def main() -> None:
                 )
             else:
                 metric = _run_prompt(
-                    idx,
+                    item.prompt_id,
                     prompt_for_generation,
                     tokenizer=tokenizer,
                     target=target,
@@ -438,6 +516,8 @@ def main() -> None:
                     config=config,
                     compression_info=compression_info,
                 )
+            if item.metadata:
+                metric.compression_info.update(item.metadata)
             metrics.append(metric)
             vram_snapshots.append(metric.vram_after)
 
