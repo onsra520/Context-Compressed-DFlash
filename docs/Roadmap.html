@@ -413,11 +413,11 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 36 (next)</span>
+                <span class="sv info">→ Current: Task 37 (next)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 35. Task 35 (manual review sample) is complete.
-                Next technical task is Task 36 (Manual Review Analyzer).
+                This roadmap is synced through Task 36. Task 36 (manual review analysis) is complete.
+                Next technical task is Task 37 (Baseline-AR implementation).
             </div>
         </header>
 
@@ -793,7 +793,7 @@
                             <td colspan="4">Docs Restructure (Task 34)</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum inprog">T34</span></td>
+                            <td><span class="tnum done">T34</span></td>
                             <td>Docs Restructure</td>
                             <td>Rebuild documentation into <code>CC-DFlash-Overview.html</code>,
                                 <code>Roadmap.html</code>, compact <code>instruction.md</code>; create report
@@ -806,7 +806,7 @@
                             <td colspan="4">Quality Validation (Tasks 35–36)</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T35</span></td>
+                            <td><span class="tnum done">T35</span></td>
                             <td>Manual Review</td>
                             <td>Review NO_CONTAINMENT rows from Task 31 artifacts; label each as TRUE_FAIL /
                                 PARAPHRASE_OR_FORMAT_MISS / UNCLEAR; create report
@@ -814,12 +814,12 @@
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T36</span></td>
+                            <td><span class="tnum done">T36</span></td>
                             <td>Review Analyzer</td>
                             <td>Add <code>scripts/analyze_manual_review.py</code>; produce quality-interpretation
                                 summary; update containment-vs-correctness estimate; create report
                                 <code>36-manual-review-analysis-report.md</code></td>
-                            <td class="muted">Planned</td>
+                            <td class="go">PASS</td>
                         </tr>
 
                         <!-- Baseline-AR -->
@@ -1118,7 +1118,7 @@
                             <td><code>36-manual-review-analysis-report.md</code></td>
                             <td>T36</td>
                             <td>Manual Review Analysis Summary</td>
-                            <td class="muted">Planned</td>
+                            <td class="go">Exists</td>
                         </tr>
                         <tr>
                             <td><code>37-baseline-ar-implementation-report.md</code></td>
@@ -1244,6 +1244,13 @@
         <!-- ─────────────────────────────────────────── UPDATE POLICY -->
         <section>
             <h2>Update Policy</h2>
+            <div class="status-row" aria-label="Roadmap status badges">
+                <span class="sv go">Synced through Task 36</span>
+                <span class="sv info">Current next: Task 37</span>
+                <span class="sv warn">Phase 1 Complete: NOT DONE</span>
+                <span class="sv stop">Final Benchmark: NOT DONE</span>
+                <span class="sv stop">No 8 GB claim</span>
+            </div>
             <div class="note info">
                 <strong>Roadmap.html must be updated after every task.</strong>
                 Each meaningful task must also create or update a Markdown report under <code>docs/reports/</code>
@@ -1265,9 +1272,24 @@
             <div class="log-entry">
                 <div class="log-date">2026-06-04</div>
                 <div class="log-body">
-                    <strong>Task 35 — Manual Review Sample</strong><br>
-                    Reviewed all Task 31 no-containment rows from the deterministic scorer and labeled them as
-                    TRUE_FAIL. Synced through Task 35. Task 35 status: Done.
+                    <strong>Task 34 — Docs Restructure — PASS</strong><br>
+                    Rebuilt documentation into <code>CC-DFlash-Overview.html</code>,
+                    <code>Roadmap.html</code>, and compact <code>instruction.md</code>.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 35 — Manual Review Sample — PASS, preliminary</strong><br>
+                    Reviewed 20 NO_CONTAINMENT rows; all reviewed rows were labeled TRUE_FAIL.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 36 — Manual Review Analysis Summary — PASS, preliminary</strong><br>
+                    Added a reproducible analyzer for the Task 35 manual-review table and confirmed that the
+                    reviewed no-containment rows were all labeled TRUE_FAIL. Synced through Task 36.
                 </div>
             </div>
         </section>
