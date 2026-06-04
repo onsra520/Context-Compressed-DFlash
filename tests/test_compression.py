@@ -152,6 +152,7 @@ def test_llmlingua_compressor_accepts_explicit_model_and_device_from_config(monk
 
 
 def test_cc_llm_conditions_define_expected_keep_rates():
+    assert _condition_keep_rate("Baseline-AR", 0.5) is None
     assert _condition_keep_rate("DFlash-R1", 0.5) is None
     assert _condition_keep_rate("CC-LLM-R2", 0.5) == pytest.approx(0.5)
     assert _condition_keep_rate("CC-LLM-R3", 0.5) == pytest.approx(0.33)
@@ -160,6 +161,7 @@ def test_cc_llm_conditions_define_expected_keep_rates():
 
 
 def test_llmlingua_ar_conditions_are_target_only():
+    assert _is_ar_condition("Baseline-AR") is True
     assert _is_ar_condition("LLMLingua-AR-R2") is True
     assert _is_ar_condition("LLMLingua-AR-R3") is True
     assert _is_ar_condition("DFlash-R1") is False

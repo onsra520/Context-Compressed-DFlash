@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .conditions import CONDITIONS
+from .conditions import CONDITIONS, MVP_CONDITIONS
 from .datasets import load_and_process_dataset
 from .metrics import (
     MetricsCollector,
@@ -14,6 +14,7 @@ from .runner import BenchmarkRunner
 __all__ = [
     "BenchmarkRunner",
     "CONDITIONS",
+    "MVP_CONDITIONS",
     "MetricsCollector",
     "SingleResult",
     "compute_exact_match",

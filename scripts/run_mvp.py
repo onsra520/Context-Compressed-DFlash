@@ -97,7 +97,7 @@ def _read_config(path: str | Path) -> SmokeConfig:
 
 
 def _condition_keep_rate(condition: str, default_keep_rate: float) -> float | None:
-    if condition == "DFlash-R1":
+    if condition in {"Baseline-AR", "DFlash-R1"}:
         return None
     if condition in {"CC-LLM-R2", "LLMLingua-AR-R2"}:
         return 0.5
@@ -107,7 +107,7 @@ def _condition_keep_rate(condition: str, default_keep_rate: float) -> float | No
 
 
 def _is_ar_condition(condition: str) -> bool:
-    return condition in {"LLMLingua-AR-R2", "LLMLingua-AR-R3"}
+    return condition in {"Baseline-AR", "LLMLingua-AR-R2", "LLMLingua-AR-R3"}
 
 
 def _prepare_cc_prompt(
@@ -457,7 +457,7 @@ def _write_jsonl(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run DFlash/CC-LLM smoke benchmark")
+    parser = argparse.ArgumentParser(description="Run DFlash/CC-LLM/Baseline-AR smoke benchmark")
     parser.add_argument("--config", default="config.yml")
     parser.add_argument("--condition", default="DFlash-R1")
     parser.add_argument("--n", type=int, default=3)
@@ -507,7 +507,7 @@ def main() -> None:
         vram_snapshots.append(_vram("after target load"))
         draft = None
         if is_ar:
-            print("Draft model: not loaded for autoregressive LLMLingua baseline.")
+            print("Draft model: not loaded for autoregressive baseline.")
         else:
             draft = load_draft(
                 str(config.draft_path),

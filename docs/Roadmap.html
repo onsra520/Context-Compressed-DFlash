@@ -413,11 +413,11 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 37 (next)</span>
+                <span class="sv info">→ Current: Task 38 (next)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 36. Task 36 (manual review analysis) is complete.
-                Next technical task is Task 37 (Baseline-AR implementation).
+                This roadmap is synced through Task 37. Task 37 (Baseline-AR implementation) is complete.
+                Next technical task is Task 38 (Baseline-AR smoke artifact).
             </div>
         </header>
 
@@ -827,12 +827,12 @@
                             <td colspan="4">Baseline-AR Implementation (Tasks 37–38)</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T37</span></td>
+                            <td><span class="tnum done">T37</span></td>
                             <td>Baseline-AR Impl</td>
                             <td>Implement pure autoregressive baseline without compression and without DFlash; add to
                                 <code>conditions.py</code> MVP_CONDITIONS; unit test; create report
                                 <code>37-baseline-ar-implementation-report.md</code></td>
-                            <td class="muted">Planned</td>
+                            <td class="go">PASS</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T38</span></td>
@@ -1124,7 +1124,7 @@
                             <td><code>37-baseline-ar-implementation-report.md</code></td>
                             <td>T37</td>
                             <td>Baseline-AR Implementation Report</td>
-                            <td class="muted">Planned</td>
+                            <td class="go">Exists</td>
                         </tr>
                         <tr>
                             <td><code>38-baseline-ar-smoke-report.md</code></td>
@@ -1245,8 +1245,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 36</span>
-                <span class="sv info">Current next: Task 37</span>
+                <span class="sv go">Synced through Task 37</span>
+                <span class="sv info">Current next: Task 38</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">Final Benchmark: NOT DONE</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1290,6 +1290,14 @@
                     <strong>Task 36 — Manual Review Analysis Summary — PASS, preliminary</strong><br>
                     Added a reproducible analyzer for the Task 35 manual-review table and confirmed that the
                     reviewed no-containment rows were all labeled TRUE_FAIL. Synced through Task 36.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 37 — Baseline-AR Implementation — PASS, preliminary</strong><br>
+                    Added Baseline-AR as a no-compression, no-DFlash, target-only autoregressive condition.
+                    Synced through Task 37. Task 38 remains the next smoke artifact task.
                 </div>
             </div>
         </section>
