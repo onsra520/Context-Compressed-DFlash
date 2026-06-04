@@ -5,6 +5,9 @@ from pathlib import Path
 
 from scripts.run_mvp import (
     PROMPTS,
+    PromptMetrics,
+    VramSnapshot,
+    _print_summary,
     _prepare_cc_prompt,
     _select_prompt_items,
 )
@@ -108,3 +111,31 @@ def test_fixture_prompt_metadata_can_be_added_to_cc_compression_info(tmp_path: P
     assert info["question_preserved"] is True
     assert info["fixture_id"] == "case_a"
     assert info["prompt_source"] == "fixture"
+
+
+def test_summary_ignores_fixture_metadata_without_compression_fields(capsys):
+    snapshot = VramSnapshot(
+        label="after prompt",
+        allocated_gib=1.0,
+        reserved_gib=1.5,
+        free_gib=6.0,
+        total_gib=8.0,
+    )
+    metric = PromptMetrics(
+        prompt_id=1,
+        prompt_text="context\n\nquestion",
+        input_tokens=10,
+        output_tokens=2,
+        generation_time_s=0.2,
+        tok_per_s=10.0,
+        acceptance_lengths=[1, 1],
+        tau_mean=1.0,
+        vram_after=snapshot,
+        compression_info={"prompt_source": "fixture", "fixture_id": "case_a"},
+    )
+
+    _print_summary([metric], [snapshot])
+
+    output = capsys.readouterr().out
+    assert "average tok/s: 10.00" in output
+    assert "average t_compress_ms" not in output

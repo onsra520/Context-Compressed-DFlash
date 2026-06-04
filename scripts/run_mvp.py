@@ -362,7 +362,11 @@ def _print_summary(metrics: list[PromptMetrics], vram_snapshots: list[VramSnapsh
     avg_tau = statistics.mean(item.tau_mean for item in metrics) if metrics else 0.0
     max_allocated = max(snapshot.allocated_gib for snapshot in vram_snapshots)
     max_reserved = max(snapshot.reserved_gib for snapshot in vram_snapshots)
-    compression_metrics = [item.compression_info for item in metrics if item.compression_info]
+    compression_metrics = [
+        item.compression_info
+        for item in metrics
+        if "t_compress_ms" in item.compression_info and "R_actual" in item.compression_info
+    ]
 
     print("Summary:")
     print(f"average tok/s: {avg_tok_s:.2f}")
