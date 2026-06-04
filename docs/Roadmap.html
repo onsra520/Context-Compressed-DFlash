@@ -413,12 +413,12 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 44 (next)</span>
+                <span class="sv info">→ Current: Task 45 (conditional next)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 43.5. Task 43.5 triaged the Task 43 output-quality warning:
-                the 32-token cap caused truncation, and DFlash-R1 calibration passed with extraction-aware scoring.
-                Next technical task is Task 44 (final matrix freeze).
+                This roadmap is synced through Task 44. Task 44 froze the preliminary final-matrix specification,
+                including conditions, full source-mode dataset policy, max_new_tokens≥128, extraction-aware quality,
+                and schema gates. Task 45 is conditional on readiness gates before any benchmark run.
             </div>
         </header>
 
@@ -910,18 +910,18 @@
                             <td colspan="4">Phase 1 Complete Preparation (Tasks 44–45)</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T44</span></td>
+                            <td><span class="tnum done">T44</span></td>
                             <td>Matrix Freeze</td>
                             <td>Freeze conditions, metrics, dataset, and artifact schema for final benchmark; create
                                 frozen spec document; create report <code>44-final-matrix-freeze-report.md</code></td>
-                            <td class="muted">Planned</td>
+                            <td class="go">PASS, frozen spec</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T45</span></td>
                             <td>Final Benchmark</td>
                             <td>Run final n≥100 benchmark per frozen condition on GSM8K+Wikipedia dataset; store all
                                 artifacts; create report <code>45-final-benchmark-run-report.md</code></td>
-                            <td class="muted">Planned (conditional on T44 gate)</td>
+                            <td class="warn">Planned, conditional on full source-mode dataset and schema gates</td>
                         </tr>
 
                         <!-- Analysis & Paper -->
@@ -1177,6 +1177,12 @@
                             <td>Output Quality Warning Triage Report</td>
                             <td class="go">Exists</td>
                         </tr>
+                        <tr>
+                            <td><code>44-final-matrix-freeze-report.md</code></td>
+                            <td>T44</td>
+                            <td>Final Matrix Freeze Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1362,8 +1368,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 43.5</span>
-                <span class="sv info">Current next: Task 44</span>
+                <span class="sv go">Synced through Task 44</span>
+                <span class="sv info">Current next: Task 45, conditional</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">Final Benchmark: NOT DONE</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1475,6 +1481,15 @@
                     Confirmed the Task 43 warning was driven by the 32-token cap plus containment-only scoring.
                     Added extraction-aware scoring and calibrated DFlash-R1 at 128 tokens with 5/5 extracted-answer
                     matches. Task 44 remains next with a safer output-length policy to freeze.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 44 — Final Matrix Freeze — PASS, specification only</strong><br>
+                    Froze the benchmark conditions, full source-mode dataset policy, <code>max_new_tokens≥128</code>,
+                    generated-text retention, extraction-aware answer-quality policy, metric set, artifact schema, and
+                    readiness gates. Task 45 is next only if the full source-mode dataset and schema gates are ready.
                 </div>
             </div>
         </section>
