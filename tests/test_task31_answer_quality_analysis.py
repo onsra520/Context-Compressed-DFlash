@@ -6,6 +6,7 @@ from pathlib import Path
 from scripts.analyze_task31_answer_quality import (
     ScorerCategory,
     analyze_artifact,
+    extract_final_numeric_answer,
     score_row,
     summarize_rows,
 )
@@ -45,6 +46,22 @@ def test_score_row_separates_exact_normalized_no_containment_and_not_evaluable()
     assert score_row(missing).category is ScorerCategory.NOT_EVALUABLE
 
 
+def test_extract_final_numeric_answer_supports_common_final_answer_patterns():
+    assert extract_final_numeric_answer("Reasoning...\nFinal answer: 42") == "42"
+    assert extract_final_numeric_answer("Answer: -17.5") == "-17.5"
+    assert extract_final_numeric_answer("Work shown\n#### 1,234") == "1234"
+    assert extract_final_numeric_answer("The count is 12, then 18, so Answer: 30.") == "30"
+    assert extract_final_numeric_answer("No numeric answer here.") is None
+
+
+def test_score_row_matches_extracted_numeric_answer_when_containment_misses():
+    score = score_row(_row(expected_answer="410 dollars", generated_text="Reasoning...\nFinal answer: 410"))
+
+    assert score.category is ScorerCategory.NO_CONTAINMENT
+    assert score.extracted_answer == "410"
+    assert score.extracted_answer_match is True
+
+
 def test_summarize_rows_computes_counts_rates_and_e2e_time():
     summary = summarize_rows(
         "CC-LLM-R2",
@@ -63,6 +80,8 @@ def test_summarize_rows_computes_counts_rates_and_e2e_time():
     assert summary["normalized_only_count"] == 1
     assert summary["no_containment_count"] == 1
     assert summary["not_evaluable_count"] == 1
+    assert summary["extracted_answer_match_count"] == 2
+    assert summary["extracted_answer_match_rate"] == 0.5
     assert summary["exact_rate"] == 0.25
     assert summary["normalized_rate"] == 0.5
     assert summary["avg_generated_token_count"] == 8.0

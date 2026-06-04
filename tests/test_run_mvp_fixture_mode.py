@@ -13,6 +13,7 @@ from scripts.run_mvp import (
     _measure_target_prefill,
     _print_summary,
     _prepare_cc_prompt,
+    _read_config,
     _select_prompt_items,
     _write_jsonl,
 )
@@ -54,6 +55,31 @@ def test_select_prompt_items_defaults_to_smoke_prompts():
     assert all(item.metadata == {} for item in items)
     assert all(item.context is None for item in items)
     assert all(item.question is None for item in items)
+
+
+def test_read_config_keeps_default_clamp_but_accepts_cli_override(tmp_path: Path):
+    config_path = tmp_path / "config.yml"
+    config_path.write_text(
+        "\n".join(
+            [
+                "model:",
+                "  target_id: models/Qwen3-4B",
+                "  draft_id: models/Qwen3-4B-DFlash-b16",
+                "  tokenizer_id: models/Qwen3-4B",
+                "runtime:",
+                "  device: cuda:0",
+                "benchmark:",
+                "  block_size: 16",
+                "  max_new_tokens: 256",
+                "  temperature: 0.0",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    assert _read_config(config_path).max_new_tokens == 32
+    assert _read_config(config_path, max_new_tokens_override=128).max_new_tokens == 128
 
 
 def test_select_prompt_items_loads_fixture_and_cycles_rows(tmp_path: Path):

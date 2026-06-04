@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 33</span>
+                <span class="pill accent">Synced to Task 43.5</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -637,10 +637,12 @@
             </div>
 
             <div class="note warn">
-                <strong>What has not been proven (after Task 33):</strong> (1) Confirmed 8 GB deployment —
-                VRAM not yet measured under load. (2) Final speedup — pilot data is n=6–20, preliminary.
+                <strong>What has not been proven (after Task 43.5):</strong> (1) Confirmed 8 GB deployment —
+                Task 39 records smoke VRAM under load, but deployment readiness is not established.
+                (2) Final speedup — pilot data is n=5–20, preliminary.
                 (3) Compression proven useful end-to-end — CPU T_compress overhead may dominate in short/medium context.
-                (4) R3 quality safe — containment data suggests potential harm at aggressive compression.
+                (4) Quality preservation — Task 43.5 explains the Task 43 NO_CONTAINMENT warning as truncation for
+                DFlash-R1 calibration, but compressed-condition quality still needs frozen-setting reruns.
             </div>
         </section>
 
@@ -1104,11 +1106,15 @@
                 Short-context: GSM8K test set (1,319 samples, 100–300 tokens). Primary quality metric.<br>
                 Long-context: GSM8K + Wikipedia augmented dataset (500–1,500 tokens). Primary speedup metric.
                 Task 41 adds a reproducible builder and dev-safe sample artifact; Task 42 audits the sample-mode
-                artifact. Full source-mode dataset readiness still requires full data generation and audit.
+                artifact. Task 43 validates the runner path on the audited sample-mode dataset. Task 43.5 shows the
+                original quality warning was driven by the 32-token cap and mitigates the DFlash-R1 calibration path
+                with a 128-token output budget plus extraction-aware scoring. Full source-mode dataset readiness still
+                requires full data generation and audit.
             </p>
             <div class="note warn">
                 Final benchmark requires n≥100 per condition and the real GSM8K+Wikipedia augmented dataset.
                 Current dataset artifact is sample-mode and audit-passed for schema/leakage/reproducibility only.
+                Task 43 is pipeline validation, and Task 43.5 is quality-path calibration, not benchmark evidence.
                 No final claims can be made from current data.
             </div>
         </section>
@@ -1183,8 +1189,8 @@
                             <td>Exact Match</td>
                             <td>EM (%)</td>
                             <td class="warn">Partial proxy</td>
-                            <td>Deterministic containment scorer (Task 32):
-                                EXACT/NORMALIZED/NO_CONTAINMENT/NOT_EVALUABLE</td>
+                            <td>Deterministic containment scorer plus Task 43.5 numeric extraction diagnostic:
+                                EXACT/NORMALIZED/NO_CONTAINMENT/NOT_EVALUABLE and extracted-answer match</td>
                         </tr>
                         <tr>
                             <td>9</td>
@@ -1205,19 +1211,21 @@
             </div>
 
             <div class="note info">
-                <strong>Answer Quality Scorer (Task 32):</strong> Deterministic containment scorer with 4 categories:
+                <strong>Answer Quality Scorer (Task 32 + Task 43.5):</strong> Deterministic containment scorer with 4 categories:
                 <code>EXACT</code> (ground truth appears verbatim in output),
                 <code>NORMALIZED</code> (match after lowercase/whitespace normalization),
                 <code>NO_CONTAINMENT</code> (not found), and
                 <code>NOT_EVALUABLE</code> (empty output or ground truth).
-                This is a proxy metric — not equivalent to true Exact Match on a standard benchmark.
+                Task 43.5 adds numeric final-answer extraction for common patterns such as
+                <code>Answer: 42</code>, <code>Final answer: 42</code>, and <code>#### 42</code>.
+                These are proxy diagnostics — not equivalent to true Exact Match on a standard benchmark.
                 Manual review (Task 35) and GSM8K EM dataset (Task 41+) are needed to validate it.
             </div>
         </section>
 
         <!-- ─────────────────────────────────────────── 9. EVIDENCE SUMMARY -->
         <section>
-            <h2>9. Evidence Summary through Task 33</h2>
+            <h2>9. Evidence Summary through Task 43.5</h2>
 
             <div class="phase-grid">
                 <div class="phase-card done">
@@ -1277,12 +1285,34 @@
                         <li>Carry-forward decision made</li>
                     </ul>
                 </div>
+
+                <div class="phase-card partial">
+                    <span class="phase-badge prelim">PRELIMINARY</span>
+                    <div class="phase-title">Dataset Builder, Audit, and Sample Rerun (Tasks 41–43)</div>
+                    <ul>
+                        <li>GSM8K + Wikipedia sample-mode builder added</li>
+                        <li>Sample artifact audit passed for schema, leakage guard, and reproducibility</li>
+                        <li>Targeted n=5 rerun validated DFlash, AR, and CC-LLM data paths</li>
+                        <li>Answer-quality proxy remains a warning: all Task 43 rows were NO_CONTAINMENT</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card partial">
+                    <span class="phase-badge prelim">PRELIMINARY</span>
+                    <div class="phase-title">Output Quality Triage (Task 43.5)</div>
+                    <ul>
+                        <li>Added numeric final-answer extraction diagnostics</li>
+                        <li>Confirmed Task 43 outputs were truncated at the 32-token cap</li>
+                        <li>DFlash-R1 calibration at 128 tokens reached 5/5 extracted-answer matches</li>
+                        <li>Compressed-condition quality still requires frozen-setting reruns</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <!-- ─────────────────────────────────────────── 10. CURRENT INTERPRETATION -->
         <section>
-            <h2>10. Current Interpretation after Task 33</h2>
+            <h2>10. Current Interpretation after Task 43.5</h2>
 
             <h3>10.1 Carry-Forward Decision</h3>
             <div class="table-wrap">
@@ -1308,7 +1338,8 @@
                         <tr>
                             <td>CC-LLM-R2</td>
                             <td class="warn">WATCHLIST</td>
-                            <td>More n and T_prefill data needed before decision</td>
+                            <td>Pipeline works on audited sample-mode data; quality proxy and larger-n evidence are
+                                still needed before decision</td>
                         </tr>
                         <tr>
                             <td>CC-LLM-R3</td>
@@ -1330,6 +1361,9 @@
                 <strong>LLMLingua-AR-R2</strong> is useful as a low-VRAM attribution baseline.
                 <strong>CC-LLM paths</strong> have not been demonstrated to be e2e beneficial under CPU
                 compression overhead — this is the central open question.
+                <strong>Task 43.5 quality triage</strong> shows that the Task 43 NO_CONTAINMENT warning was primarily
+                an output-length/scoring-path issue for DFlash-R1 calibration, not enough evidence of true model
+                failure. Compressed-condition quality still requires rerun under frozen settings.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1361,7 +1395,8 @@
                         <tr>
                             <td>Containment ≠ semantic correctness</td>
                             <td>Quality estimate is a proxy</td>
-                            <td>Task 35: manual review; Task 41+: EM dataset</td>
+                            <td>Task 35/43: manual review and sample-mode quality warning; Task 44+: answer-quality
+                                follow-up before final EM</td>
                         </tr>
                         <tr>
                             <td>Baseline-AR missing</td>
@@ -1454,7 +1489,8 @@
                             <td>GSM8K augmented benchmark not reproducible</td>
                             <td><span class="rbadge md">Medium</span></td>
                             <td class="warn">Planned</td>
-                            <td>Task 42 sample-mode audit passed; full source-mode audit still needed</td>
+                            <td>Task 42 sample-mode audit passed; Task 43 sample-mode rerun passed as pipeline
+                                validation; full source-mode audit still needed</td>
                         </tr>
                         <tr>
                             <td>Gemma4-E2B numeric token loss (abstractive)</td>
@@ -1483,6 +1519,8 @@
                     <li>Use Task 40 <strong>breakeven v1</strong> summary as a preliminary planning artifact
                     </li>
                     <li>Use Task 42 sample-mode audit as a guardrail, then generate/audit full source-mode data before
+                        final benchmark use</li>
+                    <li>Use Task 43.5 to freeze an output-length and extraction-aware answer-quality policy before
                         final benchmark use</li>
                     <li>Run <strong>final benchmark n≥100</strong> per frozen condition (Tasks 44–45)</li>
                     <li>Compute <strong>Pareto frontier</strong>: Speedup vs Exact Match (Task 46)</li>
@@ -1622,7 +1660,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 33 ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 43.5 ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

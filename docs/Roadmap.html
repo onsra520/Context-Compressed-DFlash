@@ -413,11 +413,12 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 43 (next)</span>
+                <span class="sv info">→ Current: Task 44 (next)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 42. Task 42 (dataset audit) passed for the dev-safe
-                sample-mode artifact. Next technical task is Task 43 (targeted long-context rerun).
+                This roadmap is synced through Task 43.5. Task 43.5 triaged the Task 43 output-quality warning:
+                the 32-token cap caused truncation, and DFlash-R1 calibration passed with extraction-aware scoring.
+                Next technical task is Task 44 (final matrix freeze).
             </div>
         </header>
 
@@ -888,12 +889,20 @@
                             <td colspan="4">Targeted Long-Context Rerun (Task 43)</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T43</span></td>
+                            <td><span class="tnum done">T43</span></td>
                             <td>Targeted Rerun</td>
                             <td>Run KEEP_BASELINE (DFlash-R1) + KEEP_LOW_VRAM_BASELINE (LLMLingua-AR-R2) + WATCHLIST
-                                (CC-LLM-R2) with n=20, <code>--store-generated-text</code>; create report
+                                (CC-LLM-R2) with audited sample-mode n=5, <code>--store-generated-text</code>; create report
                                 <code>43-targeted-longctx-rerun-report.md</code></td>
-                            <td class="muted">Planned</td>
+                            <td class="warn">PASS, sample-mode quality warning</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T43.5</span></td>
+                            <td>Output Quality Triage</td>
+                            <td>Inspect Task 43 generated text, add extraction-aware scoring, calibrate DFlash-R1 with
+                                safer output length, and create report
+                                <code>43-5-output-quality-warning-triage-report.md</code></td>
+                            <td class="go">PASS, warning mitigated for freeze policy</td>
                         </tr>
 
                         <!-- Phase 1 Complete -->
@@ -1156,6 +1165,18 @@
                             <td>Dataset Audit Report</td>
                             <td class="go">Exists</td>
                         </tr>
+                        <tr>
+                            <td><code>43-targeted-longctx-rerun-report.md</code></td>
+                            <td>T43</td>
+                            <td>Targeted Long-Context Rerun Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>43-5-output-quality-warning-triage-report.md</code></td>
+                            <td>T43.5</td>
+                            <td>Output Quality Warning Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1278,6 +1299,60 @@
                             <td>Dataset audit summary</td>
                             <td>—</td>
                         </tr>
+                        <tr>
+                            <td><code>results/task43_dflash_r1_sample_n5.jsonl</code></td>
+                            <td>T43</td>
+                            <td>DFlash-R1 sample-mode rerun</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_llmlingua_ar_r2_sample_n5.jsonl</code></td>
+                            <td>T43</td>
+                            <td>LLMLingua-AR-R2 sample-mode rerun</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_cc_llm_r2_sample_n5.jsonl</code></td>
+                            <td>T43</td>
+                            <td>CC-LLM-R2 sample-mode rerun</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_dataset_audit_summary.json</code></td>
+                            <td>T43</td>
+                            <td>Task 43 dataset audit summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_answer_quality_summary.json</code></td>
+                            <td>T43</td>
+                            <td>Answer-quality proxy summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_5_original_output_inspection_summary.json</code></td>
+                            <td>T43.5</td>
+                            <td>Original Task 43 output inspection summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_5_dflash_r1_calibration_n5.jsonl</code></td>
+                            <td>T43.5</td>
+                            <td>DFlash-R1 output-length calibration</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_5_output_inspection_summary.json</code></td>
+                            <td>T43.5</td>
+                            <td>Calibration output inspection summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_5_answer_quality_summary.json</code></td>
+                            <td>T43.5</td>
+                            <td>Extraction-aware answer-quality summary</td>
+                            <td>—</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1287,8 +1362,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 42</span>
-                <span class="sv info">Current next: Task 43</span>
+                <span class="sv go">Synced through Task 43.5</span>
+                <span class="sv info">Current next: Task 44</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">Final Benchmark: NOT DONE</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1382,6 +1457,24 @@
                     Added a dataset audit utility and JSON summary. The sample artifact passed schema,
                     leakage, length, runner-compatibility, and deterministic reproducibility checks; full
                     benchmark dataset readiness remains false until full source-mode data is generated and audited.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 43 — Targeted Long-Context Rerun — PASS, sample-mode quality warning</strong><br>
+                    Ran DFlash-R1, LLMLingua-AR-R2, and CC-LLM-R2 on the audited sample-mode dataset with
+                    generated text stored. Artifact schemas passed, but all rows were NO_CONTAINMENT under the
+                    deterministic answer-quality proxy.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 43.5 — Output Quality Warning Triage — PASS, preliminary</strong><br>
+                    Confirmed the Task 43 warning was driven by the 32-token cap plus containment-only scoring.
+                    Added extraction-aware scoring and calibrated DFlash-R1 at 128 tokens with 5/5 extracted-answer
+                    matches. Task 44 remains next with a safer output-length policy to freeze.
                 </div>
             </div>
         </section>

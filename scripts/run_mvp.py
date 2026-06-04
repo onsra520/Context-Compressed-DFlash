@@ -90,11 +90,18 @@ class PrefillMeasurement:
     vram_reserved_gib: float | None
 
 
-def _read_config(path: str | Path) -> SmokeConfig:
+def _read_config(path: str | Path, *, max_new_tokens_override: int | None = None) -> SmokeConfig:
     config = load_config(path)
     model_cfg = config.get("model", {})
     runtime_cfg = config.get("runtime", {})
     benchmark_cfg = config.get("benchmark", {})
+
+    configured_max_new_tokens = min(int(benchmark_cfg.get("max_new_tokens", 16)), 32)
+    max_new_tokens = (
+        max(1, int(max_new_tokens_override))
+        if max_new_tokens_override is not None
+        else configured_max_new_tokens
+    )
 
     return SmokeConfig(
         target_path=Path(model_cfg.get("target_id", "models/Qwen3-4B")),
@@ -102,7 +109,7 @@ def _read_config(path: str | Path) -> SmokeConfig:
         tokenizer_path=Path(model_cfg.get("tokenizer_id", "models/Qwen3-4B")),
         device=str(runtime_cfg.get("device", "cuda:0")),
         block_size=int(benchmark_cfg.get("block_size", 16)),
-        max_new_tokens=min(int(benchmark_cfg.get("max_new_tokens", 16)), 32),
+        max_new_tokens=max_new_tokens,
         temperature=float(benchmark_cfg.get("temperature", 0.0)),
         raw_config=config,
     )
@@ -532,9 +539,15 @@ def main() -> None:
     parser.add_argument("--prompt-source", choices=["smoke", "fixture"], default="smoke")
     parser.add_argument("--fixture", type=Path, default=None)
     parser.add_argument("--store-generated-text", action="store_true")
+    parser.add_argument(
+        "--max-new-tokens",
+        type=int,
+        default=None,
+        help="Override benchmark.max_new_tokens for calibration runs; default config path remains clamped to 32.",
+    )
     args = parser.parse_args()
 
-    config = _read_config(args.config)
+    config = _read_config(args.config, max_new_tokens_override=args.max_new_tokens)
     keep_rate = _condition_keep_rate(args.condition, config.raw_config.get("compression", {}).get("llmlingua", {}).get("default_keep_rate", 0.5))
     is_ar = _is_ar_condition(args.condition)
     n_prompts = max(1, args.n)
