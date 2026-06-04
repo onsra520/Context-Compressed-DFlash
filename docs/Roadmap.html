@@ -413,12 +413,11 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 41 (next)</span>
+                <span class="sv info">→ Current: Task 42 (next)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 40. Task 40 (breakeven curve v1) is PARTIAL/preliminary
-                because compressed-condition T_prefill is not yet measured. Next technical task is Task 41
-                (dataset builder).
+                This roadmap is synced through Task 41. Task 41 (dataset builder) is complete in dev-safe
+                sample mode. Next technical task is Task 42 (dataset audit).
             </div>
         </header>
 
@@ -463,18 +462,18 @@
                         </tr>
                         <tr>
                             <td>T_prefill</td>
-                            <td class="warn">Planned</td>
-                            <td>Task 39</td>
+                            <td class="go">PASS</td>
+                            <td>Task 39 smoke measurement exists</td>
                         </tr>
                         <tr>
                             <td>Baseline-AR</td>
-                            <td class="stop">Not implemented</td>
-                            <td>Tasks 37–38</td>
+                            <td class="go">PASS</td>
+                            <td>Tasks 37–38 implementation and smoke exist</td>
                         </tr>
                         <tr>
                             <td>GSM8K+Wikipedia dataset</td>
-                            <td class="stop">Not built</td>
-                            <td>Tasks 41–42</td>
+                            <td class="warn">Builder exists; audit next</td>
+                            <td>Task 41 sample-mode artifact; Task 42 audit next</td>
                         </tr>
                         <tr>
                             <td>Breakeven curve</td>
@@ -869,12 +868,12 @@
                             <td colspan="4">Real Dataset (Tasks 41–42)</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T41</span></td>
+                            <td><span class="tnum done">T41</span></td>
                             <td>Dataset Builder</td>
                             <td>Implement GSM8K + Wikipedia augmented dataset pipeline in
                                 <code>scripts/create_dataset.py</code>; document Wikipedia source, augmentation policy,
                                 leakage controls; create report <code>41-dataset-builder-report.md</code></td>
-                            <td class="muted">Planned</td>
+                            <td class="go">PASS, sample-mode</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T42</span></td>
@@ -1145,6 +1144,12 @@
                             <td>Breakeven Curve v1 Report</td>
                             <td class="go">Exists</td>
                         </tr>
+                        <tr>
+                            <td><code>41-dataset-builder-report.md</code></td>
+                            <td>T41</td>
+                            <td>GSM8K + Wikipedia Dataset Builder Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1255,6 +1260,12 @@
                             <td>Breakeven v1 summary</td>
                             <td>—</td>
                         </tr>
+                        <tr>
+                            <td><code>data/processed/gsm8k_wikipedia_augmented_smoke.jsonl</code></td>
+                            <td>T41</td>
+                            <td>GSM8K + Wikipedia augmented sample-mode dataset</td>
+                            <td>5</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1264,8 +1275,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 40</span>
-                <span class="sv info">Current next: Task 41</span>
+                <span class="sv go">Synced through Task 41</span>
+                <span class="sv info">Current next: Task 42</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">Final Benchmark: NOT DONE</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1342,6 +1353,14 @@
                     Added a pure artifact analysis script and JSON summary. The output uses measured Task 39
                     Baseline-AR T_prefill plus Task 31 T_compress/R_actual, but compressed-condition T_prefill
                     remains missing.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 41 — Dataset Builder — PASS, sample-mode</strong><br>
+                    Added a reproducible GSM8K + Wikipedia augmented dataset builder, generated a 5-row dev-safe
+                    artifact, and preserved leakage/audit checks for Task 42.
                 </div>
             </div>
         </section>
