@@ -1,0 +1,38 @@
+{
+  "context_tokens": {
+    "max": 356.0,
+    "mean": 356.0,
+    "median": 356.0,
+    "min": 356.0
+  },
+  "context_words": {
+    "max": 274.0,
+    "mean": 274.0,
+    "median": 274.0,
+    "min": 274.0
+  },
+  "duplicate_id_count": 0,
+  "input_path": "data/processed/gsm8k_wikipedia_augmented_smoke.jsonl",
+  "issues": [],
+  "readiness": {
+    "builder_ready": true,
+    "full_benchmark_dataset_ready": false,
+    "full_benchmark_dataset_reason": "source_mode is sample; full source-mode data has not been generated or audited",
+    "sample_artifact_ready": true
+  },
+  "reproducibility": {
+    "byte_level_equal": true,
+    "mode": "sample",
+    "row_level_equal": true,
+    "rows": 5,
+    "seed": 41
+  },
+  "row_count": 5,
+  "source_modes": [
+    "sample"
+  ],
+  "sources": [
+    "gsm8k+wikipedia"
+  ],
+  "status": "PASS"
+}
