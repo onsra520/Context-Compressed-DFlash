@@ -453,6 +453,10 @@ def _write_jsonl(
                 "vram_reserved_gib": metric.vram_after.reserved_gib,
             }
             row.update(metric.compression_info)
+            if condition == "Baseline-AR":
+                row.update({"compression": "none", "keep_rate": 1.0})
+            if row.get("draft_used") is False:
+                row["draft_path"] = None
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
@@ -483,7 +487,10 @@ def main() -> None:
     print(f"{args.condition} smoke benchmark")
     print("Compression: none" if keep_rate is None else f"Compression: LLMLingua keep_rate={keep_rate}")
     print(f"Target model path: {config.target_path}")
-    print(f"Draft model path: {config.draft_path}")
+    if is_ar:
+        print("Draft model path: not used for autoregressive baseline")
+    else:
+        print(f"Draft model path: {config.draft_path}")
     print(f"Tokenizer path: {config.tokenizer_path}")
     print(f"Device: {config.device}")
     print(f"Block size: {config.block_size}")

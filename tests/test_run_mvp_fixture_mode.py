@@ -11,6 +11,7 @@ from scripts.run_mvp import (
     _print_summary,
     _prepare_cc_prompt,
     _select_prompt_items,
+    _write_jsonl,
 )
 
 
@@ -156,3 +157,50 @@ def test_generated_text_info_is_opt_in():
         "generated_text": "decoded answer",
         "generated_token_count": 2,
     }
+
+
+def test_write_jsonl_marks_baseline_ar_as_target_only(tmp_path: Path):
+    snapshot = VramSnapshot(
+        label="after prompt",
+        allocated_gib=2.0,
+        reserved_gib=2.5,
+        free_gib=5.0,
+        total_gib=8.0,
+    )
+    metric = PromptMetrics(
+        prompt_id=1,
+        prompt_text="prompt",
+        input_tokens=10,
+        output_tokens=3,
+        generation_time_s=0.5,
+        tok_per_s=6.0,
+        acceptance_lengths=[],
+        tau_mean=0.0,
+        vram_after=snapshot,
+        compression_info={"generation_mode": "autoregressive", "draft_used": False},
+    )
+    config = type(
+        "Config",
+        (),
+        {
+            "max_new_tokens": 32,
+            "block_size": 16,
+            "device": "cuda:0",
+            "target_path": Path("models/Qwen3-4B"),
+            "draft_path": Path("models/Qwen3-4B-DFlash-b16"),
+            "tokenizer_path": Path("models/Qwen3-4B"),
+        },
+    )()
+    output = tmp_path / "baseline_ar.jsonl"
+
+    _write_jsonl(output, condition="Baseline-AR", backend_warning="sdpa", config=config, metrics=[metric])
+
+    row = json.loads(output.read_text(encoding="utf-8"))
+    assert row["condition"] == "Baseline-AR"
+    assert row["compression"] == "none"
+    assert row["keep_rate"] == 1.0
+    assert row["generation_mode"] == "autoregressive"
+    assert row["draft_used"] is False
+    assert row["draft_path"] is None
+    assert row["acceptance_lengths"] == []
+    assert row["tau_mean"] == 0.0
