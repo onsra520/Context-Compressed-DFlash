@@ -1,0 +1,149 @@
+{
+  "conditions": {
+    "CC-LLM-R2": {
+      "artifact": "results/task31_cc_llm_r2_longctx_text_n6.jsonl",
+      "avg_R_actual": 2.033333333333333,
+      "avg_e2e_time_s": 1.8353285980000085,
+      "avg_generation_time_s": 0.9442324650000652,
+      "avg_t_compress_ms": 891.0961329999433,
+      "avg_tau_mean": 3.8724266474266473,
+      "avg_tok_per_sec": 37.56986103865002,
+      "carry_forward": {
+        "label": "WATCHLIST",
+        "reason": "Speculative path has DFlash acceptance data, but current CPU compression overhead prevents an e2e win."
+      },
+      "condition": "CC-LLM-R2",
+      "exact_containment_count": 2,
+      "exact_rate": 0.3333333333333333,
+      "max_vram_allocated": 3.510838031768799,
+      "max_vram_reserved": 3.666015625,
+      "median_tok_per_sec": 30.154801841874104,
+      "no_containment_count": 4,
+      "no_containment_rate": 0.6666666666666666,
+      "normalized_containment_count": 2,
+      "normalized_containment_per_second": 0.18162051945170626,
+      "normalized_rate": 0.3333333333333333,
+      "quality_gated_avg_e2e_time_s": 1.9297837344997788,
+      "rows": 6
+    },
+    "CC-LLM-R3": {
+      "artifact": "results/task31_cc_llm_r3_longctx_text_n6.jsonl",
+      "avg_R_actual": 3.0166666666666666,
+      "avg_e2e_time_s": 1.6930869475001298,
+      "avg_generation_time_s": 0.8668359318335206,
+      "avg_t_compress_ms": 826.2510156666091,
+      "avg_tau_mean": 4.443386243386243,
+      "avg_tok_per_sec": 41.3833249147916,
+      "carry_forward": {
+        "label": "WATCHLIST",
+        "reason": "Speculative path has DFlash acceptance data, but current CPU compression overhead prevents an e2e win."
+      },
+      "condition": "CC-LLM-R3",
+      "exact_containment_count": 1,
+      "exact_rate": 0.16666666666666666,
+      "max_vram_allocated": 3.5108370780944824,
+      "max_vram_reserved": 3.650390625,
+      "median_tok_per_sec": 39.61548985172089,
+      "no_containment_count": 5,
+      "no_containment_rate": 0.8333333333333334,
+      "normalized_containment_count": 1,
+      "normalized_containment_per_second": 0.09843952013967901,
+      "normalized_rate": 0.16666666666666666,
+      "quality_gated_avg_e2e_time_s": 1.5772536930007846,
+      "rows": 6
+    },
+    "DFlash-R1": {
+      "artifact": "results/task31_dflash_r1_longctx_text_n6.jsonl",
+      "avg_R_actual": null,
+      "avg_e2e_time_s": 0.8929802513333319,
+      "avg_generation_time_s": 0.8929802513333319,
+      "avg_t_compress_ms": null,
+      "avg_tau_mean": 4.759126984126984,
+      "avg_tok_per_sec": 39.870870621210415,
+      "carry_forward": {
+        "label": "KEEP_BASELINE",
+        "reason": "No-compression DFlash control remains the required baseline artifact."
+      },
+      "condition": "DFlash-R1",
+      "exact_containment_count": 3,
+      "exact_rate": 0.5,
+      "max_vram_allocated": 3.5108389854431152,
+      "max_vram_reserved": 3.7265625,
+      "median_tok_per_sec": 36.52892684637593,
+      "no_containment_count": 3,
+      "no_containment_rate": 0.5,
+      "normalized_containment_count": 3,
+      "normalized_containment_per_second": 0.559922797008598,
+      "normalized_rate": 0.5,
+      "quality_gated_avg_e2e_time_s": 0.7726644219998585,
+      "rows": 6
+    },
+    "LLMLingua-AR-R2": {
+      "artifact": "results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl",
+      "avg_R_actual": 2.033333333333333,
+      "avg_e2e_time_s": 2.5816768456667583,
+      "avg_generation_time_s": 1.7838215661668073,
+      "avg_t_compress_ms": 797.855279499951,
+      "avg_tau_mean": 0.0,
+      "avg_tok_per_sec": 18.008401794346796,
+      "carry_forward": {
+        "label": "KEEP_LOW_VRAM_BASELINE",
+        "reason": "Matches baseline containment in this fixture while using materially lower VRAM."
+      },
+      "condition": "LLMLingua-AR-R2",
+      "exact_containment_count": 3,
+      "exact_rate": 0.5,
+      "max_vram_allocated": 2.5024752616882324,
+      "max_vram_reserved": 2.61328125,
+      "median_tok_per_sec": 18.21792083027126,
+      "no_containment_count": 3,
+      "no_containment_rate": 0.5,
+      "normalized_containment_count": 3,
+      "normalized_containment_per_second": 0.19367257402460344,
+      "normalized_rate": 0.5,
+      "quality_gated_avg_e2e_time_s": 2.527111176666646,
+      "rows": 6
+    },
+    "LLMLingua-AR-R3": {
+      "artifact": "results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl",
+      "avg_R_actual": 3.0166666666666666,
+      "avg_e2e_time_s": 2.637289755999973,
+      "avg_generation_time_s": 1.8150637014999422,
+      "avg_t_compress_ms": 822.2260545000305,
+      "avg_tau_mean": 0.0,
+      "avg_tok_per_sec": 17.727375133811652,
+      "carry_forward": {
+        "label": "DEPRIORITIZE_FOR_NOW",
+        "reason": "Lower containment than R2/baseline without a stronger low-VRAM advantage."
+      },
+      "condition": "LLMLingua-AR-R3",
+      "exact_containment_count": 1,
+      "exact_rate": 0.16666666666666666,
+      "max_vram_allocated": 2.502474308013916,
+      "max_vram_reserved": 2.603515625,
+      "median_tok_per_sec": 18.155818936155065,
+      "no_containment_count": 5,
+      "no_containment_rate": 0.8333333333333334,
+      "normalized_containment_count": 1,
+      "normalized_containment_per_second": 0.06319619081956818,
+      "normalized_rate": 0.16666666666666666,
+      "quality_gated_avg_e2e_time_s": 2.615990291998969,
+      "rows": 6
+    }
+  },
+  "inputs": {
+    "artifacts": {
+      "CC-LLM-R2": "results/task31_cc_llm_r2_longctx_text_n6.jsonl",
+      "CC-LLM-R3": "results/task31_cc_llm_r3_longctx_text_n6.jsonl",
+      "DFlash-R1": "results/task31_dflash_r1_longctx_text_n6.jsonl",
+      "LLMLingua-AR-R2": "results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl",
+      "LLMLingua-AR-R3": "results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl"
+    },
+    "quality_summary": "results/task32_answer_quality_summary.json"
+  },
+  "method": {
+    "e2e_time_s": "generation_time_s + t_compress_ms / 1000 when compression exists",
+    "normalized_containment_per_second": "normalized_containment_count / total_e2e_time_s",
+    "quality_gate": "normalized containment from Task 32 deterministic scorer"
+  }
+}
