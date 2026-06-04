@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -208,8 +209,22 @@ def print_summary(audits: list[ArtifactAudit]) -> None:
             print(f"  {issue.level}: {issue.message}")
 
 
+def resolve_artifact_paths(paths: list[str] | None = None) -> list[Path]:
+    if paths:
+        return [Path(path) for path in paths]
+    return ARTIFACTS
+
+
 def main() -> None:
-    audits = [audit_artifact(path) for path in ARTIFACTS]
+    parser = argparse.ArgumentParser(description="Audit smoke JSONL artifact contracts")
+    parser.add_argument(
+        "artifacts",
+        nargs="*",
+        help="Optional artifact paths to audit. Defaults to the Task 23 smoke artifact set.",
+    )
+    args = parser.parse_args()
+
+    audits = [audit_artifact(path) for path in resolve_artifact_paths(args.artifacts)]
     print_summary(audits)
     if any(audit.status == "FAIL" for audit in audits):
         raise SystemExit(1)

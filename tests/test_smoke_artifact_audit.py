@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.audit_smoke_artifacts import audit_artifact
+from scripts.audit_smoke_artifacts import ARTIFACTS, audit_artifact, resolve_artifact_paths
 
 
 def _write_jsonl(path: Path, rows: list[dict]) -> None:
@@ -99,3 +99,12 @@ def test_audit_artifact_fails_for_missing_required_field(tmp_path: Path):
 
     assert audit.status == "FAIL"
     assert any("vram_reserved_gib" in issue.message for issue in audit.issues)
+
+
+def test_resolve_artifact_paths_uses_explicit_paths_when_provided():
+    explicit = ["results/a.jsonl", "results/b.jsonl"]
+
+    paths = resolve_artifact_paths(explicit)
+
+    assert paths == [Path("results/a.jsonl"), Path("results/b.jsonl")]
+    assert paths != ARTIFACTS
