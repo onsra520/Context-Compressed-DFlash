@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CC-DFlash Roadmap — Live Task Timeline</title>
+    <style>
+        :root {
+            --bg: #f6f5f1;
+            --paper: #fff;
+            --soft: #eeede7;
+            --text: #181818;
+            --muted: #60605a;
+            --line: #e0dfd6;
+            --ink: #0e0e0e;
+            --radius: 14px;
+            --shadow: 0 14px 44px rgba(0, 0, 0, .06);
+            --go: #0a6348;
+            --go-bg: #dff4ec;
+            --go-line: #8edcbc;
+            --warn: #7a4700;
+            --warn-bg: #fce9c8;
+            --warn-line: #f5b84a;
+            --stop: #8b2e10;
+            --stop-bg: #fde8e0;
+            --stop-line: #f0b09a;
+            --info: #14508a;
+            --info-bg: #ddeef9;
+            --info-line: #92c5ee;
+            --neu: #312b85;
+            --neu-bg: #ecebfc;
+            --neu-line: #c8c4f2;
+            --sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+            --mono: "JetBrains Mono", Consolas, monospace;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,500;9..40,700&family=JetBrains+Mono:wght@400&display=swap');
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--sans);
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.68
+        }
+
+        .page {
+            width: min(1100px, calc(100% - 36px));
+            margin: 0 auto;
+            padding: 44px 0 80px
+        }
+
+        /* Hero */
+        .hero {
+            padding: clamp(24px, 4.5vw, 50px);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .96), rgba(238, 237, 231, .88));
+            box-shadow: var(--shadow)
+        }
+
+        .kicker {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            color: var(--muted);
+            font-size: .80rem;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            font-weight: 500
+        }
+
+        .kicker::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--ink);
+            flex-shrink: 0
+        }
+
+        h1 {
+            margin: 16px 0 0;
+            font-size: clamp(1.9rem, 4vw, 3.4rem);
+            font-weight: 700;
+            letter-spacing: -.04em;
+            line-height: 1.12
+        }
+
+        .subtitle {
+            margin-top: 12px;
+            font-size: clamp(.9rem, 1.7vw, 1.08rem);
+            color: #383835;
+            max-width: 760px;
+            font-weight: 300
+        }
+
+        .status-row {
+            margin-top: 22px;
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap
+        }
+
+        .sv {
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: .83rem;
+            font-weight: 600
+        }
+
+        .sv.go {
+            background: var(--go-bg);
+            color: var(--go);
+            border: 1px solid var(--go-line)
+        }
+
+        .sv.warn {
+            background: var(--warn-bg);
+            color: var(--warn);
+            border: 1px solid var(--warn-line)
+        }
+
+        .sv.stop {
+            background: var(--stop-bg);
+            color: var(--stop);
+            border: 1px solid var(--stop-line)
+        }
+
+        .sv.info {
+            background: var(--info-bg);
+            color: var(--info);
+            border: 1px solid var(--info-line)
+        }
+
+        /* Update policy bar */
+        .update-bar {
+            margin-top: 18px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            background: #f0efe9;
+            border: 1px solid var(--line);
+            font-size: .85rem;
+            color: #444;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start
+        }
+
+        .update-bar::before {
+            content: "↻";
+            font-size: 1.1rem;
+            color: var(--info);
+            flex-shrink: 0;
+            margin-top: 1px
+        }
+
+        /* Sections */
+        section {
+            margin-top: 52px
+        }
+
+        h2 {
+            font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+            font-weight: 700;
+            letter-spacing: -.03em;
+            margin: 0
+        }
+
+        h3 {
+            margin-top: 26px;
+            font-size: 1.14rem;
+            font-weight: 600;
+            letter-spacing: -.02em;
+            margin-bottom: 0
+        }
+
+        p {
+            margin: 9px 0 0;
+            color: #302f2c
+        }
+
+        /* Notes */
+        .note {
+            margin-top: 14px;
+            padding: 12px 16px 12px 18px;
+            border-radius: 10px;
+            font-size: .91rem;
+            line-height: 1.6
+        }
+
+        .note.go {
+            background: var(--go-bg);
+            border-left: 4px solid var(--go);
+            color: #0b3d28
+        }
+
+        .note.warn {
+            background: var(--warn-bg);
+            border-left: 4px solid var(--warn);
+            color: #512e05
+        }
+
+        .note.stop {
+            background: var(--stop-bg);
+            border-left: 4px solid var(--stop);
+            color: #5c1e0a
+        }
+
+        .note.info {
+            background: var(--info-bg);
+            border-left: 4px solid var(--info);
+            color: #0d3559
+        }
+
+        /* Tables */
+        .table-wrap {
+            margin-top: 16px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--paper)
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .875rem
+        }
+
+        th,
+        td {
+            padding: 10px 13px;
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid var(--line)
+        }
+
+        th {
+            background: #e8e7e0;
+            font-weight: 600;
+            color: #1c1c18;
+            font-size: .80rem;
+            letter-spacing: .025em;
+            text-transform: uppercase
+        }
+
+        tr:last-child td {
+            border-bottom: none
+        }
+
+        td.go {
+            background: var(--go-bg);
+            color: var(--go);
+            font-weight: 600;
+            white-space: nowrap
+        }
+
+        td.warn {
+            background: var(--warn-bg);
+            color: var(--warn);
+            font-weight: 600;
+            white-space: nowrap
+        }
+
+        td.stop {
+            background: var(--stop-bg);
+            color: var(--stop);
+            font-weight: 600;
+            white-space: nowrap
+        }
+
+        td.info {
+            background: var(--info-bg);
+            color: var(--info);
+            font-weight: 600;
+            white-space: nowrap
+        }
+
+        td.neu {
+            background: var(--neu-bg);
+            color: var(--neu);
+            font-weight: 600;
+            white-space: nowrap
+        }
+
+        td.muted {
+            color: var(--muted);
+            font-style: italic
+        }
+
+        /* Task number badge */
+        .tnum {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: .78rem;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 6px;
+            background: #e8e7e0;
+            color: #333;
+            white-space: nowrap
+        }
+
+        .tnum.done {
+            background: var(--go-bg);
+            color: var(--go)
+        }
+
+        .tnum.planned {
+            background: #f0efe9;
+            color: var(--muted)
+        }
+
+        .tnum.inprog {
+            background: var(--warn-bg);
+            color: var(--warn)
+        }
+
+        /* Phase header rows */
+        .phase-hdr td {
+            background: #1e1e1a;
+            color: #e8e8e4;
+            font-weight: 700;
+            font-size: .80rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            border-bottom: none
+        }
+
+        /* Code */
+        code {
+            font-family: var(--mono);
+            font-size: .85em;
+            background: #eeede7;
+            padding: .12em .32em;
+            border-radius: 4px;
+            border: 1px solid #dddcd4
+        }
+
+        /* Log entry */
+        .log-entry {
+            margin-top: 12px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px
+        }
+
+        .log-date {
+            font-family: var(--mono);
+            font-size: .80rem;
+            color: var(--muted);
+            white-space: nowrap;
+            margin-top: 2px
+        }
+
+        .log-body {
+            font-size: .90rem;
+            color: #2e2e2b
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 72px;
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: .82rem;
+            line-height: 1.7
+        }
+
+        @media(max-width:720px) {
+            .page {
+                width: calc(100% - 18px);
+                padding-top: 20px
+            }
+
+            .table-wrap {
+                overflow-x: auto
+            }
+
+            table {
+                min-width: 640px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+
+        <!-- ─────────────────────────────────────────── HERO -->
+        <header class="hero">
+            <div class="kicker">CC-DFlash · Live Project Roadmap · Updated after each task</div>
+            <h1>CC-DFlash Roadmap</h1>
+            <p class="subtitle">
+                Live task timeline, phase gates, artifacts, carry-forward decisions, and future plan.
+                This file is <strong>updated continuously by agents after each task.</strong>
+                For stable paper context see
+                <a href="researching/CC-DFlash-Overview.html">docs/researching/CC-DFlash-Overview.html</a>.
+            </p>
+            <div class="status-row">
+                <span class="sv go">✓ Phase 1 MVP: PASS</span>
+                <span class="sv warn">⚠ Phase 2: Conditional GO</span>
+                <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
+                <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
+                <span class="sv info">→ Current: Task 35 (next)</span>
+            </div>
+            <div class="update-bar">
+                This roadmap is synced through Task 34. Task 34 (docs restructure) is complete.
+                Next technical task is Task 35 (Manual Review Sample for no-containment rows).
+            </div>
+        </header>
+
+        <!-- ─────────────────────────────────────────── CURRENT STATUS -->
+        <section>
+            <h2>Current Status Summary</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dimension</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Phase 1 MVP pilot</td>
+                            <td class="go">PASS</td>
+                            <td>5 conditions implemented, synthetic fixture, decoded output, containment scorer,
+                                carry-forward</td>
+                        </tr>
+                        <tr>
+                            <td>Phase 2 (controlled experiments)</td>
+                            <td class="warn">Conditional GO</td>
+                            <td>Only after Phase 1 Complete milestones; Gemma4-E2B not in MVP</td>
+                        </tr>
+                        <tr>
+                            <td>Phase 1 Complete</td>
+                            <td class="stop">NOT DONE</td>
+                            <td>Requires: Baseline-AR, T_prefill, real dataset, n≥100</td>
+                        </tr>
+                        <tr>
+                            <td>Final benchmark</td>
+                            <td class="stop">NOT DONE</td>
+                            <td>No final speedup, correctness, or deployment claim</td>
+                        </tr>
+                        <tr>
+                            <td>VRAM measurement</td>
+                            <td class="warn">Pending</td>
+                            <td>Not measured under full load; do not claim 8 GB fit</td>
+                        </tr>
+                        <tr>
+                            <td>T_prefill</td>
+                            <td class="warn">Planned</td>
+                            <td>Task 39</td>
+                        </tr>
+                        <tr>
+                            <td>Baseline-AR</td>
+                            <td class="stop">Not implemented</td>
+                            <td>Tasks 37–38</td>
+                        </tr>
+                        <tr>
+                            <td>GSM8K+Wikipedia dataset</td>
+                            <td class="stop">Not built</td>
+                            <td>Tasks 41–42</td>
+                        </tr>
+                        <tr>
+                            <td>Breakeven curve</td>
+                            <td class="warn">Partial/preliminary</td>
+                            <td>Task 40 (after T_prefill)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── TASK LEDGER 1–33 -->
+        <section>
+            <h2>Task Ledger — Tasks 1 to 33</h2>
+            <p>One row per task. Do not group tasks. Source of truth for completed work.</p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:68px">Task</th>
+                            <th style="width:140px">Phase</th>
+                            <th>Kết quả / Output</th>
+                            <th style="width:160px">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Phase: Concept & Architecture -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 0 — Concept, Architecture, Setup (Tasks 1–9)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T01</span></td>
+                            <td>Concept</td>
+                            <td>Khởi tạo hướng nghiên cứu CC-DFlash/CCDF; ý tưởng compression layer trước DFlash</td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T02</span></td>
+                            <td>Concept</td>
+                            <td>Xác định claim đúng: lossy input compression + lossless speculative decoding trên
+                                compressed context</td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T03</span></td>
+                            <td>MVP Scope</td>
+                            <td>Chọn hướng MVP an toàn: Transformers backend, Qwen3-4B target, Qwen3-4B-DFlash-b16 draft
+                            </td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T04</span></td>
+                            <td>MVP Scope</td>
+                            <td>Loại Gemma4-E2B khỏi MVP; chuyển Gemma compressor sang Phase 2</td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T05</span></td>
+                            <td>Risk Control</td>
+                            <td>Xác định risk tokenizer/vocab; không dùng Qwen draft cho Gemma target nếu vocab mismatch
+                            </td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T06</span></td>
+                            <td>Repo Design</td>
+                            <td>Thiết kế folder/module split: <code>src/ccdf</code>, <code>dflash</code>,
+                                <code>compression</code>, <code>scripts</code>, <code>tests</code></td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T07</span></td>
+                            <td>Repo Setup</td>
+                            <td>Tạo skeleton repo: module/test/report structure</td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T08</span></td>
+                            <td>Git Hygiene</td>
+                            <td>Thiết lập .gitignore cho model/cache lớn; không commit model weights</td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T09</span></td>
+                            <td>Config</td>
+                            <td>Runtime config ban đầu: <code>config.yml</code>, model paths, backend assumptions</td>
+                            <td class="go">Done</td>
+                        </tr>
+
+                        <!-- Phase: Scaffold & Smoke -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 0 — Scaffold &amp; Smoke (Tasks 10–15)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T10</span></td>
+                            <td>Probe</td>
+                            <td>Synthetic probe hướng dẫn; kiểm tra dry-run/probe path</td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T11</span></td>
+                            <td>DFlash Core</td>
+                            <td>DFlash core smoke/unit test: <code>tests/test_dflash_core.py</code></td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T12</span></td>
+                            <td>Runner</td>
+                            <td>Baseline runner ban đầu: <code>scripts/run_mvp.py</code></td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T13</span></td>
+                            <td>Baseline Smoke</td>
+                            <td>DFlash-R1 smoke artifact: <code>results/dflash_r1_n20.jsonl</code></td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T14</span></td>
+                            <td>Baseline Report</td>
+                            <td>Báo cáo baseline sơ bộ (chưa final benchmark)</td>
+                            <td class="go">Done</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T15</span></td>
+                            <td>Week 1 Prep</td>
+                            <td>Chuẩn bị Week 1 closeout; gom evidence và verification</td>
+                            <td class="go">Done</td>
+                        </tr>
+
+                        <!-- Phase: Week 1 Closeout -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 1 — Week 1 Closeout (Task 16)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T16</span></td>
+                            <td>Week 1 Closeout</td>
+                            <td><code>docs/reports/16-week-1-closeout-report.md</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+
+                        <!-- Phase: LLMLingua Integration -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 1 — LLMLingua Integration (Tasks 17–20)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T17</span></td>
+                            <td>Spec Sync</td>
+                            <td>Spec cleanup/alignment; làm rõ repo/spec sau phân tích phản biện v4.0</td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T18</span></td>
+                            <td>Compression</td>
+                            <td>LLMLingua wrapper/unit smoke: <code>LLMLinguaCompressor</code>, unit tests passing</td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T19</span></td>
+                            <td>Compression Smoke</td>
+                            <td>Real LLMLingua CPU smoke: <code>results/llmlingua_cpu_smoke.json</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T20</span></td>
+                            <td>Model Lock</td>
+                            <td>Lock LLMLingua model: <code>microsoft/llmlingua-2-xlm-roberta-large-meetingbank</code>
+                            </td>
+                            <td class="go">PASS</td>
+                        </tr>
+
+                        <!-- Phase: Condition Smoke & Audit -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 1 — Condition Smoke &amp; Artifact Audit (Tasks 21–23)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T21</span></td>
+                            <td>CC-LLM Smoke</td>
+                            <td>CC-LLM-R2/R3 smoke: <code>results/cc_llm_r2_smoke.jsonl</code>,
+                                <code>cc_llm_r3_smoke.jsonl</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T22</span></td>
+                            <td>AR Baseline</td>
+                            <td>LLMLingua-AR baseline: <code>results/llmlingua_ar_r2_smoke.jsonl</code>,
+                                <code>llmlingua_ar_r3_smoke.jsonl</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T23</span></td>
+                            <td>Artifact Audit</td>
+                            <td>Artifact contract audit script: <code>scripts/audit_smoke_artifacts.py</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+
+                        <!-- Phase: Small Matrix -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 1 — Small Matrix &amp; Breakeven (Tasks 24–26)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T24</span></td>
+                            <td>Small Matrix</td>
+                            <td>Small condition matrix n=10: <code>results/task24_*_n10.jsonl</code></td>
+                            <td class="warn">PASS, preliminary</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T25</span></td>
+                            <td>Fixture</td>
+                            <td>Long-context fixture: <code>tests/fixtures/long_context_smoke.jsonl</code> (synthetic)
+                            </td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T26</span></td>
+                            <td>Analysis</td>
+                            <td>Preliminary speedup/breakeven analysis: <code>scripts/analyze_task24_matrix.py</code>
+                            </td>
+                            <td class="go">PASS</td>
+                        </tr>
+
+                        <!-- Phase: Phase 1 Gate -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase Gate — Phase 1 MVP Closeout (Task 27)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T27</span></td>
+                            <td>Phase Gate</td>
+                            <td>Phase 1 MVP closeout report:
+                                <code>docs/reports/27-phase-1-mvp-closeout-go-nogo-report.md</code></td>
+                            <td class="warn">PASS, conditional GO</td>
+                        </tr>
+
+                        <!-- Phase: Long-context Pilot -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 1 — Long-Context Pilot (Tasks 28–29)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T28</span></td>
+                            <td>Runner Mode</td>
+                            <td>Long-context runner mode added: <code>--prompt-source fixture</code>,
+                                <code>--fixture</code> flags</td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T29</span></td>
+                            <td>Long-ctx Pilot</td>
+                            <td>Long-context pilot n=6: <code>results/task29_*_longctx_n6.jsonl</code></td>
+                            <td class="warn">PASS, n=6 preliminary</td>
+                        </tr>
+
+                        <!-- Phase: Answer Quality -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 1 — Answer Quality System (Tasks 30–32)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T30</span></td>
+                            <td>Answer Check</td>
+                            <td>Answer checker contract: <code>scripts/check_task29_answers.py</code>; discovered
+                                missing decoded output</td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T31</span></td>
+                            <td>Output Capture</td>
+                            <td>Decoded output capture: <code>--store-generated-text</code> flag;
+                                <code>results/task31_*_text_n6.jsonl</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T32</span></td>
+                            <td>Quality Scorer</td>
+                            <td>Deterministic answer-quality scorer: EXACT / NORMALIZED / NO_CONTAINMENT / NOT_EVALUABLE
+                            </td>
+                            <td class="go">PASS</td>
+                        </tr>
+
+                        <!-- Phase: Breakeven + Quality Analysis -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 1 — Breakeven &amp; Quality Analysis (Task 33)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T33</span></td>
+                            <td>Breakeven/Quality</td>
+                            <td>Phase 2 breakeven + quality analysis:
+                                <code>results/task33_phase2_breakeven_quality_summary.json</code>; carry-forward
+                                decision</td>
+                            <td class="go">PASS</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── FUTURE TASKS -->
+        <section>
+            <h2>Future Task Plan — Tasks 34 and Beyond</h2>
+            <p>
+                Future tasks are planned here before execution. Agents update this table after each task
+                completes, moving it from <em>Planned</em> to an appropriate status.
+            </p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:68px">Task</th>
+                            <th style="width:140px">Phase</th>
+                            <th>Kế hoạch / Output</th>
+                            <th style="width:160px">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Docs restructure -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Docs Restructure (Task 34)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum inprog">T34</span></td>
+                            <td>Docs Restructure</td>
+                            <td>Rebuild documentation into <code>CC-DFlash-Overview.html</code>,
+                                <code>Roadmap.html</code>, compact <code>instruction.md</code>; create report
+                                <code>34-docs-restructure-roadmap-overview-report.md</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+
+                        <!-- Manual Review -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Quality Validation (Tasks 35–36)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T35</span></td>
+                            <td>Manual Review</td>
+                            <td>Review NO_CONTAINMENT rows from Task 31 artifacts; label each as TRUE_FAIL /
+                                PARAPHRASE_OR_FORMAT_MISS / UNCLEAR; create report
+                                <code>35-manual-review-sample-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T36</span></td>
+                            <td>Review Analyzer</td>
+                            <td>Add <code>scripts/analyze_manual_review.py</code>; produce quality-interpretation
+                                summary; update containment-vs-correctness estimate; create report
+                                <code>36-manual-review-analysis-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+
+                        <!-- Baseline-AR -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Baseline-AR Implementation (Tasks 37–38)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T37</span></td>
+                            <td>Baseline-AR Impl</td>
+                            <td>Implement pure autoregressive baseline without compression and without DFlash; add to
+                                <code>conditions.py</code> MVP_CONDITIONS; unit test; create report
+                                <code>37-baseline-ar-implementation-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T38</span></td>
+                            <td>Baseline-AR Smoke</td>
+                            <td>Run small Baseline-AR smoke artifact; audit against artifact contract; create report
+                                <code>38-baseline-ar-smoke-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+
+                        <!-- T_prefill & Breakeven -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Prefill Measurement &amp; Breakeven (Tasks 39–40)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T39</span></td>
+                            <td>T_prefill Measure</td>
+                            <td>Add CUDA-sync prefill timing measurement to <code>metrics.py</code>; add tests; run
+                                smoke to confirm T_prefill captured; measure VRAM under full load; create report
+                                <code>39-t-prefill-measurement-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T40</span></td>
+                            <td>Breakeven Curve v1</td>
+                            <td>Use actual T_prefill and T_compress to produce preliminary breakeven curve across
+                                context lengths; update breakeven analysis script; create report
+                                <code>40-breakeven-curve-v1-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+
+                        <!-- Dataset -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Real Dataset (Tasks 41–42)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T41</span></td>
+                            <td>Dataset Builder</td>
+                            <td>Implement GSM8K + Wikipedia augmented dataset pipeline in
+                                <code>scripts/create_dataset.py</code>; document Wikipedia source, augmentation policy,
+                                leakage controls; create report <code>41-dataset-builder-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T42</span></td>
+                            <td>Dataset Audit</td>
+                            <td>Audit augmented dataset for answer-token preservation, token length distribution,
+                                leakage, and reproducibility; create report <code>42-dataset-audit-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+
+                        <!-- Targeted rerun -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Targeted Long-Context Rerun (Task 43)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T43</span></td>
+                            <td>Targeted Rerun</td>
+                            <td>Run KEEP_BASELINE (DFlash-R1) + KEEP_LOW_VRAM_BASELINE (LLMLingua-AR-R2) + WATCHLIST
+                                (CC-LLM-R2) with n=20, <code>--store-generated-text</code>; create report
+                                <code>43-targeted-longctx-rerun-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+
+                        <!-- Phase 1 Complete -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Phase 1 Complete Preparation (Tasks 44–45)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T44</span></td>
+                            <td>Matrix Freeze</td>
+                            <td>Freeze conditions, metrics, dataset, and artifact schema for final benchmark; create
+                                frozen spec document; create report <code>44-final-matrix-freeze-report.md</code></td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T45</span></td>
+                            <td>Final Benchmark</td>
+                            <td>Run final n≥100 benchmark per frozen condition on GSM8K+Wikipedia dataset; store all
+                                artifacts; create report <code>45-final-benchmark-run-report.md</code></td>
+                            <td class="muted">Planned (conditional on T44 gate)</td>
+                        </tr>
+
+                        <!-- Analysis & Paper -->
+                        <tr class="phase-hdr">
+                            <td colspan="4">Analysis &amp; Paper Direction (Tasks 46–50)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T46</span></td>
+                            <td>Pareto Report</td>
+                            <td>Compute Pareto frontier: Speedup vs Exact Match; produce charts; create report
+                                <code>46-pareto-frontier-report.md</code></td>
+                            <td class="muted">Planned (after T45)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T47</span></td>
+                            <td>Paper Figures</td>
+                            <td>Generate paper-ready tables and figures from final benchmark data; scripts in
+                                <code>scripts/plot_results.py</code>; create report
+                                <code>47-paper-figures-report.md</code></td>
+                            <td class="muted">Planned (after T46)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T48</span></td>
+                            <td>Phase 1 Final Closeout</td>
+                            <td>Phase 1 Complete closeout report; final go/no-go for paper submission; create report
+                                <code>48-phase-1-final-closeout-report.md</code></td>
+                            <td class="muted">Planned (after T47)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T49</span></td>
+                            <td>Phase 2 Decision</td>
+                            <td>Gemma4-E2B go/no-go decision based on Phase 1 results; only open if Speedup &gt;1.5×
+                                with EM drop &lt;3%; create report <code>49-phase2-gemma-decision-report.md</code></td>
+                            <td class="muted">Conditional on T48</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T50</span></td>
+                            <td>Phase 2 Plan</td>
+                            <td>If T49 GO: write Phase 2 compressor plan; implement
+                                <code>src/ccdf/compression/gemma.py</code> skeleton; define Phase 2 conditions and
+                                safety checks</td>
+                            <td class="muted">Conditional on T49 GO</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── CARRY-FORWARD -->
+        <section>
+            <h2>Carry-Forward Decision (after Task 33)</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Condition</th>
+                            <th>Compressor</th>
+                            <th>keep_rate</th>
+                            <th>Decision</th>
+                            <th>Rationale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>DFlash-R1</strong></td>
+                            <td>None</td>
+                            <td>1.0</td>
+                            <td class="go">KEEP_BASELINE</td>
+                            <td>Primary reference baseline — needed for every comparison</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LLMLingua-AR-R2</strong></td>
+                            <td>LLMLingua-2</td>
+                            <td>0.5</td>
+                            <td class="go">KEEP_LOW_VRAM_BASELINE</td>
+                            <td>Attribution baseline — separates compression vs DFlash contribution</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CC-LLM-R2</strong></td>
+                            <td>LLMLingua-2</td>
+                            <td>0.5</td>
+                            <td class="warn">WATCHLIST</td>
+                            <td>Needs more n and T_prefill data before decision on e2e benefit</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CC-LLM-R3</strong></td>
+                            <td>LLMLingua-2</td>
+                            <td>0.33</td>
+                            <td class="warn">WATCHLIST</td>
+                            <td>Possible containment harm at R3; manual review (T35) required before concluding</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LLMLingua-AR-R3</strong></td>
+                            <td>LLMLingua-2</td>
+                            <td>0.33</td>
+                            <td class="stop">DEPRIORITIZE_FOR_NOW</td>
+                            <td>Not needed until R2 baseline solidified; deprioritize not abandon</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── PHASE GATES -->
+        <section>
+            <h2>Phase Gates</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Gate</th>
+                            <th>Status</th>
+                            <th>Requirements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Phase 1 MVP</strong></td>
+                            <td class="go">PASS</td>
+                            <td>5 conditions implemented, synthetic fixture, decoded output, containment scorer,
+                                carry-forward decision (Task 27 + Task 33)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2 Conditional</strong></td>
+                            <td class="warn">GO (controlled only)</td>
+                            <td>Only after Phase 1 MVP pass; Gemma4-E2B strictly excluded from MVP; no scale-up tools
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 1 Complete</strong></td>
+                            <td class="stop">NOT DONE</td>
+                            <td>Requires: Baseline-AR (T37–38), T_prefill (T39), breakeven curve (T40), real dataset
+                                (T41–42), final n≥100 (T44–45)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Paper Submission Gate</strong></td>
+                            <td class="stop">NOT DONE</td>
+                            <td>Requires Phase 1 Complete + Pareto frontier (T46) + paper figures (T47) + final closeout
+                                (T48)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2 Full GO</strong></td>
+                            <td class="stop">Conditional on T48/T49</td>
+                            <td>Only if Phase 1 Complete shows Speedup &gt;1.5× with EM drop &lt;3%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── REPORTS INDEX -->
+        <section>
+            <h2>Reports Index</h2>
+            <p>All reports under <code>docs/reports/</code> use chronological numeric prefixes.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Task</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>16-week-1-closeout-report.md</code></td>
+                            <td>T16</td>
+                            <td>Week 1 Closeout Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>27-phase-1-mvp-closeout-go-nogo-report.md</code></td>
+                            <td>T27</td>
+                            <td>Phase 1 MVP Closeout Go/No-Go Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>32-answer-quality-scorer-policy-report.md</code></td>
+                            <td>T32</td>
+                            <td>Answer Quality Scorer Policy Report</td>
+                            <td class="warn">Presumed / verify</td>
+                        </tr>
+                        <tr>
+                            <td><code>33-phase2-breakeven-quality-analysis-report.md</code></td>
+                            <td>T33</td>
+                            <td>Phase 2 Breakeven + Quality Analysis Report</td>
+                            <td class="warn">Presumed / verify</td>
+                        </tr>
+                        <tr>
+                            <td><code>34-docs-restructure-roadmap-overview-report.md</code></td>
+                            <td>T34</td>
+                            <td>Docs Restructure — Roadmap + Overview Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>35-manual-review-sample-report.md</code></td>
+                            <td>T35</td>
+                            <td>Manual Review Sample for No-Containment Rows</td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><code>36-manual-review-analysis-report.md</code></td>
+                            <td>T36</td>
+                            <td>Manual Review Analysis Summary</td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><code>37-baseline-ar-implementation-report.md</code></td>
+                            <td>T37</td>
+                            <td>Baseline-AR Implementation Report</td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><code>38-baseline-ar-smoke-report.md</code></td>
+                            <td>T38</td>
+                            <td>Baseline-AR Smoke Report</td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><code>39-t-prefill-measurement-report.md</code></td>
+                            <td>T39</td>
+                            <td>T_prefill Measurement Report</td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                        <tr>
+                            <td><code>40-breakeven-curve-v1-report.md</code></td>
+                            <td>T40</td>
+                            <td>Breakeven Curve v1 Report</td>
+                            <td class="muted">Planned</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── ARTIFACTS INDEX -->
+        <section>
+            <h2>Artifacts Index</h2>
+            <p>Key result artifacts in <code>results/</code> and <code>tests/fixtures/</code>. Do not modify these.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Artifact</th>
+                            <th>Task</th>
+                            <th>Condition</th>
+                            <th>n</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>results/dflash_r1_n20.jsonl</code></td>
+                            <td>T13</td>
+                            <td>DFlash-R1</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/llmlingua_cpu_smoke.json</code></td>
+                            <td>T19</td>
+                            <td>LLMLingua smoke</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/cc_llm_r2_smoke.jsonl</code></td>
+                            <td>T21</td>
+                            <td>CC-LLM-R2</td>
+                            <td>smoke</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/cc_llm_r3_smoke.jsonl</code></td>
+                            <td>T21</td>
+                            <td>CC-LLM-R3</td>
+                            <td>smoke</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/llmlingua_ar_r2_smoke.jsonl</code></td>
+                            <td>T22</td>
+                            <td>LLMLingua-AR-R2</td>
+                            <td>smoke</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/llmlingua_ar_r3_smoke.jsonl</code></td>
+                            <td>T22</td>
+                            <td>LLMLingua-AR-R3</td>
+                            <td>smoke</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task24_*_n10.jsonl</code></td>
+                            <td>T24</td>
+                            <td>All conditions</td>
+                            <td>10 each</td>
+                        </tr>
+                        <tr>
+                            <td><code>tests/fixtures/long_context_smoke.jsonl</code></td>
+                            <td>T25</td>
+                            <td>Fixture (synthetic)</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task29_*_longctx_n6.jsonl</code></td>
+                            <td>T29</td>
+                            <td>All conditions</td>
+                            <td>6 each</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task31_*_text_n6.jsonl</code></td>
+                            <td>T31</td>
+                            <td>All conditions + decoded text</td>
+                            <td>6 each</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task32_answer_quality_summary.json</code></td>
+                            <td>T32</td>
+                            <td>Quality scorer</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task33_phase2_breakeven_quality_summary.json</code></td>
+                            <td>T33</td>
+                            <td>Breakeven+quality</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── UPDATE POLICY -->
+        <section>
+            <h2>Update Policy</h2>
+            <div class="note info">
+                <strong>Roadmap.html must be updated after every task.</strong>
+                Each meaningful task must also create or update a Markdown report under <code>docs/reports/</code>
+                with a chronological numeric prefix. Roadmap update must include: task status moved from Planned
+                to the correct status, artifact paths added, and next task updated in the hero status row.
+                Do not overwrite old task evidence unless explicitly requested. Do not group future tasks
+                into the completed ledger until they are actually done.
+            </div>
+            <div class="note warn">
+                <strong>Never claim in Roadmap.html:</strong> final speedup, confirmed 8 GB deployment,
+                e2e compression benefit proven, or phase completion, unless backed by an explicit report in
+                <code>docs/reports/</code>.
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── UPDATE LOG -->
+        <section>
+            <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 34 — Initial creation</strong><br>
+                    Created Roadmap.html from CC-DFlash-v4.html, CC-DFlash-v5.html, and instruction.md sources.
+                    Synced through Task 33. Added future task plan Tasks 34–50.
+                    Task 34 status: Done.
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            CC-DFlash Roadmap · Live Task Tracker · Updated after each task ·
+            All preliminary — no final speedup claim, no confirmed 8 GB deployment ·
+            For stable research context see
+            <a href="researching/CC-DFlash-Overview.html">docs/researching/CC-DFlash-Overview.html</a>
+        </footer>
+
+    </main>
+</body>
+
+</html>
