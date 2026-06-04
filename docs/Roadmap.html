@@ -413,11 +413,11 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 42 (next)</span>
+                <span class="sv info">→ Current: Task 43 (next)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 41. Task 41 (dataset builder) is complete in dev-safe
-                sample mode. Next technical task is Task 42 (dataset audit).
+                This roadmap is synced through Task 42. Task 42 (dataset audit) passed for the dev-safe
+                sample-mode artifact. Next technical task is Task 43 (targeted long-context rerun).
             </div>
         </header>
 
@@ -473,7 +473,7 @@
                         <tr>
                             <td>GSM8K+Wikipedia dataset</td>
                             <td class="warn">Builder exists; audit next</td>
-                            <td>Task 41 sample-mode artifact; Task 42 audit next</td>
+                            <td>Task 41 sample-mode artifact; Task 42 audit passed</td>
                         </tr>
                         <tr>
                             <td>Breakeven curve</td>
@@ -876,11 +876,11 @@
                             <td class="go">PASS, sample-mode</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T42</span></td>
+                            <td><span class="tnum done">T42</span></td>
                             <td>Dataset Audit</td>
                             <td>Audit augmented dataset for answer-token preservation, token length distribution,
                                 leakage, and reproducibility; create report <code>42-dataset-audit-report.md</code></td>
-                            <td class="muted">Planned</td>
+                            <td class="go">PASS, sample-mode</td>
                         </tr>
 
                         <!-- Targeted rerun -->
@@ -1150,6 +1150,12 @@
                             <td>GSM8K + Wikipedia Dataset Builder Report</td>
                             <td class="go">Exists</td>
                         </tr>
+                        <tr>
+                            <td><code>42-dataset-audit-report.md</code></td>
+                            <td>T42</td>
+                            <td>Dataset Audit Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1266,6 +1272,12 @@
                             <td>GSM8K + Wikipedia augmented sample-mode dataset</td>
                             <td>5</td>
                         </tr>
+                        <tr>
+                            <td><code>results/task42_dataset_audit_summary.json</code></td>
+                            <td>T42</td>
+                            <td>Dataset audit summary</td>
+                            <td>—</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1275,8 +1287,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 41</span>
-                <span class="sv info">Current next: Task 42</span>
+                <span class="sv go">Synced through Task 42</span>
+                <span class="sv info">Current next: Task 43</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">Final Benchmark: NOT DONE</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1361,6 +1373,15 @@
                     <strong>Task 41 — Dataset Builder — PASS, sample-mode</strong><br>
                     Added a reproducible GSM8K + Wikipedia augmented dataset builder, generated a 5-row dev-safe
                     artifact, and preserved leakage/audit checks for Task 42.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-04</div>
+                <div class="log-body">
+                    <strong>Task 42 — Dataset Audit — PASS, sample-mode</strong><br>
+                    Added a dataset audit utility and JSON summary. The sample artifact passed schema,
+                    leakage, length, runner-compatibility, and deterministic reproducibility checks; full
+                    benchmark dataset readiness remains false until full source-mode data is generated and audited.
                 </div>
             </div>
         </section>

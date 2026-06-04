@@ -1103,12 +1103,13 @@
             <p>
                 Short-context: GSM8K test set (1,319 samples, 100–300 tokens). Primary quality metric.<br>
                 Long-context: GSM8K + Wikipedia augmented dataset (500–1,500 tokens). Primary speedup metric.
-                Task 41 adds a reproducible builder and dev-safe sample artifact; Task 42 must audit it before
-                benchmark use.
+                Task 41 adds a reproducible builder and dev-safe sample artifact; Task 42 audits the sample-mode
+                artifact. Full source-mode dataset readiness still requires full data generation and audit.
             </p>
             <div class="note warn">
                 Final benchmark requires n≥100 per condition and the real GSM8K+Wikipedia augmented dataset.
-                Current dataset artifact is sample-mode and unaudited. No final claims can be made from current data.
+                Current dataset artifact is sample-mode and audit-passed for schema/leakage/reproducibility only.
+                No final claims can be made from current data.
             </div>
         </section>
 
@@ -1353,9 +1354,9 @@
                             <td>Task 45: final benchmark n≥100</td>
                         </tr>
                         <tr>
-                            <td>GSM8K+Wikipedia builder exists but dataset is unaudited sample-mode</td>
+                            <td>GSM8K+Wikipedia sample-mode artifact audited only</td>
                             <td>Generalizability unknown</td>
-                            <td>Task 42: dataset audit</td>
+                            <td>Full source-mode generation and audit still needed before final benchmark</td>
                         </tr>
                         <tr>
                             <td>Containment ≠ semantic correctness</td>
@@ -1453,7 +1454,7 @@
                             <td>GSM8K augmented benchmark not reproducible</td>
                             <td><span class="rbadge md">Medium</span></td>
                             <td class="warn">Planned</td>
-                            <td>Task 41 builder exists; Task 42 audit required before benchmark use</td>
+                            <td>Task 42 sample-mode audit passed; full source-mode audit still needed</td>
                         </tr>
                         <tr>
                             <td>Gemma4-E2B numeric token loss (abstractive)</td>
@@ -1481,8 +1482,8 @@
                     <li>Use Task 39 <strong>T_prefill</strong> smoke measurement in breakeven analysis</li>
                     <li>Use Task 40 <strong>breakeven v1</strong> summary as a preliminary planning artifact
                     </li>
-                    <li>Audit the Task 41 <strong>GSM8K + Wikipedia augmented dataset</strong> before benchmark use
-                        (Task 42)</li>
+                    <li>Use Task 42 sample-mode audit as a guardrail, then generate/audit full source-mode data before
+                        final benchmark use</li>
                     <li>Run <strong>final benchmark n≥100</strong> per frozen condition (Tasks 44–45)</li>
                     <li>Compute <strong>Pareto frontier</strong>: Speedup vs Exact Match (Task 46)</li>
                 </ul>
