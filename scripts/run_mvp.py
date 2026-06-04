@@ -6,13 +6,14 @@ import json
 import hashlib
 import statistics
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from datetime import datetime, timezone
 
 import torch
 
 from ccdf.config import load_config
+from ccdf.compression.llmlingua import LLMLinguaCompressor
 from ccdf.dflash.generate import dflash_generate
 from ccdf.dflash.loader import load_draft, load_tokenizer
 
@@ -25,6 +26,13 @@ PROMPTS = [
     "Say OK if you can read this.",
 ]
 
+CC_SMOKE_CONTEXT = (
+    "The city library bought 48 new math books and 16 science books. "
+    "A local donor later added 12 more math books. "
+    "The building also has old newspapers, chairs, posters, and unrelated historical notes. "
+    "Only the details needed by the question should be used."
+)
+
 
 @dataclass
 class SmokeConfig:
@@ -35,6 +43,7 @@ class SmokeConfig:
     block_size: int
     max_new_tokens: int
     temperature: float
+    raw_config: dict
 
 
 @dataclass
@@ -57,6 +66,7 @@ class PromptMetrics:
     acceptance_lengths: list[int]
     tau_mean: float
     vram_after: VramSnapshot
+    compression_info: dict = field(default_factory=dict)
 
 
 def _read_config(path: str | Path) -> SmokeConfig:
@@ -73,7 +83,41 @@ def _read_config(path: str | Path) -> SmokeConfig:
         block_size=int(benchmark_cfg.get("block_size", 16)),
         max_new_tokens=min(int(benchmark_cfg.get("max_new_tokens", 16)), 32),
         temperature=float(benchmark_cfg.get("temperature", 0.0)),
+        raw_config=config,
     )
+
+
+def _condition_keep_rate(condition: str, default_keep_rate: float) -> float | None:
+    if condition == "DFlash-R1":
+        return None
+    if condition in {"CC-LLM-R2", "LLMLingua-AR-R2"}:
+        return 0.5
+    if condition in {"CC-LLM-R3", "LLMLingua-AR-R3"}:
+        return 0.33
+    raise ValueError(f"Unsupported condition: {condition}")
+
+
+def _is_ar_condition(condition: str) -> bool:
+    return condition in {"LLMLingua-AR-R2", "LLMLingua-AR-R3"}
+
+
+def _prepare_cc_prompt(
+    question: str,
+    compressor: LLMLinguaCompressor,
+    keep_rate: float,
+    context: str = CC_SMOKE_CONTEXT,
+) -> tuple[str, dict]:
+    merged_prompt, info = compressor.compress(context=context, question=question, keep_rate=keep_rate)
+    compression_info = {
+        "t_compress_ms": info["t_compress_ms"],
+        "R_actual": info["R_actual"],
+        "N_original": info["N_original"],
+        "N_compressed": info["N_compressed"],
+        "keep_rate": info.get("keep_rate", keep_rate),
+        "compressor_model": compressor.model_name,
+        "question_preserved": question in merged_prompt,
+    }
+    return merged_prompt, compression_info
 
 
 def _require_cuda() -> None:
@@ -149,6 +193,7 @@ def _run_prompt(
     target,
     draft,
     config: SmokeConfig,
+    compression_info: dict | None = None,
 ) -> PromptMetrics:
     input_ids = _format_prompt(tokenizer, prompt).to(config.device)
     stop_token_ids = [tokenizer.eos_token_id] if tokenizer.eos_token_id is not None else None
@@ -190,6 +235,59 @@ def _run_prompt(
         acceptance_lengths=acceptance_lengths,
         tau_mean=tau_mean,
         vram_after=vram_after,
+        compression_info=compression_info or {},
+    )
+
+
+def _run_ar_prompt(
+    prompt_id: int,
+    prompt: str,
+    *,
+    tokenizer,
+    target,
+    config: SmokeConfig,
+    compression_info: dict | None = None,
+) -> PromptMetrics:
+    input_ids = _format_prompt(tokenizer, prompt).to(config.device)
+    generate_kwargs = {
+        "input_ids": input_ids,
+        "attention_mask": torch.ones_like(input_ids),
+        "max_new_tokens": config.max_new_tokens,
+        "do_sample": config.temperature > 0,
+        "pad_token_id": tokenizer.eos_token_id,
+        "eos_token_id": tokenizer.eos_token_id,
+    }
+    if config.temperature > 0:
+        generate_kwargs["temperature"] = config.temperature
+
+    torch.cuda.synchronize()
+    started = time.perf_counter()
+    with torch.inference_mode():
+        output_ids = target.generate(**generate_kwargs)
+    torch.cuda.synchronize()
+    elapsed = time.perf_counter() - started
+
+    input_tokens = int(input_ids.shape[-1])
+    output_tokens = int(output_ids.shape[-1] - input_ids.shape[-1])
+    tok_per_s = output_tokens / elapsed if elapsed > 0 else 0.0
+    vram_after = _vram(f"after prompt {prompt_id}")
+
+    print(
+        f"prompt_id={prompt_id} input_tokens={input_tokens} "
+        f"output_tokens={output_tokens} generation_time_s={elapsed:.4f} "
+        f"tok/s={tok_per_s:.2f} acceptance_lengths=[] tau_mean=0.00"
+    )
+    return PromptMetrics(
+        prompt_id=prompt_id,
+        prompt_text=prompt,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        generation_time_s=elapsed,
+        tok_per_s=tok_per_s,
+        acceptance_lengths=[],
+        tau_mean=0.0,
+        vram_after=vram_after,
+        compression_info=compression_info or {},
     )
 
 
@@ -198,10 +296,16 @@ def _print_summary(metrics: list[PromptMetrics], vram_snapshots: list[VramSnapsh
     avg_tau = statistics.mean(item.tau_mean for item in metrics) if metrics else 0.0
     max_allocated = max(snapshot.allocated_gib for snapshot in vram_snapshots)
     max_reserved = max(snapshot.reserved_gib for snapshot in vram_snapshots)
+    compression_metrics = [item.compression_info for item in metrics if item.compression_info]
 
     print("Summary:")
     print(f"average tok/s: {avg_tok_s:.2f}")
     print(f"average tau_mean: {avg_tau:.2f}")
+    if compression_metrics:
+        avg_t_compress = statistics.mean(item["t_compress_ms"] for item in compression_metrics)
+        avg_r_actual = statistics.mean(item["R_actual"] for item in compression_metrics)
+        print(f"average t_compress_ms: {avg_t_compress:.2f}")
+        print(f"average R_actual: {avg_r_actual:.2f}")
     print(f"max VRAM allocated: {max_allocated:.2f}GiB")
     print(f"max VRAM reserved: {max_reserved:.2f}GiB")
     print("Final status: PASS")
@@ -239,26 +343,29 @@ def _write_jsonl(
                 "vram_allocated_gib": metric.vram_after.allocated_gib,
                 "vram_reserved_gib": metric.vram_after.reserved_gib,
             }
+            row.update(metric.compression_info)
             handle.write(json.dumps(row, ensure_ascii=False) + "\n")
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run DFlash-R1 baseline smoke benchmark")
+    parser = argparse.ArgumentParser(description="Run DFlash/CC-LLM smoke benchmark")
     parser.add_argument("--config", default="config.yml")
     parser.add_argument("--condition", default="DFlash-R1")
     parser.add_argument("--n", type=int, default=3)
     parser.add_argument("--output", default="results/dflash_r1_smoke.jsonl")
     args = parser.parse_args()
 
-    if args.condition != "DFlash-R1":
-        raise SystemExit(f"Only DFlash-R1 is supported by this smoke runner, got {args.condition}")
-
     config = _read_config(args.config)
+    keep_rate = _condition_keep_rate(args.condition, config.raw_config.get("compression", {}).get("llmlingua", {}).get("default_keep_rate", 0.5))
+    is_ar = _is_ar_condition(args.condition)
     n_prompts = max(1, args.n)
     prompts = [PROMPTS[i % len(PROMPTS)] for i in range(n_prompts)]
+    compressor = None
+    if keep_rate is not None:
+        compressor = LLMLinguaCompressor.from_config(config.raw_config)
 
-    print("DFlash-R1 smoke benchmark")
-    print("Compression: none")
+    print(f"{args.condition} smoke benchmark")
+    print("Compression: none" if keep_rate is None else f"Compression: LLMLingua keep_rate={keep_rate}")
     print(f"Target model path: {config.target_path}")
     print(f"Draft model path: {config.draft_path}")
     print(f"Tokenizer path: {config.tokenizer_path}")
@@ -279,25 +386,58 @@ def main() -> None:
         tokenizer = load_tokenizer(str(config.tokenizer_path), trust_remote_code=True)
         target = _load_target_4bit(config.target_path, config.device, attn_implementation)
         vram_snapshots.append(_vram("after target load"))
-        draft = load_draft(
-            str(config.draft_path),
-            device=config.device,
-            attn_implementation=attn_implementation,
-            trust_remote_code=True,
-            dtype=torch.bfloat16,
-        )
-        vram_snapshots.append(_vram("after draft load"))
+        draft = None
+        if is_ar:
+            print("Draft model: not loaded for autoregressive LLMLingua baseline.")
+        else:
+            draft = load_draft(
+                str(config.draft_path),
+                device=config.device,
+                attn_implementation=attn_implementation,
+                trust_remote_code=True,
+                dtype=torch.bfloat16,
+            )
+            vram_snapshots.append(_vram("after draft load"))
 
         metrics = []
         for idx, prompt in enumerate(prompts, start=1):
-            metric = _run_prompt(
-                idx,
-                prompt,
-                tokenizer=tokenizer,
-                target=target,
-                draft=draft,
-                config=config,
-            )
+            prompt_for_generation = prompt
+            compression_info = None
+            if compressor is not None:
+                prompt_for_generation, compression_info = _prepare_cc_prompt(
+                    prompt,
+                    compressor,
+                    keep_rate,
+                )
+                if not compression_info["question_preserved"]:
+                    raise RuntimeError(f"protected question was not preserved for prompt {idx}")
+
+            if is_ar:
+                compression_info = compression_info or {}
+                compression_info.update(
+                    {
+                        "generation_mode": "autoregressive",
+                        "draft_used": False,
+                    }
+                )
+                metric = _run_ar_prompt(
+                    idx,
+                    prompt_for_generation,
+                    tokenizer=tokenizer,
+                    target=target,
+                    config=config,
+                    compression_info=compression_info,
+                )
+            else:
+                metric = _run_prompt(
+                    idx,
+                    prompt_for_generation,
+                    tokenizer=tokenizer,
+                    target=target,
+                    draft=draft,
+                    config=config,
+                    compression_info=compression_info,
+                )
             metrics.append(metric)
             vram_snapshots.append(metric.vram_after)
 

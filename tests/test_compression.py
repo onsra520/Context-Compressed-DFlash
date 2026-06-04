@@ -4,6 +4,7 @@ import pytest
 
 from ccdf.compression import PassthroughCompressor, merge, segment_gsm8k
 from ccdf.compression.llmlingua import LLMLinguaCompressor
+from scripts.run_mvp import _condition_keep_rate, _is_ar_condition, _prepare_cc_prompt
 
 
 def test_passthrough_compressor_returns_original_context():
@@ -148,3 +149,41 @@ def test_llmlingua_compressor_accepts_explicit_model_and_device_from_config(monk
     assert compressor.default_keep_rate == pytest.approx(0.33)
     assert merged_text == "config driven context\n\nProtected?"
     assert info["keep_rate"] == pytest.approx(0.33)
+
+
+def test_cc_llm_conditions_define_expected_keep_rates():
+    assert _condition_keep_rate("DFlash-R1", 0.5) is None
+    assert _condition_keep_rate("CC-LLM-R2", 0.5) == pytest.approx(0.5)
+    assert _condition_keep_rate("CC-LLM-R3", 0.5) == pytest.approx(0.33)
+    assert _condition_keep_rate("LLMLingua-AR-R2", 0.5) == pytest.approx(0.5)
+    assert _condition_keep_rate("LLMLingua-AR-R3", 0.5) == pytest.approx(0.33)
+
+
+def test_llmlingua_ar_conditions_are_target_only():
+    assert _is_ar_condition("LLMLingua-AR-R2") is True
+    assert _is_ar_condition("LLMLingua-AR-R3") is True
+    assert _is_ar_condition("DFlash-R1") is False
+    assert _is_ar_condition("CC-LLM-R2") is False
+
+
+def test_prepare_cc_prompt_compresses_context_and_preserves_question():
+    class FakeCompressor:
+        model_name = "fake/model"
+
+        def compress(self, context, question, keep_rate):
+            assert "library" in context
+            assert question == "How many books are there?"
+            assert keep_rate == pytest.approx(0.5)
+            return "compressed library context\n\nHow many books are there?", {
+                "t_compress_ms": 12.5,
+                "R_actual": 2.0,
+                "N_original": 10,
+                "N_compressed": 5,
+                "keep_rate": keep_rate,
+            }
+
+    merged, info = _prepare_cc_prompt("How many books are there?", FakeCompressor(), 0.5)
+
+    assert merged == "compressed library context\n\nHow many books are there?"
+    assert info["question_preserved"] is True
+    assert info["compressor_model"] == "fake/model"
