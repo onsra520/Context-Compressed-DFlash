@@ -53,6 +53,70 @@ Use `instruction.md` to determine what is allowed, forbidden, and required durin
 
 ---
 
+## Agent Sync Protocol
+
+### Purpose
+
+This protocol keeps human-facing task tracking and automated codebase understanding aligned. It prevents agents from drifting away from the live roadmap, the stable research context, or the latest analyzed codespace state.
+
+### Roadmap vs Understand-Anything Roles
+
+- `docs/Roadmap.html` is the source of truth for live task progress, task ledger, next task, reports, artifacts, and phase gates.
+- `docs/CC-DFlash-Overview.html` is the source of truth for stable research context, claims, architecture, benchmark philosophy, and risks.
+- `instruction.md` is the source of truth for agent behavior, forbidden actions, update rules, and validation expectations.
+- `Understand-Anything` under `.understand-anything/` is the source of truth for codebase understanding, analyzed nodes, file relationships, and navigation context.
+
+### Bootstrap Commands
+
+Before starting any meaningful task work, run:
+
+```bash
+# 1. Read current task status and next task from Roadmap
+grep -E "Current: Task|Current next:" docs/Roadmap.html | head -n 10
+
+# 2. Identify the latest reports in chronological order
+find docs/reports -maxdepth 1 -type f | sort | tail -5
+
+# 3. Verify actual repository status and history
+git status --short
+git log --oneline -5
+
+# 4. Check current Understand-Anything build metadata if available
+cat .understand-anything/meta.json 2>/dev/null || true
+```
+
+### Reconciliation Rules
+
+- If `docs/Roadmap.html` and the reports in `docs/reports/` disagree, inspect the actual repository state with `git diff` and `git log` before updating any docs.
+- Update only with verified, objective facts.
+- Do not overwrite or modify completed task logs or report index entries unless explicitly instructed.
+- Do not invent or consume the next major task number for sync/protocol work.
+- Use the task prefix assigned by `docs/Roadmap.html` or by the user.
+- For auxiliary sync tasks, use a subtask prefix such as `45-5` or `45-sync`.
+
+### What To Update After Each Task
+
+1. `docs/Roadmap.html`: update the task status, add the report filename under the reports index, update the hero badges at the top to list the next task, and add a short entry to the update log.
+2. `docs/reports/`: write a new report file named `<prefix>-<description>-report.md` using the next unused chronological prefix.
+3. `Understand-Anything`: if codebase analysis runs or the graph's analyzed nodes advance, note the latest node ID in the completed report.
+
+### Understand-Anything Metadata Rule
+
+- If `.understand-anything/meta.json` is available, read the latest known Understand-Anything node or progress from that file.
+- Do not hard-code a stale node number in `instruction.md`.
+- If no metadata file is available, state that explicitly rather than guessing.
+
+### Final Response Checklist
+
+- Include a summary of files created or modified.
+- Confirm whether benchmarks, model loading, or result artifacts were touched.
+- Include a validation summary.
+- Print `git status --short`.
+- Print `git diff --stat`.
+- List the changed files.
+
+---
+
 ## Project Rules
 
 ### Forbidden Folders

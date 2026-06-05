@@ -413,12 +413,13 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 45 (conditional next)</span>
+                <span class="sv info">→ Current: Task 45 final benchmark (not run)</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 44. Task 44 froze the preliminary final-matrix specification,
-                including conditions, full source-mode dataset policy, max_new_tokens≥128, extraction-aware quality,
-                and schema gates. Task 45 is conditional on readiness gates before any benchmark run.
+                This roadmap is synced through Task 45-data-fix. Leakage-safe resampling is implemented, the
+                full local JSONL-backed GSM8K + SQuAD-derived Wikipedia source-mode dataset has 100 rows, and
+                the dataset audit passes. Task 45 final benchmark is the next technical run, but it has not been
+                executed and must still follow the frozen Task 44 gates.
             </div>
         </header>
 
@@ -917,11 +918,41 @@
                             <td class="go">PASS, frozen spec</td>
                         </tr>
                         <tr>
+                            <td><span class="tnum done">T44.5</span></td>
+                            <td>Readiness Gate</td>
+                            <td>Check frozen Task 44 gates before any final benchmark; create report
+                                <code>44-5-final-benchmark-readiness-gate-report.md</code></td>
+                            <td class="stop">BLOCKED: full source-mode dataset and frozen-schema audit missing</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T45-prep</span></td>
+                            <td>Dataset/Schema Prep</td>
+                            <td>Implement frozen Task 44 artifact schema audit and document full source-mode dataset
+                                generation requirements; create report
+                                <code>45-prep-full-dataset-schema-audit-report.md</code></td>
+                            <td class="warn">PARTIAL: schema audit ready, source-mode data still missing</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T45-data</span></td>
+                            <td>Source Dataset Generation</td>
+                            <td>Attempt full source-mode GSM8K + Wikipedia dataset materialization and audit; create
+                                report <code>45-data-full-source-mode-dataset-report.md</code></td>
+                            <td class="warn">Superseded by T45-data-fix: initial leakage-safe generation failed</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T45-data-fix</span></td>
+                            <td>Leakage-Safe Dataset Generation</td>
+                            <td>Fix source-mode leakage resampling, generate and audit the 100-row full source-mode
+                                dataset; create report
+                                <code>45-data-fix-leakage-safe-dataset-generation-report.md</code></td>
+                            <td class="go">PASS: full source-mode dataset generated and audited</td>
+                        </tr>
+                        <tr>
                             <td><span class="tnum planned">T45</span></td>
                             <td>Final Benchmark</td>
                             <td>Run final n≥100 benchmark per frozen condition on GSM8K+Wikipedia dataset; store all
                                 artifacts; create report <code>45-final-benchmark-run-report.md</code></td>
-                            <td class="warn">Planned, conditional on full source-mode dataset and schema gates</td>
+                            <td class="warn">Planned: dataset gate passed, benchmark not run</td>
                         </tr>
 
                         <!-- Analysis & Paper -->
@@ -1183,6 +1214,36 @@
                             <td>Final Matrix Freeze Report</td>
                             <td class="go">Exists</td>
                         </tr>
+                        <tr>
+                            <td><code>44-5-final-benchmark-readiness-gate-report.md</code></td>
+                            <td>T44.5</td>
+                            <td>Final Benchmark Readiness Gate Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>45-prep-full-dataset-schema-audit-report.md</code></td>
+                            <td>T45-prep</td>
+                            <td>Full Dataset and Frozen Schema Audit Prep Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>45-data-full-source-mode-dataset-report.md</code></td>
+                            <td>T45-data</td>
+                            <td>Full Source-Mode Dataset Generation and Audit Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>45-data-fix-leakage-safe-dataset-generation-report.md</code></td>
+                            <td>T45-data-fix</td>
+                            <td>Leakage-Safe Source-Mode Dataset Generation Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
+                            <td>T45.5-sync</td>
+                            <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1359,6 +1420,24 @@
                             <td>Extraction-aware answer-quality summary</td>
                             <td>—</td>
                         </tr>
+                        <tr>
+                            <td><code>results/task45_prep_source_mode_readiness.json</code></td>
+                            <td>T45-prep</td>
+                            <td>Source-mode readiness and frozen-schema audit prep</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>data/processed/gsm8k_wikipedia_augmented_full.jsonl</code></td>
+                            <td>T45-data-fix</td>
+                            <td>Full source-mode GSM8K + SQuAD-derived Wikipedia dataset</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_source_mode_dataset_audit_summary.json</code></td>
+                            <td>T45-data-fix</td>
+                            <td>Full source-mode dataset audit summary</td>
+                            <td>—</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1368,8 +1447,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 44</span>
-                <span class="sv info">Current next: Task 45, conditional</span>
+                <span class="sv go">Synced through Task 45-data-fix</span>
+                <span class="sv info">Current next: Task 45 final benchmark</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv stop">Final Benchmark: NOT DONE</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1386,6 +1465,20 @@
                 <strong>Never claim in Roadmap.html:</strong> final speedup, confirmed 8 GB deployment,
                 e2e compression benefit proven, or phase completion, unless backed by an explicit report in
                 <code>docs/reports/</code>.
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── ROADMAP & UNDERSTAND-ANYTHING SYNC -->
+        <section>
+            <h2>Roadmap + Understand-Anything Sync</h2>
+            <div class="note info">
+                <strong>Roadmap &amp; Codespace Alignment Protocol:</strong><br>
+                - <strong>docs/Roadmap.html</strong> serves as the human-readable task and progress tracker. It determines task scheduling, completion logs, and milestones.<br>
+                - <strong>Understand-Anything</strong> functions as the automated codespace understanding graph used by agents for semantic navigation and relationship tracking.<br>
+                - <strong>Current known Understand-Anything node:</strong> read <code>.understand-anything/meta.json</code> when available; do not hard-code a stale node.<br>
+                - Future agents must utilize <strong>Roadmap.html</strong> to get task direction and target objectives, while using the <strong>Understand-Anything</strong> graph/search/grep context for code navigation and dependency analysis.<br>
+                - Every completed task must update <strong>Roadmap.html</strong> and create/update a numbered report under <code>docs/reports/</code>.<br>
+                - If the Understand-Anything analysis progresses, the new node must be documented in the corresponding report and the Roadmap update log.
             </div>
         </section>
 
@@ -1490,6 +1583,49 @@
                     Froze the benchmark conditions, full source-mode dataset policy, <code>max_new_tokens≥128</code>,
                     generated-text retention, extraction-aware answer-quality policy, metric set, artifact schema, and
                     readiness gates. Task 45 is next only if the full source-mode dataset and schema gates are ready.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-05</div>
+                <div class="log-body">
+                    <strong>Task 44.5 — Final Benchmark Readiness Gate — BLOCKED</strong><br>
+                    Checked the frozen gates and found Task 45 is not runnable as a final benchmark. Only sample-mode
+                    data is present, full benchmark dataset readiness is false, and the frozen-schema artifact audit
+                    still needs to be implemented.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-05</div>
+                <div class="log-body">
+                    <strong>Task 45-prep — Full Dataset and Frozen Schema Audit Prep — PARTIAL</strong><br>
+                    Added the frozen-schema artifact audit utility, focused tests, and a source-mode readiness
+                    summary. Task 45 remains blocked because full source-mode GSM8K + Wikipedia data is not present
+                    or audited; Task 45-data is next.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-05</div>
+                <div class="log-body">
+                    <strong>Task 45-data — Full Source-Mode Dataset Generation and Audit — BLOCKED</strong><br>
+                    Confirmed the full source-mode dataset cannot be generated in the current environment without
+                    local GSM8K source/cache and a local Wikipedia JSONL source. No dataset download, benchmark, or
+                    model path was run. Task 45 final benchmark remains blocked.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-05</div>
+                <div class="log-body">
+                    <strong>Task 45-data-fix — Leakage-Safe Source-Mode Dataset Generation — PASS</strong><br>
+                    Fixed leakage-safe distractor resampling, generated the 100-row local JSONL-backed GSM8K +
+                    SQuAD-derived Wikipedia source-mode dataset, and audited it with zero issues. Final benchmark
+                    remains not run.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-05</div>
+                <div class="log-body">
+                    <strong>Task 45.5-sync — Roadmap and Understand-Anything Dual Sync Protocol — PASS</strong><br>
+                    Defined and implemented the Agent Sync Protocol between Roadmap.html and Understand-Anything context. Merged the protocol into instruction.md, removed the standalone protocol file, and established the codespace understanding layer through the latest metadata in <code>.understand-anything/meta.json</code> when available.
                 </div>
             </div>
         </section>

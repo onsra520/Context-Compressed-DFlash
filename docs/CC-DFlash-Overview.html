@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 44</span>
+                <span class="pill accent">Synced to Task 45-data-fix</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -637,12 +637,12 @@
             </div>
 
             <div class="note warn">
-                <strong>What has not been proven (after Task 44):</strong> (1) Confirmed 8 GB deployment —
+                <strong>What has not been proven (after Task 45-data-fix):</strong> (1) Confirmed 8 GB deployment —
                 Task 39 records smoke VRAM under load, but deployment readiness is not established.
                 (2) Final speedup — pilot data is n=5–20, preliminary.
                 (3) Compression proven useful end-to-end — CPU T_compress overhead may dominate in short/medium context.
                 (4) Quality preservation — Task 44 freezes extraction-aware quality policy and max_new_tokens≥128,
-                but compressed-condition quality still needs frozen-setting reruns on full source-mode data.
+                and Task 45-data-fix provides the full source-mode dataset, but no final benchmark has run.
             </div>
         </section>
 
@@ -1110,12 +1110,16 @@
                 original quality warning was driven by the 32-token cap and mitigates the DFlash-R1 calibration path
                 with a 128-token output budget plus extraction-aware scoring. Task 44 freezes final-matrix policy:
                 sample-mode is smoke-only, and final benchmark use requires full source-mode data generation and audit.
+                Task 44.5 confirms those full-source gates were not met; Task 45-prep implements the
+                frozen-schema audit path, and Task 45-data-fix generates and audits the local JSONL-backed
+                GSM8K + SQuAD-derived Wikipedia source-mode dataset.
             </p>
             <div class="note warn">
                 Final benchmark requires n≥100 per condition and the real GSM8K+Wikipedia augmented dataset.
                 Current dataset artifact is sample-mode and audit-passed for schema/leakage/reproducibility only.
-                Task 43 is pipeline validation, Task 43.5 is quality-path calibration, and Task 44 is specification
-                freeze; none are benchmark evidence.
+                Task 43 is pipeline validation, Task 43.5 is quality-path calibration, Task 44 is specification
+                freeze, Task 44.5 is a readiness gate, Task 45-prep is schema/data-readiness preparation, and
+                Task 45-data-fix is dataset materialization; none are final benchmark evidence.
                 No final claims can be made from current data.
             </div>
         </section>
@@ -1228,7 +1232,7 @@
 
         <!-- ─────────────────────────────────────────── 9. EVIDENCE SUMMARY -->
         <section>
-            <h2>9. Evidence Summary through Task 44</h2>
+            <h2>9. Evidence Summary through Task 45-data-fix</h2>
 
             <div class="phase-grid">
                 <div class="phase-card done">
@@ -1320,12 +1324,52 @@
                         <li>Long-context output length frozen at max_new_tokens≥128 with generated text stored</li>
                     </ul>
                 </div>
+                <div class="phase-card partial">
+                    <span class="phase-badge prelim">BLOCKED</span>
+                    <div class="phase-title">Final Benchmark Readiness Gate (Task 44.5)</div>
+                    <ul>
+                        <li>Task 45 is blocked as a final benchmark</li>
+                        <li>Only sample-mode data is present locally</li>
+                        <li>Full benchmark dataset readiness remains false</li>
+                        <li>Frozen-schema artifact audit was still missing at this gate</li>
+                    </ul>
+                </div>
+                <div class="phase-card partial">
+                    <span class="phase-badge prelim">PARTIAL</span>
+                    <div class="phase-title">Full Dataset and Frozen Schema Audit Prep (Task 45-prep)</div>
+                    <ul>
+                        <li>Frozen-schema artifact audit utility implemented and tested</li>
+                        <li>Source-mode readiness summary written</li>
+                        <li>Only sample-mode data is currently present locally</li>
+                        <li>Task 45 remains blocked until full source-mode data is generated and audited</li>
+                    </ul>
+                </div>
+                <div class="phase-card partial">
+                    <span class="phase-badge prelim">BLOCKED</span>
+                    <div class="phase-title">Full Source-Mode Dataset Generation (Task 45-data)</div>
+                    <ul>
+                        <li><code>datasets</code> package is installed, but local GSM8K cache/source is missing</li>
+                        <li>Local Wikipedia JSONL source is missing</li>
+                        <li>Full source-mode artifact was not generated</li>
+                        <li>Task 45 final benchmark remains blocked</li>
+                    </ul>
+                </div>
+                <div class="phase-card done">
+                    <span class="phase-badge pass">PASS</span>
+                    <div class="phase-title">Leakage-Safe Source-Mode Dataset Generation (Task 45-data-fix)</div>
+                    <ul>
+                        <li>Leakage-safe Wikipedia distractor resampling implemented</li>
+                        <li>Full local JSONL-backed GSM8K + SQuAD-derived Wikipedia dataset generated</li>
+                        <li>100 rows, source_mode=<code>hf</code>, context words 564–1500</li>
+                        <li>Dataset audit passed with zero issues and no context/prompt leakage</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <!-- ─────────────────────────────────────────── 10. CURRENT INTERPRETATION -->
         <section>
-            <h2>10. Current Interpretation after Task 44</h2>
+            <h2>10. Current Interpretation after Task 45-data-fix</h2>
 
             <h3>10.1 Carry-Forward Decision</h3>
             <div class="table-wrap">
@@ -1374,9 +1418,10 @@
                 <strong>LLMLingua-AR-R2</strong> is useful as a low-VRAM attribution baseline.
                 <strong>CC-LLM paths</strong> have not been demonstrated to be e2e beneficial under CPU
                 compression overhead — this is the central open question.
-                <strong>Task 44 matrix freeze</strong> allows Task 45 planning only behind readiness gates:
-                full source-mode data generation, full dataset audit, artifact schema audit, generated text retention,
-                and max_new_tokens≥128. Compressed-condition quality still requires rerun under frozen settings.
+                <strong>Task 45-prep</strong> resolves the frozen-schema audit implementation blocker, and
+                <strong>Task 45-data-fix</strong> resolves the full source-mode dataset blocker with a 100-row
+                audited local JSONL-backed GSM8K + SQuAD-derived Wikipedia artifact.
+                Compressed-condition quality still requires rerun under frozen settings.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1537,7 +1582,9 @@
                         CC-LLM-R3 deferred/watchlist</li>
                     <li>Use max_new_tokens≥128, store generated text, and report extracted numeric answer exact match
                         plus containment diagnostics</li>
-                    <li>Run <strong>final benchmark n≥100</strong> per frozen condition (Tasks 44–45)</li>
+                    <li>Use Task 45-data-fix full source-mode dataset for the next benchmark run</li>
+                    <li>Use the Task 45-prep frozen-schema artifact audit before accepting final benchmark artifacts</li>
+                    <li>Run <strong>final benchmark n≥100</strong> per frozen condition only after readiness gates pass</li>
                     <li>Compute <strong>Pareto frontier</strong>: Speedup vs Exact Match (Task 46)</li>
                 </ul>
 
@@ -1675,7 +1722,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 44 ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 45-data-fix ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

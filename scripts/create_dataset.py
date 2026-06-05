@@ -117,6 +117,7 @@ class BuildOptions:
     gsm8k_jsonl: Path | None = None
     wikipedia_jsonl: Path | None = None
     tokenizer: str | None = None
+    max_leakage_resample_attempts: int = 100
 
 
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -137,6 +138,15 @@ def _normalize_for_leakage(text: str) -> str:
     return " ".join(re.findall(r"[a-z0-9]+", text.casefold()))
 
 
+def _normalized_numbers(text: str) -> set[str]:
+    numbers = set()
+    for match in re.findall(r"[-+]?\d[\d,]*(?:\.\d+)?", text):
+        normalized = match.replace(",", "")
+        if normalized:
+            numbers.add(normalized)
+    return numbers
+
+
 def _contains_answer(text: str, answer: str) -> bool:
     normalized_answer = _normalize_for_leakage(answer)
     if not normalized_answer:
@@ -144,6 +154,9 @@ def _contains_answer(text: str, answer: str) -> bool:
     normalized_text = _normalize_for_leakage(text)
     if not normalized_text:
         return False
+    answer_numbers = _normalized_numbers(answer)
+    if answer_numbers and answer_numbers.intersection(_normalized_numbers(text)):
+        return True
     return re.search(rf"(?<![a-z0-9]){re.escape(normalized_answer)}(?![a-z0-9])", normalized_text) is not None
 
 
@@ -176,7 +189,7 @@ def load_wikipedia_rows(options: BuildOptions) -> list[dict[str, Any]]:
     return list(SAMPLE_WIKIPEDIA_ROWS)
 
 
-def _select_distractors(
+def _select_distractors_once(
     wikipedia_rows: list[dict[str, Any]],
     *,
     answer: str,
@@ -210,6 +223,73 @@ def _select_distractors(
     return context, selected, _contains_answer(context, answer)
 
 
+def _build_context_and_prompt(
+    *,
+    wikipedia_rows: list[dict[str, Any]],
+    question: str,
+    answer: str,
+    rng: random.Random,
+    min_words: int,
+    max_words: int,
+    max_attempts: int,
+) -> tuple[str, str, list[dict[str, str]], dict[str, Any]]:
+    last_reason = "no attempt made"
+    saw_answer_in_distractor = False
+    context_prefix = (
+        "The following background passages are Wikipedia-derived distractors. "
+        "They may be irrelevant to the math question and should not be treated as containing the answer.\n\n"
+    )
+    prefix_words = _word_count(context_prefix)
+    body_min_words = max(1, min_words - prefix_words)
+    body_max_words = max(body_min_words, max_words - prefix_words)
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            context_body, distractors, answer_in_distractor = _select_distractors_once(
+                wikipedia_rows,
+                answer=answer,
+                rng=rng,
+                min_words=body_min_words,
+                max_words=body_max_words,
+            )
+        except ValueError as exc:
+            last_reason = str(exc)
+            saw_answer_in_distractor = True
+            continue
+
+        saw_answer_in_distractor = saw_answer_in_distractor or answer_in_distractor
+        context = f"{context_prefix}{context_body}"
+        prompt = f"{context}\n\nQuestion: {question}"
+        answer_in_context = _contains_answer(context, answer)
+        answer_in_prompt = _contains_answer(prompt, answer)
+        if not answer_in_distractor and not answer_in_context and not answer_in_prompt:
+            return (
+                context,
+                prompt,
+                distractors,
+                {
+                    "leakage_resample_attempts": attempt,
+                    "answer_in_distractor": answer_in_distractor,
+                    "answer_in_context": answer_in_context,
+                    "answer_in_prompt": answer_in_prompt,
+                    "saw_answer_in_rejected_distractor": saw_answer_in_distractor,
+                },
+            )
+
+        leaked_fields = [
+            field_name
+            for field_name, leaked in [
+                ("distractor", answer_in_distractor),
+                ("context", answer_in_context),
+                ("prompt", answer_in_prompt),
+            ]
+            if leaked
+        ]
+        last_reason = f"answer leaked into {', '.join(leaked_fields)}"
+
+    raise ValueError(f"could not build leakage-safe prompt after {max_attempts} attempts: {last_reason}")
+
+
 def _token_metadata(text: str, tokenizer_name: str | None) -> dict[str, Any]:
     words = _word_count(text)
     if tokenizer_name is None:
@@ -237,6 +317,9 @@ def _token_metadata(text: str, tokenizer_name: str | None) -> dict[str, Any]:
 
 
 def build_rows(options: BuildOptions) -> list[dict[str, Any]]:
+    if options.max_leakage_resample_attempts <= 0:
+        raise ValueError("max_leakage_resample_attempts must be positive")
+
     rng = random.Random(options.seed)
     gsm8k_rows = load_gsm8k_rows(options)
     wikipedia_rows = load_wikipedia_rows(options)
@@ -245,30 +328,34 @@ def build_rows(options: BuildOptions) -> list[dict[str, Any]]:
     if not wikipedia_rows:
         raise ValueError("No Wikipedia rows available")
 
-    selected_gsm8k = list(gsm8k_rows)
+    selected_gsm8k = list(enumerate(gsm8k_rows))
     rng.shuffle(selected_gsm8k)
-    selected_gsm8k = selected_gsm8k[: options.max_samples]
 
     rows = []
-    for index, source_row in enumerate(selected_gsm8k):
+    skipped_due_to_leakage = 0
+    for source_index, source_row in selected_gsm8k:
+        if len(rows) >= options.max_samples:
+            break
+
         question = str(source_row["question"]).strip()
         answer_text = str(source_row["answer"]).strip()
         ground_truth = _final_answer(answer_text)
-        context_body, distractors, answer_in_distractor = _select_distractors(
-            wikipedia_rows,
-            answer=ground_truth,
-            rng=rng,
-            min_words=options.min_context_words,
-            max_words=options.max_context_words,
-        )
-        context = (
-            "The following background passages are Wikipedia-derived distractors. "
-            "They may be irrelevant to the math question and should not be treated as containing the answer.\n\n"
-            f"{context_body}"
-        )
-        prompt = f"{context}\n\nQuestion: {question}"
+        try:
+            context, prompt, distractors, leakage_metadata = _build_context_and_prompt(
+                wikipedia_rows=wikipedia_rows,
+                question=question,
+                answer=ground_truth,
+                rng=rng,
+                min_words=options.min_context_words,
+                max_words=options.max_context_words,
+                max_attempts=options.max_leakage_resample_attempts,
+            )
+        except ValueError:
+            skipped_due_to_leakage += 1
+            continue
+
         token_metadata = _token_metadata(context, options.tokenizer)
-        row_id = f"gsm8k_wiki_{options.split}_{index + 1:04d}"
+        row_id = f"gsm8k_wiki_{options.split}_{len(rows) + 1:04d}"
         answer_in_context = _contains_answer(context, ground_truth)
         answer_in_prompt = _contains_answer(prompt, ground_truth)
 
@@ -288,13 +375,16 @@ def build_rows(options: BuildOptions) -> list[dict[str, Any]]:
                 "noise_type": "wikipedia_distractor",
                 "approximate_context_words": token_metadata["approximate_context_words"],
                 "approximate_context_tokens": token_metadata["approximate_context_tokens"],
+                "leakage_resample_attempts": leakage_metadata["leakage_resample_attempts"],
+                "skipped_due_to_leakage": False,
                 "token_length_metadata": token_metadata,
                 "original_dataset_reference": {
                     "dataset": "openai/gsm8k",
                     "config": "main",
                     "split": options.split,
-                    "index": index,
+                    "index": source_index,
                     "source_mode": options.source_mode,
+                    "gsm8k_source": str(options.gsm8k_jsonl) if options.gsm8k_jsonl is not None else "datasets:openai/gsm8k",
                 },
                 "augmentation_metadata": {
                     "wikipedia_source": "sample" if options.wikipedia_jsonl is None else str(options.wikipedia_jsonl),
@@ -302,13 +392,26 @@ def build_rows(options: BuildOptions) -> list[dict[str, Any]]:
                     "distractor_urls": [item["url"] for item in distractors],
                     "seed": options.seed,
                     "target_context_words": [options.min_context_words, options.max_context_words],
-                    "answer_leakage_guard": "exact normalized answer excluded from distractor context",
-                    "answer_in_distractor": answer_in_distractor,
+                    "answer_leakage_guard": "normalized answer and numeric variants excluded from distractor context and prompt",
+                    "leakage_resample_attempts": leakage_metadata["leakage_resample_attempts"],
+                    "max_leakage_resample_attempts": options.max_leakage_resample_attempts,
+                    "skipped_source_rows_due_to_leakage_before_this_row": skipped_due_to_leakage,
+                    "saw_answer_in_rejected_distractor": leakage_metadata["saw_answer_in_rejected_distractor"],
+                    "answer_in_distractor": leakage_metadata["answer_in_distractor"],
                     "answer_in_context": answer_in_context,
                     "answer_in_prompt": answer_in_prompt,
                     "question_preserved": question in prompt,
                 },
             }
+        )
+
+    if len(rows) < options.max_samples:
+        raise ValueError(
+            "Could not generate requested leakage-safe dataset: "
+            f"requested sample count: {options.max_samples}; "
+            f"generated clean row count: {len(rows)}; "
+            f"skipped GSM8K row count: {skipped_due_to_leakage}; "
+            f"leakage retry limit: {options.max_leakage_resample_attempts}"
         )
 
     return rows
@@ -359,12 +462,15 @@ def parse_args() -> BuildOptions:
     parser.add_argument("--gsm8k-jsonl", type=Path, default=None)
     parser.add_argument("--wikipedia-jsonl", type=Path, default=None)
     parser.add_argument("--tokenizer", default=None)
+    parser.add_argument("--max-leakage-resample-attempts", type=int, default=100)
     args = parser.parse_args()
 
     if args.max_samples <= 0:
         raise ValueError("--max-samples must be positive")
     if args.min_context_words <= 0 or args.max_context_words < args.min_context_words:
         raise ValueError("--max-context-words must be >= --min-context-words > 0")
+    if args.max_leakage_resample_attempts <= 0:
+        raise ValueError("--max-leakage-resample-attempts must be positive")
 
     return BuildOptions(
         output=args.output,
@@ -377,6 +483,7 @@ def parse_args() -> BuildOptions:
         gsm8k_jsonl=args.gsm8k_jsonl,
         wikipedia_jsonl=args.wikipedia_jsonl,
         tokenizer=args.tokenizer,
+        max_leakage_resample_attempts=args.max_leakage_resample_attempts,
     )
 
 
@@ -387,7 +494,9 @@ def main() -> None:
     write_jsonl(rows, options.output)
     print(f"wrote {len(rows)} rows to {options.output}")
     print(f"source_mode={options.source_mode} split={options.split} seed={options.seed}")
+    print(f"max_leakage_resample_attempts={options.max_leakage_resample_attempts}")
     print(f"context_words={[row['approximate_context_words'] for row in rows]}")
+    print(f"leakage_resample_attempts={[row['leakage_resample_attempts'] for row in rows]}")
 
 
 if __name__ == "__main__":
