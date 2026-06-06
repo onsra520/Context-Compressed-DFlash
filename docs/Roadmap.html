@@ -413,13 +413,13 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 46 Pareto analysis/report</span>
+                <span class="sv info">→ Current next: Task 47 quality evaluation refinement / presentation packaging</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 45-final-artifact-audit. All four Task 45 final n=100
-                artifacts are present and audited: Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-LLM-R2.
-                Baseline-AR and DFlash-R1 use an accepted legacy schema; compressed artifacts use
-                per_prompt_jsonl_v1. Task 46 Pareto analysis/report is next.
+                This roadmap is synced through Task 46 Pareto analysis. Task 45 final n=100 artifacts are audited.
+                Task 46 shows CC-LLM-R2 has the highest decode-only throughput, while DFlash-R1 has the strongest
+                end-to-end throughput after CPU compression cost is included. Diagnostic quality remains a caveat,
+                so Task 47 should refine quality evaluation and presentation before paper figures.
             </div>
         </header>
 
@@ -987,19 +987,18 @@
                             <td colspan="4">Analysis &amp; Paper Direction (Tasks 46–50)</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T46</span></td>
+                            <td><span class="tnum done">T46</span></td>
                             <td>Pareto Report</td>
                             <td>Compute Pareto frontier: Speedup vs Exact Match; produce charts; create report
-                                <code>46-pareto-frontier-report.md</code></td>
-                            <td class="info">Next: use audited Task 45 artifacts</td>
+                                <code>46-pareto-analysis-report.md</code></td>
+                            <td class="go">PASS: decode-only and e2e-with-compression Pareto analysis completed</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T47</span></td>
-                            <td>Paper Figures</td>
-                            <td>Generate paper-ready tables and figures from final benchmark data; scripts in
-                                <code>scripts/plot_results.py</code>; create report
-                                <code>47-paper-figures-report.md</code></td>
-                            <td class="muted">Planned (after T46)</td>
+                            <td>Quality Evaluation Refinement and Presentation Packaging</td>
+                            <td>Refine quality interpretation for low-containment rows and package Task 45/46 tables
+                                for presentation; create report <code>47-quality-presentation-report.md</code></td>
+                            <td class="info">Next: quality caveat before paper figures</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T48</span></td>
@@ -1290,6 +1289,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>46-pareto-analysis-report.md</code></td>
+                            <td>T46</td>
+                            <td>Pareto Analysis Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1520,6 +1525,18 @@
                             <td>400 rows audited</td>
                         </tr>
                         <tr>
+                            <td><code>results/task46_pareto_summary.json</code></td>
+                            <td>T46</td>
+                            <td>Machine-readable Pareto analysis summary</td>
+                            <td>4 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task46_pareto_table.csv</code></td>
+                            <td>T46</td>
+                            <td>Compact Pareto metric table</td>
+                            <td>4 conditions</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task45_compression_fix_llmlingua_ar_r2_n2.jsonl</code></td>
                             <td>T45-compression-fix</td>
                             <td>LLMLingua-AR-R2 long-context compression-fix smoke</td>
@@ -1588,8 +1605,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 45-final-artifact-audit</span>
-                <span class="sv info">Current next: Task 46 Pareto analysis/report</span>
+                <span class="sv go">Synced through Task 46 Pareto analysis</span>
+                <span class="sv info">Current next: Task 47 quality evaluation refinement / presentation packaging</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1809,6 +1826,18 @@
                     Verified 400 total JSONL rows, compatible schema, condition identity, compressed PASS logs,
                     per-prompt protocol metadata for compressed artifacts, and accepted legacy schema for Baseline-AR
                     plus DFlash-R1. Task 46 Pareto analysis/report is next.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-06</div>
+                <div class="log-body">
+                    <strong>Task 46 — Pareto Analysis — PASS</strong><br>
+                    Added <code>scripts/analyze_task46_pareto.py</code>, generated
+                    <code>results/task46_pareto_summary.json</code> and <code>results/task46_pareto_table.csv</code>,
+                    and wrote <code>docs/reports/46-pareto-analysis-report.md</code>. Result: CC-LLM-R2 leads
+                    decode-only throughput, but DFlash-R1 leads end-to-end throughput once CPU compression cost is
+                    included. Diagnostic quality remains a caveat, so Task 47 should refine quality evaluation and
+                    presentation before paper figures.
                 </div>
             </div>
         </section>

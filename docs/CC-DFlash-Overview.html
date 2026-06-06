@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 45-final-artifact-audit</span>
+                <span class="pill accent">Synced to Task 46 Pareto analysis</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -637,14 +637,15 @@
             </div>
 
             <div class="note warn">
-                <strong>What has not been proven (after Task 45-final-artifact-audit):</strong> (1) Confirmed 8 GB deployment —
+                <strong>What has not been proven (after Task 46 Pareto analysis):</strong> (1) Confirmed 8 GB deployment —
                 Task 39 records smoke VRAM under load, but deployment readiness is not established.
-                (2) Final speedup — Task 45 now has audited n=100 artifacts, but Pareto/e2e analysis is Task 46.
+                (2) Final semantic correctness — Task 46 uses diagnostic containment/extraction, not human or robust
+                semantic grading.
                 (3) Compression proven useful end-to-end — CPU T_compress overhead may dominate in short/medium context.
                 (4) Quality preservation — Task 44 freezes extraction-aware quality policy and max_new_tokens≥128,
                 Task 45-data-fix provides the full source-mode dataset, and Task 45-runner-fix hardens artifact
-                durability. Task 45-final-artifact-audit verifies the final artifact set, but quality interpretation
-                remains pending Task 46.
+                durability. Task 46 shows CC-LLM-R2 has the best decode-only throughput, but DFlash-R1 remains best
+                under end-to-end latency with CPU compression cost included.
             </div>
         </section>
 
@@ -1239,7 +1240,7 @@
 
         <!-- ─────────────────────────────────────────── 9. EVIDENCE SUMMARY -->
         <section>
-            <h2>9. Evidence Summary through Task 45-final-artifact-audit</h2>
+            <h2>9. Evidence Summary through Task 46 Pareto Analysis</h2>
 
             <div class="phase-grid">
                 <div class="phase-card done">
@@ -1410,12 +1411,22 @@
                         <li>Compressed-condition PASS logs verified clean; old LLMLingua warning log superseded</li>
                     </ul>
                 </div>
+                <div class="phase-card done">
+                    <span class="phase-badge pass">PASS</span>
+                    <div class="phase-title">Pareto Analysis (Task 46)</div>
+                    <ul>
+                        <li>CC-LLM-R2 leads decode-only throughput at 48.26 tok/s</li>
+                        <li>DFlash-R1 leads end-to-end throughput at 41.64 tok/s when CPU compression cost is included</li>
+                        <li>LLMLingua-AR-R2 has the lowest VRAM reserved but slowest e2e path because of compression overhead</li>
+                        <li>Diagnostic quality remains low across all conditions, so quality refinement is required before paper figures</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <!-- ─────────────────────────────────────────── 10. CURRENT INTERPRETATION -->
         <section>
-            <h2>10. Current Interpretation after Task 45-final-artifact-audit</h2>
+            <h2>10. Current Interpretation after Task 46 Pareto Analysis</h2>
 
             <h3>10.1 Carry-Forward Decision</h3>
             <div class="table-wrap">
@@ -1460,10 +1471,11 @@
 
             <h3>10.2 Conservative Interpretation</h3>
             <div class="note warn">
-                <strong>DFlash-R1</strong> remains the strongest current condition in preliminary fixture data.
+                <strong>DFlash-R1</strong> remains the strongest current end-to-end throughput condition in audited
+                Task 45 data when CPU compression cost is included.
                 <strong>LLMLingua-AR-R2</strong> is useful as a low-VRAM attribution baseline.
-                <strong>CC-LLM paths</strong> have not been demonstrated to be e2e beneficial under CPU
-                compression overhead — this is the central open question.
+                <strong>CC-LLM-R2</strong> has the highest decode-only throughput, but it is not globally dominant
+                because CPU compression overhead and lower diagnostic quality change the Pareto tradeoff.
                 <strong>Task 45-prep</strong> resolves the frozen-schema audit implementation blocker, and
                 <strong>Task 45-data-fix</strong> resolves the full source-mode dataset blocker with a 100-row
                 audited local JSONL-backed GSM8K + SQuAD-derived Wikipedia artifact.
@@ -1474,8 +1486,9 @@
                 <strong>Task 45-runner-benchmark-protocol-fix</strong> resolves the artifact durability blocker by
                 writing measured rows incrementally after warm-up.
                 <strong>Task 45-final-artifact-audit</strong> verifies that all four final n=100 artifacts exist and
-                pass compatibility checks. Task 46 must still compute Pareto and quality interpretation before any
-                speedup or correctness claim.
+                pass compatibility checks.
+                <strong>Task 46</strong> computes the Pareto view and shows that compression remains promising for
+                input reduction/prefill, but CPU compression cost is the main bottleneck in this run.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1636,8 +1649,8 @@
                         CC-LLM-R3 deferred/watchlist</li>
                     <li>Use max_new_tokens≥128, store generated text, and report extracted numeric answer exact match
                         plus containment diagnostics</li>
-                    <li>Use Task 45-final-artifact-audit as the accepted artifact integrity gate for Pareto analysis</li>
-                    <li>Compute <strong>Pareto frontier</strong>: Speedup vs Exact Match (Task 46)</li>
+                    <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
+                    <li>Refine diagnostic quality interpretation before paper figures (Task 47)</li>
                 </ul>
 
                 <h4>Phase 2 Conditional (only after Phase 1 positive results)</h4>
@@ -1774,7 +1787,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 45-final-artifact-audit ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 46 Pareto analysis ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
