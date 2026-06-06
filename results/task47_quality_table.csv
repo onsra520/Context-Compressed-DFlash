@@ -1,0 +1,5 @@
+condition,rows,generated_text_rows,exact_match_count,numeric_match_count,extracted_but_wrong_count,no_final_answer_found_count,truncated_or_stopped_early_count,ambiguous_count,missing_generated_text_count,exact_match_rate,numeric_match_rate,no_answer_rate
+Baseline-AR,100,100,24,11,76,0,0,0,0,0.24,0.11,0.0
+DFlash-R1,100,100,23,10,77,0,0,0,0,0.23,0.1,0.0
+LLMLingua-AR-R2,100,100,16,5,84,0,0,0,0,0.16,0.05,0.0
+CC-LLM-R2,100,100,18,6,81,0,1,0,0,0.18,0.06,0.01

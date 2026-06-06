@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 46 Pareto analysis</span>
+                <span class="pill accent">Synced to Task 47 quality refinement</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -637,15 +637,16 @@
             </div>
 
             <div class="note warn">
-                <strong>What has not been proven (after Task 46 Pareto analysis):</strong> (1) Confirmed 8 GB deployment —
+                <strong>What has not been proven (after Task 47 quality refinement):</strong> (1) Confirmed 8 GB deployment —
                 Task 39 records smoke VRAM under load, but deployment readiness is not established.
-                (2) Final semantic correctness — Task 46 uses diagnostic containment/extraction, not human or robust
-                semantic grading.
+                (2) Final semantic correctness — Task 47 refines deterministic numeric extraction diagnostics, not
+                human, LLM-judge, or robust semantic grading.
                 (3) Compression proven useful end-to-end — CPU T_compress overhead may dominate in short/medium context.
                 (4) Quality preservation — Task 44 freezes extraction-aware quality policy and max_new_tokens≥128,
                 Task 45-data-fix provides the full source-mode dataset, and Task 45-runner-fix hardens artifact
                 durability. Task 46 shows CC-LLM-R2 has the best decode-only throughput, but DFlash-R1 remains best
-                under end-to-end latency with CPU compression cost included.
+                under end-to-end latency with CPU compression cost included. Task 47 keeps throughput and diagnostic
+                quality as separate presentation axes.
             </div>
         </section>
 
@@ -1240,7 +1241,7 @@
 
         <!-- ─────────────────────────────────────────── 9. EVIDENCE SUMMARY -->
         <section>
-            <h2>9. Evidence Summary through Task 46 Pareto Analysis</h2>
+            <h2>9. Evidence Summary through Task 47 Quality Refinement</h2>
 
             <div class="phase-grid">
                 <div class="phase-card done">
@@ -1418,7 +1419,17 @@
                         <li>CC-LLM-R2 leads decode-only throughput at 48.26 tok/s</li>
                         <li>DFlash-R1 leads end-to-end throughput at 41.64 tok/s when CPU compression cost is included</li>
                         <li>LLMLingua-AR-R2 has the lowest VRAM reserved but slowest e2e path because of compression overhead</li>
-                        <li>Diagnostic quality remains low across all conditions, so quality refinement is required before paper figures</li>
+                        <li>Diagnostic quality remains low across all conditions, so Task 47 refines presentation policy before paper figures</li>
+                    </ul>
+                </div>
+                <div class="phase-card done">
+                    <span class="phase-badge pass">PASS</span>
+                    <div class="phase-title">Quality Refinement and Packaging Policy (Task 47)</div>
+                    <ul>
+                        <li>Added deterministic numeric answer extraction with final-answer marker handling</li>
+                        <li>Generated quality summary, compact failure samples, and quality CSV table</li>
+                        <li>Baseline-AR and DFlash-R1 remain close on diagnostic numeric extraction; compressed paths are lower</li>
+                        <li>Task 48 figures may proceed only with quality labeled as diagnostic, not semantic correctness</li>
                     </ul>
                 </div>
             </div>
@@ -1426,7 +1437,7 @@
 
         <!-- ─────────────────────────────────────────── 10. CURRENT INTERPRETATION -->
         <section>
-            <h2>10. Current Interpretation after Task 46 Pareto Analysis</h2>
+            <h2>10. Current Interpretation after Task 47 Quality Refinement</h2>
 
             <h3>10.1 Carry-Forward Decision</h3>
             <div class="table-wrap">
@@ -1489,6 +1500,9 @@
                 pass compatibility checks.
                 <strong>Task 46</strong> computes the Pareto view and shows that compression remains promising for
                 input reduction/prefill, but CPU compression cost is the main bottleneck in this run.
+                <strong>Task 47</strong> refines quality diagnostics with deterministic numeric extraction and compact
+                failure samples. It does not establish final semantic correctness; it only makes the quality caveat
+                explicit enough for carefully labeled Task 48 figures.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1650,7 +1664,7 @@
                     <li>Use max_new_tokens≥128, store generated text, and report extracted numeric answer exact match
                         plus containment diagnostics</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
-                    <li>Refine diagnostic quality interpretation before paper figures (Task 47)</li>
+                    <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
 
                 <h4>Phase 2 Conditional (only after Phase 1 positive results)</h4>
@@ -1787,7 +1801,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 46 Pareto analysis ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 47 quality refinement ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
