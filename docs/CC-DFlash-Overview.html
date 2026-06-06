@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 45-data-fix</span>
+                <span class="pill accent">Synced to Task 45-final-artifact-audit</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -637,12 +637,14 @@
             </div>
 
             <div class="note warn">
-                <strong>What has not been proven (after Task 45-data-fix):</strong> (1) Confirmed 8 GB deployment —
+                <strong>What has not been proven (after Task 45-final-artifact-audit):</strong> (1) Confirmed 8 GB deployment —
                 Task 39 records smoke VRAM under load, but deployment readiness is not established.
-                (2) Final speedup — pilot data is n=5–20, preliminary.
+                (2) Final speedup — Task 45 now has audited n=100 artifacts, but Pareto/e2e analysis is Task 46.
                 (3) Compression proven useful end-to-end — CPU T_compress overhead may dominate in short/medium context.
                 (4) Quality preservation — Task 44 freezes extraction-aware quality policy and max_new_tokens≥128,
-                and Task 45-data-fix provides the full source-mode dataset, but no final benchmark has run.
+                Task 45-data-fix provides the full source-mode dataset, and Task 45-runner-fix hardens artifact
+                durability. Task 45-final-artifact-audit verifies the final artifact set, but quality interpretation
+                remains pending Task 46.
             </div>
         </section>
 
@@ -952,9 +954,14 @@
                 <p><strong>Output is always natural text.</strong> LLMLingua-2 performs extractive compression
                     — it selects and removes tokens from the original text rather than rewriting. The output
                     is always a subset of the original tokens in the same vocabulary as Qwen3.</p>
-                <p><strong>No manual chunking.</strong> LLMLingua-2's underlying BERT model handles window
-                    management internally. Manual chunking would break global coherence. LongLLMLingua is
-                    reserved for Phase 2 at 4000+ token contexts.</p>
+                <p><strong>Chunk long compressible context by tokenizer budget before LLMLingua-2.</strong>
+                    Task 45-compression-fix-v2 showed that word-count chunking is not a sufficient safety
+                    guarantee for the locked XLM-RoBERTa LLMLingua-2 path: a 240-word chunk can still exceed the
+                    512-token encoder limit. The MVP therefore uses deterministic tokenizer-aware chunks for the
+                    compressible context, keeps each backend input under a conservative budget of about 384 tokens,
+                    then merges compressed chunks and appends the original protected question unchanged. This is a
+                    safety adaptation for the current Transformers backend, not final evidence that compression is
+                    beneficial end-to-end.</p>
             </div>
 
             <h3>6.2 Answer-Aware Compression</h3>
@@ -1232,7 +1239,7 @@
 
         <!-- ─────────────────────────────────────────── 9. EVIDENCE SUMMARY -->
         <section>
-            <h2>9. Evidence Summary through Task 45-data-fix</h2>
+            <h2>9. Evidence Summary through Task 45-final-artifact-audit</h2>
 
             <div class="phase-grid">
                 <div class="phase-card done">
@@ -1328,9 +1335,9 @@
                     <span class="phase-badge prelim">BLOCKED</span>
                     <div class="phase-title">Final Benchmark Readiness Gate (Task 44.5)</div>
                     <ul>
-                        <li>Task 45 is blocked as a final benchmark</li>
-                        <li>Only sample-mode data is present locally</li>
-                        <li>Full benchmark dataset readiness remains false</li>
+                        <li>At this gate, Task 45 was blocked as a final benchmark</li>
+                        <li>Only sample-mode data was present locally at that time</li>
+                        <li>Full benchmark dataset readiness was false at that gate</li>
                         <li>Frozen-schema artifact audit was still missing at this gate</li>
                     </ul>
                 </div>
@@ -1340,8 +1347,8 @@
                     <ul>
                         <li>Frozen-schema artifact audit utility implemented and tested</li>
                         <li>Source-mode readiness summary written</li>
-                        <li>Only sample-mode data is currently present locally</li>
-                        <li>Task 45 remains blocked until full source-mode data is generated and audited</li>
+                        <li>Only sample-mode data was present locally during this prep task</li>
+                        <li>Task 45 was blocked until full source-mode data could be generated and audited</li>
                     </ul>
                 </div>
                 <div class="phase-card partial">
@@ -1364,12 +1371,51 @@
                         <li>Dataset audit passed with zero issues and no context/prompt leakage</li>
                     </ul>
                 </div>
+                <div class="phase-card done">
+                    <span class="phase-badge pass">PASS</span>
+                    <div class="phase-title">LLMLingua Long-Context Safety (Task 45-compression-fix)</div>
+                    <ul>
+                        <li>Final Baseline-AR and DFlash-R1 n=100 artifacts exist, but final benchmark remains partial</li>
+                        <li>Compressed paths hit the locked LLMLingua-2 encoder limit when full contexts were sent as one prompt</li>
+                        <li>v1 word chunking passed tiny n=2 smoke but was insufficient for n=100 rerun safety</li>
+                    </ul>
+                </div>
+                <div class="phase-card done">
+                    <span class="phase-badge pass">PASS</span>
+                    <div class="phase-title">Tokenizer-Aware LLMLingua Safety (Task 45-compression-fix-v2)</div>
+                    <ul>
+                        <li>Word-count chunking failure confirmed by <code>728 &gt; 512</code> warning in n=100 rerun log</li>
+                        <li>Tokenizer-aware chunk budget enforces backend inputs at or below about 384 context tokens</li>
+                        <li>LLMLingua-AR-R2 and CC-LLM-R2 n=3 smoke artifacts passed with no encoder-length warning in logs</li>
+                        <li>Compressed n=100 artifacts were later generated and audited in Task 45-final-artifact-audit</li>
+                    </ul>
+                </div>
+                <div class="phase-card done">
+                    <span class="phase-badge pass">PASS</span>
+                    <div class="phase-title">Runner Benchmark Protocol Fix (Task 45-runner-fix)</div>
+                    <ul>
+                        <li>Prompt-74 LLMLingua n=100 stop was classified as an artifact durability issue</li>
+                        <li>Runner now writes each measured row immediately after the prompt with flush/fsync</li>
+                        <li>Warm-up prompts are excluded from measured JSONL artifacts</li>
+                        <li>Resume/overwrite behavior is explicit and validated before model loading</li>
+                    </ul>
+                </div>
+                <div class="phase-card done">
+                    <span class="phase-badge pass">PASS</span>
+                    <div class="phase-title">Final Artifact Audit (Task 45)</div>
+                    <ul>
+                        <li>Four n=100 final artifacts audited: Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-LLM-R2</li>
+                        <li>400 total JSONL rows passed parseability, condition identity, and metric checks</li>
+                        <li>Baseline-AR and DFlash-R1 legacy schemas accepted because they predate the runner protocol fix</li>
+                        <li>Compressed-condition PASS logs verified clean; old LLMLingua warning log superseded</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <!-- ─────────────────────────────────────────── 10. CURRENT INTERPRETATION -->
         <section>
-            <h2>10. Current Interpretation after Task 45-data-fix</h2>
+            <h2>10. Current Interpretation after Task 45-final-artifact-audit</h2>
 
             <h3>10.1 Carry-Forward Decision</h3>
             <div class="table-wrap">
@@ -1421,7 +1467,15 @@
                 <strong>Task 45-prep</strong> resolves the frozen-schema audit implementation blocker, and
                 <strong>Task 45-data-fix</strong> resolves the full source-mode dataset blocker with a 100-row
                 audited local JSONL-backed GSM8K + SQuAD-derived Wikipedia artifact.
-                Compressed-condition quality still requires rerun under frozen settings.
+                <strong>Task 45-compression-fix</strong> resolved only the initial single-context failure and is now
+                known to be insufficient for n=100 because word chunks can still exceed the encoder limit.
+                <strong>Task 45-compression-fix-v2</strong> resolves the immediate tokenizer-length safety blocker
+                in n=3 compressed smokes with tokenizer-aware chunk budgeting.
+                <strong>Task 45-runner-benchmark-protocol-fix</strong> resolves the artifact durability blocker by
+                writing measured rows incrementally after warm-up.
+                <strong>Task 45-final-artifact-audit</strong> verifies that all four final n=100 artifacts exist and
+                pass compatibility checks. Task 46 must still compute Pareto and quality interpretation before any
+                speedup or correctness claim.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1582,9 +1636,7 @@
                         CC-LLM-R3 deferred/watchlist</li>
                     <li>Use max_new_tokens≥128, store generated text, and report extracted numeric answer exact match
                         plus containment diagnostics</li>
-                    <li>Use Task 45-data-fix full source-mode dataset for the next benchmark run</li>
-                    <li>Use the Task 45-prep frozen-schema artifact audit before accepting final benchmark artifacts</li>
-                    <li>Run <strong>final benchmark n≥100</strong> per frozen condition only after readiness gates pass</li>
+                    <li>Use Task 45-final-artifact-audit as the accepted artifact integrity gate for Pareto analysis</li>
                     <li>Compute <strong>Pareto frontier</strong>: Speedup vs Exact Match (Task 46)</li>
                 </ul>
 
@@ -1722,7 +1774,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 45-data-fix ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 45-final-artifact-audit ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

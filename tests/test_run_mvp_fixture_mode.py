@@ -3,20 +3,75 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
 import torch
 
+from ccdf.compression.llmlingua import LLMLinguaCompressor
 from scripts.run_mvp import (
     PROMPTS,
+    BENCHMARK_PROTOCOL_VERSION,
     PromptMetrics,
     VramSnapshot,
     _generated_text_info,
+    _load_jsonl_rows,
     _measure_target_prefill,
+    _metric_to_row,
     _print_summary,
     _prepare_cc_prompt,
+    _prepare_output_state,
     _read_config,
     _select_prompt_items,
+    _write_jsonl_row,
     _write_jsonl,
 )
+
+
+class ExpandingTokenizer:
+    model_max_length = 512
+
+    def encode(self, text, add_special_tokens=False):
+        token_ids = []
+        for word in str(text).split():
+            width = 5 if word.startswith("wide") else 1
+            token_ids.extend([word] * width)
+        return token_ids
+
+
+def _fake_config():
+    return type(
+        "Config",
+        (),
+        {
+            "max_new_tokens": 32,
+            "block_size": 16,
+            "device": "cuda:0",
+            "target_path": Path("models/Qwen3-4B"),
+            "draft_path": Path("models/Qwen3-4B-DFlash-b16"),
+            "tokenizer_path": Path("models/Qwen3-4B"),
+        },
+    )()
+
+
+def _fake_metric(prompt_id: int, *, compression_info: dict | None = None) -> PromptMetrics:
+    snapshot = VramSnapshot(
+        label=f"after prompt {prompt_id}",
+        allocated_gib=2.0 + prompt_id,
+        reserved_gib=2.5 + prompt_id,
+        free_gib=5.0,
+        total_gib=8.0,
+    )
+    return PromptMetrics(
+        prompt_id=prompt_id,
+        prompt_text=f"prompt {prompt_id}",
+        input_tokens=10 + prompt_id,
+        output_tokens=3,
+        generation_time_s=0.5,
+        tok_per_s=6.0,
+        acceptance_lengths=[],
+        tau_mean=0.0,
+        vram_after=snapshot,
+        compression_info=compression_info or {},
+    )
 
 
 def _write_fixture(path: Path) -> None:
@@ -144,6 +199,68 @@ def test_fixture_prompt_metadata_can_be_added_to_cc_compression_info(tmp_path: P
     assert info["prompt_source"] == "fixture"
 
 
+def test_fixture_prompt_can_use_token_chunked_llmlingua_wrapper_without_over_budget_call(
+    monkeypatch,
+    tmp_path: Path,
+):
+    tokenizer = ExpandingTokenizer()
+    rows = [
+        {
+            "id": "long_case",
+            "domain": "math",
+            "context": " ".join(f"wide{i}" for i in range(180)),
+            "question": "What value must stay protected?",
+            "expected_answer": "42",
+            "evidence": "The protected value is 42.",
+            "approximate_context_words": 180,
+        }
+    ]
+    fixture = tmp_path / "long_fixture.jsonl"
+    fixture.write_text("\n".join(json.dumps(row) for row in rows) + "\n", encoding="utf-8")
+    item = _select_prompt_items(
+        prompt_source="fixture",
+        n_prompts=1,
+        fixture_path=fixture,
+    )[0]
+    calls = []
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            token_count = len(tokenizer.encode(context[0], add_special_tokens=False))
+            if token_count > 90:
+                raise AssertionError(f"over-budget chunk reached compressor: {token_count}")
+            calls.append(token_count)
+            words = context[0].split()
+            compressed_words = words[: max(1, len(words) // 2)]
+            return {
+                "compressed_prompt": " ".join(compressed_words),
+                "origin_tokens": token_count,
+                "compressed_tokens": len(tokenizer.encode(" ".join(compressed_words), add_special_tokens=False)),
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    compressor = LLMLinguaCompressor(max_context_tokens_per_chunk=90)
+    merged, info = _prepare_cc_prompt(
+        item.question,
+        compressor,
+        0.5,
+        context=item.context,
+    )
+
+    assert item.question in merged
+    assert info["question_preserved"] is True
+    assert info["compressor_chunked"] is True
+    assert info["compressor_chunk_count"] == len(calls)
+    assert info["compressor_chunking_mode"] == "tokenizer"
+    assert info["compressor_chunk_token_budget"] == 90
+    assert info["compressor_chunk_max_observed_tokens"] <= 90
+    assert max(calls) <= 90
+
+
 def test_summary_ignores_fixture_metadata_without_compression_fields(capsys):
     snapshot = VramSnapshot(
         label="after prompt",
@@ -258,3 +375,198 @@ def test_write_jsonl_marks_baseline_ar_as_target_only(tmp_path: Path):
     assert row["t_prefill_mode"] == "not_measured"
     assert row["prefill_vram_allocated_gib"] is None
     assert row["prefill_vram_reserved_gib"] is None
+
+
+def test_metric_to_row_adds_protocol_metadata_and_keeps_legacy_fields(tmp_path: Path):
+    metric = _fake_metric(
+        2,
+        compression_info={
+            "compression": "llmlingua",
+            "R_actual": 2.0,
+            "t_compress_ms": 10.0,
+            "compressor_chunking_mode": "tokenizer",
+        },
+    )
+    output = tmp_path / "rows.jsonl"
+
+    row = _metric_to_row(
+        metric,
+        condition="LLMLingua-AR-R2",
+        backend_warning="sdpa",
+        config=_fake_config(),
+        benchmark_prompt_index=7,
+        warmup_prompts=1,
+        resume_enabled=True,
+        resumed_from_rows=3,
+        output_write_mode="append_resume",
+        output_path=output,
+    )
+
+    assert row["benchmark_prompt_index"] == 7
+    assert row["is_warmup"] is False
+    assert row["warmup_prompts"] == 1
+    assert row["resume_enabled"] is True
+    assert row["resumed_from_rows"] == 3
+    assert row["output_write_mode"] == "append_resume"
+    assert row["benchmark_protocol_version"] == BENCHMARK_PROTOCOL_VERSION
+    assert row["tok_per_sec"] == row["tokens_per_second"] == 6.0
+    assert row["output_path"] == str(output)
+    assert row["compressor_chunking_mode"] == "tokenizer"
+
+
+def test_prepare_output_state_prevents_silent_overwrite(tmp_path: Path):
+    output = tmp_path / "existing.jsonl"
+    output.write_text("{}\n", encoding="utf-8")
+
+    with pytest.raises(FileExistsError, match="Use --resume"):
+        _prepare_output_state(
+            output,
+            condition="DFlash-R1",
+            n_prompts=1,
+            resume=False,
+            overwrite=False,
+        )
+
+
+def test_prepare_output_state_rejects_resume_and_overwrite_together(tmp_path: Path):
+    with pytest.raises(ValueError, match="cannot be used together"):
+        _prepare_output_state(
+            tmp_path / "rows.jsonl",
+            condition="DFlash-R1",
+            n_prompts=1,
+            resume=True,
+            overwrite=True,
+        )
+
+
+def test_incremental_jsonl_remains_valid_after_simulated_failure(tmp_path: Path):
+    output = tmp_path / "partial.jsonl"
+    config = _fake_config()
+
+    with output.open("w", encoding="utf-8") as handle:
+        for prompt_index in range(1, 3):
+            row = _metric_to_row(
+                _fake_metric(prompt_index),
+                condition="DFlash-R1",
+                backend_warning="sdpa",
+                config=config,
+                benchmark_prompt_index=prompt_index,
+                output_path=output,
+            )
+            _write_jsonl_row(handle, row)
+        try:
+            raise RuntimeError("simulated stop after two prompts")
+        except RuntimeError:
+            pass
+
+    rows = _load_jsonl_rows(output)
+
+    assert len(rows) == 2
+    assert [row["benchmark_prompt_index"] for row in rows] == [1, 2]
+    assert all(row["is_warmup"] is False for row in rows)
+
+
+def test_resume_state_skips_completed_rows_and_appends_remaining_without_duplicates(tmp_path: Path):
+    output = tmp_path / "resume.jsonl"
+    config = _fake_config()
+    first_row = _metric_to_row(
+        _fake_metric(1),
+        condition="LLMLingua-AR-R2",
+        backend_warning="sdpa",
+        config=config,
+        benchmark_prompt_index=1,
+        output_path=output,
+    )
+    with output.open("w", encoding="utf-8") as handle:
+        _write_jsonl_row(handle, first_row)
+
+    state = _prepare_output_state(
+        output,
+        condition="LLMLingua-AR-R2",
+        n_prompts=3,
+        resume=True,
+        overwrite=False,
+    )
+
+    assert state.completed_prompt_indexes == {1}
+    assert state.write_mode == "append_resume"
+    assert state.resumed_from_rows == 1
+
+    with output.open("a", encoding="utf-8") as handle:
+        for prompt_index in range(1, 4):
+            if prompt_index in state.completed_prompt_indexes:
+                continue
+            row = _metric_to_row(
+                _fake_metric(prompt_index),
+                condition="LLMLingua-AR-R2",
+                backend_warning="sdpa",
+                config=config,
+                benchmark_prompt_index=prompt_index,
+                resume_enabled=state.resume_enabled,
+                resumed_from_rows=state.resumed_from_rows,
+                output_write_mode=state.write_mode,
+                output_path=output,
+            )
+            _write_jsonl_row(handle, row)
+
+    rows = _load_jsonl_rows(output)
+
+    assert len(rows) == 3
+    assert [row["benchmark_prompt_index"] for row in rows] == [1, 2, 3]
+    assert len({row["benchmark_prompt_index"] for row in rows}) == 3
+    assert rows[1]["resume_enabled"] is True
+    assert rows[1]["resumed_from_rows"] == 1
+
+
+def test_resume_state_rejects_duplicate_prompt_indexes(tmp_path: Path):
+    output = tmp_path / "dupe.jsonl"
+    config = _fake_config()
+    row = _metric_to_row(
+        _fake_metric(1),
+        condition="DFlash-R1",
+        backend_warning="sdpa",
+        config=config,
+        benchmark_prompt_index=1,
+        output_path=output,
+    )
+    output.write_text(
+        json.dumps(row) + "\n" + json.dumps(row) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="duplicate"):
+        _prepare_output_state(
+            output,
+            condition="DFlash-R1",
+            n_prompts=3,
+            resume=True,
+            overwrite=False,
+        )
+
+
+def test_warmup_rows_are_not_written_to_measured_artifact(tmp_path: Path):
+    output = tmp_path / "warmup.jsonl"
+    config = _fake_config()
+    warmup_metric = _fake_metric(99)
+    measured_metric = _fake_metric(1)
+
+    with output.open("w", encoding="utf-8") as handle:
+        # Simulate a successful warm-up by intentionally not writing warmup_metric.
+        assert warmup_metric.prompt_id == 99
+        row = _metric_to_row(
+            measured_metric,
+            condition="Baseline-AR",
+            backend_warning="sdpa",
+            config=config,
+            benchmark_prompt_index=1,
+            warmup_prompts=1,
+            output_path=output,
+        )
+        _write_jsonl_row(handle, row)
+
+    rows = _load_jsonl_rows(output)
+
+    assert len(rows) == 1
+    assert rows[0]["prompt_id"] == 1
+    assert rows[0]["warmup_prompts"] == 1
+    assert rows[0]["is_warmup"] is False

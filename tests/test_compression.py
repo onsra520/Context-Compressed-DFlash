@@ -7,6 +7,27 @@ from ccdf.compression.llmlingua import LLMLinguaCompressor
 from scripts.run_mvp import _condition_keep_rate, _is_ar_condition, _prepare_cc_prompt
 
 
+class ExpandingTokenizer:
+    model_max_length = 512
+
+    def __init__(self, *, wide_multiplier: int = 4):
+        self.wide_multiplier = wide_multiplier
+
+    def encode(self, text, add_special_tokens=False):
+        token_ids = []
+        for word in str(text).split():
+            width = self.wide_multiplier if word.startswith("wide") else 1
+            token_ids.extend([word] * width)
+        return token_ids
+
+
+class CharTokenizer:
+    model_max_length = 512
+
+    def encode(self, text, add_special_tokens=False):
+        return list(str(text))
+
+
 def test_passthrough_compressor_returns_original_context():
     compressor = PassthroughCompressor()
     text, info = compressor.compress("context", "question", 1.0)
@@ -31,9 +52,11 @@ def test_segment_and_merge_gsm8k_prompt():
 
 def test_llmlingua_compressor_merges_original_question_and_reports_metadata(monkeypatch):
     captured = {}
+    tokenizer = ExpandingTokenizer(wide_multiplier=1)
 
     class FakePromptCompressor:
         def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
             captured["init"] = {
                 "model_name": model_name,
                 "device_map": device_map,
@@ -78,6 +101,145 @@ def test_llmlingua_compressor_merges_original_question_and_reports_metadata(monk
     assert captured["call"]["context"] == ["Long supporting context that should shrink."]
     assert captured["call"]["question"] == "What is 7 + 5?"
     assert captured["call"]["concate_question"] is False
+    assert info["compressor_chunked"] is False
+    assert info["compressor_chunk_count"] == 1
+    assert info["compressor_chunking_mode"] == "tokenizer"
+    assert info["compressor_chunk_token_budget"] > 0
+    assert info["compressor_chunk_max_observed_tokens"] <= info["compressor_chunk_token_budget"]
+    assert info["compressor_chunk_encoder_max_length"] == 512
+    assert info["compressor_chunk_safety_margin"] > 0
+    assert info["compressor_chunk_backend_calls"] == 1
+
+
+def test_llmlingua_compressor_chunks_by_token_budget_and_preserves_question(monkeypatch):
+    calls = []
+    tokenizer = ExpandingTokenizer(wide_multiplier=4)
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            chunk = context[0]
+            token_count = len(tokenizer.encode(chunk, add_special_tokens=False))
+            if token_count > 128:
+                raise AssertionError(f"chunk too long: {token_count}")
+            calls.append(
+                {
+                    "chunk": chunk,
+                    "tokens": token_count,
+                    "question": question,
+                    "rate": rate,
+                    "concate_question": concate_question,
+                }
+            )
+            words = chunk.split()
+            compressed_words = words[: max(1, len(words) // 2)]
+            return {
+                "compressed_prompt": " ".join(compressed_words),
+                "origin_tokens": token_count,
+                "compressed_tokens": len(tokenizer.encode(" ".join(compressed_words), add_special_tokens=False)),
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    context = " ".join(f"wide{i}" for i in range(260))
+    question = "What is the protected question?"
+    compressor = LLMLinguaCompressor(max_context_tokens_per_chunk=128)
+
+    merged_text, info = compressor.compress(context=context, question=question, keep_rate=0.5)
+
+    assert question in merged_text
+    assert len(calls) > 3
+    assert max(call["tokens"] for call in calls) <= 128
+    assert all(call["question"] == question for call in calls)
+    assert all(call["rate"] == pytest.approx(0.5) for call in calls)
+    assert all(call["concate_question"] is False for call in calls)
+    assert info["N_original"] == 1040
+    assert info["N_compressed"] <= info["N_original"]
+    assert info["R_actual"] >= 1.0
+    assert info["compressor_chunked"] is True
+    assert info["compressor_chunk_count"] == len(calls)
+    assert info["compressor_chunking_mode"] == "tokenizer"
+    assert info["compressor_chunk_token_budget"] == 128
+    assert info["compressor_chunk_max_observed_tokens"] <= 128
+    assert info["compressor_chunk_encoder_max_length"] == 512
+    assert info["compressor_chunk_backend_calls"] == len(calls)
+
+
+def test_llmlingua_compressor_recursively_splits_single_long_token_pattern(monkeypatch):
+    calls = []
+    tokenizer = CharTokenizer()
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            chunk = context[0]
+            token_count = len(tokenizer.encode(chunk, add_special_tokens=False))
+            if token_count > 64:
+                raise AssertionError(f"chunk too long: {token_count}")
+            calls.append(token_count)
+            return {
+                "compressed_prompt": chunk[: max(1, len(chunk) // 2)],
+                "origin_tokens": token_count,
+                "compressed_tokens": max(1, token_count // 2),
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    context = "x" * 257
+    question = "Keep me?"
+
+    merged_text, info = LLMLinguaCompressor(max_context_tokens_per_chunk=64).compress(
+        context=context,
+        question=question,
+        keep_rate=0.5,
+    )
+
+    assert question in merged_text
+    assert len(calls) >= 5
+    assert max(calls) <= 64
+    assert info["compressor_chunk_max_observed_tokens"] <= 64
+
+
+def test_llmlingua_compressor_chunking_is_deterministic(monkeypatch):
+    tokenizer = ExpandingTokenizer(wide_multiplier=3)
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            words = context[0].split()
+            compressed_words = words[::2] or words[:1]
+            return {
+                "compressed_prompt": " ".join(compressed_words),
+                "origin_tokens": len(tokenizer.encode(context[0], add_special_tokens=False)),
+                "compressed_tokens": len(tokenizer.encode(" ".join(compressed_words), add_special_tokens=False)),
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    context = " ".join(f"wide{i}" for i in range(125))
+    question = "Keep this question exactly."
+
+    first_text, first_info = LLMLinguaCompressor(max_context_tokens_per_chunk=80).compress(
+        context=context,
+        question=question,
+        keep_rate=0.5,
+    )
+    second_text, second_info = LLMLinguaCompressor(max_context_tokens_per_chunk=80).compress(
+        context=context,
+        question=question,
+        keep_rate=0.5,
+    )
+
+    assert first_text == second_text
+    comparable_first = {k: v for k, v in first_info.items() if k != "t_compress_ms"}
+    comparable_second = {k: v for k, v in second_info.items() if k != "t_compress_ms"}
+    assert comparable_first == comparable_second
 
 
 def test_llmlingua_compressor_rejects_invalid_keep_rate():
@@ -108,9 +270,11 @@ def test_llmlingua_compressor_preserves_question_when_context_is_empty(monkeypat
 
 def test_llmlingua_compressor_accepts_explicit_model_and_device_from_config(monkeypatch):
     captured = {}
+    tokenizer = ExpandingTokenizer(wide_multiplier=1)
 
     class FakePromptCompressor:
         def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
             captured["init"] = {
                 "model_name": model_name,
                 "device_map": device_map,

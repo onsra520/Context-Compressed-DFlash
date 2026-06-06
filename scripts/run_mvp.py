@@ -4,6 +4,7 @@ import argparse
 import importlib.util
 import json
 import hashlib
+import os
 import statistics
 import time
 from dataclasses import dataclass, field
@@ -17,6 +18,7 @@ from ccdf.compression.llmlingua import LLMLinguaCompressor
 from ccdf.dflash.generate import dflash_generate
 from ccdf.dflash.loader import load_draft, load_tokenizer
 
+BENCHMARK_PROTOCOL_VERSION = "per_prompt_jsonl_v1"
 
 PROMPTS = [
     "Answer with one word: ready.",
@@ -83,6 +85,16 @@ class PromptItem:
 
 
 @dataclass
+class OutputState:
+    path: Path
+    existing_rows: list[dict]
+    completed_prompt_indexes: set[int]
+    resumed_from_rows: int
+    write_mode: str
+    resume_enabled: bool
+
+
+@dataclass
 class PrefillMeasurement:
     elapsed_ms: float
     mode: str
@@ -137,14 +149,29 @@ def _prepare_cc_prompt(
 ) -> tuple[str, dict]:
     merged_prompt, info = compressor.compress(context=context, question=question, keep_rate=keep_rate)
     compression_info = {
+        "compression": "llmlingua",
         "t_compress_ms": info["t_compress_ms"],
         "R_actual": info["R_actual"],
         "N_original": info["N_original"],
         "N_compressed": info["N_compressed"],
+        "compressed_input_tokens": info["N_compressed"],
         "keep_rate": info.get("keep_rate", keep_rate),
         "compressor_model": compressor.model_name,
         "question_preserved": question in merged_prompt,
     }
+    for field_name in (
+        "strategy",
+        "compressor_chunked",
+        "compressor_chunk_count",
+        "compressor_chunking_mode",
+        "compressor_chunk_token_budget",
+        "compressor_chunk_max_observed_tokens",
+        "compressor_chunk_encoder_max_length",
+        "compressor_chunk_safety_margin",
+        "compressor_chunk_backend_calls",
+    ):
+        if field_name in info:
+            compression_info[field_name] = info[field_name]
     return merged_prompt, compression_info
 
 
@@ -219,6 +246,102 @@ def _attention_backend() -> str:
 
 def _prompt_hash(prompt: str) -> str:
     return hashlib.sha256(prompt.encode("utf-8")).hexdigest()
+
+
+def _load_jsonl_rows(path: Path) -> list[dict]:
+    rows = []
+    for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"{path}: line {lineno} is not valid JSON ({exc})") from exc
+        if not isinstance(row, dict):
+            raise ValueError(f"{path}: line {lineno} is not a JSON object")
+        rows.append(row)
+    return rows
+
+
+def _row_prompt_index(row: dict) -> int | None:
+    value = row.get("benchmark_prompt_index", row.get("prompt_id"))
+    if isinstance(value, bool) or not isinstance(value, int):
+        return None
+    return value
+
+
+def _prepare_output_state(
+    output_path: Path,
+    *,
+    condition: str,
+    n_prompts: int,
+    resume: bool,
+    overwrite: bool,
+) -> OutputState:
+    if resume and overwrite:
+        raise ValueError("--resume and --overwrite cannot be used together")
+
+    if output_path.exists():
+        if not resume and not overwrite:
+            raise FileExistsError(
+                f"output exists: {output_path}. Use --resume to continue or --overwrite to replace it."
+            )
+        if overwrite:
+            return OutputState(
+                path=output_path,
+                existing_rows=[],
+                completed_prompt_indexes=set(),
+                resumed_from_rows=0,
+                write_mode="overwrite",
+                resume_enabled=False,
+            )
+
+        rows = _load_jsonl_rows(output_path)
+        completed: set[int] = set()
+        for row_number, row in enumerate(rows, start=1):
+            if row.get("condition") != condition:
+                raise ValueError(
+                    f"{output_path}: row {row_number} condition {row.get('condition')!r} "
+                    f"does not match requested condition {condition!r}"
+                )
+            prompt_index = _row_prompt_index(row)
+            if prompt_index is None:
+                raise ValueError(f"{output_path}: row {row_number} has no stable prompt index")
+            if not 1 <= prompt_index <= n_prompts:
+                raise ValueError(
+                    f"{output_path}: row {row_number} prompt index {prompt_index} "
+                    f"is outside requested range 1..{n_prompts}"
+                )
+            if prompt_index in completed:
+                raise ValueError(f"{output_path}: duplicate benchmark prompt index {prompt_index}")
+            completed.add(prompt_index)
+        return OutputState(
+            path=output_path,
+            existing_rows=rows,
+            completed_prompt_indexes=completed,
+            resumed_from_rows=len(rows),
+            write_mode="append_resume",
+            resume_enabled=True,
+        )
+
+    if resume:
+        return OutputState(
+            path=output_path,
+            existing_rows=[],
+            completed_prompt_indexes=set(),
+            resumed_from_rows=0,
+            write_mode="write_new_resume",
+            resume_enabled=True,
+        )
+
+    return OutputState(
+        path=output_path,
+        existing_rows=[],
+        completed_prompt_indexes=set(),
+        resumed_from_rows=0,
+        write_mode="overwrite" if overwrite else "write",
+        resume_enabled=False,
+    )
 
 
 def _vram(label: str) -> VramSnapshot:
@@ -486,6 +609,90 @@ def _print_summary(metrics: list[PromptMetrics], vram_snapshots: list[VramSnapsh
     print("Final status: PASS")
 
 
+def _print_row_summary(rows: list[dict]) -> None:
+    avg_tok_s = statistics.mean(float(row.get("tok_per_sec", 0.0)) for row in rows) if rows else 0.0
+    avg_tau = statistics.mean(float(row.get("tau_mean", 0.0)) for row in rows) if rows else 0.0
+    max_allocated = max(float(row.get("vram_allocated_gib", 0.0)) for row in rows) if rows else 0.0
+    max_reserved = max(float(row.get("vram_reserved_gib", 0.0)) for row in rows) if rows else 0.0
+    compression_rows = [
+        row for row in rows if "t_compress_ms" in row and "R_actual" in row
+    ]
+
+    print("Summary:")
+    print(f"measured rows: {len(rows)}")
+    print(f"average tok/s: {avg_tok_s:.2f}")
+    print(f"average tau_mean: {avg_tau:.2f}")
+    if compression_rows:
+        avg_t_compress = statistics.mean(float(row["t_compress_ms"]) for row in compression_rows)
+        avg_r_actual = statistics.mean(float(row["R_actual"]) for row in compression_rows)
+        print(f"average t_compress_ms: {avg_t_compress:.2f}")
+        print(f"average R_actual: {avg_r_actual:.2f}")
+    print(f"max VRAM allocated: {max_allocated:.2f}GiB")
+    print(f"max VRAM reserved: {max_reserved:.2f}GiB")
+
+
+def _metric_to_row(
+    metric: PromptMetrics,
+    *,
+    condition: str,
+    backend_warning: str,
+    config: SmokeConfig,
+    benchmark_prompt_index: int | None = None,
+    warmup_prompts: int = 0,
+    resume_enabled: bool = False,
+    resumed_from_rows: int = 0,
+    output_write_mode: str = "write",
+    output_path: Path | None = None,
+) -> dict:
+    row = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "row_written_at_utc": datetime.now(timezone.utc).isoformat(),
+        "condition": condition,
+        "prompt_id": metric.prompt_id,
+        "benchmark_prompt_index": benchmark_prompt_index or metric.prompt_id,
+        "prompt_hash": _prompt_hash(metric.prompt_text),
+        "is_warmup": False,
+        "warmup_prompts": warmup_prompts,
+        "resume_enabled": resume_enabled,
+        "resumed_from_rows": resumed_from_rows,
+        "output_write_mode": output_write_mode,
+        "output_path": str(output_path) if output_path is not None else None,
+        "benchmark_protocol_version": BENCHMARK_PROTOCOL_VERSION,
+        "input_tokens": metric.input_tokens,
+        "output_tokens": metric.output_tokens,
+        "generation_time_s": metric.generation_time_s,
+        "tok_per_sec": metric.tok_per_s,
+        "tokens_per_second": metric.tok_per_s,
+        "acceptance_lengths": metric.acceptance_lengths,
+        "tau_mean": metric.tau_mean,
+        "t_prefill_ms": metric.t_prefill_ms,
+        "t_prefill_mode": metric.t_prefill_mode,
+        "prefill_vram_allocated_gib": metric.prefill_vram_allocated_gib,
+        "prefill_vram_reserved_gib": metric.prefill_vram_reserved_gib,
+        "max_new_tokens": config.max_new_tokens,
+        "block_size": config.block_size,
+        "device": config.device,
+        "target_path": str(config.target_path),
+        "draft_path": str(config.draft_path),
+        "tokenizer_path": str(config.tokenizer_path),
+        "backend_warning": backend_warning,
+        "vram_allocated_gib": metric.vram_after.allocated_gib,
+        "vram_reserved_gib": metric.vram_after.reserved_gib,
+    }
+    row.update(metric.compression_info)
+    if condition == "Baseline-AR":
+        row.update({"compression": "none", "keep_rate": 1.0})
+    if row.get("draft_used") is False:
+        row["draft_path"] = None
+    return row
+
+
+def _write_jsonl_row(handle, row: dict) -> None:
+    handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+    handle.flush()
+    os.fsync(handle.fileno())
+
+
 def _write_jsonl(
     output_path: Path,
     *,
@@ -497,37 +704,73 @@ def _write_jsonl(
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", encoding="utf-8") as handle:
         for metric in metrics:
-            row = {
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "condition": condition,
-                "prompt_id": metric.prompt_id,
-                "prompt_hash": _prompt_hash(metric.prompt_text),
-                "input_tokens": metric.input_tokens,
-                "output_tokens": metric.output_tokens,
-                "generation_time_s": metric.generation_time_s,
-                "tok_per_sec": metric.tok_per_s,
-                "acceptance_lengths": metric.acceptance_lengths,
-                "tau_mean": metric.tau_mean,
-                "t_prefill_ms": metric.t_prefill_ms,
-                "t_prefill_mode": metric.t_prefill_mode,
-                "prefill_vram_allocated_gib": metric.prefill_vram_allocated_gib,
-                "prefill_vram_reserved_gib": metric.prefill_vram_reserved_gib,
-                "max_new_tokens": config.max_new_tokens,
-                "block_size": config.block_size,
-                "device": config.device,
-                "target_path": str(config.target_path),
-                "draft_path": str(config.draft_path),
-                "tokenizer_path": str(config.tokenizer_path),
-                "backend_warning": backend_warning,
-                "vram_allocated_gib": metric.vram_after.allocated_gib,
-                "vram_reserved_gib": metric.vram_after.reserved_gib,
+            row = _metric_to_row(
+                metric,
+                condition=condition,
+                backend_warning=backend_warning,
+                config=config,
+                output_path=output_path,
+            )
+            _write_jsonl_row(handle, row)
+
+
+def _run_benchmark_item(
+    item: PromptItem,
+    *,
+    tokenizer,
+    target,
+    draft,
+    config: SmokeConfig,
+    compressor: LLMLinguaCompressor | None,
+    keep_rate: float | None,
+    is_ar: bool,
+    store_generated_text: bool,
+) -> PromptMetrics:
+    prompt_for_generation = item.text
+    compression_info = None
+    if compressor is not None:
+        compression_context = item.context if item.context is not None else CC_SMOKE_CONTEXT
+        compression_question = item.question if item.question is not None else item.text
+        prompt_for_generation, compression_info = _prepare_cc_prompt(
+            compression_question,
+            compressor,
+            keep_rate,
+            context=compression_context,
+        )
+        if not compression_info["question_preserved"]:
+            raise RuntimeError(f"protected question was not preserved for prompt {item.prompt_id}")
+
+    if is_ar:
+        compression_info = compression_info or {}
+        compression_info.update(
+            {
+                "generation_mode": "autoregressive",
+                "draft_used": False,
             }
-            row.update(metric.compression_info)
-            if condition == "Baseline-AR":
-                row.update({"compression": "none", "keep_rate": 1.0})
-            if row.get("draft_used") is False:
-                row["draft_path"] = None
-            handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+        )
+        metric = _run_ar_prompt(
+            item.prompt_id,
+            prompt_for_generation,
+            tokenizer=tokenizer,
+            target=target,
+            config=config,
+            compression_info=compression_info,
+            store_generated_text=store_generated_text,
+        )
+    else:
+        metric = _run_prompt(
+            item.prompt_id,
+            prompt_for_generation,
+            tokenizer=tokenizer,
+            target=target,
+            draft=draft,
+            config=config,
+            compression_info=compression_info,
+            store_generated_text=store_generated_text,
+        )
+    if item.metadata:
+        metric.compression_info.update(item.metadata)
+    return metric
 
 
 def main() -> None:
@@ -539,6 +782,9 @@ def main() -> None:
     parser.add_argument("--prompt-source", choices=["smoke", "fixture"], default="smoke")
     parser.add_argument("--fixture", type=Path, default=None)
     parser.add_argument("--store-generated-text", action="store_true")
+    parser.add_argument("--warmup-prompts", type=int, default=0)
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--overwrite", action="store_true")
     parser.add_argument(
         "--max-new-tokens",
         type=int,
@@ -546,16 +792,36 @@ def main() -> None:
         help="Override benchmark.max_new_tokens for calibration runs; default config path remains clamped to 32.",
     )
     args = parser.parse_args()
+    if args.resume and args.overwrite:
+        parser.error("--resume and --overwrite cannot be used together")
 
     config = _read_config(args.config, max_new_tokens_override=args.max_new_tokens)
     keep_rate = _condition_keep_rate(args.condition, config.raw_config.get("compression", {}).get("llmlingua", {}).get("default_keep_rate", 0.5))
     is_ar = _is_ar_condition(args.condition)
     n_prompts = max(1, args.n)
+    warmup_count = max(0, args.warmup_prompts)
+    output_path = Path(args.output)
     prompt_items = _select_prompt_items(
         prompt_source=args.prompt_source,
         n_prompts=n_prompts,
         fixture_path=args.fixture,
     )
+    warmup_items = _select_prompt_items(
+        prompt_source=args.prompt_source,
+        n_prompts=warmup_count,
+        fixture_path=args.fixture,
+    ) if warmup_count else []
+    try:
+        output_state = _prepare_output_state(
+            output_path,
+            condition=args.condition,
+            n_prompts=len(prompt_items),
+            resume=args.resume,
+            overwrite=args.overwrite,
+        )
+    except (FileExistsError, ValueError) as exc:
+        parser.error(str(exc))
+
     compressor = None
     if keep_rate is not None:
         compressor = LLMLinguaCompressor.from_config(config.raw_config)
@@ -575,6 +841,20 @@ def main() -> None:
     if args.fixture is not None:
         print(f"Fixture path: {args.fixture}")
     print(f"Prompt count: {len(prompt_items)}")
+    print(f"Warmup prompts: {len(warmup_items)}")
+    print(f"Output path: {output_path}")
+    print(f"Resume enabled: {output_state.resume_enabled}")
+    print(f"Resumed from rows: {output_state.resumed_from_rows}")
+    print(f"Output write mode: {output_state.write_mode}")
+
+    if len(output_state.completed_prompt_indexes) >= len(prompt_items):
+        print(
+            f"Resume state already complete: {len(output_state.completed_prompt_indexes)}/"
+            f"{len(prompt_items)} measured rows present."
+        )
+        _print_row_summary(output_state.existing_rows)
+        print("Final status: PASS")
+        return
 
     try:
         _require_cuda()
@@ -601,63 +881,86 @@ def main() -> None:
             )
             vram_snapshots.append(_vram("after draft load"))
 
-        metrics = []
-        for item in prompt_items:
-            prompt_for_generation = item.text
-            compression_info = None
-            if compressor is not None:
-                compression_context = item.context if item.context is not None else CC_SMOKE_CONTEXT
-                compression_question = item.question if item.question is not None else item.text
-                prompt_for_generation, compression_info = _prepare_cc_prompt(
-                    compression_question,
-                    compressor,
-                    keep_rate,
-                    context=compression_context,
-                )
-                if not compression_info["question_preserved"]:
-                    raise RuntimeError(f"protected question was not preserved for prompt {item.prompt_id}")
-
-            if is_ar:
-                compression_info = compression_info or {}
-                compression_info.update(
-                    {
-                        "generation_mode": "autoregressive",
-                        "draft_used": False,
-                    }
-                )
-                metric = _run_ar_prompt(
-                    item.prompt_id,
-                    prompt_for_generation,
-                    tokenizer=tokenizer,
-                    target=target,
-                    config=config,
-                    compression_info=compression_info,
-                    store_generated_text=args.store_generated_text,
-                )
-            else:
-                metric = _run_prompt(
-                    item.prompt_id,
-                    prompt_for_generation,
+        if warmup_items:
+            print("Warmup start")
+            for warmup_index, item in enumerate(warmup_items, start=1):
+                print(f"Warmup prompt_id={item.prompt_id} warmup_index={warmup_index}/{len(warmup_items)}")
+                _run_benchmark_item(
+                    item,
                     tokenizer=tokenizer,
                     target=target,
                     draft=draft,
                     config=config,
-                    compression_info=compression_info,
+                    compressor=compressor,
+                    keep_rate=keep_rate,
+                    is_ar=is_ar,
+                    store_generated_text=False,
+                )
+            print("Warmup complete")
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        if output_state.write_mode == "overwrite" and output_path.exists():
+            output_path.unlink()
+
+        file_mode = "a" if output_state.resume_enabled else "w"
+        written_this_run = 0
+        with output_path.open(file_mode, encoding="utf-8") as handle:
+            for benchmark_prompt_index, item in enumerate(prompt_items, start=1):
+                if benchmark_prompt_index in output_state.completed_prompt_indexes:
+                    print(
+                        f"Skipping prompt_id={item.prompt_id} benchmark_prompt_index={benchmark_prompt_index} "
+                        "because it is already present in resume output."
+                    )
+                    continue
+
+                print(
+                    f"Starting prompt_id={item.prompt_id} condition={args.condition} "
+                    f"benchmark_prompt_index={benchmark_prompt_index}/{len(prompt_items)} "
+                    f"compression_active={compressor is not None} draft_speculative={not is_ar} "
+                    f"output_path={output_path} resume_enabled={output_state.resume_enabled} "
+                    f"resumed_from_rows={output_state.resumed_from_rows}"
+                )
+                metric = _run_benchmark_item(
+                    item,
+                    tokenizer=tokenizer,
+                    target=target,
+                    draft=draft,
+                    config=config,
+                    compressor=compressor,
+                    keep_rate=keep_rate,
+                    is_ar=is_ar,
                     store_generated_text=args.store_generated_text,
                 )
-            if item.metadata:
-                metric.compression_info.update(item.metadata)
-            metrics.append(metric)
-            vram_snapshots.append(metric.vram_after)
+                row = _metric_to_row(
+                    metric,
+                    condition=args.condition,
+                    backend_warning=backend_warning,
+                    config=config,
+                    benchmark_prompt_index=benchmark_prompt_index,
+                    warmup_prompts=len(warmup_items),
+                    resume_enabled=output_state.resume_enabled,
+                    resumed_from_rows=output_state.resumed_from_rows,
+                    output_write_mode=output_state.write_mode,
+                    output_path=output_path,
+                )
+                _write_jsonl_row(handle, row)
+                written_this_run += 1
+                rows_written_total = output_state.resumed_from_rows + written_this_run
+                print(
+                    f"Finished prompt_id={item.prompt_id} benchmark_prompt_index={benchmark_prompt_index} "
+                    f"output_tokens={metric.output_tokens} tok/s={metric.tok_per_s:.2f}"
+                )
+                print(f"Wrote row {rows_written_total}/{len(prompt_items)} to {output_path}")
 
-        _write_jsonl(
-            Path(args.output),
-            condition=args.condition,
-            backend_warning=backend_warning,
-            config=config,
-            metrics=metrics,
-        )
-        _print_summary(metrics, vram_snapshots)
+        final_rows = _load_jsonl_rows(output_path)
+        if len(final_rows) != len(prompt_items):
+            print("Final status: PARTIAL")
+            print(f"Measured rows present: {len(final_rows)}/{len(prompt_items)}")
+            raise RuntimeError(
+                f"benchmark incomplete: expected {len(prompt_items)} measured rows, found {len(final_rows)}"
+            )
+        _print_row_summary(final_rows)
+        print("Final status: PASS")
     except Exception as exc:
         print(f"Final status: FAIL")
         print(f"Failure: {type(exc).__name__}: {exc}")

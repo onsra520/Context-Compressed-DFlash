@@ -97,7 +97,7 @@ cat .understand-anything/meta.json 2>/dev/null || true
 ### What To Update After Each Task
 
 1. `docs/Roadmap.html`: update the task status, add the report filename under the reports index, update the hero badges at the top to list the next task, and add a short entry to the update log.
-2. `docs/reports/`: write a new report file named `<prefix>-<description>-report.md` using the next unused chronological prefix.
+2. `docs/reports/`: write a new report file named `<prefix>-<description>-report.md` using the task prefix assigned by `docs/Roadmap.html` or by the user. Do not consume the next major task number for auxiliary sync/protocol work; use a subtask prefix such as `45-5` or `45-sync`.
 3. `Understand-Anything`: if codebase analysis runs or the graph's analyzed nodes advance, note the latest node ID in the completed report.
 
 ### Understand-Anything Metadata Rule
@@ -151,6 +151,24 @@ cat .understand-anything/meta.json 2>/dev/null || true
 - If HTML docs changed, sanity-check the HTML structure before completion.
 - Always report `git diff --stat` and `git status --short` in the final response.
 
+### Understand-Anything Refresh Rule
+
+After any meaningful task that changes code, tests, scripts, benchmark logic, or canonical docs, the agent must update Understand-Anything graph context when the `/understand` command is available.
+
+Required flow:
+
+1. Before task work, read `.understand-anything/meta.json` if available.
+2. After task work and validation, run `/understand` to incrementally re-analyze changed files and update the Understand dashboard graph.
+3. If the task changes behavior across multiple modules, also run `/understand-diff` when available to inspect impact of current changes.
+4. Record in the task report:
+   - whether `/understand` ran,
+   - whether `/understand-diff` ran,
+   - latest analyzed node/progress if available,
+   - whether `.understand-anything/meta.json` changed.
+5. If the current agent environment does not support slash commands, explicitly say:
+   “Understand-Anything refresh was skipped because `/understand` is not available in this environment.”
+6. Do not claim the graph/dashboard was refreshed unless `/understand` actually ran successfully.
+
 ---
 
 ## Final Response Format
@@ -163,3 +181,4 @@ Final agent response must include:
 4. `git status --short` output
 5. `git diff --stat` output
 6. List of changed files
+7. Understand-Anything refresh/check status: whether `/understand` ran, whether `/understand-diff` ran, whether `.understand-anything/meta.json` changed, or why refresh was skipped

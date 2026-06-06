@@ -1,0 +1,204 @@
+{
+  "artifact_paths": {
+    "Baseline-AR": "results/task45_final_baseline_ar_n100.jsonl",
+    "CC-LLM-R2": "results/task45_final_cc_llm_r2_n100.jsonl",
+    "DFlash-R1": "results/task45_final_dflash_r1_n100.jsonl",
+    "LLMLingua-AR-R2": "results/task45_final_llmlingua_ar_r2_n100.jsonl"
+  },
+  "artifacts": {
+    "Baseline-AR": {
+      "metrics": {
+        "avg_R_actual": null,
+        "avg_input_tokens": 1471.22,
+        "avg_output_tokens": 127.46,
+        "avg_t_compress_ms": null,
+        "avg_t_prefill_ms": 1323.817624650037,
+        "avg_tau_mean": 0.0,
+        "avg_tokens_per_second": 16.910952259563924,
+        "max_vram_allocated_gib": 2.502530574798584,
+        "max_vram_reserved_gib": 6.509765625,
+        "median_tau_mean": 0.0,
+        "median_tokens_per_second": 17.26172644370548,
+        "rows": 100
+      },
+      "path": "results/task45_final_baseline_ar_n100.jsonl",
+      "protocol": {
+        "expected_protocol": null,
+        "note": "Generated before per-prompt JSONL protocol fix; missing protocol metadata is not a failure.",
+        "status": "LEGACY_ACCEPTED"
+      },
+      "quality": {
+        "exact_containment_count": 24,
+        "exact_containment_rate": 0.24,
+        "extracted_answer_match_count": 10,
+        "extracted_answer_match_rate": 0.1,
+        "generated_text_present": 100,
+        "no_containment_count": 75,
+        "normalized_containment_count": 1,
+        "normalized_containment_rate": 0.25,
+        "not_evaluable_count": 0,
+        "policy": "Extraction-aware numeric answer match is diagnostic for this audit; final correctness claims require the dedicated Task 46 analysis/report."
+      },
+      "row_count": 100,
+      "schema_issues": [],
+      "schema_warnings": [
+        "legacy final artifact schema accepted because generated before runner protocol fix"
+      ],
+      "status": "PASS"
+    },
+    "CC-LLM-R2": {
+      "metrics": {
+        "avg_R_actual": 2.0555409612256184,
+        "avg_input_tokens": 778.92,
+        "avg_output_tokens": 127.74,
+        "avg_t_compress_ms": 4179.746552970032,
+        "avg_t_prefill_ms": 277.74914802998865,
+        "avg_tau_mean": 5.063362563116501,
+        "avg_tokens_per_second": 48.262044172062474,
+        "max_vram_allocated_gib": 3.4799718856811523,
+        "max_vram_reserved_gib": 4.220703125,
+        "median_tau_mean": 4.9423076923076925,
+        "median_tokens_per_second": 47.98783330635918,
+        "rows": 100
+      },
+      "path": "results/task45_final_cc_llm_r2_n100.jsonl",
+      "protocol": {
+        "expected_protocol": "per_prompt_jsonl_v1",
+        "index_max": 100,
+        "index_min": 1,
+        "status": "PASS",
+        "unique_indexes": 100,
+        "warmup_prompts": [
+          1
+        ]
+      },
+      "quality": {
+        "exact_containment_count": 18,
+        "exact_containment_rate": 0.18,
+        "extracted_answer_match_count": 6,
+        "extracted_answer_match_rate": 0.06,
+        "generated_text_present": 100,
+        "no_containment_count": 81,
+        "normalized_containment_count": 1,
+        "normalized_containment_rate": 0.19,
+        "not_evaluable_count": 0,
+        "policy": "Extraction-aware numeric answer match is diagnostic for this audit; final correctness claims require the dedicated Task 46 analysis/report."
+      },
+      "row_count": 100,
+      "schema_issues": [],
+      "schema_warnings": [],
+      "status": "PASS"
+    },
+    "DFlash-R1": {
+      "metrics": {
+        "avg_R_actual": null,
+        "avg_input_tokens": 1471.22,
+        "avg_output_tokens": 127.49,
+        "avg_t_compress_ms": null,
+        "avg_t_prefill_ms": 492.3703169798682,
+        "avg_tau_mean": 5.272709841298426,
+        "avg_tokens_per_second": 42.87456458420886,
+        "max_vram_allocated_gib": 3.5108747482299805,
+        "max_vram_reserved_gib": 7.525390625,
+        "median_tau_mean": 5.1225000000000005,
+        "median_tokens_per_second": 42.23691204972367,
+        "rows": 100
+      },
+      "path": "results/task45_final_dflash_r1_n100.jsonl",
+      "protocol": {
+        "expected_protocol": null,
+        "note": "Generated before per-prompt JSONL protocol fix; missing protocol metadata is not a failure.",
+        "status": "LEGACY_ACCEPTED"
+      },
+      "quality": {
+        "exact_containment_count": 23,
+        "exact_containment_rate": 0.23,
+        "extracted_answer_match_count": 10,
+        "extracted_answer_match_rate": 0.1,
+        "generated_text_present": 100,
+        "no_containment_count": 76,
+        "normalized_containment_count": 1,
+        "normalized_containment_rate": 0.24,
+        "not_evaluable_count": 0,
+        "policy": "Extraction-aware numeric answer match is diagnostic for this audit; final correctness claims require the dedicated Task 46 analysis/report."
+      },
+      "row_count": 100,
+      "schema_issues": [],
+      "schema_warnings": [
+        "legacy final artifact schema accepted because generated before runner protocol fix"
+      ],
+      "status": "PASS"
+    },
+    "LLMLingua-AR-R2": {
+      "metrics": {
+        "avg_R_actual": 2.0555409612256184,
+        "avg_input_tokens": 778.92,
+        "avg_output_tokens": 127.77,
+        "avg_t_compress_ms": 4057.6722841100072,
+        "avg_t_prefill_ms": 276.6773896900028,
+        "avg_tau_mean": 0.0,
+        "avg_tokens_per_second": 16.88593301417739,
+        "max_vram_allocated_gib": 2.478942394256592,
+        "max_vram_reserved_gib": 3.203125,
+        "median_tau_mean": 0.0,
+        "median_tokens_per_second": 17.414044860075567,
+        "rows": 100
+      },
+      "path": "results/task45_final_llmlingua_ar_r2_n100.jsonl",
+      "protocol": {
+        "expected_protocol": "per_prompt_jsonl_v1",
+        "index_max": 100,
+        "index_min": 1,
+        "status": "PASS",
+        "unique_indexes": 100,
+        "warmup_prompts": [
+          1
+        ]
+      },
+      "quality": {
+        "exact_containment_count": 16,
+        "exact_containment_rate": 0.16,
+        "extracted_answer_match_count": 5,
+        "extracted_answer_match_rate": 0.05,
+        "generated_text_present": 100,
+        "no_containment_count": 83,
+        "normalized_containment_count": 1,
+        "normalized_containment_rate": 0.17,
+        "not_evaluable_count": 0,
+        "policy": "Extraction-aware numeric answer match is diagnostic for this audit; final correctness claims require the dedicated Task 46 analysis/report."
+      },
+      "row_count": 100,
+      "schema_issues": [],
+      "schema_warnings": [],
+      "status": "PASS"
+    }
+  },
+  "logs": {
+    "CC-LLM-R2": {
+      "issues": [],
+      "path": "logs/task45_final_cc_llm_r2_n100_2026-06-06_11-02-41.log",
+      "status": "PASS"
+    },
+    "LLMLingua-AR-R2": {
+      "issues": [],
+      "path": "logs/task45_final_llmlingua_ar_r2_n100_2026-06-06_10-21-49.log",
+      "status": "PASS"
+    },
+    "superseded_failed_llmlingua_log": {
+      "classification": "SUPERSEDED_FAILED_ATTEMPT",
+      "contains_sequence_length_warning": true,
+      "exists": true,
+      "note": "Historical LLMLingua n=100 failed attempt; superseded by later PASS log.",
+      "path": "logs/task45_final_llmlingua_ar_r2_n100_2026-06-06_00-46-05.log"
+    }
+  },
+  "notes": [
+    "Baseline-AR and DFlash-R1 use a legacy final artifact schema and are accepted because they were generated before the runner protocol fix.",
+    "LLMLingua-AR-R2 and CC-LLM-R2 use per_prompt_jsonl_v1 protocol metadata.",
+    "The older LLMLingua sequence-length warning log is historical and superseded by the later PASS log.",
+    "Metrics are audited Task 45 measurements, not deployment or final paper claims."
+  ],
+  "status": "PASS",
+  "task": "45-final-artifact-audit",
+  "total_rows": 400
+}

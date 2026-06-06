@@ -412,14 +412,14 @@
                 <span class="sv go">✓ Phase 1 MVP: PASS</span>
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
-                <span class="sv stop">✗ Final Benchmark: NOT DONE</span>
-                <span class="sv info">→ Current: Task 45 final benchmark (not run)</span>
+                <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
+                <span class="sv info">→ Current next: Task 46 Pareto analysis/report</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 45-data-fix. Leakage-safe resampling is implemented, the
-                full local JSONL-backed GSM8K + SQuAD-derived Wikipedia source-mode dataset has 100 rows, and
-                the dataset audit passes. Task 45 final benchmark is the next technical run, but it has not been
-                executed and must still follow the frozen Task 44 gates.
+                This roadmap is synced through Task 45-final-artifact-audit. All four Task 45 final n=100
+                artifacts are present and audited: Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-LLM-R2.
+                Baseline-AR and DFlash-R1 use an accepted legacy schema; compressed artifacts use
+                per_prompt_jsonl_v1. Task 46 Pareto analysis/report is next.
             </div>
         </header>
 
@@ -454,8 +454,10 @@
                         </tr>
                         <tr>
                             <td>Final benchmark</td>
-                            <td class="stop">NOT DONE</td>
-                            <td>No final speedup, correctness, or deployment claim</td>
+                            <td class="warn">PARTIAL</td>
+                            <td>Baseline-AR and DFlash-R1 n=100 artifacts exist; compressed n=100 artifacts remain
+                                missing/not run after v2 verification. No final speedup, correctness, or deployment
+                                claim.</td>
                         </tr>
                         <tr>
                             <td>VRAM measurement</td>
@@ -948,11 +950,36 @@
                             <td class="go">PASS: full source-mode dataset generated and audited</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T45</span></td>
+                            <td><span class="tnum done">T45-compression-fix</span></td>
+                            <td>LLMLingua Long-Context Safety</td>
+                            <td>Fix LLMLingua long-context compression by deterministic question-aware chunking;
+                                create report
+                                <code>45-compression-fix-llmlingua-long-context-report.md</code></td>
+                            <td class="warn">PARTIAL: v1 word chunking passed n=2 but was insufficient for n=100</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T45-compression-fix-v2</span></td>
+                            <td>Tokenizer-Aware LLMLingua Safety</td>
+                            <td>Replace word chunks with tokenizer-aware chunk budgets before LLMLingua backend calls;
+                                create report
+                                <code>45-compression-fix-v2-tokenizer-aware-llmlingua-report.md</code></td>
+                            <td class="go">PASS: compressed n=3 smokes pass with no encoder-length warning; final compressed n=100 still not run</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T45-runner-fix</span></td>
+                            <td>Runner Benchmark Protocol Fix</td>
+                            <td>Add warm-up-first measurement, per-prompt incremental JSONL writes, flush/fsync,
+                                resume/overwrite safety, and protocol metadata; create report
+                                <code>45-runner-benchmark-protocol-fix-report.md</code></td>
+                            <td class="go">PASS: LLMLingua-AR-R2 and CC-LLM-R2 n=3 plus Baseline-AR and DFlash-R1 n=1 protocol smokes passed</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T45</span></td>
                             <td>Final Benchmark</td>
                             <td>Run final n≥100 benchmark per frozen condition on GSM8K+Wikipedia dataset; store all
-                                artifacts; create report <code>45-final-benchmark-run-report.md</code></td>
-                            <td class="warn">Planned: dataset gate passed, benchmark not run</td>
+                                artifacts; audit artifacts; create report
+                                <code>45-final-artifact-audit-report.md</code></td>
+                            <td class="go">PASS: four n=100 final artifacts audited, 400 rows total; Task 46 Pareto analysis next</td>
                         </tr>
 
                         <!-- Analysis & Paper -->
@@ -964,7 +991,7 @@
                             <td>Pareto Report</td>
                             <td>Compute Pareto frontier: Speedup vs Exact Match; produce charts; create report
                                 <code>46-pareto-frontier-report.md</code></td>
-                            <td class="muted">Planned (after T45)</td>
+                            <td class="info">Next: use audited Task 45 artifacts</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T47</span></td>
@@ -1239,6 +1266,30 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>45-compression-fix-llmlingua-long-context-report.md</code></td>
+                            <td>T45-compression-fix</td>
+                            <td>LLMLingua Long-Context Compression Safety Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>45-compression-fix-v2-tokenizer-aware-llmlingua-report.md</code></td>
+                            <td>T45-compression-fix-v2</td>
+                            <td>Tokenizer-Aware LLMLingua Compression Safety Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>45-runner-benchmark-protocol-fix-report.md</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>Warm-Up and Incremental Artifact Protocol Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>45-final-artifact-audit-report.md</code></td>
+                            <td>T45</td>
+                            <td>Final n=100 Artifact Audit Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1438,6 +1489,96 @@
                             <td>Full source-mode dataset audit summary</td>
                             <td>—</td>
                         </tr>
+                        <tr>
+                            <td><code>results/task45_final_baseline_ar_n100.jsonl</code></td>
+                            <td>T45</td>
+                            <td>Baseline-AR final benchmark artifact, legacy schema accepted</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_dflash_r1_n100.jsonl</code></td>
+                            <td>T45</td>
+                            <td>DFlash-R1 final benchmark artifact, legacy schema accepted</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_llmlingua_ar_r2_n100.jsonl</code></td>
+                            <td>T45</td>
+                            <td>LLMLingua-AR-R2 final benchmark artifact, per_prompt_jsonl_v1</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_cc_llm_r2_n100.jsonl</code></td>
+                            <td>T45</td>
+                            <td>CC-LLM-R2 final benchmark artifact, per_prompt_jsonl_v1</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_artifact_audit_summary.json</code></td>
+                            <td>T45</td>
+                            <td>Machine-readable final artifact audit summary</td>
+                            <td>400 rows audited</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_compression_fix_llmlingua_ar_r2_n2.jsonl</code></td>
+                            <td>T45-compression-fix</td>
+                            <td>LLMLingua-AR-R2 long-context compression-fix smoke</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_compression_fix_cc_llm_r2_n2.jsonl</code></td>
+                            <td>T45-compression-fix</td>
+                            <td>CC-LLM-R2 long-context compression-fix smoke</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl</code></td>
+                            <td>T45-compression-fix-v2</td>
+                            <td>LLMLingua-AR-R2 tokenizer-aware compression-fix smoke</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl</code></td>
+                            <td>T45-compression-fix-v2</td>
+                            <td>CC-LLM-R2 tokenizer-aware compression-fix smoke</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td><code>logs/task45_compression_fix_v2_*_n3.log</code></td>
+                            <td>T45-compression-fix-v2</td>
+                            <td>Tokenizer-aware smoke logs with encoder-warning check</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_runner_fix_llmlingua_ar_r2_n3.jsonl</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>LLMLingua-AR-R2 runner protocol smoke artifact</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_runner_fix_cc_llm_r2_n3.jsonl</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>CC-LLM-R2 runner protocol smoke artifact</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_runner_fix_baseline_ar_n1.jsonl</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>Baseline-AR runner protocol compatibility smoke artifact</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_runner_fix_dflash_r1_n1.jsonl</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>DFlash-R1 runner protocol compatibility smoke artifact</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><code>logs/task45_runner_fix_*.log</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>Runner protocol smoke logs with warm-up/start/finish/write progress</td>
+                            <td>—</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1447,10 +1588,10 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 45-data-fix</span>
-                <span class="sv info">Current next: Task 45 final benchmark</span>
+                <span class="sv go">Synced through Task 45-final-artifact-audit</span>
+                <span class="sv info">Current next: Task 46 Pareto analysis/report</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
-                <span class="sv stop">Final Benchmark: NOT DONE</span>
+                <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
             </div>
             <div class="note info">
@@ -1599,8 +1740,8 @@
                 <div class="log-body">
                     <strong>Task 45-prep — Full Dataset and Frozen Schema Audit Prep — PARTIAL</strong><br>
                     Added the frozen-schema artifact audit utility, focused tests, and a source-mode readiness
-                    summary. Task 45 remains blocked because full source-mode GSM8K + Wikipedia data is not present
-                    or audited; Task 45-data is next.
+                    summary. At that point, Task 45 remained blocked because full source-mode GSM8K + Wikipedia
+                    data was not present or audited; Task 45-data was next.
                 </div>
             </div>
             <div class="log-entry">
@@ -1626,6 +1767,48 @@
                 <div class="log-body">
                     <strong>Task 45.5-sync — Roadmap and Understand-Anything Dual Sync Protocol — PASS</strong><br>
                     Defined and implemented the Agent Sync Protocol between Roadmap.html and Understand-Anything context. Merged the protocol into instruction.md, removed the standalone protocol file, and established the codespace understanding layer through the latest metadata in <code>.understand-anything/meta.json</code> when available.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-05</div>
+                <div class="log-body">
+                    <strong>Task 45-compression-fix — LLMLingua Long-Context Safety — PASS, preliminary</strong><br>
+                    Root-caused the compressed-condition crash to full long contexts reaching LLMLingua's
+                    512-token encoder path. Added deterministic question-aware context chunking, preserved the
+                    protected question, and verified LLMLingua-AR-R2 plus CC-LLM-R2 n=2 smoke artifacts on the
+                    full source-mode dataset. Final compressed n=100 benchmark conditions remain to be run.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-06</div>
+                <div class="log-body">
+                    <strong>Task 45-compression-fix-v2 — Tokenizer-Aware LLMLingua Safety — PASS, preliminary</strong><br>
+                    Confirmed v1 word chunking was insufficient after a failed n=100 LLMLingua rerun emitted
+                    <code>728 &gt; 512</code>. Replaced word-window safety with tokenizer-aware chunk budgeting,
+                    verified max observed chunk tokens stayed at or below 384 in n=3 LLMLingua-AR-R2 and CC-LLM-R2
+                    smokes, and confirmed smoke logs contain no encoder-length warning. Final compressed n=100
+                    artifacts remain missing until an explicit rerun.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-06</div>
+                <div class="log-body">
+                    <strong>Task 45-runner-benchmark-protocol-fix — PASS, preliminary</strong><br>
+                    Root-caused the prompt-74 LLMLingua n=100 stop as an artifact durability issue: measured rows
+                    were only written at final completion. Added warm-up-first execution, per-prompt JSONL writes
+                    with flush/fsync, resume/overwrite safety, and protocol metadata. Verified LLMLingua-AR-R2 and
+                    CC-LLM-R2 n=3 plus Baseline-AR and DFlash-R1 n=1 protocol smokes. Task 45 final benchmark remains
+                    partial until compressed n=100 artifacts complete and pass audit.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-06</div>
+                <div class="log-body">
+                    <strong>Task 45-final-artifact-audit — PASS</strong><br>
+                    Audited the four final n=100 artifacts for Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-LLM-R2.
+                    Verified 400 total JSONL rows, compatible schema, condition identity, compressed PASS logs,
+                    per-prompt protocol metadata for compressed artifacts, and accepted legacy schema for Baseline-AR
+                    plus DFlash-R1. Task 46 Pareto analysis/report is next.
                 </div>
             </div>
         </section>
