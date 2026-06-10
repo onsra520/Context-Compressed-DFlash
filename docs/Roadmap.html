@@ -413,14 +413,15 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 52 artifact audit and metric summary</span>
+                <span class="sv info">→ Current next: Task 53 quality calibration and next-run decision</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 51 staged benchmark expansion. CC-DFlash now uses a two-dataset
+                This roadmap is synced through Task 52 artifact audit and metric summary. CC-DFlash now uses a two-dataset
                 evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
                 long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
-                remains optional/legacy ablation only. Task 51 completed the deferred QMSum DFlash paths at n=3
-                and ran the full frozen two-dataset matrix at n=10. Next step is artifact audit and metric summary.
+                remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
+                tok/s in the tiny smokes, but CPU LLMLingua compression overhead dominates approximate end-to-end
+                latency. Next step is quality calibration and next-run decision, not another blind benchmark.
             </div>
         </header>
 
@@ -1038,12 +1039,21 @@
                             <td class="go">PASS: Stage A and Stage B completed; no stall/OOM observed</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T52</span></td>
-                            <td>Task 51 Artifact Audit and Metric Summary</td>
+                            <td><span class="tnum done">T52</span></td>
+                            <td>Artifact Audit and Metric Summary</td>
                             <td>Audit all Task 51 JSONL artifacts for schema, generated text, dataset metadata,
                                 compression fields, quality proxy readiness, and anomalies; produce a compact
-                                metric summary before any further benchmark expansion</td>
-                            <td class="info">Next: audit/summary only, not another blind benchmark</td>
+                                metric summary before any further benchmark expansion; create report
+                                <code>52-artifact-audit-and-metric-summary-report.md</code></td>
+                            <td class="go">PASS: artifacts structurally valid; CC-DFlash generation-only faster but e2e slower once CPU compression is included</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T53</span></td>
+                            <td>Quality Calibration and Next-Run Decision</td>
+                            <td>Use the Task 52 audit to decide a quality-calibrated next run: GSM8K with
+                                <code>max_new_tokens≥128</code> and QMSum manual/semantic-quality review before any
+                                larger matrix expansion</td>
+                            <td class="info">Next: decision/calibration, not a blind benchmark</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1349,6 +1359,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>52-artifact-audit-and-metric-summary-report.md</code></td>
+                            <td>T52</td>
+                            <td>Artifact Audit and Metric Summary Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1511,6 +1527,18 @@
                             <td>T51</td>
                             <td>QMSum-style long-context staged expansion artifacts</td>
                             <td>4 conditions × 10 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task52_metric_summary.json</code></td>
+                            <td>T52</td>
+                            <td>Task 50/51 artifact audit and metric summary JSON</td>
+                            <td>16 artifacts audited</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task52_metric_table.csv</code></td>
+                            <td>T52</td>
+                            <td>Task 50/51 compact metric table CSV</td>
+                            <td>16 artifact rows</td>
                         </tr>
                         <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
@@ -1719,8 +1747,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 51 staged benchmark expansion</span>
-                <span class="sv info">Current next: Task 52 artifact audit and metric summary</span>
+                <span class="sv go">Synced through Task 52 artifact audit and metric summary</span>
+                <span class="sv info">Current next: Task 53 quality calibration and next-run decision</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2010,6 +2038,18 @@
                     two-dataset matrix at n=10 with unique <code>results/task51_*</code> artifacts,
                     <code>--resume</code>, and generated text. No stall or OOM was observed. Task 52 artifact
                     audit and metric summary is next before any further benchmark expansion.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-11</div>
+                <div class="log-body">
+                    <strong>Task 52 — Artifact Audit and Metric Summary — PASS, preliminary</strong><br>
+                    Audited 16 Task 50/51 JSONL smoke artifacts and generated
+                    <code>results/task52_metric_summary.json</code> plus
+                    <code>results/task52_metric_table.csv</code>. Artifacts are structurally usable. CC-DFlash-R2
+                    improves generation-only tok/s in the tiny smokes, but does not beat DFlash-R1 on approximate
+                    end-to-end time once CPU LLMLingua compression overhead is included. Task 53 quality calibration
+                    and next-run decision is next.
                 </div>
             </div>
         </section>
