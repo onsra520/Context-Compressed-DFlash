@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 49 two-dataset benchmark matrix freeze</span>
+                <span class="pill accent">Synced to Task 50 tiny two-dataset smoke</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -1601,6 +1601,9 @@
                 <strong>Task 49</strong> freezes the post-Task-48 benchmark matrix across both datasets and four
                 conditions: Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-DFlash-R2 / CC-LLM-R2. The next evidence
                 step is a tiny smoke execution on both datasets, not a final benchmark claim.
+                <strong>Task 50</strong> verifies that tiny resume-safe real execution works on all four
+                <code>gsm8k_short</code> conditions plus <code>qmsum_meeting_qa_long</code> Baseline-AR and
+                LLMLingua-AR-R2. QMSum DFlash-R1 and CC-DFlash-R2 remain deferred for a later risk-managed smoke.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1900,7 +1903,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 49 benchmark matrix freeze ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 50 tiny two-dataset smoke ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

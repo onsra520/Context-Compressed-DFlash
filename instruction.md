@@ -174,6 +174,8 @@ Benchmark interpretation:
 - Do not expect compression speedup to be strong on `gsm8k_short`; `T_compress` may dominate short-context prompts.
 - Treat QMSum-style quality as normalized containment / long-answer proxy unless manual review or a semantic judge is explicitly added.
 - Run tiny dry-run/smoke execution on both datasets before any full n=100 benchmark.
+- For benchmark smoke runs, use unique `results/taskNN_*` output filenames, prefer `--resume`, avoid `--overwrite`, and store generated text when quality/audit work will follow.
+- Run the lighter dataset/condition sequence first, then expand only after stable completion; long-context DFlash/CC-DFlash paths may be deferred if runtime or VRAM risk is high.
 
 ### Validation Expectations
 
