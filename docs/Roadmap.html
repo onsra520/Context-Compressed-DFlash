@@ -413,13 +413,13 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 48 paper-ready figures and final report packaging</span>
+                <span class="sv info">→ Current next: Task 49 paper-ready figures and final report packaging</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 47 quality refinement. Task 45 final n=100 artifacts are audited.
-                Task 46 shows CC-LLM-R2 has the highest decode-only throughput, while DFlash-R1 has the strongest
-                end-to-end throughput after CPU compression cost is included. Task 47 refines deterministic numeric
-                answer extraction and keeps quality as a diagnostic proxy, not final semantic correctness.
+                This roadmap is synced through Task 48 dataset-plan migration. CC-DFlash now uses a two-dataset
+                evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
+                long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
+                remains optional/legacy ablation only.
             </div>
         </header>
 
@@ -475,9 +475,10 @@
                             <td>Tasks 37–38 implementation and smoke exist</td>
                         </tr>
                         <tr>
-                            <td>GSM8K+Wikipedia dataset</td>
-                            <td class="warn">Builder exists; audit next</td>
-                            <td>Task 41 sample-mode artifact; Task 42 audit passed</td>
+                            <td>Evaluation datasets</td>
+                            <td class="go">PASS</td>
+                            <td>Main plan: GSM8K short-context + QMSum-style meeting QA long-context. GSM8K+Wikipedia
+                                is optional/legacy ablation only.</td>
                         </tr>
                         <tr>
                             <td>Breakeven curve</td>
@@ -976,7 +977,7 @@
                         <tr>
                             <td><span class="tnum done">T45</span></td>
                             <td>Final Benchmark</td>
-                            <td>Run final n≥100 benchmark per frozen condition on GSM8K+Wikipedia dataset; store all
+                            <td>Historical n≥100 benchmark under the prior GSM8K+Wikipedia dataset plan; store all
                                 artifacts; audit artifacts; create report
                                 <code>45-final-artifact-audit-report.md</code></td>
                             <td class="go">PASS: four n=100 final artifacts audited, 400 rows total; Task 46 Pareto analysis next</td>
@@ -1002,18 +1003,21 @@
                             <td class="go">PASS: deterministic numeric extraction and packaging claim policy completed</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T48</span></td>
-                            <td>Paper-Ready Figures and Final Report Packaging</td>
-                            <td>Package Task 45/46/47 tables and figures with explicit quality caveats; create report
-                                <code>48-paper-ready-figures-final-packaging-report.md</code></td>
-                            <td class="info">Next: allowed only with diagnostic-quality labels, not final semantic correctness</td>
+                            <td><span class="tnum done">T48</span></td>
+                            <td>Two-Dataset Evaluation Plan Migration</td>
+                            <td>Switch main dataset plan to <code>gsm8k_short</code> and
+                                <code>qmsum_meeting_qa_long</code>; keep GSM8K+Wikipedia as optional/legacy ablation;
+                                create report
+                                <code>48-dataset-plan-two-dataset-evaluation-report.md</code></td>
+                            <td class="go">PASS: dataset scripts, registry, runner dry-run, tests, and docs updated</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T49</span></td>
-                            <td>Phase 2 Decision</td>
-                            <td>Gemma4-E2B go/no-go decision based on Phase 1 results; only open if Speedup &gt;1.5×
-                                with EM drop &lt;3%; create report <code>49-phase2-gemma-decision-report.md</code></td>
-                            <td class="muted">Conditional on T48</td>
+                            <td>Paper-Ready Figures and Final Report Packaging</td>
+                            <td>Package Task 45/46/47 tables and figures with explicit quality caveats and updated
+                                dataset policy; create report
+                                <code>49-paper-ready-figures-final-packaging-report.md</code></td>
+                            <td class="info">Next: allowed only with diagnostic-quality labels, not final semantic correctness</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T50</span></td>
@@ -1117,12 +1121,12 @@
                         <tr>
                             <td><strong>Paper Submission Gate</strong></td>
                             <td class="stop">NOT DONE</td>
-                            <td>Requires Phase 1 Complete + Pareto frontier (T46) + quality policy (T47) + paper
-                                figures/final packaging (T48)</td>
+                            <td>Requires Phase 1 Complete + Pareto frontier (T46) + quality policy (T47) + dataset
+                                plan migration (T48) + figures/final packaging (T49+)</td>
                         </tr>
                         <tr>
                             <td><strong>Phase 2 Full GO</strong></td>
-                            <td class="stop">Conditional on T48/T49</td>
+                            <td class="stop">Conditional on T49/T50</td>
                             <td>Only if Phase 1 Complete shows Speedup &gt;1.5× with EM drop &lt;3%</td>
                         </tr>
                     </tbody>
@@ -1302,6 +1306,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>48-dataset-plan-two-dataset-evaluation-report.md</code></td>
+                            <td>T48</td>
+                            <td>Two-Dataset Evaluation Plan Migration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1420,8 +1430,20 @@
                         <tr>
                             <td><code>data/processed/gsm8k_wikipedia_augmented_smoke.jsonl</code></td>
                             <td>T41</td>
-                            <td>GSM8K + Wikipedia augmented sample-mode dataset</td>
+                            <td>GSM8K + Wikipedia augmented sample-mode dataset, legacy/optional ablation</td>
                             <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>data/eval/gsm8k_100.jsonl</code></td>
+                            <td>T48</td>
+                            <td>GSM8K short-context numeric QA evaluation dataset</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>data/eval/qmsum_meeting_qa_100.jsonl</code></td>
+                            <td>T48</td>
+                            <td>QMSum-style meeting QA long-context evaluation dataset</td>
+                            <td>100</td>
                         </tr>
                         <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
@@ -1630,8 +1652,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 47 quality refinement</span>
-                <span class="sv info">Current next: Task 48 paper-ready figures and final report packaging</span>
+                <span class="sv go">Synced through Task 48 dataset-plan migration</span>
+                <span class="sv info">Current next: Task 49 paper-ready figures and final report packaging</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1873,8 +1895,21 @@
                     <code>results/task47_quality_failure_samples.jsonl</code>, and
                     <code>results/task47_quality_table.csv</code>, and wrote
                     <code>docs/reports/47-quality-refinement-and-packaging-policy-report.md</code>. Quality remains
-                    a deterministic numeric-extraction diagnostic, not final semantic correctness. Task 48 is next
-                    for paper-ready figures and final report packaging with explicit caveats.
+                    a deterministic numeric-extraction diagnostic, not final semantic correctness. Task 48 later
+                    updates the dataset plan before paper-ready packaging.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-11</div>
+                <div class="log-body">
+                    <strong>Task 48 — Two-Dataset Evaluation Plan Migration — PASS</strong><br>
+                    Added <code>scripts/fetch_gsm8k_dataset.py</code>,
+                    <code>scripts/fetch_qmsum_meeting_qa_dataset.py</code>, and a named evaluation dataset registry.
+                    Generated <code>data/eval/gsm8k_100.jsonl</code> and
+                    <code>data/eval/qmsum_meeting_qa_100.jsonl</code>. The main dataset plan is now GSM8K
+                    short-context for numeric QA quality and QMSum-style meeting QA long-context for speed/prefill/
+                    compression-overhead evaluation. GSM8K+Wikipedia augmented data remains legacy/optional ablation.
+                    Task 49 paper-ready packaging is next.
                 </div>
             </div>
         </section>

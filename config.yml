@@ -18,7 +18,10 @@ compression:
     default_keep_rate: 0.5
 
 benchmark:
-  dataset: gsm8k
+  dataset: gsm8k_short
   max_new_tokens: 128
   block_size: 16
   temperature: 0.0
+  evaluation_datasets:
+    gsm8k_short: data/eval/gsm8k_100.jsonl
+    qmsum_meeting_qa_long: data/eval/qmsum_meeting_qa_100.jsonl

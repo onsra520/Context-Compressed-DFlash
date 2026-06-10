@@ -142,6 +142,17 @@ cat .understand-anything/meta.json 2>/dev/null || true
 - Do not claim compression has been proven useful end-to-end.
 - Keep all benchmark and evidence claims preliminary unless an explicit numbered report proves otherwise.
 
+### Dataset Evaluation Policy
+
+- CC-DFlash uses a two-dataset evaluation setup:
+  - `gsm8k_short`: GSM8K short-context numeric QA for answer extraction / exact-match proxy.
+  - `qmsum_meeting_qa_long`: QMSum-style meeting QA long-context data for speed, prefill, and compression-overhead evaluation.
+- These are evaluation / benchmark datasets only; they are not training datasets.
+- They are not official LLMLingua-2 paper benchmark reproduction datasets.
+- GSM8K+Wikipedia augmented data is optional / legacy ablation only, not the main CC-DFlash dataset plan.
+- For QMSum-style meeting QA, use containment / normalized-text proxy unless manual or LLM-judge evaluation is explicitly added and documented. Do not claim exact semantic correctness from this proxy.
+- CC-DFlash remains an end-to-end hypothesis evaluation: compression is useful only if prefill savings plus DFlash decoding gain outweigh LLMLingua-2 `T_compress` while preserving quality.
+
 ### Validation Expectations
 
 - Every meaningful agent task must produce a verification summary.

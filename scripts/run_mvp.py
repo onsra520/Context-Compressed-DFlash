@@ -6,6 +6,7 @@ import json
 import hashlib
 import os
 import statistics
+import sys
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -13,10 +14,15 @@ from datetime import datetime, timezone
 
 import torch
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from ccdf.config import load_config
 from ccdf.compression.llmlingua import LLMLinguaCompressor
 from ccdf.dflash.generate import dflash_generate
 from ccdf.dflash.loader import load_draft, load_tokenizer
+from scripts.eval_datasets import DATASET_REGISTRY, select_eval_dataset_rows
 
 BENCHMARK_PROTOCOL_VERSION = "per_prompt_jsonl_v1"
 
@@ -130,9 +136,9 @@ def _read_config(path: str | Path, *, max_new_tokens_override: int | None = None
 def _condition_keep_rate(condition: str, default_keep_rate: float) -> float | None:
     if condition in {"Baseline-AR", "DFlash-R1"}:
         return None
-    if condition in {"CC-LLM-R2", "LLMLingua-AR-R2"}:
+    if condition in {"CC-LLM-R2", "CC-DFlash-R2", "LLMLingua-AR-R2"}:
         return 0.5
-    if condition in {"CC-LLM-R3", "LLMLingua-AR-R3"}:
+    if condition in {"CC-LLM-R3", "CC-DFlash-R3", "LLMLingua-AR-R3"}:
         return 0.33
     raise ValueError(f"Unsupported condition: {condition}")
 
@@ -200,36 +206,65 @@ def _fixture_metadata(row: dict) -> dict:
     }
 
 
+def _metadata_from_dataset_row(row) -> dict:
+    return {
+        "prompt_source": "dataset",
+        "dataset_name": row.dataset_name,
+        "dataset_id": row.id,
+        "fixture_id": row.id,
+        "domain": row.domain,
+        "expected_answer": row.expected_answer,
+        "evidence": row.evidence,
+        "approximate_context_words": row.approximate_context_words,
+        "quality_policy": row.quality_policy,
+    }
+
+
 def _select_prompt_items(
     *,
     prompt_source: str,
     n_prompts: int,
     fixture_path: Path | None,
+    dataset_name: str = "gsm8k_short",
+    dataset_path: Path | None = None,
+    seed: int = 42,
 ) -> list[PromptItem]:
     if prompt_source == "smoke":
         return [
             PromptItem(prompt_id=index + 1, text=PROMPTS[index % len(PROMPTS)])
             for index in range(n_prompts)
         ]
-    if prompt_source != "fixture":
-        raise ValueError(f"Unsupported prompt source: {prompt_source}")
-    if fixture_path is None:
-        raise ValueError("--fixture is required when --prompt-source=fixture")
-
-    rows = _load_fixture_rows(fixture_path)
-    items = []
-    for index in range(n_prompts):
-        row = rows[index % len(rows)]
-        items.append(
+    if prompt_source == "dataset":
+        rows = select_eval_dataset_rows(dataset_name, n=n_prompts, seed=seed, path=dataset_path)
+        return [
             PromptItem(
-                prompt_id=index + 1,
-                text=_prompt_from_fixture_row(row),
-                context=row["context"],
-                question=row["question"],
-                metadata=_fixture_metadata(row),
+                prompt_id=index,
+                text=row.prompt,
+                context=row.context,
+                question=row.question,
+                metadata=_metadata_from_dataset_row(row),
             )
-        )
-    return items
+            for index, row in enumerate(rows, start=1)
+        ]
+    if prompt_source == "fixture":
+        if fixture_path is None:
+            raise ValueError("--fixture is required when --prompt-source=fixture")
+
+        rows = _load_fixture_rows(fixture_path)
+        items = []
+        for index in range(n_prompts):
+            row = rows[index % len(rows)]
+            items.append(
+                PromptItem(
+                    prompt_id=index + 1,
+                    text=_prompt_from_fixture_row(row),
+                    context=row["context"],
+                    question=row["question"],
+                    metadata=_fixture_metadata(row),
+                )
+            )
+        return items
+    raise ValueError(f"Unsupported prompt source: {prompt_source}")
 
 
 def _require_cuda() -> None:
@@ -779,8 +814,16 @@ def main() -> None:
     parser.add_argument("--condition", default="DFlash-R1")
     parser.add_argument("--n", type=int, default=3)
     parser.add_argument("--output", default="results/dflash_r1_smoke.jsonl")
-    parser.add_argument("--prompt-source", choices=["smoke", "fixture"], default="smoke")
+    parser.add_argument("--prompt-source", choices=["smoke", "fixture", "dataset"], default="smoke")
     parser.add_argument("--fixture", type=Path, default=None)
+    parser.add_argument("--dataset", choices=sorted(DATASET_REGISTRY), default="gsm8k_short")
+    parser.add_argument("--dataset-path", type=Path, default=None)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--dry-run-prompts",
+        action="store_true",
+        help="Load and format prompts, then exit before output writes, CUDA, tokenizer, compressor, or model loading.",
+    )
     parser.add_argument("--store-generated-text", action="store_true")
     parser.add_argument("--warmup-prompts", type=int, default=0)
     parser.add_argument("--resume", action="store_true")
@@ -805,12 +848,46 @@ def main() -> None:
         prompt_source=args.prompt_source,
         n_prompts=n_prompts,
         fixture_path=args.fixture,
+        dataset_name=args.dataset,
+        dataset_path=args.dataset_path,
+        seed=args.seed,
     )
     warmup_items = _select_prompt_items(
         prompt_source=args.prompt_source,
         n_prompts=warmup_count,
         fixture_path=args.fixture,
+        dataset_name=args.dataset,
+        dataset_path=args.dataset_path,
+        seed=args.seed,
     ) if warmup_count else []
+
+    if args.dry_run_prompts:
+        print("Prompt dry-run")
+        print(f"Prompt source: {args.prompt_source}")
+        if args.prompt_source == "dataset":
+            dataset_path = args.dataset_path or DATASET_REGISTRY[args.dataset]["path"]
+            print(f"Dataset: {args.dataset}")
+            print(f"Dataset path: {dataset_path}")
+            print(f"Seed: {args.seed}")
+        if args.fixture is not None:
+            print(f"Fixture path: {args.fixture}")
+        print(f"Prompt count: {len(prompt_items)}")
+        for item in prompt_items:
+            metadata = item.metadata
+            print(
+                "prompt_id={prompt_id} id={row_id} domain={domain} "
+                "expected_answer={expected_answer!r} context_words={context_words} text_chars={text_chars}".format(
+                    prompt_id=item.prompt_id,
+                    row_id=metadata.get("dataset_id") or metadata.get("fixture_id", ""),
+                    domain=metadata.get("domain", ""),
+                    expected_answer=metadata.get("expected_answer", ""),
+                    context_words=metadata.get("approximate_context_words", ""),
+                    text_chars=len(item.text),
+                )
+            )
+        print("Final status: DRY-RUN-PASS")
+        return
+
     try:
         output_state = _prepare_output_state(
             output_path,

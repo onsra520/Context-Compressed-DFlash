@@ -319,7 +319,9 @@ def test_cc_llm_conditions_define_expected_keep_rates():
     assert _condition_keep_rate("Baseline-AR", 0.5) is None
     assert _condition_keep_rate("DFlash-R1", 0.5) is None
     assert _condition_keep_rate("CC-LLM-R2", 0.5) == pytest.approx(0.5)
+    assert _condition_keep_rate("CC-DFlash-R2", 0.5) == pytest.approx(0.5)
     assert _condition_keep_rate("CC-LLM-R3", 0.5) == pytest.approx(0.33)
+    assert _condition_keep_rate("CC-DFlash-R3", 0.5) == pytest.approx(0.33)
     assert _condition_keep_rate("LLMLingua-AR-R2", 0.5) == pytest.approx(0.5)
     assert _condition_keep_rate("LLMLingua-AR-R3", 0.5) == pytest.approx(0.33)
 

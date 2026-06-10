@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 47 quality refinement</span>
+                <span class="pill accent">Synced to Task 48 two-dataset evaluation plan</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -637,7 +637,7 @@
             </div>
 
             <div class="note warn">
-                <strong>What has not been proven (after Task 47 quality refinement):</strong> (1) Confirmed 8 GB deployment —
+                <strong>What has not been proven (after Task 48 dataset-plan migration):</strong> (1) Confirmed 8 GB deployment —
                 Task 39 records smoke VRAM under load, but deployment readiness is not established.
                 (2) Final semantic correctness — Task 47 refines deterministic numeric extraction diagnostics, not
                 human, LLM-judge, or robust semantic grading.
@@ -646,7 +646,9 @@
                 Task 45-data-fix provides the full source-mode dataset, and Task 45-runner-fix hardens artifact
                 durability. Task 46 shows CC-LLM-R2 has the best decode-only throughput, but DFlash-R1 remains best
                 under end-to-end latency with CPU compression cost included. Task 47 keeps throughput and diagnostic
-                quality as separate presentation axes.
+                quality as separate presentation axes. Task 48 changes the forward dataset plan to two evaluation
+                datasets: GSM8K short-context for numeric QA quality and QMSum-style meeting QA long-context for
+                speed, prefill, and compression-overhead evaluation.
             </div>
         </section>
 
@@ -1112,24 +1114,24 @@
 
             <h3>7.3 Dataset Plan</h3>
             <p>
-                Short-context: GSM8K test set (1,319 samples, 100–300 tokens). Primary quality metric.<br>
-                Long-context: GSM8K + Wikipedia augmented dataset (500–1,500 tokens). Primary speedup metric.
-                Task 41 adds a reproducible builder and dev-safe sample artifact; Task 42 audits the sample-mode
-                artifact. Task 43 validates the runner path on the audited sample-mode dataset. Task 43.5 shows the
-                original quality warning was driven by the 32-token cap and mitigates the DFlash-R1 calibration path
-                with a 128-token output budget plus extraction-aware scoring. Task 44 freezes final-matrix policy:
-                sample-mode is smoke-only, and final benchmark use requires full source-mode data generation and audit.
-                Task 44.5 confirms those full-source gates were not met; Task 45-prep implements the
-                frozen-schema audit path, and Task 45-data-fix generates and audits the local JSONL-backed
-                GSM8K + SQuAD-derived Wikipedia source-mode dataset.
+                CC-DFlash now uses a two-dataset evaluation setup reused from the LLMLingua-2-Preproduction
+                evaluation style, but not as an official LLMLingua-2 benchmark reproduction and not as training data.
+                <br>
+                Short-context quality: <code>gsm8k_short</code>, stored at
+                <code>data/eval/gsm8k_100.jsonl</code>, for numeric QA answer extraction / exact-match proxy.
+                <br>
+                Long-context efficiency: <code>qmsum_meeting_qa_long</code>, stored at
+                <code>data/eval/qmsum_meeting_qa_100.jsonl</code>, for speed, prefill, and compression-overhead
+                evaluation on meeting QA prompts. QMSum-style quality remains a containment / normalized text proxy
+                unless a manual or LLM-judge evaluation is explicitly added later.
+                <br>
+                The previous GSM8K + Wikipedia augmented dataset remains available as optional/legacy ablation only.
             </p>
             <div class="note warn">
-                Final benchmark requires n≥100 per condition and the real GSM8K+Wikipedia augmented dataset.
-                Current dataset artifact is sample-mode and audit-passed for schema/leakage/reproducibility only.
-                Task 43 is pipeline validation, Task 43.5 is quality-path calibration, Task 44 is specification
-                freeze, Task 44.5 is a readiness gate, Task 45-prep is schema/data-readiness preparation, and
-                Task 45-data-fix is dataset materialization; none are final benchmark evidence.
-                No final claims can be made from current data.
+                Dataset artifacts are evaluation inputs only. They do not prove final speedup, final correctness,
+                deployment readiness, or end-to-end compression benefit. CC-DFlash remains an end-to-end hypothesis:
+                compression is useful only if prefill savings plus DFlash decoding gain outweigh LLMLingua-2
+                <code>T_compress</code> while preserving quality.
             </div>
         </section>
 
@@ -1241,7 +1243,7 @@
 
         <!-- ─────────────────────────────────────────── 9. EVIDENCE SUMMARY -->
         <section>
-            <h2>9. Evidence Summary through Task 47 Quality Refinement</h2>
+            <h2>9. Evidence Summary through Task 48 Dataset-Plan Migration</h2>
 
             <div class="phase-grid">
                 <div class="phase-card done">
@@ -1429,7 +1431,17 @@
                         <li>Added deterministic numeric answer extraction with final-answer marker handling</li>
                         <li>Generated quality summary, compact failure samples, and quality CSV table</li>
                         <li>Baseline-AR and DFlash-R1 remain close on diagnostic numeric extraction; compressed paths are lower</li>
-                        <li>Task 48 figures may proceed only with quality labeled as diagnostic, not semantic correctness</li>
+                        <li>Task 49 figures may proceed only with quality labeled as diagnostic, not semantic correctness</li>
+                    </ul>
+                </div>
+                <div class="phase-card done">
+                    <span class="phase-badge pass">PASS</span>
+                    <div class="phase-title">Two-Dataset Evaluation Plan (Task 48)</div>
+                    <ul>
+                        <li>Main evaluation path changed to GSM8K short-context + QMSum-style meeting QA long-context</li>
+                        <li>GSM8K+Wikipedia augmented data moved to optional/legacy ablation</li>
+                        <li>GSM8K quality policy: deterministic numeric extraction / exact-match proxy</li>
+                        <li>QMSum-style quality policy: containment / normalized text proxy, not semantic correctness</li>
                     </ul>
                 </div>
             </div>
@@ -1437,7 +1449,7 @@
 
         <!-- ─────────────────────────────────────────── 10. CURRENT INTERPRETATION -->
         <section>
-            <h2>10. Current Interpretation after Task 47 Quality Refinement</h2>
+            <h2>10. Current Interpretation after Task 48 Dataset-Plan Migration</h2>
 
             <h3>10.1 Carry-Forward Decision</h3>
             <div class="table-wrap">
@@ -1502,7 +1514,11 @@
                 input reduction/prefill, but CPU compression cost is the main bottleneck in this run.
                 <strong>Task 47</strong> refines quality diagnostics with deterministic numeric extraction and compact
                 failure samples. It does not establish final semantic correctness; it only makes the quality caveat
-                explicit enough for carefully labeled Task 48 figures.
+                explicit enough for carefully labeled Task 49 figures.
+                <strong>Task 48</strong> changes the forward dataset policy to two evaluation datasets: GSM8K
+                short-context for numeric QA quality and QMSum-style meeting QA long-context for speed/prefill/
+                compression-overhead evaluation. The old GSM8K+Wikipedia augmented path is retained only as
+                optional/legacy ablation.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1527,9 +1543,10 @@
                             <td>Task 45: final benchmark n≥100</td>
                         </tr>
                         <tr>
-                            <td>GSM8K+Wikipedia sample-mode artifact audited only</td>
-                            <td>Generalizability unknown</td>
-                            <td>Full source-mode generation and audit still needed before final benchmark</td>
+                            <td>Dataset plan changed after GSM8K+Wikipedia</td>
+                            <td>Old artifacts are not the main evidence path</td>
+                            <td>Task 48: main plan is GSM8K short-context + QMSum-style meeting QA; old
+                                GSM8K+Wikipedia is optional/legacy ablation</td>
                         </tr>
                         <tr>
                             <td>Containment ≠ semantic correctness</td>
@@ -1625,11 +1642,11 @@
                             <td>Tasks 37–38: implement and smoke Baseline-AR before submit</td>
                         </tr>
                         <tr>
-                            <td>GSM8K augmented benchmark not reproducible</td>
+                            <td>Dataset mismatch between quality and speed goals</td>
                             <td><span class="rbadge md">Medium</span></td>
-                            <td class="warn">Planned</td>
-                            <td>Task 42 sample-mode audit passed; Task 43 sample-mode rerun passed as pipeline
-                                validation; full source-mode audit still needed</td>
+                            <td class="go">Mitigated by Task 48</td>
+                            <td>Use GSM8K short-context for numeric quality and QMSum-style meeting QA for
+                                long-context speed/prefill/compression-overhead evaluation</td>
                         </tr>
                         <tr>
                             <td>Gemma4-E2B numeric token loss (abstractive)</td>
@@ -1657,8 +1674,8 @@
                     <li>Use Task 39 <strong>T_prefill</strong> smoke measurement in breakeven analysis</li>
                     <li>Use Task 40 <strong>breakeven v1</strong> summary as a preliminary planning artifact
                     </li>
-                    <li>Use Task 42 sample-mode audit as a guardrail, then generate/audit full source-mode data before
-                        final benchmark use</li>
+                    <li>Use Task 48 two-dataset evaluation plan: GSM8K short-context for quality and QMSum-style
+                        meeting QA long-context for speed/prefill/compression-overhead evaluation</li>
                     <li>Follow Task 44 frozen matrix: Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-LLM-R2; keep
                         CC-LLM-R3 deferred/watchlist</li>
                     <li>Use max_new_tokens≥128, store generated text, and report extracted numeric answer exact match
@@ -1801,7 +1818,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 47 quality refinement ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 48 two-dataset evaluation plan ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
