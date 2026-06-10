@@ -413,10 +413,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 49 paper-ready figures and final report packaging</span>
+                <span class="sv info">→ Current next: Task 50 two-dataset smoke benchmark execution</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 48 dataset-plan migration. CC-DFlash now uses a two-dataset
+                This roadmap is synced through Task 49 benchmark matrix freeze. CC-DFlash now uses a two-dataset
                 evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
                 long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
                 remains optional/legacy ablation only.
@@ -1012,20 +1012,20 @@
                             <td class="go">PASS: dataset scripts, registry, runner dry-run, tests, and docs updated</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T49</span></td>
-                            <td>Paper-Ready Figures and Final Report Packaging</td>
-                            <td>Package Task 45/46/47 tables and figures with explicit quality caveats and updated
-                                dataset policy; create report
-                                <code>49-paper-ready-figures-final-packaging-report.md</code></td>
-                            <td class="info">Next: allowed only with diagnostic-quality labels, not final semantic correctness</td>
+                            <td><span class="tnum done">T49</span></td>
+                            <td>Two-Dataset Benchmark Matrix Freeze</td>
+                            <td>Freeze post-Task-48 matrix across <code>gsm8k_short</code> and
+                                <code>qmsum_meeting_qa_long</code>; define Baseline-AR, DFlash-R1,
+                                LLMLingua-AR-R2, and CC-DFlash-R2 / CC-LLM-R2 policy; create report
+                                <code>49-two-dataset-benchmark-matrix-freeze-report.md</code></td>
+                            <td class="go">PASS: specification only; no model/compressor/CUDA benchmark run</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T50</span></td>
-                            <td>Phase 2 Plan</td>
-                            <td>If T49 GO: write Phase 2 compressor plan; implement
-                                <code>src/ccdf/compression/gemma.py</code> skeleton; define Phase 2 conditions and
-                                safety checks</td>
-                            <td class="muted">Conditional on T49 GO</td>
+                            <td>Two-Dataset Smoke Benchmark Execution</td>
+                            <td>Run tiny n=3 or n=5 smoke benchmarks on both evaluation datasets using the frozen
+                                Task 49 matrix before any full n=100 run; keep claims preliminary</td>
+                            <td class="info">Next: dry-run/smoke execution only, not final benchmark claim</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1122,11 +1122,12 @@
                             <td><strong>Paper Submission Gate</strong></td>
                             <td class="stop">NOT DONE</td>
                             <td>Requires Phase 1 Complete + Pareto frontier (T46) + quality policy (T47) + dataset
-                                plan migration (T48) + figures/final packaging (T49+)</td>
+                                plan migration (T48) + benchmark matrix freeze (T49) + post-T49 smoke/full
+                                benchmark evidence + figures/final packaging</td>
                         </tr>
                         <tr>
                             <td><strong>Phase 2 Full GO</strong></td>
-                            <td class="stop">Conditional on T49/T50</td>
+                            <td class="stop">Conditional on post-T49 benchmark evidence</td>
                             <td>Only if Phase 1 Complete shows Speedup &gt;1.5× with EM drop &lt;3%</td>
                         </tr>
                     </tbody>
@@ -1309,6 +1310,12 @@
                             <td><code>48-dataset-plan-two-dataset-evaluation-report.md</code></td>
                             <td>T48</td>
                             <td>Two-Dataset Evaluation Plan Migration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>49-two-dataset-benchmark-matrix-freeze-report.md</code></td>
+                            <td>T49</td>
+                            <td>Two-Dataset Benchmark Matrix Freeze Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -1652,8 +1659,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 48 dataset-plan migration</span>
-                <span class="sv info">Current next: Task 49 paper-ready figures and final report packaging</span>
+                <span class="sv go">Synced through Task 49 benchmark matrix freeze</span>
+                <span class="sv info">Current next: Task 50 two-dataset smoke benchmark execution</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -1896,7 +1903,7 @@
                     <code>results/task47_quality_table.csv</code>, and wrote
                     <code>docs/reports/47-quality-refinement-and-packaging-policy-report.md</code>. Quality remains
                     a deterministic numeric-extraction diagnostic, not final semantic correctness. Task 48 later
-                    updates the dataset plan before paper-ready packaging.
+                    updates the dataset plan before the post-migration benchmark matrix freeze.
                 </div>
             </div>
             <div class="log-entry">
@@ -1909,7 +1916,19 @@
                     <code>data/eval/qmsum_meeting_qa_100.jsonl</code>. The main dataset plan is now GSM8K
                     short-context for numeric QA quality and QMSum-style meeting QA long-context for speed/prefill/
                     compression-overhead evaluation. GSM8K+Wikipedia augmented data remains legacy/optional ablation.
-                    Task 49 paper-ready packaging is next.
+                    Task 49 benchmark matrix freeze is next.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-11</div>
+                <div class="log-body">
+                    <strong>Task 49 — Two-Dataset Benchmark Matrix Freeze — PASS, specification only</strong><br>
+                    Froze the post-Task-48 matrix across <code>gsm8k_short</code> and
+                    <code>qmsum_meeting_qa_long</code> for Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and
+                    CC-DFlash-R2 / CC-LLM-R2. GSM8K is the numeric answer-quality dataset; QMSum-style meeting QA
+                    is the long-context speed/prefill/compression-overhead dataset. No benchmark, model loading,
+                    compressor loading, CUDA, or result artifact modification was performed. Task 50 smoke execution
+                    is next before any full n=100 run.
                 </div>
             </div>
         </section>

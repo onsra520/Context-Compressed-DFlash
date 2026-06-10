@@ -153,6 +153,28 @@ cat .understand-anything/meta.json 2>/dev/null || true
 - For QMSum-style meeting QA, use containment / normalized-text proxy unless manual or LLM-judge evaluation is explicitly added and documented. Do not claim exact semantic correctness from this proxy.
 - CC-DFlash remains an end-to-end hypothesis evaluation: compression is useful only if prefill savings plus DFlash decoding gain outweigh LLMLingua-2 `T_compress` while preserving quality.
 
+### Frozen Post-Task-48 Benchmark Matrix
+
+Use this matrix for the next benchmark phase unless `docs/Roadmap.html` or the user explicitly changes it:
+
+| Dataset | Main role | Conditions | Primary metrics |
+| --- | --- | --- | --- |
+| `gsm8k_short` | Short-context numeric QA quality / answer extraction | Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-DFlash-R2 / CC-LLM-R2 | numeric exact-match proxy, invalid output rate; latency and tok/s are secondary |
+| `qmsum_meeting_qa_long` | Long-context speed / prefill / compression-overhead evaluation | Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-DFlash-R2 / CC-LLM-R2 | end-to-end latency, `T_compress`, `T_prefill`, tok/s, compression ratio / input token reduction, `tau_mean`, VRAM |
+
+Condition definitions:
+
+- Baseline-AR: no compression, no DFlash, target autoregressive baseline.
+- DFlash-R1: no compression, DFlash decoding, full prompt.
+- LLMLingua-AR-R2: LLMLingua-2 compression, `keep_rate=0.5`, no DFlash; attribution baseline for compression-only benefit.
+- CC-DFlash-R2 / CC-LLM-R2: LLMLingua-2 compression, `keep_rate=0.5`, DFlash decoding; main CC-DFlash condition.
+
+Benchmark interpretation:
+
+- Do not expect compression speedup to be strong on `gsm8k_short`; `T_compress` may dominate short-context prompts.
+- Treat QMSum-style quality as normalized containment / long-answer proxy unless manual review or a semantic judge is explicitly added.
+- Run tiny dry-run/smoke execution on both datasets before any full n=100 benchmark.
+
 ### Validation Expectations
 
 - Every meaningful agent task must produce a verification summary.

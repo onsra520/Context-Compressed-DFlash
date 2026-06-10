@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 48 two-dataset evaluation plan</span>
+                <span class="pill accent">Synced to Task 49 two-dataset benchmark matrix freeze</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -1133,6 +1133,85 @@
                 compression is useful only if prefill savings plus DFlash decoding gain outweigh LLMLingua-2
                 <code>T_compress</code> while preserving quality.
             </div>
+
+            <h3>7.4 Frozen Post-Task-48 Benchmark Matrix</h3>
+            <p>
+                Task 49 freezes the next benchmark phase as a two-dataset matrix. The matrix is designed to separate
+                short-context answer quality from long-context efficiency behavior before any larger n=100 run.
+            </p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Condition</th>
+                            <th>Purpose</th>
+                            <th>Primary Metrics</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>gsm8k_short</code></td>
+                            <td>Baseline-AR</td>
+                            <td>Target autoregressive quality baseline; no compression, no DFlash</td>
+                            <td>Numeric exact-match proxy, invalid output rate; latency/tok/s secondary</td>
+                        </tr>
+                        <tr>
+                            <td><code>gsm8k_short</code></td>
+                            <td>DFlash-R1</td>
+                            <td>No-compression DFlash baseline on full prompt</td>
+                            <td>Numeric exact-match proxy, invalid output rate; latency/tok/s secondary</td>
+                        </tr>
+                        <tr>
+                            <td><code>gsm8k_short</code></td>
+                            <td>LLMLingua-AR-R2</td>
+                            <td>Compression-only attribution baseline with keep_rate=0.5</td>
+                            <td>Numeric exact-match proxy, invalid output rate, T_compress, R_actual</td>
+                        </tr>
+                        <tr>
+                            <td><code>gsm8k_short</code></td>
+                            <td>CC-DFlash-R2 / CC-LLM-R2</td>
+                            <td>Main compressed DFlash condition with keep_rate=0.5</td>
+                            <td>Numeric exact-match proxy, invalid output rate, T_compress, R_actual, tau_mean</td>
+                        </tr>
+                        <tr>
+                            <td><code>qmsum_meeting_qa_long</code></td>
+                            <td>Baseline-AR</td>
+                            <td>Target autoregressive long-context latency baseline</td>
+                            <td>End-to-end latency, T_prefill, tok/s, VRAM</td>
+                        </tr>
+                        <tr>
+                            <td><code>qmsum_meeting_qa_long</code></td>
+                            <td>DFlash-R1</td>
+                            <td>No-compression DFlash long-context baseline on full prompt</td>
+                            <td>End-to-end latency, T_prefill, tok/s, tau_mean, VRAM</td>
+                        </tr>
+                        <tr>
+                            <td><code>qmsum_meeting_qa_long</code></td>
+                            <td>LLMLingua-AR-R2</td>
+                            <td>Compression-only long-context attribution baseline with keep_rate=0.5</td>
+                            <td>T_compress, T_prefill, end-to-end latency, R_actual, input token reduction, VRAM</td>
+                        </tr>
+                        <tr>
+                            <td><code>qmsum_meeting_qa_long</code></td>
+                            <td>CC-DFlash-R2 / CC-LLM-R2</td>
+                            <td>Main long-context CC-DFlash condition with keep_rate=0.5</td>
+                            <td>T_compress, T_prefill, end-to-end latency, tok/s, R_actual, tau_mean, VRAM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note info">
+                <strong>Quality policy:</strong> GSM8K uses extracted numeric exact-match proxy. QMSum-style meeting
+                QA uses normalized containment / long-answer proxy and may require manual review; do not claim exact
+                semantic correctness without a manual or semantic judge.
+            </div>
+            <div class="note warn">
+                <strong>Short-context caution:</strong> compression speedup is not expected to be strong on
+                <code>gsm8k_short</code> because LLMLingua-2 <code>T_compress</code> can dominate. Long-context
+                breakeven should be evaluated on <code>qmsum_meeting_qa_long</code> with measured
+                <code>T_prefill</code>, <code>T_compress</code>, and input token reduction.
+            </div>
         </section>
 
         <!-- ─────────────────────────────────────────── 8. METRIC PHILOSOPHY -->
@@ -1431,7 +1510,7 @@
                         <li>Added deterministic numeric answer extraction with final-answer marker handling</li>
                         <li>Generated quality summary, compact failure samples, and quality CSV table</li>
                         <li>Baseline-AR and DFlash-R1 remain close on diagnostic numeric extraction; compressed paths are lower</li>
-                        <li>Task 49 figures may proceed only with quality labeled as diagnostic, not semantic correctness</li>
+                        <li>Future figures may proceed only with quality labeled as diagnostic, not semantic correctness</li>
                     </ul>
                 </div>
                 <div class="phase-card done">
@@ -1514,11 +1593,14 @@
                 input reduction/prefill, but CPU compression cost is the main bottleneck in this run.
                 <strong>Task 47</strong> refines quality diagnostics with deterministic numeric extraction and compact
                 failure samples. It does not establish final semantic correctness; it only makes the quality caveat
-                explicit enough for carefully labeled Task 49 figures.
+                explicit enough for carefully labeled future figures.
                 <strong>Task 48</strong> changes the forward dataset policy to two evaluation datasets: GSM8K
                 short-context for numeric QA quality and QMSum-style meeting QA long-context for speed/prefill/
                 compression-overhead evaluation. The old GSM8K+Wikipedia augmented path is retained only as
                 optional/legacy ablation.
+                <strong>Task 49</strong> freezes the post-Task-48 benchmark matrix across both datasets and four
+                conditions: Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-DFlash-R2 / CC-LLM-R2. The next evidence
+                step is a tiny smoke execution on both datasets, not a final benchmark claim.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1818,7 +1900,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 48 two-dataset evaluation plan ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 49 benchmark matrix freeze ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
