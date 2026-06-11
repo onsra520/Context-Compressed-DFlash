@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 58 protect GSM8K final-answer instruction in compressed prompts</span>
+                <span class="sv info">→ Current next: Task 59 tiny compressed GSM8K suffix verification rerun</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 56 GSM8K final-answer calibration. CC-DFlash now uses a two-dataset
@@ -425,8 +425,9 @@
                 resolve compressed-condition quality. Task 54 finds mixed truncation and compression-risk signals.
                 Task 55 freezes a stricter GSM8K final-answer prompt and compressed-prompt preview metadata. Task 56
                 shows max_new_tokens=192 improves numeric extraction, especially for uncompressed rows. Task 57 finds
-                compressed metadata complete but strict final-answer instruction absent from compressed prompt previews;
-                protect that instruction before larger runs.
+                compressed metadata complete but strict final-answer instruction absent from compressed prompt previews.
+                Task 58 protects that instruction as a post-compression GSM8K suffix and adds prompt-tail preview
+                fields for future artifacts.
             </div>
         </header>
 
@@ -1094,12 +1095,20 @@
                             <td class="go">PASS: metadata complete; final-answer instruction not visible in compressed previews</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T58</span></td>
+                            <td><span class="tnum done">T58</span></td>
                             <td>Protect GSM8K Final-Answer Instruction</td>
                             <td>Ensure compressed GSM8K prompts preserve the strict final-answer instruction outside
                                 the compressible context and add prompt-tail preview evidence before another quality
                                 calibration</td>
-                            <td class="info">Next: tiny runtime/prompt fix before max_new_tokens or keep_rate experiments</td>
+                            <td class="go">PASS: protected suffix and final prompt preview metadata added</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T59</span></td>
+                            <td>Tiny Compressed GSM8K Suffix Verification</td>
+                            <td>Run a tiny compressed-only GSM8K metadata rerun to verify future artifacts show
+                                <code>protected_suffix_preserved=true</code> and visible final-answer instruction
+                                previews before quality calibration resumes</td>
+                            <td class="info">Next: n=1 or n=3 metadata smoke only; no n=100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1438,6 +1447,12 @@
                             <td><code>57-compressed-gsm8k-preview-triage-report.md</code></td>
                             <td>T57</td>
                             <td>Compressed GSM8K Preview Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>58-gsm8k-protected-final-answer-suffix-report.md</code></td>
+                            <td>T58</td>
+                            <td>GSM8K Protected Final-Answer Suffix Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -1883,8 +1898,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 57 compressed GSM8K preview triage</span>
-                <span class="sv info">Current next: Task 58 protect GSM8K final-answer instruction</span>
+                <span class="sv go">Synced through Task 58 GSM8K protected final-answer suffix</span>
+                <span class="sv info">Current next: Task 59 tiny compressed suffix verification</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2240,6 +2255,17 @@
                     0/20 compressed prompt previews. Direct compression-loss evidence is not supported by complete
                     previews. Task 58 should protect the final-answer instruction and add prompt-tail preview
                     evidence before testing larger output caps, gentler keep rates, or larger n.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 58 — GSM8K Protected Final-Answer Suffix — PASS</strong><br>
+                    Updated compressed GSM8K prompt assembly so the original math question remains the protected
+                    LLMLingua question and the strict final-answer instruction is appended after compression. Added
+                    <code>protected_suffix_preview</code>, <code>final_prompt_preview</code>, and
+                    <code>final_prompt_tail_preview</code> metadata for future artifacts. No real benchmark was run.
+                    Task 59 should run a tiny compressed-only metadata verification before further quality calibration.
                 </div>
             </div>
         </section>

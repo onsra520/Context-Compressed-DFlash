@@ -7,6 +7,7 @@ from scripts.eval_datasets import load_eval_dataset, select_eval_dataset_rows, w
 from scripts.fetch_gsm8k_dataset import build_gsm8k_short_rows
 from scripts.fetch_qmsum_meeting_qa_dataset import build_qmsum_eval_rows
 from scripts.run_mvp import _select_prompt_items
+from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION
 
 
 def test_build_gsm8k_short_rows_preserves_question_and_numeric_answer(tmp_path: Path):
@@ -90,6 +91,40 @@ def test_eval_dataset_registry_loads_and_samples_deterministically(tmp_path: Pat
     assert loaded[0].prompt.rstrip().endswith("Final answer: <number>")
     assert [row.id for row in first] == [row.id for row in second]
     assert len({row.id for row in first}) == 3
+
+
+def test_run_mvp_gsm8k_dataset_items_keep_instruction_as_protected_suffix(tmp_path: Path):
+    path = tmp_path / "gsm8k_eval.jsonl"
+    write_jsonl(
+        [
+            {
+                "id": "gsm8k_short_test_0001",
+                "dataset_name": "gsm8k_short",
+                "context": "Short context.",
+                "question": "What is 6 + 7?",
+                "expected_answer": "13",
+                "prompt": "Short context.\n\nQuestion: What is 6 + 7?",
+                "domain": "numeric_qa",
+                "evidence": "answer after marker",
+                "approximate_context_words": 2,
+                "quality_policy": "numeric_extraction_exact_match_proxy",
+            }
+        ],
+        path,
+    )
+
+    items = _select_prompt_items(
+        prompt_source="dataset",
+        n_prompts=1,
+        fixture_path=None,
+        dataset_name="gsm8k_short",
+        dataset_path=path,
+        seed=42,
+    )
+
+    assert items[0].text.rstrip().endswith("Final answer: <number>")
+    assert items[0].question == "What is 6 + 7?"
+    assert items[0].protected_suffix == GSM8K_FINAL_ANSWER_INSTRUCTION
 
 
 def test_run_mvp_dataset_prompt_source_uses_registry_rows(tmp_path: Path):

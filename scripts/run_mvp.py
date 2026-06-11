@@ -22,7 +22,7 @@ from ccdf.config import load_config
 from ccdf.compression.llmlingua import LLMLinguaCompressor
 from ccdf.dflash.generate import dflash_generate
 from ccdf.dflash.loader import load_draft, load_tokenizer
-from scripts.eval_datasets import DATASET_REGISTRY, select_eval_dataset_rows
+from scripts.eval_datasets import DATASET_REGISTRY, GSM8K_FINAL_ANSWER_INSTRUCTION, select_eval_dataset_rows
 
 BENCHMARK_PROTOCOL_VERSION = "per_prompt_jsonl_v1"
 
@@ -88,6 +88,7 @@ class PromptItem:
     text: str
     context: str | None = None
     question: str | None = None
+    protected_suffix: str | None = None
     metadata: dict = field(default_factory=dict)
 
 
@@ -153,10 +154,16 @@ def _prepare_cc_prompt(
     compressor: LLMLinguaCompressor,
     keep_rate: float,
     context: str = CC_SMOKE_CONTEXT,
+    protected_suffix: str | None = None,
 ) -> tuple[str, dict]:
     merged_prompt, info = compressor.compress(context=context, question=question, keep_rate=keep_rate)
-    original_prompt = f"{str(context or '').strip()}\n\n{str(question or '').strip()}".strip()
+    original_prompt = _append_protected_suffix(
+        f"{str(context or '').strip()}\n\n{str(question or '').strip()}".strip(),
+        protected_suffix,
+    )
     compressed_context = _without_suffix(merged_prompt, question)
+    final_prompt = _append_protected_suffix(merged_prompt, protected_suffix)
+    suffix_text = str(protected_suffix or "").strip()
     compression_info = {
         "compression": "llmlingua",
         "t_compress_ms": info["t_compress_ms"],
@@ -169,11 +176,15 @@ def _prepare_cc_prompt(
         "compressed_input_tokens": info["N_compressed"],
         "keep_rate": info.get("keep_rate", keep_rate),
         "compressor_model": compressor.model_name,
-        "question_preserved": question in merged_prompt,
+        "question_preserved": question in final_prompt,
+        "protected_suffix_preserved": not suffix_text or suffix_text in final_prompt,
+        "protected_suffix_preview": _preview_text(suffix_text),
         "original_context_preview": _preview_text(context),
         "compressed_context_preview": _preview_text(compressed_context),
         "original_prompt_preview": _preview_text(original_prompt),
-        "compressed_prompt_preview": _preview_text(merged_prompt),
+        "compressed_prompt_preview": _head_tail_preview_text(final_prompt),
+        "final_prompt_preview": _head_tail_preview_text(final_prompt),
+        "final_prompt_tail_preview": _tail_preview_text(final_prompt),
     }
     for field_name in (
         "strategy",
@@ -188,7 +199,7 @@ def _prepare_cc_prompt(
     ):
         if field_name in info:
             compression_info[field_name] = info[field_name]
-    return merged_prompt, compression_info
+    return final_prompt, compression_info
 
 
 def _preview_text(value: object, limit: int = AUDIT_PREVIEW_CHARS) -> str:
@@ -196,6 +207,34 @@ def _preview_text(value: object, limit: int = AUDIT_PREVIEW_CHARS) -> str:
     if len(text) <= limit:
         return text
     return text[:limit] + "..."
+
+
+def _tail_preview_text(value: object, limit: int = AUDIT_PREVIEW_CHARS) -> str:
+    text = " ".join(str(value or "").split())
+    if len(text) <= limit:
+        return text
+    return "..." + text[-limit:]
+
+
+def _head_tail_preview_text(value: object, limit: int = AUDIT_PREVIEW_CHARS) -> str:
+    text = " ".join(str(value or "").split())
+    if len(text) <= limit:
+        return text
+    head_len = max(1, limit // 2)
+    tail_len = max(1, limit - head_len - 3)
+    return f"{text[:head_len]}...{text[-tail_len:]}"
+
+
+def _append_protected_suffix(prompt: str, protected_suffix: str | None) -> str:
+    prompt_text = str(prompt or "").strip()
+    suffix_text = str(protected_suffix or "").strip()
+    if not suffix_text:
+        return prompt_text
+    if prompt_text.endswith(suffix_text):
+        return prompt_text
+    if not prompt_text:
+        return suffix_text
+    return f"{prompt_text}\n\n{suffix_text}"
 
 
 def _without_suffix(text: str, suffix: str) -> str:
@@ -265,6 +304,11 @@ def _select_prompt_items(
                 text=row.prompt,
                 context=row.context,
                 question=row.question,
+                protected_suffix=(
+                    GSM8K_FINAL_ANSWER_INSTRUCTION
+                    if dataset_name == "gsm8k_short"
+                    else None
+                ),
                 metadata=_metadata_from_dataset_row(row),
             )
             for index, row in enumerate(rows, start=1)
@@ -794,9 +838,12 @@ def _run_benchmark_item(
             compressor,
             keep_rate,
             context=compression_context,
+            protected_suffix=item.protected_suffix,
         )
         if not compression_info["question_preserved"]:
             raise RuntimeError(f"protected question was not preserved for prompt {item.prompt_id}")
+        if not compression_info.get("protected_suffix_preserved", True):
+            raise RuntimeError(f"protected suffix was not preserved for prompt {item.prompt_id}")
 
     if is_ar:
         compression_info = compression_info or {}

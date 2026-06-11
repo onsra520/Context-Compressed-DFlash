@@ -180,6 +180,7 @@ Benchmark interpretation:
 - GSM8K prompts must preserve the original question and end with a strict `Final answer: <number>` line instruction.
 - For compressed GSM8K quality triage, store enough compressed-prompt metadata or safe excerpts in new artifacts when explicitly running a new calibration, so compression-loss claims can be audited directly.
 - For compressed GSM8K, protect the strict final-answer instruction outside the compressible context, alongside the protected question or as an explicit post-compression suffix.
+- Compressed GSM8K artifact rows should expose `protected_suffix_preserved`, `protected_suffix_preview`, `final_prompt_preview`, and `final_prompt_tail_preview` before larger quality runs.
 - If compressed GSM8K rows still do not emit `Final answer:` markers or keep hitting the token cap, inspect compressed prompt/context previews and prompt-tail evidence before increasing sample size.
 - Run tiny dry-run/smoke execution on both datasets before any full n=100 benchmark.
 - For benchmark smoke runs, use unique `results/taskNN_*` output filenames, prefer `--resume`, avoid `--overwrite`, and store generated text when quality/audit work will follow.

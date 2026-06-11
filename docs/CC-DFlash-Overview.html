@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 57 compressed GSM8K triage</span>
+                <span class="pill accent">Synced to Task 58 GSM8K suffix protection</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -650,8 +650,9 @@
                 datasets: GSM8K short-context for numeric QA quality and QMSum-style meeting QA long-context for
                 speed, prefill, and compression-overhead evaluation. Task 56 shows that a 192-token GSM8K calibration
                 improves numeric extraction, especially for uncompressed rows. Task 57 shows compressed metadata is
-                complete but the strict final-answer instruction is not visible in compressed prompt previews, so
-                prompt protection must be fixed before larger runs.
+                complete but the strict final-answer instruction is not visible in compressed prompt previews. Task 58
+                protects that instruction as a post-compression GSM8K suffix and adds prompt-tail preview metadata for
+                future artifact verification.
             </div>
         </section>
 
@@ -1633,6 +1634,9 @@
                 preserved, and no direct compression-loss claim supported by complete previews; the immediate issue is
                 that the strict final-answer instruction is not visible in compressed prompt previews. The next step is
                 prompt/instruction protection, not n=100.
+                <strong>Task 58</strong> implements that protection: compressed GSM8K keeps the original math question
+                as the protected LLMLingua question and appends the final-answer instruction after compression, with
+                final prompt and prompt-tail preview metadata for future artifacts.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1797,6 +1801,9 @@
                         informative than 128 but still not conclusive for compressed rows</li>
                     <li>For compressed GSM8K, protect the strict final-answer instruction outside the compressible
                         context and store prompt-tail preview evidence before larger runs</li>
+                    <li>Verify future compressed artifacts expose <code>protected_suffix_preserved</code>,
+                        <code>final_prompt_preview</code>, and <code>final_prompt_tail_preview</code> before changing
+                        output caps or keep rates</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -1935,7 +1942,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 57 compressed GSM8K triage ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 58 GSM8K suffix protection ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

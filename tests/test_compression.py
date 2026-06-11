@@ -16,6 +16,7 @@ from scripts.run_mvp import (
     _metric_to_row,
     _prepare_cc_prompt,
 )
+from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION
 
 
 class ExpandingTokenizer:
@@ -156,6 +157,49 @@ def test_prepare_cc_prompt_adds_capped_audit_previews(monkeypatch):
     assert info["compressed_prompt_preview"].endswith(question)
     assert len(info["original_context_preview"]) <= 243
     assert len(info["compressed_prompt_preview"]) <= 243
+
+
+def test_prepare_cc_prompt_appends_protected_suffix_outside_compression(monkeypatch):
+    captured = {}
+    tokenizer = ExpandingTokenizer(wide_multiplier=1)
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            captured["question"] = question
+            captured["context"] = context
+            compressed_context = " ".join(f"compressed-token-{index}" for index in range(120))
+            return {
+                "compressed_prompt": compressed_context,
+                "origin_tokens": 50,
+                "compressed_tokens": 25,
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    question = "What is 6 + 7?"
+    compressor = LLMLinguaCompressor()
+
+    merged_prompt, info = _prepare_cc_prompt(
+        question,
+        compressor,
+        keep_rate=0.5,
+        context="Original GSM8K context",
+        protected_suffix=GSM8K_FINAL_ANSWER_INSTRUCTION,
+    )
+
+    assert captured["question"] == question
+    assert merged_prompt.startswith("compressed-token-0 compressed-token-1")
+    assert merged_prompt.endswith(f"{question}\n\n{GSM8K_FINAL_ANSWER_INSTRUCTION}")
+    assert info["question_preserved"] is True
+    assert info["protected_suffix_preserved"] is True
+    assert info["protected_suffix_preview"] == GSM8K_FINAL_ANSWER_INSTRUCTION.replace("\n", " ")
+    assert "Final answer: <number>" in info["final_prompt_preview"]
+    assert "Final answer: <number>" in info["final_prompt_tail_preview"]
+    assert info["compressed_prompt_preview"] == info["final_prompt_preview"]
+    assert len(info["final_prompt_preview"]) <= 243
 
 
 def test_non_compressed_rows_do_not_claim_compression_preview_metadata():
