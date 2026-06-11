@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 57 compressed GSM8K preview triage</span>
+                <span class="sv info">→ Current next: Task 58 protect GSM8K final-answer instruction in compressed prompts</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 56 GSM8K final-answer calibration. CC-DFlash now uses a two-dataset
@@ -424,8 +424,9 @@
                 latency. Task 53 shows that max_new_tokens=128 improves uncompressed GSM8K extraction but does not
                 resolve compressed-condition quality. Task 54 finds mixed truncation and compression-risk signals.
                 Task 55 freezes a stricter GSM8K final-answer prompt and compressed-prompt preview metadata. Task 56
-                shows max_new_tokens=192 improves numeric extraction, especially for uncompressed rows, but compressed
-                rows still need prompt-preview triage before any larger run.
+                shows max_new_tokens=192 improves numeric extraction, especially for uncompressed rows. Task 57 finds
+                compressed metadata complete but strict final-answer instruction absent from compressed prompt previews;
+                protect that instruction before larger runs.
             </div>
         </header>
 
@@ -1085,12 +1086,20 @@
                             <td class="go">PASS: 192-token cap improved numeric extraction; compressed rows still need preview triage</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T57</span></td>
+                            <td><span class="tnum done">T57</span></td>
                             <td>Compressed GSM8K Preview Triage</td>
                             <td>Inspect Task 56 compressed prompt/context previews for failed rows and decide whether
                                 the next calibration should test a gentler keep rate, a longer output cap, or a
                                 prompt-format adjustment</td>
-                            <td class="info">Next: analysis/triage only before larger n</td>
+                            <td class="go">PASS: metadata complete; final-answer instruction not visible in compressed previews</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T58</span></td>
+                            <td>Protect GSM8K Final-Answer Instruction</td>
+                            <td>Ensure compressed GSM8K prompts preserve the strict final-answer instruction outside
+                                the compressible context and add prompt-tail preview evidence before another quality
+                                calibration</td>
+                            <td class="info">Next: tiny runtime/prompt fix before max_new_tokens or keep_rate experiments</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1426,6 +1435,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>57-compressed-gsm8k-preview-triage-report.md</code></td>
+                            <td>T57</td>
+                            <td>Compressed GSM8K Preview Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1650,6 +1665,18 @@
                             <td>8 condition-stage rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task57_compressed_preview_triage_summary.json</code></td>
+                            <td>T57</td>
+                            <td>Task 56 compressed prompt-preview triage summary</td>
+                            <td>20 compressed condition rows analyzed</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task57_compressed_preview_failure_samples.jsonl</code></td>
+                            <td>T57</td>
+                            <td>Representative compressed GSM8K preview-triage failures</td>
+                            <td>5 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -1856,8 +1883,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 56 GSM8K final-answer calibration</span>
-                <span class="sv info">Current next: Task 57 compressed GSM8K preview triage</span>
+                <span class="sv go">Synced through Task 57 compressed GSM8K preview triage</span>
+                <span class="sv info">Current next: Task 58 protect GSM8K final-answer instruction</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2202,6 +2229,17 @@
                     Numeric extraction improved versus Task 53, compressed audit metadata is present on all
                     compressed rows, but compressed rows still lack strict final-answer markers and often hit the
                     token cap. Task 57 compressed prompt-preview triage is next before larger n.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-11</div>
+                <div class="log-body">
+                    <strong>Task 57 — Compressed GSM8K Preview Triage — PASS, read-only</strong><br>
+                    Analyzed Task 56 compressed GSM8K artifacts without running new benchmarks. Metadata is complete
+                    and protected questions are preserved, but the strict final-answer instruction is visible in
+                    0/20 compressed prompt previews. Direct compression-loss evidence is not supported by complete
+                    previews. Task 58 should protect the final-answer instruction and add prompt-tail preview
+                    evidence before testing larger output caps, gentler keep rates, or larger n.
                 </div>
             </div>
         </section>

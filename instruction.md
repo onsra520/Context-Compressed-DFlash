@@ -179,7 +179,8 @@ Benchmark interpretation:
 - For GSM8K, numeric extraction is the primary deterministic quality proxy; exact containment is diagnostic only because short numeric answers can appear as unrelated intermediate numbers.
 - GSM8K prompts must preserve the original question and end with a strict `Final answer: <number>` line instruction.
 - For compressed GSM8K quality triage, store enough compressed-prompt metadata or safe excerpts in new artifacts when explicitly running a new calibration, so compression-loss claims can be audited directly.
-- If compressed GSM8K rows still do not emit `Final answer:` markers or keep hitting the token cap, inspect compressed prompt/context previews before increasing sample size.
+- For compressed GSM8K, protect the strict final-answer instruction outside the compressible context, alongside the protected question or as an explicit post-compression suffix.
+- If compressed GSM8K rows still do not emit `Final answer:` markers or keep hitting the token cap, inspect compressed prompt/context previews and prompt-tail evidence before increasing sample size.
 - Run tiny dry-run/smoke execution on both datasets before any full n=100 benchmark.
 - For benchmark smoke runs, use unique `results/taskNN_*` output filenames, prefer `--resume`, avoid `--overwrite`, and store generated text when quality/audit work will follow.
 - Run the lighter dataset/condition sequence first, then expand only after stable completion; long-context DFlash/CC-DFlash paths may be deferred if runtime or VRAM risk is high.
