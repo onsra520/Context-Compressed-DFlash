@@ -413,18 +413,19 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 56 policy-aware GSM8K calibration smoke</span>
+                <span class="sv info">→ Current next: Task 57 compressed GSM8K preview triage</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 52 artifact audit and metric summary. CC-DFlash now uses a two-dataset
+                This roadmap is synced through Task 56 GSM8K final-answer calibration. CC-DFlash now uses a two-dataset
                 evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
                 long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
                 remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
                 tok/s in the tiny smokes, but CPU LLMLingua compression overhead dominates approximate end-to-end
                 latency. Task 53 shows that max_new_tokens=128 improves uncompressed GSM8K extraction but does not
                 resolve compressed-condition quality. Task 54 finds mixed truncation and compression-risk signals.
-                Task 55 freezes a stricter GSM8K final-answer prompt and compressed-prompt preview metadata. Next
-                step is a tiny policy-aware GSM8K calibration smoke, not n=100.
+                Task 55 freezes a stricter GSM8K final-answer prompt and compressed-prompt preview metadata. Task 56
+                shows max_new_tokens=192 improves numeric extraction, especially for uncompressed rows, but compressed
+                rows still need prompt-preview triage before any larger run.
             </div>
         </header>
 
@@ -1077,11 +1078,19 @@
                             <td class="go">PASS: prompt policy, extractor priority, and compressed audit metadata updated</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T56</span></td>
+                            <td><span class="tnum done">T56</span></td>
                             <td>Policy-Aware GSM8K Calibration Smoke</td>
                             <td>Run a tiny GSM8K calibration using the strict final-answer prompt and compressed
                                 preview metadata, likely with <code>max_new_tokens=192</code> or <code>256</code></td>
-                            <td class="info">Next: tiny calibration only; no n=100</td>
+                            <td class="go">PASS: 192-token cap improved numeric extraction; compressed rows still need preview triage</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T57</span></td>
+                            <td>Compressed GSM8K Preview Triage</td>
+                            <td>Inspect Task 56 compressed prompt/context previews for failed rows and decide whether
+                                the next calibration should test a gentler keep rate, a longer output cap, or a
+                                prompt-format adjustment</td>
+                            <td class="info">Next: analysis/triage only before larger n</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1411,6 +1420,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>56-gsm8k-final-answer-calibration-report.md</code></td>
+                            <td>T56</td>
+                            <td>GSM8K Final-Answer Calibration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1615,6 +1630,24 @@
                             <td>T54</td>
                             <td>Representative compressed GSM8K failure samples</td>
                             <td>5 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task56_gsm8k_short_*_n10_mnt192.jsonl</code></td>
+                            <td>T56</td>
+                            <td>GSM8K max_new_tokens=192 final-answer calibration artifacts</td>
+                            <td>4 conditions × 10 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task56_gsm8k_final_answer_calibration_summary.json</code></td>
+                            <td>T56</td>
+                            <td>Task 53 vs Task 56 GSM8K final-answer calibration summary</td>
+                            <td>8 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task56_gsm8k_final_answer_calibration_table.csv</code></td>
+                            <td>T56</td>
+                            <td>Task 53 vs Task 56 GSM8K final-answer calibration table</td>
+                            <td>8 condition-stage rows</td>
                         </tr>
                         <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
@@ -1823,8 +1856,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 55 GSM8K prompt/output policy</span>
-                <span class="sv info">Current next: Task 56 policy-aware GSM8K calibration smoke</span>
+                <span class="sv go">Synced through Task 56 GSM8K final-answer calibration</span>
+                <span class="sv info">Current next: Task 57 compressed GSM8K preview triage</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2158,6 +2191,17 @@
                     <code>Final answer: &lt;number&gt;</code>, and added capped compressed-prompt/context previews
                     plus compression ratio aliases for future compressed artifacts. No real benchmark was run.
                     Task 56 tiny policy-aware GSM8K calibration is next before n=100.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-11</div>
+                <div class="log-body">
+                    <strong>Task 56 — GSM8K Final-Answer Calibration — PASS, preliminary</strong><br>
+                    Ran GSM8K-only n=10 calibration at <code>max_new_tokens=192</code> for Baseline-AR,
+                    DFlash-R1, LLMLingua-AR-R2, and CC-DFlash-R2 with <code>--resume</code> and generated text.
+                    Numeric extraction improved versus Task 53, compressed audit metadata is present on all
+                    compressed rows, but compressed rows still lack strict final-answer markers and often hit the
+                    token cap. Task 57 compressed prompt-preview triage is next before larger n.
                 </div>
             </div>
         </section>
