@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 54 compressed GSM8K quality triage</span>
+                <span class="sv info">→ Current next: Task 55 GSM8K prompt/output policy calibration</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 52 artifact audit and metric summary. CC-DFlash now uses a two-dataset
@@ -422,7 +422,8 @@
                 remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
                 tok/s in the tiny smokes, but CPU LLMLingua compression overhead dominates approximate end-to-end
                 latency. Task 53 shows that max_new_tokens=128 improves uncompressed GSM8K extraction but does not
-                resolve compressed-condition quality. Next step is compressed GSM8K quality triage, not n=100.
+                resolve compressed-condition quality. Task 54 finds mixed truncation and compression-risk signals;
+                next step is GSM8K prompt/output policy calibration, not n=100.
             </div>
         </header>
 
@@ -1058,12 +1059,20 @@
                             <td class="go">PASS: 128-token cap improved uncompressed extraction but did not fix compressed-condition quality</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T54</span></td>
+                            <td><span class="tnum done">T54</span></td>
                             <td>Compressed GSM8K Quality Triage</td>
                             <td>Inspect LLMLingua-AR-R2 and CC-DFlash-R2 GSM8K failures from Task 53, decide whether
                                 prompt formatting, compression loss, answer extraction, or output length is the main
-                                blocker before any n=100 run</td>
-                            <td class="info">Next: quality triage only; no blind benchmark expansion</td>
+                                blocker before any n=100 run; create report
+                                <code>54-compressed-gsm8k-quality-triage-report.md</code></td>
+                            <td class="go">PASS: truncation dominates, compression loss likely in a small subset, exact containment is noisy</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T55</span></td>
+                            <td>GSM8K Prompt and Output Policy Calibration</td>
+                            <td>Add or test a stricter GSM8K final-answer-line policy and compressed-prompt audit
+                                metadata before any larger GSM8K run</td>
+                            <td class="info">Next: prompt/output policy calibration; no n=100 yet</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1381,6 +1390,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>54-compressed-gsm8k-quality-triage-report.md</code></td>
+                            <td>T54</td>
+                            <td>Compressed GSM8K Quality Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1573,6 +1588,18 @@
                             <td>T53</td>
                             <td>Task 51 vs Task 53 GSM8K quality comparison table</td>
                             <td>8 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task54_compressed_gsm8k_failure_triage.json</code></td>
+                            <td>T54</td>
+                            <td>Compressed GSM8K quality triage summary</td>
+                            <td>40 condition rows analyzed</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task54_compressed_gsm8k_failure_samples.jsonl</code></td>
+                            <td>T54</td>
+                            <td>Representative compressed GSM8K failure samples</td>
+                            <td>5 rows</td>
                         </tr>
                         <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
@@ -1781,8 +1808,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 53 GSM8K quality calibration</span>
-                <span class="sv info">Current next: Task 54 compressed GSM8K quality triage</span>
+                <span class="sv go">Synced through Task 54 compressed GSM8K quality triage</span>
+                <span class="sv info">Current next: Task 55 GSM8K prompt/output policy calibration</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2095,6 +2122,17 @@
                     artifacts and <code>--resume</code>. The longer cap improved uncompressed exact/numeric
                     extraction, but compressed-condition extraction did not improve and rows still often hit the
                     cap. Task 54 compressed GSM8K quality triage is next before any n=100 run.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-11</div>
+                <div class="log-body">
+                    <strong>Task 54 — Compressed GSM8K Quality Triage — PASS, preliminary</strong><br>
+                    Analyzed Task 53 GSM8K artifacts without running new benchmarks. Numeric extraction remains the
+                    primary quality proxy; exact containment is diagnostic and noisy for short answers. Compressed
+                    failures are mostly truncation-likely, with a smaller compression-loss-likely subset where
+                    uncompressed rows succeed and compressed rows fail. Task 55 prompt/output policy calibration is
+                    next before any larger GSM8K run.
                 </div>
             </div>
         </section>

@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 53 GSM8K quality calibration</span>
+                <span class="pill accent">Synced to Task 54 compressed GSM8K triage</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -1615,6 +1615,11 @@
                 uncompressed Baseline-AR and DFlash-R1 extraction, but does not improve LLMLingua-AR-R2 or
                 CC-DFlash-R2 extraction in the n=10 sample. This points to compressed-condition quality triage before
                 any larger GSM8K run.
+                <strong>Task 54</strong> triages those compressed GSM8K failures and finds a mixed explanation:
+                truncation remains dominant, compression loss is likely in a smaller subset where uncompressed rows
+                succeed, and exact containment is too noisy for short numeric answers. Numeric extraction remains the
+                primary GSM8K proxy, and compressed-prompt audit metadata is needed before attributing failures to
+                compression with high confidence.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1914,7 +1919,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 53 GSM8K quality calibration ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 54 compressed GSM8K triage ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
