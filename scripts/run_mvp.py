@@ -40,6 +40,7 @@ CC_SMOKE_CONTEXT = (
     "The building also has old newspapers, chairs, posters, and unrelated historical notes. "
     "Only the details needed by the question should be used."
 )
+AUDIT_PREVIEW_CHARS = 240
 
 
 @dataclass
@@ -154,16 +155,25 @@ def _prepare_cc_prompt(
     context: str = CC_SMOKE_CONTEXT,
 ) -> tuple[str, dict]:
     merged_prompt, info = compressor.compress(context=context, question=question, keep_rate=keep_rate)
+    original_prompt = f"{str(context or '').strip()}\n\n{str(question or '').strip()}".strip()
+    compressed_context = _without_suffix(merged_prompt, question)
     compression_info = {
         "compression": "llmlingua",
         "t_compress_ms": info["t_compress_ms"],
         "R_actual": info["R_actual"],
+        "compression_ratio": info["R_actual"],
+        "actual_compression_ratio": info["R_actual"],
         "N_original": info["N_original"],
         "N_compressed": info["N_compressed"],
+        "original_input_tokens": info["N_original"],
         "compressed_input_tokens": info["N_compressed"],
         "keep_rate": info.get("keep_rate", keep_rate),
         "compressor_model": compressor.model_name,
         "question_preserved": question in merged_prompt,
+        "original_context_preview": _preview_text(context),
+        "compressed_context_preview": _preview_text(compressed_context),
+        "original_prompt_preview": _preview_text(original_prompt),
+        "compressed_prompt_preview": _preview_text(merged_prompt),
     }
     for field_name in (
         "strategy",
@@ -179,6 +189,19 @@ def _prepare_cc_prompt(
         if field_name in info:
             compression_info[field_name] = info[field_name]
     return merged_prompt, compression_info
+
+
+def _preview_text(value: object, limit: int = AUDIT_PREVIEW_CHARS) -> str:
+    text = " ".join(str(value or "").split())
+    if len(text) <= limit:
+        return text
+    return text[:limit] + "..."
+
+
+def _without_suffix(text: str, suffix: str) -> str:
+    if suffix and text.endswith(suffix):
+        return text[: -len(suffix)].strip()
+    return text.strip()
 
 
 def _load_fixture_rows(path: Path) -> list[dict]:

@@ -10,7 +10,13 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from eval_datasets import final_gsm8k_answer, read_jsonl, word_count, write_jsonl
+from eval_datasets import (
+    GSM8K_FINAL_ANSWER_INSTRUCTION,
+    final_gsm8k_answer,
+    read_jsonl,
+    word_count,
+    write_jsonl,
+)
 
 
 DEFAULT_SOURCE = Path("data/raw/gsm8k_source.jsonl")
@@ -40,7 +46,7 @@ def build_gsm8k_short_rows(
         prompt = (
             f"{context}\n\n"
             f"Question: {question}\n\n"
-            "Give the final numeric answer after `Final answer:`."
+            f"{GSM8K_FINAL_ANSWER_INSTRUCTION}"
         )
         rows.append(
             {

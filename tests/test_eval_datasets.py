@@ -27,6 +27,8 @@ def test_build_gsm8k_short_rows_preserves_question_and_numeric_answer(tmp_path: 
     assert rows[0]["dataset_name"] == "gsm8k_short"
     assert rows[0]["expected_answer"] == "9"
     assert rows[0]["question"] in rows[0]["prompt"]
+    assert "End with exactly one line:" in rows[0]["prompt"]
+    assert rows[0]["prompt"].rstrip().endswith("Final answer: <number>")
     assert rows[0]["quality_policy"] == "numeric_extraction_exact_match_proxy"
 
 
@@ -85,6 +87,7 @@ def test_eval_dataset_registry_loads_and_samples_deterministically(tmp_path: Pat
     second = select_eval_dataset_rows("gsm8k_short", n=3, seed=42, path=path)
 
     assert len(loaded) == 4
+    assert loaded[0].prompt.rstrip().endswith("Final answer: <number>")
     assert [row.id for row in first] == [row.id for row in second]
     assert len({row.id for row in first}) == 3
 

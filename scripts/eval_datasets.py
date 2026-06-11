@@ -21,6 +21,11 @@ DATASET_REGISTRY = {
     },
 }
 
+GSM8K_FINAL_ANSWER_INSTRUCTION = (
+    "End with exactly one line:\n"
+    "Final answer: <number>"
+)
+
 
 @dataclass(frozen=True)
 class EvalDatasetRow:
@@ -87,6 +92,8 @@ def normalize_eval_row(row: dict[str, Any], dataset_name: str) -> EvalDatasetRow
     prompt = row.get("prompt")
     if not isinstance(prompt, str) or not prompt.strip():
         prompt = f"{row['context']}\n\nQuestion: {row['question']}"
+    if dataset_name == "gsm8k_short" and "Final answer: <number>" not in prompt:
+        prompt = f"{prompt.rstrip()}\n\n{GSM8K_FINAL_ANSWER_INSTRUCTION}"
     domain = str(row.get("domain", dataset_name))
     evidence = str(row.get("evidence", ""))
     approximate_context_words = row.get("approximate_context_words")

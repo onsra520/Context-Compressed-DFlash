@@ -54,6 +54,13 @@ def test_extract_numeric_answer_prefers_final_markers():
     assert extraction.ambiguous is False
 
 
+def test_extract_numeric_answer_prefers_final_answer_over_gsm8k_marker():
+    extraction = extract_numeric_answer("Work says #### 41\nCorrection. Final answer: 42")
+
+    assert extraction.answer == "42"
+    assert extraction.source == "marked_final_answer"
+
+
 def test_extract_numeric_answer_supports_gsm8k_marker_and_ambiguous_markers():
     assert extract_numeric_answer("Work\n#### -12").answer == "-12"
     extraction = extract_numeric_answer("Answer: 5. Later correction: final answer: 6")

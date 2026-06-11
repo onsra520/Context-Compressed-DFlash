@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 54 compressed GSM8K triage</span>
+                <span class="pill accent">Synced to Task 55 GSM8K prompt policy</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -1620,6 +1620,9 @@
                 succeed, and exact containment is too noisy for short numeric answers. Numeric extraction remains the
                 primary GSM8K proxy, and compressed-prompt audit metadata is needed before attributing failures to
                 compression with high confidence.
+                <strong>Task 55</strong> updates GSM8K prompt and artifact policy: prompts must end with a strict
+                <code>Final answer: &lt;number&gt;</code> line, extraction prefers that marker, and future compressed
+                artifacts carry capped compressed/original prompt previews plus compression ratio aliases for audit.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1919,7 +1922,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 54 compressed GSM8K triage ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 55 GSM8K prompt policy ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

@@ -1,10 +1,21 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 from ccdf.compression import PassthroughCompressor, merge, segment_gsm8k
 from ccdf.compression.llmlingua import LLMLinguaCompressor
-from scripts.run_mvp import _condition_keep_rate, _is_ar_condition, _prepare_cc_prompt
+
+from scripts.run_mvp import (
+    PromptMetrics,
+    SmokeConfig,
+    VramSnapshot,
+    _condition_keep_rate,
+    _is_ar_condition,
+    _metric_to_row,
+    _prepare_cc_prompt,
+)
 
 
 class ExpandingTokenizer:
@@ -109,6 +120,79 @@ def test_llmlingua_compressor_merges_original_question_and_reports_metadata(monk
     assert info["compressor_chunk_encoder_max_length"] == 512
     assert info["compressor_chunk_safety_margin"] > 0
     assert info["compressor_chunk_backend_calls"] == 1
+
+
+def test_prepare_cc_prompt_adds_capped_audit_previews(monkeypatch):
+    tokenizer = ExpandingTokenizer(wide_multiplier=1)
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            return {
+                "compressed_prompt": "compressed context with key numbers",
+                "origin_tokens": 100,
+                "compressed_tokens": 40,
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    context = " ".join(f"context-token-{index}" for index in range(200))
+    question = "What is the final value?"
+    compressor = LLMLinguaCompressor()
+
+    merged_prompt, info = _prepare_cc_prompt(question, compressor, keep_rate=0.5, context=context)
+
+    assert question in merged_prompt
+    assert info["compression_ratio"] == pytest.approx(2.5)
+    assert info["actual_compression_ratio"] == pytest.approx(2.5)
+    assert info["original_input_tokens"] == 100
+    assert info["compressed_input_tokens"] == 40
+    assert info["question_preserved"] is True
+    assert info["original_context_preview"].startswith("context-token-0")
+    assert info["compressed_context_preview"] == "compressed context with key numbers"
+    assert info["original_prompt_preview"].startswith("context-token-0")
+    assert info["compressed_prompt_preview"].endswith(question)
+    assert len(info["original_context_preview"]) <= 243
+    assert len(info["compressed_prompt_preview"]) <= 243
+
+
+def test_non_compressed_rows_do_not_claim_compression_preview_metadata():
+    metric = PromptMetrics(
+        prompt_id=1,
+        prompt_text="Prompt",
+        input_tokens=4,
+        output_tokens=2,
+        generation_time_s=0.5,
+        tok_per_s=4.0,
+        acceptance_lengths=[],
+        tau_mean=0.0,
+        vram_after=VramSnapshot("after", 1.0, 2.0, 3.0, 4.0),
+    )
+    config = SmokeConfig(
+        target_path=Path("target"),
+        draft_path=Path("draft"),
+        tokenizer_path=Path("tokenizer"),
+        device="cpu",
+        block_size=16,
+        max_new_tokens=128,
+        temperature=0.0,
+        raw_config={},
+    )
+
+    row = _metric_to_row(
+        metric,
+        condition="Baseline-AR",
+        backend_warning="",
+        config=config,
+    )
+
+    assert row["compression"] == "none"
+    assert row["keep_rate"] == 1.0
+    assert "compressed_prompt_preview" not in row
+    assert "compressed_context_preview" not in row
+    assert "original_prompt_preview" not in row
 
 
 def test_llmlingua_compressor_chunks_by_token_budget_and_preserves_question(monkeypatch):

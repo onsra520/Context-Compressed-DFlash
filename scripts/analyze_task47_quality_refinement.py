@@ -27,10 +27,18 @@ DEFAULT_FIXTURE = Path("data/processed/gsm8k_wikipedia_augmented_full.jsonl")
 CONDITION_ORDER = ["Baseline-AR", "DFlash-R1", "LLMLingua-AR-R2", "CC-LLM-R2"]
 
 NUMBER_RE = re.compile(r"[-+]?\$?\d[\d,]*(?:\.\d+)?")
-MARKER_PATTERNS = [
-    re.compile(r"(?:^|\n)\s*####\s*(?P<number>[-+]?\$?\d[\d,]*(?:\.\d+)?)", re.IGNORECASE),
+FINAL_ANSWER_PATTERNS = [
     re.compile(
-        r"(?:final\s+(?:numeric\s+)?answer|answer)\s*(?:is|=|:|：)\s*(?P<number>[-+]?\$?\d[\d,]*(?:\.\d+)?)",
+        r"(?:final\s+(?:numeric\s+)?answer)\s*(?:is|=|:|：)\s*(?P<number>[-+]?\$?\d[\d,]*(?:\.\d+)?)",
+        re.IGNORECASE,
+    ),
+]
+GSM8K_MARKER_PATTERNS = [
+    re.compile(r"(?:^|\n)\s*####\s*(?P<number>[-+]?\$?\d[\d,]*(?:\.\d+)?)", re.IGNORECASE),
+]
+OTHER_MARKER_PATTERNS = [
+    re.compile(
+        r"(?:answer)\s*(?:is|=|:|：)\s*(?P<number>[-+]?\$?\d[\d,]*(?:\.\d+)?)",
         re.IGNORECASE,
     ),
     re.compile(
@@ -98,20 +106,37 @@ def extract_numeric_answer(text: str | None) -> Extraction:
     if not isinstance(text, str) or not text.strip():
         return Extraction(answer=None, candidates=[], source="missing", ambiguous=False)
 
-    marked_candidates: list[str] = []
-    for pattern in MARKER_PATTERNS:
-        for match in pattern.finditer(text):
-            normalized = normalize_numeric(match.group("number"))
-            if normalized is not None:
-                marked_candidates.append(normalized)
-    marked_candidates = _unique_preserving_order(marked_candidates)
-    if marked_candidates:
-        return Extraction(
-            answer=marked_candidates[-1],
-            candidates=marked_candidates,
-            source="marked_final_answer",
-            ambiguous=len(marked_candidates) > 1,
-        )
+    priority_groups = (
+        ("marked_final_answer", FINAL_ANSWER_PATTERNS),
+        ("marked_final_answer", GSM8K_MARKER_PATTERNS),
+        ("marked_final_answer", OTHER_MARKER_PATTERNS),
+    )
+    all_marked_matches: list[tuple[int, str]] = []
+    for _, patterns in priority_groups:
+        for pattern in patterns:
+            for match in pattern.finditer(text):
+                normalized = normalize_numeric(match.group("number"))
+                if normalized is not None:
+                    all_marked_matches.append((match.start("number"), normalized))
+    all_marked_candidates = _unique_preserving_order(
+        [normalized for _, normalized in sorted(all_marked_matches, key=lambda item: item[0])]
+    )
+
+    for source, patterns in priority_groups:
+        marked_candidates: list[str] = []
+        for pattern in patterns:
+            for match in pattern.finditer(text):
+                normalized = normalize_numeric(match.group("number"))
+                if normalized is not None:
+                    marked_candidates.append(normalized)
+        marked_candidates = _unique_preserving_order(marked_candidates)
+        if marked_candidates:
+            return Extraction(
+                answer=marked_candidates[-1],
+                candidates=all_marked_candidates or marked_candidates,
+                source=source,
+                ambiguous=len(all_marked_candidates or marked_candidates) > 1,
+            )
 
     tail = text[-500:]
     fallback_candidates = [
