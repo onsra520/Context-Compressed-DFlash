@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 53 quality calibration and next-run decision</span>
+                <span class="sv info">→ Current next: Task 54 compressed GSM8K quality triage</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 52 artifact audit and metric summary. CC-DFlash now uses a two-dataset
@@ -421,7 +421,8 @@
                 long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
                 remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
                 tok/s in the tiny smokes, but CPU LLMLingua compression overhead dominates approximate end-to-end
-                latency. Next step is quality calibration and next-run decision, not another blind benchmark.
+                latency. Task 53 shows that max_new_tokens=128 improves uncompressed GSM8K extraction but does not
+                resolve compressed-condition quality. Next step is compressed GSM8K quality triage, not n=100.
             </div>
         </header>
 
@@ -1048,12 +1049,21 @@
                             <td class="go">PASS: artifacts structurally valid; CC-DFlash generation-only faster but e2e slower once CPU compression is included</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T53</span></td>
-                            <td>Quality Calibration and Next-Run Decision</td>
+                            <td><span class="tnum done">T53</span></td>
+                            <td>GSM8K Quality Calibration</td>
                             <td>Use the Task 52 audit to decide a quality-calibrated next run: GSM8K with
                                 <code>max_new_tokens≥128</code> and QMSum manual/semantic-quality review before any
-                                larger matrix expansion</td>
-                            <td class="info">Next: decision/calibration, not a blind benchmark</td>
+                                larger matrix expansion; create report
+                                <code>53-gsm8k-quality-calibration-report.md</code></td>
+                            <td class="go">PASS: 128-token cap improved uncompressed extraction but did not fix compressed-condition quality</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T54</span></td>
+                            <td>Compressed GSM8K Quality Triage</td>
+                            <td>Inspect LLMLingua-AR-R2 and CC-DFlash-R2 GSM8K failures from Task 53, decide whether
+                                prompt formatting, compression loss, answer extraction, or output length is the main
+                                blocker before any n=100 run</td>
+                            <td class="info">Next: quality triage only; no blind benchmark expansion</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1365,6 +1375,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>53-gsm8k-quality-calibration-report.md</code></td>
+                            <td>T53</td>
+                            <td>GSM8K Quality Calibration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1539,6 +1555,24 @@
                             <td>T52</td>
                             <td>Task 50/51 compact metric table CSV</td>
                             <td>16 artifact rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task53_gsm8k_short_*_n10_mnt128.jsonl</code></td>
+                            <td>T53</td>
+                            <td>GSM8K max_new_tokens=128 quality calibration artifacts</td>
+                            <td>4 conditions × 10 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task53_gsm8k_quality_calibration_summary.json</code></td>
+                            <td>T53</td>
+                            <td>Task 51 vs Task 53 GSM8K quality comparison summary</td>
+                            <td>8 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task53_gsm8k_quality_calibration_table.csv</code></td>
+                            <td>T53</td>
+                            <td>Task 51 vs Task 53 GSM8K quality comparison table</td>
+                            <td>8 condition-stage rows</td>
                         </tr>
                         <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
@@ -1747,8 +1781,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 52 artifact audit and metric summary</span>
-                <span class="sv info">Current next: Task 53 quality calibration and next-run decision</span>
+                <span class="sv go">Synced through Task 53 GSM8K quality calibration</span>
+                <span class="sv info">Current next: Task 54 compressed GSM8K quality triage</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2050,6 +2084,17 @@
                     improves generation-only tok/s in the tiny smokes, but does not beat DFlash-R1 on approximate
                     end-to-end time once CPU LLMLingua compression overhead is included. Task 53 quality calibration
                     and next-run decision is next.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-11</div>
+                <div class="log-body">
+                    <strong>Task 53 — GSM8K Quality Calibration — PASS, preliminary</strong><br>
+                    Ran GSM8K-only n=10 calibration with <code>max_new_tokens=128</code> for Baseline-AR,
+                    DFlash-R1, LLMLingua-AR-R2, and CC-DFlash-R2 using unique <code>results/task53_*</code>
+                    artifacts and <code>--resume</code>. The longer cap improved uncompressed exact/numeric
+                    extraction, but compressed-condition extraction did not improve and rows still often hit the
+                    cap. Task 54 compressed GSM8K quality triage is next before any n=100 run.
                 </div>
             </div>
         </section>

@@ -175,6 +175,7 @@ Benchmark interpretation:
 - Treat QMSum-style quality as normalized containment / long-answer proxy unless manual review or a semantic judge is explicitly added.
 - Always report both generation-only metrics and approximate end-to-end metrics that include LLMLingua-2 `T_compress` for compressed conditions.
 - Do not compare CC-DFlash against DFlash-R1 using generation-only tok/s alone; end-to-end latency is the conservative decision metric.
+- Treat GSM8K `max_new_tokens=32` quality results as truncation-prone. For GSM8K quality calibration, report the output cap and generated-text retention; `max_new_tokens=128` is a safer calibration floor but not proof that answer quality is solved.
 - Run tiny dry-run/smoke execution on both datasets before any full n=100 benchmark.
 - For benchmark smoke runs, use unique `results/taskNN_*` output filenames, prefer `--resume`, avoid `--overwrite`, and store generated text when quality/audit work will follow.
 - Run the lighter dataset/condition sequence first, then expand only after stable completion; long-context DFlash/CC-DFlash paths may be deferred if runtime or VRAM risk is high.
