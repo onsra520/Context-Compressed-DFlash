@@ -175,13 +175,14 @@ Benchmark interpretation:
 - Treat QMSum-style quality as normalized containment / long-answer proxy unless manual review or a semantic judge is explicitly added.
 - Always report both generation-only metrics and approximate end-to-end metrics that include LLMLingua-2 `T_compress` for compressed conditions.
 - Do not compare CC-DFlash against DFlash-R1 using generation-only tok/s alone; end-to-end latency is the conservative decision metric.
-- Treat GSM8K `max_new_tokens=32` quality results as truncation-prone. For GSM8K quality calibration, report the output cap and generated-text retention; `max_new_tokens=128` is a safer calibration floor, and `max_new_tokens=192` is more informative for final-answer calibration, but neither proves that answer quality is solved.
+- Treat GSM8K `max_new_tokens=32` quality results as truncation-prone. For GSM8K quality calibration, report the output cap and generated-text retention; `max_new_tokens=128` is a safer calibration floor, `max_new_tokens=192` is more informative for final-answer calibration, and `max_new_tokens=256` is the current compressed GSM8K calibration default after Task 60. None of these caps proves that answer quality is solved.
 - For GSM8K, numeric extraction is the primary deterministic quality proxy; exact containment is diagnostic only because short numeric answers can appear as unrelated intermediate numbers.
 - GSM8K prompts must preserve the original question and end with a strict `Final answer: <number>` line instruction.
 - For compressed GSM8K quality triage, store enough compressed-prompt metadata or safe excerpts in new artifacts when explicitly running a new calibration, so compression-loss claims can be audited directly.
 - For compressed GSM8K, protect the strict final-answer instruction outside the compressible context, alongside the protected question or as an explicit post-compression suffix.
 - Compressed GSM8K artifact rows should expose `protected_suffix_preserved`, `protected_suffix_preview`, `final_prompt_preview`, and `final_prompt_tail_preview` before larger quality runs.
 - Before increasing compressed GSM8K sample size, output cap, or keep rate, verify suffix survival and prompt-tail evidence in a tiny compressed-only artifact.
+- After Task 60, test gentler compressed GSM8K keep rates such as `0.67` in a tiny run before any larger sample size.
 - If compressed GSM8K rows still do not emit `Final answer:` markers or keep hitting the token cap, inspect compressed prompt/context previews and prompt-tail evidence before increasing sample size.
 - Run tiny dry-run/smoke execution on both datasets before any full n=100 benchmark.
 - For benchmark smoke runs, use unique `results/taskNN_*` output filenames, prefer `--resume`, avoid `--overwrite`, and store generated text when quality/audit work will follow.

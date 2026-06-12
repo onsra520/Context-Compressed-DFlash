@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 59 GSM8K suffix verification</span>
+                <span class="pill accent">Synced to Task 60 GSM8K mnt256 calibration</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -653,7 +653,8 @@
                 complete but the strict final-answer instruction is not visible in compressed prompt previews. Task 58
                 protects that instruction as a post-compression GSM8K suffix and adds prompt-tail preview metadata.
                 Task 59 verifies that the suffix survives in compressed artifacts and improves compressed numeric
-                extraction, while leaving a small residual failure set for output-cap or keep-rate calibration.
+                extraction. Task 60 shows a 256-token compressed GSM8K cap further reduces truncation and improves
+                numeric extraction, while leaving a small residual failure set for keep-rate calibration.
             </div>
         </section>
 
@@ -1642,6 +1643,9 @@
                 both compressed conditions preserve the suffix in all rows, and numeric extraction improves versus
                 Task 56. The remaining failures should be studied with a tiny 256-token-cap or gentler keep-rate
                 calibration before any larger n.
+                <strong>Task 60</strong> tests that 256-token cap and improves compressed numeric extraction to 8/10
+                for both LLMLingua-AR-R2 and CC-DFlash-R2 while reducing cap hits to 1/10. Remaining failures should
+                now be tested with a tiny gentler keep-rate calibration before larger n.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1807,9 +1811,9 @@
                     <li>For compressed GSM8K, protect the strict final-answer instruction outside the compressible
                         context and store prompt-tail preview evidence before larger runs</li>
                     <li>Task 59 verifies compressed artifacts expose <code>protected_suffix_preserved</code>,
-                        <code>final_prompt_preview</code>, and <code>final_prompt_tail_preview</code>; remaining
-                        compressed GSM8K failures should be tested with a tiny 256-token-cap or gentler keep-rate
-                        calibration before larger runs</li>
+                        <code>final_prompt_preview</code>, and <code>final_prompt_tail_preview</code>; Task 60
+                        supports using <code>max_new_tokens=256</code> for compressed GSM8K calibration, with a tiny
+                        <code>keep_rate=0.67</code> check next before larger runs</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -1948,7 +1952,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 59 GSM8K suffix verification ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 60 GSM8K mnt256 calibration ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
