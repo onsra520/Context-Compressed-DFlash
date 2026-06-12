@@ -413,10 +413,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 61B compressed GSM8K keep-rate-percent=67 calibration</span>
+                <span class="sv info">→ Current next: Task 62 compressed GSM8K changed-outcome triage</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 59 GSM8K compressed suffix verification. CC-DFlash now uses a two-dataset
+                This roadmap is synced through Task 61B GSM8K compressed keep-rate calibration. CC-DFlash now uses a two-dataset
                 evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
                 long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
                 remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
@@ -429,8 +429,10 @@
                 Task 58 protects that instruction as a post-compression GSM8K suffix and adds prompt-tail preview
                 fields for future artifacts. Task 59 verifies the suffix survives in compressed artifacts and improves
                 compressed GSM8K numeric extraction. Task 60 shows a 256-token cap reduces remaining compressed
-                truncation and improves numeric extraction. Task 61A adds a CLI keep-rate-percent override so the
-                next tiny run can test gentler compression without changing default R2 behavior.
+                truncation and improves numeric extraction. Task 61A adds a CLI keep-rate-percent override. Task 61B
+                verifies <code>--keep-rate-percent 67</code> in real compressed GSM8K runs, but quality remains 8/10
+                with both fail-to-pass and pass-to-fail row changes, so the next step is changed-outcome triage rather
+                than another blind keep-rate increase.
             </div>
         </header>
 
@@ -1130,12 +1132,20 @@
                             <td class="go">PASS: parser, resolver, and compressed metadata fields added</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T61B</span></td>
+                            <td><span class="tnum done">T61B</span></td>
                             <td>Compressed GSM8K Keep-Rate Calibration</td>
                             <td>Run a tiny compressed-only GSM8K calibration at <code>max_new_tokens=256</code>,
                                 using <code>--keep-rate-percent 67</code>, to test whether remaining failures are
                                 compression-sensitive before any larger n</td>
-                            <td class="info">Next: tiny keep-rate run only; no n=100</td>
+                            <td class="go">PASS, preliminary: metadata and suffix gates passed; quality stayed 8/10 with one pass-to-fail per condition</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T62</span></td>
+                            <td>Compressed GSM8K Changed-Outcome Triage</td>
+                            <td>Inspect Task 60 vs Task 61B <code>FAIL_TO_PASS</code>, <code>PASS_TO_FAIL</code>,
+                                and remaining <code>SAME_FAIL</code> rows using prompt previews, compressed context
+                                previews, generated text, and extraction details</td>
+                            <td class="info">Next: read-only triage before n=30 or another keep-rate test</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1501,6 +1511,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>61B-gsm8k-compressed-keep-rate-67-calibration-report.md</code></td>
+                            <td>T61B</td>
+                            <td>GSM8K Compressed keep_rate_percent=67 Calibration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1779,6 +1795,30 @@
                             <td>20 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task61b_gsm8k_short_*_n10_mnt256_k067.jsonl</code></td>
+                            <td>T61B</td>
+                            <td>Compressed GSM8K keep_rate_percent=67 calibration artifacts</td>
+                            <td>2 conditions × 10 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task61b_keep_rate67_calibration_summary.json</code></td>
+                            <td>T61B</td>
+                            <td>Task 60 vs Task 61B keep-rate calibration summary</td>
+                            <td>4 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task61b_keep_rate67_calibration_table.csv</code></td>
+                            <td>T61B</td>
+                            <td>Compact Task 61B keep-rate calibration table</td>
+                            <td>4 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task61b_keep_rate67_changed_outcomes.jsonl</code></td>
+                            <td>T61B</td>
+                            <td>Per-row Task 60 to Task 61B numeric outcome changes</td>
+                            <td>20 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -1985,8 +2025,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 61A keep-rate CLI override</span>
-                <span class="sv info">Current next: Task 61B compressed keep-rate-percent=67 calibration</span>
+                <span class="sv go">Synced through Task 61B keep-rate 67 calibration</span>
+                <span class="sv info">Current next: Task 62 changed-outcome triage</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2385,8 +2425,20 @@
                     Added <code>--keep-rate-percent</code> to <code>scripts/run_mvp.py</code> so compressed conditions
                     can request rates such as <code>67</code> for <code>keep_rate=0.67</code>. The default R2/R3
                     behavior is unchanged when the flag is omitted, and compressed artifact metadata records requested
-                    keep-rate fields for future audit. No real benchmark was run. Task 61B should run the tiny
+                    keep-rate fields for future audit. No real benchmark was run. This enabled the Task 61B
                     compressed-only GSM8K <code>--keep-rate-percent 67</code> calibration.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 61B — GSM8K Compressed keep_rate_percent=67 Calibration — PASS, preliminary</strong><br>
+                    Ran compressed-only GSM8K n=10 for LLMLingua-AR-R2 and CC-DFlash-R2 at
+                    <code>max_new_tokens=256</code> with <code>--keep-rate-percent 67</code>, <code>--resume</code>,
+                    and generated text. Requested keep-rate metadata, question preservation, and protected suffix
+                    evidence passed in all rows. Numeric extraction stayed 8/10 for both conditions, with one
+                    <code>FAIL_TO_PASS</code> and one <code>PASS_TO_FAIL</code> per condition. Task 62 should triage
+                    changed outcomes before n=30 or any further keep-rate test.
                 </div>
             </div>
         </section>

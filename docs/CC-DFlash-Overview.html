@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 61A keep-rate CLI override</span>
+                <span class="pill accent">Synced to Task 61B keep-rate 67 calibration</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -655,7 +655,10 @@
                 Task 59 verifies that the suffix survives in compressed artifacts and improves compressed numeric
                 extraction. Task 60 shows a 256-token compressed GSM8K cap further reduces truncation and improves
                 numeric extraction. Task 61A adds a CLI keep-rate-percent override for tiny gentler-compression
-                calibration runs, while leaving default R2/R3 condition behavior unchanged.
+                calibration runs, while leaving default R2/R3 condition behavior unchanged. Task 61B verifies
+                <code>--keep-rate-percent 67</code> in real compressed GSM8K runs, but numeric extraction remains
+                8/10 for both compressed conditions with both fail-to-pass and pass-to-fail row changes; 0.67 is
+                not adopted as a new default.
             </div>
         </section>
 
@@ -1650,6 +1653,10 @@
                 <strong>Task 61A</strong> adds <code>--keep-rate-percent</code> so that tiny follow-up can request
                 <code>67</code> for <code>keep_rate=0.67</code> without creating new condition names or changing
                 default R2 behavior.
+                <strong>Task 61B</strong> runs that tiny follow-up. Metadata and protected-suffix checks pass, but
+                numeric extraction remains 8/10 for both LLMLingua-AR-R2 and CC-DFlash-R2, with one
+                <code>FAIL_TO_PASS</code> and one <code>PASS_TO_FAIL</code> in each condition versus Task 60.
+                The next step is changed-outcome triage rather than testing <code>keep_rate=0.80</code>.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1816,8 +1823,9 @@
                         context and store prompt-tail preview evidence before larger runs</li>
                     <li>Task 59 verifies compressed artifacts expose <code>protected_suffix_preserved</code>,
                         <code>final_prompt_preview</code>, and <code>final_prompt_tail_preview</code>; Task 60
-                        supports using <code>max_new_tokens=256</code> for compressed GSM8K calibration, with a tiny
-                        <code>--keep-rate-percent 67</code> check next before larger runs</li>
+                        supports using <code>max_new_tokens=256</code> for compressed GSM8K calibration. Task 61B
+                        verifies <code>--keep-rate-percent 67</code> but does not improve net numeric extraction, so
+                        changed-outcome triage should come before larger runs or another keep-rate increase</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -1956,7 +1964,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 61A keep-rate CLI override ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 61B keep-rate 67 calibration ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
