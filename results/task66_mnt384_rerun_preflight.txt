@@ -1,0 +1,47 @@
+### date
+Fri Jun 12 23:34:02 +07 2026
+
+### uptime
+ 23:34:02 up 1 min,  1 user,  load average: 0.77, 0.31, 0.11
+
+### free -h
+               total        used        free      shared  buff/cache   available
+Mem:            54Gi       3.3Gi        51Gi        15Mi       1.2Gi        51Gi
+Swap:           14Gi          0B        14Gi
+
+### nvidia-smi
+Fri Jun 12 23:34:02 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.43.02              KMD Version: 610.47        CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4070 ...    On  |   00000000:01:00.0  On |                  N/A |
+| N/A   51C    P0             15W /  135W |     655MiB /   8188MiB |      2%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+### pgrep -af "scripts/run_mvp.py|python"
+223 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+1680 /home/quyseggs/.vscode-server/extensions/ms-python.vscode-python-envs-1.34.0-linux-x64/python-env-tools/bin/pet server
+2222 /home/quyseggs/.vscode-server/bin/6928394f91b684055b873eecb8bc281365131f1c/node /home/quyseggs/.vscode-server/extensions/ms-python.vscode-pylance-2026.2.1/dist/server.bundle.js --cancellationReceive=file:e97eea90a55bf042249ae19d33edfa902ddda1716f --node-ipc --clientProcessId=917
+2340 /home/quyseggs/CCDF/.venv/bin/python /home/quyseggs/.vscode-server/extensions/ms-python.black-formatter-2026.6.0/bundled/tool/lsp_server.py
+4323 /bin/bash -c {   echo '### date'; date;   echo; echo '### uptime'; uptime;   echo; echo '### free -h'; free -h;   echo; echo '### nvidia-smi'; nvidia-smi || true;   echo; echo '### pgrep -af "scripts/run_mvp.py|python"'; pgrep -af "scripts/run_mvp.py|python" || true;   echo; echo '### df -h .'; df -h .;   echo; echo '### git status --short'; git status --short; } | tee results/task66_mnt384_rerun_preflight.txt
+4324 /bin/bash -c {   echo '### date'; date;   echo; echo '### uptime'; uptime;   echo; echo '### free -h'; free -h;   echo; echo '### nvidia-smi'; nvidia-smi || true;   echo; echo '### pgrep -af "scripts/run_mvp.py|python"'; pgrep -af "scripts/run_mvp.py|python" || true;   echo; echo '### df -h .'; df -h .;   echo; echo '### git status --short'; git status --short; } | tee results/task66_mnt384_rerun_preflight.txt
+
+### df -h .
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdd       1007G   87G  870G  10% /
+
+### git status --short
+?? results/task66_mnt384_rerun_preflight.txt

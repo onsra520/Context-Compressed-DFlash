@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 66 read-only mnt384 failure/cap triage</span>
+                <span class="sv info">→ Current next: Task 67 read-only mnt384 remaining failure/cap triage</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 64 GSM8K cap-hit triage. CC-DFlash now uses a two-dataset
@@ -440,8 +440,9 @@
                 direct compression-loss label from available previews. Task 65 runs compressed-only
                 <code>max_new_tokens=384</code> n=30 calibration: numeric extraction improves modestly to 24/30
                 for both compressed conditions and cap hits fall from 5 to 3, but latency rises sharply and three
-                cap hits remain per condition. Task 66 should inspect the remaining Task 65 failures and cap-hit
-                rows before any n=100 move.
+                cap hits remain per condition. Task 66 reruns the same mnt384 calibration under cleaner preflight:
+                quality remains 24/30 for both conditions, cap hits remain 3/30, and Task 65 latency is marked noisy.
+                Task 67 should inspect the remaining Task 66 failures and cap-hit rows before any n=100 move.
             </div>
         </header>
 
@@ -1177,9 +1178,15 @@
                             <td class="go">PASS, preliminary: numeric improves to 24/30 for both compressed conditions, but latency rises and 3 cap hits remain</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T66</span></td>
+                            <td><span class="tnum done">T66</span></td>
+                            <td>GSM8K mnt384 Latency Reproducibility Rerun</td>
+                            <td>Rerun the Task 65 compressed-only mnt384 calibration under cleaner preflight to check whether high Task 65 latency reproduces</td>
+                            <td class="go">PASS, preliminary: quality reproduced at 24/30, cap hits stayed 3/30, Task 65 latency was noisy</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T67</span></td>
                             <td>GSM8K mnt384 Remaining Failure Triage</td>
-                            <td>Inspect remaining Task 65 cap-hit and SAME_FAIL rows before deciding whether n=100 is justified</td>
+                            <td>Inspect remaining Task 66 cap-hit and SAME_FAIL rows before deciding whether n=100 is justified</td>
                             <td class="info">Next: read-only failure/cap triage, no new benchmark</td>
                         </tr>
                     </tbody>
@@ -1576,6 +1583,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>66-gsm8k-mnt384-rerun-reproducibility-report.md</code></td>
+                            <td>T66</td>
+                            <td>GSM8K mnt384 Rerun Reproducibility Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1944,6 +1957,36 @@
                             <td>60 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task66_mnt384_rerun_preflight.txt</code></td>
+                            <td>T66</td>
+                            <td>Task 66 preflight resource snapshot</td>
+                            <td>clean GPU preflight, no active benchmark process</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task66_gsm8k_short_*_n30_mnt384_rerun.jsonl</code></td>
+                            <td>T66</td>
+                            <td>Compressed GSM8K max_new_tokens=384 rerun artifacts</td>
+                            <td>2 conditions × 30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task66_mnt384_rerun_reproducibility_summary.json</code></td>
+                            <td>T66</td>
+                            <td>Task 65 vs Task 66 mnt384 latency reproducibility summary</td>
+                            <td>2 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task66_mnt384_rerun_reproducibility_table.csv</code></td>
+                            <td>T66</td>
+                            <td>Compact Task 66 rerun metrics table</td>
+                            <td>4 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task66_mnt384_rerun_changed_outcomes.jsonl</code></td>
+                            <td>T66</td>
+                            <td>Task 65 to Task 66 changed and unchanged numeric outcomes</td>
+                            <td>60 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2150,8 +2193,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 65 mnt384 calibration</span>
-                <span class="sv info">Current next: Task 66 mnt384 failure/cap triage</span>
+                <span class="sv go">Synced through Task 66 mnt384 rerun reproducibility</span>
+                <span class="sv info">Current next: Task 67 mnt384 failure/cap triage</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2611,6 +2654,17 @@
                     from 5 to 3 per condition, with no pass-to-fail rows. The latency cost was large, especially for
                     CC-DFlash-R2, and 3 cap hits remain per condition, so Task 66 should inspect remaining failures
                     before n=100.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 66 — GSM8K mnt384 Rerun Reproducibility — PASS, preliminary</strong><br>
+                    Re-ran compressed-only GSM8K n=30 mnt384 for LLMLingua-AR-R2 and CC-DFlash-R2 under a cleaner
+                    preflight: no active GPU process, 51 GiB available memory, and 655 MiB GPU memory in use before
+                    model load. Quality reproduced at 24/30 for both conditions, cap hits stayed 3/30, and there were
+                    no changed numeric outcomes versus Task 65. Latency was much lower, so Task 65 latency is marked
+                    noisy. Task 67 should triage remaining failures before n=100.
                 </div>
             </div>
         </section>
