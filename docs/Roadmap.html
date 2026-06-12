@@ -413,10 +413,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 62 compressed GSM8K changed-outcome triage</span>
+                <span class="sv info">→ Current next: Task 65 tiny GSM8K max_new_tokens=384 cap-hit calibration</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 61B GSM8K compressed keep-rate calibration. CC-DFlash now uses a two-dataset
+                This roadmap is synced through Task 64 GSM8K cap-hit triage. CC-DFlash now uses a two-dataset
                 evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
                 long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
                 remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
@@ -431,8 +431,14 @@
                 compressed GSM8K numeric extraction. Task 60 shows a 256-token cap reduces remaining compressed
                 truncation and improves numeric extraction. Task 61A adds a CLI keep-rate-percent override. Task 61B
                 verifies <code>--keep-rate-percent 67</code> in real compressed GSM8K runs, but quality remains 8/10
-                with both fail-to-pass and pass-to-fail row changes, so the next step is changed-outcome triage rather
-                than another blind keep-rate increase.
+                with both fail-to-pass and pass-to-fail row changes. Task 62 triages those rows: there is no direct
+                preview evidence that k67 repaired compression loss, k67 has pass-to-fail regressions, and keep-rate
+                80 should not be tested next. Task 63 runs the n=30 default-R2 compressed GSM8K stability check:
+                both compressed conditions are stable versus Task 60 under the preliminary ±10 point margin, but both
+                have 5/30 token-cap hits. Task 64 triages Task 63 failures and cap-hit rows: remaining failures split
+                into truncation-dominant and completed wrong-answer cases, with no extraction-issue labels and no
+                direct compression-loss label from available previews. Task 65 should run only a tiny
+                <code>max_new_tokens=384</code> cap-hit calibration before any n=100 move.
             </div>
         </header>
 
@@ -1140,12 +1146,32 @@
                             <td class="go">PASS, preliminary: metadata and suffix gates passed; quality stayed 8/10 with one pass-to-fail per condition</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T62</span></td>
+                            <td><span class="tnum done">T62</span></td>
                             <td>Compressed GSM8K Changed-Outcome Triage</td>
                             <td>Inspect Task 60 vs Task 61B <code>FAIL_TO_PASS</code>, <code>PASS_TO_FAIL</code>,
                                 and remaining <code>SAME_FAIL</code> rows using prompt previews, compressed context
                                 previews, generated text, and extraction details</td>
-                            <td class="info">Next: read-only triage before n=30 or another keep-rate test</td>
+                            <td class="go">PASS, read-only: no direct k67 compression-loss repair evidence; do not test k80 next</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T63</span></td>
+                            <td>Compressed GSM8K n=30 Confidence Run</td>
+                            <td>If more confidence is needed, run compressed-only GSM8K n=30 with default
+                                <code>keep_rate=0.50</code> and optionally a matched
+                                <code>--keep-rate-percent 67</code> comparison; no k80, no n=100</td>
+                            <td class="go">PASS, preliminary: both compressed conditions stable versus Task 60, with 5/30 cap hits each</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T64</span></td>
+                            <td>Compressed GSM8K n=30 Failure and Cap-Hit Triage</td>
+                            <td>Analyze Task 63 failures and cap-hit rows before any n=100 move or further prompt/output changes</td>
+                            <td class="go">PASS, read-only: failures split into 10 truncation-dominant and 6 completed wrong-answer cases</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T65</span></td>
+                            <td>GSM8K max_new_tokens=384 Cap-Hit Calibration</td>
+                            <td>Run a tiny compressed-only GSM8K calibration to test whether Task 63 cap-hit failures finish cleanly with a larger output cap</td>
+                            <td class="info">Next: tiny n=10 cap-hit calibration, no n=100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1517,6 +1543,24 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>62-compressed-gsm8k-changed-outcome-triage-report.md</code></td>
+                            <td>T62</td>
+                            <td>Compressed GSM8K Changed-Outcome Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>63-gsm8k-n30-stability-report.md</code></td>
+                            <td>T63</td>
+                            <td>GSM8K n=30 Stability Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>64-gsm8k-cap-hit-triage-report.md</code></td>
+                            <td>T64</td>
+                            <td>GSM8K Cap-Hit Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1819,6 +1863,48 @@
                             <td>20 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task62_changed_outcome_triage_summary.json</code></td>
+                            <td>T62</td>
+                            <td>Task 62 changed-outcome triage summary</td>
+                            <td>6 triaged cases</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task62_changed_outcome_cases.jsonl</code></td>
+                            <td>T62</td>
+                            <td>Per-case Task 60 vs Task 61B changed/failure triage rows</td>
+                            <td>6 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task63_gsm8k_short_*_n30_mnt256.jsonl</code></td>
+                            <td>T63</td>
+                            <td>Compressed GSM8K n=30 stability artifacts</td>
+                            <td>2 conditions × 30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task63_n30_stability_summary.json</code></td>
+                            <td>T63</td>
+                            <td>Task 60 vs Task 63 n=30 stability summary</td>
+                            <td>4 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task63_n30_stability_table.csv</code></td>
+                            <td>T63</td>
+                            <td>Compact Task 63 n=30 stability table</td>
+                            <td>4 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task64_cap_hit_triage_summary.json</code></td>
+                            <td>T64</td>
+                            <td>Task 63 failure and cap-hit triage summary</td>
+                            <td>2 conditions, 16 labeled failure/cap cases</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task64_cap_hit_cases.jsonl</code></td>
+                            <td>T64</td>
+                            <td>Per-row Task 63 failure and cap-hit triage cases</td>
+                            <td>16 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2025,8 +2111,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 61B keep-rate 67 calibration</span>
-                <span class="sv info">Current next: Task 62 changed-outcome triage</span>
+                <span class="sv go">Synced through Task 64 cap-hit triage</span>
+                <span class="sv info">Current next: Task 65 max_new_tokens=384 calibration</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2439,6 +2525,41 @@
                     evidence passed in all rows. Numeric extraction stayed 8/10 for both conditions, with one
                     <code>FAIL_TO_PASS</code> and one <code>PASS_TO_FAIL</code> per condition. Task 62 should triage
                     changed outcomes before n=30 or any further keep-rate test.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 62 — Compressed GSM8K Changed-Outcome Triage — PASS, read-only</strong><br>
+                    Analyzed Task 60 keep_rate=0.50 versus Task 61B keep_rate=0.67 changed/failure rows without
+                    running new benchmarks. The six triaged cases include two pass-to-fail regressions labeled as
+                    k67 generation drift or extra-context instability, two remaining truncation cases, and two
+                    fail-to-pass improvements without direct preview evidence of restored critical information. Do
+                    not test k80 next; use n=30 with k50 and optionally matched k67 only if confidence intervals are
+                    needed.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 63 — GSM8K n=30 Stability Verification — PASS, preliminary</strong><br>
+                    Ran compressed-only GSM8K n=30 for LLMLingua-AR-R2 and CC-DFlash-R2 using the Task 60 default
+                    R2 keep rate, <code>max_new_tokens=256</code>, <code>--resume</code>, and generated text. Numeric
+                    extraction was 22/30 for LLMLingua-AR-R2 and 23/30 for CC-DFlash-R2, both classified stable
+                    against Task 60 under the preliminary ±10 point margin. Both conditions still had 5/30 cap hits,
+                    so Task 64 should triage failures and cap-hit rows before any n=100 move.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 64 — GSM8K Cap-Hit Triage — PASS, read-only</strong><br>
+                    Analyzed Task 63 compressed GSM8K n=30 failures and cap-hit rows without running benchmarks.
+                    LLMLingua-AR-R2 had 22/30 numeric matches, 8 failures, and 5 cap-hit failures; CC-DFlash-R2
+                    had 23/30 numeric matches, 7 failures, 5 cap hits, and 4 cap-hit failures. The triage labeled
+                    10 cases <code>TRUNCATION_DOMINANT</code> and 6 cases <code>REASONING_FAIL</code>, with no
+                    extraction-issue labels. The theoretical cap-fix upper bound is 27/30 for both conditions, so
+                    Task 65 should be a tiny <code>max_new_tokens=384</code> calibration before any n=100 move.
                 </div>
             </div>
         </section>

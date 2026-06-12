@@ -183,7 +183,9 @@ Benchmark interpretation:
 - Compressed GSM8K artifact rows should expose `protected_suffix_preserved`, `protected_suffix_preview`, `final_prompt_preview`, and `final_prompt_tail_preview` before larger quality runs.
 - Before increasing compressed GSM8K sample size, output cap, or keep rate, verify suffix survival and prompt-tail evidence in a tiny compressed-only artifact.
 - Task 61B verified `--keep-rate-percent 67` in tiny compressed GSM8K runs, but numeric extraction stayed 8/10 with both `FAIL_TO_PASS` and `PASS_TO_FAIL` row changes. Do not adopt `0.67` as the default R2 keep rate based on this alone.
-- Before testing `--keep-rate-percent 80`, n=30, or larger compressed GSM8K runs, inspect Task 60 vs Task 61B changed outcomes, compressed prompt/context previews, generated text, and extraction details.
+- Task 62 changed-outcome triage found no direct preview evidence that `0.67` repaired compression loss; it also found k67 pass-to-fail regressions and one remaining truncation-limited same-fail row. Do not test `--keep-rate-percent 80` next.
+- Task 63 n=30 default-R2 compressed GSM8K verification was stable versus Task 60 under a preliminary ±10 percentage point margin, but both compressed conditions had 5/30 token-cap hits. Triage failures and cap-hit rows before any n=100 run.
+- Task 64 cap-hit triage labeled the remaining Task 63 cases as truncation-dominant or completed wrong-answer reasoning failures; no extraction-issue label was observed from available evidence. Treat the projected cap-fix upper bound as theoretical only, and run only a tiny `max_new_tokens=384` calibration before any n=100 move.
 - If compressed GSM8K rows still do not emit `Final answer:` markers or keep hitting the token cap, inspect compressed prompt/context previews and prompt-tail evidence before increasing sample size.
 - Run tiny dry-run/smoke execution on both datasets before any full n=100 benchmark.
 - For benchmark smoke runs, use unique `results/taskNN_*` output filenames, prefer `--resume`, avoid `--overwrite`, and store generated text when quality/audit work will follow.
