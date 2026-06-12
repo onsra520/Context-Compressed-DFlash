@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 60 GSM8K mnt256 calibration</span>
+                <span class="pill accent">Synced to Task 61A keep-rate CLI override</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -654,7 +654,8 @@
                 protects that instruction as a post-compression GSM8K suffix and adds prompt-tail preview metadata.
                 Task 59 verifies that the suffix survives in compressed artifacts and improves compressed numeric
                 extraction. Task 60 shows a 256-token compressed GSM8K cap further reduces truncation and improves
-                numeric extraction, while leaving a small residual failure set for keep-rate calibration.
+                numeric extraction. Task 61A adds a CLI keep-rate-percent override for tiny gentler-compression
+                calibration runs, while leaving default R2/R3 condition behavior unchanged.
             </div>
         </section>
 
@@ -1646,6 +1647,9 @@
                 <strong>Task 60</strong> tests that 256-token cap and improves compressed numeric extraction to 8/10
                 for both LLMLingua-AR-R2 and CC-DFlash-R2 while reducing cap hits to 1/10. Remaining failures should
                 now be tested with a tiny gentler keep-rate calibration before larger n.
+                <strong>Task 61A</strong> adds <code>--keep-rate-percent</code> so that tiny follow-up can request
+                <code>67</code> for <code>keep_rate=0.67</code> without creating new condition names or changing
+                default R2 behavior.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1813,7 +1817,7 @@
                     <li>Task 59 verifies compressed artifacts expose <code>protected_suffix_preserved</code>,
                         <code>final_prompt_preview</code>, and <code>final_prompt_tail_preview</code>; Task 60
                         supports using <code>max_new_tokens=256</code> for compressed GSM8K calibration, with a tiny
-                        <code>keep_rate=0.67</code> check next before larger runs</li>
+                        <code>--keep-rate-percent 67</code> check next before larger runs</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -1952,7 +1956,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 60 GSM8K mnt256 calibration ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 61A keep-rate CLI override ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

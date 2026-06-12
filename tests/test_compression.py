@@ -14,7 +14,9 @@ from scripts.run_mvp import (
     _condition_keep_rate,
     _is_ar_condition,
     _metric_to_row,
+    _parse_keep_rate_percent,
     _prepare_cc_prompt,
+    _resolve_keep_rate,
 )
 from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION
 
@@ -454,6 +456,41 @@ def test_cc_llm_conditions_define_expected_keep_rates():
     assert _condition_keep_rate("LLMLingua-AR-R3", 0.5) == pytest.approx(0.33)
 
 
+def test_keep_rate_percent_parser_accepts_valid_values():
+    assert _parse_keep_rate_percent("67") == pytest.approx(67.0)
+    assert _parse_keep_rate_percent("50") == pytest.approx(50.0)
+
+
+@pytest.mark.parametrize("value", ["0", "-1", "100.1"])
+def test_keep_rate_percent_parser_rejects_invalid_values(value):
+    with pytest.raises(Exception, match="keep-rate-percent"):
+        _parse_keep_rate_percent(value)
+
+
+def test_resolve_keep_rate_uses_percent_override_for_compressed_conditions():
+    keep_rate, requested_percent, requested_keep_rate = _resolve_keep_rate(
+        "CC-DFlash-R2",
+        default_keep_rate=0.5,
+        keep_rate_percent=67.0,
+    )
+
+    assert keep_rate == pytest.approx(0.67)
+    assert requested_percent == pytest.approx(67.0)
+    assert requested_keep_rate == pytest.approx(0.67)
+
+
+def test_resolve_keep_rate_preserves_default_when_no_override():
+    keep_rate, requested_percent, requested_keep_rate = _resolve_keep_rate(
+        "CC-DFlash-R2",
+        default_keep_rate=0.5,
+        keep_rate_percent=None,
+    )
+
+    assert keep_rate == pytest.approx(0.5)
+    assert requested_percent is None
+    assert requested_keep_rate is None
+
+
 def test_llmlingua_ar_conditions_are_target_only():
     assert _is_ar_condition("Baseline-AR") is True
     assert _is_ar_condition("LLMLingua-AR-R2") is True
@@ -478,8 +515,16 @@ def test_prepare_cc_prompt_compresses_context_and_preserves_question():
                 "keep_rate": keep_rate,
             }
 
-    merged, info = _prepare_cc_prompt("How many books are there?", FakeCompressor(), 0.5)
+    merged, info = _prepare_cc_prompt(
+        "How many books are there?",
+        FakeCompressor(),
+        0.5,
+        requested_keep_rate_percent=67.0,
+        requested_keep_rate=0.67,
+    )
 
     assert merged == "compressed library context\n\nHow many books are there?"
     assert info["question_preserved"] is True
     assert info["compressor_model"] == "fake/model"
+    assert info["requested_keep_rate_percent"] == pytest.approx(67.0)
+    assert info["requested_keep_rate"] == pytest.approx(0.67)

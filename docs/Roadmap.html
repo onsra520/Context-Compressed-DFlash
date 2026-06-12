@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 61 compressed GSM8K keep-rate calibration</span>
+                <span class="sv info">→ Current next: Task 61B compressed GSM8K keep-rate-percent=67 calibration</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 59 GSM8K compressed suffix verification. CC-DFlash now uses a two-dataset
@@ -429,7 +429,8 @@
                 Task 58 protects that instruction as a post-compression GSM8K suffix and adds prompt-tail preview
                 fields for future artifacts. Task 59 verifies the suffix survives in compressed artifacts and improves
                 compressed GSM8K numeric extraction. Task 60 shows a 256-token cap reduces remaining compressed
-                truncation and improves numeric extraction, while remaining a tiny preliminary calibration.
+                truncation and improves numeric extraction. Task 61A adds a CLI keep-rate-percent override so the
+                next tiny run can test gentler compression without changing default R2 behavior.
             </div>
         </header>
 
@@ -1121,12 +1122,20 @@
                             <td class="go">PASS: 256-token cap reduced cap hits and improved numeric extraction; keep-rate check remains</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T61</span></td>
+                            <td><span class="tnum done">T61A</span></td>
+                            <td>CLI Keep-Rate Percent Override</td>
+                            <td>Add <code>--keep-rate-percent</code> so compressed runs can request rates like
+                                <code>67</code> for <code>keep_rate=0.67</code> while preserving default R2 behavior
+                                when omitted</td>
+                            <td class="go">PASS: parser, resolver, and compressed metadata fields added</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T61B</span></td>
                             <td>Compressed GSM8K Keep-Rate Calibration</td>
                             <td>Run a tiny compressed-only GSM8K calibration at <code>max_new_tokens=256</code>,
-                                starting with <code>keep_rate=0.67</code>, to test whether remaining failures are
+                                using <code>--keep-rate-percent 67</code>, to test whether remaining failures are
                                 compression-sensitive before any larger n</td>
-                            <td class="info">Next: tiny keep-rate calibration only; no n=100</td>
+                            <td class="info">Next: tiny keep-rate run only; no n=100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1483,6 +1492,12 @@
                             <td><code>60-gsm8k-compressed-mnt256-calibration-report.md</code></td>
                             <td>T60</td>
                             <td>GSM8K Compressed max_new_tokens=256 Calibration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>61A-cli-keep-rate-percent-override-report.md</code></td>
+                            <td>T61A</td>
+                            <td>CLI Keep-Rate Percent Override Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -1970,8 +1985,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 60 GSM8K mnt256 calibration</span>
-                <span class="sv info">Current next: Task 61 compressed keep-rate calibration</span>
+                <span class="sv go">Synced through Task 61A keep-rate CLI override</span>
+                <span class="sv info">Current next: Task 61B compressed keep-rate-percent=67 calibration</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2361,6 +2376,17 @@
                     from 3/10 to 1/10 for both compressed conditions, numeric extraction improved to 8/10 for both,
                     and no row regressed from numeric pass to fail. Task 61 should remain tiny and test
                     <code>keep_rate=0.67</code> before any larger n.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 61A — CLI Keep-Rate Percent Override — PASS</strong><br>
+                    Added <code>--keep-rate-percent</code> to <code>scripts/run_mvp.py</code> so compressed conditions
+                    can request rates such as <code>67</code> for <code>keep_rate=0.67</code>. The default R2/R3
+                    behavior is unchanged when the flag is omitted, and compressed artifact metadata records requested
+                    keep-rate fields for future audit. No real benchmark was run. Task 61B should run the tiny
+                    compressed-only GSM8K <code>--keep-rate-percent 67</code> calibration.
                 </div>
             </div>
         </section>

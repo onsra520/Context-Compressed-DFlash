@@ -145,6 +145,35 @@ def _condition_keep_rate(condition: str, default_keep_rate: float) -> float | No
     raise ValueError(f"Unsupported condition: {condition}")
 
 
+def _parse_keep_rate_percent(value: str) -> float:
+    try:
+        percent = float(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("--keep-rate-percent must be a number > 0 and <= 100") from exc
+    if percent <= 0 or percent > 100:
+        raise argparse.ArgumentTypeError("--keep-rate-percent must be > 0 and <= 100")
+    return percent
+
+
+def _resolve_keep_rate(
+    condition: str,
+    *,
+    default_keep_rate: float,
+    keep_rate_percent: float | None = None,
+    allow_uncompressed_override: bool = False,
+) -> tuple[float | None, float | None, float | None]:
+    resolved = _condition_keep_rate(condition, default_keep_rate)
+    if keep_rate_percent is None:
+        return resolved, None, None
+
+    requested_keep_rate = keep_rate_percent / 100.0
+    if resolved is None:
+        if allow_uncompressed_override:
+            return None, keep_rate_percent, requested_keep_rate
+        raise ValueError("--keep-rate-percent is only valid for compressed conditions")
+    return requested_keep_rate, keep_rate_percent, requested_keep_rate
+
+
 def _is_ar_condition(condition: str) -> bool:
     return condition in {"Baseline-AR", "LLMLingua-AR-R2", "LLMLingua-AR-R3"}
 
@@ -155,6 +184,8 @@ def _prepare_cc_prompt(
     keep_rate: float,
     context: str = CC_SMOKE_CONTEXT,
     protected_suffix: str | None = None,
+    requested_keep_rate_percent: float | None = None,
+    requested_keep_rate: float | None = None,
 ) -> tuple[str, dict]:
     merged_prompt, info = compressor.compress(context=context, question=question, keep_rate=keep_rate)
     original_prompt = _append_protected_suffix(
@@ -174,6 +205,8 @@ def _prepare_cc_prompt(
         "N_compressed": info["N_compressed"],
         "original_input_tokens": info["N_original"],
         "compressed_input_tokens": info["N_compressed"],
+        "requested_keep_rate_percent": requested_keep_rate_percent,
+        "requested_keep_rate": requested_keep_rate,
         "keep_rate": info.get("keep_rate", keep_rate),
         "compressor_model": compressor.model_name,
         "question_preserved": question in final_prompt,
@@ -825,6 +858,8 @@ def _run_benchmark_item(
     config: SmokeConfig,
     compressor: LLMLinguaCompressor | None,
     keep_rate: float | None,
+    requested_keep_rate_percent: float | None,
+    requested_keep_rate: float | None,
     is_ar: bool,
     store_generated_text: bool,
 ) -> PromptMetrics:
@@ -839,6 +874,8 @@ def _run_benchmark_item(
             keep_rate,
             context=compression_context,
             protected_suffix=item.protected_suffix,
+            requested_keep_rate_percent=requested_keep_rate_percent,
+            requested_keep_rate=requested_keep_rate,
         )
         if not compression_info["question_preserved"]:
             raise RuntimeError(f"protected question was not preserved for prompt {item.prompt_id}")
@@ -904,12 +941,27 @@ def main() -> None:
         default=None,
         help="Override benchmark.max_new_tokens for calibration runs; default config path remains clamped to 32.",
     )
+    parser.add_argument(
+        "--keep-rate-percent",
+        type=_parse_keep_rate_percent,
+        default=None,
+        help="Override compressed-condition keep rate by percent, e.g. 67 means keep_rate=0.67.",
+    )
     args = parser.parse_args()
     if args.resume and args.overwrite:
         parser.error("--resume and --overwrite cannot be used together")
 
     config = _read_config(args.config, max_new_tokens_override=args.max_new_tokens)
-    keep_rate = _condition_keep_rate(args.condition, config.raw_config.get("compression", {}).get("llmlingua", {}).get("default_keep_rate", 0.5))
+    default_keep_rate = config.raw_config.get("compression", {}).get("llmlingua", {}).get("default_keep_rate", 0.5)
+    try:
+        keep_rate, requested_keep_rate_percent, requested_keep_rate = _resolve_keep_rate(
+            args.condition,
+            default_keep_rate=default_keep_rate,
+            keep_rate_percent=args.keep_rate_percent,
+            allow_uncompressed_override=args.dry_run_prompts,
+        )
+    except ValueError as exc:
+        parser.error(str(exc))
     is_ar = _is_ar_condition(args.condition)
     n_prompts = max(1, args.n)
     warmup_count = max(0, args.warmup_prompts)
@@ -975,6 +1027,8 @@ def main() -> None:
 
     print(f"{args.condition} smoke benchmark")
     print("Compression: none" if keep_rate is None else f"Compression: LLMLingua keep_rate={keep_rate}")
+    if requested_keep_rate_percent is not None:
+        print(f"Requested keep-rate override: {requested_keep_rate_percent:.6g}% ({requested_keep_rate:.6g})")
     print(f"Target model path: {config.target_path}")
     if is_ar:
         print("Draft model path: not used for autoregressive baseline")
@@ -1040,6 +1094,8 @@ def main() -> None:
                     config=config,
                     compressor=compressor,
                     keep_rate=keep_rate,
+                    requested_keep_rate_percent=requested_keep_rate_percent,
+                    requested_keep_rate=requested_keep_rate,
                     is_ar=is_ar,
                     store_generated_text=False,
                 )
@@ -1075,6 +1131,8 @@ def main() -> None:
                     config=config,
                     compressor=compressor,
                     keep_rate=keep_rate,
+                    requested_keep_rate_percent=requested_keep_rate_percent,
+                    requested_keep_rate=requested_keep_rate,
                     is_ar=is_ar,
                     store_generated_text=args.store_generated_text,
                 )
