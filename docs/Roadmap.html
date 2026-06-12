@@ -413,10 +413,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 59 tiny compressed GSM8K suffix verification rerun</span>
+                <span class="sv info">→ Current next: Task 60 compressed GSM8K output-cap / keep-rate calibration</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 56 GSM8K final-answer calibration. CC-DFlash now uses a two-dataset
+                This roadmap is synced through Task 59 GSM8K compressed suffix verification. CC-DFlash now uses a two-dataset
                 evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
                 long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
                 remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
@@ -427,7 +427,8 @@
                 shows max_new_tokens=192 improves numeric extraction, especially for uncompressed rows. Task 57 finds
                 compressed metadata complete but strict final-answer instruction absent from compressed prompt previews.
                 Task 58 protects that instruction as a post-compression GSM8K suffix and adds prompt-tail preview
-                fields for future artifacts.
+                fields for future artifacts. Task 59 verifies the suffix survives in compressed artifacts and improves
+                compressed GSM8K numeric extraction, while remaining a tiny preliminary calibration.
             </div>
         </header>
 
@@ -1103,12 +1104,20 @@
                             <td class="go">PASS: protected suffix and final prompt preview metadata added</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T59</span></td>
+                            <td><span class="tnum done">T59</span></td>
                             <td>Tiny Compressed GSM8K Suffix Verification</td>
                             <td>Run a tiny compressed-only GSM8K metadata rerun to verify future artifacts show
                                 <code>protected_suffix_preserved=true</code> and visible final-answer instruction
                                 previews before quality calibration resumes</td>
-                            <td class="info">Next: n=1 or n=3 metadata smoke only; no n=100</td>
+                            <td class="go">PASS: suffix survived 10/10 for both compressed conditions; numeric extraction improved</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T60</span></td>
+                            <td>Compressed GSM8K Output-Cap / Keep-Rate Calibration</td>
+                            <td>Run a tiny compressed-only follow-up, likely testing <code>max_new_tokens=256</code>
+                                first and then gentler keep rates such as <code>0.67</code> or <code>0.8</code> only
+                                if still needed; no n=100</td>
+                            <td class="info">Next: tiny compressed-only calibration after Task 59 suffix verification</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1456,6 +1465,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>59-gsm8k-compressed-suffix-verification-report.md</code></td>
+                            <td>T59</td>
+                            <td>GSM8K Compressed Suffix Verification Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1692,6 +1707,24 @@
                             <td>5 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task59_gsm8k_short_*_n10_mnt192_suffixfix.jsonl</code></td>
+                            <td>T59</td>
+                            <td>Compressed GSM8K suffix-fix verification artifacts</td>
+                            <td>2 conditions × 10 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task59_suffix_verification_summary.json</code></td>
+                            <td>T59</td>
+                            <td>Task 56 vs Task 59 suffix survival and quality summary</td>
+                            <td>4 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task59_suffix_verification_table.csv</code></td>
+                            <td>T59</td>
+                            <td>Compact Task 59 suffix verification table</td>
+                            <td>4 condition-stage rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -1898,8 +1931,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 58 GSM8K protected final-answer suffix</span>
-                <span class="sv info">Current next: Task 59 tiny compressed suffix verification</span>
+                <span class="sv go">Synced through Task 59 GSM8K compressed suffix verification</span>
+                <span class="sv info">Current next: Task 60 compressed output-cap / keep-rate calibration</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2266,6 +2299,18 @@
                     <code>protected_suffix_preview</code>, <code>final_prompt_preview</code>, and
                     <code>final_prompt_tail_preview</code> metadata for future artifacts. No real benchmark was run.
                     Task 59 should run a tiny compressed-only metadata verification before further quality calibration.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 59 — Tiny Compressed GSM8K Suffix Verification — PASS, preliminary</strong><br>
+                    Ran compressed-only GSM8K n=10 verification for LLMLingua-AR-R2 and CC-DFlash-R2 at
+                    <code>max_new_tokens=192</code> with <code>--resume</code> and generated text. The protected
+                    final-answer suffix survived in 10/10 rows for both compressed conditions, generated
+                    <code>Final answer:</code> markers appeared in 7/10 rows each, and numeric extraction improved
+                    versus Task 56. Task 60 should remain tiny and test whether a 256-token cap or gentler keep rate
+                    resolves the remaining compressed failures.
                 </div>
             </div>
         </section>
