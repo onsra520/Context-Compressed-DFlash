@@ -1,0 +1,5 @@
+setting,condition,keep_rate,max_new_tokens,rows,numeric_rate,numeric_matches,cap_hits,source
+speed_oriented,LLMLingua-AR-R2,0.5,256,30,0.733333,22,5,Task 63 n=30 mnt256 stability summary
+quality_oriented,LLMLingua-AR-R2,0.5,384,30,0.8,24,3,Task 66 rerun + Task 67 failure triage
+speed_oriented,CC-DFlash-R2,0.5,256,30,0.766667,23,5,Task 63 n=30 mnt256 stability summary
+quality_oriented,CC-DFlash-R2,0.5,384,30,0.8,24,3,Task 66 rerun + Task 67 failure triage

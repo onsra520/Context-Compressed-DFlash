@@ -1,0 +1,79 @@
+{
+  "claim_policy": "read-only synthesis; no benchmark execution and no final correctness or speedup claim",
+  "conservative_report_interpretation": "CC-DFlash GSM8K evidence is preliminary. Use mnt256 for speed-oriented compressed comparison and mnt384 for quality-oriented compressed comparison; do not claim final correctness, final speedup, or proven end-to-end compression benefit.",
+  "evidence_path": {
+    "task53_54_failure": "compressed GSM8K quality remained weak before suffix/prompt metadata fixes",
+    "task58_suffix_fix": "protected final-answer suffix moved outside compression",
+    "task60_mnt256": "mnt256 improved compressed numeric extraction and reduced cap hits in n=10 calibration",
+    "task63_n30_stability": "mnt256 default-R2 signal stayed stable at n=30 but exposed cap hits",
+    "task66_mnt384_reproducibility": "mnt384 quality reproduced at 24/30 and Task 65 latency was noisy",
+    "task67_failure_triage": "remaining mnt384 failures split between truncation and reasoning"
+  },
+  "final_settings": {
+    "quality_oriented": {
+      "keep_rate": 0.5,
+      "max_new_tokens": 384,
+      "protected_suffix_enabled": true,
+      "purpose": "quality upper-bound / quality calibration for compressed GSM8K"
+    },
+    "speed_oriented": {
+      "keep_rate": 0.5,
+      "max_new_tokens": 256,
+      "protected_suffix_enabled": true,
+      "purpose": "speed/throughput tradeoff for compressed GSM8K"
+    }
+  },
+  "inputs": {
+    "task60_mnt256": "results/task60_mnt256_calibration_summary.json",
+    "task61b_keep_rate67": "results/task61b_keep_rate67_calibration_summary.json",
+    "task62_k67_triage": "results/task62_changed_outcome_triage_summary.json",
+    "task63_n30_mnt256": "results/task63_n30_stability_summary.json",
+    "task66_mnt384": "results/task66_mnt384_rerun_reproducibility_summary.json",
+    "task67_failure_triage": "results/task67_persistent_mnt384_failure_summary.json"
+  },
+  "n100_gate": {
+    "reason": "compressed-only mnt256/mnt384 evidence is useful, but a comparable full GSM8K matrix is still missing before n=100",
+    "status": "NOT_NEXT"
+  },
+  "next_real_run_plan": {
+    "name": "n=30 full GSM8K matrix with comparable settings before n=100",
+    "reason": "The project has compressed-only n=30 evidence; Baseline-AR and DFlash-R1 should be run at comparable GSM8K settings before expanding to n=100.",
+    "recommended_next_task": "Task 69 n=30 full GSM8K matrix using frozen settings, starting with quality-oriented max_new_tokens=384 and unique resume-safe artifacts",
+    "selected_option": "Option C"
+  },
+  "rejections": {
+    "keep_rate_0_67": {
+      "changed_outcome_counts": {
+        "CC-DFlash-R2": {
+          "FAIL_TO_PASS": 1,
+          "PASS_TO_FAIL": 1,
+          "SAME_FAIL": 1,
+          "SAME_PASS": 7
+        },
+        "LLMLingua-AR-R2": {
+          "FAIL_TO_PASS": 1,
+          "PASS_TO_FAIL": 1,
+          "SAME_FAIL": 1,
+          "SAME_PASS": 7
+        }
+      },
+      "decision": "REJECT_AS_DEFAULT",
+      "reason": "Task 61B did not improve net numeric accuracy and introduced PASS_TO_FAIL instability"
+    },
+    "keep_rate_0_75_0_80": {
+      "decision": "DEFER",
+      "reason": "Task 62 found no direct evidence that k67 repaired compression loss and explicitly did not recommend k80 next",
+      "task62_test_keep_rate_80_next": false
+    },
+    "max_new_tokens_512": {
+      "decision": "DEFER",
+      "reason": "Task 67 failures are not truncation-dominated; they split evenly between remaining truncation and reasoning failures",
+      "task67_labels": {
+        "REASONING_FAIL": 6,
+        "TRUNCATION_REMAINING": 6
+      }
+    }
+  },
+  "status": "PASS",
+  "task": "Task 68 freeze final GSM8K settings and n=100 gate plan"
+}

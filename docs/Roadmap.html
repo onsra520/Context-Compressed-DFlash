@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 68 compressed GSM8K evidence synthesis / n=100 decision gate</span>
+                <span class="sv info">→ Current next: Task 69 n=30 full GSM8K matrix with frozen settings</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 64 GSM8K cap-hit triage. CC-DFlash now uses a two-dataset
@@ -444,7 +444,10 @@
                 quality remains 24/30 for both conditions, cap hits remain 3/30, and Task 65 latency is marked noisy.
                 Task 67 triages the persistent failures as an even split between remaining truncation and completed
                 wrong-answer reasoning, with no extraction-fix or compression-loss label from available previews.
-                Task 68 should synthesize the compressed GSM8K evidence before any n=100 move.
+                Task 68 freezes mnt256 as the speed-oriented compressed GSM8K setting and mnt384 as the
+                quality-oriented setting, rejects k67 as default, defers k75/k80 and mnt512, and gates n=100 behind
+                a comparable n=30 full GSM8K matrix. Task 69 should run that full matrix with unique resume-safe
+                artifacts before any n=100 move.
             </div>
         </header>
 
@@ -1192,10 +1195,16 @@
                             <td class="go">PASS, read-only: remaining failures split into 6 truncation and 6 reasoning cases; no extraction or compression-loss label</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T68</span></td>
+                            <td><span class="tnum done">T68</span></td>
                             <td>Compressed GSM8K Evidence Synthesis / n=100 Decision Gate</td>
                             <td>Synthesize Tasks 60–67 and decide whether a bounded n=100 quality-oriented run is justified</td>
-                            <td class="info">Next: report/planning task before any larger run</td>
+                            <td class="go">PASS, read-only: freeze mnt256 speed and mnt384 quality settings; n=100 is not next</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T69</span></td>
+                            <td>n=30 Full GSM8K Matrix with Frozen Settings</td>
+                            <td>Run Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-DFlash-R2 with comparable GSM8K settings before n=100</td>
+                            <td class="info">Next: resume-safe real run, no n=100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1600,6 +1609,12 @@
                             <td><code>67-gsm8k-persistent-mnt384-failure-triage-report.md</code></td>
                             <td>T67</td>
                             <td>GSM8K Persistent mnt384 Failure Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>68-gsm8k-final-settings-and-n100-gate-report.md</code></td>
+                            <td>T68</td>
+                            <td>GSM8K Final Settings and n=100 Gate Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2013,6 +2028,18 @@
                             <td>read-only triage cases</td>
                         </tr>
                         <tr>
+                            <td><code>results/task68_gsm8k_final_settings_summary.json</code></td>
+                            <td>T68</td>
+                            <td>Frozen GSM8K settings and n=100 gate summary</td>
+                            <td>read-only synthesis</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task68_gsm8k_final_settings_table.csv</code></td>
+                            <td>T68</td>
+                            <td>Frozen speed/quality GSM8K settings table</td>
+                            <td>4 condition-setting rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2219,8 +2246,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 67 persistent mnt384 failure triage</span>
-                <span class="sv info">Current next: Task 68 evidence synthesis / n=100 decision gate</span>
+                <span class="sv go">Synced through Task 68 GSM8K settings freeze</span>
+                <span class="sv info">Current next: Task 69 n=30 full GSM8K matrix</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2701,6 +2728,15 @@
                     truncation cases and 6 completed wrong-answer reasoning cases, split evenly across LLMLingua-AR-R2
                     and CC-DFlash-R2. No extraction-fix label and no compression-loss label were assigned from
                     available previews. Task 68 should synthesize Tasks 60–67 before any n=100 move.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task 68 — GSM8K Final Settings and n=100 Gate — PASS, read-only</strong><br>
+                    Froze compressed GSM8K settings: mnt256 as speed-oriented and mnt384 as quality-oriented, both
+                    with keep_rate=0.50 and protected suffix. Rejected keep_rate=0.67 as default, deferred k75/k80
+                    and mnt512, and marked n=100 as not next. Task 69 should run a comparable n=30 full GSM8K matrix.
                 </div>
             </div>
         </section>
