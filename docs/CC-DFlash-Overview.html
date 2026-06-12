@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 66 mnt384 rerun reproducibility</span>
+                <span class="pill accent">Synced to Task 67 persistent mnt384 failure triage</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -671,7 +671,9 @@
                 but the latency cost is large and remaining cap-hit rows still require triage before any n=100 move.
                 Task 66 reruns the same mnt384 setup under a cleaner preflight. Quality and cap-hit counts reproduce,
                 but latency is much lower, so Task 65 latency is treated as noisy and Task 66 should be used for
-                mnt384 latency interpretation.
+                mnt384 latency interpretation. Task 67 triages the remaining mnt384 compressed GSM8K failures:
+                they split evenly between remaining truncation and completed wrong-answer reasoning, with no
+                extraction-fix or compression-loss label from available previews.
             </div>
         </section>
 
@@ -1689,8 +1691,10 @@
                 speed-benchmark default, until remaining failures are inspected.
                 <strong>Task 66</strong> reruns the same mnt384 calibration under cleaner preflight. Quality remains
                 24/30 for both compressed conditions, cap hits remain 3/30, and Task 65 latency is not reproducible.
-                Use Task 66 for latency interpretation, but do not move to n=100 until remaining cap-hit and
-                SAME_FAIL rows are triaged.
+                Use Task 66 for latency interpretation. <strong>Task 67</strong> triages the persistent failures as
+                6 remaining truncation cases and 6 completed wrong-answer reasoning cases across the two compressed
+                conditions. It does not justify mnt512 as the next automatic step; synthesize Tasks 60–67 before
+                any n=100 move.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1866,7 +1870,9 @@
                         n=100 move. Task 65 shows mnt384 improves compressed GSM8K numeric extraction to 24/30 and
                         reduces cap hits to 3/30 per condition, but latency rises sharply and remaining failures
                         should be triaged before n=100. Task 66 shows the Task 65 latency spike was noisy; quality
-                        and cap-hit counts reproduce, but n=100 remains blocked pending failure triage</li>
+                        and cap-hit counts reproduce. Task 67 finds an even split between remaining truncation and
+                        completed wrong-answer reasoning, so n=100 remains gated by evidence synthesis rather than
+                        another automatic token-budget increase</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -2005,7 +2011,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 66 mnt384 rerun reproducibility ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 67 persistent mnt384 failure triage ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

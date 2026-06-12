@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 67 read-only mnt384 remaining failure/cap triage</span>
+                <span class="sv info">→ Current next: Task 68 compressed GSM8K evidence synthesis / n=100 decision gate</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 64 GSM8K cap-hit triage. CC-DFlash now uses a two-dataset
@@ -442,7 +442,9 @@
                 for both compressed conditions and cap hits fall from 5 to 3, but latency rises sharply and three
                 cap hits remain per condition. Task 66 reruns the same mnt384 calibration under cleaner preflight:
                 quality remains 24/30 for both conditions, cap hits remain 3/30, and Task 65 latency is marked noisy.
-                Task 67 should inspect the remaining Task 66 failures and cap-hit rows before any n=100 move.
+                Task 67 triages the persistent failures as an even split between remaining truncation and completed
+                wrong-answer reasoning, with no extraction-fix or compression-loss label from available previews.
+                Task 68 should synthesize the compressed GSM8K evidence before any n=100 move.
             </div>
         </header>
 
@@ -1184,10 +1186,16 @@
                             <td class="go">PASS, preliminary: quality reproduced at 24/30, cap hits stayed 3/30, Task 65 latency was noisy</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T67</span></td>
+                            <td><span class="tnum done">T67</span></td>
                             <td>GSM8K mnt384 Remaining Failure Triage</td>
                             <td>Inspect remaining Task 66 cap-hit and SAME_FAIL rows before deciding whether n=100 is justified</td>
-                            <td class="info">Next: read-only failure/cap triage, no new benchmark</td>
+                            <td class="go">PASS, read-only: remaining failures split into 6 truncation and 6 reasoning cases; no extraction or compression-loss label</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T68</span></td>
+                            <td>Compressed GSM8K Evidence Synthesis / n=100 Decision Gate</td>
+                            <td>Synthesize Tasks 60–67 and decide whether a bounded n=100 quality-oriented run is justified</td>
+                            <td class="info">Next: report/planning task before any larger run</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1589,6 +1597,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>67-gsm8k-persistent-mnt384-failure-triage-report.md</code></td>
+                            <td>T67</td>
+                            <td>GSM8K Persistent mnt384 Failure Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1987,6 +2001,18 @@
                             <td>60 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task67_persistent_mnt384_failure_summary.json</code></td>
+                            <td>T67</td>
+                            <td>Persistent mnt384 GSM8K failure triage summary</td>
+                            <td>12 failure cases across 2 compressed conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task67_persistent_mnt384_failure_cases.jsonl</code></td>
+                            <td>T67</td>
+                            <td>Persistent mnt384 failure and cap-hit case records</td>
+                            <td>read-only triage cases</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2193,8 +2219,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 66 mnt384 rerun reproducibility</span>
-                <span class="sv info">Current next: Task 67 mnt384 failure/cap triage</span>
+                <span class="sv go">Synced through Task 67 persistent mnt384 failure triage</span>
+                <span class="sv info">Current next: Task 68 evidence synthesis / n=100 decision gate</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2665,6 +2691,16 @@
                     model load. Quality reproduced at 24/30 for both conditions, cap hits stayed 3/30, and there were
                     no changed numeric outcomes versus Task 65. Latency was much lower, so Task 65 latency is marked
                     noisy. Task 67 should triage remaining failures before n=100.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task 67 — GSM8K Persistent mnt384 Failure Triage — PASS, preliminary</strong><br>
+                    Read-only analysis of Task 66 persistent failures found 12 numeric failures total: 6 remaining
+                    truncation cases and 6 completed wrong-answer reasoning cases, split evenly across LLMLingua-AR-R2
+                    and CC-DFlash-R2. No extraction-fix label and no compression-loss label were assigned from
+                    available previews. Task 68 should synthesize Tasks 60–67 before any n=100 move.
                 </div>
             </div>
         </section>
