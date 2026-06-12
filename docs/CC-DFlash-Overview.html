@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 64 cap-hit triage</span>
+                <span class="pill accent">Synced to Task 65 mnt384 calibration</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -666,7 +666,9 @@
                 10 cases are truncation-dominant, 6 are completed wrong-answer reasoning failures, and no cases are
                 labeled extraction issues from available evidence. The cap-fix upper bound of 27/30 for each
                 compressed condition is theoretical only, so the next step is a tiny
-                <code>max_new_tokens=384</code> calibration rather than n=100.
+                <code>max_new_tokens=384</code> calibration rather than n=100. Task 65 runs that compressed-only
+                calibration: both conditions improve to 24/30 numeric matches and cap hits fall from 5/30 to 3/30,
+                but the latency cost is large and remaining cap-hit rows still require triage before any n=100 move.
             </div>
         </section>
 
@@ -1678,6 +1680,10 @@
                 not the observed driver. The theoretical upper bound if all cap-hit failures were fixed is 27/30 for
                 both compressed conditions, which supports only a tiny max_new_tokens=384 calibration before any
                 larger run.
+                <strong>Task 65</strong> runs that calibration. Numeric extraction improves modestly to 24/30 for
+                both compressed conditions and there are no pass-to-fail rows, but 3/30 cap hits remain in each
+                condition and latency rises sharply. Treat 384 as a quality-calibration setting, not a blanket
+                speed-benchmark default, until remaining failures are inspected.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1850,7 +1856,9 @@
                         finds no direct support for k80 next. Task 63 finds default-k50 n=30 compressed quality
                         stable but cap-limited. Task 64 labels the remaining failure/cap cases as truncation-dominant
                         or reasoning failures and recommends only a tiny max_new_tokens=384 calibration before any
-                        n=100 move</li>
+                        n=100 move. Task 65 shows mnt384 improves compressed GSM8K numeric extraction to 24/30 and
+                        reduces cap hits to 3/30 per condition, but latency rises sharply and remaining failures
+                        should be triaged before n=100</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -1989,7 +1997,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 64 cap-hit triage ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 65 mnt384 calibration ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

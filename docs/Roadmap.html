@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 65 tiny GSM8K max_new_tokens=384 cap-hit calibration</span>
+                <span class="sv info">→ Current next: Task 66 read-only mnt384 failure/cap triage</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 64 GSM8K cap-hit triage. CC-DFlash now uses a two-dataset
@@ -437,8 +437,11 @@
                 both compressed conditions are stable versus Task 60 under the preliminary ±10 point margin, but both
                 have 5/30 token-cap hits. Task 64 triages Task 63 failures and cap-hit rows: remaining failures split
                 into truncation-dominant and completed wrong-answer cases, with no extraction-issue labels and no
-                direct compression-loss label from available previews. Task 65 should run only a tiny
-                <code>max_new_tokens=384</code> cap-hit calibration before any n=100 move.
+                direct compression-loss label from available previews. Task 65 runs compressed-only
+                <code>max_new_tokens=384</code> n=30 calibration: numeric extraction improves modestly to 24/30
+                for both compressed conditions and cap hits fall from 5 to 3, but latency rises sharply and three
+                cap hits remain per condition. Task 66 should inspect the remaining Task 65 failures and cap-hit
+                rows before any n=100 move.
             </div>
         </header>
 
@@ -1168,10 +1171,16 @@
                             <td class="go">PASS, read-only: failures split into 10 truncation-dominant and 6 completed wrong-answer cases</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T65</span></td>
+                            <td><span class="tnum done">T65</span></td>
                             <td>GSM8K max_new_tokens=384 Cap-Hit Calibration</td>
                             <td>Run a tiny compressed-only GSM8K calibration to test whether Task 63 cap-hit failures finish cleanly with a larger output cap</td>
-                            <td class="info">Next: tiny n=10 cap-hit calibration, no n=100</td>
+                            <td class="go">PASS, preliminary: numeric improves to 24/30 for both compressed conditions, but latency rises and 3 cap hits remain</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T66</span></td>
+                            <td>GSM8K mnt384 Remaining Failure Triage</td>
+                            <td>Inspect remaining Task 65 cap-hit and SAME_FAIL rows before deciding whether n=100 is justified</td>
+                            <td class="info">Next: read-only failure/cap triage, no new benchmark</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1561,6 +1570,12 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>65-gsm8k-compressed-mnt384-calibration-report.md</code></td>
+                            <td>T65</td>
+                            <td>GSM8K Compressed max_new_tokens=384 Calibration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
@@ -1905,6 +1920,30 @@
                             <td>16 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task65_gsm8k_short_*_n30_mnt384.jsonl</code></td>
+                            <td>T65</td>
+                            <td>Compressed GSM8K max_new_tokens=384 calibration artifacts</td>
+                            <td>2 conditions × 30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task65_mnt384_calibration_summary.json</code></td>
+                            <td>T65</td>
+                            <td>Task 63 vs Task 65 mnt384 calibration summary</td>
+                            <td>2 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task65_mnt384_calibration_table.csv</code></td>
+                            <td>T65</td>
+                            <td>Compact Task 65 calibration metrics table</td>
+                            <td>4 condition-stage rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task65_mnt384_changed_outcomes.jsonl</code></td>
+                            <td>T65</td>
+                            <td>Task 63 to Task 65 changed and unchanged numeric outcomes</td>
+                            <td>60 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2111,8 +2150,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 64 cap-hit triage</span>
-                <span class="sv info">Current next: Task 65 max_new_tokens=384 calibration</span>
+                <span class="sv go">Synced through Task 65 mnt384 calibration</span>
+                <span class="sv info">Current next: Task 66 mnt384 failure/cap triage</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2560,6 +2599,18 @@
                     10 cases <code>TRUNCATION_DOMINANT</code> and 6 cases <code>REASONING_FAIL</code>, with no
                     extraction-issue labels. The theoretical cap-fix upper bound is 27/30 for both conditions, so
                     Task 65 should be a tiny <code>max_new_tokens=384</code> calibration before any n=100 move.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-12</div>
+                <div class="log-body">
+                    <strong>Task 65 — GSM8K Compressed max_new_tokens=384 Calibration — PASS, preliminary</strong><br>
+                    Ran compressed-only GSM8K n=30 for LLMLingua-AR-R2 and CC-DFlash-R2 with
+                    <code>max_new_tokens=384</code>, default R2 <code>keep_rate=0.50</code>, <code>--resume</code>,
+                    and generated text. Numeric extraction improved to 24/30 for both conditions and cap hits fell
+                    from 5 to 3 per condition, with no pass-to-fail rows. The latency cost was large, especially for
+                    CC-DFlash-R2, and 3 cap hits remain per condition, so Task 66 should inspect remaining failures
+                    before n=100.
                 </div>
             </div>
         </section>
