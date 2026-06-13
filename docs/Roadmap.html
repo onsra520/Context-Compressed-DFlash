@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 73 QMSum compressed follow-up</span>
+                <span class="sv info">→ Current next: Task 74 QMSum prompt/proxy triage</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 72 QMSum cap-hit/proxy triage. CC-DFlash now uses a two-dataset
@@ -454,8 +454,9 @@
                 <code>max_new_tokens=384</code>: CC-DFlash-R2 beats LLMLingua-AR-R2 on e2e speed and matches its
                 overlap proxy, but compressed rows still hit the cap often. Task 72 triages those rows as mostly
                 long-answer cap pressure / truncation-like behavior in compressed outputs, not a GSM8K-style
-                numeric failure. QMSum n=100 remains blocked; Task 73 should run a bounded compressed-only QMSum
-                prompt/output follow-up before any larger long-context move.
+                numeric failure. Task 73 adds a QMSum concise-answer policy and runs compressed-only n=30
+                calibration: cap hits drop to 0/30 for both compressed conditions, but normalized-overlap proxy
+                quality falls, so QMSum n=100 remains blocked pending Task 74 prompt/proxy triage.
             </div>
         </header>
 
@@ -1233,10 +1234,16 @@
                             <td class="go">PASS_WITH_NOTES, read-only: compressed cap hits are mostly long-answer cap pressure; QMSum n=100 remains blocked</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T73</span></td>
+                            <td><span class="tnum done">T73</span></td>
                             <td>QMSum Compressed Prompt/Output Follow-up</td>
                             <td>Run a bounded compressed-only QMSum follow-up with prompt-style refinement and/or tiny max_new_tokens=512 calibration</td>
-                            <td class="info">Next: bounded diagnostic before QMSum n=100</td>
+                            <td class="go">PASS_WITH_NOTES: concise policy removed cap hits, but overlap proxy degraded; n=100 remains blocked</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T74</span></td>
+                            <td>QMSum Prompt/Proxy Triage</td>
+                            <td>Inspect Task 73 degraded proxy rows and tune QMSum concise-answer policy before any n=100 move</td>
+                            <td class="info">Next: read-only/prompt-policy triage</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1671,6 +1678,12 @@
                             <td><code>72-qmsum-cap-hit-proxy-triage-report.md</code></td>
                             <td>T72</td>
                             <td>QMSum Cap-Hit and Proxy Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>73-qmsum-concise-policy-report.md</code></td>
+                            <td>T73</td>
+                            <td>QMSum Concise-Answer Policy Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2204,6 +2217,36 @@
                             <td>4 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl</code></td>
+                            <td>T73</td>
+                            <td>LLMLingua-AR-R2 QMSum concise-policy n=30 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl</code></td>
+                            <td>T73</td>
+                            <td>CC-DFlash-R2 QMSum concise-policy n=30 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task73_qmsum_concise_policy_summary.json</code></td>
+                            <td>T73</td>
+                            <td>QMSum concise-policy comparison summary</td>
+                            <td>2 compressed conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task73_qmsum_concise_policy_table.csv</code></td>
+                            <td>T73</td>
+                            <td>QMSum concise-policy metric table</td>
+                            <td>4 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task73_qmsum_concise_policy_cases.jsonl</code></td>
+                            <td>T73</td>
+                            <td>QMSum concise-policy changed prompt cases</td>
+                            <td>91 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2410,8 +2453,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 72 QMSum cap-hit/proxy triage</span>
-                <span class="sv info">Current next: Task 73 QMSum compressed follow-up</span>
+                <span class="sv go">Synced through Task 73 QMSum concise-policy calibration</span>
+                <span class="sv info">Current next: Task 74 QMSum prompt/proxy triage</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2940,7 +2983,17 @@
                     <strong>Task 72 — QMSum Cap-Hit and Proxy Triage — PASS_WITH_NOTES, read-only</strong><br>
                     Analyzed Task 71 QMSum artifacts without new benchmarks. Compressed cap hits were mostly labeled
                     truncation-like long-answer cap pressure, not GSM8K-style numeric-answer failure. QMSum n=100
-                    remains blocked; Task 73 should run a bounded compressed-only prompt/output follow-up.
+                    remained blocked pending a bounded compressed-only prompt/output follow-up.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task 73 — QMSum Concise-Answer Prompt Refinement — PASS_WITH_NOTES, preliminary</strong><br>
+                    Added a QMSum-only concise-answer protected suffix and ran compressed-only n=30 calibration.
+                    Cap hits dropped from 22/30 and 21/30 to 0/30 for LLMLingua-AR-R2 and CC-DFlash-R2, but the
+                    normalized-overlap proxy dropped materially. Task 74 should triage degraded proxy rows before
+                    any QMSum n=100 move.
                 </div>
             </div>
         </section>

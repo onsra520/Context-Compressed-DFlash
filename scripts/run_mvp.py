@@ -22,7 +22,12 @@ from ccdf.config import load_config
 from ccdf.compression.llmlingua import LLMLinguaCompressor
 from ccdf.dflash.generate import dflash_generate
 from ccdf.dflash.loader import load_draft, load_tokenizer
-from scripts.eval_datasets import DATASET_REGISTRY, GSM8K_FINAL_ANSWER_INSTRUCTION, select_eval_dataset_rows
+from scripts.eval_datasets import (
+    DATASET_REGISTRY,
+    GSM8K_FINAL_ANSWER_INSTRUCTION,
+    QMSUM_CONCISE_ANSWER_INSTRUCTION,
+    select_eval_dataset_rows,
+)
 
 BENCHMARK_PROTOCOL_VERSION = "per_prompt_jsonl_v1"
 
@@ -219,6 +224,14 @@ def _prepare_cc_prompt(
         "final_prompt_preview": _head_tail_preview_text(final_prompt),
         "final_prompt_tail_preview": _tail_preview_text(final_prompt),
     }
+    if suffix_text == QMSUM_CONCISE_ANSWER_INSTRUCTION.strip():
+        compression_info.update(
+            {
+                "qmsum_concise_policy_enabled": True,
+                "qmsum_concise_policy_preserved": suffix_text in final_prompt,
+                "qmsum_output_policy_preview": _preview_text(suffix_text),
+            }
+        )
     for field_name in (
         "strategy",
         "compressor_chunked",
@@ -340,6 +353,8 @@ def _select_prompt_items(
                 protected_suffix=(
                     GSM8K_FINAL_ANSWER_INSTRUCTION
                     if dataset_name == "gsm8k_short"
+                    else QMSUM_CONCISE_ANSWER_INSTRUCTION
+                    if dataset_name == "qmsum_meeting_qa_long"
                     else None
                 ),
                 metadata=_metadata_from_dataset_row(row),
@@ -998,13 +1013,15 @@ def main() -> None:
             metadata = item.metadata
             print(
                 "prompt_id={prompt_id} id={row_id} domain={domain} "
-                "expected_answer={expected_answer!r} context_words={context_words} text_chars={text_chars}".format(
+                "expected_answer={expected_answer!r} context_words={context_words} text_chars={text_chars} "
+                "protected_suffix={protected_suffix!r}".format(
                     prompt_id=item.prompt_id,
                     row_id=metadata.get("dataset_id") or metadata.get("fixture_id", ""),
                     domain=metadata.get("domain", ""),
                     expected_answer=metadata.get("expected_answer", ""),
                     context_words=metadata.get("approximate_context_words", ""),
                     text_chars=len(item.text),
+                    protected_suffix=_preview_text(item.protected_suffix),
                 )
             )
         print("Final status: DRY-RUN-PASS")

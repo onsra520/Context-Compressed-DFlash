@@ -18,7 +18,7 @@ from scripts.run_mvp import (
     _prepare_cc_prompt,
     _resolve_keep_rate,
 )
-from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION
+from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION, QMSUM_CONCISE_ANSWER_INSTRUCTION
 
 
 class ExpandingTokenizer:
@@ -202,6 +202,47 @@ def test_prepare_cc_prompt_appends_protected_suffix_outside_compression(monkeypa
     assert "Final answer: <number>" in info["final_prompt_tail_preview"]
     assert info["compressed_prompt_preview"] == info["final_prompt_preview"]
     assert len(info["final_prompt_preview"]) <= 243
+
+
+def test_prepare_cc_prompt_preserves_qmsum_concise_policy_metadata(monkeypatch):
+    captured = {}
+    tokenizer = ExpandingTokenizer(wide_multiplier=1)
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            captured["question"] = question
+            captured["context"] = context
+            return {
+                "compressed_prompt": "compressed meeting context",
+                "origin_tokens": 80,
+                "compressed_tokens": 40,
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    question = "What did the team approve?"
+    compressor = LLMLinguaCompressor()
+
+    merged_prompt, info = _prepare_cc_prompt(
+        question,
+        compressor,
+        keep_rate=0.5,
+        context="Original meeting context",
+        protected_suffix=QMSUM_CONCISE_ANSWER_INSTRUCTION,
+    )
+
+    assert captured["question"] == question
+    assert merged_prompt.endswith(f"{question}\n\n{QMSUM_CONCISE_ANSWER_INSTRUCTION}")
+    assert info["question_preserved"] is True
+    assert info["protected_suffix_preserved"] is True
+    assert info["qmsum_concise_policy_enabled"] is True
+    assert info["qmsum_concise_policy_preserved"] is True
+    assert info["qmsum_output_policy_preview"] == QMSUM_CONCISE_ANSWER_INSTRUCTION.replace("\n", " ")
+    assert "Answer concisely in 1-3 sentences." in info["final_prompt_tail_preview"]
+    assert "Final answer: <number>" not in info["final_prompt_tail_preview"]
 
 
 def test_non_compressed_rows_do_not_claim_compression_preview_metadata():

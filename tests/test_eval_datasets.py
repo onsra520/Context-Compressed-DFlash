@@ -7,7 +7,7 @@ from scripts.eval_datasets import load_eval_dataset, select_eval_dataset_rows, w
 from scripts.fetch_gsm8k_dataset import build_gsm8k_short_rows
 from scripts.fetch_qmsum_meeting_qa_dataset import build_qmsum_eval_rows
 from scripts.run_mvp import _select_prompt_items
-from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION
+from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION, QMSUM_CONCISE_ANSWER_INSTRUCTION
 
 
 def test_build_gsm8k_short_rows_preserves_question_and_numeric_answer(tmp_path: Path):
@@ -162,3 +162,38 @@ def test_run_mvp_dataset_prompt_source_uses_registry_rows(tmp_path: Path):
     assert items[0].metadata["prompt_source"] == "dataset"
     assert items[0].metadata["dataset_name"] == "qmsum_meeting_qa_long"
     assert items[0].metadata["quality_policy"] == "normalized_text_containment_proxy"
+
+
+def test_run_mvp_qmsum_dataset_items_keep_concise_policy_as_protected_suffix(tmp_path: Path):
+    path = tmp_path / "qmsum_eval.jsonl"
+    write_jsonl(
+        [
+            {
+                "id": "qmsum_meeting_qa_test_0002",
+                "dataset_name": "qmsum_meeting_qa_long",
+                "context": "Speaker A: The team approved the launch plan after budget review.",
+                "question": "What did the team approve?",
+                "expected_answer": "The team approved the launch plan.",
+                "prompt": "Meeting transcript:\nSpeaker A: The team approved the launch plan after budget review.\n\nQuestion: What did the team approve?",
+                "domain": "meeting_qa_long_context",
+                "evidence": "QMSum reference answer",
+                "approximate_context_words": 10,
+                "quality_policy": "normalized_text_containment_proxy",
+            }
+        ],
+        path,
+    )
+
+    items = _select_prompt_items(
+        prompt_source="dataset",
+        n_prompts=1,
+        fixture_path=None,
+        dataset_name="qmsum_meeting_qa_long",
+        dataset_path=path,
+        seed=42,
+    )
+
+    assert QMSUM_CONCISE_ANSWER_INSTRUCTION in items[0].text
+    assert "Final answer: <number>" not in items[0].text
+    assert items[0].question == "What did the team approve?"
+    assert items[0].protected_suffix == QMSUM_CONCISE_ANSWER_INSTRUCTION

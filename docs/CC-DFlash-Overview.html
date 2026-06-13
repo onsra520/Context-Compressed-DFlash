@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 72 QMSum cap-hit/proxy triage</span>
+                <span class="pill accent">Synced to Task 73 QMSum concise-policy calibration</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -683,8 +683,9 @@
                 fresh QMSum n=30 full matrix with <code>max_new_tokens=384</code>. CC-DFlash-R2 beats LLMLingua-AR-R2
                 on e2e speed and matches its overlap proxy, but compressed rows still hit the cap often. Task 72
                 triages those rows as mostly long-answer cap pressure / truncation-like behavior rather than a
-                GSM8K-style numeric-answer failure, so QMSum n=100 remains blocked behind a bounded compressed-only
-                prompt/output follow-up.
+                GSM8K-style numeric-answer failure. Task 73 adds a QMSum concise-answer protected suffix and removes
+                compressed cap hits at n=30, but normalized-overlap proxy quality drops materially, so QMSum n=100
+                remains blocked behind prompt/proxy triage.
             </div>
         </section>
 
@@ -1714,8 +1715,9 @@
                 <strong>Task 71</strong> runs a fresh QMSum n=30 matrix at <code>max_new_tokens=384</code>: mnt384
                 reduces the old cap pressure, CC-DFlash-R2 beats LLMLingua-AR-R2 e2e, and proxy quality is similar,
                 but compressed cap hits remain high. <strong>Task 72</strong> labels most compressed cap-hit rows
-                as truncation-like long-answer cap pressure and keeps QMSum n=100 blocked pending a bounded
-                compressed-only prompt/output follow-up.
+                as truncation-like long-answer cap pressure. <strong>Task 73</strong> adds a concise QMSum output
+                policy and removes compressed cap hits, but the normalized-overlap proxy degrades; QMSum n=100 stays
+                blocked pending prompt/proxy triage.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1898,8 +1900,9 @@
                         artifacts diagnostic but stale because they are capped at 32 output tokens. Task 71 runs
                         fresh QMSum n=30 at mnt384; CC-DFlash-R2 improves e2e over LLMLingua-AR-R2 with similar
                         overlap proxy, but compressed rows still hit the cap often. Task 72 finds mostly long-answer
-                        cap pressure rather than GSM8K-style numeric failure, so QMSum n=100 remains blocked behind
-                        bounded compressed-only prompt/output calibration.</li>
+                        cap pressure rather than GSM8K-style numeric failure. Task 73 removes compressed cap hits
+                        with a concise-answer suffix, but normalized-overlap proxy quality drops, so QMSum n=100
+                        remains blocked behind prompt/proxy triage.</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -2038,7 +2041,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 72 QMSum cap-hit/proxy triage ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 73 QMSum concise-policy calibration ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
