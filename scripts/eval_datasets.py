@@ -26,10 +26,11 @@ GSM8K_FINAL_ANSWER_INSTRUCTION = (
     "Final answer: <number>"
 )
 
-QMSUM_CONCISE_ANSWER_INSTRUCTION = (
-    "Answer concisely in 1-3 sentences.\n"
+QMSUM_BALANCED_ANSWER_INSTRUCTION = (
+    "Answer in 3-6 concise sentences.\n"
+    "Include the key entities, decisions, reasons, and supporting details needed to answer the question.\n"
     "Do not repeat the full context.\n"
-    "Do not include long reasoning.\n"
+    "Do not include unrelated meeting details.\n"
     "Use only information supported by the meeting context."
 )
 
@@ -101,8 +102,8 @@ def normalize_eval_row(row: dict[str, Any], dataset_name: str) -> EvalDatasetRow
         prompt = f"{row['context']}\n\nQuestion: {row['question']}"
     if dataset_name == "gsm8k_short" and "Final answer: <number>" not in prompt:
         prompt = f"{prompt.rstrip()}\n\n{GSM8K_FINAL_ANSWER_INSTRUCTION}"
-    if dataset_name == "qmsum_meeting_qa_long" and QMSUM_CONCISE_ANSWER_INSTRUCTION not in prompt:
-        prompt = f"{prompt.rstrip()}\n\n{QMSUM_CONCISE_ANSWER_INSTRUCTION}"
+    if dataset_name == "qmsum_meeting_qa_long" and QMSUM_BALANCED_ANSWER_INSTRUCTION not in prompt:
+        prompt = f"{prompt.rstrip()}\n\n{QMSUM_BALANCED_ANSWER_INSTRUCTION}"
     domain = str(row.get("domain", dataset_name))
     evidence = str(row.get("evidence", ""))
     approximate_context_words = row.get("approximate_context_words")

@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 74 QMSum proxy/case triage</span>
+                <span class="pill accent">Synced to Task 75 QMSum balanced-policy calibration</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -685,8 +685,10 @@
                 triages those rows as mostly long-answer cap pressure / truncation-like behavior rather than a
                 GSM8K-style numeric-answer failure. Task 73 adds a QMSum concise-answer protected suffix and removes
                 compressed cap hits at n=30, but normalized-overlap proxy quality drops materially. Task 74 triages
-                those cases and finds the current concise wording is too terse for many reference answers, so QMSum
-                n=100 remains blocked behind a balanced answer-policy follow-up.
+                those cases and finds the current concise wording is too terse for many reference answers. Task 75
+                replaces it with a balanced 3-6 sentence protected suffix: cap hits remain zero and overlap improves
+                versus the terse policy, but most rows remain too short or unsupported by the lexical proxy, so QMSum
+                n=100 remains blocked behind another bounded policy/proxy follow-up.
             </div>
         </section>
 
@@ -1718,8 +1720,11 @@
                 but compressed cap hits remain high. <strong>Task 72</strong> labels most compressed cap-hit rows
                 as truncation-like long-answer cap pressure. <strong>Task 73</strong> adds a concise QMSum output
                 policy and removes compressed cap hits, but the normalized-overlap proxy degrades.
-                <strong>Task 74</strong> finds most concise answers are too short or unsupported by lexical evidence,
-                so QMSum n=100 stays blocked pending a balanced answer-policy follow-up.
+                <strong>Task 74</strong> finds most concise answers are too short or unsupported by lexical evidence.
+                <strong>Task 75</strong> tests a balanced 3-6 sentence protected suffix; it keeps cap hits at zero
+                and recovers some lexical overlap versus the terse policy, but still leaves most rows too short or
+                weakly supported under the current proxy. QMSum n=100 stays blocked pending another policy/proxy
+                follow-up.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1904,8 +1909,9 @@
                         overlap proxy, but compressed rows still hit the cap often. Task 72 finds mostly long-answer
                         cap pressure rather than GSM8K-style numeric failure. Task 73 removes compressed cap hits
                         with a concise-answer suffix, but normalized-overlap proxy quality drops. Task 74 finds
-                        the concise answers are often too short or missing key details, so QMSum n=100 remains
-                        blocked behind balanced prompt-policy tuning.</li>
+                        the concise answers are often too short or missing key details. Task 75 tests a balanced
+                        3-6 sentence suffix, but most rows still need policy/proxy follow-up before any QMSum
+                        n=100 move.</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -2044,7 +2050,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 74 QMSum proxy/case triage ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 75 QMSum balanced-policy calibration ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

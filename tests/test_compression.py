@@ -18,7 +18,7 @@ from scripts.run_mvp import (
     _prepare_cc_prompt,
     _resolve_keep_rate,
 )
-from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION, QMSUM_CONCISE_ANSWER_INSTRUCTION
+from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION, QMSUM_BALANCED_ANSWER_INSTRUCTION
 
 
 class ExpandingTokenizer:
@@ -204,7 +204,7 @@ def test_prepare_cc_prompt_appends_protected_suffix_outside_compression(monkeypa
     assert len(info["final_prompt_preview"]) <= 243
 
 
-def test_prepare_cc_prompt_preserves_qmsum_concise_policy_metadata(monkeypatch):
+def test_prepare_cc_prompt_preserves_qmsum_balanced_policy_metadata(monkeypatch):
     captured = {}
     tokenizer = ExpandingTokenizer(wide_multiplier=1)
 
@@ -231,17 +231,20 @@ def test_prepare_cc_prompt_preserves_qmsum_concise_policy_metadata(monkeypatch):
         compressor,
         keep_rate=0.5,
         context="Original meeting context",
-        protected_suffix=QMSUM_CONCISE_ANSWER_INSTRUCTION,
+        protected_suffix=QMSUM_BALANCED_ANSWER_INSTRUCTION,
     )
 
     assert captured["question"] == question
-    assert merged_prompt.endswith(f"{question}\n\n{QMSUM_CONCISE_ANSWER_INSTRUCTION}")
+    assert merged_prompt.endswith(f"{question}\n\n{QMSUM_BALANCED_ANSWER_INSTRUCTION}")
     assert info["question_preserved"] is True
     assert info["protected_suffix_preserved"] is True
-    assert info["qmsum_concise_policy_enabled"] is True
-    assert info["qmsum_concise_policy_preserved"] is True
-    assert info["qmsum_output_policy_preview"] == QMSUM_CONCISE_ANSWER_INSTRUCTION.replace("\n", " ")
-    assert "Answer concisely in 1-3 sentences." in info["final_prompt_tail_preview"]
+    assert info["qmsum_answer_policy_enabled"] is True
+    assert info["qmsum_answer_policy_type"] == "balanced"
+    assert info["qmsum_answer_policy_preserved"] is True
+    assert info["qmsum_output_policy_preview"].startswith("Answer in 3-6 concise sentences.")
+    assert "key entities, decisions, reasons" in info["qmsum_output_policy_preview"]
+    assert "supported by the meeting context." in info["final_prompt_tail_preview"]
+    assert "Answer concisely in 1-3 sentences." not in info["final_prompt_tail_preview"]
     assert "Final answer: <number>" not in info["final_prompt_tail_preview"]
 
 

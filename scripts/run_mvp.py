@@ -25,7 +25,7 @@ from ccdf.dflash.loader import load_draft, load_tokenizer
 from scripts.eval_datasets import (
     DATASET_REGISTRY,
     GSM8K_FINAL_ANSWER_INSTRUCTION,
-    QMSUM_CONCISE_ANSWER_INSTRUCTION,
+    QMSUM_BALANCED_ANSWER_INSTRUCTION,
     select_eval_dataset_rows,
 )
 
@@ -224,11 +224,12 @@ def _prepare_cc_prompt(
         "final_prompt_preview": _head_tail_preview_text(final_prompt),
         "final_prompt_tail_preview": _tail_preview_text(final_prompt),
     }
-    if suffix_text == QMSUM_CONCISE_ANSWER_INSTRUCTION.strip():
+    if suffix_text == QMSUM_BALANCED_ANSWER_INSTRUCTION.strip():
         compression_info.update(
             {
-                "qmsum_concise_policy_enabled": True,
-                "qmsum_concise_policy_preserved": suffix_text in final_prompt,
+                "qmsum_answer_policy_enabled": True,
+                "qmsum_answer_policy_type": "balanced",
+                "qmsum_answer_policy_preserved": suffix_text in final_prompt,
                 "qmsum_output_policy_preview": _preview_text(suffix_text),
             }
         )
@@ -353,7 +354,7 @@ def _select_prompt_items(
                 protected_suffix=(
                     GSM8K_FINAL_ANSWER_INSTRUCTION
                     if dataset_name == "gsm8k_short"
-                    else QMSUM_CONCISE_ANSWER_INSTRUCTION
+                    else QMSUM_BALANCED_ANSWER_INSTRUCTION
                     if dataset_name == "qmsum_meeting_qa_long"
                     else None
                 ),

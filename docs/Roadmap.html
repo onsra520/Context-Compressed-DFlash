@@ -413,10 +413,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 75 QMSum balanced prompt policy</span>
+                <span class="sv info">→ Current next: Task 76 QMSum policy follow-up</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 72 QMSum cap-hit/proxy triage. CC-DFlash now uses a two-dataset
+                This roadmap is synced through Task 75 QMSum balanced-answer policy calibration. CC-DFlash now uses a two-dataset
                 evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
                 long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
                 remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
@@ -457,8 +457,10 @@
                 numeric failure. Task 73 adds a QMSum concise-answer policy and runs compressed-only n=30
                 calibration: cap hits drop to 0/30 for both compressed conditions, but normalized-overlap proxy
                 quality falls. Task 74 triages those cases and finds most concise answers are too short or
-                unsupported by lexical evidence, so QMSum n=100 remains blocked pending Task 75 balanced prompt
-                policy tuning.
+                unsupported by lexical evidence. Task 75 replaces the terse wording with a balanced 3-6 sentence
+                policy and runs compressed-only n=30 calibration: cap hits stay at 0/30 and overlap improves versus
+                the terse policy, but most rows are still too short or unsupported by the lexical proxy, so QMSum
+                n=100 remains blocked pending another bounded policy/proxy follow-up.
             </div>
         </header>
 
@@ -1248,10 +1250,16 @@
                             <td class="go">PASS_WITH_NOTES, read-only: concise answers are often too short; revise to balanced policy before n=100</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T75</span></td>
+                            <td><span class="tnum done">T75</span></td>
                             <td>QMSum Balanced Answer Policy</td>
                             <td>Replace overly terse QMSum concise wording with a balanced complete-answer policy and run bounded compressed-only calibration</td>
-                            <td class="info">Next: prompt-policy tuning, not n=100</td>
+                            <td class="go">PASS_WITH_NOTES: cap hits remain zero, overlap improves over terse policy, but policy still needs revision before n=100</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T76</span></td>
+                            <td>QMSum Balanced Policy Follow-up</td>
+                            <td>Refine QMSum answer policy or proxy/manual-review path based on Task 75 case labels</td>
+                            <td class="info">Next: bounded follow-up, not QMSum n=100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1698,6 +1706,12 @@
                             <td><code>74-qmsum-proxy-case-triage-report.md</code></td>
                             <td>T74</td>
                             <td>QMSum Proxy Case Triage Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>75-qmsum-balanced-policy-report.md</code></td>
+                            <td>T75</td>
+                            <td>QMSum Balanced-Answer Policy Calibration Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2279,6 +2293,36 @@
                             <td>60 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl</code></td>
+                            <td>T75</td>
+                            <td>LLMLingua-AR-R2 QMSum balanced-policy n=30 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl</code></td>
+                            <td>T75</td>
+                            <td>CC-DFlash-R2 QMSum balanced-policy n=30 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task75_qmsum_balanced_policy_summary.json</code></td>
+                            <td>T75</td>
+                            <td>QMSum balanced-policy comparison summary</td>
+                            <td>3 stages × 2 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task75_qmsum_balanced_policy_table.csv</code></td>
+                            <td>T75</td>
+                            <td>QMSum balanced-policy metric table</td>
+                            <td>6 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task75_qmsum_balanced_policy_cases.jsonl</code></td>
+                            <td>T75</td>
+                            <td>QMSum balanced-policy labeled cases</td>
+                            <td>60 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2485,8 +2529,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 74 QMSum proxy/case triage</span>
-                <span class="sv info">Current next: Task 75 QMSum balanced prompt policy</span>
+                <span class="sv go">Synced through Task 75 QMSum balanced policy calibration</span>
+                <span class="sv info">Current next: Task 76 QMSum policy follow-up</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -3035,6 +3079,17 @@
                     Compared Task 71 and Task 73 compressed QMSum rows by prompt ID. The concise policy fixed cap
                     hits, but most concise answers were labeled too short or unsupported by lexical evidence. Do not
                     run QMSum n=100 next; Task 75 should revise the prompt into a balanced answer policy.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task 75 — QMSum Balanced-Answer Policy Calibration — PASS_WITH_NOTES, preliminary</strong><br>
+                    Replaced the terse QMSum 1-3 sentence suffix with a balanced 3-6 sentence protected suffix and
+                    ran compressed-only n=30 calibration for LLMLingua-AR-R2 and CC-DFlash-R2 at
+                    <code>max_new_tokens=384</code>. Cap hits stayed at 0/30 for both compressed conditions and
+                    overlap improved versus Task 73, but most rows remained labeled too short or unsupported by the
+                    lexical proxy. QMSum n=100 remains blocked; Task 76 should refine the QMSum policy/proxy path.
                 </div>
             </div>
         </section>
