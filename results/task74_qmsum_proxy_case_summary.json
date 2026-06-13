@@ -1,0 +1,67 @@
+{
+  "by_condition": {
+    "CC-DFlash-R2": {
+      "after_cap_hits": 0,
+      "avg_after_e2e_latency_s": 7.575937,
+      "avg_after_output_tokens": 48.666667,
+      "avg_after_overlap": 0.228499,
+      "avg_before_e2e_latency_s": 19.055571,
+      "avg_before_output_tokens": 345.333333,
+      "avg_before_overlap": 0.357483,
+      "before_cap_hits": 21,
+      "condition": "CC-DFlash-R2",
+      "label_counts": {
+        "ANSWER_TOO_SHORT_OR_UNSUPPORTED": 25,
+        "TRUE_QUALITY_DEGRADATION_POSSIBLE": 1,
+        "TRUNCATION_FIXED": 3,
+        "UNCLEAR": 1
+      },
+      "median_after_overlap": 0.192592,
+      "median_before_overlap": 0.338095,
+      "qmsum_concise_policy_preservation_rate": 1.0,
+      "qmsum_concise_policy_preserved_count": 30,
+      "rows": 30
+    },
+    "LLMLingua-AR-R2": {
+      "after_cap_hits": 0,
+      "avg_after_e2e_latency_s": 8.04008,
+      "avg_after_output_tokens": 48.5,
+      "avg_after_overlap": 0.227541,
+      "avg_before_e2e_latency_s": 26.378387,
+      "avg_before_output_tokens": 348.533333,
+      "avg_before_overlap": 0.358644,
+      "before_cap_hits": 22,
+      "condition": "LLMLingua-AR-R2",
+      "label_counts": {
+        "ANSWER_TOO_SHORT_OR_UNSUPPORTED": 26,
+        "TRUNCATION_FIXED": 3,
+        "UNCLEAR": 1
+      },
+      "median_after_overlap": 0.207143,
+      "median_before_overlap": 0.3379,
+      "qmsum_concise_policy_preservation_rate": 1.0,
+      "qmsum_concise_policy_preserved_count": 30,
+      "rows": 30
+    }
+  },
+  "claim_policy": "read-only preliminary proxy triage; no final speedup/correctness/deployment claim",
+  "decisions": {
+    "acceptable_or_proxy_cases": 6,
+    "concerning_cases": 52,
+    "concise_policy_recommendation": "revise_balanced_policy",
+    "label_counts": {
+      "ANSWER_TOO_SHORT_OR_UNSUPPORTED": 51,
+      "TRUE_QUALITY_DEGRADATION_POSSIBLE": 1,
+      "TRUNCATION_FIXED": 6,
+      "UNCLEAR": 2
+    },
+    "mnt512_still_needed": false,
+    "overlap_drop_likely_metric_mismatch": false,
+    "overlap_drop_likely_true_quality_loss": true,
+    "qmsum_n100_justified": false,
+    "qmsum_n100_reason": "Blocked until QMSum prompt/proxy policy is resolved; no immediate n=100.",
+    "total_cases": 60
+  },
+  "status": "PASS_WITH_NOTES",
+  "task": "74-qmsum-proxy-case-triage"
+}

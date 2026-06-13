@@ -1,0 +1,3 @@
+condition,rows,before_cap_hits,after_cap_hits,avg_before_output_tokens,avg_after_output_tokens,avg_before_overlap,avg_after_overlap,avg_before_e2e_latency_s,avg_after_e2e_latency_s,qmsum_concise_policy_preservation_rate,label_counts
+CC-DFlash-R2,30,21,0,345.333333,48.666667,0.357483,0.228499,19.055571,7.575937,1.0,"{'ANSWER_TOO_SHORT_OR_UNSUPPORTED': 25, 'TRUE_QUALITY_DEGRADATION_POSSIBLE': 1, 'TRUNCATION_FIXED': 3, 'UNCLEAR': 1}"
+LLMLingua-AR-R2,30,22,0,348.533333,48.5,0.358644,0.227541,26.378387,8.04008,1.0,"{'ANSWER_TOO_SHORT_OR_UNSUPPORTED': 26, 'TRUNCATION_FIXED': 3, 'UNCLEAR': 1}"

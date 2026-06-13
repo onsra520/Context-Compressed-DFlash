@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 74 QMSum prompt/proxy triage</span>
+                <span class="sv info">→ Current next: Task 75 QMSum balanced prompt policy</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 72 QMSum cap-hit/proxy triage. CC-DFlash now uses a two-dataset
@@ -456,7 +456,9 @@
                 long-answer cap pressure / truncation-like behavior in compressed outputs, not a GSM8K-style
                 numeric failure. Task 73 adds a QMSum concise-answer policy and runs compressed-only n=30
                 calibration: cap hits drop to 0/30 for both compressed conditions, but normalized-overlap proxy
-                quality falls, so QMSum n=100 remains blocked pending Task 74 prompt/proxy triage.
+                quality falls. Task 74 triages those cases and finds most concise answers are too short or
+                unsupported by lexical evidence, so QMSum n=100 remains blocked pending Task 75 balanced prompt
+                policy tuning.
             </div>
         </header>
 
@@ -1240,10 +1242,16 @@
                             <td class="go">PASS_WITH_NOTES: concise policy removed cap hits, but overlap proxy degraded; n=100 remains blocked</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T74</span></td>
+                            <td><span class="tnum done">T74</span></td>
                             <td>QMSum Prompt/Proxy Triage</td>
                             <td>Inspect Task 73 degraded proxy rows and tune QMSum concise-answer policy before any n=100 move</td>
-                            <td class="info">Next: read-only/prompt-policy triage</td>
+                            <td class="go">PASS_WITH_NOTES, read-only: concise answers are often too short; revise to balanced policy before n=100</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T75</span></td>
+                            <td>QMSum Balanced Answer Policy</td>
+                            <td>Replace overly terse QMSum concise wording with a balanced complete-answer policy and run bounded compressed-only calibration</td>
+                            <td class="info">Next: prompt-policy tuning, not n=100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1684,6 +1692,12 @@
                             <td><code>73-qmsum-concise-policy-report.md</code></td>
                             <td>T73</td>
                             <td>QMSum Concise-Answer Policy Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>74-qmsum-proxy-case-triage-report.md</code></td>
+                            <td>T74</td>
+                            <td>QMSum Proxy Case Triage Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2247,6 +2261,24 @@
                             <td>91 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task74_qmsum_proxy_case_summary.json</code></td>
+                            <td>T74</td>
+                            <td>QMSum proxy/case triage summary</td>
+                            <td>2 compressed conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task74_qmsum_proxy_case_table.csv</code></td>
+                            <td>T74</td>
+                            <td>QMSum proxy/case triage table</td>
+                            <td>2 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task74_qmsum_proxy_case_samples.jsonl</code></td>
+                            <td>T74</td>
+                            <td>QMSum proxy/case labeled samples</td>
+                            <td>60 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2453,8 +2485,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 73 QMSum concise-policy calibration</span>
-                <span class="sv info">Current next: Task 74 QMSum prompt/proxy triage</span>
+                <span class="sv go">Synced through Task 74 QMSum proxy/case triage</span>
+                <span class="sv info">Current next: Task 75 QMSum balanced prompt policy</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2992,8 +3024,17 @@
                     <strong>Task 73 — QMSum Concise-Answer Prompt Refinement — PASS_WITH_NOTES, preliminary</strong><br>
                     Added a QMSum-only concise-answer protected suffix and ran compressed-only n=30 calibration.
                     Cap hits dropped from 22/30 and 21/30 to 0/30 for LLMLingua-AR-R2 and CC-DFlash-R2, but the
-                    normalized-overlap proxy dropped materially. Task 74 should triage degraded proxy rows before
+                    normalized-overlap proxy dropped materially. Task 74 then triaged degraded proxy rows before
                     any QMSum n=100 move.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task 74 — QMSum Concise-Policy Proxy and Case Triage — PASS_WITH_NOTES, read-only</strong><br>
+                    Compared Task 71 and Task 73 compressed QMSum rows by prompt ID. The concise policy fixed cap
+                    hits, but most concise answers were labeled too short or unsupported by lexical evidence. Do not
+                    run QMSum n=100 next; Task 75 should revise the prompt into a balanced answer policy.
                 </div>
             </div>
         </section>
