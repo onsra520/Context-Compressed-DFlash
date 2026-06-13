@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 69 GSM8K n=30 full matrix</span>
+                <span class="pill accent">Synced to Task 70 QMSum diagnostic audit</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -677,7 +677,10 @@
                 speed-oriented compressed GSM8K setting and mnt384 as the quality-oriented setting, rejects k67 as
                 the default, defers k75/k80 and mnt512, and gates n=100 behind a comparable n=30 full GSM8K matrix.
                 Task 69 completes that n=30 matrix: CC-DFlash-R2 matches LLMLingua-AR-R2 quality and improves e2e
-                speed versus LLMLingua-AR-R2, while DFlash-R1 remains faster on short-context GSM8K.
+                speed versus LLMLingua-AR-R2, while DFlash-R1 remains faster on short-context GSM8K. Task 70 audits
+                existing QMSum artifacts and finds the Task 51 n=10 rows diagnostic but stale because they use
+                <code>max_new_tokens=32</code>; QMSum cannot test GSM8K-style arithmetic failure and should get a
+                fresh n=30 diagnostic before larger long-context runs.
             </div>
         </section>
 
@@ -1701,7 +1704,10 @@
                 any n=100 move. <strong>Task 68</strong> freezes mnt256 as the speed-oriented compressed GSM8K
                 setting and mnt384 as the quality-oriented setting. n=100 is not the next run; a comparable n=30
                 full GSM8K matrix should come first. <strong>Task 69</strong> completes that matrix and conditionally
-                justifies a bounded GSM8K n=100 matrix, still with no final correctness or speedup claim.
+                justifies bounded GSM8K follow-up, still with no final correctness or speedup claim.
+                <strong>Task 70</strong> audits existing QMSum artifacts and finds them useful for read-only diagnosis
+                but stale under current output-length policy because they are n=10 with <code>max_new_tokens=32</code>.
+                A fresh QMSum n=30 diagnostic should precede larger long-context runs.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1879,8 +1885,10 @@
                         should be triaged before n=100. Task 66 shows the Task 65 latency spike was noisy; quality
                         and cap-hit counts reproduce. Task 67 finds an even split between remaining truncation and
                         completed wrong-answer reasoning. Task 68 freezes mnt256 as speed-oriented and mnt384 as
-                        quality-oriented; Task 69 completes the comparable n=30 full GSM8K matrix and supports a
-                        bounded n=100 GSM8K follow-up while keeping all claims preliminary</li>
+                        quality-oriented; Task 69 completes the comparable n=30 full GSM8K matrix and supports
+                        bounded GSM8K follow-up while keeping all claims preliminary. Task 70 finds existing QMSum
+                        artifacts diagnostic but stale because they are capped at 32 output tokens; run fresh QMSum
+                        n=30 before larger long-context claims</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -2019,7 +2027,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 69 GSM8K n=30 full matrix ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 70 QMSum diagnostic audit ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

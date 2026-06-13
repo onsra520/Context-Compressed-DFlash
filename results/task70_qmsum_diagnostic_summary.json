@@ -1,0 +1,356 @@
+{
+  "artifact_inventory": [
+    {
+      "conditions": [
+        "Baseline-AR"
+      ],
+      "generated_text_present_count": 3,
+      "max_new_tokens_values": [
+        32
+      ],
+      "path": "results/task50_qmsum_long_baseline_ar_n3.jsonl",
+      "rows": 3
+    },
+    {
+      "conditions": [
+        "LLMLingua-AR-R2"
+      ],
+      "generated_text_present_count": 3,
+      "max_new_tokens_values": [
+        32
+      ],
+      "path": "results/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl",
+      "rows": 3
+    },
+    {
+      "conditions": [
+        "Baseline-AR"
+      ],
+      "generated_text_present_count": 10,
+      "max_new_tokens_values": [
+        32
+      ],
+      "path": "results/task51_qmsum_long_baseline_ar_n10.jsonl",
+      "rows": 10
+    },
+    {
+      "conditions": [
+        "CC-DFlash-R2"
+      ],
+      "generated_text_present_count": 10,
+      "max_new_tokens_values": [
+        32
+      ],
+      "path": "results/task51_qmsum_long_cc_dflash_r2_n10.jsonl",
+      "rows": 10
+    },
+    {
+      "conditions": [
+        "CC-DFlash-R2"
+      ],
+      "generated_text_present_count": 3,
+      "max_new_tokens_values": [
+        32
+      ],
+      "path": "results/task51_qmsum_long_cc_dflash_r2_n3.jsonl",
+      "rows": 3
+    },
+    {
+      "conditions": [
+        "DFlash-R1"
+      ],
+      "generated_text_present_count": 10,
+      "max_new_tokens_values": [
+        32
+      ],
+      "path": "results/task51_qmsum_long_dflash_r1_n10.jsonl",
+      "rows": 10
+    },
+    {
+      "conditions": [
+        "DFlash-R1"
+      ],
+      "generated_text_present_count": 3,
+      "max_new_tokens_values": [
+        32
+      ],
+      "path": "results/task51_qmsum_long_dflash_r1_n3.jsonl",
+      "rows": 3
+    },
+    {
+      "conditions": [
+        "LLMLingua-AR-R2"
+      ],
+      "generated_text_present_count": 10,
+      "max_new_tokens_values": [
+        32
+      ],
+      "path": "results/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl",
+      "rows": 10
+    }
+  ],
+  "artifact_readiness": {
+    "fresh_qmsum_n30_needed": true,
+    "generated_text_complete": true,
+    "has_full_task51_n10_matrix": true,
+    "max_new_tokens_complete": true,
+    "max_new_tokens_values": [
+      32
+    ],
+    "reason": "STALE_MNT32_AND_N10_ONLY",
+    "row_counts": {
+      "Baseline-AR": 10,
+      "CC-DFlash-R2": 10,
+      "DFlash-R1": 10,
+      "LLMLingua-AR-R2": 10
+    },
+    "sufficient_for_current_qmsum_benchmark_policy": false,
+    "sufficient_for_read_only_diagnostic": true
+  },
+  "by_condition": {
+    "Baseline-AR": {
+      "avg_answer_token_overlap": 0.25785,
+      "avg_compressed_input_tokens": 0.0,
+      "avg_compression_ratio": 0.0,
+      "avg_e2e_latency_s": 2.531713480000144,
+      "avg_generation_latency_s": 2.531713480000144,
+      "avg_input_tokens": 2027.2,
+      "avg_original_input_tokens": 0.0,
+      "avg_output_tokens": 32.0,
+      "avg_t_compress_ms": 0.0,
+      "avg_t_prefill_ms": 700.3543711999555,
+      "avg_tau_mean": 0.0,
+      "avg_tok_per_sec": 12.647320250355776,
+      "condition": "Baseline-AR",
+      "dataset_names": [
+        "qmsum_meeting_qa_long"
+      ],
+      "e2e_tok_per_sec_weighted": 12.639660946150265,
+      "empty_output_count": 0,
+      "generated_text_present_count": 10,
+      "generation_tok_per_sec_weighted": 12.639660946150265,
+      "hit_cap_count": 10,
+      "hit_cap_rate": 1.0,
+      "low_overlap_count": 5,
+      "malformed_output_count": 0,
+      "max_new_tokens_values": [
+        32
+      ],
+      "max_vram_allocated_gib": 2.5025229454040527,
+      "max_vram_reserved_gib": 4.31640625,
+      "median_answer_token_overlap": 0.222868,
+      "normalized_containment_count": 0,
+      "normalized_containment_rate": 0.0,
+      "repetition_count": 0,
+      "rows": 10,
+      "schema_presence": {
+        "R_actual": 0,
+        "compressed_input_tokens": 0,
+        "condition": 10,
+        "dataset_name": 10,
+        "expected_answer": 10,
+        "fixture_id": 10,
+        "generated_text": 10,
+        "generation_time_s": 10,
+        "max_new_tokens": 10,
+        "original_input_tokens": 0,
+        "output_tokens": 10,
+        "prompt_id": 10,
+        "t_compress_ms": 0,
+        "t_prefill_ms": 10,
+        "tok_per_sec": 10,
+        "tokens_per_second": 10
+      }
+    },
+    "CC-DFlash-R2": {
+      "avg_answer_token_overlap": 0.188711,
+      "avg_compressed_input_tokens": 956.6,
+      "avg_compression_ratio": 2.0685543212788415,
+      "avg_e2e_latency_s": 6.777503686799991,
+      "avg_generation_latency_s": 1.5561961370000972,
+      "avg_input_tokens": 990.8,
+      "avg_original_input_tokens": 0.0,
+      "avg_output_tokens": 32.0,
+      "avg_t_compress_ms": 5221.307549799894,
+      "avg_t_prefill_ms": 430.7495404999827,
+      "avg_tau_mean": 3.0826184926184927,
+      "avg_tok_per_sec": 20.87349842434208,
+      "condition": "CC-DFlash-R2",
+      "dataset_names": [
+        "qmsum_meeting_qa_long"
+      ],
+      "e2e_tok_per_sec_weighted": 4.7215024113264406,
+      "empty_output_count": 0,
+      "generated_text_present_count": 10,
+      "generation_tok_per_sec_weighted": 20.562960695742944,
+      "hit_cap_count": 10,
+      "hit_cap_rate": 1.0,
+      "low_overlap_count": 7,
+      "malformed_output_count": 0,
+      "max_new_tokens_values": [
+        32
+      ],
+      "max_vram_allocated_gib": 3.5108518600463867,
+      "max_vram_reserved_gib": 4.39453125,
+      "median_answer_token_overlap": 0.138733,
+      "normalized_containment_count": 0,
+      "normalized_containment_rate": 0.0,
+      "repetition_count": 0,
+      "rows": 10,
+      "schema_presence": {
+        "R_actual": 10,
+        "compressed_input_tokens": 10,
+        "condition": 10,
+        "dataset_name": 10,
+        "expected_answer": 10,
+        "fixture_id": 10,
+        "generated_text": 10,
+        "generation_time_s": 10,
+        "max_new_tokens": 10,
+        "original_input_tokens": 0,
+        "output_tokens": 10,
+        "prompt_id": 10,
+        "t_compress_ms": 10,
+        "t_prefill_ms": 10,
+        "tok_per_sec": 10,
+        "tokens_per_second": 10
+      }
+    },
+    "DFlash-R1": {
+      "avg_answer_token_overlap": 0.25785,
+      "avg_compressed_input_tokens": 0.0,
+      "avg_compression_ratio": 0.0,
+      "avg_e2e_latency_s": 2.006813405400135,
+      "avg_generation_latency_s": 2.006813405400135,
+      "avg_input_tokens": 2027.2,
+      "avg_original_input_tokens": 0.0,
+      "avg_output_tokens": 30.6,
+      "avg_t_compress_ms": 0.0,
+      "avg_t_prefill_ms": 729.9707770997884,
+      "avg_tau_mean": 2.7766351295763063,
+      "avg_tok_per_sec": 15.526450029145328,
+      "condition": "DFlash-R1",
+      "dataset_names": [
+        "qmsum_meeting_qa_long"
+      ],
+      "e2e_tok_per_sec_weighted": 15.248054411864327,
+      "empty_output_count": 0,
+      "generated_text_present_count": 10,
+      "generation_tok_per_sec_weighted": 15.248054411864327,
+      "hit_cap_count": 9,
+      "hit_cap_rate": 0.9,
+      "low_overlap_count": 5,
+      "malformed_output_count": 0,
+      "max_new_tokens_values": [
+        32
+      ],
+      "max_vram_allocated_gib": 3.5108695030212402,
+      "max_vram_reserved_gib": 5.318359375,
+      "median_answer_token_overlap": 0.222868,
+      "normalized_containment_count": 0,
+      "normalized_containment_rate": 0.0,
+      "repetition_count": 0,
+      "rows": 10,
+      "schema_presence": {
+        "R_actual": 0,
+        "compressed_input_tokens": 0,
+        "condition": 10,
+        "dataset_name": 10,
+        "expected_answer": 10,
+        "fixture_id": 10,
+        "generated_text": 10,
+        "generation_time_s": 10,
+        "max_new_tokens": 10,
+        "original_input_tokens": 0,
+        "output_tokens": 10,
+        "prompt_id": 10,
+        "t_compress_ms": 0,
+        "t_prefill_ms": 10,
+        "tok_per_sec": 10,
+        "tokens_per_second": 10
+      }
+    },
+    "LLMLingua-AR-R2": {
+      "avg_answer_token_overlap": 0.188711,
+      "avg_compressed_input_tokens": 956.6,
+      "avg_compression_ratio": 2.0685543212788415,
+      "avg_e2e_latency_s": 7.725765337099892,
+      "avg_generation_latency_s": 2.4737788397998886,
+      "avg_input_tokens": 990.8,
+      "avg_original_input_tokens": 0.0,
+      "avg_output_tokens": 32.0,
+      "avg_t_compress_ms": 5251.986497300004,
+      "avg_t_prefill_ms": 421.8744110001353,
+      "avg_tau_mean": 0.0,
+      "avg_tok_per_sec": 12.975453046221713,
+      "condition": "LLMLingua-AR-R2",
+      "dataset_names": [
+        "qmsum_meeting_qa_long"
+      ],
+      "e2e_tok_per_sec_weighted": 4.14198446415824,
+      "empty_output_count": 0,
+      "generated_text_present_count": 10,
+      "generation_tok_per_sec_weighted": 12.93567536643194,
+      "hit_cap_count": 10,
+      "hit_cap_rate": 1.0,
+      "low_overlap_count": 7,
+      "malformed_output_count": 0,
+      "max_new_tokens_values": [
+        32
+      ],
+      "max_vram_allocated_gib": 2.5024967193603516,
+      "max_vram_reserved_gib": 3.41796875,
+      "median_answer_token_overlap": 0.138733,
+      "normalized_containment_count": 0,
+      "normalized_containment_rate": 0.0,
+      "repetition_count": 0,
+      "rows": 10,
+      "schema_presence": {
+        "R_actual": 10,
+        "compressed_input_tokens": 10,
+        "condition": 10,
+        "dataset_name": 10,
+        "expected_answer": 10,
+        "fixture_id": 10,
+        "generated_text": 10,
+        "generation_time_s": 10,
+        "max_new_tokens": 10,
+        "original_input_tokens": 0,
+        "output_tokens": 10,
+        "prompt_id": 10,
+        "t_compress_ms": 10,
+        "t_prefill_ms": 10,
+        "tok_per_sec": 10,
+        "tokens_per_second": 10
+      }
+    }
+  },
+  "claim_policy": "Smoke/preliminary diagnostic only; no final speedup or semantic correctness claim.",
+  "comparisons": {
+    "baseline_vs_dflash": {
+      "dflash_e2e_speedup_ratio": 1.2063657780716432,
+      "dflash_generation_speedup_ratio": 1.2063657780716432,
+      "dflash_hit_cap_delta": -1,
+      "dflash_overlap_delta": 0.0
+    },
+    "compressed_pair": {
+      "cc_dflash_e2e_speedup_ratio": 1.1399131146393553,
+      "cc_dflash_generation_speedup_ratio": 1.5896317828989277,
+      "cc_dflash_hit_cap_delta": 0,
+      "cc_dflash_overlap_delta": 0.0
+    },
+    "uncompressed_vs_compressed": {
+      "baseline_overlap_minus_llmlingua": 0.069139,
+      "compressed_avg_t_compress_ms": 5236.647023549949,
+      "dflash_overlap_minus_cc_dflash": 0.069139
+    }
+  },
+  "fresh_qmsum_run_needed": true,
+  "gsm8k_style_failure_assessment": {
+    "assessment": "QMSum-style meeting QA is long-answer summarization/lookup, not numeric arithmetic. It can audit long-context generation health, truncation, overlap, and speed, but not GSM8K-style math failure.",
+    "qmsum_tests_gsm8k_arithmetic_failure": false
+  },
+  "recommended_task71_plan": "Run fresh Task 71 QMSum n=30 with stored generated_text and a larger output budget before larger runs.",
+  "status": "PASS_WITH_NOTES",
+  "task": "Task 70 QMSum diagnostic audit"
+}

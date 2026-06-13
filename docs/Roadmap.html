@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 70 bounded GSM8K n=100 full matrix</span>
+                <span class="sv info">→ Current next: Task 71 fresh QMSum n=30 diagnostic</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 64 GSM8K cap-hit triage. CC-DFlash now uses a two-dataset
@@ -448,8 +448,10 @@
                 quality-oriented setting, rejects k67 as default, defers k75/k80 and mnt512, and gates n=100 behind
                 a comparable n=30 full GSM8K matrix. Task 69 completes that matrix: CC-DFlash-R2 matches
                 LLMLingua-AR-R2 quality at 24/30 and improves e2e tok/s versus LLMLingua-AR-R2, while remaining
-                below DFlash-R1 speed on short-context GSM8K. Task 70 is conditionally justified as a bounded
-                GSM8K n=100 full matrix with the same conservative claim policy.
+                below DFlash-R1 speed on short-context GSM8K. Task 70 audits existing QMSum artifacts and finds
+                the Task 51 n=10 long-context rows useful for diagnosis but stale for the current policy because
+                all use <code>max_new_tokens=32</code>; Task 71 should run a fresh QMSum n=30 diagnostic before
+                any larger long-context or n=100 move.
             </div>
         </header>
 
@@ -1209,10 +1211,16 @@
                             <td class="go">PASS, preliminary: CC-DFlash-R2 matches LLMLingua-AR quality and is faster than LLMLingua-AR, but DFlash-R1 remains faster</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T70</span></td>
-                            <td>Bounded GSM8K n=100 Full Matrix</td>
-                            <td>Run the frozen GSM8K full matrix at n=100 with unique resume-safe artifacts and no final claim</td>
-                            <td class="info">Next: conditional real run, no QMSum</td>
+                            <td><span class="tnum done">T70</span></td>
+                            <td>QMSum Long-Context Diagnostic Audit</td>
+                            <td>Read-only audit of existing QMSum artifacts before any new long-context run</td>
+                            <td class="go">PASS_WITH_NOTES: Task 51 n=10 artifacts are diagnostic but stale at max_new_tokens=32</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T71</span></td>
+                            <td>Fresh QMSum n=30 Long-Context Diagnostic</td>
+                            <td>Run the frozen QMSum matrix with stored generated text, unique artifacts, resume, and a safer long-answer output cap</td>
+                            <td class="info">Next: preliminary diagnostic only, no final semantic correctness claim</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1629,6 +1637,12 @@
                             <td><code>69-gsm8k-n30-full-matrix-report.md</code></td>
                             <td>T69</td>
                             <td>GSM8K n=30 Full Matrix Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>70-qmsum-diagnostic-audit-report.md</code></td>
+                            <td>T70</td>
+                            <td>QMSum Long-Context Diagnostic Audit Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2084,6 +2098,24 @@
                             <td>23 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task70_qmsum_diagnostic_summary.json</code></td>
+                            <td>T70</td>
+                            <td>QMSum diagnostic audit summary</td>
+                            <td>4 Task 51 n=10 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task70_qmsum_diagnostic_table.csv</code></td>
+                            <td>T70</td>
+                            <td>QMSum diagnostic metric table</td>
+                            <td>4 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task70_qmsum_failure_samples.jsonl</code></td>
+                            <td>T70</td>
+                            <td>QMSum diagnostic warning/sample rows</td>
+                            <td>63 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2290,8 +2322,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 69 GSM8K n=30 full matrix</span>
-                <span class="sv info">Current next: Task 70 bounded GSM8K n=100 full matrix</span>
+                <span class="sv go">Synced through Task 70 QMSum diagnostic audit</span>
+                <span class="sv info">Current next: Task 71 fresh QMSum n=30 diagnostic</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2789,8 +2821,18 @@
                     <strong>Task 69 — GSM8K n=30 Full Matrix — PASS, preliminary</strong><br>
                     Ran Baseline-AR and DFlash-R1 at n=30 mnt384 and reused matching Task 66 compressed artifacts.
                     CC-DFlash-R2 matched LLMLingua-AR-R2 quality at 24/30 and improved e2e tok/s versus
-                    LLMLingua-AR-R2. DFlash-R1 remains faster than CC-DFlash-R2 on short-context GSM8K. Task 70 is a
-                    bounded n=100 GSM8K matrix, still preliminary.
+                    LLMLingua-AR-R2. DFlash-R1 remains faster than CC-DFlash-R2 on short-context GSM8K. Task 70
+                    audits QMSum long-context artifacts before any larger run.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task 70 — QMSum Long-Context Diagnostic Audit — PASS_WITH_NOTES, read-only</strong><br>
+                    Audited existing QMSum artifacts without running benchmarks. The Task 51 n=10 matrix has generated
+                    text and timing fields, but every row uses <code>max_new_tokens=32</code> and nearly all rows hit
+                    the output cap, so the artifacts are diagnostic but stale. Task 71 should run a fresh QMSum n=30
+                    diagnostic with stored generated text and a safer long-answer output cap.
                 </div>
             </div>
         </section>
