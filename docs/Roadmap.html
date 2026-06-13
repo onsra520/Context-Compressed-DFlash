@@ -460,8 +460,8 @@
                 unsupported by lexical evidence. Task 75 replaces the terse wording with a balanced 3-6 sentence
                 policy and runs compressed-only n=30 calibration: cap hits stay at 0/30 and overlap improves versus
                 the terse policy, but most rows are still too short or unsupported by the lexical proxy. Task 76
-                splits the broad Task 75 labels into evidence-error taxonomy: missing entities/numbers dominate,
-                with evidence-misfocused and wrong-negative cases also present. QMSum n=100 remains blocked pending
+                splits the broad Task 75 labels into evidence-error taxonomy: evidence-missing/misfocused rows dominate,
+                with missing entities/numbers and wrong-negative cases also present. QMSum n=100 remains blocked pending
                 an evidence-focused suffix calibration.
             </div>
         </header>
@@ -1261,7 +1261,7 @@
                             <td><span class="tnum done">T76</span></td>
                             <td>QMSum Evidence-Error Taxonomy</td>
                             <td>Relabel Task 75 balanced-policy rows with a more precise evidence-error taxonomy</td>
-                            <td class="go">PASS_WITH_NOTES, read-only: missing entities/numbers dominate; n=100 remains blocked</td>
+                            <td class="go">PASS_WITH_NOTES, read-only: evidence-missing/misfocused rows dominate after taxonomy refinement; n=100 remains blocked</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T77</span></td>
@@ -3129,8 +3129,8 @@
                 <div class="log-body">
                     <strong>Task 76 — QMSum Evidence-Error Taxonomy — PASS_WITH_NOTES, read-only</strong><br>
                     Relabeled the 60 Task 75 balanced-policy case rows without running benchmarks or loading models.
-                    The old broad <code>STILL_TOO_SHORT</code> bucket split mostly into missing entity/number,
-                    evidence-misfocused, wrong-negative, and too-general cases. Cap hits remain zero and
+                    The old broad <code>STILL_TOO_SHORT</code> bucket split mostly into evidence-missing/misfocused,
+                    missing entity/number, wrong-negative, and too-general cases. Cap hits remain zero and
                     <code>max_new_tokens=512</code> is not needed, but QMSum n=100 remains blocked. Task 77 should
                     test a bounded evidence-focused QMSum protected suffix.
                 </div>

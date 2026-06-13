@@ -55,13 +55,46 @@ STOPWORDS = {
     "with",
     "would",
 }
-ENTITY_RE = re.compile(r"\b(?:[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*|[A-Z]{2,}|\d+(?:[.,]\d+)*%?)\b")
+NOISY_ENTITY_WORDS = {
+    "Also",
+    "Although",
+    "And",
+    "As",
+    "By",
+    "Additionally",
+    "Firstly",
+    "He",
+    "In",
+    "Let",
+    "Many",
+    "Over",
+    "Plus",
+    "She",
+    "So",
+    "That",
+    "The",
+    "They",
+    "Therefore",
+    "This",
+    "Using",
+}
+ENTITY_RE = re.compile(
+    r"\b(?:COVID-19|[A-Z][A-Z0-9]{1,}(?:-[A-Z0-9]+)*|\d+(?:[.,]\d+)*(?:M|GB|MB|ms|%)?|[A-Z][a-z]+)\b"
+)
 WORD_RE = re.compile(r"[a-z0-9]+")
 WRONG_NEGATIVE_RE = re.compile(
     r"\b(not (?:mentioned|discussed|provided|specified|directly addressed|clear)|"
-    r"no (?:specific )?(?:mention|evidence|information)|"
+    r"no (?:specific |direct )?(?:mention|evidence|information|support|intervention)|"
+    r"no direct [a-z\s]{0,40}?(?:support|intervention)|"
     r"does not (?:mention|provide|specify|state|address)|"
     r"cannot be determined|not available)\b",
+    re.IGNORECASE,
+)
+NUMBER_PHRASE_RE = re.compile(
+    r"\b(?:one|two|three|four|five|six|seven|eight|nine|ten|"
+    r"eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|"
+    r"thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)\s+"
+    r"(?:million|billion|thousand|hundred)\b",
     re.IGNORECASE,
 )
 
@@ -81,9 +114,15 @@ def _entities_and_numbers(text: Any) -> list[str]:
         return []
     seen: set[str] = set()
     result: list[str] = []
+    for match in NUMBER_PHRASE_RE.finditer(text):
+        value = match.group(0).strip()
+        key = value.lower()
+        if key not in seen:
+            seen.add(key)
+            result.append(value)
     for match in ENTITY_RE.finditer(text):
         value = match.group(0).strip()
-        if not value or value.lower() in STOPWORDS:
+        if not value or value in NOISY_ENTITY_WORDS or value.lower() in STOPWORDS:
             continue
         key = value.lower()
         if key not in seen:
@@ -141,6 +180,7 @@ def classify_case(row: dict[str, Any]) -> dict[str, Any]:
     diagnostics = _case_diagnostics(row)
     expected_keywords = _keywords(expected)
     generated_keywords = _keywords(generated)
+    raw_keyword_overlap = len(expected_keywords & generated_keywords) / len(expected_keywords) if expected_keywords else 0.0
     missing = _missing_entities_or_numbers(expected, generated)
     wrong_negative = bool(WRONG_NEGATIVE_RE.search(generated) and expected_keywords)
     evidence_misfocused = False
@@ -156,25 +196,25 @@ def classify_case(row: dict[str, Any]) -> dict[str, Any]:
     if wrong_negative:
         label = "WRONG_NEGATIVE"
         rationale = "Generated answer says the information is missing or not discussed despite concrete expected evidence."
+    elif raw_keyword_overlap < 0.22 or (keyword_overlap < 0.20 and overlap < 0.22):
+        label = "EVIDENCE_MISSING_OR_MISFOCUSED"
+        evidence_misfocused = True
+        rationale = "Generated answer focuses on a different or generic meeting topic rather than the expected evidence."
     elif missing and (entity_overlap < 0.75 or len(missing) >= 2):
         label = "MISSING_ENTITY_OR_NUMBER"
         rationale = "Generated answer is on topic but omits expected names, numbers, or concrete entities."
     elif keyword_overlap >= 0.50 and reference_coverage >= 0.45 and not missing:
         label = "ACCEPTABLE_EVIDENCE_FOCUSED_ANSWER"
         rationale = "Generated answer covers the expected evidence with key details present."
-    elif original_label == "PROXY_WEAKNESS" or (keyword_overlap >= 0.45 and overlap < 0.28 and reference_coverage >= 0.30):
-        label = "PROXY_WEAKNESS"
-        rationale = "Generated answer appears semantically plausible while lexical overlap remains limited."
-    elif keyword_overlap < 0.20 and overlap < 0.22:
-        label = "EVIDENCE_MISSING_OR_MISFOCUSED"
-        evidence_misfocused = True
-        rationale = "Generated answer focuses on a different or generic meeting topic rather than the expected evidence."
     elif keyword_overlap < 0.35 and reference_coverage < 0.35:
         label = "ANSWER_TOO_GENERAL"
         rationale = "Generated answer is broadly on topic but lacks concrete support from the expected answer."
     elif length_ratio < 0.55 or original_label == "STILL_TOO_SHORT":
         label = "STILL_TOO_SHORT"
         rationale = "Generated answer is on the right evidence path but remains too brief for expected details."
+    elif original_label == "PROXY_WEAKNESS" or (keyword_overlap >= 0.45 and overlap < 0.28 and reference_coverage >= 0.30):
+        label = "PROXY_WEAKNESS"
+        rationale = "Generated answer appears semantically plausible while lexical overlap remains limited."
     elif "compression" in original_label.lower() and keyword_overlap < 0.30:
         label = "POSSIBLE_COMPRESSION_EVIDENCE_LOSS"
         rationale = "Available snippets suggest answer-relevant evidence may have been lost, but this remains conservative."

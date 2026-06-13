@@ -56,6 +56,60 @@ def test_classify_case_detects_missing_entity_or_number():
     assert "25" in result["missing_entities_or_numbers"]
 
 
+def test_classify_case_filters_discourse_words_but_keeps_real_entities():
+    result = classify_case(
+        _case(
+            expected=(
+                "Plus Aurora and Carmen stored four 36GB disks in the SPINE rack. "
+                "Therefore IBM, LDA, GGT, KL, JRASTRA, PRU, GCSE, COVID-19, 62.5, and CERB were noted."
+            ),
+            generated="The answer discusses generic storage planning.",
+        )
+    )
+
+    missing = result["missing_entities_or_numbers"]
+    assert "Plus" not in missing
+    assert "Therefore" not in missing
+    for item in ["Aurora", "Carmen", "SPINE", "IBM", "LDA", "GGT", "KL", "JRASTRA", "PRU", "GCSE", "COVID-19", "62.5", "CERB"]:
+        assert item in missing
+
+
+def test_prompt_27_like_storage_case_is_evidence_misfocused_before_missing_entities():
+    result = classify_case(
+        _case(
+            prompt_id=27,
+            expected="The disk rack had four 36GB disks and used Aurora, Carmen, and SPINE directories.",
+            generated="The team discussed recording meetings, data collection, and transcription workflow.",
+        )
+    )
+
+    assert result["evidence_error_label"] == "EVIDENCE_MISSING_OR_MISFOCUSED"
+
+
+def test_prompt_28_like_government_support_case_is_wrong_negative():
+    result = classify_case(
+        _case(
+            prompt_id=28,
+            expected="The fish and seafood sector received COVID-19 support, including $62.5M and CERB.",
+            generated="There was no direct government support or intervention for the fishing industry.",
+        )
+    )
+
+    assert result["evidence_error_label"] == "WRONG_NEGATIVE"
+
+
+def test_prompt_20_like_compute_case_is_evidence_misfocused():
+    result = classify_case(
+        _case(
+            prompt_id=20,
+            expected="The Professor said they received two 550 megahertz IBM processors and more than 800 MB of memory.",
+            generated="The team discussed neural networks, TIMIT, language tasks, and model generalization.",
+        )
+    )
+
+    assert result["evidence_error_label"] == "EVIDENCE_MISSING_OR_MISFOCUSED"
+
+
 def test_analyze_evidence_errors_reports_shared_prompt_labels():
     cases = [
         _case(condition="LLMLingua-AR-R2", prompt_id=1, generated="The meeting does not mention the budget."),

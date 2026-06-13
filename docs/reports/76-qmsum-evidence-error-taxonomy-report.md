@@ -60,26 +60,28 @@ Primary taxonomy input was the 60-row Task 75 case file.
 
 ## New Evidence-Error Labels
 
+Task 76-fix refined the committed Task 76 taxonomy after audit. The original committed counts were: `MISSING_ENTITY_OR_NUMBER`: 35, `EVIDENCE_MISSING_OR_MISFOCUSED`: 8, `WRONG_NEGATIVE`: 5, `ANSWER_TOO_GENERAL`: 5, `UNCLEAR`: 4, `PROXY_WEAKNESS`: 2, and `STILL_TOO_SHORT`: 1. The refined counts below remove noisy discourse words from missing-entity extraction and prioritize evidence-misfocus / wrong-negative labels before missing-entity labels where appropriate.
+
 | Task 76 label | Count |
 | --- | ---: |
-| `MISSING_ENTITY_OR_NUMBER` | 35 |
-| `EVIDENCE_MISSING_OR_MISFOCUSED` | 8 |
-| `WRONG_NEGATIVE` | 5 |
-| `ANSWER_TOO_GENERAL` | 5 |
+| `EVIDENCE_MISSING_OR_MISFOCUSED` | 28 |
+| `MISSING_ENTITY_OR_NUMBER` | 14 |
+| `WRONG_NEGATIVE` | 7 |
+| `ANSWER_TOO_GENERAL` | 4 |
 | `UNCLEAR` | 4 |
 | `PROXY_WEAKNESS` | 2 |
 | `STILL_TOO_SHORT` | 1 |
 | `ACCEPTABLE_EVIDENCE_FOCUSED_ANSWER` | 0 |
 | `POSSIBLE_COMPRESSION_EVIDENCE_LOSS` | 0 |
 
-The most important change is that the old broad `STILL_TOO_SHORT` bucket is mostly not merely short. It mostly reflects missing concrete entities/numbers, evidence targeting errors, and wrong-negative answers.
+The most important change is that the old broad `STILL_TOO_SHORT` bucket is mostly not merely short. After the Task 76-fix refinement, it mostly reflects evidence targeting / misfocus, missing concrete entities/numbers, and wrong-negative answers. The refinement also filters noisy sentence-initial discourse words such as `Plus`, `Although`, and `Therefore` from the missing-entity list while preserving real entities and numbers.
 
 ## Per-Condition Comparison
 
 | Condition | Rows | Cap hits | Policy preservation | Avg overlap | Avg output tokens | Avg e2e latency s | Main labels |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| LLMLingua-AR-R2 | 30 | 0 | 1.00 | 0.261336 | 91.00 | 10.475600 | `MISSING_ENTITY_OR_NUMBER`: 18, `EVIDENCE_MISSING_OR_MISFOCUSED`: 4, `WRONG_NEGATIVE`: 2 |
-| CC-DFlash-R2 | 30 | 0 | 1.00 | 0.259867 | 92.50 | 9.484380 | `MISSING_ENTITY_OR_NUMBER`: 17, `EVIDENCE_MISSING_OR_MISFOCUSED`: 4, `WRONG_NEGATIVE`: 3 |
+| LLMLingua-AR-R2 | 30 | 0 | 1.00 | 0.261336 | 91.00 | 10.475600 | `EVIDENCE_MISSING_OR_MISFOCUSED`: 14, `MISSING_ENTITY_OR_NUMBER`: 7, `WRONG_NEGATIVE`: 3 |
+| CC-DFlash-R2 | 30 | 0 | 1.00 | 0.259867 | 92.50 | 9.484380 | `EVIDENCE_MISSING_OR_MISFOCUSED`: 14, `MISSING_ENTITY_OR_NUMBER`: 7, `WRONG_NEGATIVE`: 4 |
 
 Both compressed paths show similar evidence-error patterns. CC-DFlash-R2 remains faster in approximate e2e latency on this artifact set, but Task 76 is not a speed benchmark and does not make a final speedup claim.
 
@@ -89,14 +91,14 @@ Prompt IDs where both compressed conditions received the same new label:
 
 | Label | Shared prompt IDs |
 | --- | --- |
-| `MISSING_ENTITY_OR_NUMBER` | 4, 5, 6, 7, 8, 9, 13, 15, 17, 18, 19, 21, 24, 26, 27, 28, 29 |
-| `EVIDENCE_MISSING_OR_MISFOCUSED` | 2, 11, 16, 30 |
-| `WRONG_NEGATIVE` | 14, 23 |
-| `ANSWER_TOO_GENERAL` | 1, 22 |
+| `EVIDENCE_MISSING_OR_MISFOCUSED` | 2, 4, 6, 7, 9, 11, 13, 16, 18, 19, 26, 27, 30 |
+| `MISSING_ENTITY_OR_NUMBER` | 1, 8, 15, 17, 21, 24, 29 |
+| `WRONG_NEGATIVE` | 14, 23, 28 |
+| `ANSWER_TOO_GENERAL` | 5, 22 |
 | `PROXY_WEAKNESS` | 10 |
 | `UNCLEAR` | 3, 12 |
 
-No prompt IDs were present for only one condition. The shared-label pattern suggests the issue is not isolated to one decoding path. It is more likely tied to compressed evidence targeting, output policy, and the lexical nature of the proxy.
+Most prompt IDs have the same label in both compressed conditions. Prompt 20 is intentionally split after refinement: CC-DFlash-R2 is `WRONG_NEGATIVE`, while LLMLingua-AR-R2 is `EVIDENCE_MISSING_OR_MISFOCUSED`. Prompt 25 is also split between `EVIDENCE_MISSING_OR_MISFOCUSED` and `STILL_TOO_SHORT`. The pattern suggests the issue is not isolated to one decoding path. It is more likely tied to compressed evidence targeting, output policy, and the lexical nature of the proxy.
 
 Worst prompt IDs by evidence-error labels:
 
@@ -156,9 +158,9 @@ Prompt 14, both compressed conditions.
 
 Prompt 23, both compressed conditions.
 
-- Expected: Jill Evans said the company was based in the Republic of Ireland and highlighted membership information.
-- Generated: indicates the information is not clearly stated.
-- Rationale: wrong-negative pattern.
+- Expected: oil and gas industry under severe strain; pressure from anti-oil/gas lobby groups; oil sands; and federal Liberal government response.
+- Generated: says the stress faced by oil and gas is not directly addressed or shifts to unrelated government-support topics.
+- Rationale: wrong-negative pattern despite concrete oil-and-gas evidence in the expected answer.
 
 ### MISSING_ENTITY_OR_NUMBER
 
@@ -168,11 +170,11 @@ Prompt 15, both compressed conditions.
 - Generated: includes some project-plan details but misses parts of the concrete numeric evidence.
 - Rationale: on topic but missing important numbers.
 
-Prompt 20, both compressed conditions.
+Prompt 20, LLMLingua-AR-R2 is `EVIDENCE_MISSING_OR_MISFOCUSED`; CC-DFlash-R2 is `WRONG_NEGATIVE`.
 
 - Expected: computational-resource concern, two 550 MHz IBM processors, and 800+ MB memory detail.
 - Generated: shifts to neural-network generalization and language/task examples.
-- Rationale: misses critical numbers and evidence.
+- Rationale: generated text is on the wrong evidence path; the CC-DFlash-R2 row additionally fits the wrong-negative pattern.
 
 ### ANSWER_TOO_GENERAL
 
