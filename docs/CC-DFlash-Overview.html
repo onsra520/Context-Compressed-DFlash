@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 68 GSM8K settings freeze</span>
+                <span class="pill accent">Synced to Task 69 GSM8K n=30 full matrix</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -676,6 +676,8 @@
                 extraction-fix or compression-loss label from available previews. Task 68 freezes mnt256 as the
                 speed-oriented compressed GSM8K setting and mnt384 as the quality-oriented setting, rejects k67 as
                 the default, defers k75/k80 and mnt512, and gates n=100 behind a comparable n=30 full GSM8K matrix.
+                Task 69 completes that n=30 matrix: CC-DFlash-R2 matches LLMLingua-AR-R2 quality and improves e2e
+                speed versus LLMLingua-AR-R2, while DFlash-R1 remains faster on short-context GSM8K.
             </div>
         </section>
 
@@ -1698,7 +1700,8 @@
                 conditions. It does not justify mnt512 as the next automatic step; synthesize Tasks 60–67 before
                 any n=100 move. <strong>Task 68</strong> freezes mnt256 as the speed-oriented compressed GSM8K
                 setting and mnt384 as the quality-oriented setting. n=100 is not the next run; a comparable n=30
-                full GSM8K matrix should come first.
+                full GSM8K matrix should come first. <strong>Task 69</strong> completes that matrix and conditionally
+                justifies a bounded GSM8K n=100 matrix, still with no final correctness or speedup claim.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1876,7 +1879,8 @@
                         should be triaged before n=100. Task 66 shows the Task 65 latency spike was noisy; quality
                         and cap-hit counts reproduce. Task 67 finds an even split between remaining truncation and
                         completed wrong-answer reasoning. Task 68 freezes mnt256 as speed-oriented and mnt384 as
-                        quality-oriented; n=100 remains gated by a comparable n=30 full GSM8K matrix first</li>
+                        quality-oriented; Task 69 completes the comparable n=30 full GSM8K matrix and supports a
+                        bounded n=100 GSM8K follow-up while keeping all claims preliminary</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -2015,7 +2019,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 68 GSM8K settings freeze ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 69 GSM8K n=30 full matrix ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
