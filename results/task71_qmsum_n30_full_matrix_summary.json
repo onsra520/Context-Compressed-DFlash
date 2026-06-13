@@ -1,0 +1,301 @@
+{
+  "by_condition": {
+    "Baseline-AR": {
+      "avg_answer_token_overlap": 0.232963,
+      "avg_compressed_input_tokens": 0.0,
+      "avg_compression_ratio": 0.0,
+      "avg_e2e_latency_s": 4.264360170966666,
+      "avg_generation_latency_s": 4.264360170966666,
+      "avg_input_tokens": 1998.9666666666667,
+      "avg_original_input_tokens": 0.0,
+      "avg_output_tokens": 61.63333333333333,
+      "avg_t_compress_ms": 0.0,
+      "avg_t_prefill_ms": 687.4428179000157,
+      "avg_tau_mean": 0.0,
+      "avg_tok_per_sec": 13.943900251698432,
+      "condition": "Baseline-AR",
+      "dataset_names": [
+        "qmsum_meeting_qa_long"
+      ],
+      "e2e_tok_per_sec_weighted": 14.4531256419089,
+      "empty_output_count": 0,
+      "generated_text_present_count": 30,
+      "generation_tok_per_sec_weighted": 14.4531256419089,
+      "hit_cap_count": 0,
+      "hit_cap_rate": 0.0,
+      "low_overlap_count": 19,
+      "malformed_output_count": 0,
+      "max_new_tokens_values": [
+        384
+      ],
+      "max_vram_allocated_gib": 2.5025229454040527,
+      "max_vram_reserved_gib": 4.31640625,
+      "median_answer_token_overlap": 0.177521,
+      "normalized_containment_count": 0,
+      "normalized_containment_rate": 0.0,
+      "repetition_count": 0,
+      "rows": 30,
+      "schema_presence": {
+        "R_actual": 0,
+        "compressed_input_tokens": 0,
+        "condition": 30,
+        "dataset_name": 30,
+        "expected_answer": 30,
+        "fixture_id": 30,
+        "generated_text": 30,
+        "generation_time_s": 30,
+        "keep_rate": 30,
+        "max_new_tokens": 30,
+        "original_input_tokens": 0,
+        "output_tokens": 30,
+        "prompt_id": 30,
+        "t_compress_ms": 0,
+        "t_prefill_ms": 30,
+        "tok_per_sec": 30,
+        "tokens_per_second": 30
+      }
+    },
+    "CC-DFlash-R2": {
+      "avg_answer_token_overlap": 0.357483,
+      "avg_compressed_input_tokens": 943.5,
+      "avg_compression_ratio": 2.0669195124717197,
+      "avg_e2e_latency_s": 19.055571154599907,
+      "avg_generation_latency_s": 13.127243169499918,
+      "avg_input_tokens": 979.0333333333333,
+      "avg_original_input_tokens": 1950.4333333333334,
+      "avg_output_tokens": 345.3333333333333,
+      "avg_t_compress_ms": 5928.327985099986,
+      "avg_t_prefill_ms": 388.17339046672714,
+      "avg_tau_mean": 2.761559017313372,
+      "avg_tok_per_sec": 26.504681241798448,
+      "condition": "CC-DFlash-R2",
+      "dataset_names": [
+        "qmsum_meeting_qa_long"
+      ],
+      "e2e_tok_per_sec_weighted": 18.12243414440883,
+      "empty_output_count": 0,
+      "generated_text_present_count": 30,
+      "generation_tok_per_sec_weighted": 26.306615096129796,
+      "hit_cap_count": 21,
+      "hit_cap_rate": 0.7,
+      "low_overlap_count": 2,
+      "malformed_output_count": 0,
+      "max_new_tokens_values": [
+        384
+      ],
+      "max_vram_allocated_gib": 3.510854721069336,
+      "max_vram_reserved_gib": 4.39453125,
+      "median_answer_token_overlap": 0.338095,
+      "normalized_containment_count": 0,
+      "normalized_containment_rate": 0.0,
+      "repetition_count": 0,
+      "rows": 30,
+      "schema_presence": {
+        "R_actual": 30,
+        "compressed_input_tokens": 30,
+        "condition": 30,
+        "dataset_name": 30,
+        "expected_answer": 30,
+        "fixture_id": 30,
+        "generated_text": 30,
+        "generation_time_s": 30,
+        "keep_rate": 30,
+        "max_new_tokens": 30,
+        "original_input_tokens": 30,
+        "output_tokens": 30,
+        "prompt_id": 30,
+        "t_compress_ms": 30,
+        "t_prefill_ms": 30,
+        "tok_per_sec": 30,
+        "tokens_per_second": 30
+      }
+    },
+    "DFlash-R1": {
+      "avg_answer_token_overlap": 0.233699,
+      "avg_compressed_input_tokens": 0.0,
+      "avg_compression_ratio": 0.0,
+      "avg_e2e_latency_s": 3.0968252747666307,
+      "avg_generation_latency_s": 3.0968252747666307,
+      "avg_input_tokens": 1998.9666666666667,
+      "avg_original_input_tokens": 0.0,
+      "avg_output_tokens": 60.5,
+      "avg_t_compress_ms": 0.0,
+      "avg_t_prefill_ms": 655.7386861333271,
+      "avg_tau_mean": 2.6149461786378447,
+      "avg_tok_per_sec": 18.944764589632477,
+      "condition": "DFlash-R1",
+      "dataset_names": [
+        "qmsum_meeting_qa_long"
+      ],
+      "e2e_tok_per_sec_weighted": 19.53613608522332,
+      "empty_output_count": 0,
+      "generated_text_present_count": 30,
+      "generation_tok_per_sec_weighted": 19.53613608522332,
+      "hit_cap_count": 0,
+      "hit_cap_rate": 0.0,
+      "low_overlap_count": 19,
+      "malformed_output_count": 0,
+      "max_new_tokens_values": [
+        384
+      ],
+      "max_vram_allocated_gib": 3.5108718872070312,
+      "max_vram_reserved_gib": 5.318359375,
+      "median_answer_token_overlap": 0.177521,
+      "normalized_containment_count": 0,
+      "normalized_containment_rate": 0.0,
+      "repetition_count": 0,
+      "rows": 30,
+      "schema_presence": {
+        "R_actual": 0,
+        "compressed_input_tokens": 0,
+        "condition": 30,
+        "dataset_name": 30,
+        "expected_answer": 30,
+        "fixture_id": 30,
+        "generated_text": 30,
+        "generation_time_s": 30,
+        "keep_rate": 0,
+        "max_new_tokens": 30,
+        "original_input_tokens": 0,
+        "output_tokens": 30,
+        "prompt_id": 30,
+        "t_compress_ms": 0,
+        "t_prefill_ms": 30,
+        "tok_per_sec": 30,
+        "tokens_per_second": 30
+      }
+    },
+    "LLMLingua-AR-R2": {
+      "avg_answer_token_overlap": 0.358644,
+      "avg_compressed_input_tokens": 943.5,
+      "avg_compression_ratio": 2.0669195124717197,
+      "avg_e2e_latency_s": 26.378386660533366,
+      "avg_generation_latency_s": 20.80235052063334,
+      "avg_input_tokens": 979.0333333333333,
+      "avg_original_input_tokens": 1950.4333333333334,
+      "avg_output_tokens": 348.53333333333336,
+      "avg_t_compress_ms": 5576.036139900028,
+      "avg_t_prefill_ms": 375.30881926663824,
+      "avg_tau_mean": 0.0,
+      "avg_tok_per_sec": 16.76912945991841,
+      "condition": "LLMLingua-AR-R2",
+      "dataset_names": [
+        "qmsum_meeting_qa_long"
+      ],
+      "e2e_tok_per_sec_weighted": 13.212837381552207,
+      "empty_output_count": 0,
+      "generated_text_present_count": 30,
+      "generation_tok_per_sec_weighted": 16.754516898829856,
+      "hit_cap_count": 22,
+      "hit_cap_rate": 0.733333,
+      "low_overlap_count": 3,
+      "malformed_output_count": 0,
+      "max_new_tokens_values": [
+        384
+      ],
+      "max_vram_allocated_gib": 2.502498149871826,
+      "max_vram_reserved_gib": 3.41796875,
+      "median_answer_token_overlap": 0.3379,
+      "normalized_containment_count": 0,
+      "normalized_containment_rate": 0.0,
+      "repetition_count": 0,
+      "rows": 30,
+      "schema_presence": {
+        "R_actual": 30,
+        "compressed_input_tokens": 30,
+        "condition": 30,
+        "dataset_name": 30,
+        "expected_answer": 30,
+        "fixture_id": 30,
+        "generated_text": 30,
+        "generation_time_s": 30,
+        "keep_rate": 30,
+        "max_new_tokens": 30,
+        "original_input_tokens": 30,
+        "output_tokens": 30,
+        "prompt_id": 30,
+        "t_compress_ms": 30,
+        "t_prefill_ms": 30,
+        "tok_per_sec": 30,
+        "tokens_per_second": 30
+      }
+    }
+  },
+  "cc_dflash_vs_llmlingua_ar": {
+    "cc_dflash_beats_llmlingua_ar_on_e2e_speed": true,
+    "cc_dflash_e2e_speedup_ratio": 1.3715777785709689,
+    "cc_dflash_matches_llmlingua_ar_proxy_quality": true,
+    "overlap_delta": -0.001161
+  },
+  "claim_policy": "Preliminary QMSum diagnostic only; no final speedup or semantic correctness claim.",
+  "comparisons": {
+    "baseline_vs_dflash": {
+      "dflash_e2e_speedup_ratio": 1.3516893555934715,
+      "dflash_generation_speedup_ratio": 1.3516893555934715,
+      "dflash_hit_cap_delta": 0,
+      "dflash_overlap_delta": 0.000736
+    },
+    "compressed_pair": {
+      "cc_dflash_e2e_speedup_ratio": 1.3715777785709689,
+      "cc_dflash_generation_speedup_ratio": 1.5701207772792938,
+      "cc_dflash_hit_cap_delta": -1,
+      "cc_dflash_overlap_delta": -0.001161
+    },
+    "uncompressed_vs_compressed": {
+      "baseline_overlap_minus_llmlingua": -0.125681,
+      "compressed_avg_t_compress_ms": 5752.182062500007,
+      "dflash_overlap_minus_cc_dflash": -0.123784
+    }
+  },
+  "compressed_metadata": {
+    "CC-DFlash-R2": {
+      "avg_compressed_input_tokens": 943.5,
+      "avg_compression_ratio": 2.0669195124717197,
+      "avg_original_input_tokens": 1950.4333333333334,
+      "compressed_input_tokens_present": 30,
+      "compression_ratio_present": 30,
+      "generated_text_present": 30,
+      "keep_rate_present": 30,
+      "original_input_tokens_present": 30,
+      "rows": 30,
+      "t_compress_ms_present": 30
+    },
+    "LLMLingua-AR-R2": {
+      "avg_compressed_input_tokens": 943.5,
+      "avg_compression_ratio": 2.0669195124717197,
+      "avg_original_input_tokens": 1950.4333333333334,
+      "compressed_input_tokens_present": 30,
+      "compression_ratio_present": 30,
+      "generated_text_present": 30,
+      "keep_rate_present": 30,
+      "original_input_tokens_present": 30,
+      "rows": 30,
+      "t_compress_ms_present": 30
+    }
+  },
+  "compressed_vs_uncompressed_quality_proxy_gap": {
+    "baseline_overlap_minus_llmlingua": -0.125681,
+    "compressed_avg_t_compress_ms": 5752.182062500007,
+    "dflash_overlap_minus_cc_dflash": -0.123784
+  },
+  "gsm8k_style_failure_assessment": {
+    "assessment": "QMSum is non-math long-answer meeting QA. It can reveal truncation, output sanity, overlap, and long-context speed behavior, but not GSM8K-style arithmetic failures.",
+    "qmsum_shows_gsm8k_arithmetic_failure_pattern": false
+  },
+  "n100_decision": {
+    "has_n30_matrix": true,
+    "justified_next": false,
+    "reason": "Do not jump to QMSum n=100; cap pressure/proxy quality still needs interpretation"
+  },
+  "old_mnt32_problem": {
+    "interpretation": "mnt384 reduced cap pressure versus Task 51/70 mnt32",
+    "max_new_tokens_values": [
+      384
+    ],
+    "mnt384_reduced_cap_pressure": true,
+    "old_task70_avg_hit_cap_rate": 0.975,
+    "task71_avg_hit_cap_rate": 0.358333
+  },
+  "status": "PASS_WITH_NOTES",
+  "task": "Task 71 QMSum n=30 full matrix"
+}

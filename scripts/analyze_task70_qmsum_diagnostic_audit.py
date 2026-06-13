@@ -137,6 +137,7 @@ def _schema_presence(rows: list[dict[str, Any]]) -> dict[str, int]:
         "generation_time_s",
         "tok_per_sec",
         "tokens_per_second",
+        "keep_rate",
         "t_compress_ms",
         "t_prefill_ms",
         "R_actual",

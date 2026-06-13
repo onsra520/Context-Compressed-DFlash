@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 71 fresh QMSum n=30 diagnostic</span>
+                <span class="sv info">→ Current next: Task 72 QMSum cap-hit/proxy triage</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 64 GSM8K cap-hit triage. CC-DFlash now uses a two-dataset
@@ -450,8 +450,10 @@
                 LLMLingua-AR-R2 quality at 24/30 and improves e2e tok/s versus LLMLingua-AR-R2, while remaining
                 below DFlash-R1 speed on short-context GSM8K. Task 70 audits existing QMSum artifacts and finds
                 the Task 51 n=10 long-context rows useful for diagnosis but stale for the current policy because
-                all use <code>max_new_tokens=32</code>; Task 71 should run a fresh QMSum n=30 diagnostic before
-                any larger long-context or n=100 move.
+                all use <code>max_new_tokens=32</code>. Task 71 runs that fresh QMSum n=30 diagnostic with
+                <code>max_new_tokens=384</code>: CC-DFlash-R2 beats LLMLingua-AR-R2 on e2e speed and matches its
+                overlap proxy, but compressed rows still hit the cap often, so Task 72 should triage QMSum cap-hit
+                and long-answer proxy behavior before any n=100 move.
             </div>
         </header>
 
@@ -1217,10 +1219,16 @@
                             <td class="go">PASS_WITH_NOTES: Task 51 n=10 artifacts are diagnostic but stale at max_new_tokens=32</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T71</span></td>
+                            <td><span class="tnum done">T71</span></td>
                             <td>Fresh QMSum n=30 Long-Context Diagnostic</td>
                             <td>Run the frozen QMSum matrix with stored generated text, unique artifacts, resume, and a safer long-answer output cap</td>
-                            <td class="info">Next: preliminary diagnostic only, no final semantic correctness claim</td>
+                            <td class="go">PASS_WITH_NOTES: CC-DFlash-R2 beats LLMLingua-AR-R2 e2e and matches overlap proxy, but cap hits remain high</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T72</span></td>
+                            <td>QMSum Cap-Hit and Proxy Triage</td>
+                            <td>Inspect Task 71 QMSum cap-hit rows and long-answer proxy behavior before any n=100 move</td>
+                            <td class="info">Next: read-only triage, no benchmark run</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1643,6 +1651,12 @@
                             <td><code>70-qmsum-diagnostic-audit-report.md</code></td>
                             <td>T70</td>
                             <td>QMSum Long-Context Diagnostic Audit Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>71-qmsum-n30-full-matrix-report.md</code></td>
+                            <td>T71</td>
+                            <td>QMSum n=30 Full Matrix Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2116,6 +2130,48 @@
                             <td>63 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl</code></td>
+                            <td>T71</td>
+                            <td>Baseline-AR QMSum n=30 mnt384 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl</code></td>
+                            <td>T71</td>
+                            <td>DFlash-R1 QMSum n=30 mnt384 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl</code></td>
+                            <td>T71</td>
+                            <td>LLMLingua-AR-R2 QMSum n=30 mnt384 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl</code></td>
+                            <td>T71</td>
+                            <td>CC-DFlash-R2 QMSum n=30 mnt384 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task71_qmsum_n30_full_matrix_summary.json</code></td>
+                            <td>T71</td>
+                            <td>QMSum n=30 full matrix summary</td>
+                            <td>4 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task71_qmsum_n30_full_matrix_table.csv</code></td>
+                            <td>T71</td>
+                            <td>QMSum n=30 full matrix metric table</td>
+                            <td>4 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task71_qmsum_n30_failure_samples.jsonl</code></td>
+                            <td>T71</td>
+                            <td>QMSum n=30 diagnostic warning/sample rows</td>
+                            <td>86 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2322,8 +2378,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 70 QMSum diagnostic audit</span>
-                <span class="sv info">Current next: Task 71 fresh QMSum n=30 diagnostic</span>
+                <span class="sv go">Synced through Task 71 QMSum n=30 full matrix</span>
+                <span class="sv info">Current next: Task 72 QMSum cap-hit/proxy triage</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2833,6 +2889,17 @@
                     text and timing fields, but every row uses <code>max_new_tokens=32</code> and nearly all rows hit
                     the output cap, so the artifacts are diagnostic but stale. Task 71 should run a fresh QMSum n=30
                     diagnostic with stored generated text and a safer long-answer output cap.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task 71 — QMSum n=30 Long-Context Diagnostic Full Matrix — PASS_WITH_NOTES, preliminary</strong><br>
+                    Ran Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-DFlash-R2 on QMSum with
+                    <code>max_new_tokens=384</code>, <code>--resume</code>, and generated text. CC-DFlash-R2 beat
+                    LLMLingua-AR-R2 on e2e speed and matched its overlap proxy, but compressed rows still had high
+                    cap-hit rates. Task 72 should triage QMSum cap-hit and long-answer proxy behavior before any
+                    QMSum n=100 move.
                 </div>
             </div>
         </section>
