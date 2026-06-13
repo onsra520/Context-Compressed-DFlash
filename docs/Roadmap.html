@@ -413,7 +413,7 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 76 QMSum policy follow-up</span>
+                <span class="sv info">→ Current next: Task 77 QMSum evidence-focused suffix calibration</span>
             </div>
             <div class="update-bar">
                 This roadmap is synced through Task 75 QMSum balanced-answer policy calibration. CC-DFlash now uses a two-dataset
@@ -459,8 +459,10 @@
                 quality falls. Task 74 triages those cases and finds most concise answers are too short or
                 unsupported by lexical evidence. Task 75 replaces the terse wording with a balanced 3-6 sentence
                 policy and runs compressed-only n=30 calibration: cap hits stay at 0/30 and overlap improves versus
-                the terse policy, but most rows are still too short or unsupported by the lexical proxy, so QMSum
-                n=100 remains blocked pending another bounded policy/proxy follow-up.
+                the terse policy, but most rows are still too short or unsupported by the lexical proxy. Task 76
+                splits the broad Task 75 labels into evidence-error taxonomy: missing entities/numbers dominate,
+                with evidence-misfocused and wrong-negative cases also present. QMSum n=100 remains blocked pending
+                an evidence-focused suffix calibration.
             </div>
         </header>
 
@@ -1256,10 +1258,16 @@
                             <td class="go">PASS_WITH_NOTES: cap hits remain zero, overlap improves over terse policy, but policy still needs revision before n=100</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T76</span></td>
-                            <td>QMSum Balanced Policy Follow-up</td>
-                            <td>Refine QMSum answer policy or proxy/manual-review path based on Task 75 case labels</td>
-                            <td class="info">Next: bounded follow-up, not QMSum n=100</td>
+                            <td><span class="tnum done">T76</span></td>
+                            <td>QMSum Evidence-Error Taxonomy</td>
+                            <td>Relabel Task 75 balanced-policy rows with a more precise evidence-error taxonomy</td>
+                            <td class="go">PASS_WITH_NOTES, read-only: missing entities/numbers dominate; n=100 remains blocked</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T77</span></td>
+                            <td>QMSum Evidence-Focused Suffix Calibration</td>
+                            <td>Run a bounded suffix calibration targeting missing evidence, names, numbers, and wrong-negative responses</td>
+                            <td class="info">Next: bounded prompt calibration, not QMSum n=100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1712,6 +1720,12 @@
                             <td><code>75-qmsum-balanced-policy-report.md</code></td>
                             <td>T75</td>
                             <td>QMSum Balanced-Answer Policy Calibration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>76-qmsum-evidence-error-taxonomy-report.md</code></td>
+                            <td>T76</td>
+                            <td>QMSum Evidence-Error Taxonomy Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2323,6 +2337,24 @@
                             <td>60 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task76_qmsum_evidence_error_summary.json</code></td>
+                            <td>T76</td>
+                            <td>QMSum evidence-error taxonomy summary</td>
+                            <td>60 rows analyzed</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task76_qmsum_evidence_error_table.csv</code></td>
+                            <td>T76</td>
+                            <td>QMSum evidence-error taxonomy table</td>
+                            <td>2 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task76_qmsum_evidence_error_cases.jsonl</code></td>
+                            <td>T76</td>
+                            <td>QMSum evidence-error labeled cases</td>
+                            <td>60 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2529,8 +2561,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 75 QMSum balanced policy calibration</span>
-                <span class="sv info">Current next: Task 76 QMSum policy follow-up</span>
+                <span class="sv go">Synced through Task 76 QMSum evidence-error taxonomy</span>
+                <span class="sv info">Current next: Task 77 QMSum evidence-focused suffix calibration</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -3090,6 +3122,17 @@
                     <code>max_new_tokens=384</code>. Cap hits stayed at 0/30 for both compressed conditions and
                     overlap improved versus Task 73, but most rows remained labeled too short or unsupported by the
                     lexical proxy. QMSum n=100 remains blocked; Task 76 should refine the QMSum policy/proxy path.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task 76 — QMSum Evidence-Error Taxonomy — PASS_WITH_NOTES, read-only</strong><br>
+                    Relabeled the 60 Task 75 balanced-policy case rows without running benchmarks or loading models.
+                    The old broad <code>STILL_TOO_SHORT</code> bucket split mostly into missing entity/number,
+                    evidence-misfocused, wrong-negative, and too-general cases. Cap hits remain zero and
+                    <code>max_new_tokens=512</code> is not needed, but QMSum n=100 remains blocked. Task 77 should
+                    test a bounded evidence-focused QMSum protected suffix.
                 </div>
             </div>
         </section>
