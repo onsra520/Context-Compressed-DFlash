@@ -34,6 +34,17 @@ QMSUM_BALANCED_ANSWER_INSTRUCTION = (
     "Use only information supported by the meeting context."
 )
 
+QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION = (
+    "Answer only the question using the meeting context.\n"
+    "First focus on the exact evidence in the context that answers the question.\n"
+    "Include the concrete names, numbers, organizations, decisions, reasons, constraints, and supporting details that are needed for the answer.\n"
+    "Do not answer from the general topic of the meeting.\n"
+    "Do not replace specific evidence with broad summaries.\n"
+    "Do not say the information is missing or not discussed unless the meeting context clearly lacks the answer.\n"
+    "Do not repeat the full meeting context.\n"
+    "Use 3-7 concise sentences."
+)
+
 
 @dataclass(frozen=True)
 class EvalDatasetRow:
@@ -102,8 +113,8 @@ def normalize_eval_row(row: dict[str, Any], dataset_name: str) -> EvalDatasetRow
         prompt = f"{row['context']}\n\nQuestion: {row['question']}"
     if dataset_name == "gsm8k_short" and "Final answer: <number>" not in prompt:
         prompt = f"{prompt.rstrip()}\n\n{GSM8K_FINAL_ANSWER_INSTRUCTION}"
-    if dataset_name == "qmsum_meeting_qa_long" and QMSUM_BALANCED_ANSWER_INSTRUCTION not in prompt:
-        prompt = f"{prompt.rstrip()}\n\n{QMSUM_BALANCED_ANSWER_INSTRUCTION}"
+    if dataset_name == "qmsum_meeting_qa_long" and QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION not in prompt:
+        prompt = f"{prompt.rstrip()}\n\n{QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION}"
     domain = str(row.get("domain", dataset_name))
     evidence = str(row.get("evidence", ""))
     approximate_context_words = row.get("approximate_context_words")

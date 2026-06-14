@@ -18,7 +18,11 @@ from scripts.run_mvp import (
     _prepare_cc_prompt,
     _resolve_keep_rate,
 )
-from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION, QMSUM_BALANCED_ANSWER_INSTRUCTION
+from scripts.eval_datasets import (
+    GSM8K_FINAL_ANSWER_INSTRUCTION,
+    QMSUM_BALANCED_ANSWER_INSTRUCTION,
+    QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION,
+)
 
 
 class ExpandingTokenizer:
@@ -245,6 +249,51 @@ def test_prepare_cc_prompt_preserves_qmsum_balanced_policy_metadata(monkeypatch)
     assert "key entities, decisions, reasons" in info["qmsum_output_policy_preview"]
     assert "supported by the meeting context." in info["final_prompt_tail_preview"]
     assert "Answer concisely in 1-3 sentences." not in info["final_prompt_tail_preview"]
+    assert "Final answer: <number>" not in info["final_prompt_tail_preview"]
+
+
+def test_prepare_cc_prompt_preserves_qmsum_evidence_policy_metadata(monkeypatch):
+    captured = {}
+    tokenizer = ExpandingTokenizer(wide_multiplier=1)
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            captured["question"] = question
+            captured["context"] = context
+            return {
+                "compressed_prompt": "compressed meeting context with project evidence",
+                "origin_tokens": 100,
+                "compressed_tokens": 50,
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    question = "What did the team approve?"
+    compressor = LLMLinguaCompressor()
+
+    merged_prompt, info = _prepare_cc_prompt(
+        question,
+        compressor,
+        keep_rate=0.5,
+        context="Original meeting context",
+        protected_suffix=QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION,
+    )
+
+    assert captured["question"] == question
+    assert merged_prompt.endswith(f"{question}\n\n{QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION}")
+    assert info["question_preserved"] is True
+    assert info["protected_suffix_preserved"] is True
+    assert info["qmsum_answer_policy_enabled"] is True
+    assert info["qmsum_answer_policy_type"] == "evidence_focused"
+    assert info["qmsum_answer_policy_preserved"] is True
+    assert info["qmsum_evidence_focus_enabled"] is True
+    assert info["qmsum_evidence_focus_version"] == "task77"
+    assert "First focus on the exact evidence" in info["qmsum_output_policy_preview"]
+    assert "Do not answer from the general topic" in info["final_prompt_tail_preview"]
+    assert "Answer in 3-6 concise sentences." not in info["final_prompt_tail_preview"]
     assert "Final answer: <number>" not in info["final_prompt_tail_preview"]
 
 

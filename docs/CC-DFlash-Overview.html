@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 76 QMSum evidence-error taxonomy</span>
+                <span class="pill accent">Synced to Task 77 QMSum evidence-focused policy calibration</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -690,8 +690,9 @@
                 versus the terse policy, but most rows remain too short or unsupported by the lexical proxy. Task 76
                 relabels the balanced-policy cases with a finer evidence-error taxonomy and finds the QMSum issue is
                 mostly evidence targeting / answer completeness: evidence-missing/misfocused rows dominate,
-                with missing names/numbers and wrong-negative rows also present. QMSum n=100 remains blocked behind an
-                evidence-focused suffix calibration.
+                with missing names/numbers and wrong-negative rows also present. Task 77 tests an evidence-focused
+                protected suffix. It preserves policy and keeps cap hits at zero, but wrong-negative and evidence-targeting
+                failures remain common, so QMSum n=100 remains blocked behind compressed-prompt evidence-retention audit.
             </div>
         </section>
 
@@ -1728,7 +1729,9 @@
                 and recovers some lexical overlap versus the terse policy, but still leaves most rows too short or
                 weakly supported under the current proxy. <strong>Task 76</strong> refines that diagnosis: evidence
                 missing/misfocused rows, missing entities/numbers, and wrong-negative answers are the main taxonomy buckets.
-                QMSum n=100 stays blocked pending an evidence-focused suffix calibration.
+                <strong>Task 77</strong> tests an evidence-focused suffix. It preserves the suffix and avoids cap hits,
+                but wrong-negative/evidence-targeting failures remain too common. QMSum n=100 stays blocked pending
+                compressed-prompt evidence-retention audit.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1915,8 +1918,9 @@
                         with a concise-answer suffix, but normalized-overlap proxy quality drops. Task 74 finds
                         the concise answers are often too short or missing key details. Task 75 tests a balanced
                         3-6 sentence suffix. Task 76 shows the remaining issue is more evidence targeting and answer
-                        completeness than output cap, so QMSum n=100 remains blocked behind evidence-focused suffix
-                        calibration.</li>
+                        completeness than output cap. Task 77 tests an evidence-focused suffix, but persistent
+                        wrong-negative/evidence-targeting errors keep QMSum n=100 blocked behind compressed-prompt
+                        evidence-retention audit.</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -2055,7 +2059,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 76 QMSum evidence-error taxonomy ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 77 QMSum evidence-focused policy calibration ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

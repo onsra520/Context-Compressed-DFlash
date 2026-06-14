@@ -7,7 +7,11 @@ from scripts.eval_datasets import load_eval_dataset, select_eval_dataset_rows, w
 from scripts.fetch_gsm8k_dataset import build_gsm8k_short_rows
 from scripts.fetch_qmsum_meeting_qa_dataset import build_qmsum_eval_rows
 from scripts.run_mvp import _select_prompt_items
-from scripts.eval_datasets import GSM8K_FINAL_ANSWER_INSTRUCTION, QMSUM_BALANCED_ANSWER_INSTRUCTION
+from scripts.eval_datasets import (
+    GSM8K_FINAL_ANSWER_INSTRUCTION,
+    QMSUM_BALANCED_ANSWER_INSTRUCTION,
+    QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION,
+)
 
 
 def test_build_gsm8k_short_rows_preserves_question_and_numeric_answer(tmp_path: Path):
@@ -164,7 +168,7 @@ def test_run_mvp_dataset_prompt_source_uses_registry_rows(tmp_path: Path):
     assert items[0].metadata["quality_policy"] == "normalized_text_containment_proxy"
 
 
-def test_run_mvp_qmsum_dataset_items_keep_balanced_policy_as_protected_suffix(tmp_path: Path):
+def test_run_mvp_qmsum_dataset_items_keep_evidence_policy_as_protected_suffix(tmp_path: Path):
     path = tmp_path / "qmsum_eval.jsonl"
     write_jsonl(
         [
@@ -193,8 +197,11 @@ def test_run_mvp_qmsum_dataset_items_keep_balanced_policy_as_protected_suffix(tm
         seed=42,
     )
 
-    assert QMSUM_BALANCED_ANSWER_INSTRUCTION in items[0].text
+    assert QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION in items[0].text
+    assert "First focus on the exact evidence" in items[0].text
+    assert "Do not answer from the general topic of the meeting." in items[0].text
+    assert QMSUM_BALANCED_ANSWER_INSTRUCTION not in items[0].text
     assert "Answer concisely in 1-3 sentences." not in items[0].text
     assert "Final answer: <number>" not in items[0].text
     assert items[0].question == "What did the team approve?"
-    assert items[0].protected_suffix == QMSUM_BALANCED_ANSWER_INSTRUCTION
+    assert items[0].protected_suffix == QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION

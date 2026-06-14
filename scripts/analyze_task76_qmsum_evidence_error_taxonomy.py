@@ -85,7 +85,7 @@ WORD_RE = re.compile(r"[a-z0-9]+")
 WRONG_NEGATIVE_RE = re.compile(
     r"\b(not (?:mentioned|discussed|provided|specified|directly addressed|clear)|"
     r"no (?:specific |direct )?(?:mention|evidence|information|support|intervention)|"
-    r"no direct [a-z\s]{0,40}?(?:support|intervention)|"
+    r"no (?:direct |government |specific |clear )?[a-z\s]{0,40}?(?:support|intervention)|"
     r"does not (?:mention|provide|specify|state|address)|"
     r"cannot be determined|not available)\b",
     re.IGNORECASE,

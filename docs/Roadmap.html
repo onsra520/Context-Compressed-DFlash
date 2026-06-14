@@ -138,26 +138,24 @@
             border: 1px solid var(--info-line)
         }
 
-        /* Update policy bar */
         .update-bar {
             margin-top: 18px;
-            padding: 12px 16px;
+            padding: 12px 16px 12px 44px;
             border-radius: 10px;
             background: #f0efe9;
             border: 1px solid var(--line);
             font-size: .85rem;
             color: #444;
-            display: flex;
-            gap: 10px;
-            align-items: flex-start
+            position: relative;
         }
 
         .update-bar::before {
             content: "↻";
+            position: absolute;
+            left: 16px;
+            top: 12px;
             font-size: 1.1rem;
             color: var(--info);
-            flex-shrink: 0;
-            margin-top: 1px
         }
 
         /* Sections */
@@ -413,56 +411,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 77 QMSum evidence-focused suffix calibration</span>
+                <span class="sv info">→ Current next: Task 78 compressed-prompt evidence-retention audit</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 75 QMSum balanced-answer policy calibration. CC-DFlash now uses a two-dataset
-                evaluation setup: GSM8K short-context for numeric answer extraction and QMSum-style meeting QA
-                long-context for speed, prefill, and compression-overhead evaluation. GSM8K+Wikipedia augmented
-                remains optional/legacy ablation only. Task 52 found that CC-DFlash-R2 improves generation-only
-                tok/s in the tiny smokes, but CPU LLMLingua compression overhead dominates approximate end-to-end
-                latency. Task 53 shows that max_new_tokens=128 improves uncompressed GSM8K extraction but does not
-                resolve compressed-condition quality. Task 54 finds mixed truncation and compression-risk signals.
-                Task 55 freezes a stricter GSM8K final-answer prompt and compressed-prompt preview metadata. Task 56
-                shows max_new_tokens=192 improves numeric extraction, especially for uncompressed rows. Task 57 finds
-                compressed metadata complete but strict final-answer instruction absent from compressed prompt previews.
-                Task 58 protects that instruction as a post-compression GSM8K suffix and adds prompt-tail preview
-                fields for future artifacts. Task 59 verifies the suffix survives in compressed artifacts and improves
-                compressed GSM8K numeric extraction. Task 60 shows a 256-token cap reduces remaining compressed
-                truncation and improves numeric extraction. Task 61A adds a CLI keep-rate-percent override. Task 61B
-                verifies <code>--keep-rate-percent 67</code> in real compressed GSM8K runs, but quality remains 8/10
-                with both fail-to-pass and pass-to-fail row changes. Task 62 triages those rows: there is no direct
-                preview evidence that k67 repaired compression loss, k67 has pass-to-fail regressions, and keep-rate
-                80 should not be tested next. Task 63 runs the n=30 default-R2 compressed GSM8K stability check:
-                both compressed conditions are stable versus Task 60 under the preliminary ±10 point margin, but both
-                have 5/30 token-cap hits. Task 64 triages Task 63 failures and cap-hit rows: remaining failures split
-                into truncation-dominant and completed wrong-answer cases, with no extraction-issue labels and no
-                direct compression-loss label from available previews. Task 65 runs compressed-only
-                <code>max_new_tokens=384</code> n=30 calibration: numeric extraction improves modestly to 24/30
-                for both compressed conditions and cap hits fall from 5 to 3, but latency rises sharply and three
-                cap hits remain per condition. Task 66 reruns the same mnt384 calibration under cleaner preflight:
-                quality remains 24/30 for both conditions, cap hits remain 3/30, and Task 65 latency is marked noisy.
-                Task 67 triages the persistent failures as an even split between remaining truncation and completed
-                wrong-answer reasoning, with no extraction-fix or compression-loss label from available previews.
-                Task 68 freezes mnt256 as the speed-oriented compressed GSM8K setting and mnt384 as the
-                quality-oriented setting, rejects k67 as default, defers k75/k80 and mnt512, and gates n=100 behind
-                a comparable n=30 full GSM8K matrix. Task 69 completes that matrix: CC-DFlash-R2 matches
-                LLMLingua-AR-R2 quality at 24/30 and improves e2e tok/s versus LLMLingua-AR-R2, while remaining
-                below DFlash-R1 speed on short-context GSM8K. Task 70 audits existing QMSum artifacts and finds
-                the Task 51 n=10 long-context rows useful for diagnosis but stale for the current policy because
-                all use <code>max_new_tokens=32</code>. Task 71 runs that fresh QMSum n=30 diagnostic with
-                <code>max_new_tokens=384</code>: CC-DFlash-R2 beats LLMLingua-AR-R2 on e2e speed and matches its
-                overlap proxy, but compressed rows still hit the cap often. Task 72 triages those rows as mostly
-                long-answer cap pressure / truncation-like behavior in compressed outputs, not a GSM8K-style
-                numeric failure. Task 73 adds a QMSum concise-answer policy and runs compressed-only n=30
-                calibration: cap hits drop to 0/30 for both compressed conditions, but normalized-overlap proxy
-                quality falls. Task 74 triages those cases and finds most concise answers are too short or
-                unsupported by lexical evidence. Task 75 replaces the terse wording with a balanced 3-6 sentence
-                policy and runs compressed-only n=30 calibration: cap hits stay at 0/30 and overlap improves versus
-                the terse policy, but most rows are still too short or unsupported by the lexical proxy. Task 76
-                splits the broad Task 75 labels into evidence-error taxonomy: evidence-missing/misfocused rows dominate,
-                with missing entities/numbers and wrong-negative cases also present. QMSum n=100 remains blocked pending
-                an evidence-focused suffix calibration.
+                This roadmap is synced through Task 77 QMSum evidence-focused suffix calibration. Current next main technical task: Task 78 compressed-prompt evidence-retention audit. QMSum n=100 remains blocked because evidence-targeting and wrong-negative failures remain after Task 77. Detailed task history is available in the Update Log and Reports Index below.
             </div>
         </header>
 
@@ -1264,10 +1216,59 @@
                             <td class="go">PASS_WITH_NOTES, read-only: evidence-missing/misfocused rows dominate after taxonomy refinement; n=100 remains blocked</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T77</span></td>
+                            <td><span class="tnum done">T77</span></td>
                             <td>QMSum Evidence-Focused Suffix Calibration</td>
                             <td>Run a bounded suffix calibration targeting missing evidence, names, numbers, and wrong-negative responses</td>
-                            <td class="info">Next: bounded prompt calibration, not QMSum n=100</td>
+                            <td class="go">PASS_WITH_NOTES: suffix preserved and cap hits remain zero, but wrong-negative/evidence-targeting failures persist; n=100 remains blocked</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T78</span></td>
+                            <td>QMSum Compressed-Prompt Evidence-Retention Audit</td>
+                            <td>Inspect whether compressed prompts retain answer-critical QMSum evidence before more prompt tuning or n=100</td>
+                            <td class="info">Next: read-only evidence-retention audit, not QMSum n=100</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── EXTRA / AUXILIARY TASKS -->
+        <section>
+            <h2>Extra / Auxiliary Task Plan — UI &amp; Presentation</h2>
+            <p>
+                Auxiliary and documentation-focused presentation tasks. These tasks are tracked separately
+                from the main technical benchmark path, and must not modify benchmark logic, model code,
+                datasets, result artifacts, claims, or phase-gate status.
+            </p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Task</th>
+                            <th scope="col">Phase</th>
+                            <th scope="col">Kế hoạch / Output</th>
+                            <th scope="col">Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="phase-hdr">
+                            <td colspan="4">Frontend UI Skeleton (UI-01)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">UI-01</span></td>
+                            <td>Frontend skeleton reset</td>
+                            <td>
+                                Reset old/legacy UI components and establish a clean, extensible frontend skeleton structure (minimalist black/grey/white design, no external CDNs) for CC-DFlash report + demo.
+                                <br><strong>Artifacts:</strong>
+                                <ul>
+                                    <li>Hub page: <a href="../frontend/index.html">frontend/index.html</a></li>
+                                    <li>CC-DFlash page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
+                                    <li>HTFSD page: <a href="../frontend/pages/htfsd/htfsd.html">frontend/pages/htfsd/htfsd.html</a></li>
+                                    <li>Markdown report: <a href="reports/extra/ui-01-frontend-skeleton-report.md">docs/reports/extra/ui-01-frontend-skeleton-report.md</a></li>
+                                </ul>
+                            </td>
+                            <td class="go">PASS</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1729,9 +1730,41 @@
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
+                            <td><code>77-qmsum-evidence-focused-policy-report.md</code></td>
+                            <td>T77</td>
+                            <td>QMSum Evidence-Focused Protected-Suffix Calibration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
                             <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
                             <td>T45.5-sync</td>
                             <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── EXTRA REPORTS INDEX -->
+        <section>
+            <h2>Extra Reports Index</h2>
+            <p>Auxiliary reports that are not part of the main benchmark task chronology. UI and presentation reports live under <code>docs/reports/extra/</code>.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">File</th>
+                            <th scope="col">Extra Task</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="reports/extra/ui-01-frontend-skeleton-report.md"><code>extra/ui-01-frontend-skeleton-report.md</code></a></td>
+                            <td>UI-01</td>
+                            <td>Frontend Skeleton Reset Report</td>
                             <td class="go">Exists</td>
                         </tr>
                     </tbody>
@@ -2355,6 +2388,36 @@
                             <td>60 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task77_qmsum_long_llmlingua_ar_r2_n30_mnt384_evidence.jsonl</code></td>
+                            <td>T77</td>
+                            <td>LLMLingua-AR-R2 QMSum evidence-focused n=30 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task77_qmsum_long_cc_dflash_r2_n30_mnt384_evidence.jsonl</code></td>
+                            <td>T77</td>
+                            <td>CC-DFlash-R2 QMSum evidence-focused n=30 artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task77_qmsum_evidence_policy_summary.json</code></td>
+                            <td>T77</td>
+                            <td>QMSum evidence-focused policy summary</td>
+                            <td>60 rows analyzed</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task77_qmsum_evidence_policy_table.csv</code></td>
+                            <td>T77</td>
+                            <td>QMSum evidence-focused policy table</td>
+                            <td>2 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task77_qmsum_evidence_policy_cases.jsonl</code></td>
+                            <td>T77</td>
+                            <td>QMSum evidence-focused labeled cases</td>
+                            <td>60 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2561,8 +2624,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 76 QMSum evidence-error taxonomy</span>
-                <span class="sv info">Current next: Task 77 QMSum evidence-focused suffix calibration</span>
+                <span class="sv go">Synced through Task 77 QMSum evidence-focused suffix calibration</span>
+                <span class="sv info">Current next: Task 78 compressed-prompt evidence-retention audit</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -2579,6 +2642,12 @@
                 <strong>Never claim in Roadmap.html:</strong> final speedup, confirmed 8 GB deployment,
                 e2e compression benefit proven, or phase completion, unless backed by an explicit report in
                 <code>docs/reports/</code>.
+            </div>
+            <div class="note info">
+                <strong>UI / Presentation updates:</strong> UI/presentation-only tasks are auxiliary and must
+                be recorded under the Extra / Auxiliary Task Plan. Their reports must be stored under
+                <code>docs/reports/extra/</code>. They must not modify research claims in
+                <code>docs/CC-DFlash-Overview.html</code> and must not consume main benchmark task numbers.
             </div>
         </section>
 
@@ -3131,8 +3200,35 @@
                     Relabeled the 60 Task 75 balanced-policy case rows without running benchmarks or loading models.
                     The old broad <code>STILL_TOO_SHORT</code> bucket split mostly into evidence-missing/misfocused,
                     missing entity/number, wrong-negative, and too-general cases. Cap hits remain zero and
-                    <code>max_new_tokens=512</code> is not needed, but QMSum n=100 remains blocked. Task 77 should
-                    test a bounded evidence-focused QMSum protected suffix.
+                    <code>max_new_tokens=512</code> is not needed, but QMSum n=100 remains blocked. Task 77 tested
+                    a bounded evidence-focused QMSum protected suffix.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-13</div>
+                <div class="log-body">
+                    <strong>Task UI-T01 — UI &amp; Presentation Auxiliary Tracking — Planned</strong><br>
+                    Initialized auxiliary UI and presentation tracking under a separate extra plan (Task UI-T01).
+                    This separates documentation/presentation UI work from the main benchmark milestones, ensuring
+                    it does not modify CC-DFlash-Overview.html research claims or consume main benchmark task numbers,
+                    leaving Task 77 as the next main technical task.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-14</div>
+                <div class="log-body">
+                    <strong>Task 77 — QMSum Evidence-Focused Protected-Suffix Calibration — PASS_WITH_NOTES, preliminary</strong><br>
+                    Ran compressed-only QMSum n=30 calibration for LLMLingua-AR-R2 and CC-DFlash-R2 with the
+                    evidence-focused protected suffix. Policy preservation was 30/30 for both conditions and cap hits
+                    stayed zero, but wrong-negative and evidence-targeting failures remain common. QMSum n=100 remains
+                    blocked; Task 78 should audit compressed-prompt evidence retention.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-14</div>
+                <div class="log-body">
+                    <strong>Task UI-01 — Frontend Skeleton Reset — PASS</strong><br>
+                    Reset old/legacy UI files and set up the new minimalist frontend skeleton under <code>frontend/</code>. Created navigation hub page at <code>frontend/index.html</code>, CC-DFlash page at <code>frontend/pages/cc-dflash/cc-dflash.html</code>, HTFSD page at <code>frontend/pages/htfsd/htfsd.html</code>, and documented the reset in <code>docs/reports/extra/ui-01-frontend-skeleton-report.md</code>.
                 </div>
             </div>
         </section>

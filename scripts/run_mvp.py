@@ -26,6 +26,7 @@ from scripts.eval_datasets import (
     DATASET_REGISTRY,
     GSM8K_FINAL_ANSWER_INSTRUCTION,
     QMSUM_BALANCED_ANSWER_INSTRUCTION,
+    QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION,
     select_eval_dataset_rows,
 )
 
@@ -222,7 +223,10 @@ def _prepare_cc_prompt(
         "original_prompt_preview": _preview_text(original_prompt),
         "compressed_prompt_preview": _head_tail_preview_text(final_prompt),
         "final_prompt_preview": _head_tail_preview_text(final_prompt),
-        "final_prompt_tail_preview": _tail_preview_text(final_prompt),
+        "final_prompt_tail_preview": _tail_preview_text(
+            final_prompt,
+            limit=640 if suffix_text == QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION.strip() else AUDIT_PREVIEW_CHARS,
+        ),
     }
     if suffix_text == QMSUM_BALANCED_ANSWER_INSTRUCTION.strip():
         compression_info.update(
@@ -230,7 +234,18 @@ def _prepare_cc_prompt(
                 "qmsum_answer_policy_enabled": True,
                 "qmsum_answer_policy_type": "balanced",
                 "qmsum_answer_policy_preserved": suffix_text in final_prompt,
-                "qmsum_output_policy_preview": _preview_text(suffix_text),
+                "qmsum_output_policy_preview": _preview_text(suffix_text, limit=640),
+            }
+        )
+    if suffix_text == QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION.strip():
+        compression_info.update(
+            {
+                "qmsum_answer_policy_enabled": True,
+                "qmsum_answer_policy_type": "evidence_focused",
+                "qmsum_answer_policy_preserved": suffix_text in final_prompt,
+                "qmsum_output_policy_preview": _preview_text(suffix_text, limit=640),
+                "qmsum_evidence_focus_enabled": True,
+                "qmsum_evidence_focus_version": "task77",
             }
         )
     for field_name in (
@@ -354,7 +369,7 @@ def _select_prompt_items(
                 protected_suffix=(
                     GSM8K_FINAL_ANSWER_INSTRUCTION
                     if dataset_name == "gsm8k_short"
-                    else QMSUM_BALANCED_ANSWER_INSTRUCTION
+                    else QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION
                     if dataset_name == "qmsum_meeting_qa_long"
                     else None
                 ),
