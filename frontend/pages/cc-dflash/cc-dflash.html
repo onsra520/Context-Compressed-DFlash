@@ -254,7 +254,9 @@
         }
 
         .part-1 .section-grid,
-        .part-2 .section-grid {
+        .part-2 .section-grid,
+        .part-3 .section-grid,
+        .part-4 .section-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             align-items: stretch;
         }
@@ -265,8 +267,12 @@
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
+                height: 100%;
             }
             .part2-comparison .insight-strip {
+                margin-top: auto;
+            }
+            .part3-comparison > *:last-child {
                 margin-top: auto;
             }
         }
@@ -501,6 +507,33 @@
             font-size: 12px;
             color: rgba(255, 255, 255, 0.78);
             width: 100%;
+        }
+
+        .audit-flow-strip {
+            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+            margin-bottom: 20px;
+        }
+
+        .audit-flow-strip .pipe-node {
+            border-radius: 999px;
+            min-height: unset;
+            height: 32px;
+            padding: 0 16px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        @media (min-width: 761px) {
+            .part4-blocker {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                height: 100%;
+            }
+            .part4-blocker .blocker-evidence {
+                margin-top: auto;
+            }
         }
 
         .pipe-node {
@@ -2077,74 +2110,66 @@
                         cap,
                         quality proxy hay runtime noise.
                     </p>
-                    <div class="claim-line">Blocker → Fix/Audit → Evidence → Limitation</div>
+                    <div class="pipeline-strip audit-flow-strip" role="img" aria-label="Audit flow">
+                        <span class="pipe-node">Blocker</span>
+                        <span class="pipe-arrow">→</span>
+                        <span class="pipe-node">Fix/Audit</span>
+                        <span class="pipe-arrow">→</span>
+                        <span class="pipe-node">Evidence</span>
+                        <span class="pipe-arrow">→</span>
+                        <span class="pipe-node">Limitation</span>
+                    </div>
                     <p>
                         Đây là cách project giữ kết quả trong phạm vi kiểm chứng, thay vì overclaim từ một bảng số đơn
                         lẻ.
                     </p>
                 </article>
 
-                <article class="section-card">
+                <article class="section-card part4-blocker">
                     <span class="section-num">4.2</span>
                     <h2>Dataset blocker</h2>
                     <p>
-                        Setup dataset ban đầu chưa khớp hoàn toàn với câu hỏi nghiên cứu cuối. Project cần tách
-                        short-context quality khỏi
-                        long-context efficiency, nên chuyển sang GSM8K short-context và QMSum-style meeting QA
-                        long-context.
+                        Setup ban đầu chưa tách biệt câu hỏi nghiên cứu. Project chuyển sang GSM8K cho short-context quality và QMSum cho long-context efficiency.
                     </p>
-                    <p>
-                        Limitation còn lại: QMSum không thể dùng để claim semantic correctness nếu chưa có manual review
-                        hoặc semantic judge.
+                    <p class="blocker-evidence">
+                        <strong>Limitation:</strong> QMSum không thể dùng để claim semantic correctness nếu không có manual review hoặc semantic judge.
                     </p>
                 </article>
 
-                <article class="section-card">
+                <article class="section-card part4-blocker">
                     <span class="section-num">4.3</span>
                     <h2>Compression overhead blocker</h2>
                     <p>
-                        Compression có thể giảm input tokens, nhưng LLMLingua-2 cần thời gian chạy. Nếu
-                        <code>T_compress</code> lớn hơn phần
-                        tiết kiệm từ prefill và decoding, compressed pipeline vẫn chậm hơn end-to-end.
+                        Nén prompt giúp giảm prefill/decoding tokens nhưng tốn thời gian <code>T_compress</code>. Nếu overhead này quá lớn, compressed pipeline sẽ chậm hơn baseline.
                     </p>
-                    <p>
-                        Project tách generation-only và end-to-end metrics để đọc rõ tradeoff giữa token reduction,
-                        <code>T_compress</code> và e2e speed.
+                    <p class="blocker-evidence">
+                        <strong>Fix:</strong> Tách biệt metric generation-only và end-to-end để đánh giá chính xác tradeoff giữa nén và e2e latency.
                     </p>
                 </article>
 
-                <article class="section-card">
+                <article class="section-card part4-blocker">
                     <span class="section-num">4.4</span>
                     <h2>Output / cap-hit blocker</h2>
                     <p>
-                        Một số kết quả ban đầu bị ảnh hưởng bởi output quá ngắn hoặc chạm <code>max_new_tokens</code>.
-                        Project tăng output cap, lưu generated text, thêm final-answer policy và protected suffix để
-                        instruction
-                        quan trọng không bị mất sau compression.
+                        Output quá ngắn hoặc bị cắt ở <code>max_new_tokens</code> làm lệch quality proxy. Project tăng output cap, thêm protected suffix để giữ instruction quan trọng.
                     </p>
-                    <p>
-                        Evidence tích cực là GSM8K numeric-quality pattern rõ hơn. Limitation: tăng cap có thể làm
-                        latency tăng,
-                        và một số failure vẫn là reasoning failure.
+                    <p class="blocker-evidence">
+                        <strong>Evidence:</strong> GSM8K numeric-quality pattern ổn định hơn. Tăng cap làm tăng latency, và một số lỗi vẫn do reasoning.
                     </p>
                 </article>
 
-                <article class="section-card">
+                <article class="section-card part4-blocker">
                     <span class="section-num">4.5</span>
                     <h2>QMSum proxy blocker</h2>
                     <p>
-                        QMSum là long-answer QA nên lexical overlap hoặc normalized containment có thể không phản ánh
-                        semantic correctness.
-                        Project đã thử concise, balanced, evidence-focused policy và evidence-retention audit.
+                        QMSum long-answer QA có lexical overlap proxy không phản ánh đúng semantic. Project đã thử concise, balanced, evidence-retention audit.
                     </p>
-                    <p>
-                        Kết luận an toàn: QMSum hữu ích cho latency, compression overhead, compression ratio và lexical
-                        proxy behavior,
-                        nhưng không dùng để claim semantic correctness.
+                    <p class="blocker-evidence">
+                        <strong>Kết luận:</strong> QMSum hữu ích cho latency/ratio/proxy behavior, nhưng không dùng để chứng minh semantic correctness.
                     </p>
                 </article>
 
-                <article class="section-card">
+                <article class="section-card wide">
                     <span class="section-num">4.6</span>
                     <h2>Runtime / rerun caveat</h2>
                     <p>
@@ -2160,7 +2185,7 @@
 
                 <article class="section-card wide">
                     <span class="section-num">4.7</span>
-                    <h2>Tổng hợp blocker → evidence → limitation</h2>
+                    <h2>Bảng tổng hợp audit evidence</h2>
                     <table class="mini-table report-table">
                         <thead>
                             <tr>

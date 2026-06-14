@@ -38,4 +38,5 @@
 | UI-12 | CC-DFlash Part 2 Comparison Cards Scoped | done | [ui-12-cc-dflash-part2-comparison-cards-scoped.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-12-cc-dflash-part2-comparison-cards-scoped.md) |
 | UI-13 | CC-DFlash Part 2 Card 2.2 Spacing & Wrap Fix | done | [ui-13-cc-dflash-part2-card22-spacing.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-13-cc-dflash-part2-card22-spacing.md) |
 | UI-14 | CC-DFlash Part 3 Layout Refinement | done | [ui-14-cc-dflash-part3-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-14-cc-dflash-part3-layout-refine.md) |
-
+| UI-15 | CC-DFlash Part 3 &amp; 4 Spacing &amp; Layout | done | [ui-15-cc-dflash-part3-4-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-15-cc-dflash-part3-4-layout-refine.md) |
+| UI-16 | CC-DFlash Part 3 &amp; 4 Layout Refinement | done | [ui-16-cc-dflash-part3-4-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-16-cc-dflash-part3-4-layout-refine.md) |
