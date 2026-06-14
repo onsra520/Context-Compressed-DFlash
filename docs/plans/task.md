@@ -43,3 +43,4 @@
 | UI-17 | CC-DFlash Part 5 Layout Refinement | done | [ui-17-cc-dflash-part5-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-17-cc-dflash-part5-layout-refine.md) |
 | UI-18 | CC-DFlash Part 6 Layout Refinement | done | [ui-18-cc-dflash-part6-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-18-cc-dflash-part6-layout-refine.md) |
 | UI-19 | CC-DFlash Part 6 Card 6.3/6.4 Refine | done | [ui-19-cc-dflash-part6-card63-64-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-19-cc-dflash-part6-card63-64-refine.md) |
+| UI-20 | CC-DFlash Script Separation | done | [ui-20-cc-dflash-script-separation.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-20-cc-dflash-script-separation.md) |
