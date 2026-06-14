@@ -1,0 +1,9 @@
+avg_e2e_latency_s,avg_t_compress_ms,compression_ratio,condition,dataset,e2e_tok_per_sec,interpretation,n,quality_metric,quality_result,role
+9.709116,0.0,0.0,Baseline-AR,gsm8k_short,18.007132,Strongest or near-strongest short-context numeric quality; speed is secondary.,30,numeric exact-match proxy,25/30,short-context numeric quality
+2.98984,0.0,0.0,DFlash-R1,gsm8k_short,56.469011,Improves decoding speed strongly while preserving comparable n=30 numeric quality.,30,numeric exact-match proxy,24/30,short-context numeric quality
+10.557275,833.989219,2.666667,LLMLingua-AR-R2,gsm8k_short,16.36786,Compression-only attribution baseline; compression overhead dominates e2e latency on GSM8K.,30,numeric exact-match proxy,24/30,short-context numeric quality
+4.109472,869.043771,2.666667,CC-DFlash-R2,gsm8k_short,42.673769,Matches compressed AR quality and improves e2e latency versus LLMLingua-AR-R2 in n=30.,30,numeric exact-match proxy,24/30,short-context numeric quality
+4.264360170966666,0.0,0.0,Baseline-AR,qmsum_meeting_qa_long,14.4531256419089,Diagnostic only; not semantic correctness proof.,30,lexical/normalized-text proxy only,0.232963,long-context diagnostic behavior
+19.055571154599907,5928.327985099986,2.0669195124717197,CC-DFlash-R2,qmsum_meeting_qa_long,18.12243414440883,Diagnostic only; not semantic correctness proof.,30,lexical/normalized-text proxy only,0.357483,long-context diagnostic behavior
+3.0968252747666307,0.0,0.0,DFlash-R1,qmsum_meeting_qa_long,19.53613608522332,Diagnostic only; not semantic correctness proof.,30,lexical/normalized-text proxy only,0.233699,long-context diagnostic behavior
+26.378386660533366,5576.036139900028,2.0669195124717197,LLMLingua-AR-R2,qmsum_meeting_qa_long,13.212837381552207,Diagnostic only; not semantic correctness proof.,30,lexical/normalized-text proxy only,0.358644,long-context diagnostic behavior

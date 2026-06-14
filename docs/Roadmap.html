@@ -411,10 +411,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 80 cross-dataset final result packaging</span>
+                <span class="sv info">→ Current next: Task 81 final report v2 drafting</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 79B QMSum limitation freeze / reporting decision. Current next main technical task: Task 80 cross-dataset final result packaging. QMSum is frozen as a long-context diagnostic benchmark, not a final semantic correctness benchmark; QMSum n=100 and mnt512 remain unjustified. Detailed task history is available in the Update Log and Reports Index below.
+                This roadmap is synced through Task 80 cross-dataset final result packaging. Current next main technical task: Task 81 final report v2 drafting / final report structure packaging. GSM8K is packaged as short-context numeric-quality evidence, while QMSum is packaged as long-context diagnostic evidence rather than semantic correctness proof. Detailed task history is available in the Update Log and Reports Index below.
             </div>
         </header>
 
@@ -1234,10 +1234,16 @@
                             <td class="go">PASS_WITH_NOTES: QMSum frozen as long-context diagnostic evidence, not semantic correctness proof; no n=100, no mnt512, no more suffix tuning before final packaging</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T80</span></td>
+                            <td><span class="tnum done">T80</span></td>
                             <td>Cross-Dataset Final Result Packaging</td>
                             <td>Package GSM8K numeric-quality evidence and QMSum long-context diagnostic evidence with conservative claim boundaries</td>
-                            <td class="info">Next: final packaging/report synthesis, no new benchmark by default</td>
+                            <td class="go">PASS_WITH_NOTES: GSM8K numeric-quality and QMSum diagnostic evidence packaged with claims matrix and conservative final-report key points</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T81</span></td>
+                            <td>Final Report v2 Drafting / Structure Packaging</td>
+                            <td>Turn Task 80 artifacts into final report sections, tables, figures, and claim-safe narrative text</td>
+                            <td class="info">Next: report drafting, no new benchmark by default</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1757,6 +1763,12 @@
                             <td><code>79-qmsum-limitation-freeze-report.md</code></td>
                             <td>T79B</td>
                             <td>QMSum Limitation Freeze / Reporting Decision Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>80-cross-dataset-final-result-package-report.md</code></td>
+                            <td>T80</td>
+                            <td>Cross-Dataset Final Result Package Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2484,6 +2496,30 @@
                             <td>7 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task80_cross_dataset_final_summary.json</code></td>
+                            <td>T80</td>
+                            <td>Cross-dataset final package summary</td>
+                            <td>PASS_WITH_NOTES</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80_cross_dataset_final_table.csv</code></td>
+                            <td>T80</td>
+                            <td>Cross-dataset final compact table</td>
+                            <td>8 data rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80_cross_dataset_claims_matrix.csv</code></td>
+                            <td>T80</td>
+                            <td>Allowed and forbidden claims matrix</td>
+                            <td>12 claim rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80_final_report_key_points.json</code></td>
+                            <td>T80</td>
+                            <td>Final report conservative key points</td>
+                            <td>present</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2690,8 +2726,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 79B QMSum limitation freeze</span>
-                <span class="sv info">Current next: Task 80 cross-dataset final result packaging</span>
+                <span class="sv go">Synced through Task 80 cross-dataset final package</span>
+                <span class="sv info">Current next: Task 81 final report v2 drafting</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -3308,6 +3344,16 @@
                     compression ratio, and lexical proxy quality. QMSum is not a final semantic correctness benchmark;
                     QMSum n=100, mnt512, and further suffix tuning are not justified before Task 80 cross-dataset
                     final result packaging.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-14</div>
+                <div class="log-body">
+                    <strong>Task 80 — Cross-Dataset Final Result Packaging — PASS_WITH_NOTES, no-run package</strong><br>
+                    Combined GSM8K n=30 numeric-quality evidence and QMSum long-context diagnostic evidence into
+                    final-package JSON/CSV artifacts, a claims matrix, and conservative final-report key points.
+                    Task 81 should draft the final report structure from these packaged artifacts without launching
+                    a new benchmark by default.
                 </div>
             </div>
             <div class="log-entry">

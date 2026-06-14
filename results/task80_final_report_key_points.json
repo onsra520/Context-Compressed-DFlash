@@ -1,0 +1,18 @@
+{
+  "final_hypothesis_wording_en": "The project partially supports the CC-DFlash hypothesis under bounded local evaluation. DFlash improves decoding speed, and CC-DFlash can recover part of that speed on compressed prompts while keeping GSM8K numeric quality comparable to compressed AR. However, LLMLingua compression overhead can dominate e2e latency, and long-context QMSum quality remains diagnostic rather than semantic.",
+  "final_hypothesis_wording_vi": "K\u1ebft qu\u1ea3 h\u1ed7 tr\u1ee3 m\u1ed9t ph\u1ea7n gi\u1ea3 thuy\u1ebft CC-DFlash trong ph\u1ea1m vi \u0111\u00e1nh gi\u00e1 local c\u00f3 gi\u1edbi h\u1ea1n. DFlash c\u1ea3i thi\u1ec7n t\u1ed1c \u0111\u1ed9 decoding, v\u00e0 CC-DFlash c\u00f3 th\u1ec3 gi\u1eef l\u1ea1i m\u1ed9t ph\u1ea7n l\u1ee3i \u00edch t\u1ed1c \u0111\u1ed9 \u0111\u00f3 tr\u00ean compressed prompts trong khi ch\u1ea5t l\u01b0\u1ee3ng GSM8K t\u01b0\u01a1ng \u0111\u01b0\u01a1ng compressed AR. Tuy nhi\u00ean, overhead c\u1ee7a LLMLingua c\u00f3 th\u1ec3 chi ph\u1ed1i latency end-to-end, v\u00e0 ch\u1ea5t l\u01b0\u1ee3ng QMSum long-context ch\u1ec9 n\u00ean \u0111\u01b0\u1ee3c xem l\u00e0 diagnostic ch\u1ee9 kh\u00f4ng ph\u1ea3i semantic correctness.",
+  "gsm8k_key_points": [
+    "GSM8K is the stronger quality dataset because numeric extraction is deterministic enough for a proxy.",
+    "DFlash-R1 is the fastest GSM8K n=30 condition in this local run.",
+    "CC-DFlash-R2 matches LLMLingua-AR-R2 numeric quality and improves e2e latency versus LLMLingua-AR-R2 in n=30.",
+    "LLMLingua compression overhead can dominate e2e latency on short-context GSM8K."
+  ],
+  "next_task": "Task 81 final report v2 drafting / final report structure packaging",
+  "qmsum_key_points": [
+    "QMSum is retained as a long-context diagnostic benchmark.",
+    "QMSum quality is lexical/normalized-text proxy only, not semantic correctness.",
+    "Task 78 did not support broad compressed-evidence deletion as the main explanation in selected audited cases.",
+    "QMSum n=100, mnt512, and further suffix tuning are not justified before final packaging."
+  ],
+  "status": "PASS_WITH_NOTES"
+}
