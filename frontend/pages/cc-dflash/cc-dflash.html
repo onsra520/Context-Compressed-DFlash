@@ -950,22 +950,25 @@
         }
 
         .insight-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
         }
 
         .insight-badge {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            padding: 4px 10px;
-            border-radius: 6px;
+            justify-content: center;
+            text-align: center;
+            padding: 6px 12px;
+            border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             background: rgba(255, 255, 255, 0.04);
             color: rgba(255, 255, 255, 0.75);
             font-size: 12px;
             font-weight: 500;
             letter-spacing: 0.01em;
+            box-sizing: border-box;
         }
 
         .pivot-container {
@@ -1101,6 +1104,11 @@
             .pivot-container {
                 grid-template-columns: 1fr;
                 gap: 16px;
+            }
+
+            .insight-badges {
+                grid-template-columns: 1fr;
+                gap: 8px;
             }
 
             .pivot-arrow {
