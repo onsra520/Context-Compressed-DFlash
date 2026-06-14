@@ -1,0 +1,14 @@
+claim,status,evidence_source,allowed_wording,forbidden_wording,required_caveat,report_section
+Task80A confirms GSM8K numeric-quality pattern,ALLOWED,Task80A,Confirmed numeric pattern on GSM8K short-context proxy,Universally matches accuracy,Proxy only,6
+DFlash-R1 quality did not regress on GSM8K,ALLOWED,Task80A/Task69,No numeric regression observed on GSM8K short-context proxy,Quality is perfect everywhere,Proxy only,6
+DFlash-R1 remains a timing/runtime watch not confirmed regression,ALLOWED_WITH_CAVEAT,Task80A/Task80B,Timing/runtime watch with local noise,Structural broken regression,Local noise observed,6
+CC-DFlash-R2 matches LLMLingua-AR-R2 numeric quality on Task80A GSM8K,ALLOWED_WITH_CAVEAT,Task80A,Matches numeric quality proxy on GSM8K short-context proxy,Universally identical semantics,Numeric proxy only,6
+CC-DFlash-R2 is faster than LLMLingua-AR-R2 on Task80A GSM8K,ALLOWED_WITH_CAVEAT,Task80A,Faster timing observed locally on Task80A GSM8K short-context proxy,Universal speedup proven,Local timing bounds only,6
+Task71/79B remain QMSum diagnostic basis,ALLOWED_WITH_CAVEAT,Task71/Task79B,Long-context diagnostic behavior mapped from Task71,Long-context semantic correctness,Diagnostic context only,6
+QMSum Task80A is incomplete and is a rerun caveat,ALLOWED_WITH_CAVEAT,Task80A/Task80B,Incomplete execution treated as caveat/diagnostic limitation,Failed semantics globally,Rerun caveat,6
+QMSum proves semantic correctness,FORBIDDEN,none,NONE,Any claim of QMSum semantic correctness,Not tested,N/A
+CC-DFlash universally improves speed,FORBIDDEN,none,NONE,Universal speedup anywhere,Not proven,N/A
+compression is proven useful end-to-end,FORBIDDEN,none,NONE,Proven useful end-to-end universally,Theoretical tradeoff only,N/A
+project is deployment ready,FORBIDDEN,none,NONE,Deployment ready / Prod ready,Not tested,N/A
+8 GB deployment is confirmed,FORBIDDEN,none,NONE,Confirmed 8 GB fit for prod,Smoke checked only,N/A
+DFlash-R1 is broken,FORBIDDEN,Task80A/Task80B,NONE,DFlash-R1 structural broken regression,Runtime caveat only,N/A

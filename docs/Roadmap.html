@@ -411,12 +411,12 @@
                 <span class="sv go">✓ Phase 1 MVP: PASS</span>
                 <span class="sv go">✓ T81 Audit: PASS_WITH_NOTES</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 82 final report v2 drafting</span>
+                <span class="sv info">→ Current next: Manual final report writing / T83 LaTeX packaging if needed</span>
                 <span class="sv stop">No 8 GB claim</span>
                 <span class="sv stop">No deployment readiness claim</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 81 final consistency audit. Current next main technical task: Task 82 final report v2 drafting. Task 81 verified the internal consistency and claim-safety of the final package, confirming no universal speedup or semantic correctness claims are made, and advanced the project to T82. Detailed task history is available in the Update Log and Reports Index below.
+                This roadmap is synced through Task 82 scaffold and claim map. Current next: Manual final report writing / T83 LaTeX packaging if needed. Task 82 created the scaffold and claim map; it did not write the final report prose.
             </div>
         </header>
 
@@ -480,8 +480,8 @@
                         </tr>
                         <tr>
                             <td><strong>Final Report Gate</strong></td>
-                            <td class="neu">PENDING</td>
-                            <td>T82 drafts final report v2 after T80B/T80C/T80D/T81 gate clears.</td>
+                            <td class="info">SCAFFOLD_READY</td>
+                            <td>T82 drafted final report v2 scaffold and claim map. Full prose must be written manually based on strict scaffold constraints.</td>
                         </tr>
                         <tr>
                             <td><strong>Deployment / 8 GB Gate</strong></td>
@@ -508,8 +508,8 @@
                     <tbody>
                         <tr>
                             <td>Current next</td>
-                            <td class="info">T82</td>
-                            <td>Draft final report v2 summarizing the CC-DFlash research findings.</td>
+                            <td class="info">Manual Final Report / T83</td>
+                            <td>Manual final report writing / T83 LaTeX packaging if needed.</td>
                         </tr>
                         <tr>
                             <td>GSM8K evidence</td>
@@ -1315,10 +1315,10 @@
                             <td class="go">PASS_WITH_NOTES: audit complete, claim safety bounds verified, proceed to T82.</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T82</span></td>
-                            <td>Final Report v2 Drafting</td>
-                            <td>Draft final report v2 after the T81 consistency audit gate clears.</td>
-                            <td class="info">PLANNED: final report v2 drafting after T81 clears.</td>
+                            <td><span class="tnum done">T82</span></td>
+                            <td>Final Report Scaffold and Claim Map</td>
+                            <td>Create structural JSON/Markdown scaffold and safe-claim CSV mapping.</td>
+                            <td class="go">SCAFFOLD_READY: prepared writing framework; manual prose drafting is next.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1851,6 +1851,12 @@
                             <td><code>81-final-package-consistency-audit-report.md</code></td>
                             <td>T81</td>
                             <td>Final Package Consistency Audit Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>82-final-report-v2-draft.md</code></td>
+                            <td>T82</td>
+                            <td>Final Report Scaffold (v2 Draft)</td>
                             <td class="go">Exists</td>
                         </tr></tbody>
                 </table>
@@ -2887,6 +2893,18 @@
                             <td>T81</td>
                             <td>Task81 final report readiness checklist CSV</td>
                             <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task82_final_report_outline.json</code></td>
+                            <td>T82</td>
+                            <td>Task82 final report scaffold outline JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task82_final_report_claim_map.csv</code></td>
+                            <td>T82</td>
+                            <td>Task82 final report claim map CSV</td>
+                            <td>-</td>
                         </tr></tbody>
                 </table>
             </div>
@@ -2896,8 +2914,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 81 consistency audit</span>
-                <span class="sv info">Current next: Task 82 final report v2 drafting</span>
+                <span class="sv go">Synced through Task 82 scaffold</span>
+                <span class="sv info">Current next: Manual final report writing / T83 LaTeX packaging if needed</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
                 <span class="sv stop">No deployment readiness claim</span>
