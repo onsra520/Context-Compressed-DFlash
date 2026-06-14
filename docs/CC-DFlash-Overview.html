@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 80 cross-dataset final package</span>
+                <span class="pill accent">Synced to Task 80A final rerun package</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -697,7 +697,11 @@
                 QMSum as long-context diagnostic evidence for latency, prefill, compression overhead, compression ratio,
                 and lexical proxy quality, not final semantic correctness. Task 80 packages the cross-dataset evidence:
                 GSM8K supports the short-context numeric-quality story, while QMSum supports only long-context diagnostic
-                behavior. The final hypothesis status is partial and conditional, not universal.
+                behavior. Task 80A reruns the frozen n=30 matrix as a final verification pass: GSM8K completes for all
+                four conditions and reproduces the numeric-quality story, but QMSum DFlash-R1 stops after 2 rows under
+                the safety rule and the QMSum compressed reruns are skipped. The final hypothesis status remains partial
+                and conditional, not universal, and the QMSum runtime issue must be handled as a diagnostic blocker before
+                final consistency audit.
             </div>
         </section>
 
@@ -1741,6 +1745,9 @@
                 diagnostic long-context evidence only: useful for latency/prefill/compression-overhead analysis and
                 lexical proxy quality, but not final semantic correctness. <strong>Task 80</strong> packages GSM8K and
                 QMSum together: CC-DFlash is a conditional system-level tradeoff, not a universally faster or better method.
+                <strong>Task 80A</strong> reruns the frozen n=30 verification matrix; GSM8K completes, but QMSum DFlash
+                stops after 2 rows and compressed QMSum reruns are skipped, so the next step is a rerun issue gate rather
+                than final report drafting.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1931,7 +1938,8 @@
                         compressed-prompt evidence retention and finds no broad compressed-evidence deletion signal.
                         Task 79B freezes QMSum as diagnostic long-context evidence only, not final semantic correctness.
                         Task 80 packages the cross-dataset final evidence and freezes the claim boundary: partial,
-                        conditional support for the CC-DFlash system tradeoff.</li>
+                        conditional support for the CC-DFlash system tradeoff. Task 80A adds a final n=30 rerun package:
+                        GSM8K completes, while QMSum DFlash stops after 2 rows and keeps the rerun gate open.</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -2070,7 +2078,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 80 cross-dataset final package ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 80A final rerun package ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>

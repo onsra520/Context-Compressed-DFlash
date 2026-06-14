@@ -411,10 +411,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 81 final report v2 drafting</span>
+                <span class="sv info">→ Current next: Task 80B rerun analysis and issue gate</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 80 cross-dataset final result packaging. Current next main technical task: Task 81 final report v2 drafting / final report structure packaging. GSM8K is packaged as short-context numeric-quality evidence, while QMSum is packaged as long-context diagnostic evidence rather than semantic correctness proof. Detailed task history is available in the Update Log and Reports Index below.
+                This roadmap is synced through Task 80A final two-dataset rerun/recompute package. Current next main technical task: Task 80B rerun analysis and issue gate. GSM8K rerun completed at n=30, while QMSum DFlash stopped after 2 rows and compressed QMSum reruns were skipped by the safety rule. Detailed task history is available in the Update Log and Reports Index below.
             </div>
         </header>
 
@@ -1240,10 +1240,22 @@
                             <td class="go">PASS_WITH_NOTES: GSM8K numeric-quality and QMSum diagnostic evidence packaged with claims matrix and conservative final-report key points</td>
                         </tr>
                         <tr>
+                            <td><span class="tnum done">T80A</span></td>
+                            <td>Final Two-Dataset Rerun / Recompute Package</td>
+                            <td>Run final n=30 verification rerun on frozen GSM8K and QMSum datasets with unique Task80A artifacts</td>
+                            <td class="stop">BLOCKED/PASS_WITH_NOTES: GSM8K completed; QMSum Baseline completed; QMSum DFlash stopped at 2 rows and compressed QMSum runs were skipped</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T80B</span></td>
+                            <td>Rerun Analysis and Issue Gate</td>
+                            <td>Analyze Task80A QMSum DFlash runtime issue and decide whether final consistency audit can proceed</td>
+                            <td class="info">Next: issue analysis, no blind benchmark expansion</td>
+                        </tr>
+                        <tr>
                             <td><span class="tnum planned">T81</span></td>
                             <td>Final Report v2 Drafting / Structure Packaging</td>
-                            <td>Turn Task 80 artifacts into final report sections, tables, figures, and claim-safe narrative text</td>
-                            <td class="info">Next: report drafting, no new benchmark by default</td>
+                            <td>Turn Task 80/80A artifacts into final report sections, tables, figures, and claim-safe narrative text after the Task80B gate</td>
+                            <td class="info">Deferred until Task80B clears the rerun issue gate</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1769,6 +1781,12 @@
                             <td><code>80-cross-dataset-final-result-package-report.md</code></td>
                             <td>T80</td>
                             <td>Cross-Dataset Final Result Package Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>80a-final-two-dataset-rerun-report.md</code></td>
+                            <td>T80A</td>
+                            <td>Final Two-Dataset Rerun / Recompute Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2520,6 +2538,48 @@
                             <td>present</td>
                         </tr>
                         <tr>
+                            <td><code>results/task80a_gsm8k_short_*_n30_mnt384.jsonl</code></td>
+                            <td>T80A</td>
+                            <td>GSM8K final rerun artifacts for Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-DFlash-R2</td>
+                            <td>4 files, 30 rows each</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80a_qmsum_long_baseline_ar_n30_mnt384.jsonl</code></td>
+                            <td>T80A</td>
+                            <td>QMSum Baseline-AR rerun artifact</td>
+                            <td>30 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80a_qmsum_long_dflash_r1_n30_mnt384.jsonl</code></td>
+                            <td>T80A</td>
+                            <td>QMSum DFlash-R1 partial rerun artifact</td>
+                            <td>2 rows, stopped by safety rule</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80a_final_two_dataset_rerun_summary.json</code></td>
+                            <td>T80A</td>
+                            <td>Task80A machine-readable rerun summary</td>
+                            <td>BLOCKED</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80a_final_two_dataset_rerun_table.csv</code></td>
+                            <td>T80A</td>
+                            <td>Task80A compact metrics table</td>
+                            <td>8 data rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80a_condition_delta_vs_task80.csv</code></td>
+                            <td>T80A</td>
+                            <td>Task80A delta table versus Task80 package</td>
+                            <td>60 data rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80a_run_manifest.json</code></td>
+                            <td>T80A</td>
+                            <td>Task80A run manifest with commands, resume status, rows, and skip notes</td>
+                            <td>8 entries</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2726,8 +2786,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 80 cross-dataset final package</span>
-                <span class="sv info">Current next: Task 81 final report v2 drafting</span>
+                <span class="sv go">Synced through Task 80A rerun package</span>
+                <span class="sv info">Current next: Task 80B rerun analysis and issue gate</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -3354,6 +3414,16 @@
                     final-package JSON/CSV artifacts, a claims matrix, and conservative final-report key points.
                     Task 81 should draft the final report structure from these packaged artifacts without launching
                     a new benchmark by default.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-14</div>
+                <div class="log-body">
+                    <strong>Task 80A — Final Two-Dataset Rerun / Recompute — BLOCKED/PASS_WITH_NOTES</strong><br>
+                    Ran the frozen n=30 Task80A matrix until the QMSum DFlash safety stop. GSM8K completed for all
+                    four conditions and QMSum Baseline-AR completed, but QMSum DFlash-R1 stopped after 2 rows at
+                    prompt_id=3 with near-full VRAM; LLMLingua-AR-R2 and CC-DFlash-R2 QMSum reruns were skipped.
+                    Task 80B should analyze the QMSum DFlash/runtime issue before final consistency audit.
                 </div>
             </div>
             <div class="log-entry">
