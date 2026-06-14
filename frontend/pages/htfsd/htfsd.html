@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hierarchical Token-Feature Speculative Decoding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/htfsd.css">
+</head>
+
+<body>
+
+    <!-- Particle canvas -->
+    <canvas id="particle-canvas"></canvas>
+    <div class="grid-overlay"></div>
+
+    <!-- Progress bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Sidebar navigation -->
+    <nav id="sidebar">
+        <div class="sidebar-dot active" data-section="0"><span class="dot-label">Hero</span></div>
+        <div class="sidebar-dot" data-section="1"><span class="dot-label">Vấn đề</span></div>
+        <div class="sidebar-dot" data-section="2"><span class="dot-label">Spec Decoding</span></div>
+        <div class="sidebar-dot" data-section="3"><span class="dot-label">Giới hạn</span></div>
+        <div class="sidebar-dot" data-section="4"><span class="dot-label">Kiến trúc</span></div>
+        <div class="sidebar-dot" data-section="5"><span class="dot-label">D-Flash</span></div>
+        <div class="sidebar-dot" data-section="6"><span class="dot-label">Acceptance</span></div>
+        <div class="sidebar-dot" data-section="7"><span class="dot-label">High Tier</span></div>
+        <div class="sidebar-dot" data-section="8"><span class="dot-label">Hybrid</span></div>
+        <div class="sidebar-dot" data-section="9"><span class="dot-label">Benchmark</span></div>
+        <div class="sidebar-dot" data-section="10"><span class="dot-label">MVP Scope</span></div>
+        <div class="sidebar-dot" data-section="11"><span class="dot-label">Rủi ro</span></div>
+        <div class="sidebar-dot" data-section="12"><span class="dot-label">Kết luận</span></div>
+    </nav>
+
+    <!-- ==============================
+     SECTION 0 — HERO
+============================== -->
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="sec-number">00</div>
+        <div class="hero-content">
+            <div class="reveal">
+                <div class="section-label">Research Presentation</div>
+            </div>
+            <div class="reveal reveal-delay-2">
+                <div class="hero-title">
+                    <span class="ht">Hierarchical Token-</span><span class="fsd">Feature</span><br>
+                    <span class="ht">Speculative Decoding</span>
+                </div>
+            </div>
+            <!-- <div class="reveal reveal-delay-2">
+                <div class="hero-acronym">HTFSD</div>
+            </div> -->
+            <div class="reveal reveal-delay-3">
+                <p class="hero-subtitle">
+                    Kiến trúc suy đoán phân tầng giúp tăng tốc suy luận LLM bằng cách kết hợp <strong
+                        style="color:var(--cyan)">token-level</strong> và <strong
+                        style="color:var(--violet-light)">feature-level speculation</strong>.
+                </p>
+            </div>
+            <div class="reveal reveal-delay-4">
+                <div class="badges">
+                    <span class="badge badge-cyan">Token-Level</span>
+                    <span class="badge badge-violet">Feature-Level</span>
+                    <span class="badge badge-green">Lossless Goal</span>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-5">
+                <div class="hero-pipeline">
+                    <div class="pipeline-node">
+                        <div class="model-name">Qwen3-0.6B</div>
+                        <div class="model-role">Low Tier · Drafter</div>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-node middle">
+                        <div class="model-name">Gemma E2B</div>
+                        <div class="model-role">Middle Tier · Verifier</div>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-node target">
+                        <div class="model-name">Gemma E4B</div>
+                        <div class="model-role">High Tier · Target</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-6">
+                <div class="callout">
+                    💡 <strong>Ý tưởng cốt lõi:</strong> không để model lớn tự sinh mọi token từ đầu, mà để model nhỏ
+                    hơn dự đoán trước, model trung gian kiểm tra, và target model chỉ xử lý phần cần thiết.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 1 — PROBLEM
+============================== -->
+    <section id="s1">
+        <div class="sec-number">01</div>
+        <div class="reveal">
+            <div class="section-label">Bài toán</div>
+            <h2 class="section-title">LLM sinh token <span class="accent">quá chậm</span></h2>
+            <p class="section-desc">
+                LLM sinh văn bản theo kiểu autoregressive — từng token một, tuần tự, không song song được.
+            </p>
+        </div>
+
+        <div class="reveal reveal-delay-1">
+            <div class="token-stream" id="token-stream-demo">
+                <div class="token-box prompt">prompt</div>
+                <div class="token-arrow">→</div>
+            </div>
+        </div>
+
+        <div class="section-divider reveal reveal-delay-2"></div>
+
+        <div class="card-grid card-grid-2 reveal reveal-delay-2">
+            <div class="card">
+                <div class="card-icon">🔁</div>
+                <h4>Sinh từng token một</h4>
+                <p>Mỗi bước chỉ sinh được một token duy nhất. Không có cách nào sinh song song trong autoregressive
+                    decoding.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🧠</div>
+                <h4>Model lớn phải chạy lại</h4>
+                <p>Mỗi token mới yêu cầu một full forward pass qua toàn bộ các layer của model.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💾</div>
+                <h4>Memory Bandwidth Bottleneck</h4>
+                <p>Bottleneck chính không phải tính toán mà là đọc/lấy trọng số từ GPU VRAM — cực kỳ chậm khi batch nhỏ.
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📈</div>
+                <h4>Latency tăng theo output</h4>
+                <p>Output càng dài, latency càng tăng tuyến tính. Không có điểm dừng sớm.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 2 — TRADITIONAL SPEC DEC
+============================== -->
+    <section id="s2">
+        <div class="sec-number">02</div>
+        <div class="reveal">
+            <div class="section-label">Giải pháp nền</div>
+            <h2 class="section-title">Speculative Decoding <span class="accent">truyền thống</span></h2>
+            <p class="section-desc">
+                Thay vì để model lớn tự sinh từng token, dùng model nhỏ draft trước — model lớn chỉ cần verify.
+            </p>
+        </div>
+
+        <div class="reveal reveal-delay-1">
+            <div class="vis-flow graph-full" style="justify-content:center;gap:0;margin:32px 0">
+                <div class="vis-node cyan" style="min-width:180px">
+                    <div class="vn-label">Step 1</div>
+                    <div class="vn-name">Small Draft Model</div>
+                    <div class="vn-sub">nhanh &amp; nhỏ</div>
+                </div>
+                <div class="vis-arrow-h">
+                    <div class="vis-arrow-h-line"></div>
+                    <div class="vis-arrow-h-label">draft k tokens</div>
+                </div>
+                <div class="vis-node violet" style="min-width:180px">
+                    <div class="vn-label">Step 2</div>
+                    <div class="vn-name">Target Model</div>
+                    <div class="vn-sub">verify 1 forward pass</div>
+                </div>
+                <div class="vis-arrow-h">
+                    <div class="vis-arrow-h-line"
+                        style="background:linear-gradient(90deg,var(--violet-light),var(--orange))"></div>
+                    <div class="vis-arrow-h-label">decision</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px">
+                    <div class="vis-node green" style="min-width:150px;padding:10px 18px">
+                        <div class="vn-name" style="font-size:0.85rem">✓ Accept</div>
+                        <div class="vn-sub">giữ lại tokens đúng</div>
+                    </div>
+                    <div class="vis-node"
+                        style="min-width:150px;padding:10px 18px;border-color:rgba(255,69,69,0.4);color:var(--red)">
+                        <div class="vn-name" style="font-size:0.85rem">✗ Reject</div>
+                        <div class="vn-sub">fallback + regenerate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-grid card-grid-2 reveal reveal-delay-2" style="margin-top:24px">
+            <div class="card">
+                <h4>① Model nhỏ dự đoán nhanh</h4>
+                <p>Draft model nhỏ hơn nhiều, sinh k token trong thời gian ngắn. Chi phí thấp.</p>
+            </div>
+            <div class="card">
+                <h4>② Model lớn verify một lần</h4>
+                <p>Target model xử lý toàn bộ k token draft chỉ qua một forward pass — nhờ parallel attention.</p>
+            </div>
+            <div class="card">
+                <h4>③ Token đúng được accept</h4>
+                <p>Token nào khớp với output target model sẽ được giữ lại — có thể accept nhiều token cùng lúc.</p>
+            </div>
+            <div class="card">
+                <h4>④ Token sai bị reject → fallback</h4>
+                <p>Tại vị trí đầu tiên không khớp, hệ thống fallback về token của target model và tiếp tục.</p>
+            </div>
+        </div>
+
+        <div class="callout reveal reveal-delay-3" style="margin-top:24px">
+            ⚡ <strong>Key insight:</strong> Nếu nhiều token được accept cùng lúc, tốc độ sinh có thể tăng đáng kể mà
+            không thay đổi output chất lượng.
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 3 — LIMITATION
+============================== -->
+    <section id="s3">
+        <div class="sec-number">03</div>
+        <div class="reveal">
+            <div class="section-label">Thách thức</div>
+            <h2 class="section-title">Giới hạn: khác tokenizer, <span class="accent-v">khác họ model</span></h2>
+            <p class="section-desc">
+                Bài toán HTFSD khó hơn speculative decoding thông thường vì Qwen và Gemma <strong>không cùng
+                    họ</strong>.
+            </p>
+        </div>
+
+        <div class="reveal reveal-delay-1">
+            <table class="data-table"
+                style="background:var(--glass);border-radius:var(--radius);overflow:hidden;backdrop-filter:blur(12px)">
+                <thead>
+                    <tr>
+                        <th>Thành phần</th>
+                        <th>Qwen3-0.6B</th>
+                        <th>Gemma E2B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tokenizer</td>
+                        <td class="badge-warn">Khác hoàn toàn</td>
+                        <td class="badge-warn">Khác hoàn toàn</td>
+                    </tr>
+                    <tr>
+                        <td>Token ID Space</td>
+                        <td class="badge-reject">Không tương thích</td>
+                        <td class="badge-reject">Không tương thích</td>
+                    </tr>
+                    <tr>
+                        <td>Hidden State Shape</td>
+                        <td class="badge-warn">Khác hình học</td>
+                        <td class="badge-warn">Khác hình học</td>
+                    </tr>
+                    <tr>
+                        <td>KV Cache</td>
+                        <td class="badge-reject">Không chia sẻ trực tiếp</td>
+                        <td class="badge-reject">Không chia sẻ trực tiếp</td>
+                    </tr>
+                    <tr>
+                        <td>Embedding Space</td>
+                        <td class="badge-reject">Không align</td>
+                        <td class="badge-reject">Không align</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout warn reveal reveal-delay-2" style="margin-top:24px">
+            ⚠️ <strong>Không thể lấy token ID từ Qwen rồi đưa thẳng cho Gemma.</strong> Token ID giống số nhưng ý nghĩa
+            có thể khác hoàn toàn. Đây là nguồn gốc của D-Flash.
+        </div>
+
+        <div class="card-grid card-grid-2 reveal reveal-delay-3" style="margin-top:16px">
+            <div class="card">
+                <div class="card-icon">🔤</div>
+                <h4>Tokenizer mismatch</h4>
+                <p>Từ "hello" có thể thành token [15496] ở Qwen và [1, 4353] ở Gemma — hoàn toàn khác nhau.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📐</div>
+                <h4>Hidden state mismatch</h4>
+                <p>Qwen dùng hidden_dim khác Gemma. Không thể truyền trực tiếp hidden states giữa hai model.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 4 — ARCHITECTURE
+============================== -->
+    <section id="s4">
+        <div class="sec-number">04</div>
+        <div class="reveal">
+            <div class="section-label">Kiến trúc đề xuất</div>
+            <h2 class="section-title">HTFSD — <span class="accent">Phân tầng 3 lớp</span></h2>
+            <p class="section-desc">
+                Kết hợp ba model theo chiều tăng dần về kích thước và chất lượng.
+            </p>
+        </div>
+
+        <div class="arch-pipeline reveal reveal-delay-1">
+            <div class="arch-node low float">
+                <div class="node-tier">Low Tier</div>
+                <div class="node-name">Qwen3-0.6B</div>
+                <div class="node-role">Drafter nhanh</div>
+                <div class="node-output">Output: Draft Text</div>
+                <div class="node-output">No token/KV sharing</div>
+            </div>
+            <div class="arch-connector">
+                <div class="arch-arrow-line"></div>
+                <div class="arch-connector-label">D-Flash<br>Text JSON</div>
+            </div>
+            <div class="arch-node mid float" style="animation-delay:0.5s">
+                <div class="node-tier">Middle Tier</div>
+                <div class="node-name">Gemma E2B</div>
+                <div class="node-role">Verifier / Bridge</div>
+                <div class="node-output">Output: Accepted Tokens</div>
+                <div class="node-output">+ Hidden States</div>
+            </div>
+            <div class="arch-connector">
+                <div class="arch-arrow-line mid-to-high"></div>
+                <div class="arch-connector-label">Feature-Level<br>(Future)</div>
+            </div>
+            <div class="arch-node high float" style="animation-delay:1s">
+                <div class="node-tier">High Tier</div>
+                <div class="node-name">Gemma E4B</div>
+                <div class="node-role">Target Model</div>
+                <div class="node-output">Output: Final Generation</div>
+                <div class="node-output">Quality Baseline</div>
+            </div>
+        </div>
+
+        <div class="callout reveal reveal-delay-2" style="margin-top:8px">
+            🏗️ <strong>Kiến trúc phân tầng:</strong> tầng nhỏ đoán nhanh, tầng giữa kiểm tra, tầng lớn xác nhận cuối
+            cùng. Mỗi tầng chỉ làm phần việc phù hợp với năng lực của mình.
+        </div>
+
+        <div class="section-divider reveal reveal-delay-3"></div>
+
+        <div class="card-grid card-grid-3 reveal reveal-delay-3">
+            <div class="card">
+                <h4 style="color:var(--cyan)">Qwen3-0.6B</h4>
+                <p>Model nhỏ nhất, draft nhanh nhất. Không cần biết Gemma tokenizer. Gửi text thuần qua D-Flash.</p>
+            </div>
+            <div class="card">
+                <h4 style="color:var(--violet-light)">Gemma E2B</h4>
+                <p>Verifier chính. Tự tokenize lại bằng tokenizer riêng. Bridge tiềm năng lên E4B qua hidden states.</p>
+            </div>
+            <div class="card">
+                <h4 style="color:var(--green)">Gemma E4B</h4>
+                <p>Target model chất lượng cao nhất. Chỉ xử lý khi cần. Là baseline để đo speedup.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 5 — D-FLASH
+============================== -->
+    <section id="s5">
+        <div class="sec-number">05</div>
+        <div class="reveal">
+            <div class="section-label">Cầu nối tầng thấp</div>
+            <h2 class="section-title">D-Flash: <span class="accent">Text Envelope Bridge</span></h2>
+            <p class="section-desc">
+                Vì không thể chia sẻ token ID hay KV cache, D-Flash truyền <strong>text thuần</strong> qua JSON
+                envelope.
+            </p>
+        </div>
+
+        <div class="two-col" style="margin-bottom:24px">
+            <div class="reveal reveal-delay-1">
+                <div class="vis-json">
+                    <div class="vis-json-field">
+                        <span class="vis-json-key">"draft_text"</span>
+                        <span class="vis-json-colon">:</span>
+                        <span class="vis-json-val-str">"The capital of France is Paris"</span>
+                        <span class="vis-json-badge required">required</span>
+                    </div>
+                    <div class="vis-json-field">
+                        <span class="vis-json-key">"confidence"</span>
+                        <span class="vis-json-colon">:</span>
+                        <span class="vis-json-val-num">0.87</span>
+                        <span class="vis-json-badge optional">optional</span>
+                    </div>
+                    <div class="vis-json-field">
+                        <span class="vis-json-key">"max_tokens"</span>
+                        <span class="vis-json-colon">:</span>
+                        <span class="vis-json-val-num">8</span>
+                        <span class="vis-json-badge optional">optional</span>
+                    </div>
+                </div>
+                <div class="callout" style="margin-top:12px;font-size:0.88rem">
+                    🔌 <strong>D-Flash</strong> là cầu nối text/JSON giữa hai model khác họ. Qwen chỉ gửi draft_text.
+                    Gemma E2B tự tokenize lại bằng tokenizer của chính nó rồi verify.
+                </div>
+            </div>
+
+            <div class="flow-steps reveal reveal-delay-2" id="dflash-flow">
+                <div class="flow-step" data-delay="0">
+                    <div class="flow-step-num">1</div>
+                    <div class="flow-step-text">Prompt được đưa vào Qwen3-0.6B</div>
+                </div>
+                <div class="flow-connector"></div>
+                <div class="flow-step" data-delay="100">
+                    <div class="flow-step-num">2</div>
+                    <div class="flow-step-text">Qwen sinh draft text nhanh</div>
+                </div>
+                <div class="flow-connector"></div>
+                <div class="flow-step" data-delay="200">
+                    <div class="flow-step-num">3</div>
+                    <div class="flow-step-text">Đóng gói vào D-Flash JSON envelope</div>
+                </div>
+                <div class="flow-connector"></div>
+                <div class="flow-step" data-delay="300">
+                    <div class="flow-step-num">4</div>
+                    <div class="flow-step-text">Gemma E2B parse + normalize text</div>
+                </div>
+                <div class="flow-connector"></div>
+                <div class="flow-step" data-delay="400">
+                    <div class="flow-step-num">5</div>
+                    <div class="flow-step-text">Gemma E2B re-tokenize bằng tokenizer riêng</div>
+                </div>
+                <div class="flow-connector"></div>
+                <div class="flow-step" data-delay="500">
+                    <div class="flow-step-num">6</div>
+                    <div class="flow-step-text">Verify từng token — Accept / Reject / Fallback</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 6 — ACCEPTANCE POLICY
+============================== -->
+    <section id="s6">
+        <div class="sec-number">06</div>
+        <div class="reveal">
+            <div class="section-label">Verification</div>
+            <h2 class="section-title">Acceptance Policy: <span class="accent">Greedy Exact-Match Strict</span></h2>
+            <p class="section-desc">
+                Trong MVP, một candidate token chỉ được accept nếu nó <strong>chính xác bằng</strong> token mà Gemma E2B
+                sinh ra theo greedy decoding.
+            </p>
+        </div>
+
+        <div class="two-col reveal reveal-delay-1">
+            <div>
+                <div class="vis-token-compare">
+                    <div class="vis-token-row">
+                        <span class="vis-token-label ref">Reference</span>
+                        <div class="vis-token-boxes">
+                            <div class="vis-tok ref-tok">The</div>
+                            <div class="vis-tok ref-tok">cat</div>
+                            <div class="vis-tok ref-tok">is</div>
+                            <div class="vis-tok ref-tok">sleeping</div>
+                        </div>
+                    </div>
+                    <div class="vis-token-row">
+                        <span class="vis-token-label draft">Draft</span>
+                        <div class="vis-token-boxes">
+                            <div class="vis-tok draft-ok">The</div>
+                            <div class="vis-tok draft-ok">cat</div>
+                            <div class="vis-tok draft-ok">is</div>
+                            <div class="vis-tok draft-bad">running</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="vis-result-bar">
+                    <div class="vis-result-item">
+                        <span style="color:var(--green)">✓</span>
+                        <span class="ri-label">Accepted:</span>
+                        <span style="color:var(--text);font-family:var(--font-display);font-size:0.82rem">"The cat
+                            is"</span>
+                    </div>
+                    <span style="color:var(--text-dim);padding:0 4px">·</span>
+                    <div class="vis-result-item">
+                        <span style="color:var(--red)">✗</span>
+                        <span class="ri-label">Rejected:</span>
+                        <span
+                            style="color:var(--text);font-family:var(--font-display);font-size:0.82rem">"running"</span>
+                    </div>
+                    <span style="color:var(--text-dim);padding:0 4px">·</span>
+                    <div class="vis-result-item">
+                        <span style="color:var(--violet-light)">↩</span>
+                        <span class="ri-label">Fallback:</span>
+                        <span
+                            style="color:var(--violet-light);font-family:var(--font-display);font-size:0.82rem">"sleeping"</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p
+                    style="font-size:0.82rem;color:var(--text-dim);margin-bottom:8px;font-family:var(--font-display);letter-spacing:0.08em">
+                    TOKEN-BY-TOKEN COMPARISON</p>
+                <div class="token-compare" id="token-compare-table">
+                    <div class="tc-row tc-head visible">
+                        <div class="tc-cell">Token</div>
+                        <div class="tc-cell">Draft</div>
+                        <div class="tc-cell">Status</div>
+                    </div>
+                    <div class="tc-row" data-delay="0">
+                        <div class="tc-cell">The</div>
+                        <div class="tc-cell">The</div>
+                        <div class="tc-cell tc-accept">✓ Accepted</div>
+                    </div>
+                    <div class="tc-row" data-delay="150">
+                        <div class="tc-cell">cat</div>
+                        <div class="tc-cell">cat</div>
+                        <div class="tc-cell tc-accept">✓ Accepted</div>
+                    </div>
+                    <div class="tc-row" data-delay="300">
+                        <div class="tc-cell">is</div>
+                        <div class="tc-cell">is</div>
+                        <div class="tc-cell tc-accept">✓ Accepted</div>
+                    </div>
+                    <div class="tc-row" data-delay="450">
+                        <div class="tc-cell">sleeping</div>
+                        <div class="tc-cell">running</div>
+                        <div class="tc-cell tc-reject">✗ Rejected</div>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top:12px;font-size:0.8rem;display:none" data-lang="result">
+                    <pre>Accepted : "The cat is"</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-grid card-grid-4 reveal reveal-delay-2" style="margin-top:24px">
+            <div class="card">
+                <h4>Strict nhưng chính xác</h4>
+                <p>Dễ kiểm chứng tính đúng đắn, không có edge case về probabilistic matching.</p>
+            </div>
+            <div class="card">
+                <h4>Lossless Output</h4>
+                <p>Output tương đương hoàn toàn với Gemma E2B greedy — không mất chất lượng.</p>
+            </div>
+            <div class="card">
+                <h4>Phù hợp MVP</h4>
+                <p>Correctness trước, speedup sau. Cần chứng minh correctness rõ ràng ở Phase 0-2.</p>
+            </div>
+            <div class="card">
+                <h4>Có thể nới lỏng sau</h4>
+                <p>Future: sampling-based acceptance với temperature scaling hoặc top-p matching.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 7 — HIGH TIER
+============================== -->
+    <section id="s7">
+        <div class="sec-number">07</div>
+        <div class="reveal">
+            <div class="section-label">Tầng cao</div>
+            <h2 class="section-title">Feature-Level Speculation: <span class="accent-v">E2B → E4B</span></h2>
+            <p class="section-desc">
+                Sau khi tầng thấp ổn định, hệ thống mở rộng lên tầng cao — khai thác hidden state alignment giữa cùng họ
+                Gemma.
+            </p>
+        </div>
+
+        <div class="future-scope reveal reveal-delay-1">🔮 Định hướng nghiên cứu — sau MVP</div>
+
+        <div class="reveal reveal-delay-2">
+            <div class="vis-flow-vertical graph-full" style="gap:0;align-items:center">
+                <div class="vis-node violet" style="min-width:300px;padding:16px 28px">
+                    <div class="vn-label">Input</div>
+                    <div class="vn-name">Gemma E2B</div>
+                    <div class="vn-sub">accepted tokens + hidden states</div>
+                </div>
+                <div class="vis-arrow-v">
+                    <div class="vis-arrow-v-line"
+                        style="height:40px;background:linear-gradient(to bottom,var(--violet-light),var(--cyan))"></div>
+                    <div class="vis-arrow-v-label">feature projection</div>
+                </div>
+                <div class="vis-node cyan" style="min-width:300px;padding:16px 28px;margin-top:12px">
+                    <div class="vn-label">EAGLE-style Draft</div>
+                    <div class="vn-name">Feature-Level Speculation</div>
+                    <div class="vn-sub">predict next hidden state của E4B</div>
+                </div>
+                <div class="vis-arrow-v">
+                    <div class="vis-arrow-v-line"
+                        style="height:40px;background:linear-gradient(to bottom,var(--cyan),var(--green))"></div>
+                    <div class="vis-arrow-v-label">verify &amp; refine</div>
+                </div>
+                <div class="vis-node green" style="min-width:300px;padding:16px 28px;margin-top:12px">
+                    <div class="vn-label">Target</div>
+                    <div class="vn-name">Gemma E4B</div>
+                    <div class="vn-sub">verify / refine — final output</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-grid card-grid-2 reveal reveal-delay-3" style="margin-top:24px">
+            <div class="card">
+                <div class="card-icon">🔗</div>
+                <h4 style="color:var(--violet-light)">Cùng họ model</h4>
+                <p>Gemma E2B và E4B chia sẻ cùng kiến trúc cơ bản, tokenizer, và có khả năng align embedding space —
+                    không cần D-Flash text bridge.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h4 style="color:var(--violet-light)">EAGLE-style speculation</h4>
+                <p>Dùng hidden states của E2B làm feature draft cho E4B, skip bớt layers hoặc dùng adapter nhỏ để
+                    predict hidden state E4B.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h4 style="color:var(--violet-light)">Tiềm năng speedup lớn hơn</h4>
+                <p>Feature-level speculation thường cho acceptance rate cao hơn token-level vì draft ở mức
+                    representation.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔬</div>
+                <h4 style="color:var(--violet-light)">Cần nghiên cứu thêm</h4>
+                <p>Hidden state compatibility giữa E2B và E4B chưa được chứng minh. Cần adapter hoặc projection layer.
+                </p>
+            </div>
+        </div>
+
+        <div class="callout warn reveal reveal-delay-4" style="margin-top:16px">
+            📌 <strong>Phase đầu tập trung</strong> chứng minh D-Flash low-tier chạy đúng và đo được. High-tier là định
+            hướng sau MVP.
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 8 — HYBRID
+============================== -->
+    <section id="s8">
+        <div class="sec-number">08</div>
+        <div class="reveal">
+            <div class="section-label">Lý do đặt tên</div>
+            <h2 class="section-title">Vì sao gọi là <span class="accent">Hybrid</span> Token-Feature?</h2>
+            <p class="section-desc">HTFSD kết hợp hai cơ chế speculation ở hai mức độ khác nhau.</p>
+        </div>
+
+        <div class="hybrid-cols reveal reveal-delay-1">
+            <div class="hybrid-col token-col">
+                <h4>Token-Level Speculation</h4>
+                <div class="code-block" style="display:none" data-lang="low tier">
+                    <pre>hidden</pre>
+                </div>
+                <div class="vis-flow-vertical" style="margin:14px 0 18px;gap:0;align-items:center">
+                    <div class="vis-node cyan" style="width:100%;padding:12px 16px;text-align:center">
+                        <div class="vn-label">Low Tier</div>
+                        <div class="vn-name" style="font-size:0.92rem">Qwen3-0.6B</div>
+                        <div class="vn-sub">Draft nhanh</div>
+                    </div>
+                    <div class="vis-arrow-v">
+                        <div class="vis-arrow-v-line" style="height:28px"></div>
+                        <div class="vis-arrow-v-label" style="margin-top:8px">draft text/token</div>
+                    </div>
+                    <div class="vis-node orange" style="width:100%;padding:10px 16px;text-align:center;margin-top:10px">
+                        <div class="vn-name" style="font-size:0.82rem">D-Flash Envelope</div>
+                        <div class="vn-sub">JSON text bridge</div>
+                    </div>
+                    <div class="vis-arrow-v">
+                        <div class="vis-arrow-v-line"
+                            style="height:28px;background:linear-gradient(to bottom,var(--orange),var(--violet-light))">
+                        </div>
+                    </div>
+                    <div class="vis-node violet" style="width:100%;padding:12px 16px;text-align:center;margin-top:10px">
+                        <div class="vn-label">Middle Tier</div>
+                        <div class="vn-name" style="font-size:0.92rem">Gemma E2B verify</div>
+                        <div class="vn-sub">re-tokenize + accept/reject</div>
+                    </div>
+                </div>
+                <ul style="font-size:0.85rem;color:var(--text-muted);padding-left:16px;line-height:2">
+                    <li>Dùng ở Low Tier</li>
+                    <li>Bridge qua D-Flash text envelope</li>
+                    <li>Không cần tokenizer compatibility</li>
+                    <li>Dễ implement — MVP Phase 0-2</li>
+                </ul>
+            </div>
+            <div class="hybrid-col feat-col">
+                <h4>Feature-Level Speculation</h4>
+                <div class="code-block" style="display:none" data-lang="high tier">
+                    <pre>hidden</pre>
+                </div>
+                <div class="vis-flow-vertical" style="margin:14px 0 18px;gap:0;align-items:center">
+                    <div class="vis-node violet" style="width:100%;padding:12px 16px;text-align:center">
+                        <div class="vn-label">Middle Tier</div>
+                        <div class="vn-name" style="font-size:0.92rem">Gemma E2B</div>
+                        <div class="vn-sub">accepted tokens</div>
+                    </div>
+                    <div class="vis-arrow-v">
+                        <div class="vis-arrow-v-line"
+                            style="height:28px;background:linear-gradient(to bottom,var(--violet-light),var(--cyan))">
+                        </div>
+                        <div class="vis-arrow-v-label" style="margin-top:8px">hidden states / features</div>
+                    </div>
+                    <div class="vis-node cyan" style="width:100%;padding:10px 16px;text-align:center;margin-top:10px">
+                        <div class="vn-name" style="font-size:0.82rem">Feature Projection</div>
+                        <div class="vn-sub">EAGLE-style adapter</div>
+                    </div>
+                    <div class="vis-arrow-v">
+                        <div class="vis-arrow-v-line"
+                            style="height:28px;background:linear-gradient(to bottom,var(--cyan),var(--green))"></div>
+                    </div>
+                    <div class="vis-node green" style="width:100%;padding:12px 16px;text-align:center;margin-top:10px">
+                        <div class="vn-label">High Tier</div>
+                        <div class="vn-name" style="font-size:0.92rem">Gemma E4B verify</div>
+                        <div class="vn-sub">refine + final output</div>
+                    </div>
+                </div>
+                <ul style="font-size:0.85rem;color:var(--text-muted);padding-left:16px;line-height:2">
+                    <li>Dùng ở High Tier</li>
+                    <li>Inspired by EAGLE-style speculation</li>
+                    <li>Cần cùng họ model (Gemma–Gemma)</li>
+                    <li>Future work — sau MVP</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout reveal reveal-delay-2" style="margin-top:24px">
+            🧩 <strong>HTFSD là hybrid</strong> vì kết hợp suy đoán ở mức <em style="color:var(--cyan)">token/text</em>
+            và suy đoán ở mức <em style="color:var(--violet-light)">feature/hidden state</em> — hai cơ chế bổ sung nhau,
+            không thay thế nhau.
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 9 — BENCHMARK
+============================== -->
+    <section id="s9">
+        <div class="sec-number">09</div>
+        <div class="reveal">
+            <div class="section-label">Đo lường</div>
+            <h2 class="section-title">Runtime và <span class="accent">Benchmark</span></h2>
+            <p class="section-desc">
+                Dùng vLLM làm runtime — tối ưu cho LLM inference, hỗ trợ efficient serving và batching.
+            </p>
+        </div>
+
+        <div class="metrics-grid reveal reveal-delay-1">
+            <div class="metric-card">
+                <div class="m-icon">⚡</div>
+                <div class="m-name">Tokens / sec</div>
+                <div class="m-desc">Tốc độ sinh token cuối cùng</div>
+            </div>
+            <div class="metric-card">
+                <div class="m-icon">⏱️</div>
+                <div class="m-name">E2E Latency</div>
+                <div class="m-desc">Tổng thời gian từ prompt đến output</div>
+            </div>
+            <div class="metric-card">
+                <div class="m-icon">✅</div>
+                <div class="m-name">Acceptance Rate</div>
+                <div class="m-desc">% draft tokens được Gemma accept</div>
+            </div>
+            <div class="metric-card">
+                <div class="m-icon">🔄</div>
+                <div class="m-name">Fallback Count</div>
+                <div class="m-desc">Số lần phải fallback về greedy</div>
+            </div>
+            <div class="metric-card">
+                <div class="m-icon">🔬</div>
+                <div class="m-name">Per-stage Timing</div>
+                <div class="m-desc">Draft / Parse / Verify / Fallback riêng lẻ</div>
+            </div>
+            <div class="metric-card">
+                <div class="m-icon">📈</div>
+                <div class="m-name">Speedup vs Baseline</div>
+                <div class="m-desc">Tỷ lệ tăng tốc so với autoregressive</div>
+            </div>
+        </div>
+
+        <div class="section-divider reveal reveal-delay-2"></div>
+
+        <div class="reveal reveal-delay-2">
+            <p
+                style="font-size:0.82rem;color:var(--text-dim);margin-bottom:12px;font-family:var(--font-display);letter-spacing:0.08em">
+                BASELINES</p>
+            <div class="vis-baseline-grid graph-full">
+                <div class="vis-baseline-card a">
+                    <div class="vis-baseline-tag">Baseline A</div>
+                    <div class="vis-baseline-model">Gemma E2B</div>
+                    <div class="vis-baseline-desc">Greedy autoregressive decoding — standard single-model baseline</div>
+                    <div class="vis-baseline-conditions">
+                        <span class="vis-cond-chip">same prompt set</span>
+                        <span class="vis-cond-chip">same max_new_tokens</span>
+                        <span class="vis-cond-chip">greedy decoding</span>
+                        <span class="vis-cond-chip">same runtime</span>
+                    </div>
+                </div>
+                <div class="vis-baseline-card b">
+                    <div class="vis-baseline-tag">Baseline B</div>
+                    <div class="vis-baseline-model">Gemma E4B</div>
+                    <div class="vis-baseline-desc">Autoregressive decoding — larger target model baseline</div>
+                    <div class="vis-baseline-conditions">
+                        <span class="vis-cond-chip">same prompt set</span>
+                        <span class="vis-cond-chip">same max_new_tokens</span>
+                        <span class="vis-cond-chip">greedy decoding</span>
+                        <span class="vis-cond-chip">same runtime</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout warn reveal reveal-delay-3" style="margin-top:16px">
+            📐 <strong>Speedup chỉ có ý nghĩa</strong> khi được so sánh với baseline rõ ràng. Không có fair comparison =
+            không có speedup claim.
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 10 — MVP SCOPE
+============================== -->
+    <section id="s10">
+        <div class="sec-number">10</div>
+        <div class="reveal">
+            <div class="section-label">Phạm vi</div>
+            <h2 class="section-title">MVP Scope: <span class="accent">Phase 0 → 2</span></h2>
+            <p class="section-desc">
+                MVP không cần chứng minh toàn bộ kiến trúc 3 tầng. MVP tập trung vào đường chính:
+            </p>
+        </div>
+
+        <div class="reveal reveal-delay-1">
+            <div class="mvp-scope">MVP Core Path</div>
+            <div class="vis-mvp-pipeline graph-full">
+                <div class="vis-mvp-node qwen">
+                    <div class="vmn-role">Low Tier · Drafter</div>
+                    <div class="vmn-name">Qwen3-0.6B</div>
+                    <div class="vmn-sub">Fast draft generation</div>
+                </div>
+                <div class="vis-mvp-arrow"></div>
+                <div class="vis-mvp-node dflash">
+                    <div class="vmn-role">Text Bridge</div>
+                    <div class="vmn-name">D-Flash</div>
+                    <div class="vmn-sub">JSON envelope</div>
+                </div>
+                <div class="vis-mvp-arrow" style="background:linear-gradient(90deg,var(--orange),var(--violet-light))">
+                </div>
+                <div class="vis-mvp-node gemma">
+                    <div class="vmn-role">Middle Tier · Verifier</div>
+                    <div class="vmn-name">Gemma E2B</div>
+                    <div class="vmn-sub">Re-tokenize + accept/reject</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider reveal reveal-delay-2"></div>
+
+        <div class="roadmap reveal reveal-delay-2">
+            <div class="phase">
+                <div class="phase-dot"></div>
+                <div class="phase-label">Phase 0</div>
+                <div class="phase-title">D-Flash Foundation</div>
+                <p>Schema + Parser + Tests</p>
+            </div>
+            <div class="phase">
+                <div class="phase-dot"></div>
+                <div class="phase-label">Phase 1</div>
+                <div class="phase-title">Low-Tier Generation</div>
+                <p>Verification pipeline end-to-end</p>
+            </div>
+            <div class="phase">
+                <div class="phase-dot"></div>
+                <div class="phase-label">Phase 2</div>
+                <div class="phase-title">Benchmark & Trace</div>
+                <p>Metrics, latency, speedup</p>
+            </div>
+            <div class="phase">
+                <div class="phase-dot"></div>
+                <div class="phase-label">Future</div>
+                <div class="phase-title">E2B → E4B</div>
+                <p>Feature-level speculation</p>
+            </div>
+        </div>
+
+        <div class="card-grid card-grid-2 reveal reveal-delay-3" style="margin-top:24px">
+            <div class="card">
+                <h4>✅ MVP Success Criteria</h4>
+                <ul style="font-size:0.82rem;color:var(--text-muted);padding-left:16px;line-height:2.2;margin-top:8px">
+                    <li>Qwen draft được D-Flash envelope hợp lệ</li>
+                    <li>Gemma E2B parse và normalize được</li>
+                    <li>Re-tokenize bằng tokenizer riêng</li>
+                    <li>Strict greedy exact-match hoạt động</li>
+                    <li>Fallback một token khi draft sai</li>
+                    <li>Output tương đương Gemma E2B greedy</li>
+                    <li>Trace accept/reject/fallback</li>
+                    <li>Benchmark latency và tokens/sec</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>🚫 MVP Không Bao Gồm</h4>
+                <ul style="font-size:0.82rem;color:var(--text-muted);padding-left:16px;line-height:2.2;margin-top:8px">
+                    <li>E2B → E4B feature-level speculation</li>
+                    <li>Sampling-based acceptance policy</li>
+                    <li>KV cache sharing</li>
+                    <li>Production serving infrastructure</li>
+                    <li>Multi-GPU / distributed setup</li>
+                    <li>Fine-tuning draft model</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 11 — RISKS
+============================== -->
+    <section id="s11">
+        <div class="sec-number">11</div>
+        <div class="reveal">
+            <div class="section-label">Đánh giá rủi ro</div>
+            <h2 class="section-title">Rủi ro <span class="accent">nghiên cứu</span></h2>
+            <p class="section-desc">Bốn rủi ro chính cần theo dõi trong quá trình phát triển MVP.</p>
+        </div>
+
+        <div class="risk-cards reveal reveal-delay-1">
+            <div class="risk-card">
+                <div class="risk-num">01</div>
+                <h4>Acceptance Rate Thấp</h4>
+                <p>Nếu Qwen draft khác Gemma nhiều, nhiều token bị reject. Speedup không đạt.</p>
+                <div class="mitigation">
+                    <strong>Mitigation</strong>
+                    Đo acceptance rate theo prompt type. Điều chỉnh draft length, prompt format, normalization.
+                </div>
+            </div>
+            <div class="risk-card">
+                <div class="risk-num">02</div>
+                <h4>Overhead &gt; Lợi Ích</h4>
+                <p>Nếu draft + parse + verify tốn hơn baseline, speedup âm. Cần profiling chi tiết.</p>
+                <div class="mitigation">
+                    <strong>Mitigation</strong>
+                    Đo per-stage timing: draft, parse, verify, fallback. Identify bottleneck cụ thể.
+                </div>
+            </div>
+            <div class="risk-card">
+                <div class="risk-num">03</div>
+                <h4>Cross-Tokenizer Complexity</h4>
+                <p>Qwen và Gemma không tương thích token ID. Text normalization có thể tạo mismatch.</p>
+                <div class="mitigation">
+                    <strong>Mitigation</strong>
+                    D-Flash dùng text envelope, không chia sẻ token ID. Test normalization edge cases.
+                </div>
+            </div>
+            <div class="risk-card">
+                <div class="risk-num">04</div>
+                <h4>Feature-Level Tầng Cao Phức Tạp</h4>
+                <p>Hidden states của E2B và E4B chưa chắc compatible trực tiếp.</p>
+                <div class="mitigation">
+                    <strong>Mitigation</strong>
+                    Để high-tier làm sau MVP. Nghiên cứu adapter/EAGLE-style projection layer.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==============================
+     SECTION 12 — FINAL PITCH
+============================== -->
+    <section id="final">
+        <div class="sec-number">12</div>
+        <div class="reveal">
+            <div class="section-label">Kết luận</div>
+        </div>
+
+        <div class="final-quote reveal reveal-delay-1">
+            Dự án không cố <em>thay thế</em> model lớn.<br>
+            Dự án cố làm cho model lớn phải <em>làm ít việc hơn</em>.
+        </div>
+
+        <div class="final-pipeline reveal reveal-delay-2">
+            <div class="final-node">
+                <div class="final-node-circle">Qwen<br>0.6B</div>
+                <div class="final-node-name">Qwen3-0.6B</div>
+                <div class="final-node-action">Drafts</div>
+            </div>
+            <div class="final-arrow">→</div>
+            <div class="final-node">
+                <div class="final-node-circle">Gemma<br>E2B</div>
+                <div class="final-node-name">Gemma E2B</div>
+                <div class="final-node-action">Verifies</div>
+            </div>
+            <div class="final-arrow">→</div>
+            <div class="final-node">
+                <div class="final-node-circle">Gemma<br>E4B</div>
+                <div class="final-node-name">Gemma E4B</div>
+                <div class="final-node-action">Confirms</div>
+            </div>
+        </div>
+
+        <div class="callout reveal reveal-delay-3" style="max-width:700px;text-align:left">
+            🎯 <strong>HTFSD</strong> là một hướng thử nghiệm speculative decoding phân tầng, kết hợp token-level và
+            feature-level speculation, hướng tới tăng tốc inference LLM nhưng vẫn giữ mục tiêu <em
+                style="color:var(--green)">lossless generation</em>.
+        </div>
+
+        <div class="reveal reveal-delay-4" style="margin-top:40px">
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                <span class="badge badge-cyan">Hierarchical</span>
+                <span class="badge badge-violet">Token + Feature</span>
+                <span class="badge badge-green">Speculative</span>
+                <span class="badge"
+                    style="border-color:var(--orange);color:var(--orange);background:rgba(255,140,0,0.07)">D-Flash
+                    Bridge</span>
+            </div>
+        </div>
+
+        <div class="reveal reveal-delay-5"
+            style="margin-top:48px;font-family:var(--font-display);font-size:0.78rem;color:var(--text-dim);letter-spacing:0.1em">
+            HTFSD · Student Research Presentation · 2025
+        </div>
+    </section>
+
+    <!-- ==============================
+     JAVASCRIPT
+============================== -->
+    <script>
+        /* ============================================
+           PARTICLE BACKGROUND
+        ============================================ */
+        (function initParticles() {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let W, H, particles;
+
+            function resize() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }
+
+            function createParticles() {
+                particles = [];
+                const count = Math.floor((W * H) / 14000);
+                for (let i = 0; i < count; i++) {
+                    particles.push({
+                        x: Math.random() * W,
+                        y: Math.random() * H,
+                        r: Math.random() * 1.5 + 0.3,
+                        dx: (Math.random() - 0.5) * 0.3,
+                        dy: (Math.random() - 0.5) * 0.3,
+                        opacity: Math.random() * 0.5 + 0.1,
+                        color: Math.random() > 0.6 ? '0,229,255' : Math.random() > 0.5 ? '124,58,237' : '0,255,136'
+                    });
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${p.color},${p.opacity})`;
+                    ctx.fill();
+                    p.x += p.dx;
+                    p.y += p.dy;
+                    if (p.x < 0) p.x = W;
+                    if (p.x > W) p.x = 0;
+                    if (p.y < 0) p.y = H;
+                    if (p.y > H) p.y = 0;
+                });
+
+                // Draw connections between nearby particles
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 80) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(0,229,255,${0.06 * (1 - dist / 80)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+
+            resize();
+            createParticles();
+            draw();
+            window.addEventListener('resize', () => { resize(); createParticles(); });
+        })();
+
+        /* ============================================
+           PROGRESS BAR
+        ============================================ */
+        const progressBar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', () => {
+            const total = document.body.scrollHeight - window.innerHeight;
+            const pct = (window.scrollY / total) * 100;
+            progressBar.style.width = pct + '%';
+        });
+
+        /* ============================================
+           SECTION DETECTION & SIDEBAR
+        ============================================ */
+        const sections = document.querySelectorAll('section');
+        const sidebarDots = document.querySelectorAll('.sidebar-dot');
+        let currentSection = 0;
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const idx = Array.from(sections).indexOf(entry.target);
+                    currentSection = idx;
+                    sidebarDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+                }
+            });
+        }, { threshold: 0.4 });
+
+        sections.forEach(s => sectionObserver.observe(s));
+
+        // Sidebar dot click
+        sidebarDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                sections[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        /* ============================================
+           REVEAL ANIMATION (IntersectionObserver)
+        ============================================ */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        /* ============================================
+           TOKEN STREAM ANIMATION (Section 1) — LOOPING
+        ============================================ */
+        const tokenStreamEl = document.getElementById('token-stream-demo');
+        const tokens = ['token₁', 'token₂', 'token₃', 'token₄', 'token₅', '...'];
+
+        function animateTokenStream() {
+            // Clear dynamic tokens
+            const kids = Array.from(tokenStreamEl.children);
+            kids.forEach(k => { if (!k.classList.contains('prompt') && !(k.classList.contains('token-arrow') && !k.dataset.dynamic)) k.remove(); });
+            // Keep only the static prompt + initial arrow
+            while (tokenStreamEl.children.length > 2) {
+                tokenStreamEl.removeChild(tokenStreamEl.lastChild);
+            }
+
+            tokens.forEach((tok, i) => {
+                setTimeout(() => {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'token-arrow';
+                    arrow.dataset.dynamic = '1';
+                    arrow.textContent = '→';
+                    const box = document.createElement('div');
+                    box.className = 'token-box';
+                    box.dataset.dynamic = '1';
+                    box.textContent = tok;
+                    tokenStreamEl.appendChild(arrow);
+                    tokenStreamEl.appendChild(box);
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            arrow.classList.add('show');
+                            box.classList.add('show');
+                        });
+                    });
+                    // After last token, schedule reset
+                    if (i === tokens.length - 1) {
+                        setTimeout(() => {
+                            // Fade out dynamic tokens
+                            const dynEls = tokenStreamEl.querySelectorAll('[data-dynamic]');
+                            dynEls.forEach(el => { el.classList.remove('show'); });
+                            setTimeout(animateTokenStream, 800);
+                        }, 1800);
+                    }
+                }, i * 600);
+            });
+        }
+
+        const tokenStreamObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateTokenStream();
+                tokenStreamObserver.disconnect();
+            }
+        }, { threshold: 0.5 });
+
+        if (tokenStreamEl) tokenStreamObserver.observe(tokenStreamEl);
+
+        /* ============================================
+           D-FLASH FLOW STEPS ANIMATION — LOOPING
+        ============================================ */
+        const dflashSection = document.getElementById('s5');
+
+        function animateDFlash() {
+            const steps = document.querySelectorAll('#dflash-flow .flow-step');
+            const connectors = document.querySelectorAll('#dflash-flow .flow-connector');
+            // Reset
+            steps.forEach(s => s.classList.remove('visible'));
+            connectors.forEach(c => c.classList.remove('visible'));
+            // Animate in
+            const totalDelay = steps.length * 200 + 500;
+            steps.forEach((step, i) => {
+                const delay = parseInt(step.dataset.delay || 0) + i * 180;
+                setTimeout(() => {
+                    step.classList.add('visible');
+                    if (connectors[i]) connectors[i].classList.add('visible');
+                }, delay);
+            });
+            // Loop
+            setTimeout(animateDFlash, totalDelay + 2000);
+        }
+
+        const dflashObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateDFlash();
+                dflashObserver.disconnect();
+            }
+        }, { threshold: 0.3 });
+
+        if (dflashSection) dflashObserver.observe(dflashSection);
+
+        /* ============================================
+           TOKEN COMPARE TABLE ANIMATION — LOOPING
+        ============================================ */
+        const tcSection = document.getElementById('s6');
+
+        function animateTokenCompare() {
+            const rows = document.querySelectorAll('#token-compare-table .tc-row:not(.tc-head)');
+            rows.forEach(r => r.classList.remove('visible'));
+            const totalDelay = rows.length * 200 + 500;
+            rows.forEach((row, i) => {
+                const delay = parseInt(row.dataset.delay || 0) + 200;
+                setTimeout(() => row.classList.add('visible'), delay);
+            });
+            setTimeout(animateTokenCompare, totalDelay + 2500);
+        }
+
+        const tcObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateTokenCompare();
+                tcObserver.disconnect();
+            }
+        }, { threshold: 0.4 });
+
+        if (tcSection) tcObserver.observe(tcSection);
+
+        /* ============================================
+           KEYBOARD NAVIGATION
+        ============================================ */
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                const next = Math.min(currentSection + 1, sections.length - 1);
+                sections[next].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prev = Math.max(currentSection - 1, 0);
+                sections[prev].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        /* ============================================
+           SMOOTH SCROLL RESTORE
+        ============================================ */
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        /* ============================================
+           FEATURE VECTOR BAR HEIGHTS (decorative)
+        ============================================ */
+        document.querySelectorAll('.fv-bar').forEach((bar, i) => {
+            const h = 20 + Math.random() * 40;
+            bar.style.height = h + 'px';
+            bar.style.animationDelay = (i * 0.3) + 's';
+        });
+    </script>
+</body>
+
+</html>
