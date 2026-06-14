@@ -1,0 +1,18 @@
+{
+  "task": "80B",
+  "decision": "D",
+  "decision_label": "Proceed to T81 with caveat",
+  "t80c_needed": false,
+  "t80d_needed": false,
+  "new_diagnostic_run_executed": false,
+  "model_used": false,
+  "compressor_used": false,
+  "cuda_used": false,
+  "task80a_status": "BLOCKED / PASS_WITH_NOTES",
+  "gsm8k_conclusion": "Task80A confirms GSM8K numeric-quality pattern. DFlash-R1 quality did not regress on GSM8K. DFlash-R1 timing shift is a runtime/timing watch, not a confirmed code regression.",
+  "qmsum_conclusion": "Task80A QMSum rerun is incomplete and must be treated as a rerun caveat. Task71/79B remain the completed QMSum diagnostic basis.",
+  "cleaned_delta_conclusion": "Missing and skipped scalar metrics were removed to prevent misleading delta averages.",
+  "final_evidence_basis": "GSM8K quality from Task80A; QMSum long-context diagnostic from Task71/79B.",
+  "claim_safety": "All speed and quality claims remain local, preliminary, and subject to runtime variance constraints.",
+  "next_task": "T81"
+}

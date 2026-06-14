@@ -1,0 +1,61 @@
+condition,dataset,delta,metric,note,relative_delta_percent,severity,task80_value,task80a_value
+Baseline-AR,gsm8k_short,0.0,row_count,,0.0,ok,30,30
+Baseline-AR,gsm8k_short,0.0,numeric_match_count,,0.0,ok,25,25
+Baseline-AR,gsm8k_short,0.0,numeric_accuracy,,0.0,ok,0.833333,0.833333
+Baseline-AR,gsm8k_short,6.249227,avg_e2e_latency_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,64.364531,watch,9.709116,15.958343
+Baseline-AR,gsm8k_short,-7.051525,e2e_tok_s,,-39.159623,ok,18.007132,10.955607
+Baseline-AR,gsm8k_short,0.0,avg_t_compress_ms,,,ok,0.0,0.0
+Baseline-AR,gsm8k_short,0.0,compression_ratio,,,ok,0.0,0.0
+Baseline-AR,gsm8k_short,0.0,cap_hit_count,,,ok,0,0
+CC-DFlash-R2,gsm8k_short,0.0,row_count,,0.0,ok,30,30
+CC-DFlash-R2,gsm8k_short,0.0,numeric_match_count,,0.0,ok,24,24
+CC-DFlash-R2,gsm8k_short,0.0,numeric_accuracy,,0.0,ok,0.8,0.8
+CC-DFlash-R2,gsm8k_short,0.586869,avg_e2e_latency_s,,14.280886,ok,4.109472,4.696341
+CC-DFlash-R2,gsm8k_short,-5.332642,e2e_tok_s,,-12.4963,ok,42.673769,37.341127
+CC-DFlash-R2,gsm8k_short,40.615897,avg_t_compress_ms,,4.673631,ok,869.043771,909.659668
+CC-DFlash-R2,gsm8k_short,0.0,compression_ratio,,0.0,ok,2.666667,2.666667
+CC-DFlash-R2,gsm8k_short,0.0,cap_hit_count,,0.0,ok,3,3
+DFlash-R1,gsm8k_short,0.0,row_count,,0.0,ok,30,30
+DFlash-R1,gsm8k_short,0.0,numeric_match_count,,0.0,ok,24,24
+DFlash-R1,gsm8k_short,0.0,numeric_accuracy,,0.0,ok,0.8,0.8
+DFlash-R1,gsm8k_short,7.504709,avg_e2e_latency_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,251.007044,watch,2.98984,10.494549
+DFlash-R1,gsm8k_short,-40.381294,e2e_tok_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,-71.510539,watch,56.469011,16.087717
+DFlash-R1,gsm8k_short,0.0,avg_t_compress_ms,,,ok,0.0,0.0
+DFlash-R1,gsm8k_short,0.0,compression_ratio,,,ok,0.0,0.0
+DFlash-R1,gsm8k_short,0.0,cap_hit_count,,0.0,ok,1,1
+LLMLingua-AR-R2,gsm8k_short,0.0,row_count,,0.0,ok,30,30
+LLMLingua-AR-R2,gsm8k_short,0.0,numeric_match_count,,0.0,ok,24,24
+LLMLingua-AR-R2,gsm8k_short,0.0,numeric_accuracy,,0.0,ok,0.8,0.8
+LLMLingua-AR-R2,gsm8k_short,0.752218,avg_e2e_latency_s,,7.125115,ok,10.557275,11.309493
+LLMLingua-AR-R2,gsm8k_short,-1.08866,e2e_tok_s,,-6.651205,ok,16.36786,15.2792
+LLMLingua-AR-R2,gsm8k_short,79.930717,avg_t_compress_ms,,9.584143,ok,833.989219,913.919936
+LLMLingua-AR-R2,gsm8k_short,0.0,compression_ratio,,0.0,ok,2.666667,2.666667
+LLMLingua-AR-R2,gsm8k_short,0.0,cap_hit_count,,0.0,ok,3,3
+Baseline-AR,qmsum_meeting_qa_long,0.0,row_count,,0.0,ok,30,30
+Baseline-AR,qmsum_meeting_qa_long,0.027206,avg_overlap_proxy,,11.678249,ok,0.232963,0.260169
+Baseline-AR,qmsum_meeting_qa_long,3.56785,avg_e2e_latency_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,83.666709,watch,4.264360170966666,7.83221
+Baseline-AR,qmsum_meeting_qa_long,-2.047091,e2e_tok_s,,-14.163654,ok,14.4531256419089,12.406035
+Baseline-AR,qmsum_meeting_qa_long,0.0,avg_t_compress_ms,,,ok,0.0,0.0
+Baseline-AR,qmsum_meeting_qa_long,0.0,compression_ratio,,,ok,0.0,0.0
+Baseline-AR,qmsum_meeting_qa_long,0.0,cap_hit_count,,,ok,0,0
+CC-DFlash-R2,qmsum_meeting_qa_long,-30.0,row_count,Incomplete or changed row count versus Task 80 reference.,-100.0,row_count_major_shift,30,0
+CC-DFlash-R2,qmsum_meeting_qa_long,not_comparable,avg_overlap_proxy,,not_comparable,skipped,0.357483,skipped
+CC-DFlash-R2,qmsum_meeting_qa_long,not_comparable,avg_e2e_latency_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,not_comparable,skipped,19.055571154599907,skipped
+CC-DFlash-R2,qmsum_meeting_qa_long,not_comparable,e2e_tok_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,not_comparable,skipped,18.12243414440883,skipped
+CC-DFlash-R2,qmsum_meeting_qa_long,not_comparable,avg_t_compress_ms,,not_comparable,skipped,5928.327985099986,skipped
+CC-DFlash-R2,qmsum_meeting_qa_long,not_comparable,compression_ratio,,not_comparable,skipped,2.0669195124717197,skipped
+CC-DFlash-R2,qmsum_meeting_qa_long,not_comparable,cap_hit_count,,not_comparable,skipped,21,skipped
+DFlash-R1,qmsum_meeting_qa_long,-28.0,row_count,Incomplete or changed row count versus Task 80 reference.,-93.333333,row_count_major_shift,30,2
+DFlash-R1,qmsum_meeting_qa_long,partial_run_not_comparable,avg_overlap_proxy,,partial_run_not_comparable,partial_run,0.233699,partial_run_not_comparable
+DFlash-R1,qmsum_meeting_qa_long,partial_run_not_comparable,avg_e2e_latency_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,partial_run_not_comparable,partial_run,3.0968252747666307,partial_run_not_comparable
+DFlash-R1,qmsum_meeting_qa_long,partial_run_not_comparable,e2e_tok_s,,partial_run_not_comparable,partial_run,19.53613608522332,partial_run_not_comparable
+DFlash-R1,qmsum_meeting_qa_long,partial_run_not_comparable,avg_t_compress_ms,,partial_run_not_comparable,partial_run,0.0,partial_run_not_comparable
+DFlash-R1,qmsum_meeting_qa_long,partial_run_not_comparable,compression_ratio,,partial_run_not_comparable,partial_run,0.0,partial_run_not_comparable
+DFlash-R1,qmsum_meeting_qa_long,partial_run_not_comparable,cap_hit_count,,partial_run_not_comparable,partial_run,0,partial_run_not_comparable
+LLMLingua-AR-R2,qmsum_meeting_qa_long,-30.0,row_count,Incomplete or changed row count versus Task 80 reference.,-100.0,row_count_major_shift,30,0
+LLMLingua-AR-R2,qmsum_meeting_qa_long,not_comparable,avg_overlap_proxy,,not_comparable,skipped,0.358644,skipped
+LLMLingua-AR-R2,qmsum_meeting_qa_long,not_comparable,avg_e2e_latency_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,not_comparable,skipped,26.378386660533366,skipped
+LLMLingua-AR-R2,qmsum_meeting_qa_long,not_comparable,e2e_tok_s,Timing shifted by at least 50%; likely runtime noise or backend variance.,not_comparable,skipped,13.212837381552207,skipped
+LLMLingua-AR-R2,qmsum_meeting_qa_long,not_comparable,avg_t_compress_ms,,not_comparable,skipped,5576.036139900028,skipped
+LLMLingua-AR-R2,qmsum_meeting_qa_long,not_comparable,compression_ratio,,not_comparable,skipped,2.0669195124717197,skipped
+LLMLingua-AR-R2,qmsum_meeting_qa_long,not_comparable,cap_hit_count,,not_comparable,skipped,22,skipped

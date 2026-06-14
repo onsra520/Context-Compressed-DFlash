@@ -412,10 +412,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 80B rerun analysis and issue gate</span>
+                <span class="sv info">→ Current next: Task 81 final consistency audit</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 80A final two-dataset rerun/recompute package. Current next main technical task: Task 80B rerun analysis and issue gate. GSM8K rerun completed at n=30, while QMSum DFlash stopped after 2 rows and compressed QMSum reruns were skipped by the safety rule. Detailed task history is available in the Update Log and Reports Index below.
+                This roadmap is synced through Task 80B rerun analysis and issue gate. Current next main technical task: Task 81 final consistency audit. Task80B determined that the DFlash-R1 timing shift is a runtime/timing watch, not a confirmed code regression, and the QMSum rerun stall was a runtime/prompt-specific issue rather than a semantic failure. T80C/T80D are skipped and the project proceeds to T81. Detailed task history is available in the Update Log and Reports Index below.
             </div>
         </header>
 
@@ -459,8 +459,8 @@
                         </tr>
                         <tr>
                             <td><strong>Rerun Issue Gate</strong></td>
-                            <td class="info">NEXT</td>
-                            <td>Task80B must analyze the QMSum DFlash stall and GSM8K DFlash timing shift before final consistency audit. It should decide whether T80C/T80D are needed.</td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                            <td>Task80B analyzed the QMSum DFlash stall and GSM8K DFlash timing shift. T80C/T80D are not needed. Proceed to T81.</td>
                         </tr>
                         <tr>
                             <td><strong>Conditional DFlash Fix Gate</strong></td>
@@ -502,8 +502,8 @@
                     <tbody>
                         <tr>
                             <td>Current next</td>
-                            <td class="info">T80B NEXT</td>
-                            <td>Rerun analysis and issue gate. Analyze QMSum DFlash stall, GSM8K DFlash timing shift, and decide whether conditional fix tasks are needed.</td>
+                            <td class="info">T81 NEXT</td>
+                            <td>Final consistency audit gate. Check final package consistency, claim safety, Roadmap/Overview wording, and GSM8K/QMSum role split.</td>
                         </tr>
                         <tr>
                             <td>GSM8K evidence</td>
@@ -1274,15 +1274,6 @@
                             <td class="go">PASS_WITH_NOTES: GSM8K numeric-quality and QMSum diagnostic evidence packaged with claims matrix and conservative final-report key points</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum done">T80A</span></td>
-                            <td>Final Two-Dataset Rerun / Recompute Package</td>
-                            <td>Run final n=30 verification rerun on frozen GSM8K and QMSum datasets with unique Task80A artifacts</td>
-                            <td class="stop">BLOCKED/PASS_WITH_NOTES: GSM8K completed; QMSum Baseline completed; QMSum DFlash stopped at 2 rows and compressed QMSum runs were skipped</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum planned">T80B</span></td>
-                            <td>Rerun Analysis and Issue Gate</td>
-                            <td>Analyze Task80A QMSum DFlash runtime issue and decide whether final consistency audit can proceed.</td>
                             <td class="info">NEXT: issue analysis, no blind benchmark expansion</td>
                         </tr>
                         <tr>
@@ -1828,6 +1819,12 @@
                             <td><code>80a-final-two-dataset-rerun-report.md</code></td>
                             <td>T80A</td>
                             <td>Final Two-Dataset Rerun / Recompute Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>80b-rerun-analysis-and-issue-gate-report.md</code></td>
+                            <td>T80B</td>
+                            <td>Rerun Analysis and Issue Gate Report</td>
                             <td class="go">Exists</td>
                         </tr></tbody>
                 </table>
@@ -2810,6 +2807,30 @@
                             <td>T80A</td>
                             <td>Task80A run manifest with commands, resume status, rows, and skip notes</td>
                             <td>8 entries</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80b_rerun_issue_gate_summary.json</code></td>
+                            <td>T80B</td>
+                            <td>Task80B issue gate summary JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80b_dflash_regression_check.json</code></td>
+                            <td>T80B</td>
+                            <td>Task80B DFlash regression check JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80b_cleaned_delta_interpretation.csv</code></td>
+                            <td>T80B</td>
+                            <td>Task80B cleaned delta interpretation CSV</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task80b_rerun_issue_gate_table.csv</code></td>
+                            <td>T80B</td>
+                            <td>Task80B rerun issue gate summary CSV</td>
+                            <td>-</td>
                         </tr></tbody>
                 </table>
             </div>
@@ -2819,8 +2840,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 80A rerun package</span>
-                <span class="sv info">Current next: Task 80B rerun analysis and issue gate</span>
+                <span class="sv go">Synced through Task 80B rerun analysis</span>
+                <span class="sv info">Current next: Task 81 final consistency audit</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
