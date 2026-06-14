@@ -1471,13 +1471,88 @@
         .speaker-box.wide {
             margin-top: 24px;
         }
-
         .part-5 .section-card,
         .part-6 .section-card {
             border-color: rgba(255, 205, 130, 0.16);
             background:
                 linear-gradient(180deg, rgba(255, 191, 82, 0.08), rgba(255, 255, 255, 0.028)),
                 rgba(0, 0, 0, 0.58);
+        }
+
+        /* Part 5 specific layout and caveat styling */
+        .reading-note-strip {
+            margin-top: 14px;
+            margin-bottom: 14px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.035);
+            color: rgba(255, 255, 255, 0.76);
+            font-size: 13.5px;
+            line-height: 1.52;
+        }
+
+        .reading-note-strip strong {
+            color: #ffffff;
+        }
+
+        .claim-line-small {
+            margin-top: 16px;
+            margin-bottom: 16px;
+            padding: 14px 18px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14.5px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        .qmsum-columns {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 760px) {
+            .qmsum-columns {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        .qmsum-col h3 {
+            margin: 0 0 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.56);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .qmsum-col p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 15px;
+            line-height: 1.68;
+        }
+
+        .compact-caveat-strip {
+            margin-top: 20px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 13.5px;
+            line-height: 1.5;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
         @media (max-width: 900px) {
@@ -2250,22 +2325,15 @@
 
 
             <div class="section-grid">
-                <article class="section-card">
-                    <span class="section-num">5.1</span>
-                    <h2>Cách đọc phần kết quả</h2>
-                    <p>
-                        Nếu chỉ nhìn bảng số, người nghe có thể tưởng project đã chứng minh universal speedup hoặc
-                        semantic correctness.
-                        Thực tế, kết quả chỉ hợp lệ trong phạm vi dataset, metric và local runtime đã kiểm chứng.
-                    </p>
-                </article>
-
                 <article class="section-card wide">
-                    <span class="section-num">5.2</span>
+                    <span class="section-num">5.1</span>
                     <h2>GSM8K Results Summary</h2>
                     <p>
                         Trên GSM8K, các vòng kiểm chứng n=30 cho thấy numeric-quality pattern tương đối ổn định.
                     </p>
+                    <div class="reading-note-strip">
+                        <strong>Cách đọc:</strong> kết quả chỉ hợp lệ trong phạm vi dataset, metric và local runtime đã kiểm chứng; không dùng để claim universal speedup hoặc semantic correctness.
+                    </div>
                     <table class="mini-table report-table">
                         <thead>
                             <tr>
@@ -2292,38 +2360,38 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="claim-line">
-                        GSM8K cho thấy compressed DFlash path không làm numeric-quality proxy tệ hơn compression-only
-                        trong setting đã test, nhưng đây vẫn là short-context numeric proxy.
+                    <div class="claim-line-small">
+                        GSM8K: compressed DFlash path giữ numeric-quality proxy ngang compression-only trong setting đã test.
                     </div>
                     <p>
-                        Kết quả GSM8K không chứng minh long-context speedup; nó chỉ hỗ trợ điều kiện chất lượng tối
-                        thiểu để
-                        tiếp tục đọc QMSum như long-context diagnostic.
+                        Đây vẫn là short-context numeric proxy, không phải semantic correctness tổng quát hay long-context speedup.
                     </p>
                 </article>
 
-                <article class="section-card">
-                    <span class="section-num">5.3</span>
+                <article class="section-card wide part5-qmsum">
+                    <span class="section-num">5.2</span>
                     <h2>QMSum Diagnostic Summary</h2>
-                    <p>
-                        QMSum được giữ như long-context diagnostic evidence. Trong vòng QMSum n=30 diagnostic,
-                        CC-DFlash-R2
-                        từng được quan sát nhanh hơn LLMLingua-AR-R2 trong local setting với overlap proxy tương tự.
-                    </p>
-                    <p>
-                        Tuy nhiên, các vòng triage chỉ ra limitation: cap-hit, proxy degradation, câu trả lời quá ngắn,
-                        evidence targeting chưa tốt và rerun cuối không hoàn chỉnh. Do đó, QMSum không dùng để claim
-                        semantic correctness.
-                    </p>
-                    <div class="claim-line">
-                        QMSum giúp quan sát behavior của pipeline trong long-context setting, nhưng chưa đủ để claim
-                        semantic correctness.
+                    <div class="qmsum-columns">
+                        <div class="qmsum-col">
+                            <h3>Diagnostic Signal</h3>
+                            <p>
+                                QMSum đóng vai trò quan sát behavior của pipeline trong long-context setting. Trong các vòng chạy diagnostic n=30, CC-DFlash-R2 từng được quan sát nhanh hơn LLMLingua-AR-R2 trong local setting với overlap proxy tương tự.
+                            </p>
+                        </div>
+                        <div class="qmsum-col">
+                            <h3>Claim Boundary</h3>
+                            <p>
+                                Các vòng triage chỉ ra limitation lớn về chất lượng: cap-hit, proxy degradation, câu trả lời quá ngắn và evidence targeting chưa tốt. Do đó, QMSum không đủ điều kiện để claim semantic correctness.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="compact-caveat-strip">
+                        <span>QMSum chỉ là long-context diagnostic evidence, không phải semantic correctness benchmark.</span>
                     </div>
                 </article>
 
                 <article class="section-card wide">
-                    <span class="section-num">5.4</span>
+                    <span class="section-num">5.3</span>
                     <h2>Claim-safety boundary</h2>
                     <table class="mini-table report-table">
                         <thead>
@@ -2369,7 +2437,7 @@
                 </article>
 
                 <article class="section-card wide">
-                    <span class="section-num">5.5</span>
+                    <span class="section-num">5.4</span>
                     <h2>Những claim không được dùng</h2>
                     <ol class="numbered-list">
                         <li>CC-DFlash có universal speedup.</li>

@@ -40,3 +40,4 @@
 | UI-14 | CC-DFlash Part 3 Layout Refinement | done | [ui-14-cc-dflash-part3-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-14-cc-dflash-part3-layout-refine.md) |
 | UI-15 | CC-DFlash Part 3 &amp; 4 Spacing &amp; Layout | done | [ui-15-cc-dflash-part3-4-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-15-cc-dflash-part3-4-layout-refine.md) |
 | UI-16 | CC-DFlash Part 3 &amp; 4 Layout Refinement | done | [ui-16-cc-dflash-part3-4-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-16-cc-dflash-part3-4-layout-refine.md) |
+| UI-17 | CC-DFlash Part 5 Layout Refinement | done | [ui-17-cc-dflash-part5-layout-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-17-cc-dflash-part5-layout-refine.md) |
