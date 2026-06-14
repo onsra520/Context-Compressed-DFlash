@@ -263,6 +263,7 @@
             .part2-comparison {
                 display: flex;
                 flex-direction: column;
+                gap: 20px;
             }
             .part2-comparison .insight-strip {
                 margin-top: auto;
@@ -1628,7 +1629,7 @@
                         <li><strong>Prefill cost:</strong> Xử lý input chiếm phần lớn thời gian khi prompt dài.</li>
                         <li><strong>Giảm input tokens:</strong> Nén context giúp giảm lượng tính toán prefill.</li>
                         <li><strong>DFlash hỗ trợ decoding:</strong> Tăng tốc sinh token tiếp theo (decoding phase).</li>
-                        <li><strong>Savings vs T_compress:</strong> Có lợi khi prefill savings + decoding gain lớn hơn <code>T_compress</code>.</li>
+                        <li><strong>Savings vs T_compress:</strong> Chỉ có lợi nếu savings vượt chi phí nén.</li>
                     </ul>
                     <div class="insight-strip">
                         <div class="insight-label">Core Question</div>

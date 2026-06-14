@@ -1568,6 +1568,22 @@
                             </td>
                             <td class="go">PASS</td>
                         </tr>
+                        <tr class="phase-hdr">
+                            <td colspan="4">CC-DFlash Part 2 Card 2.2 Spacing &amp; Wrap Fix (UI-13)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">UI-13</span></td>
+                            <td>CC-DFlash Part 2 Card 2.2 Spacing &amp; Wrap Fix</td>
+                            <td>
+                                Shorten Card 2.2's last bullet point to prevent line wrapping and add CSS gap spacing to the local comparison card container, separating the bullet list from the bottom callout.
+                                <br><strong>Artifacts:</strong>
+                                <ul>
+                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
+                                    <li>Markdown report: <a href="reports/extra/ui-13-cc-dflash-part2-card22-spacing.md">docs/reports/extra/ui-13-cc-dflash-part2-card22-spacing.md</a></li>
+                                </ul>
+                            </td>
+                            <td class="go">PASS</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -2124,6 +2140,12 @@
                             <td><a href="reports/extra/ui-12-cc-dflash-part2-comparison-cards-scoped.md"><code>extra/ui-12-cc-dflash-part2-comparison-cards-scoped.md</code></a></td>
                             <td>UI-12</td>
                             <td>CC-DFlash Part 2 Comparison Cards Scoped Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><a href="reports/extra/ui-13-cc-dflash-part2-card22-spacing.md"><code>extra/ui-13-cc-dflash-part2-card22-spacing.md</code></a></td>
+                            <td>UI-13</td>
+                            <td>CC-DFlash Part 2 Card 2.2 Spacing &amp; Wrap Report</td>
                             <td class="go">Exists</td>
                         </tr>
                     </tbody>
@@ -3200,6 +3222,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-15</div>
+                <div class="log-body">
+                    <strong>Task UI-13 — CC-DFlash Part 2 Card 2.2 Spacing &amp; Wrap Fix — PASS</strong><br>
+                    UI-13 resolved wrapping and spacing issues in Card 2.2 by shortening the final bullet point to keep "T_compress" on a single line and adding a gap of 20px to the .part2-comparison flex container. This ensures the CORE QUESTION callout card is properly separated from the bullet points.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-15</div>
                 <div class="log-body">
