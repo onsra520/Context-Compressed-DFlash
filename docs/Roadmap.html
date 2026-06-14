@@ -411,10 +411,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 79B QMSum limitation freeze / reporting decision</span>
+                <span class="sv info">→ Current next: Task 80 cross-dataset final result packaging</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 78 QMSum compressed-prompt evidence-retention audit. Current next main technical task: Task 79B QMSum limitation freeze / reporting decision. QMSum n=100 remains blocked because Task 78 did not support obvious compressed-evidence deletion as the main failure explanation and semantic quality remains unresolved. Detailed task history is available in the Update Log and Reports Index below.
+                This roadmap is synced through Task 79B QMSum limitation freeze / reporting decision. Current next main technical task: Task 80 cross-dataset final result packaging. QMSum is frozen as a long-context diagnostic benchmark, not a final semantic correctness benchmark; QMSum n=100 and mnt512 remain unjustified. Detailed task history is available in the Update Log and Reports Index below.
             </div>
         </header>
 
@@ -1228,10 +1228,16 @@
                             <td class="go">PASS_WITH_NOTES: bounded compressor-only reconstruction found retained/partial evidence or source-mismatch signals, not broad compressed-evidence deletion; QMSum n=100 remains blocked</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T79B</span></td>
+                            <td><span class="tnum done">T79B</span></td>
                             <td>QMSum Limitation Freeze / Reporting Decision</td>
                             <td>Freeze how QMSum quality limitations should be reported, or define a semantic/manual review path before any larger QMSum benchmark</td>
-                            <td class="info">Next: reporting/limitation decision, not QMSum n=100</td>
+                            <td class="go">PASS_WITH_NOTES: QMSum frozen as long-context diagnostic evidence, not semantic correctness proof; no n=100, no mnt512, no more suffix tuning before final packaging</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T80</span></td>
+                            <td>Cross-Dataset Final Result Packaging</td>
+                            <td>Package GSM8K numeric-quality evidence and QMSum long-context diagnostic evidence with conservative claim boundaries</td>
+                            <td class="info">Next: final packaging/report synthesis, no new benchmark by default</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1745,6 +1751,12 @@
                             <td><code>78-qmsum-compressed-prompt-evidence-retention-report.md</code></td>
                             <td>T78</td>
                             <td>QMSum Compressed-Prompt Evidence-Retention Audit Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>79-qmsum-limitation-freeze-report.md</code></td>
+                            <td>T79B</td>
+                            <td>QMSum Limitation Freeze / Reporting Decision Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2460,6 +2472,18 @@
                             <td>29 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task79_qmsum_reporting_decision.json</code></td>
+                            <td>T79B</td>
+                            <td>QMSum reporting decision summary</td>
+                            <td>PASS_WITH_NOTES</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task79_qmsum_reporting_decision_table.csv</code></td>
+                            <td>T79B</td>
+                            <td>Compact QMSum reporting decision table</td>
+                            <td>7 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2666,8 +2690,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 78 QMSum evidence-retention audit</span>
-                <span class="sv info">Current next: Task 79B QMSum limitation freeze / reporting decision</span>
+                <span class="sv go">Synced through Task 79B QMSum limitation freeze</span>
+                <span class="sv info">Current next: Task 80 cross-dataset final result packaging</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -3272,8 +3296,18 @@
                     <strong>Task 78 — QMSum Compressed-Prompt Evidence-Retention Audit — PASS_WITH_NOTES, read-only plus bounded reconstruction</strong><br>
                     Audited 29 prompt-level QMSum cases with compressor-only reconstruction. The audit found
                     retained/partial evidence and source-mismatch or unclear cases rather than broad compressed-evidence
-                    deletion. QMSum n=100 remains blocked; Task 79B should freeze/report QMSum limitations or define a
-                    semantic/manual review path.
+                    deletion. QMSum n=100 remains blocked; Task 79B then froze QMSum reporting as diagnostic evidence
+                    rather than final semantic correctness.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-14</div>
+                <div class="log-body">
+                    <strong>Task 79B — QMSum Limitation Freeze / Reporting Decision — PASS_WITH_NOTES, docs-only</strong><br>
+                    Froze QMSum as a long-context diagnostic benchmark for latency, prefill, compression overhead,
+                    compression ratio, and lexical proxy quality. QMSum is not a final semantic correctness benchmark;
+                    QMSum n=100, mnt512, and further suffix tuning are not justified before Task 80 cross-dataset
+                    final result packaging.
                 </div>
             </div>
             <div class="log-entry">

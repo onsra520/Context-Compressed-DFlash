@@ -1,0 +1,46 @@
+{
+  "allowed_claims": [
+    "QMSum is useful as a long-context diagnostic benchmark for latency, prefill behavior, compression overhead, compression ratio, and lexical proxy quality.",
+    "Cap-hit behavior and protected-suffix preservation can be controlled in bounded QMSum calibrations.",
+    "Task 78 did not support broad compressed-evidence deletion as the main explanation for selected failed QMSum rows.",
+    "CC-DFlash-R2 showed preliminary e2e improvements versus LLMLingua-AR-R2 in some n=30 QMSum settings, but this is not a final speedup claim."
+  ],
+  "forbidden_claims": [
+    "final semantic correctness on QMSum",
+    "final speedup",
+    "production or deployment readiness",
+    "confirmed 8 GB deployment",
+    "proven end-to-end compression benefit",
+    "QMSum n=100 readiness"
+  ],
+  "freeze_task77_policy_as_final": false,
+  "key_findings": [
+    "Task 71 produced a fresh n=30 QMSum matrix at max_new_tokens=384; compressed rows improved lexical overlap but frequently hit the output cap.",
+    "Task 73 terse policy removed compressed cap hits but made answers too short and degraded normalized-overlap proxy quality.",
+    "Task 75 balanced policy preserved the no-cap-hit behavior and recovered some overlap, but evidence quality remained unstable.",
+    "Task 76/76-fix classified the main QMSum quality failures as evidence-misfocus, wrong-negative answers, and missing concrete entities or numbers.",
+    "Task 77 evidence-focused suffix was preserved and kept cap hits at zero, but wrong-negative and evidence-targeting failures remained common.",
+    "Task 78 used bounded compressor-only reconstruction and found retained or partial evidence, source/reference mismatch, and unclear cases rather than broad compressed-evidence deletion."
+  ],
+  "mnt512_needed": false,
+  "more_suffix_tuning_justified": false,
+  "qmsum_final_role": "diagnostic long-context benchmark for latency, compression overhead, prefill behavior, compression ratio, and lexical proxy quality; not final semantic correctness benchmark",
+  "qmsum_n100_justified": false,
+  "qmsum_quality_claim_level": "lexical/normalized-text proxy only; answer quality unstable under compressed prompts; no semantic correctness claim",
+  "qmsum_speed_claim_level": "preliminary diagnostic speed/latency evidence only; no final speedup claim",
+  "recommended_next_task": "Task 80 cross-dataset final result packaging",
+  "report_wording_en": "QMSum is retained as a long-context diagnostic benchmark for latency, compression overhead, prefill behavior, and lexical proxy quality. Tasks 73–78 showed that cap pressure and protected-suffix preservation can be controlled, but compressed QMSum answer quality remains unstable. Evidence-targeting and wrong-negative failures persist, and Task 78 did not support broad compressed-evidence deletion as the main explanation. Therefore, QMSum results are reported as diagnostic evidence, not as final semantic correctness proof.",
+  "report_wording_vi": "QMSum được giữ như benchmark chẩn đoán long-context cho latency, compression overhead, prefill behavior và lexical proxy quality. Các Task 73–78 cho thấy có thể kiểm soát cap-hit và bảo toàn protected suffix, nhưng chất lượng trả lời QMSum dưới compressed prompt vẫn chưa ổn định. Lỗi bám evidence và wrong-negative vẫn còn, và Task 78 không cho thấy bằng chứng mạnh rằng compression xóa mất evidence là nguyên nhân chính. Vì vậy kết quả QMSum được báo cáo như diagnostic evidence, không phải bằng chứng semantic correctness cuối cùng.",
+  "source_tasks": [
+    "Task 71",
+    "Task 72",
+    "Task 73",
+    "Task 74",
+    "Task 75",
+    "Task 76",
+    "Task 76-fix",
+    "Task 77",
+    "Task 78"
+  ],
+  "status": "PASS_WITH_NOTES"
+}

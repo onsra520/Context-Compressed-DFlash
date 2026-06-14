@@ -606,7 +606,7 @@
                 <span class="pill">[Author] · [Institution] · 2026</span>
                 <span class="pill">DFlash arXiv:2602.06036</span>
                 <span class="pill">LLMLingua-2 arXiv:2403.12968</span>
-                <span class="pill accent">Synced to Task 78 QMSum evidence-retention audit</span>
+                <span class="pill accent">Synced to Task 79B QMSum limitation freeze</span>
                 <span class="pill">Transformers Backend</span>
             </div>
         </header>
@@ -693,8 +693,10 @@
                 with missing names/numbers and wrong-negative rows also present. Task 77 tests an evidence-focused
                 protected suffix. It preserves policy and keeps cap hits at zero, but wrong-negative and evidence-targeting
                 failures remain common. Task 78 reconstructs selected compressed prompts with the compressor only and
-                does not find broad compressed-evidence deletion as the main supported explanation. QMSum n=100 remains
-                blocked behind a limitation/reporting decision or a more semantic/manual review path.
+                does not find broad compressed-evidence deletion as the main supported explanation. Task 79B freezes
+                QMSum as long-context diagnostic evidence for latency, prefill, compression overhead, compression ratio,
+                and lexical proxy quality, not final semantic correctness. QMSum n=100, mnt512, and further suffix tuning
+                are not justified before cross-dataset final result packaging.
             </div>
         </section>
 
@@ -1734,8 +1736,9 @@
                 <strong>Task 77</strong> tests an evidence-focused suffix. It preserves the suffix and avoids cap hits,
                 but wrong-negative/evidence-targeting failures remain too common. <strong>Task 78</strong> reconstructs
                 selected compressed prompts with LLMLingua only and finds retained/partial evidence or source-mismatch
-                signals rather than broad compressed-evidence deletion. QMSum n=100 stays blocked pending a limitation
-                freeze/reporting decision or a more semantic/manual review path.
+                signals rather than broad compressed-evidence deletion. <strong>Task 79B</strong> freezes QMSum as
+                diagnostic long-context evidence only: useful for latency/prefill/compression-overhead analysis and
+                lexical proxy quality, but not final semantic correctness.
                 <strong>R3 paths</strong> may harm answer quality — manual review and larger n are required.
                 <strong>No final speedup, correctness, or deployment claim</strong> is supported by current evidence.
             </div>
@@ -1923,8 +1926,8 @@
                         the concise answers are often too short or missing key details. Task 75 tests a balanced
                         3-6 sentence suffix. Task 76 shows the remaining issue is more evidence targeting and answer
                         completeness than output cap. Task 77 tests an evidence-focused suffix. Task 78 then audits
-                        compressed-prompt evidence retention and finds no broad compressed-evidence deletion signal,
-                        so QMSum n=100 remains blocked behind limitation freeze/reporting or semantic review.</li>
+                        compressed-prompt evidence retention and finds no broad compressed-evidence deletion signal.
+                        Task 79B freezes QMSum as diagnostic long-context evidence only, not final semantic correctness.</li>
                     <li>Use Task 46 Pareto summary for decode-only and e2e presentation</li>
                     <li>Use Task 47 quality refinement: deterministic numeric extraction is diagnostic only, not final semantic correctness</li>
                 </ul>
@@ -2063,7 +2066,7 @@
         </section>
 
         <footer class="footer">
-            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 78 QMSum evidence-retention audit ·
+            CC-DFlash Overview · Paper Research Context · 2026 · Synced to Task 79B QMSum limitation freeze ·
             All numbers preliminary — no final speedup claim, no confirmed 8 GB deployment, no proven e2e compression
             benefit ·
             For live task tracking see <a href="Roadmap.html">docs/Roadmap.html</a>
