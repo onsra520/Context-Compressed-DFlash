@@ -253,7 +253,8 @@
             margin-top: 20px;
         }
 
-        .part-1 .section-grid {
+        .part-1 .section-grid,
+        .part-2 .section-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             align-items: stretch;
         }
@@ -406,25 +407,38 @@
         }
 
         .pipeline-strip {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1.2fr auto 1fr auto 1fr;
+            align-items: stretch;
+            gap: 8px;
             margin-top: 20px;
             font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-            font-size: 13px;
+            font-size: 12px;
             color: rgba(255, 255, 255, 0.78);
+            width: 100%;
         }
 
         .pipe-node {
-            padding: 10px 12px;
-            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8px 10px;
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.16);
             background: rgba(255, 255, 255, 0.06);
+            min-height: 44px;
+            box-sizing: border-box;
+            line-height: 1.35;
         }
 
         .pipe-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: rgba(255, 255, 255, 0.38);
+            font-size: 16px;
+            user-select: none;
         }
 
         .conclusion-card {
@@ -1097,7 +1111,8 @@
             }
 
             .section-grid,
-            .part-1 .section-grid {
+            .part-1 .section-grid,
+            .part-2 .section-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -1115,6 +1130,16 @@
                 text-align: center;
                 transform: rotate(90deg);
                 margin: 4px 0;
+            }
+
+            .pipeline-strip {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .pipeline-strip .pipe-arrow {
+                transform: rotate(90deg);
+                margin: 2px 0;
             }
 
             .metric-row {
@@ -1553,14 +1578,7 @@
                 </p>
             </div>
 
-            <div class="speaker-box">
-                <h3>Ý chính khi nói</h3>
-                <ul>
-                    <li>Giải thích pipeline bằng một câu: nén trước, DFlash sau.</li>
-                    <li>Nhấn mạnh không sửa DFlash core, không meta-token, không hidden state bridge.</li>
-                    <li>Conditions là nền tảng để biết kết quả đến từ DFlash, compression hay cả hai.</li>
-                </ul>
-            </div>
+
 
             <div class="section-grid">
                 <article class="section-card wide">
@@ -1592,20 +1610,19 @@
                     <span class="section-num">2.2</span>
                     <h2>Vì sao compression có thể hữu ích?</h2>
                     <p>
-                        Trong long-context inference, trước khi sinh output, toàn bộ input context phải được xử lý ở
-                        giai đoạn
-                        prefill. Nếu context được nén xuống ít token hơn, chi phí xử lý input có thể giảm.
+                        Trong long-context inference, chi phí xử lý đầu vào (prefill cost) là cực kỳ lớn. Nén context trước khi gửi đến model có thể mang lại hiệu quả rõ rệt:
                     </p>
                     <ul class="compact-list">
-                        <li>Compression giảm số input tokens.</li>
-                        <li>DFlash hỗ trợ giai đoạn decoding.</li>
-                        <li>Pipeline chỉ có lợi nếu input/prefill savings + decoding gain lớn hơn
-                            <code>T_compress</code>.
-                        </li>
+                        <li><strong>Prefill cost:</strong> Xử lý input context chiếm phần lớn thời gian khi prompt dài.</li>
+                        <li><strong>Giảm input tokens:</strong> Nén context giúp giảm trực tiếp lượng tính toán ở giai đoạn prefill.</li>
+                        <li><strong>DFlash hỗ trợ decoding:</strong> Tăng tốc độ sinh token tiếp theo (decoding phase).</li>
+                        <li><strong>Savings vs T_compress:</strong> Pipeline chỉ có lợi nếu prefill savings + decoding gain lớn hơn chi phí nén <code>T_compress</code>.</li>
                     </ul>
-                    <div class="claim-line">
-                        Sau khi tính cả <code>T_compress</code>, pipeline có nhanh hơn và quality proxy có còn ổn định
-                        hay không?
+                    <div class="insight-strip">
+                        <div class="insight-label">Core Question</div>
+                        <div class="insight-text">
+                            Sau khi tính cả <code>T_compress</code>, pipeline có nhanh hơn và quality proxy có còn ổn định hay không?
+                        </div>
                     </div>
                 </article>
 
@@ -1613,16 +1630,20 @@
                     <span class="section-num">2.3</span>
                     <h2>Không phải lossless end-to-end</h2>
                     <p>
-                        DFlash có thể verify token trên compressed context, nhưng compressed context là kết quả của một
-                        bước nén
-                        có mất mát thông tin. Nếu compressor làm mất chi tiết quan trọng, output cuối vẫn có thể sai.
+                        CC-DFlash là một pipeline kết hợp giữa nén thông tin và tăng tốc decoding, do đó cần xác định rõ giới hạn hoạt động:
                     </p>
-                    <div class="claim-line">
-                        Lossy input compression + DFlash trên compressed context ≠ lossless full pipeline.
+                    <ul class="compact-list">
+                        <li><strong>Verify trên context nén:</strong> DFlash có nhiệm vụ tăng tốc sinh token, nhưng hoạt động trên nền context đã bị nén.</li>
+                        <li><strong>Nén mất mát (Lossy):</strong> Quá trình nén context có thể làm mất đi các chi tiết hoặc thông tin quan trọng.</li>
+                        <li><strong>Rủi ro sai lệch output:</strong> Nếu compressor loại bỏ thông tin cốt lõi, output cuối cùng của model có thể bị sai.</li>
+                        <li><strong>Evaluation toàn diện:</strong> Phải đo đồng thời cả tốc độ (speedup) và chất lượng (quality proxy) để đánh giá thực chất.</li>
+                    </ul>
+                    <div class="insight-strip">
+                        <div class="insight-label">Claim Boundary</div>
+                        <div class="insight-text">
+                            Lossy input compression + DFlash trên compressed context ≠ lossless full pipeline.
+                        </div>
                     </div>
-                    <p>
-                        Vì vậy, evaluation phải đo cả tốc độ và quality proxy, không chỉ nhìn số token giảm.
-                    </p>
                 </article>
 
                 <article class="section-card wide">
@@ -1729,14 +1750,7 @@
                 </p>
             </div>
 
-            <div class="speaker-box">
-                <h3>Ý chính khi nói</h3>
-                <ul>
-                    <li>Không đọc một metric duy nhất; phải đọc cả quality, speed, compression ratio và overhead.</li>
-                    <li>End-to-end quan trọng hơn generation-only cho compressed pipeline.</li>
-                    <li>GSM8K là numeric-quality proxy; QMSum là long-context diagnostic-only.</li>
-                </ul>
-            </div>
+
 
             <div class="section-grid">
                 <article class="section-card">
@@ -1895,14 +1909,7 @@
                 </p>
             </div>
 
-            <div class="speaker-box">
-                <h3>Ý chính khi nói</h3>
-                <ul>
-                    <li>Đây là câu chuyện audit, không chỉ là chạy benchmark.</li>
-                    <li>Blocker nào fix được thì trở thành evidence; blocker chưa đủ chắc thì thành limitation.</li>
-                    <li>QMSum rerun caveat không được diễn giải thành “DFlash-R1 broken”.</li>
-                </ul>
-            </div>
+
 
             <div class="section-grid">
                 <article class="section-card wide">
@@ -2060,14 +2067,7 @@
                 </p>
             </div>
 
-            <div class="speaker-box">
-                <h3>Ý chính khi nói</h3>
-                <ul>
-                    <li>GSM8K là numeric-quality proxy, không phải semantic correctness tổng quát.</li>
-                    <li>QMSum là long-context diagnostic-only, không phải semantic correctness evidence.</li>
-                    <li>Không claim universal speedup, final correctness, deployment readiness hoặc confirmed 8GB.</li>
-                </ul>
-            </div>
+
 
             <div class="section-grid">
                 <article class="section-card">
@@ -2223,16 +2223,7 @@
                 </p>
             </div>
 
-            <div class="speaker-box">
-                <h3>Ý chính khi nói</h3>
-                <ul>
-                    <li>Kết luận project đã chuyển hướng thành công sang một giả thuyết dễ kiểm chứng hơn.</li>
-                    <li>Đóng góp lớn là benchmark framework và claim-safety boundary, không phải claim thắng tuyệt đối.
-                    </li>
-                    <li>Hướng tiếp theo: semantic/manual eval, tối ưu <code>T_compress</code>, rerun QMSum ổn định hơn.
-                    </li>
-                </ul>
-            </div>
+
 
             <div class="section-grid">
                 <article class="section-card">
