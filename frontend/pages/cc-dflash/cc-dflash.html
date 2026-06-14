@@ -260,7 +260,8 @@
         }
 
         @media (min-width: 761px) {
-            .part2-comparison {
+            .part2-comparison,
+            .part3-comparison {
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
@@ -345,6 +346,77 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.62);
             box-shadow: 0 0 16px rgba(255, 255, 255, 0.24);
+        }
+
+        .dataset-roles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 760px) {
+            .dataset-roles-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        .dataset-role-col h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: -0.01em;
+        }
+
+        .dataset-comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 760px) {
+            .dataset-comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        .comparison-panel {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .comparison-panel h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 780;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .panel-subtitle {
+            margin-top: 4px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 500;
+        }
+
+        .panel-section {
+            margin-top: 16px;
+        }
+
+        .panel-section h4 {
+            margin: 0 0 6px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .mini-table {
@@ -1766,7 +1838,7 @@
 
 
             <div class="section-grid">
-                <article class="section-card">
+                <article class="section-card part3-comparison">
                     <span class="section-num">3.1</span>
                     <h2>Mục tiêu benchmark</h2>
                     <p>
@@ -1778,14 +1850,13 @@
                     </p>
                     <ol class="numbered-list">
                         <li>DFlash có cải thiện tốc độ so với autoregressive baseline không?</li>
-                        <li>Compression có giảm input tokens nhưng bị <code>T_compress</code> làm mất lợi ích e2e không?
-                        </li>
+                        <li>Compression có giảm input tokens nhưng bị <code>T_compress</code> làm mất lợi ích e2e không?</li>
                         <li>Sau khi context đã nén, DFlash có còn tạo thêm lợi ích so với compression-only không?</li>
                         <li>Quality proxy có còn ổn định sau khi context bị nén không?</li>
                     </ol>
                 </article>
 
-                <article class="section-card">
+                <article class="section-card part3-comparison">
                     <span class="section-num">3.2</span>
                     <h2>Generation-only và end-to-end</h2>
                     <table class="mini-table report-table">
@@ -1840,69 +1911,140 @@
                             <tr>
                                 <td><strong>QMSum-style meeting QA long-context</strong></td>
                                 <td>Dài</td>
-                                <td>Quan sát latency, prefill, compression overhead, compression ratio và lexical proxy.
-                                </td>
+                                <td>Quan sát latency, prefill, compression overhead, compression ratio và lexical proxy.</td>
                             </tr>
                         </tbody>
                     </table>
-                    <ul class="compact-list">
-                        <li>GSM8K không dùng để chứng minh long-context speedup.</li>
-                        <li>QMSum không dùng để chứng minh semantic correctness.</li>
-                        <li>GSM8K dùng cho numeric-quality proxy.</li>
-                        <li>QMSum dùng cho long-context diagnostic behavior.</li>
-                    </ul>
-                </article>
-
-                <article class="section-card">
-                    <span class="section-num">3.4</span>
-                    <h2>GSM8K: short-context numeric-quality</h2>
-                    <p>
-                        GSM8K dùng để kiểm tra chất lượng theo dạng short-context. Vì câu trả lời có đáp án số rõ,
-                        project dùng numeric extraction deterministic để đánh giá output.
-                    </p>
-                    <p>
-                        Vai trò chính là xem khi context bị nén, pipeline còn giữ được thông tin quan trọng để sinh đáp
-                        án số
-                        hay không. Tuy nhiên, đây không phải nơi tốt nhất để chứng minh lợi ích long-context của
-                        compression.
-                    </p>
-                </article>
-
-                <article class="section-card">
-                    <span class="section-num">3.5</span>
-                    <h2>QMSum: long-context diagnostic</h2>
-                    <p>
-                        QMSum-style meeting QA phù hợp hơn với giả thuyết CC-DFlash vì context dài làm input tokens,
-                        prefill,
-                        compression ratio và <code>T_compress</code> quan trọng hơn.
-                    </p>
-                    <p>
-                        Tuy nhiên, QMSum không được dùng như bằng chứng semantic correctness. Câu trả lời dài có thể
-                        diễn đạt khác
-                        reference, nên lexical/normalized proxy chỉ là diagnostic.
-                    </p>
+                    <div class="dataset-roles-grid">
+                        <div class="dataset-role-col">
+                            <h3>GSM8K</h3>
+                            <ul class="compact-list">
+                                <li>Không dùng để chứng minh long-context speedup.</li>
+                                <li>Dùng cho numeric-quality proxy.</li>
+                            </ul>
+                        </div>
+                        <div class="dataset-role-col">
+                            <h3>QMSum</h3>
+                            <ul class="compact-list">
+                                <li>Không dùng để chứng minh semantic correctness.</li>
+                                <li>Dùng cho long-context diagnostic behavior.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </article>
 
                 <article class="section-card wide">
-                    <span class="section-num">3.6</span>
-                    <h2>Metric scope</h2>
-                    <div class="metric-cloud">
-                        <span class="metric-chip">Numeric exact-match proxy</span>
-                        <span class="metric-chip">Normalized / lexical proxy</span>
-                        <span class="metric-chip">Input tokens</span>
-                        <span class="metric-chip">Compression ratio</span>
-                        <span class="metric-chip">T_compress</span>
-                        <span class="metric-chip">T_prefill</span>
-                        <span class="metric-chip">Generation tok/s</span>
-                        <span class="metric-chip">End-to-end latency / tok/s</span>
-                        <span class="metric-chip">Cap-hit / truncation</span>
-                        <span class="metric-chip">tau_mean</span>
-                    </div>
+                    <span class="section-num">3.4</span>
+                    <h2>GSM8K và QMSum: hai vai trò đánh giá</h2>
                     <p>
-                        End-to-end latency là metric thận trọng hơn khi so sánh compressed pipeline. Generation-only
-                        tok/s
-                        hữu ích để hiểu decoding behavior nhưng không đủ để claim speedup nếu chưa tính
-                        <code>T_compress</code>.
+                        GSM8K và QMSum-style meeting QA được thiết kế với hai vai trò khác nhau nhằm đánh giá toàn diện cả tính hiệu quả (efficiency) và chất lượng (quality) của pipeline.
+                    </p>
+                    <div class="dataset-comparison-grid">
+                        <div class="comparison-panel">
+                            <h3>GSM8K</h3>
+                            <div class="panel-subtitle">Short-context numeric-quality proxy.</div>
+                            <div class="panel-section">
+                                <h4>Dùng để:</h4>
+                                <ul class="compact-list">
+                                    <li>Kiểm tra đáp án số bằng numeric extraction.</li>
+                                    <li>Theo dõi quality proxy khi context bị nén.</li>
+                                </ul>
+                            </div>
+                            <div class="panel-section">
+                                <h4>Không dùng để:</h4>
+                                <ul class="compact-list">
+                                    <li>Chứng minh long-context speedup.</li>
+                                    <li>Claim semantic correctness tổng quát.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="comparison-panel">
+                            <h3>QMSum-style Meeting QA</h3>
+                            <div class="panel-subtitle">Long-context diagnostic evidence.</div>
+                            <div class="panel-section">
+                                <h4>Dùng để:</h4>
+                                <ul class="compact-list">
+                                    <li>Quan sát latency, prefill, compression overhead và compression ratio.</li>
+                                    <li>Theo dõi lexical/normalized proxy.</li>
+                                </ul>
+                            </div>
+                            <div class="panel-section">
+                                <h4>Không dùng để:</h4>
+                                <ul class="compact-list">
+                                    <li>Claim semantic correctness.</li>
+                                    <li>Làm final quality benchmark.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="section-card wide">
+                    <span class="section-num">3.5</span>
+                    <h2>Metric scope</h2>
+                    <table class="mini-table report-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Dùng để đọc gì</th>
+                                <th>Caveat / phạm vi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Numeric exact-match proxy</code></td>
+                                <td>Chất lượng trên GSM8K</td>
+                                <td>Proxy numeric, không phải semantic correctness tổng quát</td>
+                            </tr>
+                            <tr>
+                                <td><code>Normalized / lexical proxy</code></td>
+                                <td>Tín hiệu chẩn đoán trên QMSum</td>
+                                <td>Diagnostic-only, không claim semantic correctness</td>
+                            </tr>
+                            <tr>
+                                <td><code>Input tokens</code></td>
+                                <td>Context có được rút gọn không</td>
+                                <td>Không tự chứng minh speedup</td>
+                            </tr>
+                            <tr>
+                                <td><code>Compression ratio</code></td>
+                                <td>Mức độ nén thực tế</td>
+                                <td>Cần đọc cùng quality proxy</td>
+                            </tr>
+                            <tr>
+                                <td><code>T_compress</code></td>
+                                <td>Chi phí compression</td>
+                                <td>Phải tính vào end-to-end</td>
+                            </tr>
+                            <tr>
+                                <td><code>T_prefill</code></td>
+                                <td>Chi phí xử lý input context trước decoding</td>
+                                <td>Dùng khi artifact hoặc diagnostic summary có đo</td>
+                            </tr>
+                            <tr>
+                                <td><code>Generation tok/s</code></td>
+                                <td>Tốc độ sinh token sau khi prompt sẵn sàng</td>
+                                <td>Không đủ để claim end-to-end speedup</td>
+                            </tr>
+                            <tr>
+                                <td><code>End-to-end latency / tok/s</code></td>
+                                <td>Tốc độ khi tính cả overhead</td>
+                                <td>Chỉ là local runtime evidence</td>
+                            </tr>
+                            <tr>
+                                <td><code>Cap-hit / truncation</code></td>
+                                <td>Output có bị giới hạn bởi max_new_tokens không</td>
+                                <td>Có thể làm lệch quality proxy</td>
+                            </tr>
+                            <tr>
+                                <td><code>tau_mean</code></td>
+                                <td>Tín hiệu acceptance của DFlash</td>
+                                <td>Diagnostic signal, không phải quality metric</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        End-to-end latency là metric thận trọng hơn khi so sánh compressed pipeline, vì generation-only tok/s chưa tính <code>T_compress</code>.
                     </p>
                 </article>
             </div>
