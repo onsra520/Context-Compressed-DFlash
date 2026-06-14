@@ -464,12 +464,17 @@
                         </tr>
                         <tr>
                             <td><strong>Conditional DFlash Fix Gate</strong></td>
-                            <td class="warn">CONDITIONAL</td>
+                            <td class="neu">SKIPPED_BY_T80B / NOT_NEEDED</td>
                             <td>T80C and T80D only happen if T80B identifies a real DFlash-R1 regression/runtime bug. If T80B finds only runtime noise or a non-blocking diagnostic limitation, skip T80C/T80D.</td>
                         </tr>
                         <tr>
+                            <td><strong>Conditional Confirmation Gate</strong></td>
+                            <td class="neu">SKIPPED_BY_T80B / NOT_NEEDED</td>
+                            <td>Conditional rerun confirmation post-fix.</td>
+                        </tr>
+                        <tr>
                             <td><strong>Final Consistency Audit Gate</strong></td>
-                            <td class="neu">PENDING</td>
+                            <td class="info">NEXT</td>
                             <td>T81 checks final package consistency, claim safety, Roadmap/Overview wording, and GSM8K/QMSum role split. T81 must not be used as a benchmark-logic fix task.</td>
                         </tr>
                         <tr>
@@ -502,7 +507,7 @@
                     <tbody>
                         <tr>
                             <td>Current next</td>
-                            <td class="info">T81 NEXT</td>
+                            <td class="info">T81</td>
                             <td>Final consistency audit gate. Check final package consistency, claim safety, Roadmap/Overview wording, and GSM8K/QMSum role split.</td>
                         </tr>
                         <tr>
@@ -512,8 +517,8 @@
                         </tr>
                         <tr>
                             <td>DFlash-R1 status</td>
-                            <td class="warn">WATCH</td>
-                            <td>GSM8K DFlash-R1 quality remains 24/30 and faster than Baseline-AR, but Task80A timing shifted strongly versus Task69/Task80 reference. T80B must check whether this is runtime noise or regression.</td>
+                            <td class="go">RESOLVED_BY_T80B / PASS_WITH_NOTES</td>
+                            <td>no confirmed regression; timing remains local-runtime caveat.</td>
                         </tr>
                         <tr>
                             <td>CC-DFlash compressed path</td>
@@ -523,12 +528,17 @@
                         <tr>
                             <td>QMSum evidence</td>
                             <td class="info">DIAGNOSTIC_ONLY</td>
-                            <td>Use Task71/79B as the completed QMSum diagnostic package. Task80A fresh QMSum rerun was incomplete after DFlash-R1 stalled.</td>
+                            <td>Task71/79B remain completed diagnostic basis; Task80A incomplete rerun is caveat.</td>
+                        </tr>
+                        <tr>
+                            <td>T80C/T80D</td>
+                            <td class="neu">NOT_NEEDED</td>
+                            <td>NOT_NEEDED after T80B Decision D</td>
                         </tr>
                         <tr>
                             <td>Final report readiness</td>
                             <td class="neu">PENDING</td>
-                            <td>Final report drafting waits for T80B issue gate and T81 claim-safety audit.</td>
+                            <td>PENDING after T81</td>
                         </tr>
                         <tr>
                             <td>Deployment / 8GB</td>
@@ -1274,31 +1284,40 @@
                             <td class="go">PASS_WITH_NOTES: GSM8K numeric-quality and QMSum diagnostic evidence packaged with claims matrix and conservative final-report key points</td>
                         </tr>
                         <tr>
-                            <td class="info">NEXT: issue analysis, no blind benchmark expansion</td>
+                            <td><span class="tnum done">T80A</span></td>
+                            <td>Final Two-Dataset Rerun / Recompute Package</td>
+                            <td>Run final n=30 verification rerun on frozen GSM8K and QMSum datasets with unique Task80A artifacts</td>
+                            <td class="stop">BLOCKED/PASS_WITH_NOTES: GSM8K completed; QMSum Baseline completed; QMSum DFlash stopped at 2 rows and compressed QMSum runs were skipped</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T80B</span></td>
+                            <td>Rerun Analysis and Issue Gate</td>
+                            <td>Analyze Task80A rerun completeness, GSM8K DFlash-R1 timing shift, and QMSum DFlash stall; produce Decision D and advance to T81 with caveat.</td>
+                            <td class="go">PASS_WITH_NOTES: Decision D; no confirmed DFlash-R1 regression; QMSum Task80A is a rerun caveat; T80C/T80D not opened; next T81.</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T80C</span></td>
                             <td>DFlash-R1 Regression/Runtime Fix</td>
                             <td>Conditional: fix DFlash-R1 regression/runtime bug if T80B identifies a real issue; otherwise skip.</td>
-                            <td class="info">CONDITIONAL: only if T80B finds regression</td>
+                            <td class="neu">SKIPPED_BY_T80B: not needed because T80B found no confirmed DFlash-R1 regression.</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T80D</span></td>
                             <td>Post-Fix Smoke/Rerun Confirmation</td>
                             <td>Conditional: run post-fix smoke and rerun confirmation if T80C is executed; otherwise skip.</td>
-                            <td class="info">CONDITIONAL: only if T80C runs</td>
+                            <td class="neu">SKIPPED_BY_T80B: not needed because T80B did not open a fix or bounded confirmation path.</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T81</span></td>
                             <td>Final Package Consistency Audit</td>
                             <td>Final consistency audit and claim-safety recheck. Must not modify benchmark logic. Verify GSM8K/QMSum split.</td>
-                            <td class="info">PLANNED: consistency audit / claim-safety check</td>
+                            <td class="info">NEXT: final package consistency audit / claim-safety recheck.</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T82</span></td>
                             <td>Final Report v2 Drafting</td>
                             <td>Draft final report v2 after the T81 consistency audit gate clears.</td>
-                            <td class="info">PLANNED: final report v2 drafting</td>
+                            <td class="info">PLANNED: final report v2 drafting after T81 clears.</td>
                         </tr>
                     </tbody>
                 </table>
