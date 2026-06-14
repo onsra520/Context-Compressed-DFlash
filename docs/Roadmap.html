@@ -411,10 +411,10 @@
                 <span class="sv warn">⚠ Phase 2: Conditional GO</span>
                 <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 78 compressed-prompt evidence-retention audit</span>
+                <span class="sv info">→ Current next: Task 79B QMSum limitation freeze / reporting decision</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 77 QMSum evidence-focused suffix calibration. Current next main technical task: Task 78 compressed-prompt evidence-retention audit. QMSum n=100 remains blocked because evidence-targeting and wrong-negative failures remain after Task 77. Detailed task history is available in the Update Log and Reports Index below.
+                This roadmap is synced through Task 78 QMSum compressed-prompt evidence-retention audit. Current next main technical task: Task 79B QMSum limitation freeze / reporting decision. QMSum n=100 remains blocked because Task 78 did not support obvious compressed-evidence deletion as the main failure explanation and semantic quality remains unresolved. Detailed task history is available in the Update Log and Reports Index below.
             </div>
         </header>
 
@@ -1222,10 +1222,16 @@
                             <td class="go">PASS_WITH_NOTES: suffix preserved and cap hits remain zero, but wrong-negative/evidence-targeting failures persist; n=100 remains blocked</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T78</span></td>
+                            <td><span class="tnum done">T78</span></td>
                             <td>QMSum Compressed-Prompt Evidence-Retention Audit</td>
                             <td>Inspect whether compressed prompts retain answer-critical QMSum evidence before more prompt tuning or n=100</td>
-                            <td class="info">Next: read-only evidence-retention audit, not QMSum n=100</td>
+                            <td class="go">PASS_WITH_NOTES: bounded compressor-only reconstruction found retained/partial evidence or source-mismatch signals, not broad compressed-evidence deletion; QMSum n=100 remains blocked</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T79B</span></td>
+                            <td>QMSum Limitation Freeze / Reporting Decision</td>
+                            <td>Freeze how QMSum quality limitations should be reported, or define a semantic/manual review path before any larger QMSum benchmark</td>
+                            <td class="info">Next: reporting/limitation decision, not QMSum n=100</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1733,6 +1739,12 @@
                             <td><code>77-qmsum-evidence-focused-policy-report.md</code></td>
                             <td>T77</td>
                             <td>QMSum Evidence-Focused Protected-Suffix Calibration Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>78-qmsum-compressed-prompt-evidence-retention-report.md</code></td>
+                            <td>T78</td>
+                            <td>QMSum Compressed-Prompt Evidence-Retention Audit Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -2418,6 +2430,36 @@
                             <td>60 rows</td>
                         </tr>
                         <tr>
+                            <td><code>results/task78_qmsum_evidence_retention_summary.json</code></td>
+                            <td>T78</td>
+                            <td>QMSum compressed-prompt evidence-retention summary</td>
+                            <td>PASS_WITH_NOTES</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task78_qmsum_evidence_retention_table.csv</code></td>
+                            <td>T78</td>
+                            <td>QMSum evidence-retention label table</td>
+                            <td>4 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task78_qmsum_evidence_retention_cases.jsonl</code></td>
+                            <td>T78</td>
+                            <td>QMSum evidence-retention prompt-level cases</td>
+                            <td>29 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task78_qmsum_reconstructed_prompt_previews.jsonl</code></td>
+                            <td>T78</td>
+                            <td>Bounded compressor-only reconstructed prompt previews</td>
+                            <td>29 rows</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task78_qmsum_selected_evidence_spans.jsonl</code></td>
+                            <td>T78</td>
+                            <td>Selected QMSum evidence term span audit</td>
+                            <td>29 rows</td>
+                        </tr>
+                        <tr>
                             <td><code>results/task42_dataset_audit_summary.json</code></td>
                             <td>T42</td>
                             <td>Dataset audit summary</td>
@@ -2624,8 +2666,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 77 QMSum evidence-focused suffix calibration</span>
-                <span class="sv info">Current next: Task 78 compressed-prompt evidence-retention audit</span>
+                <span class="sv go">Synced through Task 78 QMSum evidence-retention audit</span>
+                <span class="sv info">Current next: Task 79B QMSum limitation freeze / reporting decision</span>
                 <span class="sv warn">Phase 1 Complete: NOT DONE</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
@@ -3222,6 +3264,16 @@
                     evidence-focused protected suffix. Policy preservation was 30/30 for both conditions and cap hits
                     stayed zero, but wrong-negative and evidence-targeting failures remain common. QMSum n=100 remains
                     blocked; Task 78 should audit compressed-prompt evidence retention.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-14</div>
+                <div class="log-body">
+                    <strong>Task 78 — QMSum Compressed-Prompt Evidence-Retention Audit — PASS_WITH_NOTES, read-only plus bounded reconstruction</strong><br>
+                    Audited 29 prompt-level QMSum cases with compressor-only reconstruction. The audit found
+                    retained/partial evidence and source-mismatch or unclear cases rather than broad compressed-evidence
+                    deletion. QMSum n=100 remains blocked; Task 79B should freeze/report QMSum limitations or define a
+                    semantic/manual review path.
                 </div>
             </div>
             <div class="log-entry">

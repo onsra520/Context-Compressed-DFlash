@@ -1,0 +1,519 @@
+{
+  "audited_priority_cases": 6,
+  "audited_secondary_cases": 4,
+  "avg_compressed_evidence_hit_rate": 0.449632,
+  "avg_evidence_retention_ratio": 0.62069,
+  "avg_original_evidence_hit_rate": 0.449632,
+  "cases_needing_full_reconstruction": [],
+  "cases_output": "results/task78_qmsum_evidence_retention_cases.jsonl",
+  "cases_where_evidence_missing_after_compression": [],
+  "cases_where_evidence_present_but_model_failed": [
+    11,
+    12,
+    15,
+    17,
+    18,
+    19,
+    22,
+    26,
+    29,
+    30
+  ],
+  "compressor_loaded": true,
+  "count_by_evidence_retention_label": {
+    "EVIDENCE_MISSING_FROM_ORIGINAL_CONTEXT_OR_SOURCE_MISMATCH": 6,
+    "EVIDENCE_PARTIALLY_PRESENT_IN_COMPRESSED_PROMPT": 6,
+    "EVIDENCE_PRESENT_IN_COMPRESSED_PROMPT_MODEL_FAILED": 10,
+    "UNCLEAR": 7
+  },
+  "cuda_used": false,
+  "decisions": {
+    "continue_suffix_prompt_tuning": false,
+    "main_conclusion": "model_failure_despite_retained_evidence",
+    "mnt512_needed": false,
+    "qmsum_n100_justified": false,
+    "recommended_next_task": "Task 79B final QMSum limitation freeze / reporting decision"
+  },
+  "draft_model_loaded": false,
+  "generation_run": false,
+  "possible_dataset_reference_mismatch_prompt_ids": [
+    4,
+    6,
+    14,
+    20,
+    21,
+    24
+  ],
+  "question_preserved_count": 29,
+  "reconstructed_output": "results/task78_qmsum_reconstructed_prompt_previews.jsonl",
+  "reconstruction_mode": "bounded_compressor_only_reconstruction",
+  "rows_artifact_only": 0,
+  "rows_with_full_reconstruction": 29,
+  "secondary_prompt_checks": {
+    "13": [
+      {
+        "avg_evidence_retention_ratio": 1.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.6,
+        "compressed_context_term_hits": [
+          "OAS",
+          "200",
+          "GIS"
+        ],
+        "condition": "shared_compressed_prompt",
+        "confidence": "medium",
+        "evidence_retention_label": "EVIDENCE_PARTIALLY_PRESENT_IN_COMPRESSED_PROMPT",
+        "expected_answer": "As one of the highest risk populations, the elderly's costs had gone up. Many seniors who were facing extra dispensing fees were already carefully budgeting before the pandemic. It was so important that the government be there to support them. The government announced a one-time, tax-free payment of $300 for seniors eligible for OAS and an additional $200 for seniors eligible for GIS. This meant there would be up to $500 for the most vulnerable seniors to help them with their financial security to get through this ...",
+        "fixture_id": "qmsum_meeting_qa_test_0076",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The Canadian government did not specifically address support for the elderly in the provided meeting context. No petitions or statements from the committee members directly relate to elderly support measures. The discussions focused on perinatal mental health, family doctor shortages, cystic fibrosi...",
+          "LLMLingua-AR-R2": "The Canadian government did not specifically address support for the elderly in the provided meeting context. No petitions or statements from the committee members directly relate to elderly support measures. The discussions focused on perinatal mental health, family doctor shortages, cystic fibrosi..."
+        },
+        "important_expected_terms": [
+          "300",
+          "OAS",
+          "200",
+          "GIS",
+          "500"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.6,
+        "original_context_term_hits": [
+          "OAS",
+          "200",
+          "GIS"
+        ],
+        "prompt_id": 13,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Some expected evidence survives compression, but important terms are missing or fragmented.",
+        "recommended_next_action": "Keep case in Task 78 limitation set for manual review.",
+        "retained_terms_after_compression": [
+          "OAS",
+          "200",
+          "GIS"
+        ],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "WRONG_NEGATIVE",
+          "LLMLingua-AR-R2": "WRONG_NEGATIVE"
+        }
+      }
+    ],
+    "21": [
+      {
+        "avg_evidence_retention_ratio": 0.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.0,
+        "compressed_context_term_hits": [],
+        "condition": "shared_compressed_prompt",
+        "confidence": "medium",
+        "evidence_retention_label": "EVIDENCE_MISSING_FROM_ORIGINAL_CONTEXT_OR_SOURCE_MISMATCH",
+        "expected_answer": "The team was doing spectral subtraction with both scaling and GGT bins. There were pros and cons to both approaches. The professor suggested a simple spectral subtraction followed by a KL transformation. He also suggested using JRASTRA's technique which relied on adding some noise to get rid of noise. The team also suggested VTS techniques.",
+        "fixture_id": "qmsum_meeting_qa_test_0078",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The discussion does not mention spectral subtraction. No specific evidence, names, numbers, organizations, decisions, reasons, constraints, or supporting details related to spectral subtraction are provided in the meeting context. The conversation focuses on compute resources, P-make, Customs, and j...",
+          "LLMLingua-AR-R2": "The discussion does not mention spectral subtraction. No specific evidence, names, numbers, organizations, decisions, reasons, constraints, or supporting details related to spectral subtraction are provided in the meeting context. The conversation focuses on compute resources, P-make, Customs, and j..."
+        },
+        "important_expected_terms": [
+          "GGT",
+          "KL",
+          "JRASTRA",
+          "VTS"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.0,
+        "original_context_term_hits": [],
+        "prompt_id": 21,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Expected evidence terms were not found in the original context, suggesting source mismatch or extraction limitation.",
+        "recommended_next_action": "Audit dataset/reference alignment for this prompt.",
+        "retained_terms_after_compression": [],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "WRONG_NEGATIVE",
+          "LLMLingua-AR-R2": "WRONG_NEGATIVE"
+        }
+      }
+    ],
+    "4": [
+      {
+        "avg_evidence_retention_ratio": 0.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.0,
+        "compressed_context_term_hits": [],
+        "condition": "shared_compressed_prompt",
+        "confidence": "medium",
+        "evidence_retention_label": "EVIDENCE_MISSING_FROM_ORIGINAL_CONTEXT_OR_SOURCE_MISMATCH",
+        "expected_answer": "With the solar energy alimentation, people in remote areas could recharge the controller more conveniently. Plus, it might attract some ecologists to purchase. Although the design would increase the production cost, it would be added value that can be compensated.",
+        "fixture_id": "qmsum_meeting_qa_test_0095",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The group did not decide to use both classical battery and solar energy alimentation; the context does not mention this decision. The discussion focused on controller concepts, user interface design, and technical feasibility, not on power sources for the industrial design. Therefore, there is no ev...",
+          "LLMLingua-AR-R2": "The group did not decide to use both classical battery and solar energy alimentation; the context does not mention this decision. The discussion focused on controller concepts, user interface design, and technical feasibility, not on power sources for the industrial design. Therefore, there is no ev..."
+        },
+        "important_expected_terms": [
+          "remote areas",
+          "solar energy alimentation",
+          "production cost"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.0,
+        "original_context_term_hits": [],
+        "prompt_id": 4,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Expected evidence terms were not found in the original context, suggesting source mismatch or extraction limitation.",
+        "recommended_next_action": "Audit dataset/reference alignment for this prompt.",
+        "retained_terms_after_compression": [],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "WRONG_NEGATIVE",
+          "LLMLingua-AR-R2": "WRONG_NEGATIVE"
+        }
+      }
+    ],
+    "8": [
+      {
+        "avg_evidence_retention_ratio": 1.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.6,
+        "compressed_context_term_hits": [
+          "Barry",
+          "Hughes",
+          "Government"
+        ],
+        "condition": "shared_compressed_prompt",
+        "confidence": "medium",
+        "evidence_retention_label": "EVIDENCE_PARTIALLY_PRESENT_IN_COMPRESSED_PROMPT",
+        "expected_answer": "Barry Hughes thought that the infrastructure can be built for a range of out-of-court disposals. It might be built by the Welsh Government, the police, and crime commissioners.",
+        "fixture_id": "qmsum_meeting_qa_test_0018",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "Barry Hughes did not specifically address the infrastructure of out-of-court disposals in the provided context. The discussion focused on the legal framework for reasonable punishment and the clarity of the law regarding reasonable chastisement. He mentioned the need for a nuanced approach to cases ...",
+          "LLMLingua-AR-R2": "Barry Hughes did not specifically address the infrastructure of out-of-court disposals in the provided context. The discussion focused on the legal framework for reasonable punishment and the clarity of the law regarding reasonable chastisement. He mentioned the need for a clearer legal framework bu..."
+        },
+        "important_expected_terms": [
+          "Welsh Government",
+          "Barry",
+          "Hughes",
+          "Welsh",
+          "Government"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.6,
+        "original_context_term_hits": [
+          "Barry",
+          "Hughes",
+          "Government"
+        ],
+        "prompt_id": 8,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Some expected evidence survives compression, but important terms are missing or fragmented.",
+        "recommended_next_action": "Keep case in Task 78 limitation set for manual review.",
+        "retained_terms_after_compression": [
+          "Barry",
+          "Hughes",
+          "Government"
+        ],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "MISSING_ENTITY_OR_NUMBER",
+          "LLMLingua-AR-R2": "MISSING_ENTITY_OR_NUMBER"
+        }
+      }
+    ]
+  },
+  "spans_output": "results/task78_qmsum_selected_evidence_spans.jsonl",
+  "specific_prompt_checks": {
+    "14": [
+      {
+        "avg_evidence_retention_ratio": 0.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.0,
+        "compressed_context_term_hits": [],
+        "condition": "shared_compressed_prompt",
+        "confidence": "medium",
+        "evidence_retention_label": "EVIDENCE_MISSING_FROM_ORIGINAL_CONTEXT_OR_SOURCE_MISMATCH",
+        "expected_answer": "PhD C explained that the silence probabilities had a 100ms delay, the delta at the input had a 40ms delay, and a 10ms delay was created by LDA filters.",
+        "fixture_id": "qmsum_meeting_qa_test_0055",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The meeting context does not mention anything about PhD C's comments on the breakdown of latency. Therefore, the information is not discussed in the provided context.",
+          "LLMLingua-AR-R2": "The meeting context does not mention anything about PhD C's comments on the breakdown of latency. Therefore, the information is not discussed in the provided context."
+        },
+        "important_expected_terms": [
+          "100ms",
+          "40ms",
+          "10ms",
+          "LDA"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.0,
+        "original_context_term_hits": [],
+        "prompt_id": 14,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Expected evidence terms were not found in the original context, suggesting source mismatch or extraction limitation.",
+        "recommended_next_action": "Audit dataset/reference alignment for this prompt.",
+        "retained_terms_after_compression": [],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "WRONG_NEGATIVE",
+          "LLMLingua-AR-R2": "WRONG_NEGATIVE"
+        }
+      }
+    ],
+    "20": [
+      {
+        "avg_evidence_retention_ratio": 1.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.2,
+        "compressed_context_term_hits": [
+          "Professor"
+        ],
+        "condition": "shared_compressed_prompt",
+        "confidence": "medium",
+        "evidence_retention_label": "EVIDENCE_MISSING_FROM_ORIGINAL_CONTEXT_OR_SOURCE_MISMATCH",
+        "expected_answer": "The team was concerned about the availability of computational resources. The Professor informed them that they had received two 550 megahertz processors by IBM. Though, they were originally expecting eight 800 megahertz processors.",
+        "fixture_id": "qmsum_meeting_qa_test_0065",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The team discussed the performance of neural networks trained on task data versus broad data. They tested networks trained on TI-digits data on Italian digits, resulting in a 10% error rate increase. When tested on multilingual data, the error rate increased by 20%, indicating a significant drop in ...",
+          "LLMLingua-AR-R2": "The team discussed the performance of neural networks trained on task data versus broad data. They tested networks trained on TI-digits data on Italian digits, resulting in a 10% error rate increase. When tested on multilingual data, the error rate increased by 20%. The discussion focused on trainin..."
+        },
+        "important_expected_terms": [
+          "Professor",
+          "550",
+          "IBM",
+          "Though",
+          "800"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.2,
+        "original_context_term_hits": [
+          "Professor"
+        ],
+        "prompt_id": 20,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Expected evidence terms were not found in the original context, suggesting source mismatch or extraction limitation.",
+        "recommended_next_action": "Audit dataset/reference alignment for this prompt.",
+        "retained_terms_after_compression": [
+          "Professor"
+        ],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "EVIDENCE_MISSING_OR_MISFOCUSED",
+          "LLMLingua-AR-R2": "EVIDENCE_MISSING_OR_MISFOCUSED"
+        }
+      }
+    ],
+    "23": [
+      {
+        "avg_evidence_retention_ratio": 1.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.461538,
+        "compressed_context_term_hits": [
+          "British Columbia",
+          "Liberal",
+          "Bill",
+          "Canada",
+          "British",
+          "Columbia"
+        ],
+        "condition": "shared_compressed_prompt",
+        "confidence": "medium",
+        "evidence_retention_label": "EVIDENCE_PARTIALLY_PRESENT_IN_COMPRESSED_PROMPT",
+        "expected_answer": "The oil and gas industry was under severe strain. Over the past number of years, they had seen tremendous pressure on the federal government from anti-oil and gas lobby groups demanding that the oil sands be shut down. The federal Liberal government's response to the anti-oil lobby was the introduction of the Bill C-69, which would prevent any major oil and gas projects from being developed in Canada; and the oil shipping ban, Bill C-48, for the northern coast of British Columbia, which also had a negative effect o...",
+        "fixture_id": "qmsum_meeting_qa_test_0072",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The meeting context does not provide specific information about the stress faced by oil and gas. No concrete names, numbers, organizations, decisions, or details related to oil and gas stress are mentioned in the provided text. The discussion focused on petitions regarding maternal mental health, fa...",
+          "LLMLingua-AR-R2": "The meeting context does not provide specific information about the stress faced by oil and gas. No concrete names, numbers, organizations, decisions, or details related to oil and gas stress are mentioned in the provided text. The discussion focused on petitions regarding maternal mental health, fa..."
+        },
+        "important_expected_terms": [
+          "British Columbia",
+          "anti-oil lobby",
+          "anti-oil and gas lobby",
+          "oil sands",
+          "Bill C-69",
+          "Bill C-48",
+          "Liberal",
+          "Bill",
+          "69",
+          "Canada",
+          "48",
+          "British",
+          "Columbia"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.461538,
+        "original_context_term_hits": [
+          "British Columbia",
+          "Liberal",
+          "Bill",
+          "Canada",
+          "British",
+          "Columbia"
+        ],
+        "prompt_id": 23,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Some expected evidence survives compression, but important terms are missing or fragmented.",
+        "recommended_next_action": "Keep case in Task 78 limitation set for manual review.",
+        "retained_terms_after_compression": [
+          "British Columbia",
+          "Liberal",
+          "Bill",
+          "Canada",
+          "British",
+          "Columbia"
+        ],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "WRONG_NEGATIVE",
+          "LLMLingua-AR-R2": "WRONG_NEGATIVE"
+        }
+      }
+    ],
+    "27": [
+      {
+        "avg_evidence_retention_ratio": 1.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.333333,
+        "compressed_context_term_hits": [
+          "Professor",
+          "Data"
+        ],
+        "condition": "shared_compressed_prompt",
+        "confidence": "low",
+        "evidence_retention_label": "UNCLEAR",
+        "expected_answer": "Professor D said they would be getting another disk rack that would bring in four thirty-six gigabyte disks, increasing the space. Additionally, the directories of Aurora data, Carmen\u2019s Data and SPINE were likely to be moved.",
+        "fixture_id": "qmsum_meeting_qa_test_0094",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The group discussed recording meetings at the end to capture data for analysis, which would allow participants to leave meetings without issues. They considered having fewer recordings but noted the value of data from different domains. A new student from signal-processing background was proposed to...",
+          "LLMLingua-AR-R2": "The group discussed recording meetings at the end to capture data for analysis, which would allow participants to leave meetings without issues. They considered having fewer recordings but noted the value of data from different domains. A new student from signal-processing background was proposed to..."
+        },
+        "important_expected_terms": [
+          "disk rack",
+          "Professor",
+          "Aurora",
+          "Carmen",
+          "Data",
+          "SPINE"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.333333,
+        "original_context_term_hits": [
+          "Professor",
+          "Data"
+        ],
+        "prompt_id": 27,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Heuristic evidence-retention checks are inconclusive.",
+        "recommended_next_action": "Keep case in Task 78 limitation set for manual review.",
+        "retained_terms_after_compression": [
+          "Professor",
+          "Data"
+        ],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "EVIDENCE_MISSING_OR_MISFOCUSED",
+          "LLMLingua-AR-R2": "EVIDENCE_MISSING_OR_MISFOCUSED"
+        }
+      }
+    ],
+    "28": [
+      {
+        "avg_evidence_retention_ratio": 1.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 0.4,
+        "compressed_context_term_hits": [
+          "COVID-19",
+          "EI"
+        ],
+        "condition": "shared_compressed_prompt",
+        "confidence": "medium",
+        "evidence_retention_label": "EVIDENCE_PARTIALLY_PRESENT_IN_COMPRESSED_PROMPT",
+        "expected_answer": "The fish and seafood sector had been extremely adversely affected because of COVID-19. They've started to put measures in place to address the issue with the $62.5 million for processors, as well as to make sure that the CERB is available for seasonal workers as well as people who had run out of their fishery EI, but they knew that more needs to be done. The fishery enterprises were uniquely structured, which was why they were looking at measures to address the concerns they had. Because of the unique structure of ...",
+        "fixture_id": "qmsum_meeting_qa_test_0058",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The government did not specifically address the fishing industry in the meeting context. No concrete actions, names, or policies related to supporting the fishing industry were mentioned. The discussion focused on other issues like perinatal mental health, family doctor shortages, and Indigenous rig...",
+          "LLMLingua-AR-R2": "The government did not specifically address the fishing industry in the meeting context. No concrete actions, names, or policies related to supporting the fishing industry were mentioned. The discussion focused on other issues like perinatal mental health, family doctor shortages, and Indigenous rig..."
+        },
+        "important_expected_terms": [
+          "fish and seafood",
+          "COVID-19",
+          "62.5",
+          "CERB",
+          "EI"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 0.4,
+        "original_context_term_hits": [
+          "COVID-19",
+          "EI"
+        ],
+        "prompt_id": 28,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Some expected evidence survives compression, but important terms are missing or fragmented.",
+        "recommended_next_action": "Keep case in Task 78 limitation set for manual review.",
+        "retained_terms_after_compression": [
+          "COVID-19",
+          "EI"
+        ],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "WRONG_NEGATIVE",
+          "LLMLingua-AR-R2": "WRONG_NEGATIVE"
+        }
+      }
+    ],
+    "30": [
+      {
+        "avg_evidence_retention_ratio": 1.0,
+        "compressed_context_available": true,
+        "compressed_context_hit_rate": 1.0,
+        "compressed_context_term_hits": [
+          "speech recognition"
+        ],
+        "condition": "shared_compressed_prompt",
+        "confidence": "high",
+        "evidence_retention_label": "EVIDENCE_PRESENT_IN_COMPRESSED_PROMPT_MODEL_FAILED",
+        "expected_answer": "The project manager put forward that the speech recognition wouldn't work when several persons wanted to change the channel at the same time, and the cost would surely rise if adding the two technologies. In response to that, the user interface designer said they would just cooperate with some research institute and the vocabulary was limited, so it wouldn't cost much. Then the project manager posed the language problem. The user interface designer answered they would have some language adaptations so the product c...",
+        "fixture_id": "qmsum_meeting_qa_test_0001",
+        "generated_text_snippets_by_condition": {
+          "CC-DFlash-R2": "The Project Manager disapproved of the intelligent controller concept due to safety concerns. The discussion highlighted risks like injury from repeated gestures. The Project Manager noted that using gestures could lead to physical harm, such as a broken arm. Additionally, there were concerns about ...",
+          "LLMLingua-AR-R2": "The Project Manager disapproved of the intelligent controller concept due to safety concerns. The discussion highlighted risks like injury from repeated gestures. The Project Manager noted that using gestures could lead to physical harm, such as a broken arm. Additionally, there were concerns about ..."
+        },
+        "important_expected_terms": [
+          "speech recognition"
+        ],
+        "lost_terms_after_compression": [],
+        "original_context_available": true,
+        "original_context_hit_rate": 1.0,
+        "original_context_term_hits": [
+          "speech recognition"
+        ],
+        "prompt_id": 30,
+        "protected_suffix_preserved": true,
+        "question_preserved": true,
+        "rationale": "Most expected evidence terms are present after compression, but Task 77 output still failed.",
+        "recommended_next_action": "Treat as model locating/answering failure; consider manual/semantic review or retrieval/reranking.",
+        "retained_terms_after_compression": [
+          "speech recognition"
+        ],
+        "task77_label_by_condition": {
+          "CC-DFlash-R2": "EVIDENCE_MISSING_OR_MISFOCUSED",
+          "LLMLingua-AR-R2": "EVIDENCE_MISSING_OR_MISFOCUSED"
+        }
+      }
+    ]
+  },
+  "status": "PASS_WITH_NOTES",
+  "suffix_preserved_count": 29,
+  "summary_output": "results/task78_qmsum_evidence_retention_summary.json",
+  "table_output": "results/task78_qmsum_evidence_retention_table.csv",
+  "target_model_loaded": false,
+  "total_audited_cases": 29
+}
