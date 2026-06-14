@@ -1510,6 +1510,18 @@
             font-weight: 600;
         }
 
+        .claim-line-compact {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            background: rgba(255, 255, 255, 0.045);
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 13.5px;
+            line-height: 1.45;
+            font-weight: 600;
+        }
+
         .qmsum-columns {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2579,6 +2591,10 @@
                         tương đương LLMLingua-AR-R2 trong setting n=30. Trên QMSum, project có diagnostic evidence cho
                         long-context behavior nhưng chưa đủ cơ sở để claim semantic correctness.
                     </p>
+                    <ul class="compact-list">
+                        <li>GSM8K hỗ trợ đọc numeric-quality proxy trong short-context.</li>
+                        <li>QMSum chỉ dùng để quan sát diagnostic behavior, không phải final quality proof.</li>
+                    </ul>
                 </article>
 
                 <article class="section-card">
@@ -2589,8 +2605,8 @@
                         deployment,
                         hoặc compression proven useful end-to-end trong mọi trường hợp.
                     </p>
-                    <div class="claim-line-small">
-                        Safe claim: CC-DFlash là MVP có evidence có điều kiện, không phải kết luận cuối về speedup hay correctness.
+                    <div class="claim-line-compact">
+                        Safe claim: MVP có evidence có điều kiện, chưa phải kết luận cuối về speedup/correctness.
                     </div>
                 </article>
 
