@@ -1075,6 +1075,51 @@
 
                 <article class="section-card wide">
                     <span class="section-num">5.4</span>
+                    <h2>QMSum Interpretation — Diagnostic Timing và Proxy</h2>
+                    <p>
+                        Trên QMSum, kết quả quan trọng nhất không phải là “CC-DFlash thắng tất cả”, mà là: QMSum cho thấy long-context diagnostic behavior của từng condition. DFlash-R1 là no-compression DFlash baseline mạnh, LLMLingua-AR-R2 cho thấy compression-only có thể tăng lexical overlap nhưng chịu chi phí nén lớn, còn CC-DFlash-R2 cải thiện tốc độ so với compression-only path nhưng không được đọc thành semantic correctness.
+                    </p>
+
+                    <div class="comparison-list">
+                        <div class="comparison-item">
+                            <b>Baseline-AR vs DFlash-R1</b>
+                            <span>
+                                DFlash-R1 có local e2e timing tốt hơn Baseline-AR trên QMSum diagnostic reference. Tuy nhiên, đây chỉ là long-context diagnostic behavior, không phải final speedup claim hay production speedup.
+                            </span>
+                        </div>
+                        <div class="comparison-item">
+                            <b>LLMLingua-AR-R2 vs Baseline-AR</b>
+                            <span>
+                                LLMLingua-AR-R2 có overlap proxy cao hơn Baseline-AR, nhưng avg e2e latency cao hơn nhiều vì phải trả thêm chi phí nén và bị cap pressure. Vì vậy compression-only không được claim là luôn hữu ích end-to-end.
+                            </span>
+                        </div>
+                        <div class="comparison-item">
+                            <b>CC-DFlash-R2 vs LLMLingua-AR-R2</b>
+                            <span>
+                                Đây là cặp quan trọng nhất cho compressed path trên QMSum. CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2 và có overlap proxy gần tương đương, nên có thể nói DFlash giúp cải thiện compressed path trong diagnostic reference. Nhưng vì QMSum dùng lexical proxy, không được claim semantic correctness.
+                            </span>
+                        </div>
+                        <div class="comparison-item">
+                            <b>CC-DFlash-R2 vs DFlash-R1</b>
+                            <span>
+                                Không dùng QMSum để nói CC-DFlash-R2 thắng DFlash-R1 toàn diện. DFlash-R1 vẫn nhanh hơn vì không phải trả chi phí nén. CC-DFlash-R2 chỉ nên được đọc như compressed-DFlash path tốt hơn compression-only path, không phải universal speedup so với DFlash-R1.
+                            </span>
+                        </div>
+                        <div class="comparison-item">
+                            <b>QMSum rerun caveat</b>
+                            <span>
+                                Rerun cuối không phải nguồn metric chính vì không hoàn chỉnh: Baseline-AR chạy đủ 30 rows, DFlash-R1 chỉ hoàn thành 2 rows, compressed QMSum reruns bị skip. Vì vậy bảng 5.3 phải dùng full diagnostic matrix làm reference, còn rerun cuối chỉ là caveat về local runtime/rerun stability.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="reading-note-strip">
+                        <strong>Kết luận an toàn:</strong> QMSum chỉ hỗ trợ đọc long-context diagnostic behavior như latency, overhead, compression ratio, cap pressure và lexical proxy. QMSum không chứng minh semantic correctness, final correctness, universal speedup hoặc deployment readiness.
+                    </div>
+                </article>
+
+                <article class="section-card wide">
+                    <span class="section-num">5.5</span>
                     <h2>Cross-dataset Interpretation</h2>
                     <p>
                         Hai dataset trong benchmark phục vụ hai mục đích khác nhau. GSM8K được sử dụng làm short-context numeric-quality proxy, trong khi QMSum được dùng để đánh giá long-context diagnostic behavior mà không nhằm claim semantic correctness. Việc so sánh và diễn giải kết quả giữa các dataset cần tuân thủ các giới hạn thực tế của dữ liệu.
@@ -1119,7 +1164,7 @@
                 </article>
 
                 <article class="section-card wide">
-                    <span class="section-num">5.5</span>
+                    <span class="section-num">5.6</span>
                     <h2>Claim-safety boundary</h2>
                     <table class="mini-table report-table">
                         <thead>
@@ -1153,7 +1198,7 @@
                             </tr>
                             <tr>
                                 <td><strong>DFlash-R1</strong></td>
-                                <td>Timing/runtime watch sau Task80B; không có confirmed regression.</td>
+                                <td>Timing/runtime watch trong các lần chạy; không có confirmed regression.</td>
                                 <td>DFlash-R1 broken.</td>
                             </tr>
                             <tr>
@@ -1166,7 +1211,7 @@
                 </article>
 
                 <article class="section-card wide">
-                    <span class="section-num">5.6</span>
+                    <span class="section-num">5.7</span>
                     <h2>Những claim không được dùng</h2>
                     <ol class="numbered-list">
                         <li>CC-DFlash có universal speedup.</li>
