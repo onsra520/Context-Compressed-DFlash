@@ -1163,62 +1163,55 @@
 
                 <article class="section-card wide">
                     <span class="section-num">5.6</span>
-                    <h2>Claim-safety boundary — Những câu không được nói</h2>
+                    <h2>Kết luận đúng phạm vi</h2>
                     <p>
-                        Bảng này xác định ranh giới kết luận của project: kết quả hiện tại cho phép nói gì, và chưa đủ cơ sở để nói gì. Khi thuyết trình, mọi kết luận cần gắn với phạm vi “trong setting đã test”, “theo proxy”, hoặc “trong diagnostic reference”, thay vì nói như một kết luận tổng quát.
+                        Bảng này tóm tắt cách nên hiểu kết quả của project. Mỗi kết luận chỉ có giá trị trong phạm vi dataset, metric và môi trường chạy đã kiểm chứng. Vì vậy, thay vì kết luận quá rộng, report chỉ trình bày những gì evidence hiện tại thật sự hỗ trợ.
                     </p>
 
                     <table class="mini-table report-table">
                         <thead>
                             <tr>
-                                <th>Evidence area</th>
-                                <th>Có thể nói</th>
-                                <th>Không được nói</th>
-                                <th>Cách nói an toàn</th>
+                                <th>Phạm vi evidence</th>
+                                <th>Kết luận nên trình bày</th>
+                                <th>Giới hạn cần nhắc</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>GSM8K</strong></td>
-                                <td>Numeric-quality proxy tương đối ổn định trong n=30.</td>
-                                <td>CC-DFlash có semantic correctness tổng quát hoặc final correctness.</td>
-                                <td>Trên GSM8K, các condition cho thấy numeric-quality pattern tương đối ổn định trong setting đã test.</td>
+                                <td>Numeric-quality proxy tương đối ổn định trong n=30: Baseline-AR đạt 25/30, ba condition còn lại đạt 24/30.</td>
+                                <td>Đây là short-context numeric proxy, không phải semantic correctness tổng quát.</td>
                             </tr>
                             <tr>
                                 <td><strong>QMSum</strong></td>
-                                <td>QMSum hỗ trợ quan sát long-context diagnostic behavior: latency, prefill, overhead, compression ratio và lexical proxy.</td>
-                                <td>QMSum chứng minh semantic correctness hoặc final quality.</td>
-                                <td>Trên QMSum, kết quả chỉ dùng để chẩn đoán behavior của pipeline trên long-context.</td>
+                                <td>QMSum cho thấy long-context diagnostic behavior: latency, prefill, compression overhead, compression ratio và lexical proxy.</td>
+                                <td>QMSum không được dùng để chứng minh semantic correctness hoặc final quality.</td>
                             </tr>
                             <tr>
                                 <td><strong>Timing</strong></td>
-                                <td>Các số timing là local runtime observation trong môi trường đã audit.</td>
-                                <td>Universal speedup hoặc production speedup.</td>
-                                <td>CC-DFlash-R2 có lợi về timing trong một số cặp so sánh local, đặc biệt so với compression-only path.</td>
+                                <td>Một số cặp so sánh cho thấy lợi ích timing trong local runtime, đặc biệt CC-DFlash-R2 so với LLMLingua-AR-R2.</td>
+                                <td>Không kết luận universal speedup hoặc production speedup.</td>
                             </tr>
                             <tr>
                                 <td><strong>Compression</strong></td>
-                                <td>Compression giảm input tokens và prefill, nhưng phải trả thêm chi phí nén.</td>
-                                <td>Compression luôn hữu ích end-to-end trong mọi trường hợp.</td>
-                                <td>Compression chỉ có lợi khi input/prefill saving và DFlash gain vượt được chi phí nén.</td>
+                                <td>Compression giúp giảm input tokens và prefill, nhưng phải trả thêm chi phí nén.</td>
+                                <td>Compression chỉ có lợi khi phần tiết kiệm được lớn hơn chi phí nén.</td>
                             </tr>
                             <tr>
                                 <td><strong>DFlash-R1</strong></td>
-                                <td>DFlash-R1 vẫn là baseline mạnh; timing shift trong rerun chỉ là runtime/timing watch.</td>
-                                <td>DFlash-R1 bị broken hoặc bị chứng minh là regression.</td>
-                                <td>Không dùng rerun chưa ổn định để kết luận DFlash-R1 bị lỗi.</td>
+                                <td>DFlash-R1 vẫn là baseline mạnh trong cả GSM8K và QMSum diagnostic reference.</td>
+                                <td>Không dùng runtime caveat để kết luận DFlash-R1 bị lỗi hoặc bị regression.</td>
                             </tr>
                             <tr>
                                 <td><strong>Deployment</strong></td>
-                                <td>Project chưa claim deployment.</td>
-                                <td>Deploy-ready hoặc confirmed 8GB deployment.</td>
-                                <td>Hiện tại project là MVP/evidence package, chưa phải deployment proof.</td>
+                                <td>Project hiện là MVP/evidence package cho đánh giá giả thuyết.</td>
+                                <td>Chưa claim deploy-ready hoặc confirmed 8GB deployment.</td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div class="reading-note-strip">
-                        <strong>Cách nói tổng kết an toàn:</strong> CC-DFlash có evidence có điều kiện. Trên GSM8K, numeric-quality proxy tương đối ổn định. Trên QMSum, kết quả chỉ dùng để chẩn đoán long-context behavior. CC-DFlash-R2 có lợi nhất khi so với compression-only path, nhưng chưa chứng minh universal speedup, final correctness, QMSum semantic correctness, deployment readiness hoặc confirmed 8GB deployment.
+                        <strong>Thông điệp an toàn khi thuyết trình:</strong> CC-DFlash có evidence có điều kiện. Trên GSM8K, numeric-quality proxy tương đối ổn định. Trên QMSum, kết quả chỉ dùng để chẩn đoán long-context behavior. CC-DFlash-R2 có lợi rõ nhất khi so với compression-only path, nhưng chưa chứng minh universal speedup, final correctness, QMSum semantic correctness hoặc deployment readiness.
                     </div>
                 </article>
             </div>

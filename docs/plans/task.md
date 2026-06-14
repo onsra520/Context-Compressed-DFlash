@@ -48,3 +48,4 @@
 | UI-22 | CC-DFlash Part 5 QMSum Interpretation layout | done | [ui-22-cc-dflash-part5-qmsum-interpretation.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-22-cc-dflash-part5-qmsum-interpretation.md) |
 | UI-23 | CC-DFlash Part 5 QMSum Interpretation table data and copy refinement | done | [ui-23-cc-dflash-part5-qmsum-refine-copy.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-23-cc-dflash-part5-qmsum-refine-copy.md) |
 | UI-24 | CC-DFlash Part 5 merge sections 5.6 and 5.7 | done | [ui-24-cc-dflash-part5-merge-56-57.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-24-cc-dflash-part5-merge-56-57.md) |
+| UI-25 | CC-DFlash Part 5 Section 5.6 presentation refinement | done | [ui-25-cc-dflash-part5-sec56-presentation-ready.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-25-cc-dflash-part5-sec56-presentation-ready.md) |
