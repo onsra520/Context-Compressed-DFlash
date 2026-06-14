@@ -409,13 +409,14 @@
             </p>
             <div class="status-row">
                 <span class="sv go">✓ Phase 1 MVP: PASS</span>
-                <span class="sv warn">⚠ Phase 2: Conditional GO</span>
-                <span class="sv warn">⚠ Phase 1 Complete: NOT DONE</span>
+                <span class="sv go">✓ T81 Audit: PASS_WITH_NOTES</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 81 final consistency audit</span>
+                <span class="sv info">→ Current next: Task 82 final report v2 drafting</span>
+                <span class="sv stop">No 8 GB claim</span>
+                <span class="sv stop">No deployment readiness claim</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 80B rerun analysis and issue gate. Current next main technical task: Task 81 final consistency audit. Task80B determined that the DFlash-R1 timing shift is a runtime/timing watch, not a confirmed code regression, and the QMSum rerun stall was a runtime/prompt-specific issue rather than a semantic failure. T80C/T80D are skipped and the project proceeds to T81. Detailed task history is available in the Update Log and Reports Index below.
+                This roadmap is synced through Task 81 final consistency audit. Current next main technical task: Task 82 final report v2 drafting. Task 81 verified the internal consistency and claim-safety of the final package, confirming no universal speedup or semantic correctness claims are made, and advanced the project to T82. Detailed task history is available in the Update Log and Reports Index below.
             </div>
         </header>
 
@@ -474,8 +475,8 @@
                         </tr>
                         <tr>
                             <td><strong>Final Consistency Audit Gate</strong></td>
-                            <td class="info">NEXT</td>
-                            <td>T81 checks final package consistency, claim safety, Roadmap/Overview wording, and GSM8K/QMSum role split. T81 must not be used as a benchmark-logic fix task.</td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                            <td>T81 audited the final package. Evidence basis and claim-safety bounds (no universal speedup, no 8GB claim) are verified. Proceed to T82.</td>
                         </tr>
                         <tr>
                             <td><strong>Final Report Gate</strong></td>
@@ -507,8 +508,8 @@
                     <tbody>
                         <tr>
                             <td>Current next</td>
-                            <td class="info">T81</td>
-                            <td>Final consistency audit gate. Check final package consistency, claim safety, Roadmap/Overview wording, and GSM8K/QMSum role split.</td>
+                            <td class="info">T82</td>
+                            <td>Draft final report v2 summarizing the CC-DFlash research findings.</td>
                         </tr>
                         <tr>
                             <td>GSM8K evidence</td>
@@ -1308,10 +1309,10 @@
                             <td class="neu">SKIPPED_BY_T80B: not needed because T80B did not open a fix or bounded confirmation path.</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T81</span></td>
+                            <td><span class="tnum done">T81</span></td>
                             <td>Final Package Consistency Audit</td>
                             <td>Final consistency audit and claim-safety recheck. Must not modify benchmark logic. Verify GSM8K/QMSum split.</td>
-                            <td class="info">NEXT: final package consistency audit / claim-safety recheck.</td>
+                            <td class="go">PASS_WITH_NOTES: audit complete, claim safety bounds verified, proceed to T82.</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T82</span></td>
@@ -1844,6 +1845,12 @@
                             <td><code>80b-rerun-analysis-and-issue-gate-report.md</code></td>
                             <td>T80B</td>
                             <td>Rerun Analysis and Issue Gate Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>81-final-package-consistency-audit-report.md</code></td>
+                            <td>T81</td>
+                            <td>Final Package Consistency Audit Report</td>
                             <td class="go">Exists</td>
                         </tr></tbody>
                 </table>
@@ -2850,6 +2857,36 @@
                             <td>T80B</td>
                             <td>Task80B rerun issue gate summary CSV</td>
                             <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task81_final_consistency_audit_summary.json</code></td>
+                            <td>T81</td>
+                            <td>Task81 consistency audit summary JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task81_claim_safety_matrix.csv</code></td>
+                            <td>T81</td>
+                            <td>Task81 claim safety matrix CSV</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task81_evidence_basis_matrix.csv</code></td>
+                            <td>T81</td>
+                            <td>Task81 evidence basis matrix CSV</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task81_artifact_manifest.csv</code></td>
+                            <td>T81</td>
+                            <td>Task81 artifact manifest CSV</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task81_final_report_readiness_checklist.csv</code></td>
+                            <td>T81</td>
+                            <td>Task81 final report readiness checklist CSV</td>
+                            <td>-</td>
                         </tr></tbody>
                 </table>
             </div>
@@ -2859,11 +2896,11 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 80B rerun analysis</span>
-                <span class="sv info">Current next: Task 81 final consistency audit</span>
-                <span class="sv warn">Phase 1 Complete: NOT DONE</span>
+                <span class="sv go">Synced through Task 81 consistency audit</span>
+                <span class="sv info">Current next: Task 82 final report v2 drafting</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No 8 GB claim</span>
+                <span class="sv stop">No deployment readiness claim</span>
             </div>
             <div class="note info">
                 <strong>Roadmap.html must be updated after every task.</strong>

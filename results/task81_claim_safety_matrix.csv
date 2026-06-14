@@ -1,0 +1,12 @@
+claim,status
+universal speedup,FORBIDDEN
+compression proven useful end-to-end,FORBIDDEN
+QMSum semantic correctness,FORBIDDEN
+deployment readiness,FORBIDDEN
+confirmed 8 GB deployment,FORBIDDEN
+DFlash-R1 broken,FORBIDDEN
+"DFlash-R1 timing/runtime watch, not confirmed regression",ALLOWED_WITH_CAVEAT
+Task80A confirms GSM8K numeric-quality pattern,ALLOWED
+Task71/79B remain QMSum diagnostic basis,ALLOWED_WITH_CAVEAT
+CC-DFlash-R2 faster than LLMLingua-AR-R2 on Task80A GSM8K while matching numeric quality,ALLOWED_WITH_CAVEAT
+DFlash-R1 remains faster than Baseline-AR on Task80A GSM8K,ALLOWED_WITH_CAVEAT

@@ -1,0 +1,9 @@
+dimension,evidence_source,allowed_usage_in_final_report,forbidden_usage,caveat_text
+GSM8K numeric quality,"Task80A, Task69, Task80",short-context numeric answer extraction proxy,semantic correctness,numeric proxy only
+GSM8K local timing,Task80A,local timing bounds,universal speedup,local noise observed
+QMSum latency/prefill/compression-overhead diagnostic,Task71/79B,long-context diagnostic behavior,final long-context speedup,Task80A rerun incomplete
+QMSum lexical proxy,Task71/79B,lexical preservation proxy,semantic preservation,lexical proxy mismatch noted
+QMSum semantic correctness,none,none,any claim of semantic correctness,not tested
+deployment readiness,none,none,ready for prod,not tested
+8 GB deployment,none,none,confirmed fit,only smoke checked
+compression usefulness end-to-end,"Task69, Task71",conditional theoretical tradeoff,proven universally useful,CPU overhead dominates short context

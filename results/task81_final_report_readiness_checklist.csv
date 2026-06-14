@@ -1,0 +1,11 @@
+item,status,notes
+final evidence basis clear,checked,
+GSM8K/QMSum role split clear,checked,
+QMSum diagnostic-only caveat clear,checked,
+DFlash-R1 watch resolved as caveat,checked,
+T80C/T80D skipped after T80B Decision D,checked,
+claim-safety matrix ready,checked,
+Roadmap current next ready for T82,checked,
+Overview claim wording safe,checked,
+report artifacts indexed,checked,
+no benchmark rerun required before T82,checked,
