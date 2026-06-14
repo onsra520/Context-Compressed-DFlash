@@ -359,7 +359,7 @@
                     </table>
                     <p>
                         <strong>R1</strong> là full-context setting. <strong>R2</strong> là compressed-context setting,
-                        thường với keep rate khoảng 0.5.
+                        thường với keep rate khoảng 0.5 (tức giữ khoảng 50% token sau khi nén).
                     </p>
                 </article>
 
@@ -414,11 +414,11 @@
             aria-label="Phần 3: Thiết kế benchmark và Evaluation">
             <div class="part-head">
                 <div class="part-kicker">Part 3 · Benchmark &amp; Evaluation</div>
-                <h1>Thiết kế benchmark và Evaluation</h1>
+                <h1>Thiết kế benchmark và Đánh giá</h1>
                 <p class="part-lead">
-                    Benchmark không chỉ hỏi pipeline có nhanh hơn không, mà còn phải chỉ ra vì sao nhanh hơn hoặc chậm
-                    hơn:
-                    do DFlash, do compression, do overhead, do dataset hay do cách đọc metric.
+                    Benchmark không chỉ hỏi pipeline có nhanh hơn không, mà phải chỉ ra được
+                    nguyên nhân: do DFlash, do compression, do overhead nén, do dataset
+                    hay do cách tính metric.
                 </p>
             </div>
 
@@ -446,41 +446,44 @@
 
                 <article class="section-card part3-comparison">
                     <span class="section-num">3.2</span>
-                    <h2>Generation-only và end-to-end</h2>
+                    <h2>Hai loại metric tốc độ</h2>
                     <table class="mini-table report-table">
                         <thead>
                             <tr>
                                 <th>Metric</th>
                                 <th>Ý nghĩa</th>
-                                <th>Rủi ro nếu đọc sai</th>
+                                <th>Lưu ý đánh giá</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>Generation-only tok/s</strong></td>
-                                <td>Tốc độ sinh token sau khi prompt đã sẵn sàng.</td>
-                                <td>Có thể nhìn nhanh hơn nhưng chưa tính chi phí nén.</td>
+                                <td>Tốc độ sinh token sau khi prompt đã nạp xong — không tính thời gian nén context
+                                    (<code>T_compress</code>).</td>
+                                <td>Có thể trông nhanh hơn nhưng chưa phản ánh toàn bộ pipeline.</td>
                             </tr>
                             <tr>
                                 <td><strong>End-to-end latency / tok/s</strong></td>
-                                <td>Tốc độ khi tính cả overhead.</td>
-                                <td>Phù hợp hơn để đánh giá compressed pipeline.</td>
+                                <td>Tốc độ tính từ đầu đến cuối, bao gồm cả bước nén context nếu có.</td>
+                                <td>Metric thận trọng hơn cho compressed pipeline.</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p>
-                        Với các condition có compression, end-to-end metric là cách đọc thận trọng hơn vì tính cả
-                        <code>T_compress</code>.
-                    </p>
+                    <div class="insight-strip">
+                        <div class="insight-label">Nguyên tắc đánh giá</div>
+                        <div class="insight-text">
+                            Khi so sánh conditions có compression, luôn dùng end-to-end metric — không dùng
+                            generation-only tok/s một mình.
+                        </div>
+                    </div>
                 </article>
 
                 <article class="section-card wide">
                     <span class="section-num">3.3</span>
-                    <h2>Thay dataset gần giai đoạn test</h2>
+                    <h2>Chọn hai dataset với hai vai trò khác nhau</h2>
                     <p>
-                        Dataset ban đầu chưa tách rõ hai mục tiêu: quality trên short-context và efficiency trên
-                        long-context.
-                        Vì vậy, project chuyển sang hai dataset chính:
+                        Dataset ban đầu chưa tách rõ hai mục tiêu: kiểm tra chất lượng trên short-context
+                        và đo hiệu quả trên long-context. Project chuyển sang hai dataset:
                     </p>
                     <table class="mini-table report-table">
                         <thead>
@@ -492,14 +495,14 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>GSM8K short-context</strong></td>
+                                <td><strong>GSM8K</strong></td>
                                 <td>Ngắn</td>
-                                <td>Kiểm tra numeric-quality proxy và khả năng giữ đáp án số.</td>
+                                <td>Kiểm tra numeric-quality proxy — khả năng giữ đáp án số khi context bị nén.</td>
                             </tr>
                             <tr>
-                                <td><strong>QMSum-style meeting QA long-context</strong></td>
+                                <td><strong>QMSum (meeting QA)</strong></td>
                                 <td>Dài</td>
-                                <td>Quan sát latency, prefill, compression overhead, compression ratio và lexical proxy.
+                                <td>Quan sát latency, prefill, overhead nén, compression ratio và lexical overlap proxy.
                                 </td>
                             </tr>
                         </tbody>
@@ -509,14 +512,14 @@
                             <h3>GSM8K</h3>
                             <ul class="compact-list">
                                 <li>Không dùng để chứng minh long-context speedup.</li>
-                                <li>Dùng cho numeric-quality proxy.</li>
+                                <li>Dùng để đo numeric-quality proxy (đáp án số).</li>
                             </ul>
                         </div>
                         <div class="dataset-role-col">
                             <h3>QMSum</h3>
                             <ul class="compact-list">
                                 <li>Không dùng để chứng minh semantic correctness.</li>
-                                <li>Dùng cho long-context diagnostic behavior.</li>
+                                <li>Dùng để quan sát long-context diagnostic behavior.</li>
                             </ul>
                         </div>
                     </div>
@@ -571,72 +574,73 @@
 
                 <article class="section-card wide">
                     <span class="section-num">3.5</span>
-                    <h2>Metric scope</h2>
+                    <h2>Phạm vi từng metric</h2>
                     <table class="mini-table report-table">
                         <thead>
                             <tr>
                                 <th>Metric</th>
-                                <th>Dùng để đọc gì</th>
-                                <th>Caveat / phạm vi</th>
+                                <th>Đọc để biết gì</th>
+                                <th>Giới hạn / lưu ý</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><code>Numeric exact-match proxy</code></td>
-                                <td>Chất lượng trên GSM8K</td>
-                                <td>Proxy numeric, không phải semantic correctness tổng quát</td>
+                                <td>Chất lượng trên GSM8K — đếm đáp án số đúng</td>
+                                <td>Proxy, không phải semantic correctness tổng quát</td>
                             </tr>
                             <tr>
                                 <td><code>Normalized / lexical proxy</code></td>
-                                <td>Tín hiệu chẩn đoán trên QMSum</td>
-                                <td>Diagnostic-only, không claim semantic correctness</td>
+                                <td>Tín hiệu chẩn đoán trên QMSum — đo bằng normalized word-overlap</td>
+                                <td>Diagnostic-only; không phải semantic similarity</td>
                             </tr>
                             <tr>
                                 <td><code>Input tokens</code></td>
-                                <td>Context có được rút gọn không</td>
+                                <td>Context có được rút gọn sau khi nén không</td>
                                 <td>Không tự chứng minh speedup</td>
                             </tr>
                             <tr>
                                 <td><code>Compression ratio</code></td>
-                                <td>Mức độ nén thực tế</td>
+                                <td>Mức độ nén thực tế (ví dụ 2×)</td>
                                 <td>Cần đọc cùng quality proxy</td>
                             </tr>
                             <tr>
                                 <td><code>T_compress</code></td>
-                                <td>Chi phí compression</td>
-                                <td>Phải tính vào end-to-end</td>
+                                <td>Thời gian chạy bước nén context — chi phí của LLMLingua</td>
+                                <td>Phải tính vào end-to-end latency</td>
                             </tr>
                             <tr>
                                 <td><code>T_prefill</code></td>
-                                <td>Chi phí xử lý input context trước decoding</td>
-                                <td>Dùng khi artifact hoặc diagnostic summary có đo</td>
+                                <td>Thời gian nạp và xử lý toàn bộ input trước khi sinh token</td>
+                                <td>Giảm khi input tokens giảm nhờ nén</td>
                             </tr>
                             <tr>
                                 <td><code>Generation tok/s</code></td>
-                                <td>Tốc độ sinh token sau khi prompt sẵn sàng</td>
+                                <td>Tốc độ sinh token sau khi input đã nạp xong</td>
                                 <td>Không đủ để claim end-to-end speedup</td>
                             </tr>
                             <tr>
                                 <td><code>End-to-end latency / tok/s</code></td>
-                                <td>Tốc độ khi tính cả overhead</td>
-                                <td>Chỉ là local runtime evidence</td>
+                                <td>Tốc độ tính cả nén + prefill + generation</td>
+                                <td>Local runtime evidence — không claim production speedup</td>
                             </tr>
                             <tr>
                                 <td><code>Cap-hit / truncation</code></td>
                                 <td>Output có bị giới hạn bởi max_new_tokens không</td>
-                                <td>Có thể làm lệch quality proxy</td>
+                                <td>Nếu bị cắt, quality proxy có thể bị lệch</td>
                             </tr>
                             <tr>
                                 <td><code>tau_mean</code></td>
-                                <td>Tín hiệu acceptance của DFlash</td>
+                                <td>Tỷ lệ acceptance trung bình của DFlash — bao nhiêu token draft được verifier chấp
+                                    nhận</td>
                                 <td>Diagnostic signal, không phải quality metric</td>
                             </tr>
                         </tbody>
                     </table>
-                    <p>
-                        End-to-end latency là metric thận trọng hơn khi so sánh compressed pipeline, vì generation-only
-                        tok/s chưa tính <code>T_compress</code>.
-                    </p>
+                    <div class="reading-note-strip">
+                        <strong>Lưu ý:</strong> Khi so sánh compressed pipeline, end-to-end latency là metric thận trọng
+                        hơn generation-only tok/s vì đã tính cả <code>T_compress</code>.
+                    </div>
                 </article>
             </div>
 
@@ -647,11 +651,11 @@
         <section id="part-4" class="part-content report-section part-4" aria-label="Phần 4: Quá trình thực nghiệm">
             <div class="part-head">
                 <div class="part-kicker">Part 4 · Experiment Journey</div>
-                <h1>Quá trình thực nghiệm: từ blocker đến evidence và Limitations</h1>
+                <h1>Quá trình thực nghiệm: từ blocker đến evidence</h1>
                 <p class="part-lead">
-                    CC-DFlash không đi thẳng từ prototype đến benchmark cuối. Project đi theo flow
-                    blocker → fix/audit → evidence → limitation để tránh kết luận sai từ dataset, prompt policy,
-                    output cap, compression overhead, schema hoặc metric.
+                    CC-DFlash không đi thẳng từ prototype đến kết quả cuối.
+                    Mỗi blocker phát sinh đều được phân tích, fix hoặc audit, rồi ghi nhận làm evidence
+                    hoặc limitation — để tránh kết luận sai từ dataset, output cap, overhead nén hay runtime noise.
                 </p>
             </div>
 
@@ -685,67 +689,81 @@
 
                 <article class="section-card part4-blocker">
                     <span class="section-num">4.2</span>
-                    <h2>Dataset blocker</h2>
+                    <h2>Blocker: Dataset chưa tách mục tiêu</h2>
                     <p>
-                        Setup ban đầu chưa tách biệt câu hỏi nghiên cứu. Project chuyển sang GSM8K cho short-context
-                        quality và QMSum cho long-context efficiency.
+                        Setup ban đầu dùng chung một dataset cho cả quality lẫn efficiency,
+                        nên không thể phân biệt kết quả tốt hơn là nhờ DFlash, compression hay dataset.
+                        Project chuyển sang GSM8K cho short-context quality và QMSum cho long-context efficiency.
                     </p>
                     <p class="blocker-evidence">
-                        <strong>Limitation:</strong> QMSum không thể dùng để claim semantic correctness nếu không có
-                        manual review hoặc semantic judge.
+                        <strong>Limitation còn lại:</strong> QMSum chỉ dùng lexical proxy — không thể claim semantic
+                        correctness nếu chưa có manual review.
                     </p>
                 </article>
 
                 <article class="section-card part4-blocker">
                     <span class="section-num">4.3</span>
-                    <h2>Compression overhead blocker</h2>
+                    <h2>Blocker: Overhead nén nuốt lợi ích</h2>
                     <p>
-                        Nén prompt giúp giảm prefill/decoding tokens nhưng tốn thời gian <code>T_compress</code>. Nếu
-                        overhead này quá lớn, compressed pipeline sẽ chậm hơn baseline.
+                        Nén context giúp giảm input tokens và prefill, nhưng bước nén tốn thêm thời gian
+                        (<code>T_compress</code>).
+                        Nếu overhead này lớn hơn phần tiết kiệm được, toàn pipeline sẽ chậm hơn baseline.
                     </p>
                     <p class="blocker-evidence">
-                        <strong>Fix:</strong> Tách biệt metric generation-only và end-to-end để đánh giá chính xác
-                        tradeoff giữa nén và e2e latency.
+                        <strong>Fix:</strong> Tách rõ hai metric — generation-only tok/s và end-to-end latency —
+                        để đọc được tradeoff thực giữa nén và tổng thời gian.
                     </p>
                 </article>
 
                 <article class="section-card part4-blocker">
                     <span class="section-num">4.4</span>
-                    <h2>Output / cap-hit blocker</h2>
+                    <h2>Blocker: Output bị cắt làm lệch chất lượng</h2>
                     <p>
-                        Output quá ngắn hoặc bị cắt ở <code>max_new_tokens</code> làm lệch quality proxy. Project tăng
-                        output cap, thêm protected suffix để giữ instruction quan trọng.
+                        Khi output bị giới hạn bởi <code>max_new_tokens</code> (cap-hit), model chưa sinh xong câu trả
+                        lời
+                        đã dừng — làm lệch quality proxy. Project tăng output cap và thêm protected suffix
+                        để giữ instruction định dạng đáp án ở cuối prompt.
                     </p>
                     <p class="blocker-evidence">
-                        <strong>Evidence:</strong> GSM8K numeric-quality pattern ổn định hơn. Tăng cap làm tăng latency,
-                        và một số lỗi vẫn do reasoning.
+                        <strong>Kết quả:</strong> GSM8K numeric-quality ổn định hơn sau khi tăng cap.
+                        Tuy nhiên, tăng cap cũng làm tăng latency, và một số lỗi vẫn do reasoning sai.
                     </p>
                 </article>
 
                 <article class="section-card part4-blocker">
                     <span class="section-num">4.5</span>
-                    <h2>QMSum proxy blocker</h2>
+                    <h2>Blocker: Proxy của QMSum không phản ánh semantic</h2>
                     <p>
-                        QMSum long-answer QA có lexical overlap proxy không phản ánh đúng semantic. Project đã thử
-                        concise, balanced, evidence-retention audit.
+                        QMSum dùng lexical overlap proxy (normalized word-overlap) — metric này không đo được
+                        ý nghĩa câu trả lời, chỉ đo mức độ trùng từ. Project đã thử nhiều cách điều chỉnh
+                        prompt để cải thiện proxy, nhưng vẫn không thể dùng QMSum để claim semantic correctness.
                     </p>
                     <p class="blocker-evidence">
-                        <strong>Kết luận:</strong> QMSum hữu ích cho latency/ratio/proxy behavior, nhưng không dùng để
-                        chứng minh semantic correctness.
+                        <strong>Kết luận:</strong> QMSum chỉ hữu ích để quan sát latency, compression ratio, overhead và
+                        lexical proxy behavior.
                     </p>
                 </article>
 
                 <article class="section-card wide">
                     <span class="section-num">4.6</span>
-                    <h2>Runtime / rerun caveat</h2>
+                    <h2>Rerun cuối — QMSum không hoàn chỉnh</h2>
+                    <div class="insight-strip">
+                        <div class="insight-label">Runtime caveat</div>
+                        <div class="insight-text">
+                            Lần chạy kiểm tra lại cuối cùng: GSM8K n=30 hoàn thành đủ bốn condition.
+                            QMSum không hoàn chỉnh: DFlash-R1 chỉ chạy 2 rows trước khi dừng theo safety rule;
+                            compressed QMSum reruns bị skip.
+                        </div>
+                        <div class="insight-badges">
+                            <span class="insight-badge">GSM8K: 4/4 conditions OK</span>
+                            <span class="insight-badge">QMSum DFlash-R1: 2/30 rows</span>
+                            <span class="insight-badge">QMSum compressed: skipped</span>
+                        </div>
+                    </div>
                     <p>
-                        Ở rerun cuối, GSM8K n=30 hoàn thành đủ bốn condition, nhưng QMSum không hoàn chỉnh:
-                        DFlash-R1 chỉ chạy 2 rows trước khi dừng theo safety rule, còn rerun QMSum compressed bị skip.
-                    </p>
-                    <p>
-                        Phân tích issue sau rerun không đủ cơ sở để nói DFlash-R1 bị broken. Đây là caveat về
-                        runtime/local rerun,
-                        không phải bằng chứng lỗi thuật toán.
+                        Phân tích sau rerun không đủ cơ sở để kết luận DFlash-R1 bị lỗi hoặc regression.
+                        Đây là caveat về runtime stability, không phải bằng chứng lỗi thuật toán.
+                        Vì vậy QMSum metric chính vẫn lấy từ full diagnostic matrix trước đó.
                     </p>
                 </article>
 
@@ -831,6 +849,8 @@
                         Speed reference lấy theo lần chạy full matrix ban đầu để tránh hiểu sai timing của DFlash-R1
                         trong rerun,
                         vì timing đó được giữ như runtime/timing watch, không phải confirmed regression.
+                        <br><small class="tech-source-note">Technical source: quality lấy từ final verification rerun;
+                            speed reference lấy từ initial GSM8K n=30 full matrix.</small>
                     </div>
 
                     <table class="mini-table report-table">
@@ -853,10 +873,7 @@
                                 <td><strong>25/30</strong></td>
                                 <td>9.709s</td>
                                 <td>18.01</td>
-                                <td>
-                                    Mốc autoregressive gốc. Numeric-quality cao nhất trong GSM8K rerun,
-                                    nhưng không phải semantic correctness tổng quát.
-                                </td>
+                                <td>Quality baseline cao nhất.</td>
                             </tr>
                             <tr>
                                 <td><strong>DFlash-R1</strong></td>
@@ -865,11 +882,7 @@
                                 <td><strong>24/30</strong></td>
                                 <td>2.990s</td>
                                 <td>56.47</td>
-                                <td>
-                                    DFlash-only trên full prompt. Trong speed reference, đây là condition nhanh nhất
-                                    trên GSM8K.
-                                    Timing chậm hơn ở rerun không được dùng để kết luận DFlash-R1 bị chậm hoặc bị lỗi.
-                                </td>
+                                <td>DFlash-only nhanh nhất trong speed reference.</td>
                             </tr>
                             <tr>
                                 <td><strong>LLMLingua-AR-R2</strong></td>
@@ -878,10 +891,7 @@
                                 <td><strong>24/30</strong></td>
                                 <td>10.557s</td>
                                 <td>16.37</td>
-                                <td>
-                                    Compression-only attribution baseline. Condition này cho biết compression một mình
-                                    hoạt động thế nào khi tính cả chi phí nén.
-                                </td>
+                                <td>Compression-only; chịu chi phí nén.</td>
                             </tr>
                             <tr>
                                 <td><strong>CC-DFlash-R2</strong></td>
@@ -890,11 +900,7 @@
                                 <td><strong>24/30</strong></td>
                                 <td>4.109s</td>
                                 <td>42.67</td>
-                                <td>
-                                    Main compressed-DFlash path. Condition này nhanh hơn LLMLingua-AR-R2 và giữ
-                                    numeric-quality
-                                    ngang compression-only path, nhưng vẫn chậm hơn DFlash-R1 trên GSM8K short-context.
-                                </td>
+                                <td>Nhanh hơn compression-only, nhưng không thắng DFlash-R1.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -981,11 +987,19 @@
                     <span class="section-num">5.3</span>
                     <h2>QMSum Diagnostic Results — Long-context Full Matrix</h2>
                     <p>
-                        Khác với GSM8K, QMSum không dùng numeric exact-match. QMSum được dùng để quan sát long-context diagnostic behavior: input length, prefill, compression overhead, end-to-end latency, compression ratio và lexical overlap proxy. Vì rerun cuối của QMSum không hoàn chỉnh, bảng này dùng full diagnostic matrix làm nguồn metric chính.
+                        Khác với GSM8K, QMSum không dùng numeric exact-match. QMSum được dùng để quan sát long-context
+                        diagnostic behavior: input length, prefill, compression overhead, end-to-end latency,
+                        compression ratio và lexical overlap proxy. Vì rerun cuối của QMSum không hoàn chỉnh, bảng này
+                        dùng full diagnostic matrix làm nguồn metric chính.
                     </p>
 
                     <div class="reading-note-strip">
-                        <strong>Lưu ý về nguồn metric:</strong> Bảng dưới dùng full diagnostic matrix làm reference vì đây là lần chạy duy nhất có đủ bốn conditions ở n=30. Rerun cuối không dùng để so sánh hoặc xếp hạng condition vì Baseline-AR có đủ 30 rows, DFlash-R1 chỉ có 2 rows, còn LLMLingua-AR-R2 và CC-DFlash-R2 không có rows hoàn chỉnh.
+                        <strong>Lưu ý về nguồn metric:</strong> Bảng dưới dùng full diagnostic matrix làm reference vì
+                        đây là lần chạy duy nhất có đủ bốn conditions ở n=30. Rerun cuối không dùng để so sánh hoặc xếp
+                        hạng condition vì Baseline-AR có đủ 30 rows, DFlash-R1 chỉ có 2 rows, còn LLMLingua-AR-R2 và
+                        CC-DFlash-R2 không có rows hoàn chỉnh.
+                        <br><small class="tech-source-note">Technical source: QMSum metric chính lấy từ full n=30
+                            diagnostic matrix; final rerun chỉ là caveat vì thiếu rows.</small>
                     </div>
 
                     <table class="mini-table report-table">
@@ -1000,7 +1014,6 @@
                                 <th>T_compress</th>
                                 <th>Avg e2e</th>
                                 <th>E2E tok/s</th>
-                                <th>Kết luận an toàn</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1014,9 +1027,6 @@
                                 <td>0ms</td>
                                 <td>4.264s</td>
                                 <td>14.45</td>
-                                <td>
-                                    Long-context autoregressive diagnostic baseline. Dùng làm mốc latency và lexical proxy, không phải semantic correctness reference.
-                                </td>
                             </tr>
                             <tr>
                                 <td><strong>DFlash-R1</strong></td>
@@ -1028,9 +1038,6 @@
                                 <td>0ms</td>
                                 <td>3.097s</td>
                                 <td>19.54</td>
-                                <td>
-                                    DFlash-only long-context diagnostic baseline. Trong diagnostic reference, DFlash-R1 nhanh hơn Baseline-AR, nhưng đây vẫn là local diagnostic evidence.
-                                </td>
                             </tr>
                             <tr>
                                 <td><strong>LLMLingua-AR-R2</strong></td>
@@ -1042,9 +1049,6 @@
                                 <td>5576ms</td>
                                 <td>26.378s</td>
                                 <td>13.21</td>
-                                <td>
-                                    Compression-only path. Compression giảm input tokens và prefill, nhưng e2e latency bị kéo mạnh bởi chi phí nén và cap pressure.
-                                </td>
                             </tr>
                             <tr>
                                 <td><strong>CC-DFlash-R2</strong></td>
@@ -1056,16 +1060,24 @@
                                 <td>5928ms</td>
                                 <td>19.056s</td>
                                 <td>18.12</td>
-                                <td>
-                                    Main compressed-DFlash path. Trong diagnostic reference, CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2 và có overlap proxy gần tương đương, nhưng không được đọc thành semantic correctness.
-                                </td>
                             </tr>
                         </tbody>
                     </table>
 
+                    <div class="comparison-list diagnostic-meaning">
+                        <div class="comparison-item"><b>Baseline-AR</b><span>Long-context AR baseline.</span></div>
+                        <div class="comparison-item"><b>DFlash-R1</b><span>DFlash-only nhanh hơn Baseline-AR trong
+                                diagnostic reference.</span></div>
+                        <div class="comparison-item"><b>LLMLingua-AR-R2</b><span>Compression giảm input/prefill nhưng
+                                T_compress lớn, kéo e2e latency cao hơn Baseline-AR.</span></div>
+                        <div class="comparison-item"><b>CC-DFlash-R2</b><span>Nhanh hơn LLMLingua-AR-R2, overlap proxy
+                                gần tương đương, không phải semantic proof.</span></div>
+                    </div>
                     <div class="compact-caveat-strip">
                         <span>
-                            QMSum chỉ dùng để chẩn đoán long-context behavior: input length, prefill, compression overhead, compression ratio, cap pressure, latency và lexical/normalized proxy. Không dùng QMSum để claim semantic correctness hoặc final quality.
+                            QMSum chỉ dùng để chẩn đoán long-context behavior: input length, prefill, compression
+                            overhead, compression ratio, cap pressure, latency và lexical/normalized proxy. Không dùng
+                            QMSum để claim semantic correctness hoặc final quality.
                         </span>
                     </div>
 
@@ -1075,44 +1087,57 @@
                     <span class="section-num">5.4</span>
                     <h2>QMSum Interpretation — Diagnostic Timing và Proxy</h2>
                     <p>
-                        Trên QMSum, kết quả quan trọng nhất không phải là “CC-DFlash thắng tất cả”, mà là: QMSum cho thấy long-context diagnostic behavior của từng condition. DFlash-R1 là no-compression DFlash baseline mạnh, LLMLingua-AR-R2 cho thấy compression-only có thể tăng lexical overlap nhưng chịu chi phí nén lớn, còn CC-DFlash-R2 cải thiện tốc độ so với compression-only path nhưng không được đọc thành semantic correctness.
+                        Trên QMSum, kết quả quan trọng nhất không phải là “CC-DFlash thắng tất cả”, mà là: QMSum cho
+                        thấy long-context diagnostic behavior của từng condition. DFlash-R1 là no-compression DFlash
+                        baseline mạnh, LLMLingua-AR-R2 cho thấy compression-only có thể tăng lexical overlap nhưng chịu
+                        chi phí nén lớn, còn CC-DFlash-R2 cải thiện tốc độ so với compression-only path nhưng không được
+                        đọc thành semantic correctness.
                     </p>
 
                     <div class="comparison-list">
                         <div class="comparison-item">
                             <b>Baseline-AR vs DFlash-R1</b>
                             <span>
-                                DFlash-R1 có local e2e timing tốt hơn Baseline-AR trên QMSum diagnostic reference. Tuy nhiên, đây chỉ là long-context diagnostic behavior, không phải final speedup claim hay production speedup.
+                                DFlash-R1 có local e2e timing tốt hơn Baseline-AR trên QMSum diagnostic reference. Tuy
+                                nhiên, đây chỉ là long-context diagnostic behavior, không phải final speedup claim hay
+                                production speedup.
                             </span>
                         </div>
                         <div class="comparison-item">
                             <b>LLMLingua-AR-R2 vs Baseline-AR</b>
                             <span>
-                                LLMLingua-AR-R2 có overlap proxy cao hơn Baseline-AR và giảm input tokens từ khoảng 1999 xuống 979, nhưng avg e2e latency cao hơn nhiều vì phải trả thêm chi phí nén và bị cap pressure. Vì vậy compression-only không được claim là luôn hữu ích end-to-end.
+                                LLMLingua-AR-R2 có overlap proxy cao hơn Baseline-AR và giảm input tokens từ khoảng 1999
+                                xuống 979, nhưng avg e2e latency cao hơn nhiều vì phải trả thêm chi phí nén và bị cap
+                                pressure. Vì vậy compression-only không được claim là luôn hữu ích end-to-end.
                             </span>
                         </div>
                         <div class="comparison-item">
                             <b>CC-DFlash-R2 vs LLMLingua-AR-R2</b>
                             <span>
-                                Đây là cặp quan trọng nhất cho compressed path trên QMSum. CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2 và có overlap proxy gần tương đương, nên có thể nói DFlash giúp cải thiện compressed path trong diagnostic reference. Nhưng vì QMSum dùng lexical proxy, không được claim semantic correctness.
+                                Đây là cặp quan trọng nhất cho compressed path trên QMSum. CC-DFlash-R2 nhanh hơn
+                                LLMLingua-AR-R2 và có overlap proxy gần tương đương, nên có thể nói DFlash giúp cải
+                                thiện compressed path trong diagnostic reference. Nhưng vì QMSum dùng lexical proxy,
+                                không được claim semantic correctness.
                             </span>
                         </div>
                         <div class="comparison-item">
                             <b>CC-DFlash-R2 vs DFlash-R1</b>
                             <span>
-                                Không dùng QMSum để nói CC-DFlash-R2 thắng DFlash-R1 toàn diện. DFlash-R1 vẫn nhanh hơn vì không phải trả chi phí nén. CC-DFlash-R2 chỉ nên được đọc như compressed-DFlash path tốt hơn compression-only path, không phải universal speedup so với DFlash-R1.
-                            </span>
-                        </div>
-                        <div class="comparison-item">
-                            <b>QMSum rerun caveat</b>
-                            <span>
-                                Rerun cuối không phải nguồn metric chính vì không hoàn chỉnh: Baseline-AR chạy đủ 30 rows, DFlash-R1 chỉ hoàn thành 2 rows, compressed QMSum reruns bị skip. Vì vậy bảng 5.3 phải dùng full diagnostic matrix làm reference, còn rerun cuối chỉ là caveat về local runtime/rerun stability.
+                                Không dùng QMSum để nói CC-DFlash-R2 thắng DFlash-R1 toàn diện. DFlash-R1 vẫn nhanh hơn
+                                vì không phải trả chi phí nén. CC-DFlash-R2 chỉ nên được đọc như compressed-DFlash path
+                                tốt hơn compression-only path, không phải universal speedup so với DFlash-R1.
                             </span>
                         </div>
                     </div>
+                    <div class="reading-note-strip">
+                        Rerun cuối chỉ là caveat về runtime stability, không dùng để so sánh QMSum vì thiếu dữ liệu ở
+                        DFlash-R1 và compressed conditions.
+                    </div>
 
                     <div class="reading-note-strip">
-                        <strong>Kết luận an toàn:</strong> QMSum chỉ hỗ trợ đọc long-context diagnostic behavior như latency, overhead, compression ratio, cap pressure và lexical proxy. QMSum không chứng minh semantic correctness, final correctness, universal speedup hoặc deployment readiness.
+                        <strong>Kết luận an toàn:</strong> QMSum chỉ hỗ trợ đọc long-context diagnostic behavior như
+                        latency, overhead, compression ratio, cap pressure và lexical proxy. QMSum không chứng minh
+                        semantic correctness, final correctness, universal speedup hoặc deployment readiness.
                     </div>
                 </article>
 
@@ -1120,44 +1145,57 @@
                     <span class="section-num">5.5</span>
                     <h2>Cross-dataset Interpretation</h2>
                     <p>
-                        Hai dataset trong benchmark phục vụ hai mục đích khác nhau. GSM8K được sử dụng làm short-context numeric-quality proxy, trong khi QMSum được dùng để đánh giá long-context diagnostic behavior mà không nhằm claim semantic correctness. Việc so sánh và diễn giải kết quả giữa các dataset cần tuân thủ các giới hạn thực tế của dữ liệu.
+                        Hai dataset trong benchmark phục vụ hai mục đích khác nhau. GSM8K được sử dụng làm short-context
+                        numeric-quality proxy, trong khi QMSum được dùng để đánh giá long-context diagnostic behavior mà
+                        không nhằm claim semantic correctness. Việc so sánh và diễn giải kết quả giữa các dataset cần
+                        tuân thủ các giới hạn thực tế của dữ liệu.
                     </p>
 
                     <div class="comparison-list">
                         <div class="comparison-item">
                             <b>GSM8K quality story</b>
                             <span>
-                                Quality trong phần này được lấy từ lần rerun xác nhận cuối: Baseline-AR đạt 25/30, trong khi DFlash-R1, LLMLingua-AR-R2 và CC-DFlash-R2 đều đạt 24/30. Kết quả này hỗ trợ cho thấy numeric-quality proxy của các phương pháp nén/tối ưu rất ổn định trong phạm vi đánh giá (n=30), nhưng không đủ để claim semantic correctness tổng quát.
+                                Quality trong phần này được lấy từ lần rerun xác nhận cuối: Baseline-AR đạt 25/30, trong
+                                khi DFlash-R1, LLMLingua-AR-R2 và CC-DFlash-R2 đều đạt 24/30. Kết quả này hỗ trợ cho
+                                thấy numeric-quality proxy của các phương pháp nén/tối ưu rất ổn định trong phạm vi đánh
+                                giá (n=30), nhưng không đủ để claim semantic correctness tổng quát.
                             </span>
                         </div>
                         <div class="comparison-item">
                             <b>GSM8K speed reference</b>
                             <span>
-                                Tốc độ xử lý nên đọc theo speed reference (lần chạy full matrix ban đầu). Trong speed reference này, DFlash-R1 vẫn là condition nhanh nhất trên GSM8K short-context. Không trình bày CC-DFlash-R2 như thắng toàn diện DFlash-R1, vì DFlash-R1 vẫn là baseline rất mạnh và sự thay đổi timing trong rerun chỉ là một runtime/timing watch. CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2 nhưng vẫn đứng sau DFlash-R1.
+                                Tốc độ xử lý nên đọc theo speed reference (lần chạy full matrix ban đầu). Trong speed
+                                reference này, DFlash-R1 vẫn là condition nhanh nhất trên GSM8K short-context. Không
+                                trình bày CC-DFlash-R2 như thắng toàn diện DFlash-R1, vì DFlash-R1 vẫn là baseline rất
+                                mạnh và sự thay đổi timing trong rerun chỉ là một runtime/timing watch. CC-DFlash-R2
+                                nhanh hơn LLMLingua-AR-R2 nhưng vẫn đứng sau DFlash-R1.
                             </span>
                         </div>
                         <div class="comparison-item">
                             <b>CC-DFlash vs compression-only</b>
                             <span>
-                                Đây là claim an toàn nhất: CC-DFlash-R2 giữ được quality/proxy tương đương với LLMLingua-AR-R2 (cùng đạt 24/30 trong lần rerun xác nhận cuối) và đạt tốc độ local e2e timing tốt hơn so với compression-only path nhờ giảm bớt overhead xử lý của DFlash.
+                                Đây là claim an toàn nhất: CC-DFlash-R2 giữ được quality/proxy tương đương với
+                                LLMLingua-AR-R2 (cùng đạt 24/30 trong lần rerun xác nhận cuối) và đạt tốc độ local e2e
+                                timing tốt hơn so với compression-only path nhờ giảm bớt overhead xử lý của DFlash.
                             </span>
                         </div>
                         <div class="comparison-item">
                             <b>QMSum diagnostic boundary</b>
                             <span>
-                                Metric chính của QMSum được lấy từ full diagnostic matrix. Lần rerun cuối chỉ đóng vai trò là rerun caveat vì DFlash-R1 chỉ hoàn thành 2 rows và các compressed QMSum reruns bị skip theo safety rule. Do đó, kết quả QMSum chỉ hỗ trợ phân tích latency, overhead, compression ratio và lexical proxy behavior chứ không dùng để claim QMSum semantic correctness.
+                                Metric chính của QMSum được lấy từ full diagnostic matrix. Lần rerun cuối chỉ đóng vai
+                                trò là rerun caveat vì DFlash-R1 chỉ hoàn thành 2 rows và các compressed QMSum reruns bị
+                                skip theo safety rule. Do đó, kết quả QMSum chỉ hỗ trợ phân tích latency, overhead,
+                                compression ratio và lexical proxy behavior chứ không dùng để claim QMSum semantic
+                                correctness.
                             </span>
                         </div>
-                        <div class="comparison-item">
-                            <b>Claim boundary</b>
-                            <span>
-                                Kết quả hiện tại chỉ ủng hộ giải pháp CC-DFlash một phần và có điều kiện. Hoàn toàn không claim universal speedup, final correctness, QMSum semantic correctness, deployment readiness, confirmed 8GB, hoặc compression proven useful end-to-end.
-                            </span>
-                        </div>
+
                     </div>
 
                     <div class="reading-note-strip">
-                        <strong>Summary:</strong> CC-DFlash hiện được ủng hộ một phần và có điều kiện: hữu ích khi DFlash gain + prefill/input reduction vượt chi phí nén mà vẫn giữ quality proxy. Project chưa chứng minh compression luôn hữu ích end-to-end.
+                        <strong>Summary:</strong> CC-DFlash hiện được ủng hộ một phần và có điều kiện: hữu ích khi
+                        DFlash gain + prefill/input reduction vượt chi phí nén mà vẫn giữ quality proxy. Project chưa
+                        chứng minh compression luôn hữu ích end-to-end.
                     </div>
                 </article>
 
@@ -1165,7 +1203,9 @@
                     <span class="section-num">5.6</span>
                     <h2>Kết luận đúng phạm vi</h2>
                     <p>
-                        Bảng này tóm tắt cách nên hiểu kết quả của project. Mỗi kết luận chỉ có giá trị trong phạm vi dataset, metric và môi trường chạy đã kiểm chứng. Vì vậy, thay vì kết luận quá rộng, report chỉ trình bày những gì evidence hiện tại thật sự hỗ trợ.
+                        Bảng này tóm tắt cách nên hiểu kết quả của project. Mỗi kết luận chỉ có giá trị trong phạm vi
+                        dataset, metric và môi trường chạy đã kiểm chứng. Vì vậy, thay vì kết luận quá rộng, report chỉ
+                        trình bày những gì evidence hiện tại thật sự hỗ trợ.
                     </p>
 
                     <table class="mini-table report-table">
@@ -1173,23 +1213,26 @@
                             <tr>
                                 <th>Phạm vi evidence</th>
                                 <th>Kết luận nên trình bày</th>
-                                <th>Giới hạn cần nhắc</th>
+                                <th>Điều cần làm rõ khi trình bày</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><strong>GSM8K</strong></td>
-                                <td>Numeric-quality proxy tương đối ổn định trong n=30: Baseline-AR đạt 25/30, ba condition còn lại đạt 24/30.</td>
+                                <td>Numeric-quality proxy tương đối ổn định trong n=30: Baseline-AR đạt 25/30, ba
+                                    condition còn lại đạt 24/30.</td>
                                 <td>Đây là short-context numeric proxy, không phải semantic correctness tổng quát.</td>
                             </tr>
                             <tr>
                                 <td><strong>QMSum</strong></td>
-                                <td>QMSum cho thấy long-context diagnostic behavior: latency, prefill, compression overhead, compression ratio và lexical proxy.</td>
+                                <td>QMSum cho thấy long-context diagnostic behavior: latency, prefill, compression
+                                    overhead, compression ratio và lexical proxy.</td>
                                 <td>QMSum không được dùng để chứng minh semantic correctness hoặc final quality.</td>
                             </tr>
                             <tr>
                                 <td><strong>Timing</strong></td>
-                                <td>Một số cặp so sánh cho thấy lợi ích timing trong local runtime, đặc biệt CC-DFlash-R2 so với LLMLingua-AR-R2.</td>
+                                <td>Một số cặp so sánh cho thấy lợi ích timing trong local runtime, đặc biệt
+                                    CC-DFlash-R2 so với LLMLingua-AR-R2.</td>
                                 <td>Không kết luận universal speedup hoặc production speedup.</td>
                             </tr>
                             <tr>
@@ -1211,7 +1254,10 @@
                     </table>
 
                     <div class="reading-note-strip">
-                        <strong>Thông điệp an toàn khi thuyết trình:</strong> CC-DFlash có evidence có điều kiện. Trên GSM8K, numeric-quality proxy tương đối ổn định. Trên QMSum, kết quả chỉ dùng để chẩn đoán long-context behavior. CC-DFlash-R2 có lợi rõ nhất khi so với compression-only path, nhưng chưa chứng minh universal speedup, final correctness, QMSum semantic correctness hoặc deployment readiness.
+                        <strong>Note:</strong> CC-DFlash có evidence có điều kiện. Trên GSM8K, numeric-quality proxy
+                        tương đối ổn định. Trên QMSum, kết quả chỉ dùng để chẩn đoán long-context behavior. CC-DFlash-R2
+                        có lợi rõ nhất khi so với compression-only path, nhưng chưa chứng minh universal speedup, final
+                        correctness, QMSum semantic correctness hoặc deployment readiness.
                     </div>
                 </article>
             </div>
@@ -1238,12 +1284,15 @@
                     <span class="section-num">6.1</span>
                     <h2>Kết luận về hướng nghiên cứu</h2>
                     <p>
-                        Điểm quan trọng của chuyển hướng này là project không bỏ mục tiêu tăng tốc inference, mà đổi
-                        sang một hướng dễ kiểm
-                        chứng hơn trong phạm vi MVP. Thay vì tiếp tục ghép nhiều cơ chế speculative decoding phức tạp,
-                        CC-DFlash giữ DFlash core
-                        và chỉ thêm compression ở phía trước để tạo một pipeline có thể đo, audit và so sánh rõ hơn.
+                        Project không bỏ mục tiêu tăng tốc inference, mà chuyển sang một hướng dễ kiểm chứng hơn
+                        trong phạm vi MVP. Thay vì ghép nhiều cơ chế speculative decoding phức tạp,
+                        CC-DFlash giữ DFlash core và thêm context compression ở phía trước —
+                        tạo ra một pipeline có thể đo, audit và so sánh theo bốn conditions rõ ràng.
                     </p>
+                    <ul class="compact-list">
+                        <li>Giả thuyết hẹp hơn, dễ kiểm chứng hơn HTFSD.</li>
+                        <li>Tách rõ tác động của DFlash, compression và overhead.</li>
+                    </ul>
                 </article>
 
                 <article class="section-card">
@@ -1263,26 +1312,32 @@
                     <span class="section-num">6.3</span>
                     <h2>Kết luận về evidence hiện tại</h2>
                     <p>
-                        Evidence hiện tại là partial và conditional. Trên GSM8K, CC-DFlash-R2 giữ numeric-quality proxy
-                        tương đương LLMLingua-AR-R2 trong setting n=30. Trên QMSum, project có diagnostic evidence cho
-                        long-context behavior nhưng chưa đủ cơ sở để claim semantic correctness.
+                        Evidence hiện tại là có điều kiện. CC-DFlash-R2 giữ numeric-quality proxy tương đương
+                        LLMLingua-AR-R2 trên GSM8K n=30, đồng thời cải thiện tốc độ so với compression-only path
+                        trong local e2e timing. Đây là claim an toàn nhất mà kết quả hiện tại ủng hộ.
                     </p>
                     <ul class="compact-list">
-                        <li>GSM8K hỗ trợ đọc numeric-quality proxy trong short-context.</li>
-                        <li>QMSum chỉ dùng để quan sát diagnostic behavior, không phải final quality proof.</li>
+                        <li>GSM8K: numeric-quality proxy ổn định, CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2.</li>
+                        <li>QMSum: diagnostic behavior rõ ràng, nhưng chưa đủ để claim semantic correctness.</li>
+                        <li>Cả hai dataset chỉ hỗ trợ kết luận trong phạm vi setting đã test.</li>
                     </ul>
                 </article>
 
                 <article class="section-card">
                     <span class="section-num">6.4</span>
-                    <h2>Kết luận về claim boundary</h2>
+                    <h2>Kết luận về phạm vi claim</h2>
                     <p>
-                        Project chưa claim universal speedup, final correctness, deployment readiness, confirmed 8GB
-                        deployment,
-                        hoặc compression proven useful end-to-end trong mọi trường hợp.
+                        Các kết luận trong report này chỉ có giá trị trong phạm vi dataset, metric và môi trường
+                        chạy đã kiểm chứng — như đã xác định ở mục 5.6.
+                        Project chưa claim universal speedup, final correctness, deployment readiness,
+                        confirmed 8GB deployment, hoặc compression proven useful end-to-end trong mọi trường hợp.
                     </p>
+                    <ul class="compact-list">
+                        <li>Compression chỉ có lợi khi phần tiết kiệm vượt chi phí nén.</li>
+                        <li>DFlash-R1 vẫn là baseline mạnh trên short-context và không bị kết luận là lỗi.</li>
+                    </ul>
                     <div class="claim-line-compact">
-                        Safe claim: MVP có evidence có điều kiện, chưa phải kết luận cuối về speedup/correctness.
+                        CC-DFlash là MVP / evidence package — không phải kết luận cuối về speedup hay correctness.
                     </div>
                 </article>
 
