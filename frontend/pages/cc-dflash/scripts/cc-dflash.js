@@ -107,6 +107,8 @@ function spawnParticle(cx, cy, forceOuter, idx = 0, total = 1) {
     const aspect = width / Math.max(1, height);
     const cols = Math.max(1, Math.ceil(Math.sqrt(total * aspect)));
     const rows = Math.max(1, Math.ceil(total / cols));
+    const col = idx % cols;
+    const row = Math.floor(idx / cols);
     const cellU = clamp((col + 0.08 + rand() * 0.84) / cols, 0, 0.999);
     const cellV = clamp((row + 0.08 + rand() * 0.84) / rows, 0, 0.999);
 
