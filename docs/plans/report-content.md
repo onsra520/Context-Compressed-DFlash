@@ -1,449 +1,389 @@
-## 1. Lý do chuyển hướng từ HTFSD sang CC-DFlash
+# CC-DFlash Final Report
 
-### 1.1. Hướng nghiên cứu ban đầu: HTFSD
+## 1. Lý do chuyển hướng
 
-Ban đầu, project đi theo hướng **HTFSD** — một hướng thử nghiệm nhằm tăng tốc quá trình sinh văn bản của LLM bằng cách kết hợp nhiều cơ chế speculative decoding.
+### 1.1. Mục tiêu ban đầu
 
-Trong cách sinh văn bản thông thường, model chính tự dự đoán từng token một. Cách này đơn giản và ổn định, nhưng có thể chậm khi cần sinh nhiều token. Speculative decoding cố gắng tăng tốc bằng cách dùng một model nhỏ hơn để đoán trước một số token, sau đó model chính kiểm tra lại. Nếu các token được đoán trước trùng với lựa chọn của model chính, hệ thống có thể chấp nhận nhiều token trong một lượt và sinh nhanh hơn.
+Ban đầu, project đi theo hướng tăng tốc inference bằng speculative decoding. Mục tiêu chính là giảm thời gian sinh output token bằng cách để một mô hình hoặc cơ chế draft dự đoán trước nhiều token, sau đó mô hình chính kiểm tra và chấp nhận một phần token hợp lệ. Nếu acceptance tốt, hệ thống có thể sinh nhiều token hơn trong mỗi bước và giảm latency so với autoregressive decoding thông thường.
 
-Một số khái niệm cần hiểu:
+Hướng ban đầu được nghiên cứu theo tinh thần HTFSD, tức cố gắng kết hợp nhiều ý tưởng tăng tốc decoding vào một pipeline. Về mặt lý thuyết, hướng này có thể hấp dẫn vì speculative decoding tập trung trực tiếp vào bottleneck sinh token. Tuy nhiên, khi triển khai thực tế trên môi trường giới hạn tài nguyên, project bắt đầu gặp các vấn đề về độ phức tạp tích hợp, overhead và khả năng kiểm chứng.
 
-| Thuật ngữ            | Giải thích ngắn                                                                                      |
-| -------------------- | ---------------------------------------------------------------------------------------------------- |
-| **Baseline**         | Cách sinh bình thường: model chính tự sinh token, không có model phụ hỗ trợ.                         |
-| **Drafter**          | Model nhỏ hơn, dùng để đoán trước token ứng viên.                                                    |
-| **Verifier**         | Model chính, dùng để kiểm tra token do drafter đề xuất.                                              |
-| **Accepted token**   | Token drafter đoán trùng với verifier nên được giữ lại.                                              |
-| **Acceptance ratio** | Tỷ lệ token được verifier chấp nhận. Tỷ lệ này càng thấp thì speculative decoding càng khó có lợi.   |
-| **K**                | Số token mà drafter đề xuất trong mỗi vòng. Ví dụ K=4 nghĩa là drafter đoán trước 4 token mỗi cycle. |
+### 1.2. Blocker của hướng HTFSD
 
-Mục tiêu của HTFSD là thử đẩy speculative decoding xa hơn bằng cách kết hợp nhiều tầng dự đoán, bao gồm cả token-level và feature/hidden-state-level. Tuy nhiên, khi đi vào triển khai thực tế, hướng này gặp hai nhóm vấn đề lớn: xung đột kiến trúc và tín hiệu benchmark không tốt ở low-tier.
+Blocker lớn nhất của hướng HTFSD là độ phức tạp kiến trúc. Hướng này không chỉ đơn giản là chạy một baseline và một drafter, mà còn phải xử lý quan hệ giữa drafter, verifier, acceptance ratio, số token dự đoán trước, prompt format và cơ chế fallback khi token không được chấp nhận. Khi các thành phần này không khớp tốt với nhau, phần overhead có thể lớn hơn phần lợi ích đạt được.
 
----
+Trong benchmark thử nghiệm ban đầu trên môi trường low-tier, tín hiệu tốc độ không tốt. Baseline GPU có thời gian khoảng 3403 ms, trong khi hướng Full Replay với K=4 mất khoảng 9672 ms, tức chậm hơn baseline khoảng 2.84 lần. Hướng Incremental KV với K=8 còn chậm hơn, khoảng 15650 ms, tức chậm hơn baseline khoảng 4.60 lần. Mặc dù một số output vẫn tương đương, tốc độ không đạt được mục tiêu ban đầu.
 
-### 1.2. Vấn đề kiến trúc: EAGLE-2 và DFlash không ăn khớp trực tiếp
+Ngoài ra, acceptance ratio thấp cũng là một blocker quan trọng. Khi số token được chấp nhận không đủ cao, speculative decoding không còn mang lại lợi ích thực tế. Thay vì giảm số lần gọi mô hình chính, pipeline lại phải trả thêm chi phí cho draft, verify và fallback. Điều này làm hướng HTFSD trở nên rủi ro để dùng làm MVP đầu tiên.
 
-Một khó khăn lớn của HTFSD là hướng này cố gắng kết hợp hai kiểu tăng tốc có cách vận hành khác nhau: **EAGLE-2** và **DFlash**.
+### 1.3. Vì sao cần chuyển hướng
 
-Ở mức dễ hiểu, **EAGLE-2** có thể được hình dung như một cơ chế mở nhiều nhánh dự đoán. Nó xây một cây dự đoán động theo ngữ cảnh, sau đó model chính kiểm tra để chọn nhánh phù hợp. Trong khi đó, **DFlash** đi theo hướng khác: thay vì mở cây dự đoán, nó cố sinh song song một block token bằng cơ chế block diffusion.
+Từ các blocker trên, project không kết luận rằng speculative decoding là hướng sai. Vấn đề là hướng HTFSD quá phức tạp để làm MVP trong điều kiện thời gian, tài nguyên và khả năng kiểm chứng hiện tại. Nếu tiếp tục theo hướng này, project có nguy cơ bị kẹt ở phần tích hợp kỹ thuật mà chưa tạo được một benchmark rõ ràng để trả lời câu hỏi nghiên cứu.
 
-Nói ngắn gọn, EAGLE-2 giống như “mở cây dự đoán”, còn DFlash giống như “điền cả một cụm token cùng lúc”. Hai hướng này đều nhằm tăng tốc inference, nhưng tổ chức quá trình draft theo hai cách khác nhau.
+Vì vậy, project chuyển sang một hướng đơn giản hơn và dễ kiểm chứng hơn: CC-DFlash. Thay vì can thiệp sâu vào speculative decoding pipeline, CC-DFlash giữ DFlash như một thành phần decoding và thêm một lớp context compression ở phía trước. Như vậy, project không cố sửa DFlash core, mà kiểm tra một giả thuyết độc lập hơn: nếu context đầu vào được nén trước, liệu DFlash có thể chạy hiệu quả hơn trong một số setting hay không.
 
-| Thành phần      | EAGLE-2 style                                | DFlash style                                             |
-| --------------- | -------------------------------------------- | -------------------------------------------------------- |
-| Cách draft      | Mở cây dự đoán động theo ngữ cảnh            | Sinh một block token song song                           |
-| Tư duy chính    | Chọn nhánh dự đoán có khả năng đúng cao      | Giảm số bước sinh tuần tự bằng block diffusion           |
-| Dạng dự đoán    | Dynamic draft tree                           | Parallel block drafting                                  |
-| Cách tối ưu     | Tăng số token được chấp nhận qua cây draft   | Sinh nhiều token trong một block                         |
-| Rủi ro khi ghép | Cần đồng bộ tree, feature, token và verifier | Không thiết kế để nhận trực tiếp dynamic tree từ EAGLE-2 |
+### 1.4. Ý nghĩa của việc chuyển sang CC-DFlash
 
-Vì vậy, HTFSD không chỉ là bài toán gọi một model nhỏ rồi cho model lớn kiểm tra. Hướng này phải xử lý interface giữa hai cơ chế khác nhau: một bên là cây dự đoán động, một bên là block diffusion. Nếu muốn ghép hai cơ chế này, hệ thống phải giải quyết đồng thời nhiều vấn đề như tokenizer, token bridge, hidden-state compatibility, verify logic và cách commit token sau mỗi vòng.
+Việc chuyển hướng sang CC-DFlash giúp project có một câu hỏi nghiên cứu rõ hơn. Thay vì hỏi "làm sao ghép nhiều cơ chế speculative decoding để nhanh hơn", project chuyển sang hỏi:
 
-Điều này làm HTFSD có rủi ro triển khai cao. Trước khi có thể chứng minh speedup, project đã phải giải quyết nhiều vấn đề tương thích ở tầng nội bộ giữa các model và giữa các cơ chế speculative decoding.
+**Context compression có thể hỗ trợ DFlash bằng cách giảm input tokens và prefill cost hay không, sau khi đã tính cả chi phí nén và chất lượng đầu ra?**
+
+Câu hỏi này phù hợp hơn với một MVP vì có thể kiểm chứng bằng benchmark có điều kiện rõ ràng. Project có thể tách riêng baseline, DFlash-only, compression-only và compression + DFlash để biết phần nào tạo ra lợi ích, phần nào tạo ra overhead và phần nào làm giảm chất lượng.
+
+Tóm lại, quyết định chuyển hướng không phải là bỏ mục tiêu tăng tốc inference, mà là đổi sang một giả thuyết dễ đo hơn, dễ audit hơn và phù hợp hơn với phạm vi project hiện tại.
 
 ---
 
-### 1.3. Benchmark low-tier cho thấy tín hiệu khả thi thấp
+## 2. CC-DFlash và Conditions
 
-Bên cạnh rủi ro kiến trúc, báo cáo HTFSD cũ ở **Phase 3.16 — Low-Tier Speedup Blocker Audit** cũng cho thấy tín hiệu thực nghiệm không tốt. Đây chưa phải full benchmark cuối cùng, nhưng là một kiểm tra low-tier quan trọng để xem prototype có đủ khả thi để tiếp tục tối ưu hay không.
+### 2.1. Ý tưởng chính của CC-DFlash
 
-Môi trường thử nghiệm khi đó sử dụng:
+CC-DFlash là viết tắt của Context-Compressed DFlash. Ý tưởng chính là đặt một lớp nén context ở phía trước DFlash. Pipeline tổng quát có thể mô tả như sau:
 
-| Thành phần       | Giá trị                                  |
-| ---------------- | ---------------------------------------- |
-| GPU              | NVIDIA GeForce RTX 4070 Laptop GPU       |
-| VRAM             | 8188 MiB                                 |
-| Verifier         | `gemma-4-E2B-it-UD-Q4_K_XL.gguf`         |
-| Drafter          | `Qwen3-0.6B-UD-Q8_K_XL.gguf`             |
-| GPU offload      | Cả drafter và verifier đều chạy trên GPU |
-| `max_new_tokens` | 32                                       |
-| `prompt_count`   | 8                                        |
-| K được thử       | 4 và 8 token mỗi cycle                   |
+**Original context → Context compression → Compressed natural text → DFlash → Output**
 
-Kết quả chính:
+Trong pipeline này, context gốc được đưa qua một compressor trước. Compressor tạo ra phiên bản context đã nén, nhưng output của compressor vẫn là natural text. Sau đó, context đã nén được đưa vào DFlash như một prompt bình thường. DFlash tiếp tục thực hiện vai trò decoding trên compressed context.
 
-| Cấu hình                | Giải thích cấu hình                                                                                                                                                                                   |  Wall time |    Speedup | Diễn giải                                                         |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------: | ---------: | ----------------------------------------------------------------- |
-| **baseline_gpu**        | Verifier Gemma sinh bình thường từng token, không dùng drafter, không dùng speculative decoding. Đây là mốc so sánh tốc độ.                                                                           | **3403ms** | **1.000×** | Reference                                                         |
-| **Full replay, K=4**    | Mỗi cycle, Qwen drafter đề xuất 4 token. Verifier kiểm tra bằng cách chạy lại prompt, phần đã commit và candidate window. Cách này đơn giản hơn nhưng tốn thời gian vì phải replay context nhiều lần. |     9672ms |     0.352× | Khoảng **2.84× chậm hơn baseline**, và chỉ đạt **7/8 equivalent** |
-| **Incremental KV, K=8** | Mỗi cycle, Qwen drafter đề xuất 8 token. Verifier cố tái sử dụng KV cache, trim về phần token đã commit rồi verify tiếp để tránh chạy lại toàn bộ context. Đây là bản tối ưu hơn full replay.         |    15650ms |     0.217× | Khoảng **4.60× chậm hơn baseline**, dù đạt **8/8 equivalent**     |
+Điểm quan trọng là CC-DFlash không sửa DFlash core. Project không thêm meta-token, không truyền hidden state trung gian, không thay đổi vocabulary và không yêu cầu kiến trúc model chính thay đổi. Phần compression được đặt như một lớp độc lập ở phía trước pipeline.
 
-Trong bảng trên, **Full replay** là cách verify đơn giản nhưng tốn thời gian vì verifier phải tính lại nhiều phần context sau mỗi cycle. **Incremental KV** là hướng tối ưu hơn: hệ thống cố giữ lại KV cache của verifier để tránh tính lại từ đầu. Tuy nhiên, ngay cả bản Incremental KV sau khi sửa lỗi vẫn không đạt speedup.
+Cách làm này giúp giảm rủi ro tích hợp so với hướng HTFSD ban đầu. Thay vì cố ghép nhiều cơ chế speculative decoding phức tạp, CC-DFlash giữ DFlash ổn định và kiểm tra tác động của việc rút gọn input context.
 
-Kết quả này cho thấy HTFSD low-tier không đạt yêu cầu tốc độ. Cấu hình nhanh nhất vẫn chậm hơn baseline khoảng 2.84 lần và chưa tương đương đầy đủ đầu ra. Cấu hình đạt tương đương 8/8 thì lại chậm hơn baseline khoảng 4.60 lần.
+### 2.2. Vì sao context compression có thể hữu ích
 
----
+Trong long-context inference, chi phí không chỉ nằm ở quá trình sinh token đầu ra. Trước khi model sinh output, toàn bộ input context cần được xử lý trong giai đoạn prefill. Khi context dài, prefill có thể chiếm một phần đáng kể của tổng latency.
 
-### 1.4. Các blocker chính của HTFSD low-tier
+Nếu context được nén từ số token lớn xuống số token nhỏ hơn, chi phí xử lý input có thể giảm. Khi kết hợp với DFlash, pipeline có thể hưởng lợi từ hai phía:
 
-Kết quả low-tier cho thấy HTFSD không chậm vì một lỗi đơn lẻ, mà do nhiều overhead cộng lại.
+- compression giảm số lượng input tokens cần xử lý;
+- DFlash giúp tăng tốc giai đoạn decoding;
+- nếu phần tiết kiệm từ input/prefill và decoding lớn hơn chi phí nén, end-to-end runtime có thể cải thiện.
 
-Các blocker chính gồm:
+Tuy nhiên, compression không miễn phí. LLMLingua-2 cần thời gian để nén context, được ghi nhận bằng `T_compress`. Vì vậy, câu hỏi của CC-DFlash không phải chỉ là "context có được nén không", mà là:
 
-* **Drafter call overhead**: mỗi cycle phải gọi Qwen3-0.6B để sinh token ứng viên, tạo thêm chi phí đáng kể.
-* **Acceptance ratio thấp**: chỉ khoảng 18–32% token được chấp nhận, nên nhiều cycle không mang lại lợi ích.
-* **Token bridge và prompt mismatch**: Qwen drafter và Gemma verifier dùng tokenizer/prompt template khác nhau, làm tăng chi phí chuyển đổi và giảm khả năng token được accept.
-* **Fallback-heavy behavior**: nhiều cycle chỉ commit được rất ít token, khiến số vòng lặp tăng lên.
+**Sau khi tính cả `T_compress`, pipeline có nhanh hơn và quality proxy có còn ổn định hay không?**
 
-Tóm lại, chi phí gọi drafter và verify nhiều vòng lớn hơn lợi ích từ các token được accept. Vì vậy, HTFSD low-tier chưa cho thấy tín hiệu speedup đủ tốt để tiếp tục làm hướng MVP chính.
+### 2.3. CC-DFlash không phải pipeline lossless end-to-end
 
----
+Một điểm cần nhấn mạnh là CC-DFlash không claim lossless full pipeline. DFlash có thể verify token trên compressed context, nhưng compressed context đã là kết quả của một bước nén có mất mát thông tin. Nếu compressor làm mất chi tiết quan trọng, output cuối cùng vẫn có thể sai.
 
-### 1.5. Kết luận từ HTFSD và lý do chuyển sang CC-DFlash
+Vì vậy, cách diễn giải đúng là:
 
-Từ các kết quả trên, HTFSD không bị loại bỏ vì ý tưởng speculative decoding là sai. Vấn đề là hướng triển khai ban đầu có quá nhiều rủi ro đối với một MVP đầu tiên.
+**Lossy input compression + DFlash trên compressed context không đồng nghĩa với lossless full pipeline.**
 
-Có hai lý do chính dẫn đến quyết định chuyển hướng. Thứ nhất, HTFSD gặp rủi ro kiến trúc khi cố kết hợp EAGLE-2-style dynamic draft tree với DFlash-style block diffusion. Hai cơ chế này vận hành khác nhau và không thể ghép trực tiếp nếu không thiết kế lại nhiều tầng interface. Thứ hai, benchmark low-tier cho thấy tín hiệu tốc độ âm: prototype không nhanh hơn baseline, ngay cả khi cả drafter và verifier đã được offload lên GPU.
+Điều này làm cho phần evaluation trở nên rất quan trọng. Project không chỉ đo tốc độ, mà còn phải kiểm tra quality proxy để biết compression có làm mất thông tin cần thiết hay không.
 
-Vì vậy, project chuyển sang hướng **CC-DFlash**. Thay vì cố lai nhiều cơ chế speculative decoding ở tầng nội bộ mô hình, CC-DFlash giữ nguyên DFlash và thêm một lớp nén context đầu vào phía trước.
+### 2.4. Vì sao cần bốn conditions
 
-Hướng mới có pipeline đơn giản hơn:
+CC-DFlash có hai thành phần tác động chính: compression và DFlash. Nếu chỉ so sánh CC-DFlash với baseline, project sẽ không biết kết quả đến từ đâu. Một kết quả nhanh hơn có thể đến từ DFlash, từ compression, hoặc từ sự kết hợp của cả hai. Một kết quả chậm hơn cũng có thể đến từ `T_compress`, từ DFlash không hiệu quả sau compression, hoặc từ output bị lỗi.
 
-```text
-Original context → Context compression → Compressed natural text → DFlash → Output
-```
+Vì vậy, project sử dụng bốn conditions chính để tách riêng từng tác động.
 
-CC-DFlash tiếp tục mục tiêu tăng tốc inference, nhưng chuyển trọng tâm sang nén context đầu vào trước DFlash. Hướng này giữ nguyên DFlash, dùng compressed context dưới dạng natural text, và tránh được nhiều rủi ro tương thích của HTFSD như tokenizer, hidden-state và feature-space mismatch.
+| Condition           | Compression | DFlash | Vai trò                                        |
+| ------------------- | ----------: | -----: | ---------------------------------------------- |
+| **Baseline-AR**     |       Không |  Không | Mốc gốc, autoregressive decoding bình thường   |
+| **DFlash-R1**       |       Không |     Có | Đo riêng tác động của DFlash trên full context |
+| **LLMLingua-AR-R2** |          Có |  Không | Đo riêng tác động của compression              |
+| **CC-DFlash-R2**    |          Có |     Có | Pipeline chính: compression kết hợp với DFlash |
 
-Do đó, CC-DFlash được chọn làm hướng MVP tiếp theo để kiểm tra một giả thuyết thực nghiệm rõ ràng hơn: nếu có thể giảm số lượng input tokens nhưng vẫn giữ chất lượng đầu ra và tok/s ở mức tương đương hoặc tốt hơn, thì context compression có thể là một lớp hỗ trợ có giá trị cho DFlash trong long-context inference.
+Trong đó, **R1** đại diện cho full-context setting, tức không nén. **R2** đại diện cho compressed-context setting, thường với keep rate khoảng 0.5.
 
-## 2. CC-DFlash: Hướng tiếp cận sau khi chuyển hướng
+### 2.5. Ma trận 2 × 2
 
-### 2.1. Bài toán cần giải quyết
+Bốn conditions có thể được nhìn như một ma trận 2 × 2:
 
-Sau khi loại HTFSD khỏi hướng MVP chính, project chuyển sang một câu hỏi thực nghiệm rõ ràng hơn: nếu không can thiệp sâu vào speculative decoding pipeline, liệu có thể cải thiện hiệu quả inference bằng cách giảm số lượng input tokens trước khi chạy DFlash hay không?
+|                       | Không DFlash    | Có DFlash    |
+| --------------------- | --------------- | ------------ |
+| **Không compression** | Baseline-AR     | DFlash-R1    |
+| **Có compression**    | LLMLingua-AR-R2 | CC-DFlash-R2 |
 
-Trong inference của LLM, chi phí không chỉ nằm ở quá trình sinh token đầu ra. Với các prompt dài, model còn phải xử lý toàn bộ input context trước khi bắt đầu sinh. Giai đoạn này thường được gọi là **prefill**.
+Ma trận này giúp benchmark có khả năng attribution. Project có thể đọc từng cặp so sánh như sau:
 
-Có thể hiểu đơn giản:
+| Comparison                          | Câu hỏi cần trả lời                                                             |
+| ----------------------------------- | ------------------------------------------------------------------------------- |
+| **DFlash-R1 vs Baseline-AR**        | DFlash có giúp tăng tốc khi không có compression không?                         |
+| **LLMLingua-AR-R2 vs Baseline-AR**  | Compression một mình có lợi hay bị `T_compress` kéo chậm?                       |
+| **CC-DFlash-R2 vs LLMLingua-AR-R2** | Sau khi context đã nén, DFlash có giúp pipeline tốt hơn compression-only không? |
+| **CC-DFlash-R2 vs DFlash-R1**       | Compression trước DFlash có thật sự giúp hơn DFlash trên full context không?    |
+| **CC-DFlash-R2 vs Baseline-AR**     | Toàn pipeline compression + DFlash có lợi hơn baseline gốc không?               |
 
-| Thuật ngữ        | Giải thích ngắn                                                                   |
-| ---------------- | --------------------------------------------------------------------------------- |
-| **Input tokens** | Số token của prompt/context đầu vào. Prompt càng dài thì input tokens càng nhiều. |
-| **Prefill**      | Giai đoạn model đọc và xử lý toàn bộ input context trước khi sinh token đầu tiên. |
-| **Decoding**     | Giai đoạn model sinh token đầu ra từng bước.                                      |
-| **tok/s**        | Số token sinh được mỗi giây, dùng để đo tốc độ sinh đầu ra.                       |
-| **T_compress**   | Thời gian tốn thêm để nén context trước khi chạy model.                           |
+Trong các so sánh này, cặp **CC-DFlash-R2 vs LLMLingua-AR-R2** đặc biệt quan trọng. Nếu CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2 trong khi quality proxy tương đương, đó là tín hiệu cho thấy DFlash vẫn tạo thêm lợi ích sau khi context đã được nén.
 
-DFlash tập trung tăng tốc phần decoding bằng speculative decoding. Tuy nhiên, nếu input context rất dài, phần prefill vẫn có thể chiếm chi phí đáng kể. Vì vậy, CC-DFlash được đặt ra như một hướng bổ sung: giảm độ dài context đầu vào trước khi đưa vào DFlash.
+Tuy nhiên, cặp **CC-DFlash-R2 vs DFlash-R1** cần đọc thận trọng. Trong short-context như GSM8K, DFlash-R1 có thể vẫn nhanh hơn vì input ngắn khiến compression khó bù lại `T_compress`. Điều đó không tự động bác bỏ giả thuyết long-context của CC-DFlash.
 
 ---
 
-### 2.2. Ý tưởng chính của CC-DFlash
-
-CC-DFlash viết tắt theo hướng hiểu trong project là **Context-Compressed DFlash**. Ý tưởng cốt lõi là thêm một lớp nén context trước DFlash.
-
-Pipeline của hướng này là:
-
-```text id="73c7fh"
-Original context → Context compression → Compressed natural text → DFlash → Output
-```
-
-Thay vì đưa toàn bộ context gốc vào model, hệ thống dùng một compressor để giữ lại phần thông tin quan trọng hơn và loại bỏ bớt phần dư thừa. Sau đó, compressed context vẫn được biểu diễn dưới dạng **natural text**, tức là văn bản bình thường, rồi mới đưa vào DFlash.
-
-Điểm quan trọng là CC-DFlash không sửa DFlash core. DFlash vẫn nhận prompt văn bản như bình thường. Điều này giúp hướng mới tránh được nhiều rủi ro của HTFSD, vì hệ thống không cần ghép hidden-state, không cần đồng bộ feature-space giữa hai kiến trúc speculative decoding, và không cần thiết kế lại cơ chế verify/commit token ở tầng nội bộ.
-
----
-
-### 2.3. Vì sao nén context có thể hữu ích?
-
-Với long-context inference, prompt đầu vào có thể rất dài. Nếu giảm được số lượng input tokens, model có thể xử lý ít token hơn ở giai đoạn prefill. Về mặt kỳ vọng, điều này có thể giúp giảm thời gian xử lý context và giảm một phần chi phí bộ nhớ.
-
-Tuy nhiên, context compression không miễn phí. Hệ thống phải tốn thêm **T_compress**, tức thời gian chạy compressor. Ngoài ra, compression là một bước **lossy**, vì một phần thông tin trong context gốc có thể bị loại bỏ.
-
-Do đó, CC-DFlash không giả định rằng nén context luôn tốt. Hướng này chỉ có giá trị nếu phần tiết kiệm từ input tokens và prefill đủ lớn để bù lại chi phí nén, đồng thời chất lượng đầu ra không giảm quá nhiều.
-
-Có thể tóm tắt giả thuyết của project như sau:
-
-```text id="kkko94"
-Nếu giảm được input tokens mà vẫn giữ chất lượng đầu ra và tok/s ở mức tương đương hoặc tốt hơn,
-thì context compression có thể là một lớp hỗ trợ có giá trị cho DFlash trong long-context inference.
-```
-
----
-
-### 2.4. Giới hạn claim của CC-DFlash
-
-Một điểm cần làm rõ là CC-DFlash không phải một pipeline lossless end-to-end.
-
-DFlash, khi xét riêng trên cùng một context đầu vào, hướng tới speculative decoding có kiểm chứng bằng target model. Tuy nhiên, CC-DFlash thêm một bước nén context trước đó. Vì context compression là lossy, compressed context có thể không còn giữ đầy đủ thông tin như context gốc.
-
-Do đó, claim đúng của project là:
-
-```text id="w3ke1j"
-Lossy input compression + DFlash trên compressed context ≠ lossless full pipeline.
-```
-
-Nói cách khác, DFlash có thể giữ tính đúng tương đối với compressed context, nhưng toàn bộ pipeline CC-DFlash vẫn phụ thuộc vào chất lượng của bước nén. Vì vậy, project cần đánh giá đồng thời cả tốc độ và chất lượng, thay vì chỉ nhìn vào số token được giảm.
-
----
-
-### 2.5. Vai trò của CC-DFlash trong project
-
-CC-DFlash được chọn làm hướng MVP vì nó có phạm vi thực nghiệm rõ ràng hơn HTFSD. Thay vì cố gắng lai nhiều cơ chế speculative decoding ở tầng nội bộ mô hình, project tập trung vào một can thiệp độc lập hơn: nén context đầu vào trước khi chạy DFlash.
-
-Hướng này cho phép benchmark theo các thành phần dễ đo hơn:
-
-* số input tokens trước và sau nén;
-* thời gian nén context;
-* thời gian prefill;
-* tốc độ sinh token đầu ra;
-* chất lượng câu trả lời sau khi nén;
-* so sánh giữa baseline, DFlash, compression-only và CC-DFlash.
-
-Nhờ vậy, project có thể kiểm tra từng bước xem context compression có thật sự hỗ trợ DFlash hay chỉ tạo thêm overhead. Đây là nền tảng để chuyển sang phần tiếp theo: thiết kế benchmark và các điều kiện so sánh.
-
-## 3. Thiết kế benchmark và các điều kiện so sánh
+## 3. Thiết kế benchmark và Evaluation
 
 ### 3.1. Mục tiêu của benchmark
 
-Sau khi xác định CC-DFlash là hướng MVP chính, project cần một thiết kế benchmark đủ rõ để trả lời câu hỏi: việc nén context trước DFlash có thật sự mang lại lợi ích hay chỉ tạo thêm overhead?
+Sau khi định nghĩa pipeline và bốn conditions, project cần một thiết kế benchmark có thể đọc được công bằng. Với CC-DFlash, benchmark không chỉ cần trả lời "pipeline có nhanh hơn không", mà còn phải trả lời "nhanh hơn hoặc chậm hơn vì lý do gì".
 
-CC-DFlash gồm hai thành phần chính: **context compression** và **DFlash**. Vì vậy, nếu chỉ so sánh trực tiếp giữa baseline và CC-DFlash, kết quả sẽ khó diễn giải. Khi đó, nếu CC-DFlash nhanh hơn hoặc chậm hơn, ta chưa biết nguyên nhân đến từ DFlash, từ compression, hay từ sự kết hợp của cả hai.
+Điểm khó là CC-DFlash có nhiều thành phần cùng tác động đến kết quả. DFlash ảnh hưởng đến decoding. Compression ảnh hưởng đến input tokens, prefill, quality của context và `T_compress`. Nếu chỉ nhìn tổng thời gian hoặc một chỉ số throughput đơn lẻ, kết quả sẽ rất dễ bị hiểu sai.
 
-Do đó, benchmark được thiết kế theo hướng tách riêng từng yếu tố:
+Benchmark được thiết kế để kiểm tra bốn câu hỏi chính:
 
-* baseline không dùng compression, không dùng DFlash;
-* DFlash-only để đo lợi ích riêng của DFlash;
-* compression-only để đo ảnh hưởng riêng của context compression;
-* CC-DFlash để đo hiệu quả khi kết hợp compression và DFlash.
+1. DFlash có cải thiện tốc độ so với autoregressive baseline không?
+2. Compression có giảm input tokens nhưng bị `T_compress` làm mất lợi ích end-to-end không?
+3. Sau khi context đã nén, DFlash có còn tạo thêm lợi ích so với compression-only không?
+4. Quality proxy có còn ổn định sau khi context bị nén không?
 
-Cách thiết kế này giúp project không chỉ hỏi “CC-DFlash có nhanh hơn không?”, mà còn phân tích được “nó nhanh hơn hoặc chậm hơn vì lý do gì”.
+Vì vậy, benchmark phải đo cả chất lượng, tốc độ, compression ratio và overhead.
 
----
+### 3.2. Generation-only và end-to-end
 
-### 3.2. Ý nghĩa của R1 và R2
+Một điểm quan trọng trong benchmark là phân biệt **generation-only speed** và **end-to-end speed**.
 
-Trong benchmark, các điều kiện được chia theo hai nhóm context chính: **R1** và **R2**.
+Generation-only tok/s cho biết tốc độ sinh output sau khi prompt đã sẵn sàng. Chỉ số này hữu ích để hiểu decoding behavior. Tuy nhiên, với compressed pipeline, generation-only không tính phần chi phí nén context.
 
-**R1** là nhóm giữ nguyên context gốc. Có thể hiểu R1 là cấu hình dùng khoảng **100% input context**, không áp dụng context compression.
+End-to-end latency hoặc end-to-end tok/s phản ánh thực tế hơn vì có tính cả `T_compress`. Nếu một condition có generation-only nhanh hơn nhưng `T_compress` quá lớn, pipeline vẫn có thể chậm hơn về tổng thể.
 
-**R2** là nhóm có context compression. Trong project này, R2 dùng chính sách nén với `keep_rate ≈ 0.5`, tức mục tiêu giữ lại khoảng **50% phần context/token quan trọng** trước khi đưa vào model. Con số này không nhất thiết luôn đúng tuyệt đối 50% cho mọi prompt, vì kết quả nén thực tế còn phụ thuộc vào tokenizer, nội dung context và cách compressor chọn token quan trọng. Tuy nhiên, về mặt thiết kế benchmark, R2 được hiểu là nhóm context đã được rút gọn khoảng một nửa.
+| Metric                         | Ý nghĩa                                      | Rủi ro nếu đọc sai                                |
+| ------------------------------ | -------------------------------------------- | ------------------------------------------------- |
+| **Generation-only tok/s**      | Tốc độ sinh token sau khi prompt đã sẵn sàng | Có thể nhìn nhanh hơn nhưng chưa tính chi phí nén |
+| **End-to-end latency / tok/s** | Tốc độ khi tính cả overhead                  | Phù hợp hơn để đánh giá compressed pipeline       |
 
-| Nhóm   | Ý nghĩa           | Context đầu vào                     |
-| ------ | ----------------- | ----------------------------------- |
-| **R1** | Không nén context | Khoảng 100% context gốc             |
-| **R2** | Có nén context    | Khoảng 50% context/token quan trọng |
+Vì vậy, khi đọc kết quả CC-DFlash, không được chỉ nhìn generation-only speed. Với các condition có compression, end-to-end metric là cách đọc thận trọng hơn.
 
-Cách đặt tên này giúp benchmark phân biệt rõ giữa điều kiện dùng context đầy đủ và điều kiện dùng context đã được nén.
+### 3.3. Thay máu dataset gần giai đoạn test
 
----
+Một bước chuyển quan trọng của project là thay đổi setup dataset gần giai đoạn test. Dataset ban đầu theo hướng GSM8K kết hợp context dài kiểu Wikipedia/SQuAD có ích cho giai đoạn thử nghiệm, nhưng chưa tách rõ hai mục tiêu đánh giá khác nhau của CC-DFlash: chất lượng trên short-context và hiệu quả trên long-context.
 
-### 3.3. Bốn điều kiện benchmark chính
+Vì vậy, project chuyển sang hai dataset chính:
 
-Benchmark sử dụng bốn điều kiện chính để tách riêng tác động của từng thành phần.
+| Dataset                                 | Loại context | Vai trò chính                                                                                                         |
+| --------------------------------------- | ------------ | --------------------------------------------------------------------------------------------------------------------- |
+| **GSM8K short-context**                 | Ngắn         | Kiểm tra numeric-quality proxy và khả năng giữ đáp án số                                                              |
+| **QMSum-style meeting QA long-context** | Dài          | Quan sát long-context diagnostic behavior: latency, prefill, compression overhead, compression ratio và lexical proxy |
 
-| Điều kiện           | Context                | Decoding       | Vai trò trong benchmark                                             |
-| ------------------- | ---------------------- | -------------- | ------------------------------------------------------------------- |
-| **Baseline-AR**     | 100% context gốc       | Autoregressive | Mốc so sánh gốc, không dùng compression và không dùng DFlash.       |
-| **DFlash-R1**       | 100% context gốc       | DFlash         | Đo lợi ích riêng của DFlash khi chạy trên context đầy đủ.           |
-| **LLMLingua-AR-R2** | Context nén khoảng 50% | Autoregressive | Đo tác động riêng của context compression khi không dùng DFlash.    |
-| **CC-DFlash-R2**    | Context nén khoảng 50% | DFlash         | Điều kiện chính của project: nén context trước, sau đó chạy DFlash. |
+Việc thay dataset này làm project phải quay lại nhiều bước kiểm chứng. Khi dataset thay đổi, prompt policy, output cap, metric và cách đọc kết quả cũng phải được rà lại. Vì vậy, phần lớn thời gian gần giai đoạn benchmark được dùng để kiểm chứng pipeline thay vì chỉ chạy benchmark cuối.
 
-Trong đó, **AR** nghĩa là autoregressive decoding: model sinh token theo cách thông thường, từng bước một. **DFlash** là điều kiện dùng DFlash để tăng tốc quá trình decoding. **LLMLingua** là điều kiện dùng LLMLingua-2 làm compressor để rút gọn context đầu vào.
+Cách đọc mới là:
 
-Có thể đọc bốn điều kiện này như một ma trận 2 × 2:
+- GSM8K không dùng để chứng minh long-context speedup.
+- QMSum không dùng để chứng minh semantic correctness.
+- GSM8K dùng để kiểm tra numeric-quality proxy.
+- QMSum dùng để quan sát long-context diagnostic behavior.
 
-| Nhóm so sánh               | Không DFlash    | Có DFlash    |
-| -------------------------- | --------------- | ------------ |
-| **Không compression / R1** | Baseline-AR     | DFlash-R1    |
-| **Có compression / R2**    | LLMLingua-AR-R2 | CC-DFlash-R2 |
+### 3.4. GSM8K: short-context numeric-quality evaluation
 
-Nhờ cách chia này, project có thể so sánh từng phần một cách rõ ràng. Nếu DFlash-R1 nhanh hơn Baseline-AR, lợi ích đó đến từ DFlash. Nếu LLMLingua-AR-R2 giảm input tokens nhưng chậm hơn do chi phí nén, vấn đề nằm ở compression overhead. Nếu CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2, điều đó cho thấy DFlash có thể cải thiện pipeline sau khi context đã được nén.
+GSM8K được dùng để kiểm tra chất lượng ở dạng short-context. Vì câu trả lời thường có đáp án số rõ ràng, project có thể dùng numeric extraction để đánh giá output theo cách deterministic.
 
----
+Vai trò chính của GSM8K là kiểm tra xem khi context bị nén, pipeline còn giữ được thông tin quan trọng để sinh đáp án số hay không. Điều này đặc biệt hữu ích khi so sánh LLMLingua-AR-R2 và CC-DFlash-R2, vì cả hai đều dùng compressed context nhưng chỉ CC-DFlash-R2 có DFlash.
 
-### 3.4. Vì sao cần tách DFlash-only và compression-only?
+Tuy nhiên, GSM8K có giới hạn rõ ràng. Đây là short-context dataset, nên không phải nơi tốt nhất để chứng minh lợi ích long-context của compression. Numeric exact match cũng chỉ là proxy chất lượng, không phải semantic correctness tổng quát. Ngoài ra, vì context ngắn, `T_compress` có thể lớn hơn lợi ích từ việc giảm input tokens.
 
-CC-DFlash là sự kết hợp của compression và DFlash, nên các baseline trung gian là cần thiết để tránh kết luận sai.
+Do đó, GSM8K nên được đọc như short-context numeric-quality proxy, không phải final proof về chất lượng tổng quát của CC-DFlash.
 
-Nếu chỉ so sánh **Baseline-AR** với **CC-DFlash-R2**, ta không biết phần thay đổi đến từ đâu. Một kết quả nhanh hơn có thể do DFlash, do context ngắn hơn sau compression, hoặc do cả hai. Ngược lại, một kết quả chậm hơn cũng có thể do chi phí nén quá lớn, DFlash không đủ lợi ích, hoặc chất lượng compression chưa phù hợp.
+### 3.5. QMSum: long-context diagnostic evaluation
 
-Vì vậy, hai điều kiện trung gian có vai trò quan trọng:
+QMSum-style meeting QA được dùng để quan sát hành vi long-context của pipeline. Dataset này phù hợp hơn với giả thuyết CC-DFlash vì context dài làm input tokens, prefill, compression ratio và `T_compress` trở nên quan trọng hơn.
 
-**DFlash-R1** cho biết DFlash hoạt động như thế nào khi dùng đầy đủ 100% context gốc. Đây là mốc để kiểm tra DFlash-only có tạo speedup trong setting hiện tại hay không.
+Vai trò chính của QMSum là kiểm tra các tín hiệu diagnostic:
 
-**LLMLingua-AR-R2** cho biết compression hoạt động như thế nào khi không dùng DFlash. Đây là mốc để kiểm tra việc giảm input tokens có đủ bù lại chi phí `T_compress` hay không.
+- input token reduction;
+- compression ratio;
+- `T_compress`;
+- `T_prefill`;
+- generation tok/s;
+- end-to-end latency;
+- lexical/normalized quality proxy.
 
-Sau đó, **CC-DFlash-R2** mới được so sánh với cả ba điều kiện còn lại. Nhờ vậy, benchmark không chỉ đo kết quả cuối cùng, mà còn giải thích được nguồn gốc của kết quả đó.
+Tuy nhiên, QMSum không được dùng như bằng chứng semantic correctness. Câu trả lời trong QMSum có thể dài, có thể diễn đạt khác reference, và proxy dựa trên lexical overlap hoặc normalized containment có thể không phản ánh đầy đủ chất lượng ngữ nghĩa.
 
----
+Do đó, QMSum trong project này được giữ như long-context diagnostic evidence, không phải final quality benchmark.
 
-### 3.5. Hai nhóm dataset: short-context và long-context
+### 3.6. Metric scope
 
-Benchmark sử dụng hai nhóm dataset để kiểm tra CC-DFlash trong hai tình huống khác nhau: context ngắn và context dài.
+Benchmark sử dụng nhiều metric vì mỗi metric trả lời một phần khác nhau của câu hỏi nghiên cứu.
 
-| Dataset                           | Vai trò                                          | Lý do sử dụng                                                                                          |
-| --------------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| **GSM8K short-context**           | Kiểm tra chất lượng trên bài toán reasoning ngắn | Dễ đánh giá bằng đáp án số, phù hợp để kiểm tra compression có làm mất thông tin quan trọng hay không. |
-| **QMSum meeting QA long-context** | Kiểm tra long-context inference                  | Phù hợp với giả thuyết của CC-DFlash vì context dài làm chi phí prefill trở nên đáng kể.               |
+| Metric                         | Dùng để đọc gì                                                                              |
+| ------------------------------ | ------------------------------------------------------------------------------------------- |
+| **Numeric exact-match proxy**  | Chất lượng trên GSM8K                                                                       |
+| **Normalized / lexical proxy** | Tín hiệu chẩn đoán trên QMSum                                                               |
+| **Input tokens**               | Context có thật sự được rút gọn không                                                       |
+| **Compression ratio**          | Mức độ nén thực tế                                                                          |
+| **`T_compress`**               | Chi phí của LLMLingua-2 compression                                                         |
+| **`T_prefill`**                | Chi phí xử lý input context trước decoding, dùng khi artifact hoặc diagnostic summary có đo |
+| **Generation tok/s**           | Tốc độ sinh token sau khi prompt đã sẵn sàng                                                |
+| **End-to-end latency / tok/s** | Tốc độ thực tế khi tính cả overhead                                                         |
+| **Cap-hit / truncation**       | Output có bị giới hạn bởi `max_new_tokens` không                                            |
+| **`tau_mean`**                 | Tín hiệu acceptance của DFlash                                                              |
 
-**GSM8K** là nhóm short-context. Vì prompt tương đối ngắn, lợi ích từ việc giảm input tokens thường không lớn. Tuy nhiên, dataset này hữu ích cho kiểm tra chất lượng, vì câu trả lời có thể được đánh giá bằng numeric match hoặc exact answer proxy. Nếu compression làm mất dữ kiện quan trọng, chất lượng sẽ giảm rõ.
-
-**QMSum meeting QA** là nhóm long-context. Đây là nhóm quan trọng hơn đối với giả thuyết của CC-DFlash, vì project muốn kiểm tra xem context compression có hỗ trợ DFlash trong các prompt dài hay không. Với context dài, nếu compressor giảm được nhiều input tokens, phần prefill có cơ hội giảm đáng kể hơn so với short-context.
-
-Do đó, hai dataset có vai trò khác nhau: GSM8K thiên về kiểm tra độ an toàn chất lượng trên reasoning ngắn, còn QMSum thiên về kiểm tra hiệu quả của CC-DFlash trong long-context inference.
-
----
-
-### 3.6. Các metric chính cần theo dõi
-
-CC-DFlash không thể được đánh giá chỉ bằng một metric tốc độ. Vì pipeline có thêm bước nén context, benchmark cần theo dõi đồng thời tốc độ, chi phí nén, mức giảm token và chất lượng đầu ra.
-
-| Metric                            | Ý nghĩa                                                                                                                            |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **Quality proxy**                 | Đo chất lượng câu trả lời. Với GSM8K có thể dùng numeric/exact match; với QMSum có thể dùng normalized overlap hoặc proxy phù hợp. |
-| **Input tokens**                  | Số token đầu vào trước và sau compression.                                                                                         |
-| **Compression ratio**             | Mức độ context được rút gọn.                                                                                                       |
-| **T_compress**                    | Thời gian chạy compressor.                                                                                                         |
-| **T_prefill**                     | Thời gian model xử lý input context trước khi sinh token đầu tiên.                                                                 |
-| **Generation tok/s**              | Tốc độ sinh token đầu ra, thường chưa phản ánh toàn bộ overhead.                                                                   |
-| **End-to-end tok/s**              | Tốc độ tổng thể sau khi tính cả compression và overhead liên quan.                                                                 |
-| **Cap-hit / truncation behavior** | Kiểm tra output có bị chạm giới hạn `max_new_tokens` hoặc bị cắt cụt hay không.                                                    |
-| **VRAM**                          | Theo dõi bộ nhớ GPU nếu log có hỗ trợ.                                                                                             |
-
-Trong đó, **end-to-end tok/s** là metric quan trọng vì phản ánh trải nghiệm thực tế hơn generation tok/s. Một điều kiện có thể sinh token nhanh, nhưng nếu `T_compress` quá lớn thì tốc độ tổng thể vẫn thấp.
-
-Tương tự, **quality proxy** cũng rất quan trọng. Compression có thể giảm input tokens, nhưng nếu làm mất thông tin cần thiết khiến câu trả lời sai hoặc thiếu, thì lợi ích tốc độ không còn nhiều ý nghĩa.
+Trong các metric này, end-to-end latency là metric thận trọng hơn khi so sánh compressed pipeline. Generation-only tok/s có ích để hiểu decoding behavior, nhưng không đủ để claim speedup nếu chưa tính `T_compress`.
 
 ---
 
-### 3.7. Cách đọc kết quả benchmark
+## 4. Quá trình thực nghiệm: từ blocker đến evidence và Limitations
 
-Khi đọc kết quả benchmark, project không chỉ tìm một con số “nhanh hơn” tuyệt đối. Kết quả cần được đọc theo quan hệ giữa các điều kiện.
+### 4.1. Vì sao phần thực nghiệm phải đi qua nhiều vòng audit
 
-| So sánh                             | Ý nghĩa                                                            |
-| ----------------------------------- | ------------------------------------------------------------------ |
-| **DFlash-R1 vs Baseline-AR**        | DFlash có tạo speedup khi dùng 100% context gốc hay không.         |
-| **LLMLingua-AR-R2 vs Baseline-AR**  | Compression-only có giúp ích hay bị `T_compress` làm chậm.         |
-| **CC-DFlash-R2 vs LLMLingua-AR-R2** | DFlash có cải thiện pipeline sau compression hay không.            |
-| **CC-DFlash-R2 vs DFlash-R1**       | Compression có giúp DFlash hiệu quả hơn hay chỉ tạo thêm overhead. |
-| **CC-DFlash-R2 vs Baseline-AR**     | Pipeline đầy đủ có lợi end-to-end so với baseline gốc hay không.   |
+Quá trình thực nghiệm của CC-DFlash không đi thẳng từ prototype đến benchmark cuối cùng. Lý do là pipeline có nhiều thành phần có thể làm kết quả bị sai lệch: dataset, prompt policy, output length, compression overhead, generated text, artifact schema và metric đánh giá.
 
-Một kết quả tốt không nhất thiết là CC-DFlash thắng mọi điều kiện trong mọi dataset. Điều quan trọng hơn là xác định đúng vùng mà CC-DFlash có giá trị.
+Nếu một kết quả nhanh hơn xuất hiện, project cần biết đó là do DFlash, do compression, do dataset, hay do cách tính metric. Nếu một kết quả chậm hơn xuất hiện, project cũng cần biết đó là do `T_compress`, do output cap, do quality proxy, hay do runtime noise.
 
-Trong short-context như GSM8K, DFlash-R1 có thể nhanh hơn CC-DFlash-R2 vì input ngắn khiến compression khó bù được `T_compress`. Ngược lại, trong long-context như QMSum, CC-DFlash-R2 mới là điều kiện đáng quan sát hơn vì context dài có nhiều cơ hội tiết kiệm prefill.
+Vì vậy, project đi theo flow:
 
-Vì vậy, benchmark cần được đọc theo đúng giả thuyết của project: CC-DFlash có giá trị nhất khi input context đủ dài, compression giảm được token đáng kể, chi phí `T_compress` không vượt quá phần tiết kiệm được, và chất lượng đầu ra vẫn ở mức tương đương.
+**Blocker → Fix/Audit → Evidence → Limitation**
 
----
+Phần nào đã kiểm chứng được thì trở thành evidence. Phần nào chưa đủ chắc thì được đưa vào limitation thay vì overclaim.
 
-### 3.8. Vai trò của benchmark trong report
+### 4.2. Dataset blocker
 
-Thiết kế benchmark này giúp report tránh đưa ra kết luận quá sớm. Thay vì chỉ claim rằng CC-DFlash nhanh hơn, project trình bày kết quả theo hướng phân tích điều kiện.
+Blocker đầu tiên là dataset. Setup dataset ban đầu chưa còn khớp hoàn toàn với câu hỏi nghiên cứu cuối cùng. Project cần tách short-context quality khỏi long-context efficiency. Vì vậy, dataset được thay sang GSM8K short-context và QMSum-style meeting QA long-context.
 
-Benchmark cần trả lời các câu hỏi sau:
+Sau khi thay dataset, project có thể đọc GSM8K như numeric-quality proxy và QMSum như long-context diagnostic. Đây là bước tích cực vì benchmark không còn gom nhiều mục tiêu vào cùng một dataset.
 
-1. Compression có giảm input tokens đủ nhiều không?
-2. Chi phí `T_compress` có quá lớn không?
-3. DFlash có cải thiện tốc độ sau khi context đã được nén không?
-4. Chất lượng đầu ra có giữ được ở mức chấp nhận được không?
-5. CC-DFlash phù hợp hơn với short-context hay long-context?
+Tuy nhiên, limitation còn lại là QMSum không thể được dùng để claim semantic correctness nếu chưa có manual review hoặc semantic judge. QMSum chỉ đủ an toàn để dùng như diagnostic evidence cho latency, compression overhead, compression ratio và lexical proxy behavior.
 
-Những câu hỏi này là nền tảng để chuyển sang phần tiếp theo của report: quá trình thực nghiệm và kết quả hiện có của CC-DFlash.
+### 4.3. Compression overhead blocker
 
-## 4. Quá trình thực nghiệm và kết quả hiện có của CC-DFlash
+Blocker tiếp theo là compression overhead. Compression có thể giảm input tokens, nhưng LLMLingua-2 cần thời gian để chạy. Nếu `T_compress` lớn hơn phần tiết kiệm từ prefill và decoding, compressed pipeline có thể chậm hơn end-to-end.
 
-### 4.1. Mục tiêu của giai đoạn thực nghiệm
+Để xử lý blocker này, project tách riêng generation-only metrics và end-to-end metrics. Điều này giúp nhận diện trường hợp một condition nhìn nhanh hơn về generation tok/s nhưng không thật sự nhanh hơn khi tính cả `T_compress`.
 
-Sau khi thiết kế benchmark, project chuyển sang giai đoạn thực nghiệm để kiểm tra CC-DFlash theo từng bước. Mục tiêu không phải là chứng minh ngay rằng CC-DFlash luôn nhanh hơn baseline, mà là xác định rõ điều kiện nào giúp context compression có giá trị khi kết hợp với DFlash.
+Evidence sau audit là project có thể đọc rõ hơn tradeoff giữa token reduction, `T_compress` và end-to-end speed. Limitation còn lại là chưa thể claim compression đã được chứng minh hữu ích end-to-end trong mọi trường hợp.
 
-Giai đoạn thực nghiệm tập trung vào ba câu hỏi chính:
+### 4.4. Output/cap-hit blocker
 
-1. Context compression có giảm được input tokens đủ nhiều không?
-2. Chi phí nén `T_compress` có làm mất lợi ích tốc độ không?
-3. Chất lượng đầu ra sau khi nén có còn ở mức tương đương hay không?
+Một số kết quả ban đầu bị ảnh hưởng bởi output quá ngắn hoặc chạm `max_new_tokens`. Nếu output bị cắt, quality proxy sẽ không phản ánh đúng năng lực thật của condition. Điều này đặc biệt quan trọng với GSM8K, vì output cần sinh đủ reasoning hoặc ít nhất là final answer.
 
-Vì vậy, các thí nghiệm được chia thành nhiều task nhỏ: từ smoke test, benchmark n nhỏ, artifact audit, quality calibration, đến các run lớn hơn trên GSM8K và QMSum.
+Project xử lý bằng cách tăng output cap, lưu generated text, thêm final-answer policy và dùng protected suffix để đảm bảo instruction quan trọng không bị mất sau compression. Các vòng calibration giúp compressed GSM8K ổn định hơn và dễ audit hơn.
 
----
+Evidence tích cực là GSM8K numeric-quality pattern trở nên rõ hơn sau các bước calibration. Limitation còn lại là việc tăng output cap có thể làm latency tăng, và không phải mọi failure đều là do truncation. Một số failure vẫn là reasoning failure.
 
-### 4.2. Chuẩn hóa dataset và benchmark matrix
+### 4.5. QMSum proxy blocker
 
-Project chuyển sang thiết kế hai dataset chính để tách rõ short-context và long-context.
+QMSum có đặc điểm khác GSM8K. Đây là long-answer QA, nên câu trả lời có thể dài và có nhiều cách diễn đạt đúng khác nhau. Proxy dạng lexical overlap hoặc normalized containment có thể không phản ánh chính xác semantic correctness.
 
-| Dataset                           | Vai trò trong thực nghiệm                                                                           |
-| --------------------------------- | --------------------------------------------------------------------------------------------------- |
-| **GSM8K short-context**           | Kiểm tra chất lượng trên bài toán reasoning ngắn, chủ yếu dùng numeric/exact match proxy.           |
-| **QMSum meeting QA long-context** | Kiểm tra giả thuyết long-context, nơi giảm input tokens có khả năng tác động nhiều hơn đến prefill. |
+Project đã thử nhiều hướng: concise-answer policy, balanced-answer policy, evidence-focused policy và evidence-retention audit. Các bước này giúp xác định rằng vấn đề QMSum không chỉ là output cap. Sau khi cap-hit được giảm, vẫn còn vấn đề về evidence targeting, answer completeness và lexical proxy.
 
-Cùng với đó, benchmark matrix được cố định theo bốn điều kiện:
+Evidence tích cực là QMSum vẫn hữu ích để quan sát hành vi long-context: latency, compression overhead, compression ratio và lexical proxy. Limitation là QMSum không được dùng để claim semantic correctness.
 
-| Điều kiện           | Mục đích                                                      |
-| ------------------- | ------------------------------------------------------------- |
-| **Baseline-AR**     | Mốc so sánh gốc, không compression và không DFlash.           |
-| **DFlash-R1**       | Đo tác động riêng của DFlash trên 100% context gốc.           |
-| **LLMLingua-AR-R2** | Đo tác động riêng của compression với context nén khoảng 50%. |
-| **CC-DFlash-R2**    | Đo pipeline chính: compression kết hợp với DFlash.            |
+### 4.6. Runtime/rerun caveat
 
-Việc cố định dataset và benchmark matrix giúp các kết quả sau đó có thể so sánh trực tiếp, tránh tình trạng mỗi task dùng một setting khác nhau.
+Ở giai đoạn rerun/verification cuối, GSM8K n=30 hoàn thành đủ bốn condition, nhưng phần QMSum không hoàn chỉnh: DFlash-R1 trên QMSum chỉ chạy được 2 rows trước khi dừng theo safety rule, còn các rerun QMSum có compression bị skip để tránh mở rộng benchmark khi điều kiện chưa ổn định.
+
+Sau đó, project thực hiện một bước phân tích issue sau rerun để kiểm tra xem đây có phải lỗi cấu trúc của DFlash-R1 hay không. Kết luận an toàn là không có đủ cơ sở để nói DFlash-R1 bị broken. Vấn đề này được giữ như một caveat về runtime/local rerun, không phải bằng chứng cho lỗi thuật toán.
+
+### 4.7. Bảng tổng hợp blocker → evidence → limitation
+
+Bảng dưới đây tổng hợp lại flow **Blocker → Fix/Audit → Evidence → Limitation** cho từng nhóm vấn đề đã trình bày ở trên:
+
+| Blocker              | Fix/Audit                        | Evidence                                                                                    | Limitation còn lại                    |
+| -------------------- | -------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------- |
+| Dataset mismatch     | Chuyển GSM8K + QMSum             | Tách short-quality và long-diagnostic                                                       | QMSum không phải semantic correctness |
+| Compression overhead | Tách generation-only và e2e      | Đọc được `T_compress` impact                                                                | Chưa claim compression proven e2e     |
+| Output/cap-hit       | Tăng cap, suffix, generated text | GSM8K ổn định hơn                                                                           | Một số failure vẫn là reasoning       |
+| QMSum proxy          | Prompt/proxy triage              | Có tín hiệu diagnostic về latency, compression overhead, compression ratio và lexical proxy | Không claim QMSum correctness         |
+| Rerun caveat         | Phân tích issue sau rerun        | Không mở nhánh fix/rerun bổ sung                                                            | Local runtime caveat                  |
 
 ---
 
-### 4.3. Kết quả bước đầu trên GSM8K
+## 5. Results Summary và Claim-Safety Boundary
 
-GSM8K được dùng như nhóm short-context để kiểm tra chất lượng và hành vi của các điều kiện benchmark trong prompt ngắn. Vì context không dài, đây không phải môi trường lý tưởng nhất để CC-DFlash thể hiện lợi ích prefill. Tuy nhiên, GSM8K vẫn quan trọng vì nó giúp phát hiện việc compression có làm mất dữ kiện reasoning hay không.
+### 5.1. Cách đọc phần kết quả
 
-Ở các run GSM8K n=30, kết quả chính cho thấy:
+Kết quả của CC-DFlash cần đi kèm claim-safety boundary vì rất dễ bị hiểu quá mức. Nếu chỉ nhìn bảng số, người đọc có thể nghĩ project đã chứng minh universal speedup hoặc semantic correctness. Thực tế, evidence hiện tại có điều kiện theo dataset, metric và runtime setting đã mô tả ở Phần 3.
 
-* **CC-DFlash-R2 giữ chất lượng tương đương LLMLingua-AR-R2** trong cùng nhóm context đã nén.
-* **CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2** về end-to-end speed, cho thấy DFlash có thể cải thiện pipeline sau compression.
-* **DFlash-R1 vẫn là điều kiện nhanh hơn trong short-context**, vì GSM8K có input ngắn nên compression khó bù được chi phí `T_compress`.
+Phần này chỉ tập trung vào hai câu hỏi: kết quả đọc ra sao, và từ đó có thể claim gì hoặc không được claim gì.
 
-Điều này phù hợp với giả thuyết ban đầu: CC-DFlash không nhất thiết phải thắng trong short-context. Với prompt ngắn, lợi ích từ giảm input tokens thường nhỏ, trong khi chi phí nén vẫn tồn tại.
+### 5.2. GSM8K Results Summary
 
-Vai trò chính của GSM8K trong report vì vậy là kiểm tra chất lượng và attribution, không phải chứng minh lợi ích long-context cuối cùng.
+Trên GSM8K, hai vòng kiểm chứng n=30 cho thấy numeric-quality pattern tương đối ổn định. Kết quả chính được đọc theo numeric exact-match proxy:
+
+| Condition           | GSM8K numeric-quality result |
+| ------------------- | ---------------------------: |
+| **Baseline-AR**     |                        25/30 |
+| **DFlash-R1**       |                        24/30 |
+| **LLMLingua-AR-R2** |                        24/30 |
+| **CC-DFlash-R2**    |                        24/30 |
+
+CC-DFlash-R2 giữ numeric-quality proxy tương đương LLMLingua-AR-R2, dù timing trên GSM8K vẫn là local/preliminary nên Trong vòng QMSum n=30 diagnostic, CC-DFlash-R2 từng được quan sát là nhanh hơn LLMLingua-AR-R2 trong local setting, với overlap proxy tương tự, nhưng kết quả này không được dùng để claim universal speedup.
+
+Câu diễn giải an toàn:
+
+**GSM8K cho thấy compressed DFlash path không làm numeric-quality proxy tệ hơn compression-only trong setting đã test, nhưng đây vẫn là short-context numeric proxy, không phải semantic correctness tổng quát.**
+
+**Bridge sang hypothesis:** Kết quả GSM8K không chứng minh long-context speedup, nhưng nó hỗ trợ điều kiện chất lượng tối thiểu: compressed path không làm numeric-quality proxy sụp so với compression-only. Điều này cho phép tiếp tục đọc QMSum như long-context diagnostic, nhưng không chuyển QMSum thành semantic correctness claim.
+
+### 5.3. QMSum Diagnostic Summary
+
+QMSum được giữ như long-context diagnostic evidence. Trong vòng QMSum n=30 diagnostic, CC-DFlash-R2 từng được quan sát là nhanh hơn LLMLingua-AR-R2 trong local setting, với overlap proxy tương tự. Tuy nhiên, các vòng triage sau đó cho thấy nhiều limitation: cap-hit, proxy degradation, câu trả lời quá ngắn và evidence targeting chưa tốt.
+
+Sau các bước triage, project quyết định freeze QMSum như diagnostic long-context evidence, không phải semantic correctness evidence. Vòng rerun cuối của QMSum cũng không hoàn chỉnh: DFlash-R1 trên QMSum dừng sau 2 rows và các rerun QMSum có compression bị skip theo safety rule.
+
+Câu diễn giải an toàn:
+
+**QMSum giúp quan sát behavior của pipeline trong long-context setting, nhưng chưa đủ để claim semantic correctness nếu chưa có manual review hoặc semantic judge.**
+
+### 5.4. Claim-safety boundary
+
+Từ kết quả trên, project cần giữ các giới hạn claim sau:
+
+| Evidence          | Có thể nói                                                         | Không được nói                       |
+| ----------------- | ------------------------------------------------------------------ | ------------------------------------ |
+| **GSM8K**         | Numeric-quality proxy ổn định trong setting n=30                   | Semantic correctness tổng quát       |
+| **QMSum**         | Long-context diagnostic behavior                                   | QMSum semantic correctness           |
+| **Timing**        | Local runtime observation                                          | Universal speedup                    |
+| **Compression**   | Có tradeoff giữa token reduction, `T_compress` và end-to-end speed | Compression proven useful end-to-end |
+| **Runtime issue** | QMSum rerun caveat                                                 | DFlash-R1 broken                     |
+| **Deployment**    | Không claim                                                        | Confirmed 8GB hoặc deploy-ready      |
+
+### 5.5. Những claim không được dùng
+
+Project không nên đưa ra các claim sau:
+
+1. CC-DFlash có universal speedup.
+2. CC-DFlash có final correctness.
+3. QMSum chứng minh semantic correctness.
+4. Compression đã được chứng minh luôn hữu ích end-to-end.
+5. DFlash-R1 bị broken.
+6. Project đã deploy-ready.
+7. Project đã confirmed chạy ổn trong 8GB VRAM.
+
+Các giới hạn này không làm kết quả yếu đi. Ngược lại, nó giúp report đáng tin hơn vì kết quả được đọc đúng với phạm vi kiểm chứng.
 
 ---
 
-### 4.4. Kết quả bước đầu trên QMSum long-context
+## 6. Conclusion
 
-QMSum meeting QA là nhóm quan trọng hơn đối với CC-DFlash, vì context dài giúp kiểm tra trực tiếp giả thuyết giảm input tokens để hỗ trợ prefill.
+### 6.1. Kết luận về hướng nghiên cứu
 
-Ở các run QMSum n=30 với `max_new_tokens=384`, kết quả bước đầu cho thấy:
+Project bắt đầu từ mục tiêu tăng tốc inference bằng speculative decoding, nhưng hướng HTFSD ban đầu gặp nhiều blocker về kiến trúc, overhead và tín hiệu tốc độ. Vì vậy, project chuyển sang CC-DFlash, một hướng MVP rõ ràng hơn: nén context đầu vào trước DFlash để kiểm tra xem compression có thể hỗ trợ long-context inference hay không.
 
-* **CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2** về end-to-end speed.
-* **CC-DFlash-R2 giữ quality proxy tương đương LLMLingua-AR-R2** trong cùng nhóm compressed context.
-* Tuy nhiên, nhiều output compressed gặp hiện tượng **cap-hit**, tức output chạm giới hạn `max_new_tokens`.
+Sự chuyển hướng này giúp project có một giả thuyết dễ kiểm chứng hơn. Thay vì can thiệp sâu vào DFlash core, CC-DFlash thêm một lớp compression độc lập và đánh giá bằng các condition có khả năng attribution.
 
-Cap-hit cho thấy vấn đề không chỉ nằm ở tốc độ. Với QMSum, câu trả lời có thể dài hơn, nên nếu prompt không kiểm soát tốt độ dài output thì kết quả dễ bị cắt cụt hoặc khó đánh giá bằng proxy đơn giản. Vì vậy, QMSum cần thêm bước triage trước khi chạy benchmark lớn hơn.
+### 6.2. Kết luận về thiết kế benchmark
 
----
+Đóng góp quan trọng của project không chỉ là một kết quả benchmark, mà là một framework đánh giá có cấu trúc. Bốn condition Baseline-AR, DFlash-R1, LLMLingua-AR-R2 và CC-DFlash-R2 giúp tách riêng tác động của baseline, DFlash-only, compression-only và compression + DFlash.
 
-### 4.5. Thử nghiệm concise policy trên QMSum
+Two-dataset setup cũng giúp tách rõ hai mục tiêu:
 
-Để xử lý hiện tượng cap-hit ở QMSum, project thử thêm chính sách yêu cầu câu trả lời ngắn gọn hơn. Mục tiêu là giảm số output chạm `max_new_tokens`, từ đó giúp proxy đánh giá chất lượng ổn định hơn.
+- GSM8K cho short-context numeric-quality proxy.
+- QMSum cho long-context diagnostic behavior.
 
-Kết quả sau khi áp dụng concise-answer policy cho nhóm compressed cho thấy:
+Nhờ vậy, project có thể đọc kết quả thận trọng hơn và tránh gán nhầm nguyên nhân.
 
-* Cap-hit giảm mạnh, về **0/30** trong các điều kiện compressed.
-* Tuy nhiên, **normalized-overlap proxy giảm đáng kể**.
+### 6.3. Kết luận về evidence hiện tại
 
-Điều này cho thấy concise policy giải quyết được vấn đề độ dài output, nhưng lại tạo vấn đề mới về quality proxy. Khi câu trả lời ngắn hơn, overlap với đáp án tham chiếu có thể giảm, dù câu trả lời có thể vẫn đúng về mặt ngữ nghĩa. Vì vậy, QMSum chưa thể được kết luận chỉ dựa trên proxy hiện tại.
+Evidence hiện tại là partial và conditional. Trên GSM8K, CC-DFlash-R2 giữ numeric-quality proxy tương đương LLMLingua-AR-R2 trong setting n=30. Điều này cho thấy việc thêm DFlash sau compression không làm numeric-quality proxy tệ hơn compression-only trong setting đã test.
 
-Kết quả này dẫn đến nhu cầu triage tiếp theo: cần kiểm tra lại prompt policy và quality proxy cho QMSum trước khi mở rộng lên benchmark lớn hơn.
+Trên QMSum, project có diagnostic evidence cho long-context behavior, nhưng không có đủ cơ sở để claim semantic correctness. Các issue về proxy, evidence targeting và rerun caveat cho thấy QMSum nên được giữ như diagnostic-only.
 
----
+### 6.4. Kết luận về claim boundary
 
-### 4.6. Trạng thái hiện tại của evidence
+Project chưa claim universal speedup, chưa claim final correctness, chưa claim deployment readiness và chưa claim confirmed 8GB deployment. Project cũng chưa claim compression đã được chứng minh hữu ích end-to-end trong mọi trường hợp.
 
-Tính đến thời điểm hiện tại, evidence của CC-DFlash có thể tóm tắt như sau:
+Claim an toàn nhất là:
 
-| Nhóm                     | Kết quả hiện có                                                                                                                          | Trạng thái        |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| **GSM8K short-context**  | CC-DFlash-R2 giữ chất lượng tương đương LLMLingua-AR-R2 và nhanh hơn LLMLingua-AR-R2, nhưng DFlash-R1 vẫn nhanh hơn trong short-context. | Có evidence n=30  |
-| **QMSum long-context**   | CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2 và giữ proxy tương đương ở setting trước concise policy.                                          | Có evidence n=30  |
-| **QMSum concise policy** | Giảm cap-hit về 0/30 nhưng làm normalized-overlap proxy giảm.                                                                            | Cần triage tiếp   |
-| **QMSum n=100**          | Chưa nên chạy/chưa nên claim cho đến khi prompt và proxy ổn định hơn.                                                                    | Pending next task |
+**CC-DFlash là một hypothesis-driven MVP với evidence một phần: pipeline có tín hiệu đáng quan sát khi kết hợp compression và DFlash trong một số setting, nhưng kết luận cuối phải được giữ trong phạm vi dataset, metric và local runtime đã kiểm chứng.**
 
-Từ các kết quả này, project có thể đưa ra nhận định thận trọng: CC-DFlash đã có tín hiệu tích cực khi so với compression-only, đặc biệt trong long-context, nhưng chưa đủ để claim kết luận cuối cùng cho QMSum. Vấn đề còn lại không chỉ là tốc độ, mà là cách kiểm soát output và cách đánh giá chất lượng.
+### 6.5. Hướng tiếp theo
 
----
+Nếu tiếp tục phát triển, project nên tập trung vào ba hướng:
 
-### 4.7. Công việc tiếp theo
+1. Bổ sung semantic/manual evaluation cho long-context QA.
+2. Tối ưu hoặc giảm `T_compress` để kiểm tra lại end-to-end benefit.
+3. Rerun QMSum trong điều kiện ổn định hơn để giảm runtime caveat.
 
-Bước tiếp theo của project là **Task 74 — QMSum prompt/proxy triage**.
-
-Mục tiêu của bước này là kiểm tra lại cách prompt yêu cầu câu trả lời, cách proxy đánh giá chất lượng, và lý do vì sao concise policy làm giảm normalized-overlap. Sau khi phần này được xử lý, project mới có cơ sở tốt hơn để quyết định có mở rộng QMSum lên n=100 hay không.
-
-Do đó, ở thời điểm hiện tại, report chỉ nên xem kết quả QMSum là evidence trung gian. Các kết luận cuối về long-context benchmark cần được cập nhật sau Task 74.
+Với phạm vi hiện tại, CC-DFlash chưa phải là kết luận cuối về speedup hay correctness, mà là một MVP có evidence có điều kiện và một hướng tiếp tục rõ ràng để củng cố đánh giá long-context.
