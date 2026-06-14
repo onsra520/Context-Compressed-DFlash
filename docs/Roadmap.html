@@ -50,7 +50,7 @@
         }
 
         .page {
-            width: min(1100px, calc(100% - 36px));
+            width: min(1440px, calc(100% - 32px));
             margin: 0 auto;
             padding: 44px 0 80px
         }
@@ -256,35 +256,35 @@
             background: var(--go-bg);
             color: var(--go);
             font-weight: 600;
-            white-space: nowrap
+            white-space: normal
         }
 
         td.warn {
             background: var(--warn-bg);
             color: var(--warn);
             font-weight: 600;
-            white-space: nowrap
+            white-space: normal
         }
 
         td.stop {
             background: var(--stop-bg);
             color: var(--stop);
             font-weight: 600;
-            white-space: nowrap
+            white-space: normal
         }
 
         td.info {
             background: var(--info-bg);
             color: var(--info);
             font-weight: 600;
-            white-space: nowrap
+            white-space: normal
         }
 
         td.neu {
             background: var(--neu-bg);
             color: var(--neu);
             font-weight: 600;
-            white-space: nowrap
+            white-space: normal
         }
 
         td.muted {
@@ -338,7 +338,8 @@
             background: #eeede7;
             padding: .12em .32em;
             border-radius: 4px;
-            border: 1px solid #dddcd4
+            border: 1px solid #dddcd4;
+            white-space: nowrap
         }
 
         /* Log entry */
@@ -418,7 +419,75 @@
             </div>
         </header>
 
-        <!-- ─────────────────────────────────────────── CURRENT STATUS -->
+        <!-- ─────────────────────────────────────────── PHASE & GATE OVERVIEW -->
+        <section>
+            <h2>Phase &amp; Gate Overview</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Gate</th>
+                            <th>Status</th>
+                            <th>Requirements / Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MVP / Implementation Gate</strong></td>
+                            <td class="go">PASS</td>
+                            <td>Core runner, Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-DFlash-R2, generated-text capture, and artifact audit paths exist.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Two-Dataset Evaluation Gate</strong></td>
+                            <td class="go">PASS</td>
+                            <td>Main evaluation uses GSM8K short-context for numeric quality and QMSum-style meeting QA for long-context diagnostic behavior. GSM8K+Wikipedia remains optional/legacy ablation.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GSM8K Numeric Quality Gate</strong></td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                            <td>Task69 and Task80A show the n=30 numeric-quality pattern is stable: Baseline-AR 25/30, DFlash-R1 24/30, LLMLingua-AR-R2 24/30, CC-DFlash-R2 24/30. Timing is still local/preliminary.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>QMSum Diagnostic Gate</strong></td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                            <td>QMSum is frozen as long-context diagnostic evidence for lexical latency, prefill, compression overhead, compression ratio, and lexical proxy quality. It is not semantic correctness evidence.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Final Fresh Rerun Gate</strong></td>
+                            <td class="stop">BLOCKED / PASS_WITH_NOTES</td>
+                            <td>Task80A completed GSM8K n=30 and QMSum Baseline-AR, but QMSum DFlash-R1 stopped after 2 rows and QMSum compressed reruns were skipped by the safety rule.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rerun Issue Gate</strong></td>
+                            <td class="info">NEXT</td>
+                            <td>Task80B must analyze the QMSum DFlash stall and GSM8K DFlash timing shift before final consistency audit. It should decide whether T80C/T80D are needed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Conditional DFlash Fix Gate</strong></td>
+                            <td class="warn">CONDITIONAL</td>
+                            <td>T80C and T80D only happen if T80B identifies a real DFlash-R1 regression/runtime bug. If T80B finds only runtime noise or a non-blocking diagnostic limitation, skip T80C/T80D.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Final Consistency Audit Gate</strong></td>
+                            <td class="neu">PENDING</td>
+                            <td>T81 checks final package consistency, claim safety, Roadmap/Overview wording, and GSM8K/QMSum role split. T81 must not be used as a benchmark-logic fix task.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Final Report Gate</strong></td>
+                            <td class="neu">PENDING</td>
+                            <td>T82 drafts final report v2 after T80B/T80C/T80D/T81 gate clears.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deployment / 8 GB Gate</strong></td>
+                            <td class="neu">NOT CLAIMED</td>
+                            <td>No deployment readiness or confirmed 8 GB deployment claim.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────────────────────────────────── CURRENT STATUS SUMMARY -->
         <section>
             <h2>Current Status Summary</h2>
             <div class="table-wrap">
@@ -432,63 +501,51 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Phase 1 MVP pilot</td>
-                            <td class="go">PASS</td>
-                            <td>5 conditions implemented, synthetic fixture, decoded output, containment scorer,
-                                carry-forward</td>
+                            <td>Current next</td>
+                            <td class="info">T80B NEXT</td>
+                            <td>Rerun analysis and issue gate. Analyze QMSum DFlash stall, GSM8K DFlash timing shift, and decide whether conditional fix tasks are needed.</td>
                         </tr>
                         <tr>
-                            <td>Phase 2 (controlled experiments)</td>
-                            <td class="warn">Conditional GO</td>
-                            <td>Only after Phase 1 Complete milestones; Gemma4-E2B not in MVP</td>
+                            <td>GSM8K evidence</td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                            <td>Task80A completed all four GSM8K n=30 conditions and reproduced the numeric-quality pattern. Use as short-context numeric-quality evidence.</td>
                         </tr>
                         <tr>
-                            <td>Phase 1 Complete</td>
-                            <td class="stop">NOT DONE</td>
-                            <td>Requires: Baseline-AR, T_prefill, real dataset, n≥100</td>
+                            <td>DFlash-R1 status</td>
+                            <td class="warn">WATCH</td>
+                            <td>GSM8K DFlash-R1 quality remains 24/30 and faster than Baseline-AR, but Task80A timing shifted strongly versus Task69/Task80 reference. T80B must check whether this is runtime noise or regression.</td>
                         </tr>
                         <tr>
-                            <td>Final benchmark</td>
-                            <td class="warn">PARTIAL</td>
-                            <td>Baseline-AR and DFlash-R1 n=100 artifacts exist; compressed n=100 artifacts remain
-                                missing/not run after v2 verification. No final speedup, correctness, or deployment
-                                claim.</td>
+                            <td>CC-DFlash compressed path</td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                            <td>On GSM8K, CC-DFlash-R2 matches LLMLingua-AR-R2 numeric quality and remains faster than LLMLingua-AR-R2 in Task80A.</td>
                         </tr>
                         <tr>
-                            <td>VRAM measurement</td>
-                            <td class="warn">Pending</td>
-                            <td>Not measured under full load; do not claim 8 GB fit</td>
+                            <td>QMSum evidence</td>
+                            <td class="info">DIAGNOSTIC_ONLY</td>
+                            <td>Use Task71/79B as the completed QMSum diagnostic package. Task80A fresh QMSum rerun was incomplete after DFlash-R1 stalled.</td>
                         </tr>
                         <tr>
-                            <td>T_prefill</td>
-                            <td class="go">PASS</td>
-                            <td>Task 39 smoke measurement exists</td>
+                            <td>Final report readiness</td>
+                            <td class="neu">PENDING</td>
+                            <td>Final report drafting waits for T80B issue gate and T81 claim-safety audit.</td>
                         </tr>
                         <tr>
-                            <td>Baseline-AR</td>
-                            <td class="go">PASS</td>
-                            <td>Tasks 37–38 implementation and smoke exist</td>
-                        </tr>
-                        <tr>
-                            <td>Evaluation datasets</td>
-                            <td class="go">PASS</td>
-                            <td>Main plan: GSM8K short-context + QMSum-style meeting QA long-context. GSM8K+Wikipedia
-                                is optional/legacy ablation only.</td>
-                        </tr>
-                        <tr>
-                            <td>Breakeven curve</td>
-                            <td class="warn">Partial/preliminary</td>
-                            <td>Task 40 (after T_prefill)</td>
+                            <td>Deployment / 8GB</td>
+                            <td class="neu">NOT CLAIMED</td>
+                            <td>No deployment readiness or confirmed 8 GB claim.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <!-- ─────────────────────────────────────────── TASK LEDGER 1–33 -->
+        <!-- ─────────────────────────────────────────── MAIN TASK ROADMAP -->
         <section>
-            <h2>Task Ledger — Tasks 1 to 33</h2>
-            <p>One row per task. Do not group tasks. Source of truth for completed work.</p>
+            <h2>Main Task Roadmap — Technical Benchmark Path</h2>
+            <p>
+                One row per main technical task. This section includes both completed and planned technical tasks; auxiliary UI/docs tasks are tracked separately below.
+            </p>
 
             <div class="table-wrap">
                 <table>
@@ -764,30 +821,7 @@
                                 decision</td>
                             <td class="go">PASS</td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
 
-        <!-- ─────────────────────────────────────────── FUTURE TASKS -->
-        <section>
-            <h2>Future Task Plan — Tasks 34 and Beyond</h2>
-            <p>
-                Future tasks are planned here before execution. Agents update this table after each task
-                completes, moving it from <em>Planned</em> to an appropriate status.
-            </p>
-
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width:68px">Task</th>
-                            <th style="width:140px">Phase</th>
-                            <th>Kế hoạch / Output</th>
-                            <th style="width:160px">Trạng thái</th>
-                        </tr>
-                    </thead>
-                    <tbody>
                         <!-- Docs restructure -->
                         <tr class="phase-hdr">
                             <td colspan="4">Docs Restructure (Task 34)</td>
@@ -1248,14 +1282,32 @@
                         <tr>
                             <td><span class="tnum planned">T80B</span></td>
                             <td>Rerun Analysis and Issue Gate</td>
-                            <td>Analyze Task80A QMSum DFlash runtime issue and decide whether final consistency audit can proceed</td>
-                            <td class="info">Next: issue analysis, no blind benchmark expansion</td>
+                            <td>Analyze Task80A QMSum DFlash runtime issue and decide whether final consistency audit can proceed.</td>
+                            <td class="info">NEXT: issue analysis, no blind benchmark expansion</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T80C</span></td>
+                            <td>DFlash-R1 Regression/Runtime Fix</td>
+                            <td>Conditional: fix DFlash-R1 regression/runtime bug if T80B identifies a real issue; otherwise skip.</td>
+                            <td class="info">CONDITIONAL: only if T80B finds regression</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T80D</span></td>
+                            <td>Post-Fix Smoke/Rerun Confirmation</td>
+                            <td>Conditional: run post-fix smoke and rerun confirmation if T80C is executed; otherwise skip.</td>
+                            <td class="info">CONDITIONAL: only if T80C runs</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T81</span></td>
-                            <td>Final Report v2 Drafting / Structure Packaging</td>
-                            <td>Turn Task 80/80A artifacts into final report sections, tables, figures, and claim-safe narrative text after the Task80B gate</td>
-                            <td class="info">Deferred until Task80B clears the rerun issue gate</td>
+                            <td>Final Package Consistency Audit</td>
+                            <td>Final consistency audit and claim-safety recheck. Must not modify benchmark logic. Verify GSM8K/QMSum split.</td>
+                            <td class="info">PLANNED: consistency audit / claim-safety check</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T82</span></td>
+                            <td>Final Report v2 Drafting</td>
+                            <td>Draft final report v2 after the T81 consistency audit gate clears.</td>
+                            <td class="info">PLANNED: final report v2 drafting</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1266,9 +1318,7 @@
         <section>
             <h2>Extra / Auxiliary Task Plan — UI &amp; Presentation</h2>
             <p>
-                Auxiliary and documentation-focused presentation tasks. These tasks are tracked separately
-                from the main technical benchmark path, and must not modify benchmark logic, model code,
-                datasets, result artifacts, claims, or phase-gate status.
+                Auxiliary and documentation-focused presentation/planning tasks. These tasks are tracked separately from the main technical benchmark path, and must not modify benchmark logic, model code, datasets, result artifacts, claims, or phase-gate status unless explicitly requested.
             </p>
 
             <div class="table-wrap">
@@ -1297,6 +1347,37 @@
                                     <li>HTFSD page: <a href="../frontend/pages/htfsd/htfsd.html">frontend/pages/htfsd/htfsd.html</a></li>
                                     <li>Markdown report: <a href="reports/extra/ui-01-frontend-skeleton-report.md">docs/reports/extra/ui-01-frontend-skeleton-report.md</a></li>
                                 </ul>
+                            </td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr class="phase-hdr">
+                            <td colspan="4">Documentation / Final Report Planning (Docs-01)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">Docs-01</span></td>
+                            <td>Final rerun gate planning</td>
+                            <td>
+                                Add the agreed final gate sequence after Task80A:
+                                <br>T80B — Rerun analysis and issue gate
+                                <br>T80C — DFlash-R1 regression/runtime fix
+                                <br>T80D — Post-fix smoke/rerun confirmation
+                                <br>T81 — Final package consistency audit / claim-safety recheck
+                                <br>T82 — Final report v2 drafting
+                                <br><br>
+                                Clarify that T80C and T80D are conditional. They should only happen if T80B identifies a real DFlash-R1 regression/runtime bug. If T80B finds only runtime noise or a non-blocking QMSum diagnostic limitation, T80C/T80D can be skipped and the project can proceed to T81.
+                                <br><br>
+                                Clarify that T81 must not be used as a benchmark-logic fix task. T81 is for final consistency audit and claim-safety recheck only. T82 is final report drafting after the audit gate clears.
+                            </td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr class="phase-hdr">
+                            <td colspan="4">Roadmap &amp; Readability Cleanup (Docs-02)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">Docs-02</span></td>
+                            <td>Roadmap cleanup</td>
+                            <td>
+                                Refresh Roadmap layout, phase gates, current status, merged task ledger, and table readability after Task80A.
                             </td>
                             <td class="go">PASS</td>
                         </tr>
@@ -1360,53 +1441,7 @@
             </div>
         </section>
 
-        <!-- ─────────────────────────────────────────── PHASE GATES -->
-        <section>
-            <h2>Phase Gates</h2>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Gate</th>
-                            <th>Status</th>
-                            <th>Requirements</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Phase 1 MVP</strong></td>
-                            <td class="go">PASS</td>
-                            <td>5 conditions implemented, synthetic fixture, decoded output, containment scorer,
-                                carry-forward decision (Task 27 + Task 33)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Phase 2 Conditional</strong></td>
-                            <td class="warn">GO (controlled only)</td>
-                            <td>Only after Phase 1 MVP pass; Gemma4-E2B strictly excluded from MVP; no scale-up tools
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Phase 1 Complete</strong></td>
-                            <td class="stop">NOT DONE</td>
-                            <td>Requires: Baseline-AR (T37–38), T_prefill (T39), breakeven curve (T40), real dataset
-                                (T41–42), final n≥100 (T44–45)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Paper Submission Gate</strong></td>
-                            <td class="stop">NOT DONE</td>
-                            <td>Requires Phase 1 Complete + Pareto frontier (T46) + quality policy (T47) + dataset
-                                plan migration (T48) + benchmark matrix freeze (T49) + post-T49 smoke/full
-                                benchmark evidence + figures/final packaging</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Phase 2 Full GO</strong></td>
-                            <td class="stop">Conditional on post-T49 benchmark evidence</td>
-                            <td>Only if Phase 1 Complete shows Speedup &gt;1.5× with EM drop &lt;3%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+
 
         <!-- ─────────────────────────────────────────── REPORTS INDEX -->
         <section>
@@ -1565,6 +1600,12 @@
                             <td><code>45-final-artifact-audit-report.md</code></td>
                             <td>T45</td>
                             <td>Final n=100 Artifact Audit Report</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
+                            <td>T45.5-sync</td>
+                            <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
                             <td class="go">Exists</td>
                         </tr>
                         <tr>
@@ -1788,14 +1829,7 @@
                             <td>T80A</td>
                             <td>Final Two-Dataset Rerun / Recompute Report</td>
                             <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
-                            <td>T45.5-sync</td>
-                            <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                    </tbody>
+                        </tr></tbody>
                 </table>
             </div>
         </section>
@@ -1936,6 +1970,204 @@
                             <td>T41</td>
                             <td>GSM8K + Wikipedia augmented sample-mode dataset, legacy/optional ablation</td>
                             <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task42_dataset_audit_summary.json</code></td>
+                            <td>T42</td>
+                            <td>Dataset audit summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_dflash_r1_sample_n5.jsonl</code></td>
+                            <td>T43</td>
+                            <td>DFlash-R1 sample-mode rerun</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_llmlingua_ar_r2_sample_n5.jsonl</code></td>
+                            <td>T43</td>
+                            <td>LLMLingua-AR-R2 sample-mode rerun</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_cc_llm_r2_sample_n5.jsonl</code></td>
+                            <td>T43</td>
+                            <td>CC-LLM-R2 sample-mode rerun</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_dataset_audit_summary.json</code></td>
+                            <td>T43</td>
+                            <td>Task 43 dataset audit summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_answer_quality_summary.json</code></td>
+                            <td>T43</td>
+                            <td>Answer-quality proxy summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_5_original_output_inspection_summary.json</code></td>
+                            <td>T43.5</td>
+                            <td>Original Task 43 output inspection summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_5_dflash_r1_calibration_n5.jsonl</code></td>
+                            <td>T43.5</td>
+                            <td>DFlash-R1 output-length calibration</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_5_output_inspection_summary.json</code></td>
+                            <td>T43.5</td>
+                            <td>Calibration output inspection summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task43_5_answer_quality_summary.json</code></td>
+                            <td>T43.5</td>
+                            <td>Extraction-aware answer-quality summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_prep_source_mode_readiness.json</code></td>
+                            <td>T45-prep</td>
+                            <td>Source-mode readiness and frozen-schema audit prep</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>data/processed/gsm8k_wikipedia_augmented_full.jsonl</code></td>
+                            <td>T45-data-fix</td>
+                            <td>Full source-mode GSM8K + SQuAD-derived Wikipedia dataset</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_source_mode_dataset_audit_summary.json</code></td>
+                            <td>T45-data-fix</td>
+                            <td>Full source-mode dataset audit summary</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_compression_fix_llmlingua_ar_r2_n2.jsonl</code></td>
+                            <td>T45-compression-fix</td>
+                            <td>LLMLingua-AR-R2 long-context compression-fix smoke</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_compression_fix_cc_llm_r2_n2.jsonl</code></td>
+                            <td>T45-compression-fix</td>
+                            <td>CC-LLM-R2 long-context compression-fix smoke</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl</code></td>
+                            <td>T45-compression-fix-v2</td>
+                            <td>LLMLingua-AR-R2 tokenizer-aware compression-fix smoke</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl</code></td>
+                            <td>T45-compression-fix-v2</td>
+                            <td>CC-LLM-R2 tokenizer-aware compression-fix smoke</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td><code>logs/task45_compression_fix_v2_*_n3.log</code></td>
+                            <td>T45-compression-fix-v2</td>
+                            <td>Tokenizer-aware smoke logs with encoder-warning check</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_runner_fix_llmlingua_ar_r2_n3.jsonl</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>LLMLingua-AR-R2 runner protocol smoke artifact</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_runner_fix_cc_llm_r2_n3.jsonl</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>CC-LLM-R2 runner protocol smoke artifact</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_runner_fix_baseline_ar_n1.jsonl</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>Baseline-AR runner protocol compatibility smoke artifact</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_runner_fix_dflash_r1_n1.jsonl</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>DFlash-R1 runner protocol compatibility smoke artifact</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><code>logs/task45_runner_fix_*.log</code></td>
+                            <td>T45-runner-fix</td>
+                            <td>Runner protocol smoke logs with warm-up/start/finish/write progress</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_baseline_ar_n100.jsonl</code></td>
+                            <td>T45</td>
+                            <td>Baseline-AR final benchmark artifact, legacy schema accepted</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_dflash_r1_n100.jsonl</code></td>
+                            <td>T45</td>
+                            <td>DFlash-R1 final benchmark artifact, legacy schema accepted</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_llmlingua_ar_r2_n100.jsonl</code></td>
+                            <td>T45</td>
+                            <td>LLMLingua-AR-R2 final benchmark artifact, per_prompt_jsonl_v1</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_cc_llm_r2_n100.jsonl</code></td>
+                            <td>T45</td>
+                            <td>CC-LLM-R2 final benchmark artifact, per_prompt_jsonl_v1</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task45_final_artifact_audit_summary.json</code></td>
+                            <td>T45</td>
+                            <td>Machine-readable final artifact audit summary</td>
+                            <td>400 rows audited</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task46_pareto_summary.json</code></td>
+                            <td>T46</td>
+                            <td>Machine-readable Pareto analysis summary</td>
+                            <td>4 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task46_pareto_table.csv</code></td>
+                            <td>T46</td>
+                            <td>Compact Pareto metric table</td>
+                            <td>4 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task47_quality_refinement_summary.json</code></td>
+                            <td>T47</td>
+                            <td>Deterministic quality-refinement summary and claim policy</td>
+                            <td>4 conditions</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task47_quality_failure_samples.jsonl</code></td>
+                            <td>T47</td>
+                            <td>Representative compact failure samples</td>
+                            <td>20 samples</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task47_quality_table.csv</code></td>
+                            <td>T47</td>
+                            <td>Compact deterministic quality metric table</td>
+                            <td>4 conditions</td>
                         </tr>
                         <tr>
                             <td><code>data/eval/gsm8k_100.jsonl</code></td>
@@ -2578,206 +2810,7 @@
                             <td>T80A</td>
                             <td>Task80A run manifest with commands, resume status, rows, and skip notes</td>
                             <td>8 entries</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task42_dataset_audit_summary.json</code></td>
-                            <td>T42</td>
-                            <td>Dataset audit summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_dflash_r1_sample_n5.jsonl</code></td>
-                            <td>T43</td>
-                            <td>DFlash-R1 sample-mode rerun</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_llmlingua_ar_r2_sample_n5.jsonl</code></td>
-                            <td>T43</td>
-                            <td>LLMLingua-AR-R2 sample-mode rerun</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_cc_llm_r2_sample_n5.jsonl</code></td>
-                            <td>T43</td>
-                            <td>CC-LLM-R2 sample-mode rerun</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_dataset_audit_summary.json</code></td>
-                            <td>T43</td>
-                            <td>Task 43 dataset audit summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_answer_quality_summary.json</code></td>
-                            <td>T43</td>
-                            <td>Answer-quality proxy summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_5_original_output_inspection_summary.json</code></td>
-                            <td>T43.5</td>
-                            <td>Original Task 43 output inspection summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_5_dflash_r1_calibration_n5.jsonl</code></td>
-                            <td>T43.5</td>
-                            <td>DFlash-R1 output-length calibration</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_5_output_inspection_summary.json</code></td>
-                            <td>T43.5</td>
-                            <td>Calibration output inspection summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task43_5_answer_quality_summary.json</code></td>
-                            <td>T43.5</td>
-                            <td>Extraction-aware answer-quality summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_prep_source_mode_readiness.json</code></td>
-                            <td>T45-prep</td>
-                            <td>Source-mode readiness and frozen-schema audit prep</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>data/processed/gsm8k_wikipedia_augmented_full.jsonl</code></td>
-                            <td>T45-data-fix</td>
-                            <td>Full source-mode GSM8K + SQuAD-derived Wikipedia dataset</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_source_mode_dataset_audit_summary.json</code></td>
-                            <td>T45-data-fix</td>
-                            <td>Full source-mode dataset audit summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_final_baseline_ar_n100.jsonl</code></td>
-                            <td>T45</td>
-                            <td>Baseline-AR final benchmark artifact, legacy schema accepted</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_final_dflash_r1_n100.jsonl</code></td>
-                            <td>T45</td>
-                            <td>DFlash-R1 final benchmark artifact, legacy schema accepted</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_final_llmlingua_ar_r2_n100.jsonl</code></td>
-                            <td>T45</td>
-                            <td>LLMLingua-AR-R2 final benchmark artifact, per_prompt_jsonl_v1</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_final_cc_llm_r2_n100.jsonl</code></td>
-                            <td>T45</td>
-                            <td>CC-LLM-R2 final benchmark artifact, per_prompt_jsonl_v1</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_final_artifact_audit_summary.json</code></td>
-                            <td>T45</td>
-                            <td>Machine-readable final artifact audit summary</td>
-                            <td>400 rows audited</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task46_pareto_summary.json</code></td>
-                            <td>T46</td>
-                            <td>Machine-readable Pareto analysis summary</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task46_pareto_table.csv</code></td>
-                            <td>T46</td>
-                            <td>Compact Pareto metric table</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task47_quality_refinement_summary.json</code></td>
-                            <td>T47</td>
-                            <td>Deterministic quality-refinement summary and claim policy</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task47_quality_failure_samples.jsonl</code></td>
-                            <td>T47</td>
-                            <td>Representative compact failure samples</td>
-                            <td>20 samples</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task47_quality_table.csv</code></td>
-                            <td>T47</td>
-                            <td>Compact deterministic quality metric table</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_compression_fix_llmlingua_ar_r2_n2.jsonl</code></td>
-                            <td>T45-compression-fix</td>
-                            <td>LLMLingua-AR-R2 long-context compression-fix smoke</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_compression_fix_cc_llm_r2_n2.jsonl</code></td>
-                            <td>T45-compression-fix</td>
-                            <td>CC-LLM-R2 long-context compression-fix smoke</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl</code></td>
-                            <td>T45-compression-fix-v2</td>
-                            <td>LLMLingua-AR-R2 tokenizer-aware compression-fix smoke</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl</code></td>
-                            <td>T45-compression-fix-v2</td>
-                            <td>CC-LLM-R2 tokenizer-aware compression-fix smoke</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>logs/task45_compression_fix_v2_*_n3.log</code></td>
-                            <td>T45-compression-fix-v2</td>
-                            <td>Tokenizer-aware smoke logs with encoder-warning check</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_runner_fix_llmlingua_ar_r2_n3.jsonl</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>LLMLingua-AR-R2 runner protocol smoke artifact</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_runner_fix_cc_llm_r2_n3.jsonl</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>CC-LLM-R2 runner protocol smoke artifact</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_runner_fix_baseline_ar_n1.jsonl</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>Baseline-AR runner protocol compatibility smoke artifact</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task45_runner_fix_dflash_r1_n1.jsonl</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>DFlash-R1 runner protocol compatibility smoke artifact</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td><code>logs/task45_runner_fix_*.log</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>Runner protocol smoke logs with warm-up/start/finish/write progress</td>
-                            <td>—</td>
-                        </tr>
-                    </tbody>
+                        </tr></tbody>
                 </table>
             </div>
         </section>
@@ -2830,6 +2863,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-14</div>
+                <div class="log-body">
+                    <strong>Task Docs-02 — Roadmap Structure, Status, and Layout Cleanup — PASS</strong><br>
+                    Docs-02 cleaned the Roadmap layout and status model: Phase &amp; Gate Overview now appears before Current Status Summary, stale n≥100/Phase1 gate wording was replaced with post-Task80A gates, the main task ledger was merged, and wide/wrapping table styling was added for readability.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-04</div>
                 <div class="log-body">
