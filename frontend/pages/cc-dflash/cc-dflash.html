@@ -922,6 +922,52 @@
             letter-spacing: 0.02em;
         }
 
+        .insight-strip {
+            margin-top: 20px;
+            padding: 16px 20px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+        }
+
+        .insight-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 6px;
+        }
+
+        .insight-text {
+            font-size: clamp(14px, 1.15vw, 16px);
+            line-height: 1.5;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 12px;
+        }
+
+        .insight-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .insight-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+        }
+
         .pivot-container {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -1471,15 +1517,16 @@
                         </div>
                     </div>
 
-                    <div class="claim-line">
-                        <strong>Research question</strong><br>
-                        Compression có giúp DFlash giảm input/prefill cost mà vẫn giữ quality proxy không?
-                    </div>
-
-                    <div class="badge-row">
-                        <span class="badge-tag">Giả thuyết rõ hơn</span>
-                        <span class="badge-tag">Benchmark được</span>
-                        <span class="badge-tag">Audit được</span>
+                    <div class="insight-strip">
+                        <div class="insight-label">Research question</div>
+                        <div class="insight-text">
+                            Nén context trước DFlash có giảm input/prefill cost mà vẫn giữ quality proxy không?
+                        </div>
+                        <div class="insight-badges">
+                            <span class="insight-badge">Giả thuyết dễ đo hơn</span>
+                            <span class="insight-badge">Benchmark 4 condition</span>
+                            <span class="insight-badge">Tách speed / quality / overhead</span>
+                        </div>
                     </div>
                 </article>
             </div>
