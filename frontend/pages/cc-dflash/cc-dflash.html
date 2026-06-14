@@ -259,6 +259,16 @@
             align-items: stretch;
         }
 
+        @media (min-width: 761px) {
+            .part-2 .section-grid .section-card {
+                display: flex;
+                flex-direction: column;
+            }
+            .part-2 .section-grid .insight-strip {
+                margin-top: auto;
+            }
+        }
+
         .section-card {
             border: 1px solid rgba(255, 255, 255, 0.13);
             background:
@@ -1613,10 +1623,10 @@
                         Trong long-context inference, chi phí xử lý đầu vào (prefill cost) là cực kỳ lớn. Nén context trước khi gửi đến model có thể mang lại hiệu quả rõ rệt:
                     </p>
                     <ul class="compact-list">
-                        <li><strong>Prefill cost:</strong> Xử lý input context chiếm phần lớn thời gian khi prompt dài.</li>
-                        <li><strong>Giảm input tokens:</strong> Nén context giúp giảm trực tiếp lượng tính toán ở giai đoạn prefill.</li>
-                        <li><strong>DFlash hỗ trợ decoding:</strong> Tăng tốc độ sinh token tiếp theo (decoding phase).</li>
-                        <li><strong>Savings vs T_compress:</strong> Pipeline chỉ có lợi nếu prefill savings + decoding gain lớn hơn chi phí nén <code>T_compress</code>.</li>
+                        <li><strong>Prefill cost:</strong> Xử lý input chiếm phần lớn thời gian khi prompt dài.</li>
+                        <li><strong>Giảm input tokens:</strong> Nén context giúp giảm lượng tính toán prefill.</li>
+                        <li><strong>DFlash hỗ trợ decoding:</strong> Tăng tốc sinh token tiếp theo (decoding phase).</li>
+                        <li><strong>Savings vs T_compress:</strong> Có lợi khi prefill savings + decoding gain lớn hơn <code>T_compress</code>.</li>
                     </ul>
                     <div class="insight-strip">
                         <div class="insight-label">Core Question</div>
@@ -1633,10 +1643,10 @@
                         CC-DFlash là một pipeline kết hợp giữa nén thông tin và tăng tốc decoding, do đó cần xác định rõ giới hạn hoạt động:
                     </p>
                     <ul class="compact-list">
-                        <li><strong>Verify trên context nén:</strong> DFlash có nhiệm vụ tăng tốc sinh token, nhưng hoạt động trên nền context đã bị nén.</li>
-                        <li><strong>Nén mất mát (Lossy):</strong> Quá trình nén context có thể làm mất đi các chi tiết hoặc thông tin quan trọng.</li>
-                        <li><strong>Rủi ro sai lệch output:</strong> Nếu compressor loại bỏ thông tin cốt lõi, output cuối cùng của model có thể bị sai.</li>
-                        <li><strong>Evaluation toàn diện:</strong> Phải đo đồng thời cả tốc độ (speedup) và chất lượng (quality proxy) để đánh giá thực chất.</li>
+                        <li><strong>Verify trên context nén:</strong> DFlash chạy trên prompt đã bị nén.</li>
+                        <li><strong>Nén mất mát:</strong> Compressor có thể làm mất chi tiết quan trọng.</li>
+                        <li><strong>Rủi ro output:</strong> Nếu mất thông tin cốt lõi, output cuối có thể sai.</li>
+                        <li><strong>Evaluation:</strong> Phải đo cả speedup và quality proxy.</li>
                     </ul>
                     <div class="insight-strip">
                         <div class="insight-label">Claim Boundary</div>
