@@ -979,32 +979,27 @@
 
                 <article class="section-card wide part5-qmsum">
                     <span class="section-num">5.3</span>
-                    <h2>QMSum Diagnostic Results — Full Matrix và Rerun Caveat</h2>
+                    <h2>QMSum Diagnostic Results — Long-context Full Matrix</h2>
                     <p>
-                        Với QMSum, bảng metric chính không lấy từ lần rerun cuối vì lần rerun này không hoàn chỉnh:
-                        Baseline-AR hoàn thành đủ 30 rows, DFlash-R1 chỉ hoàn thành 2 rows, còn hai compressed
-                        conditions
-                        bị skip theo safety rule. Vì vậy, phần QMSum cần dùng lần chạy full diagnostic matrix làm nguồn
-                        metric chính,
-                        còn lần rerun cuối chỉ được ghi như caveat về độ ổn định runtime.
+                        Khác với GSM8K, QMSum không dùng numeric exact-match. QMSum được dùng để quan sát long-context diagnostic behavior: input length, prefill, compression overhead, end-to-end latency, compression ratio và lexical overlap proxy. Vì rerun cuối của QMSum không hoàn chỉnh, bảng này dùng full diagnostic matrix làm nguồn metric chính.
                     </p>
 
                     <div class="reading-note-strip">
-                        <strong>Lưu ý về nguồn metric:</strong> Bảng dưới dùng full diagnostic matrix làm reference vì
-                        đây là
-                        lần chạy QMSum n=30 hoàn chỉnh cho bốn conditions. Rerun cuối không dùng để xếp hạng condition
-                        vì DFlash-R1 chỉ có 2 rows và không có compressed rerun hoàn chỉnh.
+                        <strong>Lưu ý về nguồn metric:</strong> Bảng dưới dùng full diagnostic matrix làm reference vì đây là lần chạy duy nhất có đủ bốn conditions ở n=30. Rerun cuối không dùng để so sánh hoặc xếp hạng condition vì Baseline-AR có đủ 30 rows, DFlash-R1 chỉ có 2 rows, còn LLMLingua-AR-R2 và CC-DFlash-R2 không có rows hoàn chỉnh.
                     </div>
 
                     <table class="mini-table report-table">
                         <thead>
                             <tr>
                                 <th>Condition</th>
-                                <th>Overlap proxy<br><small>diagnostic reference</small></th>
-                                <th>Cap hits<br><small>diagnostic reference</small></th>
-                                <th>Avg e2e latency<br><small>diagnostic reference</small></th>
-                                <th>E2E tok/s<br><small>diagnostic reference</small></th>
-                                <th>T_compress<br><small>diagnostic reference</small></th>
+                                <th>Overlap proxy</th>
+                                <th>Cap hits</th>
+                                <th>Input tokens</th>
+                                <th>Compression ratio</th>
+                                <th>T_prefill</th>
+                                <th>T_compress</th>
+                                <th>Avg e2e</th>
+                                <th>E2E tok/s</th>
                                 <th>Kết luận an toàn</th>
                             </tr>
                         </thead>
@@ -1013,51 +1008,56 @@
                                 <td><strong>Baseline-AR</strong></td>
                                 <td>0.233</td>
                                 <td>0</td>
+                                <td>1999</td>
+                                <td>—</td>
+                                <td>687ms</td>
+                                <td>0ms</td>
                                 <td>4.264s</td>
                                 <td>14.45</td>
-                                <td>0ms</td>
                                 <td>
-                                    Long-context autoregressive diagnostic baseline. Dùng làm mốc latency và lexical
-                                    proxy,
-                                    không phải mốc semantic correctness.
+                                    Long-context autoregressive diagnostic baseline. Dùng làm mốc latency và lexical proxy, không phải semantic correctness reference.
                                 </td>
                             </tr>
                             <tr>
                                 <td><strong>DFlash-R1</strong></td>
                                 <td>0.234</td>
                                 <td>0</td>
+                                <td>1999</td>
+                                <td>—</td>
+                                <td>656ms</td>
+                                <td>0ms</td>
                                 <td>3.097s</td>
                                 <td>19.54</td>
-                                <td>0ms</td>
                                 <td>
-                                    DFlash-only long-context diagnostic baseline. Trong diagnostic reference, DFlash-R1
-                                    nhanh hơn
-                                    Baseline-AR, nhưng đây vẫn là local diagnostic evidence.
+                                    DFlash-only long-context diagnostic baseline. Trong diagnostic reference, DFlash-R1 nhanh hơn Baseline-AR, nhưng đây vẫn là local diagnostic evidence.
                                 </td>
                             </tr>
                             <tr>
                                 <td><strong>LLMLingua-AR-R2</strong></td>
                                 <td>0.359</td>
                                 <td>22</td>
+                                <td>979</td>
+                                <td>2.07&times;</td>
+                                <td>375ms</td>
+                                <td>5576ms</td>
                                 <td>26.378s</td>
                                 <td>13.21</td>
-                                <td>5576ms</td>
                                 <td>
-                                    Compression-only path. Overlap proxy cao hơn, nhưng e2e latency bị kéo mạnh bởi
-                                    chi phí nén và cap pressure.
+                                    Compression-only path. Compression giảm input tokens và prefill, nhưng e2e latency bị kéo mạnh bởi chi phí nén và cap pressure.
                                 </td>
                             </tr>
                             <tr>
                                 <td><strong>CC-DFlash-R2</strong></td>
                                 <td>0.357</td>
                                 <td>21</td>
+                                <td>979</td>
+                                <td>2.07&times;</td>
+                                <td>388ms</td>
+                                <td>5928ms</td>
                                 <td>19.056s</td>
                                 <td>18.12</td>
-                                <td>5928ms</td>
                                 <td>
-                                    Main compressed-DFlash path. Trong diagnostic reference, CC-DFlash-R2 nhanh hơn
-                                    LLMLingua-AR-R2 và có overlap proxy gần tương đương, nhưng không được đọc thành
-                                    semantic correctness.
+                                    Main compressed-DFlash path. Trong diagnostic reference, CC-DFlash-R2 nhanh hơn LLMLingua-AR-R2 và có overlap proxy gần tương đương, nhưng không được đọc thành semantic correctness.
                                 </td>
                             </tr>
                         </tbody>
@@ -1065,9 +1065,7 @@
 
                     <div class="compact-caveat-strip">
                         <span>
-                            QMSum chỉ dùng để chẩn đoán long-context behavior: latency, overhead, compression ratio,
-                            cap pressure và lexical/normalized proxy. Không dùng QMSum để claim semantic correctness
-                            hoặc final quality.
+                            QMSum chỉ dùng để chẩn đoán long-context behavior: input length, prefill, compression overhead, compression ratio, cap pressure, latency và lexical/normalized proxy. Không dùng QMSum để claim semantic correctness hoặc final quality.
                         </span>
                     </div>
 
@@ -1090,7 +1088,7 @@
                         <div class="comparison-item">
                             <b>LLMLingua-AR-R2 vs Baseline-AR</b>
                             <span>
-                                LLMLingua-AR-R2 có overlap proxy cao hơn Baseline-AR, nhưng avg e2e latency cao hơn nhiều vì phải trả thêm chi phí nén và bị cap pressure. Vì vậy compression-only không được claim là luôn hữu ích end-to-end.
+                                LLMLingua-AR-R2 có overlap proxy cao hơn Baseline-AR và giảm input tokens từ khoảng 1999 xuống 979, nhưng avg e2e latency cao hơn nhiều vì phải trả thêm chi phí nén và bị cap pressure. Vì vậy compression-only không được claim là luôn hữu ích end-to-end.
                             </span>
                         </div>
                         <div class="comparison-item">

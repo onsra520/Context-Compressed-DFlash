@@ -46,3 +46,4 @@
 | UI-20 | CC-DFlash Script Separation | done | [ui-20-cc-dflash-script-separation.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-20-cc-dflash-script-separation.md) |
 | UI-21 | CC-DFlash Part 5 Section 5.4 Refinement | done | [ui-21-cc-dflash-part5-sec54-refine.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-21-cc-dflash-part5-sec54-refine.md) |
 | UI-22 | CC-DFlash Part 5 QMSum Interpretation layout | done | [ui-22-cc-dflash-part5-qmsum-interpretation.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-22-cc-dflash-part5-qmsum-interpretation.md) |
+| UI-23 | CC-DFlash Part 5 QMSum Interpretation table data and copy refinement | done | [ui-23-cc-dflash-part5-qmsum-refine-copy.md](file:///home/quyseggs/CCDF/docs/reports/extra/ui-23-cc-dflash-part5-qmsum-refine-copy.md) |
