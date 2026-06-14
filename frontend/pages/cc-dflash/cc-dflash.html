@@ -263,6 +263,7 @@
         }
 
         @media (min-width: 761px) {
+
             .part2-comparison,
             .part3-comparison {
                 display: flex;
@@ -270,10 +271,12 @@
                 gap: 20px;
                 height: 100%;
             }
+
             .part2-comparison .insight-strip {
                 margin-top: auto;
             }
-            .part3-comparison > *:last-child {
+
+            .part3-comparison>*:last-child {
                 margin-top: auto;
             }
         }
@@ -532,6 +535,7 @@
                 gap: 16px;
                 height: 100%;
             }
+
             .part4-blocker .blocker-evidence {
                 margin-top: auto;
             }
@@ -1472,6 +1476,7 @@
         .speaker-box.wide {
             margin-top: 24px;
         }
+
         .part-5 .section-card,
         .part-6 .section-card {
             border-color: rgba(255, 205, 130, 0.16);
@@ -1575,7 +1580,8 @@
                 flex-direction: column;
                 height: 100%;
             }
-            .part-6 .section-card:not(.wide) > *:last-child {
+
+            .part-6 .section-card:not(.wide)>*:last-child {
                 margin-top: auto;
             }
         }
@@ -1806,7 +1812,8 @@
                     <div class="pivot-container">
                         <div class="pivot-column">
                             <h4>HTFSD blocker</h4>
-                            <p>HTFSD không bị loại vì speculative decoding sai, mà vì hướng này quá phức tạp để làm MVP.</p>
+                            <p>HTFSD không bị loại vì speculative decoding sai, mà vì hướng này quá phức tạp để làm MVP.
+                            </p>
                             <ul>
                                 <li>Overhead cao</li>
                                 <li>Acceptance thấp</li>
@@ -1818,7 +1825,8 @@
 
                         <div class="pivot-column">
                             <h4>CC-DFlash pivot</h4>
-                            <p>Project giữ DFlash core, thêm context compression phía trước và kiểm chứng bằng bốn condition.</p>
+                            <p>Project giữ DFlash core, thêm context compression phía trước và kiểm chứng bằng bốn
+                                condition.</p>
                             <ul>
                                 <li>Giả thuyết dễ đo hơn</li>
                                 <li>Tách compression và DFlash</li>
@@ -1887,18 +1895,21 @@
                     <span class="section-num">2.2</span>
                     <h2>Vì sao compression có thể hữu ích?</h2>
                     <p>
-                        Trong long-context inference, chi phí xử lý đầu vào (prefill cost) là cực kỳ lớn. Nén context trước khi gửi đến model có thể mang lại hiệu quả rõ rệt:
+                        Trong long-context inference, chi phí xử lý đầu vào (prefill cost) là cực kỳ lớn. Nén context
+                        trước khi gửi đến model có thể mang lại hiệu quả rõ rệt:
                     </p>
                     <ul class="compact-list">
                         <li><strong>Prefill cost:</strong> Xử lý input chiếm phần lớn thời gian khi prompt dài.</li>
                         <li><strong>Giảm input tokens:</strong> Nén context giúp giảm lượng tính toán prefill.</li>
-                        <li><strong>DFlash hỗ trợ decoding:</strong> Tăng tốc sinh token tiếp theo (decoding phase).</li>
+                        <li><strong>DFlash hỗ trợ decoding:</strong> Tăng tốc sinh token tiếp theo (decoding phase).
+                        </li>
                         <li><strong>Savings vs T_compress:</strong> Chỉ có lợi nếu savings vượt chi phí nén.</li>
                     </ul>
                     <div class="insight-strip">
                         <div class="insight-label">Core Question</div>
                         <div class="insight-text">
-                            Sau khi tính cả <code>T_compress</code>, pipeline có nhanh hơn và quality proxy có còn ổn định hay không?
+                            Sau khi tính cả <code>T_compress</code>, pipeline có nhanh hơn và quality proxy có còn ổn
+                            định hay không?
                         </div>
                     </div>
                 </article>
@@ -1907,7 +1918,8 @@
                     <span class="section-num">2.3</span>
                     <h2>Không phải lossless end-to-end</h2>
                     <p>
-                        CC-DFlash là một pipeline kết hợp giữa nén thông tin và tăng tốc decoding, do đó cần xác định rõ giới hạn hoạt động:
+                        CC-DFlash là một pipeline kết hợp giữa nén thông tin và tăng tốc decoding, do đó cần xác định rõ
+                        giới hạn hoạt động:
                     </p>
                     <ul class="compact-list">
                         <li><strong>Verify trên context nén:</strong> DFlash chạy trên prompt đã bị nén.</li>
@@ -2042,7 +2054,8 @@
                     </p>
                     <ol class="numbered-list">
                         <li>DFlash có cải thiện tốc độ so với autoregressive baseline không?</li>
-                        <li>Compression có giảm input tokens nhưng bị <code>T_compress</code> làm mất lợi ích e2e không?</li>
+                        <li>Compression có giảm input tokens nhưng bị <code>T_compress</code> làm mất lợi ích e2e không?
+                        </li>
                         <li>Sau khi context đã nén, DFlash có còn tạo thêm lợi ích so với compression-only không?</li>
                         <li>Quality proxy có còn ổn định sau khi context bị nén không?</li>
                     </ol>
@@ -2103,7 +2116,8 @@
                             <tr>
                                 <td><strong>QMSum-style meeting QA long-context</strong></td>
                                 <td>Dài</td>
-                                <td>Quan sát latency, prefill, compression overhead, compression ratio và lexical proxy.</td>
+                                <td>Quan sát latency, prefill, compression overhead, compression ratio và lexical proxy.
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -2129,7 +2143,8 @@
                     <span class="section-num">3.4</span>
                     <h2>GSM8K và QMSum: hai vai trò đánh giá</h2>
                     <p>
-                        GSM8K và QMSum-style meeting QA được thiết kế với hai vai trò khác nhau nhằm đánh giá toàn diện cả tính hiệu quả (efficiency) và chất lượng (quality) của pipeline.
+                        GSM8K và QMSum-style meeting QA được thiết kế với hai vai trò khác nhau nhằm đánh giá toàn diện
+                        cả tính hiệu quả (efficiency) và chất lượng (quality) của pipeline.
                     </p>
                     <div class="dataset-comparison-grid">
                         <div class="comparison-panel">
@@ -2236,7 +2251,8 @@
                         </tbody>
                     </table>
                     <p>
-                        End-to-end latency là metric thận trọng hơn khi so sánh compressed pipeline, vì generation-only tok/s chưa tính <code>T_compress</code>.
+                        End-to-end latency là metric thận trọng hơn khi so sánh compressed pipeline, vì generation-only
+                        tok/s chưa tính <code>T_compress</code>.
                     </p>
                 </article>
             </div>
@@ -2288,10 +2304,12 @@
                     <span class="section-num">4.2</span>
                     <h2>Dataset blocker</h2>
                     <p>
-                        Setup ban đầu chưa tách biệt câu hỏi nghiên cứu. Project chuyển sang GSM8K cho short-context quality và QMSum cho long-context efficiency.
+                        Setup ban đầu chưa tách biệt câu hỏi nghiên cứu. Project chuyển sang GSM8K cho short-context
+                        quality và QMSum cho long-context efficiency.
                     </p>
                     <p class="blocker-evidence">
-                        <strong>Limitation:</strong> QMSum không thể dùng để claim semantic correctness nếu không có manual review hoặc semantic judge.
+                        <strong>Limitation:</strong> QMSum không thể dùng để claim semantic correctness nếu không có
+                        manual review hoặc semantic judge.
                     </p>
                 </article>
 
@@ -2299,10 +2317,12 @@
                     <span class="section-num">4.3</span>
                     <h2>Compression overhead blocker</h2>
                     <p>
-                        Nén prompt giúp giảm prefill/decoding tokens nhưng tốn thời gian <code>T_compress</code>. Nếu overhead này quá lớn, compressed pipeline sẽ chậm hơn baseline.
+                        Nén prompt giúp giảm prefill/decoding tokens nhưng tốn thời gian <code>T_compress</code>. Nếu
+                        overhead này quá lớn, compressed pipeline sẽ chậm hơn baseline.
                     </p>
                     <p class="blocker-evidence">
-                        <strong>Fix:</strong> Tách biệt metric generation-only và end-to-end để đánh giá chính xác tradeoff giữa nén và e2e latency.
+                        <strong>Fix:</strong> Tách biệt metric generation-only và end-to-end để đánh giá chính xác
+                        tradeoff giữa nén và e2e latency.
                     </p>
                 </article>
 
@@ -2310,10 +2330,12 @@
                     <span class="section-num">4.4</span>
                     <h2>Output / cap-hit blocker</h2>
                     <p>
-                        Output quá ngắn hoặc bị cắt ở <code>max_new_tokens</code> làm lệch quality proxy. Project tăng output cap, thêm protected suffix để giữ instruction quan trọng.
+                        Output quá ngắn hoặc bị cắt ở <code>max_new_tokens</code> làm lệch quality proxy. Project tăng
+                        output cap, thêm protected suffix để giữ instruction quan trọng.
                     </p>
                     <p class="blocker-evidence">
-                        <strong>Evidence:</strong> GSM8K numeric-quality pattern ổn định hơn. Tăng cap làm tăng latency, và một số lỗi vẫn do reasoning.
+                        <strong>Evidence:</strong> GSM8K numeric-quality pattern ổn định hơn. Tăng cap làm tăng latency,
+                        và một số lỗi vẫn do reasoning.
                     </p>
                 </article>
 
@@ -2321,10 +2343,12 @@
                     <span class="section-num">4.5</span>
                     <h2>QMSum proxy blocker</h2>
                     <p>
-                        QMSum long-answer QA có lexical overlap proxy không phản ánh đúng semantic. Project đã thử concise, balanced, evidence-retention audit.
+                        QMSum long-answer QA có lexical overlap proxy không phản ánh đúng semantic. Project đã thử
+                        concise, balanced, evidence-retention audit.
                     </p>
                     <p class="blocker-evidence">
-                        <strong>Kết luận:</strong> QMSum hữu ích cho latency/ratio/proxy behavior, nhưng không dùng để chứng minh semantic correctness.
+                        <strong>Kết luận:</strong> QMSum hữu ích cho latency/ratio/proxy behavior, nhưng không dùng để
+                        chứng minh semantic correctness.
                     </p>
                 </article>
 
@@ -2416,7 +2440,8 @@
                         Trên GSM8K, các vòng kiểm chứng n=30 cho thấy numeric-quality pattern tương đối ổn định.
                     </p>
                     <div class="reading-note-strip">
-                        <strong>Cách đọc:</strong> kết quả chỉ hợp lệ trong phạm vi dataset, metric và local runtime đã kiểm chứng; không dùng để claim universal speedup hoặc semantic correctness.
+                        <strong>Cách đọc:</strong> kết quả chỉ hợp lệ trong phạm vi dataset, metric và local runtime đã
+                        kiểm chứng; không dùng để claim universal speedup hoặc semantic correctness.
                     </div>
                     <table class="mini-table report-table">
                         <thead>
@@ -2445,10 +2470,12 @@
                         </tbody>
                     </table>
                     <div class="claim-line-small">
-                        GSM8K: compressed DFlash path giữ numeric-quality proxy ngang compression-only trong setting đã test.
+                        GSM8K: compressed DFlash path giữ numeric-quality proxy ngang compression-only trong setting đã
+                        test.
                     </div>
                     <p>
-                        Đây vẫn là short-context numeric proxy, không phải semantic correctness tổng quát hay long-context speedup.
+                        Đây vẫn là short-context numeric proxy, không phải semantic correctness tổng quát hay
+                        long-context speedup.
                     </p>
                 </article>
 
@@ -2459,18 +2486,23 @@
                         <div class="qmsum-col">
                             <h3>Diagnostic Signal</h3>
                             <p>
-                                QMSum đóng vai trò quan sát behavior của pipeline trong long-context setting. Trong các vòng chạy diagnostic n=30, CC-DFlash-R2 từng được quan sát nhanh hơn LLMLingua-AR-R2 trong local setting với overlap proxy tương tự.
+                                QMSum đóng vai trò quan sát behavior của pipeline trong long-context setting. Trong các
+                                vòng chạy diagnostic n=30, CC-DFlash-R2 từng được quan sát nhanh hơn LLMLingua-AR-R2
+                                trong local setting với overlap proxy tương tự.
                             </p>
                         </div>
                         <div class="qmsum-col">
                             <h3>Claim Boundary</h3>
                             <p>
-                                Các vòng triage chỉ ra limitation lớn về chất lượng: cap-hit, proxy degradation, câu trả lời quá ngắn và evidence targeting chưa tốt. Do đó, QMSum không đủ điều kiện để claim semantic correctness.
+                                Các vòng triage chỉ ra limitation lớn về chất lượng: cap-hit, proxy degradation, câu trả
+                                lời quá ngắn và evidence targeting chưa tốt. Do đó, QMSum không đủ điều kiện để claim
+                                semantic correctness.
                             </p>
                         </div>
                     </div>
                     <div class="compact-caveat-strip">
-                        <span>QMSum chỉ là long-context diagnostic evidence, không phải semantic correctness benchmark.</span>
+                        <span>QMSum chỉ là long-context diagnostic evidence, không phải semantic correctness
+                            benchmark.</span>
                     </div>
                 </article>
 
@@ -2562,11 +2594,11 @@
                     <span class="section-num">6.1</span>
                     <h2>Kết luận về hướng nghiên cứu</h2>
                     <p>
-                        Project bắt đầu từ speculative decoding nhưng HTFSD gặp blocker về kiến trúc, overhead và tín
-                        hiệu tốc độ.
-                        CC-DFlash là hướng MVP rõ hơn: nén context đầu vào trước DFlash để kiểm tra compression có thể
-                        hỗ trợ
-                        long-context inference hay không.
+                        Điểm quan trọng của chuyển hướng này là project không bỏ mục tiêu tăng tốc inference, mà đổi
+                        sang một hướng dễ kiểm
+                        chứng hơn trong phạm vi MVP. Thay vì tiếp tục ghép nhiều cơ chế speculative decoding phức tạp,
+                        CC-DFlash giữ DFlash core
+                        và chỉ thêm compression ở phía trước để tạo một pipeline có thể đo, audit và so sánh rõ hơn.
                     </p>
                 </article>
 
@@ -2625,7 +2657,8 @@
                             <span class="step-num">2</span>
                             <div class="step-content">
                                 <h3>T_compress Optimization</h3>
-                                <p>Tối ưu hoặc giảm chi phí <code>T_compress</code> để kiểm tra lại end-to-end benefit.</p>
+                                <p>Tối ưu hoặc giảm chi phí <code>T_compress</code> để kiểm tra lại end-to-end benefit.
+                                </p>
                             </div>
                         </div>
                         <div class="next-step-card">
@@ -2637,7 +2670,8 @@
                         </div>
                     </div>
                     <div class="reading-note-strip part6-footer-note">
-                        <strong>CC-DFlash</strong> chưa phải kết luận cuối về speedup hay correctness, mà là một MVP có evidence có điều kiện và hướng tiếp tục rõ ràng để củng cố đánh giá long-context.
+                        <strong>CC-DFlash</strong> chưa phải kết luận cuối về speedup hay correctness, mà là một MVP có
+                        evidence có điều kiện và hướng tiếp tục rõ ràng để củng cố đánh giá long-context.
                     </div>
                 </article>
             </div>
