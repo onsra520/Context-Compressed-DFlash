@@ -256,7 +256,8 @@
         .part-1 .section-grid,
         .part-2 .section-grid,
         .part-3 .section-grid,
-        .part-4 .section-grid {
+        .part-4 .section-grid,
+        .part-6 .section-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             align-items: stretch;
         }
@@ -1555,6 +1556,77 @@
             text-align: center;
         }
 
+        /* Part 6 specific layout and next steps styling */
+        @media (min-width: 761px) {
+            .part-6 .section-card:not(.wide) {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+            .part-6 .section-card:not(.wide) > *:last-child {
+                margin-top: auto;
+            }
+        }
+
+        .next-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 760px) {
+            .next-steps-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        .next-step-card {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .next-step-card .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .next-step-card h3 {
+            margin: 0 0 4px;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.56);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .next-step-card p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+
+        .part6-footer-note {
+            text-align: center;
+            margin-top: 20px;
+        }
+
         @media (max-width: 900px) {
             .toc-grid {
                 grid-template-columns: 1fr;
@@ -2517,27 +2589,40 @@
                         deployment,
                         hoặc compression proven useful end-to-end trong mọi trường hợp.
                     </p>
-                    <div class="claim-line">
-                        CC-DFlash là một hypothesis-driven MVP với evidence một phần: pipeline có tín hiệu đáng quan sát
-                        khi kết hợp compression và DFlash trong một số setting, nhưng kết luận cuối phải nằm trong phạm
-                        vi dataset,
-                        metric và local runtime đã kiểm chứng.
+                    <div class="claim-line-small">
+                        Safe claim: CC-DFlash là MVP có evidence có điều kiện, không phải kết luận cuối về speedup hay correctness.
                     </div>
                 </article>
 
                 <article class="section-card wide">
                     <span class="section-num">6.5</span>
                     <h2>Hướng tiếp theo</h2>
-                    <ol class="numbered-list">
-                        <li>Bổ sung semantic/manual evaluation cho long-context QA.</li>
-                        <li>Tối ưu hoặc giảm <code>T_compress</code> để kiểm tra lại end-to-end benefit.</li>
-                        <li>Rerun QMSum trong điều kiện ổn định hơn để giảm runtime caveat.</li>
-                    </ol>
-                    <p>
-                        Với phạm vi hiện tại, CC-DFlash chưa phải kết luận cuối về speedup hay correctness, mà là một
-                        MVP có
-                        evidence có điều kiện và một hướng tiếp tục rõ ràng để củng cố đánh giá long-context.
-                    </p>
+                    <div class="next-steps-grid">
+                        <div class="next-step-card">
+                            <span class="step-num">1</span>
+                            <div class="step-content">
+                                <h3>Semantic Evaluation</h3>
+                                <p>Bổ sung semantic/manual evaluation cho long-context QA.</p>
+                            </div>
+                        </div>
+                        <div class="next-step-card">
+                            <span class="step-num">2</span>
+                            <div class="step-content">
+                                <h3>T_compress Optimization</h3>
+                                <p>Tối ưu hoặc giảm chi phí <code>T_compress</code> để kiểm tra lại end-to-end benefit.</p>
+                            </div>
+                        </div>
+                        <div class="next-step-card">
+                            <span class="step-num">3</span>
+                            <div class="step-content">
+                                <h3>Stable QMSum Rerun</h3>
+                                <p>Rerun QMSum trong điều kiện ổn định hơn để giảm runtime caveat.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reading-note-strip part6-footer-note">
+                        <strong>CC-DFlash</strong> chưa phải kết luận cuối về speedup hay correctness, mà là một MVP có evidence có điều kiện và hướng tiếp tục rõ ràng để củng cố đánh giá long-context.
+                    </div>
                 </article>
             </div>
 
