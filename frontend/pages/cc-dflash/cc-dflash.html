@@ -260,14 +260,15 @@
         }
 
         @media (min-width: 761px) {
-            .part-2 .section-grid .section-card {
+            .part2-comparison {
                 display: flex;
                 flex-direction: column;
             }
-            .part-2 .section-grid .insight-strip {
+            .part2-comparison .insight-strip {
                 margin-top: auto;
             }
         }
+
 
         .section-card {
             border: 1px solid rgba(255, 255, 255, 0.13);
@@ -299,6 +300,7 @@
             font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
             font-size: 12px;
             letter-spacing: 0.08em;
+            align-self: flex-start;
         }
 
         .section-card h2 {
@@ -1616,7 +1618,7 @@
                     </p>
                 </article>
 
-                <article class="section-card">
+                <article class="section-card part2-comparison">
                     <span class="section-num">2.2</span>
                     <h2>Vì sao compression có thể hữu ích?</h2>
                     <p>
@@ -1636,7 +1638,7 @@
                     </div>
                 </article>
 
-                <article class="section-card">
+                <article class="section-card part2-comparison">
                     <span class="section-num">2.3</span>
                     <h2>Không phải lossless end-to-end</h2>
                     <p>
