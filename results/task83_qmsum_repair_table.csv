@@ -1,0 +1,5 @@
+avg_answer_token_overlap,avg_compressed_input_tokens,avg_compression_ratio,avg_e2e_latency_s,avg_generation_latency_s,avg_input_tokens,avg_original_input_tokens,avg_output_tokens,avg_t_compress_ms,avg_t_prefill_ms,avg_tau_mean,condition,dataset,e2e_tok_per_sec_weighted,empty_output_count,generation_tok_per_sec_weighted,hit_cap_count,overlap_proxy,repetition_count,row_count,status
+0.260169,0.0,0.0,6.34275,6.34275,2101.966667,0.0,97.166667,0.0,664.250751,0.0,Baseline-AR,qmsum_meeting_qa_long,15.319327,0,15.319327,0,0.260169,0,30,completed
+0.263296,0.0,0.0,4.776583,4.776583,2101.966667,0.0,95.533333,0.0,658.463462,2.341563,DFlash-R1,qmsum_meeting_qa_long,20.000351,0,20.000351,0,0.263296,0,30,completed
+0.267399,943.5,2.06692,11.758826,6.086271,1082.133333,1950.433333,104.533333,5672.555499,372.399149,0.0,LLMLingua-AR-R2,qmsum_meeting_qa_long,8.889776,0,17.175269,0,0.267399,0,30,completed
+0.27066,943.5,2.06692,10.524502,4.802574,1082.133333,1950.433333,106.133333,5721.927875,370.965713,2.223324,CC-DFlash-R2,qmsum_meeting_qa_long,10.084404,0,22.09926,0,0.27066,0,30,completed

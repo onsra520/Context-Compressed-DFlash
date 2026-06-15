@@ -1,0 +1,2 @@
+avg_e2e_latency_s,avg_generation_latency_s,avg_output_tokens,condition,dataset,e2e_tok_per_sec_weighted,generation_tok_per_sec_weighted,hit_cap_count,numeric_match_count,numeric_match_rate,row_count,status
+2.956946,2.956946,168.833333,DFlash-R1,gsm8k_short,57.097195,57.097195,1,24,0.8,30,stable
