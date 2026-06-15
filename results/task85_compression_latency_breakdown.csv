@@ -1,0 +1,8 @@
+metric,value_ms
+outer_preprocessing,23.862527998062433
+inner_preprocessing,12.78297699536779
+forward_pass,15379.397104999953
+token_scoring,0.0
+compression_selection,15442.418680999253
+outer_postprocessing,-15373.803374992349
+total_t_compress,15484.657916000288

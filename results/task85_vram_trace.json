@@ -1,0 +1,11 @@
+{
+  "before_load": {
+    "allocated_mb": 0.0,
+    "reserved_mb": 0.0
+  },
+  "after_cpu_load": {
+    "allocated_mb": 0.0,
+    "reserved_mb": 0.0
+  },
+  "gpu_error": "Subprocess crashed (Segfault/OOM)."
+}

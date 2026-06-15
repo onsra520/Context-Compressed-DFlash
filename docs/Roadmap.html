@@ -411,7 +411,7 @@
                 <span class="sv go">✓ Phase 1 MVP: PASS</span>
                 <span class="sv go">✓ T81 Audit: PASS_WITH_NOTES</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 85 — Final report / presentation metric-source sync</span>
+                <span class="sv info">→ Current next: Task 86 — Final Report Drafting</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -420,7 +420,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 84 QMSum Quality Proxy Audit. Current next: Task 85 — Final report / presentation metric-source sync. Task 84 proved QMSum should remain diagnostic-only without prompt changes.
+                This roadmap is synced through Task 85 LLMLingua-2 Compression Latency Breakdown. Current next: Task 86 — Final Report Drafting. Task 85 proved GPU compression is inviable on 8GB limits and CPU compression is too slow, recommending Cached/Offline Mode.
             </div>
         </header>
 
@@ -1343,6 +1343,12 @@
                             <td>QMSum Quality Proxy Audit and Metric Fix</td>
                             <td>Audit QMSum quality proxy weakness, introduce deterministic quality metrics, and sample manual audits to determine if QMSum remains diagnostic-only.</td>
                             <td class="go">PASS_WITH_NOTES: QMSum remains diagnostic-only; strict zero-shot prompt accurately causes low overlap due to abstractive mismatch; no prompt fix required.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T85</span></td>
+                            <td>LLMLingua-2 Compression Latency Breakdown and Device Placement Optimization</td>
+                            <td>Diagnose T_compress bottleneck, measure VRAM, and evaluate GPU compression or load-unload architectures.</td>
+                            <td class="go">PASS_WITH_NOTES: GPU compression crashes on 8GB limit; CPU compression is slow; Cached/Offline Mode recommended.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -3519,10 +3525,7 @@
                             <td><code>results/task83_qmsum_repair_table.csv</code></td>
                             <td>T83</td>
                             <td>Task83 QMSum repaired table CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/task84_qmsum_quality_proxy_summary.json</code></td>
+<td><code>results/task84_qmsum_quality_proxy_summary.json</code></td>
                             <td>T84</td>
                             <td>Task84 QMSum quality proxy summary JSON</td>
                             <td>-</td>
