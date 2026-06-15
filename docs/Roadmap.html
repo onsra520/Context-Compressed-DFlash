@@ -411,12 +411,16 @@
                 <span class="sv go">✓ Phase 1 MVP: PASS</span>
                 <span class="sv go">✓ T81 Audit: PASS_WITH_NOTES</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Manual final report writing / T83 LaTeX packaging if needed</span>
-                <span class="sv stop">No 8 GB claim</span>
+                <span class="sv info">→ Current next: Task 85 — Final report / presentation metric-source sync</span>
+                <span class="sv stop">No universal speedup claim</span>
+                <span class="sv stop">No final correctness claim</span>
+                <span class="sv stop">No QMSum semantic correctness claim</span>
                 <span class="sv stop">No deployment readiness claim</span>
+                <span class="sv stop">No confirmed 8GB claim</span>
+                <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 82 scaffold and claim map. Current next: Manual final report writing / T83 LaTeX packaging if needed. Task 82 created the scaffold and claim map; it did not write the final report prose.
+                This roadmap is synced through Task 84 QMSum Quality Proxy Audit. Current next: Task 85 — Final report / presentation metric-source sync. Task 84 proved QMSum should remain diagnostic-only without prompt changes.
             </div>
         </header>
 
@@ -1319,6 +1323,26 @@
                             <td>Final Report Scaffold and Claim Map</td>
                             <td>Create structural JSON/Markdown scaffold and safe-claim CSV mapping.</td>
                             <td class="go">SCAFFOLD_READY: prepared writing framework; manual prose drafting is next.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T83</span></td>
+                            <td>Benchmark Repair and Rerun Stability</td>
+                            <td>
+                                Rerun GSM8K and QMSum to resolve timing anomaly and incomplete rerun blocks.
+                                <br><br>
+                                Task83 becomes the updated repaired rerun reference. Task80A remains a historical rerun caveat.
+                                <br>
+                                GSM8K: Task83 replaces the temporary Task69 DFlash-R1 speed reference for repaired DFlash-R1 timing.
+                                <br>
+                                QMSum: Task83 replaces Task71 as the current complete n=30 QMSum four-condition rerun reference.
+                            </td>
+                            <td class="go">PASS: stable.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T84</span></td>
+                            <td>QMSum Quality Proxy Audit and Metric Fix</td>
+                            <td>Audit QMSum quality proxy weakness, introduce deterministic quality metrics, and sample manual audits to determine if QMSum remains diagnostic-only.</td>
+                            <td class="go">PASS_WITH_NOTES: QMSum remains diagnostic-only; strict zero-shot prompt accurately causes low overlap due to abstractive mismatch; no prompt fix required.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -2242,6 +2266,12 @@
                             <td><code>82-final-report-v2-draft.md</code></td>
                             <td>T82</td>
                             <td>Final Report Scaffold (v2 Draft)</td>
+                            <td class="go">Exists</td>
+                        </tr>
+                        <tr>
+                            <td><a href="reports/83-benchmark-repair-and-rerun-stability-report.md"><code>83-benchmark-repair-and-rerun-stability-report.md</code></a></td>
+                            <td>T83</td>
+                            <td>Benchmark Repair and Rerun Stability Report</td>
                             <td class="go">Exists</td>
                         </tr></tbody>
                 </table>
@@ -3436,6 +3466,90 @@
                             <td>T82</td>
                             <td>Task82 final report claim map CSV</td>
                             <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_gsm8k_dflash_r1_repair_n30.jsonl</code></td>
+                            <td>T83</td>
+                            <td>Task83 GSM8K DFlash-R1 repaired run JSONL</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_gsm8k_dflash_r1_repair_summary.json</code></td>
+                            <td>T83</td>
+                            <td>Task83 GSM8K DFlash-R1 repaired summary JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_gsm8k_dflash_r1_repair_table.csv</code></td>
+                            <td>T83</td>
+                            <td>Task83 GSM8K DFlash-R1 repaired table CSV</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_qmsum_baseline_ar_n30.jsonl</code></td>
+                            <td>T83</td>
+                            <td>Task83 QMSum Baseline-AR repaired run JSONL</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_qmsum_dflash_r1_n30.jsonl</code></td>
+                            <td>T83</td>
+                            <td>Task83 QMSum DFlash-R1 repaired run JSONL</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_qmsum_llmlingua_ar_r2_n30.jsonl</code></td>
+                            <td>T83</td>
+                            <td>Task83 QMSum LLMLingua-AR-R2 repaired run JSONL</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_qmsum_cc_dflash_r2_n30.jsonl</code></td>
+                            <td>T83</td>
+                            <td>Task83 QMSum CC-DFlash-R2 repaired run JSONL</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_qmsum_repair_summary.json</code></td>
+                            <td>T83</td>
+                            <td>Task83 QMSum repaired summary JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task83_qmsum_repair_table.csv</code></td>
+                            <td>T83</td>
+                            <td>Task83 QMSum repaired table CSV</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task84_qmsum_quality_proxy_summary.json</code></td>
+                            <td>T84</td>
+                            <td>Task84 QMSum quality proxy summary JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task84_qmsum_quality_proxy_table.csv</code></td>
+                            <td>T84</td>
+                            <td>Task84 QMSum quality proxy table CSV</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task84_qmsum_manual_audit_samples.jsonl</code></td>
+                            <td>T84</td>
+                            <td>Task84 QMSum manual audit samples JSONL</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task84_qmsum_quality_proxy_failure_samples.jsonl</code></td>
+                            <td>T84</td>
+                            <td>Task84 QMSum failure samples JSONL</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>docs/reports/84-qmsum-quality-proxy-audit-and-metric-fix-report.md</code></td>
+                            <td>T84</td>
+                            <td>Task84 QMSum quality proxy audit report</td>
+                            <td>-</td>
                         </tr></tbody>
                 </table>
             </div>
@@ -3445,11 +3559,15 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 82 scaffold</span>
-                <span class="sv info">Current next: Manual final report writing / T83 LaTeX packaging if needed</span>
+                <span class="sv go">Synced through Task 84 QMSum Quality Proxy Audit</span>
+                <span class="sv info">Current next: Task 85 — Final report / presentation metric-source sync</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv stop">No 8 GB claim</span>
+                <span class="sv stop">No universal speedup claim</span>
+                <span class="sv stop">No final correctness claim</span>
+                <span class="sv stop">No QMSum semantic correctness claim</span>
                 <span class="sv stop">No deployment readiness claim</span>
+                <span class="sv stop">No confirmed 8GB claim</span>
+                <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="note info">
                 <strong>Roadmap.html must be updated after every task.</strong>
