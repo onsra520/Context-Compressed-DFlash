@@ -1,0 +1,9 @@
+dataset,condition,row_count,status,empty_output_count,repetition_count,hit_cap_count,avg_output_tokens,avg_generation_latency_s,avg_e2e_latency_s,generation_tok_per_sec_weighted,e2e_tok_per_sec_weighted,avg_t_compress_ms,avg_t_prefill_ms,max_vram_allocated_gib,max_vram_reserved_gib,numeric_match_count,numeric_match_rate,overlap_proxy,generic_output_count
+gsm8k_short,Baseline-AR,10,PASS,0,0,0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,0,0.0,,
+gsm8k_short,DFlash-R1,10,PASS,0,0,0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,0,0.0,,
+gsm8k_short,LLMLingua-AR-R2,10,PASS,0,0,0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,0,0.0,,
+gsm8k_short,CC-DFlash-R2,10,PASS,0,0,0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,0,0.0,,
+qmsum_meeting_qa_long,Baseline-AR,10,PASS,0,0,0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,,,0,0
+qmsum_meeting_qa_long,DFlash-R1,10,PASS,0,0,0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,,,0,0
+qmsum_meeting_qa_long,LLMLingua-AR-R2,10,PASS,0,0,0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,,,0,0
+qmsum_meeting_qa_long,CC-DFlash-R2,10,PASS,0,0,0,0.0,0.0,0.0,0.0,0,0,0.0,0.0,0.0,,,0,0

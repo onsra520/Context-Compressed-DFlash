@@ -31,8 +31,9 @@ def evaluate_task(task_id, manifest, checklist):
     
     for dataset in datasets:
         for condition in conditions:
-            # e.g., results/task87_gsm8k_short_Baseline-AR_n10.jsonl
-            filepath = Path(template.format(task_id=task_id, dataset=dataset, condition=condition, n=target_rows))
+            # e.g., results/task87_gsm8k_short_baseline_ar_n10.jsonl
+            cond_str = condition.lower().replace("-", "_")
+            filepath = Path(template.format(task_id=task_id, dataset=dataset, condition=cond_str, n=target_rows))
             if not filepath.exists():
                 logging.error(f"[{dataset}][{condition}] File missing: {filepath}")
                 all_passed = False

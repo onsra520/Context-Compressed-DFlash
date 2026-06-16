@@ -24,7 +24,6 @@ A formal execution plan has been locked in `results/task86_rerun_gate_manifest.j
 
 > [!NOTE]
 > Task87/Task88 use `max_new_tokens=512` as the controlled rerun setting. Task83 remains the repaired reference under its original setting and should not be treated as an identical-latency comparison against the 512-token rerun.
-> Task87/Task88 use `max_new_tokens=512` as the controlled rerun setting. Task83 remains the repaired reference under its original setting and should not be treated as an identical-latency comparison against the 512-token rerun.
 
 ## 6. Validation Checklist
 A strict set of gate criteria has been codified in `results/task86_rerun_validation_checklist.json` to prevent silent benchmark failures, including:
