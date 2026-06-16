@@ -53,7 +53,7 @@ def evaluate_task(task_id, manifest, checklist):
             empty_count = sum(get_empty_count(r.get("generated_text", "")) for r in rows)
             rep_count = sum(get_repetition_count(r.get("generated_text", "")) for r in rows)
             # Hit cap isn't easily measured here unless stored in the JSONL. Assuming it's in metrics if available.
-            hit_cap_count = sum(1 for r in rows if r.get("metrics", {}).get("hit_cap", False))
+            hit_cap_count = sum(1 for r in rows if r.get("output_tokens", 0) >= r.get("max_new_tokens", 512))
             
             if empty_count > checklist["gate_criteria"]["empty_output_count"]["threshold"]:
                 logging.error(f"[{dataset}][{condition}] Empty outputs exceeded threshold: {empty_count}")

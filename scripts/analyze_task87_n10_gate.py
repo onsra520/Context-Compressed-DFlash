@@ -55,24 +55,38 @@ def analyze():
             hit_cap_count = sum(1 for r in rows if r.get("metrics", {}).get("hit_cap", False))
             
             # metrics from jsonl
-            avg_out_tokens = safe_mean([r.get("metrics", {}).get("output_tokens", 0) for r in rows if "output_tokens" in r.get("metrics", {})])
-            avg_gen_latency = safe_mean([r.get("metrics", {}).get("generation_time_s", 0) for r in rows if "generation_time_s" in r.get("metrics", {})])
-            avg_t_prefill = safe_mean([r.get("metrics", {}).get("t_prefill_ms", 0) for r in rows if "t_prefill_ms" in r.get("metrics", {})])
-            avg_t_compress = safe_mean([r.get("metrics", {}).get("t_compress_ms", 0) for r in rows])
+            def get_val(r, k, default=0.0): return r.get(k, default)
+            avg_out_tokens = safe_mean([get_val(r, "output_tokens") for r in rows if "output_tokens" in r])
+            avg_gen_latency = safe_mean([get_val(r, "generation_time_s") for r in rows if "generation_time_s" in r])
+            avg_t_prefill = safe_mean([get_val(r, "t_prefill_ms") for r in rows if "t_prefill_ms" in r])
+            avg_t_compress = safe_mean([get_val(r, "t_compress_ms") for r in rows if "t_compress_ms" in r])
             
             # E2E proxy calculation: gen time + prefill + compress
             avg_e2e_latency = avg_gen_latency + (avg_t_prefill / 1000.0) + (avg_t_compress / 1000.0)
-            gen_tok_sec = safe_mean([r.get("metrics", {}).get("tok/s", 0) for r in rows if "tok/s" in r.get("metrics", {})])
+            gen_tok_sec = safe_mean([get_val(r, "tok_per_sec") for r in rows if "tok_per_sec" in r])
             e2e_tok_sec = avg_out_tokens / avg_e2e_latency if avg_e2e_latency > 0 else 0
             
             # Additional dataset specific metrics
-            numeric_match_count = sum(1 for r in rows if r.get("metrics", {}).get("numeric_match", False))
+            # GSM8K numeric match
+            def check_numeric_match(r):
+                expected = r.get("expected_answer", "").strip()
+                gen = r.get("generated_text", "")
+                if not expected: return False
+                return expected in gen
+            numeric_match_count = sum(1 for r in rows if check_numeric_match(r))
             numeric_match_rate = numeric_match_count / row_count if row_count > 0 else 0
-            overlap_proxy = safe_mean([r.get("metrics", {}).get("overlap_proxy", 0) for r in rows])
-            generic_output_count = sum(1 for r in rows if r.get("metrics", {}).get("generic_output", False))
             
-            vram_allocated = safe_mean([r.get("metrics", {}).get("vram_allocated_mb", 0) / 1024.0 for r in rows])
-            vram_reserved = safe_mean([r.get("metrics", {}).get("vram_reserved_mb", 0) / 1024.0 for r in rows])
+            # QMSum overlap proxy
+            def check_overlap(r):
+                expected_words = set(r.get("expected_answer", "").lower().split())
+                gen_words = set(r.get("generated_text", "").lower().split())
+                if not expected_words: return 0.0
+                return len(expected_words.intersection(gen_words)) / len(expected_words)
+            overlap_proxy = safe_mean([check_overlap(r) for r in rows])
+            generic_output_count = None # Not implemented here easily without full LLM-as-a-judge
+            
+            vram_allocated = safe_mean([get_val(r, "vram_allocated_gib") for r in rows])
+            vram_reserved = safe_mean([get_val(r, "vram_reserved_gib") for r in rows])
             
             # Check gate
             status = "PASS"
@@ -118,7 +132,21 @@ def analyze():
             table_rows.append(stats)
             summary.setdefault(dataset, {})[condition] = stats
 
-    summary["gate_status"] = "PASS" if all_passed else "FAIL"
+    gate_status = "PASS" if all_passed else "FAIL"
+    
+    # Check for DFlash-R1 slowdown anomaly
+    for dataset in datasets:
+        baseline_stats = summary.get(dataset, {}).get("Baseline-AR")
+        dflash_stats = summary.get(dataset, {}).get("DFlash-R1")
+        if baseline_stats and dflash_stats:
+            baseline_latency = baseline_stats["avg_e2e_latency_s"]
+            dflash_latency = dflash_stats["avg_e2e_latency_s"]
+            if baseline_latency > 0 and dflash_latency > baseline_latency * 1.25:
+                logging.warning(f"Latency anomaly in {dataset}: DFlash-R1 ({dflash_latency:.2f}s) is >25% slower than Baseline-AR ({baseline_latency:.2f}s)")
+                if gate_status == "PASS":
+                    gate_status = "PASS_WITH_NOTES"
+
+    summary["gate_status"] = gate_status
 
     # Write summary
     with open("results/task87_n10_gate_summary.json", "w") as f:

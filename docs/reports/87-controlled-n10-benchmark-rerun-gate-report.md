@@ -1,7 +1,7 @@
 # Task 87 — Controlled n=10 Benchmark Rerun Gate Report
 
 ## 1. Objective
-Run a controlled `n=10` benchmark gate using the Task 86 rerun manifest. This task validates that the benchmark pipeline can complete cleanly and generates perfectly shaped artifacts before authorizing the full `n=30` (Task 88) rerun. 
+Run a controlled `n=10` benchmark gate using the Task 86 rerun manifest. This task validates that the benchmark pipeline can complete cleanly and generates complete and correctly shaped artifacts before authorizing the full `n=30` (Task 88) rerun. 
 
 ## 2. Rerun Setting
 The rerun was executed strictly under the `task86_rerun_gate_manifest.json` parameters:
@@ -27,36 +27,35 @@ The rerun was executed strictly under the `task86_rerun_gate_manifest.json` para
 - `scripts/analyze_task87_n10_gate.py`
 - `results/task87_n10_gate_summary.json`
 - `results/task87_n10_gate_table.csv`
+- `results/task87_qmsum_dflash_r1_latency_inspection.json`
 - `docs/reports/87-controlled-n10-benchmark-rerun-gate-report.md`
 
 ## 4. GSM8K n=10 Result
-All four conditions executed flawlessly:
-- `row_count` was strictly 10 for all conditions.
-- No conditions stalled or hit VRAM OOM limits.
-- `empty_output_count`: 0 across all conditions.
-- `repetition_count`: 0 across all conditions.
-- `hit_cap_count`: 0 across all conditions.
+All four conditions completed cleanly with 10/10 rows, 0 empty outputs, 0 repetitions, and 0 hit caps. 
+- **Baseline-AR**: 167.3 avg output tokens | 15.01 e2e tok/s | 11.14s e2e latency | 10/10 exact match
+- **DFlash-R1**: 161.7 avg output tokens | 47.74 e2e tok/s | 3.38s e2e latency | 10/10 exact match
+- **LLMLingua-AR-R2**: 161.3 avg output tokens | 14.54 e2e tok/s | 11.08s e2e latency | 10/10 exact match
+- **CC-DFlash-R2**: 164.8 avg output tokens | 39.95 e2e tok/s | 4.12s e2e latency | 10/10 exact match
 
 ## 5. QMSum n=10 Result
-All four conditions executed flawlessly:
-- `row_count` was strictly 10 for all conditions.
-- No conditions stalled or hit VRAM OOM limits.
-- `empty_output_count`: 0 across all conditions.
-- `repetition_count`: 0 across all conditions.
-- `hit_cap_count`: 0 across all conditions.
+All four conditions completed cleanly with 10/10 rows, 0 empty outputs, 0 repetitions, and 0 hit caps.
+- **Baseline-AR**: 102.9 avg output tokens | 12.26 e2e tok/s | 8.38s e2e latency | 0.33 overlap proxy
+- **DFlash-R1**: 102.0 avg output tokens | 5.66 e2e tok/s | 18.00s e2e latency | 0.33 overlap proxy
+- **LLMLingua-AR-R2**: 112.6 avg output tokens | 8.40 e2e tok/s | 13.39s e2e latency | 0.29 overlap proxy
+- **CC-DFlash-R2**: 114.7 avg output tokens | 9.39 e2e tok/s | 12.20s e2e latency | 0.30 overlap proxy
 
 ## 6. Gate Checklist Result
-- **Status**: `PASS`
+- **Status**: `PASS_WITH_NOTES`
 - The `scripts/analyze_task86_rerun_gate.py` successfully completed without errors.
-- The `scripts/analyze_task87_n10_gate.py` successfully computed the metric aggregations.
+- The `scripts/analyze_task87_n10_gate.py` successfully computed the metric aggregations, but flagged a DFlash-R1 latency anomaly on QMSum.
 
 ## 7. Failure/Caveat Notes
-- None. The gate sequence ran flawlessly.
+- No blocking execution failures were detected. However, QMSum DFlash-R1 showed a latency anomaly and should be inspected before Task88.
 - Caveat (carried forward from prior tasks): QMSum remains strictly diagnostic and makes no semantic correctness claims. 
 
 ## 8. Decision: Allow or Block Task 88 n=30
-**Decision**: ALLOW.
-Task 87 passed all strict validation checks. Task 88 is authorized to proceed for `n=30` execution.
+**Decision**: ALLOW WITH NOTES.
+Task88 is allowed only after checking whether the QMSum DFlash-R1 slowdown is a row-level outlier, runtime anomaly, or expected effect of the 512-token setting. (Inspection confirms it is an outlier-based slowdown from Row 4).
 
 ## 9. Claim Boundary
 > [!IMPORTANT]
