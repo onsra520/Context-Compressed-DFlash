@@ -411,7 +411,7 @@
                 <span class="sv go">✓ Phase 1 MVP: PASS</span>
                 <span class="sv go">✓ T81 Audit: PASS_WITH_NOTES</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv info">→ Current next: Task 86 — Final Report Drafting</span>
+                <span class="sv info">→ Current next: Task 87 — Controlled n=10 benchmark rerun gate</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -420,7 +420,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 85 LLMLingua-2 Compression Latency Breakdown. Current next: Task 86 — Final Report Drafting. Task 85 proved GPU compression is inviable on 8GB limits and CPU compression is too slow, recommending Cached/Offline Mode.
+                This roadmap is synced through Task 86 Benchmark Cleanup and Rerun Gate Preparation. Current next: Task 87 — Controlled n=10 benchmark rerun gate. Task 85 proved GPU compression is inviable on 8GB limits and CPU compression is too slow, recommending Cached/Offline Mode. Task 86 defined the validation sequence.
             </div>
         </header>
 
@@ -1349,6 +1349,24 @@
                             <td>LLMLingua-2 Compression Latency Breakdown and Device Placement Optimization</td>
                             <td>Diagnose T_compress bottleneck, measure VRAM, and evaluate GPU compression or load-unload architectures.</td>
                             <td class="go">PASS_WITH_NOTES: GPU compression crashes on 8GB limit; CPU compression is slow; Cached/Offline Mode recommended.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T86</span></td>
+                            <td>Benchmark Cleanup, Claim-Safety Fixes, and Rerun Gate Preparation</td>
+                            <td>Clean up benchmark state, fix wording/roadmap issues, standardize outputs, and prepare controlled rerun manifest and checklist.</td>
+                            <td class="go">PASS: Manifests, checklist, and strict claim boundaries confirmed.</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T87</span></td>
+                            <td>Controlled n=10 benchmark rerun gate</td>
+                            <td>Execute n=10 validation rerun according to Task 86 manifest.</td>
+                            <td class="planned">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T88</span></td>
+                            <td>Controlled n=30 benchmark rerun</td>
+                            <td>Execute full n=30 rerun only if Task 87 passes all checklist gates.</td>
+                            <td class="planned">PLANNED</td>
                         </tr>
                     </tbody>
                 </table>
@@ -3553,7 +3571,62 @@
                             <td>T84</td>
                             <td>Task84 QMSum quality proxy audit report</td>
                             <td>-</td>
-                        </tr></tbody>
+                        </tr>
+                        <tr>
+                            <td><code>results/task85_compression_latency_breakdown.json</code></td>
+                            <td>T85</td>
+                            <td>Task85 Latency Breakdown JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task85_vram_trace.json</code></td>
+                            <td>T85</td>
+                            <td>Task85 VRAM Trace JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task85_load_unload_architecture.json</code></td>
+                            <td>T85</td>
+                            <td>Task85 Load/Unload Arch JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task85_cached_compression_upper_bound.json</code></td>
+                            <td>T85</td>
+                            <td>Task85 Cached Compression Upper Bound JSON</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>docs/reports/85-llmlingua-compression-latency-and-device-placement-report.md</code></td>
+                            <td>T85</td>
+                            <td>Task85 Latency Breakdown Report</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task86_rerun_gate_manifest.json</code></td>
+                            <td>T86</td>
+                            <td>Task86 Rerun Gate Manifest</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>results/task86_rerun_validation_checklist.json</code></td>
+                            <td>T86</td>
+                            <td>Task86 Rerun Validation Checklist</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>scripts/analyze_task86_rerun_gate.py</code></td>
+                            <td>T86</td>
+                            <td>Task86 Rerun Validation Analyzer</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td><code>docs/reports/86-benchmark-cleanup-and-rerun-gate-preparation-report.md</code></td>
+                            <td>T86</td>
+                            <td>Task86 Report</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -3562,8 +3635,8 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 84 QMSum Quality Proxy Audit</span>
-                <span class="sv info">Current next: Task 85 — Final report / presentation metric-source sync</span>
+                <span class="sv go">Synced through Task 86 Benchmark Cleanup</span>
+                <span class="sv info">Current next: Task 87 — Controlled n=10 benchmark rerun gate</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
