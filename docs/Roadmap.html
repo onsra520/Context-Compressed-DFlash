@@ -419,7 +419,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task90 validates post-cleanup reproducibility from the canonical data pipeline to an n=3 matrix rerun. It does not replace Task88 controlled n=30 benchmark metrics.
+                Task90 validates post-cleanup reproducibility from canonical data pipeline to n=3 matrix rerun. It does not replace Task88 controlled n=30 benchmark metrics.
             </div>
         </header>
 
@@ -437,44 +437,49 @@
                     </thead>
                                         <tbody>
                         <tr>
-                            <td><strong>Phase 0 — Research / Concept Gate</strong></td>
+                            <td><strong>Phase 0 — Research / Foundation Gate</strong></td>
                             <td class="go">PASS</td>
-                            <td>Research direction, CC-DFlash hypothesis, MVP scope, tokenizer/vocab risks, and repo setup.</td>
+                            <td>T01–T10 completed research direction, CC-DFlash hypothesis, MVP scope, tokenizer/vocab risk checks, repo skeleton, config, and initial probe/foundation setup.</td>
                         </tr>
                         <tr>
-                            <td><strong>Phase 1 — System Build Gate</strong></td>
+                            <td><strong>Phase 1 — Core System Build Gate</strong></td>
                             <td class="go">PASS</td>
-                            <td>Core runner, Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-DFlash-R2, generated-text capture, and artifact audit paths exist.</td>
+                            <td>T11+ established DFlash core, run_mvp.py, Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-DFlash-R2, generated-text capture, and artifact schema/audit paths.</td>
                         </tr>
                         <tr>
-                            <td><strong>Phase 1 — Data Pipeline Gate</strong></td>
+                            <td><strong>Phase 1 — Compression Integration Gate</strong></td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                            <td>LLMLingua-2 integration works, but online T_compress remains the main bottleneck. GPU compressor/load-unload is not claimed as solved.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 1 — Active Data Pipeline Gate</strong></td>
                             <td class="go">PASS</td>
-                            <td>Active data lifecycle is raw → processed → eval. Active datasets are GSM8K short-context and QMSum meeting QA. GSM8K+Wikipedia augmented branch is deprecated and removed from active path.</td>
+                            <td>Active data lifecycle is raw → processed → eval. Active datasets are GSM8K short-context numeric proxy and QMSum meeting QA long-context diagnostic benchmark. GSM8K+Wikipedia augmented has been deprecated and removed from the active path.</td>
                         </tr>
                         <tr>
                             <td><strong>Phase 1 — Evaluation Evidence Gate</strong></td>
                             <td class="go">PASS_WITH_NOTES</td>
-                            <td>Task88 is the current controlled n=30 benchmark evidence. GSM8K is numeric-quality proxy; QMSum is long-context diagnostic-only.</td>
+                            <td>Task88 is the current controlled n=30 benchmark evidence. GSM8K is numeric-quality proxy. QMSum is long-context diagnostic-only and not semantic correctness evidence.</td>
                         </tr>
                         <tr>
-                            <td><strong>Phase 1 — Cleanup / Transition Gate</strong></td>
-                            <td class="go">PASS</td>
-                            <td>Task89 cleaned repository taxonomy, scripts, results, reports, data lifecycle, and canonical active eval datasets.</td>
+                            <td><strong>Phase 1 — Repository Cleanup / Transition Gate</strong></td>
+                            <td class="go">PASS_WITH_FIXES</td>
+                            <td>Task89 and follow-up fixes normalized reports, plans, scripts, results, data lifecycle, canonical eval freeze, result output taxonomy, and roadmap direction.</td>
                         </tr>
                         <tr>
-                            <td><strong>Phase 1 — Reproduction Rerun Gate</strong></td>
+                            <td><strong>Phase 1 — End-to-End Reproduction Rerun Gate</strong></td>
                             <td class="info">NEXT</td>
-                            <td>Task90 will run fetch → processed → eval n=100 and an n=3 reproduction rerun over 2 datasets × 4 conditions.</td>
+                            <td>Task90 will run fetch → processed → eval n=100 and an n=3 reproduction rerun over 2 datasets × 4 conditions. It does not replace Task88 n=30 metrics.</td>
                         </tr>
                         <tr>
                             <td><strong>Phase 2 — System Optimization Gate</strong></td>
                             <td class="info">PLANNED</td>
-                            <td>Adaptive compression policy, cached/offline compression, and T_compress-aware routing will start after Phase 1 closeout.</td>
+                            <td>After Task90, Phase 2 starts with adaptive compression policy, cached/offline compression, T_compress-aware routing, and optimization benchmark.</td>
                         </tr>
                         <tr>
-                            <td><strong>Deployment / 8GB Gate</strong></td>
-                            <td class="neu">NOT_CLAIMED</td>
-                            <td>No deployment readiness or confirmed 8GB claim.</td>
+                            <td><strong>Claim / Deployment Boundary Gate</strong></td>
+                            <td class="stop">ENFORCED / NOT_CLAIMED</td>
+                            <td>No universal speedup claim, no final correctness claim, no QMSum semantic correctness claim, no deployment readiness claim, no confirmed 8GB claim, and no DFlash-R1 broken claim.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -495,8 +500,16 @@
                     </thead>
                                         <tbody>
                         <tr>
-                            <td><strong>Current next</strong></td>
+                            <td><strong>Current Phase</strong></td>
+                            <td>Phase 1 Closeout</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Current Next</strong></td>
                             <td>Task90 — Phase 1 End-to-End Reproduction Rerun</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Latest Completed</strong></td>
+                            <td>Task89 — Repository Cleanup, Data Pipeline Normalization, and Phase Transition Readiness</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -529,7 +542,7 @@
 
         <!-- ─────────────────────────────────────────── MAIN TASK ROADMAP -->
         <section>
-            <h2>Main Task Roadmap — Phase 1 — CC-DFlash System Build and Evaluation</h2>
+            <h2>Main Task Roadmap</h2>
             <p>
                 One row per main technical task. This section includes both completed and planned technical tasks; auxiliary UI/docs tasks are tracked separately below.
             </p>
@@ -544,11 +557,7 @@
                             <th style="width:160px">Trạng thái</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Phase: Concept & Architecture -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 0 — Concept, Architecture, Setup (Tasks 1–9)</td>
-                        </tr>
+                    <tbody>                        <tr class="phase-row"><td colspan="4">PHASE 0 — RESEARCH / FOUNDATION / PROJECT SETUP (T01–T10)</td></tr>
                         <tr>
                             <td><span class="tnum done">T01</span></td>
                             <td>Concept</td>
@@ -607,17 +616,13 @@
                             <td>Runtime config ban đầu: <code>config.yml</code>, model paths, backend assumptions</td>
                             <td class="go">Done</td>
                         </tr>
-
-                        <!-- Phase: Scaffold & Smoke -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 0 — Scaffold &amp; Smoke (Tasks 10–15)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T10</span></td>
                             <td>Probe</td>
                             <td>Synthetic probe hướng dẫn; kiểm tra dry-run/probe path</td>
                             <td class="go">Done</td>
                         </tr>
+                        <tr class="phase-row"><td colspan="4">PHASE 1 — SYSTEM BUILD AND EVALUATION (T11–T90)</td></tr>
                         <tr>
                             <td><span class="tnum done">T11</span></td>
                             <td>DFlash Core</td>
@@ -648,21 +653,11 @@
                             <td>Chuẩn bị Week 1 closeout; gom evidence và verification</td>
                             <td class="go">Done</td>
                         </tr>
-
-                        <!-- Phase: Week 1 Closeout -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 1 — Week 1 Closeout (Task 16)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T16</span></td>
                             <td>Week 1 Closeout</td>
                             <td><code>docs/reports/16-week-1-closeout-report.md</code></td>
                             <td class="go">PASS</td>
-                        </tr>
-
-                        <!-- Phase: LLMLingua Integration -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 1 — LLMLingua Integration (Tasks 17–20)</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T17</span></td>
@@ -689,11 +684,6 @@
                             </td>
                             <td class="go">PASS</td>
                         </tr>
-
-                        <!-- Phase: Condition Smoke & Audit -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 1 — Condition Smoke &amp; Artifact Audit (Tasks 21–23)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T21</span></td>
                             <td>CC-LLM Smoke</td>
@@ -713,11 +703,6 @@
                             <td>Artifact Audit</td>
                             <td>Artifact contract audit script: <code>scripts/smoke_artifacts.py</code></td>
                             <td class="go">PASS</td>
-                        </tr>
-
-                        <!-- Phase: Small Matrix -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 1 — Small Matrix &amp; Breakeven (Tasks 24–26)</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T24</span></td>
@@ -739,22 +724,12 @@
                             </td>
                             <td class="go">PASS</td>
                         </tr>
-
-                        <!-- Phase: Phase 1 Gate -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase Gate — Phase 1 MVP Closeout (Task 27)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T27</span></td>
                             <td>Phase Gate</td>
                             <td>Phase 1 MVP closeout report:
                                 <code>docs/reports/27-phase-1-mvp-closeout-go-nogo-report.md</code></td>
                             <td class="warn">PASS, conditional GO</td>
-                        </tr>
-
-                        <!-- Phase: Long-context Pilot -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 1 — Long-Context Pilot (Tasks 28–29)</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T28</span></td>
@@ -768,11 +743,6 @@
                             <td>Long-ctx Pilot</td>
                             <td>Long-context pilot n=6: <code>results/phase_1_system_build_and_evaluation/early_experiments/task29_*_longctx_n6.jsonl</code></td>
                             <td class="warn">PASS, n=6 preliminary</td>
-                        </tr>
-
-                        <!-- Phase: Answer Quality -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 1 — Answer Quality System (Tasks 30–32)</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T30</span></td>
@@ -795,11 +765,6 @@
                             </td>
                             <td class="go">PASS</td>
                         </tr>
-
-                        <!-- Phase: Breakeven + Quality Analysis -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 1 — Breakeven &amp; Quality Analysis (Task 33)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T33</span></td>
                             <td>Breakeven/Quality</td>
@@ -808,11 +773,6 @@
                                 decision</td>
                             <td class="go">PASS</td>
                         </tr>
-
-                        <!-- Docs restructure -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Docs Restructure (Task 34)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T34</span></td>
                             <td>Docs Restructure</td>
@@ -820,11 +780,6 @@
                                 <code>Roadmap.html</code>, compact <code>instruction.md</code>; create report
                                 <code>34-docs-restructure-roadmap-overview-report.md</code></td>
                             <td class="go">PASS</td>
-                        </tr>
-
-                        <!-- Manual Review -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Quality Validation (Tasks 35–36)</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T35</span></td>
@@ -842,11 +797,6 @@
                                 <code>36-manual-review-analysis-report.md</code></td>
                             <td class="go">PASS</td>
                         </tr>
-
-                        <!-- Baseline-AR -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Baseline-AR Implementation (Tasks 37–38)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T37</span></td>
                             <td>Baseline-AR Impl</td>
@@ -861,11 +811,6 @@
                             <td>Run small Baseline-AR smoke artifact; audit against artifact contract; create report
                                 <code>38-baseline-ar-smoke-report.md</code></td>
                             <td class="go">PASS</td>
-                        </tr>
-
-                        <!-- T_prefill & Breakeven -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Prefill Measurement &amp; Breakeven (Tasks 39–40)</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T39</span></td>
@@ -883,11 +828,6 @@
                                 <code>40-breakeven-curve-v1-report.md</code></td>
                             <td class="warn">PARTIAL, preliminary</td>
                         </tr>
-
-                        <!-- Dataset -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Real Dataset (Tasks 41–42)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T41</span></td>
                             <td>Dataset Builder</td>
@@ -903,11 +843,6 @@
                                 leakage, and reproducibility; create report <code>42-dataset-audit-report.md</code></td>
                             <td class="go">PASS, sample-mode</td>
                         </tr>
-
-                        <!-- Targeted rerun -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Targeted Long-Context Rerun (Task 43)</td>
-                        </tr>
                         <tr>
                             <td><span class="tnum done">T43</span></td>
                             <td>Targeted Rerun</td>
@@ -917,31 +852,11 @@
                             <td class="warn">PASS, sample-mode quality warning</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum done">T43.5</span></td>
-                            <td>Output Quality Triage</td>
-                            <td>Inspect Task 43 generated text, add extraction-aware scoring, calibrate DFlash-R1 with
-                                safer output length, and create report
-                                <code>43-5-output-quality-warning-triage-report.md</code></td>
-                            <td class="go">PASS, warning mitigated for freeze policy</td>
-                        </tr>
-
-                        <!-- Phase 1 Complete -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Phase 1 Complete Preparation (Tasks 44–45)</td>
-                        </tr>
-                        <tr>
                             <td><span class="tnum done">T44</span></td>
                             <td>Matrix Freeze</td>
                             <td>Freeze conditions, metrics, dataset, and artifact schema for final benchmark; create
                                 frozen spec document; create report <code>44-final-matrix-freeze-report.md</code></td>
                             <td class="go">PASS, frozen spec</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">T44.5</span></td>
-                            <td>Readiness Gate</td>
-                            <td>Check frozen Task 44 gates before any final benchmark; create report
-                                <code>44-5-final-benchmark-readiness-gate-report.md</code></td>
-                            <td class="stop">BLOCKED: full source-mode dataset and frozen-schema audit missing</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T45-prep</span></td>
@@ -975,14 +890,6 @@
                             <td class="warn">PARTIAL: v1 word chunking passed n=2 but was insufficient for n=100</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum done">T45-compression-fix-v2</span></td>
-                            <td>Tokenizer-Aware LLMLingua Safety</td>
-                            <td>Replace word chunks with tokenizer-aware chunk budgets before LLMLingua backend calls;
-                                create report
-                                <code>45-compression-fix-v2-tokenizer-aware-llmlingua-report.md</code></td>
-                            <td class="go">PASS: compressed n=3 smokes pass with no encoder-length warning; final compressed n=100 still not run</td>
-                        </tr>
-                        <tr>
                             <td><span class="tnum done">T45-runner-fix</span></td>
                             <td>Runner Benchmark Protocol Fix</td>
                             <td>Add warm-up-first measurement, per-prompt incremental JSONL writes, flush/fsync,
@@ -997,11 +904,6 @@
                                 artifacts; audit artifacts; create report
                                 <code>45-final-artifact-audit-report.md</code></td>
                             <td class="go">PASS: four n=100 final artifacts audited, 400 rows total; Task 46 Pareto analysis next</td>
-                        </tr>
-
-                        <!-- Analysis & Paper -->
-                        <tr class="phase-hdr">
-                            <td colspan="4">Analysis &amp; Paper Direction (Tasks 46–50)</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T46</span></td>
@@ -1340,463 +1242,54 @@
                             <td>Execute full n=30 rerun only if Task 87 passes all checklist gates.</td>
                             <td class="planned">PLANNED</td>
                         </tr>
-                    </tbody>
+                        <tr>
+                            <td>90</td>
+                            <td><span class="sv info">Phase 1 End-to-End Reproduction Rerun</span></td>
+                            <td><span class="sv info">NEXT</span></td>
+                            <td>Run canonical fetch → processed → eval n=100 pipeline and n=3 matrix rerun to validate post-cleanup reproducibility. Does not replace Task88 n=30 metrics.</td>
+                        </tr>
+                        <tr class="phase-row"><td colspan="4">PHASE 2 — SYSTEM OPTIMIZATION (T91+)</td></tr>
+                        <tr>
+                            <td>91</td>
+                            <td><span class="sv info">Adaptive Compression Policy</span></td>
+                            <td><span class="sv info">PLANNED</span></td>
+                            <td>Planned Phase 2 routing policy based on context length, cache availability, and T_compress tradeoff.</td>
+                        </tr>
+                        <tr>
+                            <td>92</td>
+                            <td><span class="sv info">Cached/Offline Compression Path</span></td>
+                            <td><span class="sv info">PLANNED</span></td>
+                            <td>Planned cached compression mode to remove online T_compress from request latency.</td>
+                        </tr>
+                        <tr>
+                            <td>93</td>
+                            <td><span class="sv info">T_compress-Aware Routing</span></td>
+                            <td><span class="sv info">PLANNED</span></td>
+                            <td>Planned system routing rule for when to use Baseline/DFlash/Compressed paths.</td>
+                        </tr>
+</tbody>
                 </table>
             </div>
         </section>
 
         <!-- ─────────────────────────────────────────── EXTRA / AUXILIARY TASKS -->
         <section>
-            <h2>Extra / Auxiliary Task Plan — UI &amp; Presentation</h2>
+            <h2>Auxiliary Track — UI, Presentation, and Documentation</h2>
             <p>
                 Auxiliary and documentation-focused presentation/planning tasks. These tasks are tracked separately from the main technical benchmark path, and must not modify benchmark logic, model code, datasets, result artifacts, claims, or phase-gate status unless explicitly requested.
             </p>
-
             <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
-                            <th scope="col">Task</th>
-                            <th scope="col">Phase</th>
-                            <th scope="col">Kế hoạch / Output</th>
-                            <th scope="col">Trạng thái</th>
+                            <th style="width:68px">Task</th>
+                            <th style="width:140px">Category</th>
+                            <th>Description</th>
+                            <th style="width:160px">Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="phase-hdr">
-                            <td colspan="4">Frontend UI Skeleton (UI-01)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-01</span></td>
-                            <td>Frontend skeleton reset</td>
-                            <td>
-                                Reset old/legacy UI components and establish a clean, extensible frontend skeleton structure (minimalist black/grey/white design, no external CDNs) for CC-DFlash report + demo.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Hub page: <a href="../frontend/index.html">frontend/index.html</a></li>
-                                    <li>CC-DFlash page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>HTFSD page: <a href="../frontend/pages/htfsd/htfsd.html">frontend/pages/htfsd/htfsd.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-01-frontend-skeleton-report.md">docs/reports/extra/ui-01-frontend-skeleton-report.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">Documentation / Final Report Planning (Docs-01)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">Docs-01</span></td>
-                            <td>Final rerun gate planning</td>
-                            <td>
-                                Add the agreed final gate sequence after Task80A:
-                                <br>T80B — Rerun analysis and issue gate
-                                <br>T80C — DFlash-R1 regression/runtime fix
-                                <br>T80D — Post-fix smoke/rerun confirmation
-                                <br>T81 — Final package consistency audit / claim-safety recheck
-                                <br>T82 — Final report v2 drafting
-                                <br><br>
-                                Clarify that T80C and T80D are conditional. They should only happen if T80B identifies a real DFlash-R1 regression/runtime bug. If T80B finds only runtime noise or a non-blocking QMSum diagnostic limitation, T80C/T80D can be skipped and the project can proceed to T81.
-                                <br><br>
-                                Clarify that T81 must not be used as a benchmark-logic fix task. T81 is for final consistency audit and claim-safety recheck only. T82 is final report drafting after the audit gate clears.
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">Roadmap &amp; Readability Cleanup (Docs-02)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">Docs-02</span></td>
-                            <td>Roadmap cleanup</td>
-                            <td>
-                                Refresh Roadmap layout, phase gates, current status, merged task ledger, and table readability after Task80A.
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash ToC Layout (UI-02)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-02</span></td>
-                            <td>CC-DFlash ToC Layout Update</td>
-                            <td>
-                                Update frontend/pages/cc-dflash/cc-dflash.html first page to serve as Table of Contents (Mục lục), replacing presentation flow, and reducing left/right margins to 20% total (80% content width).
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-02-cc-dflash-toc-layout-update.md">docs/reports/extra/ui-02-cc-dflash-toc-layout-update.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash ToC Container Cleanup (UI-03)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-03</span></td>
-                            <td>CC-DFlash ToC Container Cleanup</td>
-                            <td>
-                                Remove the redundant detailed description container ("Cấu trúc nội dung thuyết trình") from the Table of Contents page in frontend/pages/cc-dflash/cc-dflash.html to streamline the initial slide layout.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-03-cc-dflash-toc-container-cleanup.md">docs/reports/extra/ui-03-cc-dflash-toc-container-cleanup.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 1 Layout Cleanup (UI-04)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-04</span></td>
-                            <td>CC-DFlash Part 1 Layout Cleanup</td>
-                            <td>
-                                Remove the speaker-box container from Part 1 in frontend/pages/cc-dflash/cc-dflash.html, and configure the grid layout so the cards in Row 2 have equal height.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-04-cc-dflash-part1-layout-cleanup.md">docs/reports/extra/ui-04-cc-dflash-part1-layout-cleanup.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 1 Card Layout Fix (UI-05)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-05</span></td>
-                            <td>CC-DFlash Part 1 Card Layout Fix</td>
-                            <td>
-                                Restructure Part 1 card layout: render 1.1 and 1.2 as full-width rows, and place 1.3 and 1.4 side-by-side with equal widths and height stretch on desktop.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-05-cc-dflash-part1-card-layout-fix.md">docs/reports/extra/ui-05-cc-dflash-part1-card-layout-fix.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 1 Card Merge (UI-06)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-06</span></td>
-                            <td>CC-DFlash Part 1 Card Merge</td>
-                            <td>
-                                Merge Part 1 cards 1.3 and 1.4 into a single card "Vì sao chuyển sang CC-DFlash?" (1.3–1.4) featuring an highlighted Research Question and 3 design tags.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-06-cc-dflash-part1-merge-13-14.md">docs/reports/extra/ui-06-cc-dflash-part1-merge-13-14.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 1 Card 1.3 Pivot Layout (UI-07)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-07</span></td>
-                            <td>CC-DFlash Part 1 Card 1.3 Pivot Layout</td>
-                            <td>
-                                Refine card 1.3 ("Từ blocker sang CC-DFlash") by dividing its content into a 2-column pivot layout (HTFSD blocker -> CC-DFlash pivot) on desktop, rotating the arrow on mobile, and highlighting the Research Question.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-07-cc-dflash-part1-card13-pivot-layout.md">docs/reports/extra/ui-07-cc-dflash-part1-card13-pivot-layout.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 1 Card 1.3 Insight Strip (UI-08)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-08</span></td>
-                            <td>CC-DFlash Part 1 Card 1.3 Insight Strip</td>
-                            <td>
-                                Refine Card 1.3's Research Question section into a compact insight strip with smaller font, nested design tags, and updated Vietnamese text.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-08-cc-dflash-part1-card13-insight-strip.md">docs/reports/extra/ui-08-cc-dflash-part1-card13-insight-strip.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 1 Card 1.3 Insight Badges Grid (UI-09)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-09</span></td>
-                            <td>CC-DFlash Part 1 Card 1.3 Insight Badges Grid</td>
-                            <td>
-                                Refine the layout of Card 1.3's design tags inside the insight strip using a 3-column CSS grid to ensure they align, span equal widths, and center their text on desktop.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-09-cc-dflash-part1-card13-insight-badges-grid.md">docs/reports/extra/ui-09-cc-dflash-part1-card13-insight-badges-grid.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 2 Layout Refinement (UI-10)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-10</span></td>
-                            <td>CC-DFlash Part 2 Layout Refinement</td>
-                            <td>
-                                Restructure Part 2 cards: style Cards 2.2 and 2.3 as symmetric, equal-height blocks with compact insight footers, display the CC-DFlash pipeline badges as a uniform grid, and remove all speaker box containers across Parts 2 to 6.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-10-cc-dflash-part2-layout-refine.md">docs/reports/extra/ui-10-cc-dflash-part2-layout-refine.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 2 Card 2.2/2.3 Alignment (UI-11)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-11</span></td>
-                            <td>CC-DFlash Part 2 Card 2.2/2.3 Alignment</td>
-                            <td>
-                                Align Part 2 Cards 2.2 and 2.3 vertically on desktop using CSS flex column layout and bottom-aligned insight strips, and synchronize their bullet text densities.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-11-cc-dflash-part2-card22-23-align.md">docs/reports/extra/ui-11-cc-dflash-part2-card22-23-align.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 2 Comparison Cards Scoped (UI-12)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-12</span></td>
-                            <td>CC-DFlash Part 2 Comparison Cards Scoped</td>
-                            <td>
-                                Scope the desktop vertical flex column alignment specifically to Cards 2.2 and 2.3 via a dedicated local class, and prevent card label pills from stretching horizontally across all cards.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-12-cc-dflash-part2-comparison-cards-scoped.md">docs/reports/extra/ui-12-cc-dflash-part2-comparison-cards-scoped.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 2 Card 2.2 Spacing &amp; Wrap Fix (UI-13)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-13</span></td>
-                            <td>CC-DFlash Part 2 Card 2.2 Spacing &amp; Wrap Fix</td>
-                            <td>
-                                Shorten Card 2.2's last bullet point to prevent line wrapping and add CSS gap spacing to the local comparison card container, separating the bullet list from the bottom callout.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-13-cc-dflash-part2-card22-spacing.md">docs/reports/extra/ui-13-cc-dflash-part2-card22-spacing.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 3 Layout Refinement (UI-14)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-14</span></td>
-                            <td>CC-DFlash Part 3 Layout Refinement</td>
-                            <td>
-                                Refine Part 3 layouts: synchronize height for Cards 3.1 &amp; 3.2 on desktop, split Card 3.3 bullets into two columns, combine GSM8K and QMSum details into a new wide Card 3.4 with comparative columns, and restructure Card 3.5 (Metric scope) as a detailed tabular overview.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-14-cc-dflash-part3-layout-refine.md">docs/reports/extra/ui-14-cc-dflash-part3-layout-refine.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 3 &amp; 4 Spacing &amp; Layout (UI-15)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-15</span></td>
-                            <td>CC-DFlash Part 3 &amp; 4 Spacing &amp; Layout</td>
-                            <td>
-                                Stretch Cards 3.1 &amp; 3.2 to equal desktop heights, convert Card 4.1 flow to horizontal badge flow on desktop (stacking on mobile), synchronize Card 4.2-4.5 heights/margins as a 2x2 grid, set Card 4.6 to full width, and rename Card 4.7 title.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-15-cc-dflash-part3-4-layout-refine.md">docs/reports/extra/ui-15-cc-dflash-part3-4-layout-refine.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 3 &amp; 4 Layout Refinement (UI-16)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-16</span></td>
-                            <td>CC-DFlash Part 3 &amp; 4 Layout Refinement</td>
-                            <td>
-                                Refine Card 3.1 &amp; 3.2 heights by aligning last children, style Card 4.1 flow badges as pills, adjust Card 4.2-4.5 internal paragraphs to align their evidence/limitation sections vertically, ensure Card 4.6 spans full width, and rename Card 4.7.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-16-cc-dflash-part3-4-layout-refine.md">docs/reports/extra/ui-16-cc-dflash-part3-4-layout-refine.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 5 Layout Refinement (UI-17)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-17</span></td>
-                            <td>CC-DFlash Part 5 Layout Refinement</td>
-                            <td>
-                                Renumber Part 5 cards, delete Card 5.1 (Way to read results) and merge its note into Card 5.1 (GSM8K), restyle QMSum summary card to be full width with a 2-column layout on desktop, and use lighter caveat strips for both summary cards.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-17-cc-dflash-part5-layout-refine.md">docs/reports/extra/ui-17-cc-dflash-part5-layout-refine.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 6 Layout Refinement (UI-18)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-18</span></td>
-                            <td>CC-DFlash Part 6 Layout Refinement</td>
-                            <td>
-                                Refine Card 6.1-6.4 heights on desktop by stretching their grid cells, compact Card 6.4 callout to a lighter safe claim strip, transform Card 6.5 next-steps into a 3-panel layout, and place its final note inside a note strip.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-18-cc-dflash-part6-layout-refine.md">docs/reports/extra/ui-18-cc-dflash-part6-layout-refine.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 6 Card 6.3/6.4 Refine (UI-19)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-19</span></td>
-                            <td>CC-DFlash Part 6 Card 6.3/6.4 Refine</td>
-                            <td>
-                                Refine visual balance in Part 6 Conclusion by adding bullet points to Card 6.3 and compacting/shortening the safe claim strip in Card 6.4 to increase breathing room.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-19-cc-dflash-part6-card63-64-refine.md">docs/reports/extra/ui-19-cc-dflash-part6-card63-64-refine.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Script Separation (UI-20)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-20</span></td>
-                            <td>CC-DFlash Script Separation</td>
-                            <td>
-                                Separate inline script block from cc-dflash.html into external cc-dflash.js file.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>External script: <a href="../frontend/pages/cc-dflash/scripts/cc-dflash.js">frontend/pages/cc-dflash/scripts/cc-dflash.js</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-20-cc-dflash-script-separation.md">docs/reports/extra/ui-20-cc-dflash-script-separation.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Section 5.4 Cross-dataset Interpretation (UI-21)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-21</span></td>
-                            <td>CC-DFlash Part 5 Section 5.4 Refinement</td>
-                            <td>
-                                Refine Part 5 Section 5.4 with Cross-dataset Interpretation, ensuring presentation terms and claim-safety guidelines are fully integrated.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-21-cc-dflash-part5-sec54-refine.md">docs/reports/extra/ui-21-cc-dflash-part5-sec54-refine.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Section 5.4 QMSum Interpretation (UI-22)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-22</span></td>
-                            <td>CC-DFlash Part 5 QMSum Interpretation Layout</td>
-                            <td>
-                                Refine Part 5 layout to split QMSum results (5.3) and QMSum Interpretation (5.4), and shift subsequent sections. Ensure presentation terms and claim-safety guidelines are met.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-22-cc-dflash-part5-qmsum-interpretation.md">docs/reports/extra/ui-22-cc-dflash-part5-qmsum-interpretation.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 5 QMSum Refined (UI-23)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-23</span></td>
-                            <td>CC-DFlash Part 5 QMSum Interpretation Table Data and Copy Refinement</td>
-                            <td>
-                                Refine Part 5 layout sections 5.3 (QMSum Results Table with new columns/values) and 5.4 (QMSum Interpretation with comparison-list). Check and preserve presentation-friendly Vietnamese vocabulary and safety boundary claims.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-23-cc-dflash-part5-qmsum-refine-copy.md">docs/reports/extra/ui-23-cc-dflash-part5-qmsum-refine-copy.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 5 merge sections 5.6 and 5.7 (UI-24)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-24</span></td>
-                            <td>CC-DFlash Part 5 merge sections 5.6 and 5.7</td>
-                            <td>
-                                Merge Section 5.6 (Claim-safety boundary) and 5.7 (Những claim không được dùng) into a single unified Section 5.6, using a new 4-column layout table and a reading note strip at the end. Remove the old 5.7 article entirely.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-24-cc-dflash-part5-merge-56-57.md">docs/reports/extra/ui-24-cc-dflash-part5-merge-56-57.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
-                        <tr class="phase-hdr">
-                            <td colspan="4">CC-DFlash Part 5 Section 5.6 Presentation Refined (UI-25)</td>
-                        </tr>
-                        <tr>
-                            <td><span class="tnum done">UI-25</span></td>
-                            <td>CC-DFlash Part 5 Section 5.6 presentation refinement</td>
-                            <td>
-                                Refine Section 5.6 to use a presentation-friendly title 'Kết luận đúng phạm vi', update table to a 3-column layout (Phạm vi evidence, Kết luận nên trình bày, Giới hạn cần nhắc) with friendly terms, and update reading note strip.
-                                <br><strong>Artifacts:</strong>
-                                <ul>
-                                    <li>Presentation page: <a href="../frontend/pages/cc-dflash/cc-dflash.html">frontend/pages/cc-dflash/cc-dflash.html</a></li>
-                                    <li>Markdown report: <a href="reports/extra/ui-25-cc-dflash-part5-sec56-presentation-ready.md">docs/reports/extra/ui-25-cc-dflash-part5-sec56-presentation-ready.md</a></li>
-                                </ul>
-                            </td>
-                            <td class="go">PASS</td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -1889,9 +1382,7 @@
         </section>
 
         <!-- ─────────────────────────────────────────── EXTRA REPORTS INDEX -->
-        <section>
-            
-        </section>
+        
 
         <!-- ─────────────────────────────────────────── ARTIFACTS INDEX -->
         <section>
@@ -2003,8 +1494,8 @@
                         <div class="log-entry">
                 <div class="log-date">2026-06-17</div>
                 <div class="log-body">
-                    <strong>Task89-roadmap-sync — PASS</strong><br>
-                    Rebuilt Roadmap phase gates and task grouping after Task89 cleanup. Phase 1 is now represented as system build and evaluation; active data pipeline is raw → processed → eval; GSM8K+Wikipedia is deprecated/removed from active path; Task90 is the next post-cleanup n=3 reproduction rerun, not a replacement for Task88 n=30 metrics.
+                    <strong>Task89-roadmap-sync-fix — PASS</strong><br>
+                    Normalized roadmap phase gates and phase bars. Phase 1 is officially SYSTEM BUILD AND EVALUATION (T11-T90); Phase 0 is FOUNDATION (T01-T10); Phase 2 is OPTIMIZATION (T91+).
                 </div>
             </div>
             <div class="log-entry">
