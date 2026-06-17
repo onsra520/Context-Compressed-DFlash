@@ -1,0 +1,9 @@
+dataset,condition,status,row_count,avg_input_tokens,avg_output_tokens,avg_generation_latency_s,avg_generation_tok_s,avg_t_compress_ms,avg_t_prefill_ms,compression_ratio,empty_output_count,hit_cap_count,numeric_match_count,numeric_match_rate,avg_overlap_proxy,warnings
+gsm8k_short,baseline_ar,PASS,3,,,,,,,,0,0,0,0.0,,Missing input_tokens; Missing output_tokens; Missing generation_time_s; Missing tok_s
+gsm8k_short,dflash_r1,PASS,3,,,,,,,,0,0,0,0.0,,Missing input_tokens; Missing output_tokens; Missing generation_time_s; Missing tok_s
+gsm8k_short,llmlingua_ar_r2,PASS,3,,,,,,,,0,0,0,0.0,,Missing input_tokens; Missing output_tokens; Missing generation_time_s; Missing tok_s
+gsm8k_short,cc_dflash_r2,PASS,3,,,,,,,,0,0,0,0.0,,Missing input_tokens; Missing output_tokens; Missing generation_time_s; Missing tok_s
+qmsum_meeting_qa_long,baseline_ar,PASS,3,,,,,,,,0,0,,,0.0,Missing input_tokens; Missing output_tokens; Missing generation_time_s; Missing tok_s
+qmsum_meeting_qa_long,dflash_r1,PASS,3,,,,,,,,0,0,,,0.0,Missing input_tokens; Missing output_tokens; Missing generation_time_s; Missing tok_s
+qmsum_meeting_qa_long,llmlingua_ar_r2,PASS,3,,,,,,,,0,0,,,0.0,Missing input_tokens; Missing output_tokens; Missing generation_time_s; Missing tok_s
+qmsum_meeting_qa_long,cc_dflash_r2,PASS,3,,,,,,,,0,0,,,0.0,Missing input_tokens; Missing output_tokens; Missing generation_time_s; Missing tok_s

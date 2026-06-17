@@ -421,9 +421,9 @@
                 <a href="CC-DFlash-Overview.html">docs/CC-DFlash-Overview.html</a>.
             </p>
             <div class="status-row">
-                <span class="sv go">Current Phase: Phase 1 Closeout</span>
-                <span class="sv ok">Latest Completed: Task89 — Repository Cleanup, Data Pipeline Normalization, and Phase Transition Readiness</span>
-                <span class="sv info">Current Next: Task90 — Phase 1 End-to-End Reproduction Rerun</span>
+                <span class="sv go">Current Phase: Phase 2 — System Optimization</span>
+                <span class="sv ok">Latest Completed: Task90B — Task90 Isolated Resume</span>
+                <span class="sv info">Current Next: Task91 — Adaptive Compression Policy</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -481,8 +481,8 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 1 — End-to-End Reproduction Rerun Gate</strong></td>
-                            <td class="info">NEXT</td>
-                            <td>Task90 will run fetch → processed → eval n=100 and an n=3 reproduction rerun over 2 datasets × 4 conditions. It does not replace Task88 n=30 metrics.</td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                            <td>Task90 ran fetch → processed → eval n=100 and an n=3 reproduction rerun over 2 datasets × 4 conditions. Segfault was isolated (T90A) and bypassed (T90B). It does not replace Task88 n=30 metrics.</td>
                         </tr>
                         <tr>
                             <td><strong>Phase 2 — System Optimization Gate</strong></td>
@@ -514,15 +514,15 @@
                                         <tbody>
                         <tr>
                             <td><strong>Current Phase</strong></td>
-                            <td>Phase 1 Closeout</td>
+                            <td>Phase 2 — System Optimization</td>
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>Task90 — Phase 1 End-to-End Reproduction Rerun</td>
+                            <td>Task91 — Adaptive Compression Policy</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task89 — Repository Cleanup, Data Pipeline Normalization, and Phase Transition Readiness</td>
+                            <td>Task90B — Task90 Isolated Resume</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -1262,15 +1262,21 @@
                             <td class="go">PASS_WITH_FIXES</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum blocked">T90</span></td>
+                            <td><span class="tnum done">T90</span></td>
                             <td>Phase 1 End-to-End Reproduction Rerun</td>
                             <td>Run canonical fetch → processed → eval n=100 pipeline and n=3 matrix rerun to validate post-cleanup reproducibility. Does not replace Task88 n=30 metrics.</td>
-                            <td class="nogo">BLOCKED</td>
+                            <td class="go">PASS_WITH_NOTES</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T90A</span></td>
                             <td>QMSum DFlash-R1 Segfault Isolation Gate</td>
                             <td>Diagnose Task90 QMSum DFlash-R1 segmentation fault with isolated and sequence-sensitive targeted runs.</td>
+                            <td class="go">PASS_WITH_NOTES</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T90B</span></td>
+                            <td>Task90 Isolated Resume</td>
+                            <td>Completed missing QMSum Task90 artifacts using isolated per-condition execution after Task90A.</td>
                             <td class="go">PASS_WITH_NOTES</td>
                         </tr>
                         <tr class="phase-row"><td colspan="4">PHASE 2 — SYSTEM OPTIMIZATION (T91+)</td></tr>
