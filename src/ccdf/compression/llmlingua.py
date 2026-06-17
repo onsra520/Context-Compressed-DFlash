@@ -42,8 +42,14 @@ class LLMLinguaCompressor(CompressorBase):
         self._tokenizer_is_fallback = False
 
     @classmethod
-    def from_config(cls, config: dict[str, Any] | None = None) -> "LLMLinguaCompressor":
-        cfg = (((config or {}).get("compression") or {}).get("llmlingua") or {})
+    def from_config(
+        cls,
+        config: dict[str, Any] | None = None,
+        profile: str = "large",
+    ) -> "LLMLinguaCompressor":
+        from ccdf.config.loader import resolve_llmlingua_config
+
+        cfg = resolve_llmlingua_config(config, profile=profile)
         return cls(
             model_name=cfg.get("model_name", DEFAULT_LLM_LINGUA_2_MODEL),
             device_map=cfg.get("device_map", "cpu"),
@@ -59,6 +65,7 @@ class LLMLinguaCompressor(CompressorBase):
             chunk_safety_margin=int(cfg.get("chunk_safety_margin", DEFAULT_CHUNK_SAFETY_MARGIN)),
             max_context_words_per_chunk=cfg.get("max_context_words_per_chunk"),
         )
+
 
     def _get_compressor(self):
         if PromptCompressor is None:

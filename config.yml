@@ -1,27 +1,32 @@
 model:
-  target_id: models/Qwen3-4B
-  draft_id: models/Qwen3-4B-DFlash-b16
-  tokenizer_id: models/Qwen3-4B
-  load_in_4bit: true
+    target_id: models/Qwen3-4B
+    draft_id: models/Qwen3-4B-DFlash-b16
+    tokenizer_id: models/Qwen3-4B
+    load_in_4bit: true
 
 runtime:
-  device: cuda:0
-  load_in_4bit: true
+    device: cuda:0
+    load_in_4bit: true
 
 compression:
-  strategy: passthrough
-  keep_rate: 1.0
-  llmlingua:
-    model_name: microsoft/llmlingua-2-xlm-roberta-large-meetingbank
-    device_map: cpu
-    use_llmlingua2: true
-    default_keep_rate: 0.5
+    strategy: passthrough
+    keep_rate: 1.0
+    large_llmlingua:
+        model_name: microsoft/llmlingua-2-xlm-roberta-large-meetingbank
+        device_map: cpu
+        use_llmlingua2: true
+        default_keep_rate: 0.5
+    light_llmlingua:
+        model_name: microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
+        device_map: cuda:0
+        use_llmlingua2: true
+        default_keep_rate: 0.5
 
 benchmark:
-  dataset: gsm8k_short
-  max_new_tokens: 128
-  block_size: 16
-  temperature: 0.0
-  evaluation_datasets:
-    gsm8k_short: data/eval/gsm8k_100.jsonl
-    qmsum_meeting_qa_long: data/eval/qmsum_meeting_qa_100.jsonl
+    dataset: gsm8k_short
+    max_new_tokens: 128
+    block_size: 16
+    temperature: 0.0
+    evaluation_datasets:
+        gsm8k_short: data/eval/gsm8k_100.jsonl
+        qmsum_meeting_qa_long: data/eval/qmsum_meeting_qa_100.jsonl

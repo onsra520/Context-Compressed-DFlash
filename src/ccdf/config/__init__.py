@@ -1,5 +1,3 @@
-from __future__ import annotations
+from .loader import load_config, resolve_llmlingua_config
 
-from .loader import load_config
-
-__all__ = ["load_config"]
+__all__ = ["load_config", "resolve_llmlingua_config"]

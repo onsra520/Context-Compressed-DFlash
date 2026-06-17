@@ -621,3 +621,75 @@ def test_prepare_cc_prompt_compresses_context_and_preserves_question():
     assert info["compressor_model"] == "fake/model"
     assert info["requested_keep_rate_percent"] == pytest.approx(67.0)
     assert info["requested_keep_rate"] == pytest.approx(0.67)
+
+
+def test_resolve_llmlingua_config():
+    from ccdf.config.loader import resolve_llmlingua_config
+
+    old_config = {
+        "compression": {
+            "llmlingua": {
+                "model_name": "old-large",
+                "device_map": "cpu",
+                "use_llmlingua2": True,
+                "default_keep_rate": 0.5,
+            }
+        }
+    }
+    cfg = resolve_llmlingua_config(old_config, profile="large")
+    assert cfg["model_name"] == "old-large"
+
+    new_config = {
+        "compression": {
+            "large_llmlingua": {
+                "model_name": "microsoft/llmlingua-2-xlm-roberta-large-meetingbank",
+                "device_map": "cpu",
+                "use_llmlingua2": True,
+                "default_keep_rate": 0.5,
+            },
+            "light_llmlingua": {
+                "model_name": "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+                "device_map": "cuda:0",
+                "use_llmlingua2": True,
+                "default_keep_rate": 0.5,
+            }
+        }
+    }
+    cfg = resolve_llmlingua_config(new_config, profile="large")
+    assert cfg["model_name"] == "microsoft/llmlingua-2-xlm-roberta-large-meetingbank"
+
+    cfg = resolve_llmlingua_config(new_config, profile="light")
+    assert cfg["model_name"] == "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+
+    cfg = resolve_llmlingua_config(new_config)
+    assert cfg["model_name"] == "microsoft/llmlingua-2-xlm-roberta-large-meetingbank"
+
+    with pytest.raises(ValueError, match="Requested compressor profile 'light' but compression.light_llmlingua is not configured."):
+        resolve_llmlingua_config(old_config, profile="light")
+
+    cfg = resolve_llmlingua_config(new_config, profile="large_llmlingua")
+    assert cfg["model_name"] == "microsoft/llmlingua-2-xlm-roberta-large-meetingbank"
+
+    cfg = resolve_llmlingua_config(new_config, profile="light_llmlingua")
+    assert cfg["model_name"] == "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+
+
+def test_llmlingua_compressor_from_config_profile():
+    new_config = {
+        "compression": {
+            "large_llmlingua": {
+                "model_name": "large-model",
+                "device_map": "cpu",
+            },
+            "light_llmlingua": {
+                "model_name": "light-model",
+                "device_map": "cpu",
+            }
+        }
+    }
+    comp_large = LLMLinguaCompressor.from_config(new_config, profile="large")
+    assert comp_large.model_name == "large-model"
+
+    comp_light = LLMLinguaCompressor.from_config(new_config, profile="light")
+    assert comp_light.model_name == "light-model"
+

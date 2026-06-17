@@ -4,6 +4,7 @@ __all__ = [
     "CompressorBase",
     "PassthroughCompressor",
     "load_config",
+    "resolve_llmlingua_config",
     "merge",
     "segment_gsm8k",
 ]
@@ -14,7 +15,12 @@ def __getattr__(name: str):
         from .config.loader import load_config
 
         return load_config
+    if name == "resolve_llmlingua_config":
+        from .config.loader import resolve_llmlingua_config
+
+        return resolve_llmlingua_config
     if name == "CompressorBase":
+
         from .compression.base import CompressorBase
 
         return CompressorBase

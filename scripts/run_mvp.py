@@ -978,12 +978,24 @@ def main() -> None:
         default=None,
         help="Override compressed-condition keep rate by percent, e.g. 67 means keep_rate=0.67.",
     )
+    parser.add_argument(
+        "--compressor-profile",
+        choices=["large", "large_llmlingua", "light", "light_llmlingua"],
+        default="large",
+        help="Select compression config profile shape: large or light candidate.",
+    )
     args = parser.parse_args()
     if args.resume and args.overwrite:
         parser.error("--resume and --overwrite cannot be used together")
 
     config = _read_config(args.config, max_new_tokens_override=args.max_new_tokens)
-    default_keep_rate = config.raw_config.get("compression", {}).get("llmlingua", {}).get("default_keep_rate", 0.5)
+    from ccdf.config.loader import resolve_llmlingua_config
+
+    try:
+        comp_cfg = resolve_llmlingua_config(config.raw_config, profile=args.compressor_profile)
+    except ValueError as exc:
+        parser.error(str(exc))
+    default_keep_rate = comp_cfg.get("default_keep_rate", 0.5)
     try:
         keep_rate, requested_keep_rate_percent, requested_keep_rate = _resolve_keep_rate(
             args.condition,
@@ -1056,12 +1068,16 @@ def main() -> None:
 
     compressor = None
     if keep_rate is not None:
-        compressor = LLMLinguaCompressor.from_config(config.raw_config)
+        compressor = LLMLinguaCompressor.from_config(config.raw_config, profile=args.compressor_profile)
 
     print(f"{args.condition} smoke benchmark")
-    print("Compression: none" if keep_rate is None else f"Compression: LLMLingua keep_rate={keep_rate}")
+    if keep_rate is None:
+        print("Compression: none")
+    else:
+        print(f"Compression: LLMLingua keep_rate={keep_rate} profile={args.compressor_profile}")
     if requested_keep_rate_percent is not None:
         print(f"Requested keep-rate override: {requested_keep_rate_percent:.6g}% ({requested_keep_rate:.6g})")
+
     print(f"Target model path: {config.target_path}")
     if is_ar:
         print("Draft model path: not used for autoregressive baseline")
