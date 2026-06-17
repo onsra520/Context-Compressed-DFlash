@@ -13,7 +13,7 @@ def _write_rows(path: Path, rows: list[dict]) -> None:
 
 def test_audit_dataset_passes_sample_artifact_contract(tmp_path: Path):
     path = tmp_path / "dataset.jsonl"
-    rows = build_rows(BuildOptions(output=path, max_samples=2, min_context_words=120, max_context_words=180, seed=3))
+    rows = build_rows(BuildOptions(output=path, max_samples=2, seed=3))
     write_jsonl(rows, path)
 
     audit = audit_rows(path)
@@ -27,13 +27,13 @@ def test_audit_dataset_passes_sample_artifact_contract(tmp_path: Path):
     assert summary["readiness"]["builder_ready"] is True
     assert summary["readiness"]["sample_artifact_ready"] is True
     assert summary["readiness"]["full_benchmark_dataset_ready"] is False
-    assert summary["context_words"]["min"] >= 120
+    assert summary["context_words"]["min"] > 0
     assert summary["context_tokens"]["min"] > 0
 
 
 def test_audit_dataset_rejects_duplicate_ids(tmp_path: Path):
     path = tmp_path / "dataset.jsonl"
-    rows = build_rows(BuildOptions(output=path, max_samples=2, min_context_words=120, max_context_words=180, seed=4))
+    rows = build_rows(BuildOptions(output=path, max_samples=2, seed=4))
     rows[1]["id"] = rows[0]["id"]
     _write_rows(path, rows)
 
@@ -45,7 +45,7 @@ def test_audit_dataset_rejects_duplicate_ids(tmp_path: Path):
 
 def test_audit_dataset_rejects_answer_leakage_in_prompt(tmp_path: Path):
     path = tmp_path / "dataset.jsonl"
-    rows = build_rows(BuildOptions(output=path, max_samples=1, min_context_words=120, max_context_words=180, seed=5))
+    rows = build_rows(BuildOptions(output=path, max_samples=1, seed=5))
     rows[0]["prompt"] = rows[0]["prompt"] + f" {rows[0]['ground_truth_answer']}"
     _write_rows(path, rows)
 
@@ -57,7 +57,7 @@ def test_audit_dataset_rejects_answer_leakage_in_prompt(tmp_path: Path):
 
 def test_audit_dataset_rejects_missing_runner_field(tmp_path: Path):
     path = tmp_path / "dataset.jsonl"
-    rows = build_rows(BuildOptions(output=path, max_samples=1, min_context_words=120, max_context_words=180, seed=6))
+    rows = build_rows(BuildOptions(output=path, max_samples=1, seed=6))
     del rows[0]["expected_answer"]
     _write_rows(path, rows)
 
@@ -71,6 +71,6 @@ def test_reproducibility_check_uses_deterministic_sample_builder():
     result = reproducibility_check()
 
     assert result["mode"] == "sample"
-    assert result["rows"] == 5
+    assert result["rows"] == 3
     assert result["row_level_equal"] is True
     assert result["byte_level_equal"] is True

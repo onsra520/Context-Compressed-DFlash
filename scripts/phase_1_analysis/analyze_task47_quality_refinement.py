@@ -23,7 +23,8 @@ DEFAULT_PARETO = Path("results/task46_pareto_summary.json")
 DEFAULT_OUTPUT = Path("results/task47_quality_refinement_summary.json")
 DEFAULT_SAMPLES_OUTPUT = Path("results/task47_quality_failure_samples.jsonl")
 DEFAULT_CSV = Path("results/task47_quality_table.csv")
-DEFAULT_FIXTURE = Path("data/processed/gsm8k_wikipedia_augmented_full.jsonl")
+DEFAULT_FIXTURE = Path("data/eval/gsm8k_100.jsonl")
+DEFAULT_QA_PROXY_RESULTS = Path("results/task43_5_output_inspection_summary.json")
 CONDITION_ORDER = ["Baseline-AR", "DFlash-R1", "LLMLingua-AR-R2", "CC-LLM-R2"]
 
 NUMBER_RE = re.compile(r"[-+]?\$?\d[\d,]*(?:\.\d+)?")

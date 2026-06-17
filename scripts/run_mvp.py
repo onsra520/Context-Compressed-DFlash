@@ -316,7 +316,7 @@ def _load_fixture_rows(path: Path) -> list[dict]:
 
 
 def _prompt_from_fixture_row(row: dict) -> str:
-    return f"{row['context']}\n\n{row['question']}"
+    return row.get("prompt", f"{row.get('context', '')}\n\n{row.get('question', '')}".strip())
 
 
 def _fixture_metadata(row: dict) -> dict:

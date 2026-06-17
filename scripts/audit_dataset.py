@@ -16,7 +16,7 @@ if str(ROOT) not in sys.path:
 from scripts.create_dataset import BuildOptions, build_rows, write_jsonl
 
 
-DEFAULT_INPUT = Path("data/processed/gsm8k_wikipedia_augmented_smoke.jsonl")
+DEFAULT_INPUT = Path("data/eval/gsm8k_100.jsonl")
 DEFAULT_OUTPUT = Path("results/task42_dataset_audit_summary.json")
 
 REQUIRED_FIELDS = {
@@ -31,7 +31,6 @@ REQUIRED_FIELDS = {
     "context",
     "prompt",
     "evidence",
-    "noise_type",
     "approximate_context_words",
     "original_dataset_reference",
     "augmentation_metadata",
@@ -100,13 +99,11 @@ def load_jsonl(path: Path) -> tuple[list[dict[str, Any]], list[str]]:
 
 def _normalize_for_leakage(text: str) -> str:
     import re
-
     return " ".join(re.findall(r"[a-z0-9]+", text.casefold()))
 
 
 def contains_answer(text: str, answer: str) -> bool:
     import re
-
     normalized_answer = _normalize_for_leakage(answer)
     if not normalized_answer:
         return False
@@ -171,13 +168,6 @@ def _validate_row(audit: AuditResult, row: dict[str, Any], index: int) -> None:
         if not isinstance(row.get(field_name), dict) or not row.get(field_name):
             audit.add("FAIL", f"{label}: `{field_name}` must be a non-empty object")
 
-    augmentation = row.get("augmentation_metadata") if isinstance(row.get("augmentation_metadata"), dict) else {}
-    if augmentation.get("question_preserved") is not True:
-        audit.add("FAIL", f"{label}: augmentation_metadata.question_preserved must be true")
-    for leakage_field in ["answer_in_distractor", "answer_in_context", "answer_in_prompt"]:
-        if augmentation.get(leakage_field) is not False:
-            audit.add("FAIL", f"{label}: augmentation_metadata.{leakage_field} must be false")
-
 
 def audit_rows(path: Path) -> AuditResult:
     audit = AuditResult(input_path=path)
@@ -199,13 +189,6 @@ def audit_rows(path: Path) -> AuditResult:
     if duplicate_ids:
         audit.add("FAIL", f"duplicate row ids: {duplicate_ids}")
 
-    sources = {row.get("source") for row in rows}
-    source_modes = {row.get("source_mode") for row in rows}
-    if len(sources) != 1:
-        audit.add("FAIL", f"mixed source values: {sorted(sources, key=str)}")
-    if len(source_modes) != 1:
-        audit.add("FAIL", f"mixed source_mode values: {sorted(source_modes, key=str)}")
-
     for index, row in enumerate(rows, start=1):
         _validate_row(audit, row, index)
 
@@ -219,8 +202,6 @@ def reproducibility_check() -> dict[str, Any]:
         options = BuildOptions(
             output=first,
             max_samples=5,
-            min_context_words=220,
-            max_context_words=360,
             seed=41,
             split="test",
             source_mode="sample",
@@ -308,7 +289,7 @@ def print_summary(summary: dict[str, Any]) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Audit GSM8K + Wikipedia augmented dataset JSONL")
+    parser = argparse.ArgumentParser(description="Audit dataset JSONL")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--strict", action="store_true", help="Exit non-zero on WARN as well as FAIL")

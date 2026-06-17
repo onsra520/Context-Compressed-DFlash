@@ -411,9 +411,9 @@
                 <span class="sv go">✓ Phase 1 MVP: PASS</span>
                 <span class="sv go">✓ T81 Audit: PASS_WITH_NOTES</span>
                 <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv go">✓ T88 Full Rerun: PASS</span>
-                <span class="sv info">→ Current next: Post-rerun analysis and metric interpretation</span>
+                <span class="sv go">✓ T89 Repo Cleanup: PASS</span>
+                <span class="sv info">→ Current next: Task 90 Phase 1 End-to-End Reproduction Rerun</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -422,7 +422,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 88 Controlled n=30 Benchmark Rerun. Current next: Post-rerun analysis and metric interpretation. The n=30 rerun completed flawlessly across all conditions with zero outliers detected in QMSum DFlash-R1, clearing the way for metric finalization.
+                This roadmap is synced through Task 89 Repository Cleanup and Phase Migration. Current next: Task 90 Phase 1 End-to-End Reproduction Rerun to definitively seal Phase 1 before Phase 2.
             </div>
         </header>
 
@@ -490,6 +490,11 @@
                             <td>T82 drafted final report v2 scaffold and claim map. Full prose must be written manually based on strict scaffold constraints.</td>
                         </tr>
                         <tr>
+                            <td><strong>Phase 1 Migration Gate</strong></td>
+                            <td class="go">PASS</td>
+                            <td>T89 cleaned legacy Wikipedia scripts, consolidated fetch scripts, and moved Phase 1 artifacts into phase_1_ directories.</td>
+                        </tr>
+                        <tr>
                             <td><strong>Deployment / 8 GB Gate</strong></td>
                             <td class="neu">NOT CLAIMED</td>
                             <td>No deployment readiness or confirmed 8 GB deployment claim.</td>
@@ -514,8 +519,8 @@
                     <tbody>
                         <tr>
                             <td>Current next</td>
-                            <td class="info">Manual Final Report / T83</td>
-                            <td>Manual final report writing / T83 LaTeX packaging if needed.</td>
+                            <td class="info">Task 90 Phase 1 E2E Rerun</td>
+                            <td>Run the full n=30 pipeline on the cleaned repository structure to definitively seal Phase 1.</td>
                         </tr>
                         <tr>
                             <td>GSM8K evidence</td>
