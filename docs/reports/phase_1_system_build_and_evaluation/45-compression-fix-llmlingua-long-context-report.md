@@ -207,7 +207,7 @@ python3 -m compileall src tests scripts 2>&1 | tail -20
 PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30
 PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "LLMLingua-AR-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 2 --max-new-tokens 128 --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_llmlingua_ar_r2_n2.jsonl
 PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "CC-LLM-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 2 --max-new-tokens 128 --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_cc_llm_r2_n2.jsonl
-wc -l results/task45_compression_fix_*_n2.jsonl
+wc -l results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_*_n2.jsonl
 PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_llmlingua_ar_r2_n2.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_cc_llm_r2_n2.jsonl
 ```
 

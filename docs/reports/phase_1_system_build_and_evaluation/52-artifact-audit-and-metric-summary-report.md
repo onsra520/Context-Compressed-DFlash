@@ -8,9 +8,9 @@ Status: PASS, preliminary smoke-level audit
 
 Task 52 audits and summarizes existing Task 50/51 benchmark smoke artifacts only:
 
-- `results/task50_*_n3.jsonl`
-- `results/task51_*_n3.jsonl`
-- `results/task51_*_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task50_*_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task51_*_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task51_*_n10.jsonl`
 
 No new model, compressor, CUDA, or benchmark run was performed. No result artifact from Task 50 or Task 51 was modified.
 

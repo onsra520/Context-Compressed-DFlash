@@ -49,7 +49,7 @@ Phase 2 should proceed only as a controlled longer-context experiment. It should
 | 21 | `docs/reports/21-cc-llm-r2-r3-smoke-comparison-report.md` | `results/_archives/early_smokes/cc_llm_r2_smoke.jsonl`, `results/_archives/early_smokes/cc_llm_r3_smoke.jsonl` | PASS |
 | 22 | `docs/reports/22-llmlingua-ar-smoke-baseline-report.md` | `results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl`, `results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl` | PASS |
 | 23 | `docs/reports/23-smoke-artifact-contract-audit-report.md` | `scripts/smoke_artifacts.py` | PASS |
-| 24 | `docs/reports/24-small-condition-matrix-report.md` | `results/task24_*_n10.jsonl` | PASS, preliminary |
+| 24 | `docs/reports/24-small-condition-matrix-report.md` | `results/phase_1_system_build_and_evaluation/early_experiments/task24_*_n10.jsonl` | PASS, preliminary |
 | 25 | `docs/reports/25-long-context-fixture-report.md` | `tests/fixtures/long_context_smoke.jsonl` | PASS |
 | 26 | `docs/reports/26-preliminary-speedup-breakeven-analysis-report.md` | `scripts/phase_1_system_build_and_evaluation/analysis/t24_matrix.py` | PASS, preliminary |
 

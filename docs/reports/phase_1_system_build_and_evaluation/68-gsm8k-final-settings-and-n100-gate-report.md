@@ -88,7 +88,7 @@ If Task 69 is accepted, the matrix should include:
 - LLMLingua-AR-R2
 - CC-DFlash-R2
 
-Use `--resume`, `--store-generated-text`, unique `results/task69_*` output paths, and no `--overwrite`.
+Use `--resume`, `--store-generated-text`, unique `results/phase_1_system_build_and_evaluation/early_experiments/task69_*` output paths, and no `--overwrite`.
 
 ## Conservative Interpretation
 

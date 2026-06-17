@@ -20,7 +20,7 @@ Task 65 was already committed before this task:
 
 ## Preflight Resource Snapshot
 
-Preflight was saved to `results/task66_mnt384_rerun_preflight.txt`.
+Preflight was saved to `results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_preflight.txt`.
 
 | Check | Observed |
 |---|---|

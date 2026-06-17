@@ -199,7 +199,7 @@ Benchmark interpretation:
 - Task 75 replaced the terse QMSum 1-3 sentence suffix with a balanced 3-6 sentence protected suffix and ran compressed-only n=30 calibration at `max_new_tokens=384`. Cap hits stayed at zero and lexical overlap improved versus the terse policy, but most rows remained too short or unsupported by the current proxy. Do not run QMSum n=100 yet; run another bounded QMSum policy/proxy follow-up.
 - If compressed GSM8K rows still do not emit `Final answer:` markers or keep hitting the token cap, inspect compressed prompt/context previews and prompt-tail evidence before increasing sample size.
 - Run tiny dry-run/smoke execution on both datasets before any full n=100 benchmark.
-- For benchmark smoke runs, use unique `results/taskNN_*` output filenames, prefer `--resume`, avoid `--overwrite`, and store generated text when quality/audit work will follow.
+- For benchmark smoke runs, use unique `results/phase_1_system_build_and_evaluation/early_experiments/taskNN_*` output filenames, prefer `--resume`, avoid `--overwrite`, and store generated text when quality/audit work will follow.
 - Run the lighter dataset/condition sequence first, then expand only after stable completion; long-context DFlash/CC-DFlash paths may be deferred if runtime or VRAM risk is high.
 - After any staged benchmark expansion, audit the new JSONL artifacts and summarize metrics before launching another larger benchmark run.
 

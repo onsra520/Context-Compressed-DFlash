@@ -92,7 +92,7 @@ Run a fresh QMSum n=30 diagnostic before any larger long-context run:
 - Dataset: `qmsum_meeting_qa_long`
 - Conditions: Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-DFlash-R2
 - Use `--resume`
-- Use unique `results/task71_*` artifact names
+- Use unique `results/phase_1_system_build_and_evaluation/early_experiments/task71_*` artifact names
 - Store generated text
 - Use a larger long-answer output cap than 32, for example `--max-new-tokens 384`, unless Task 71 explicitly recalibrates another cap
 

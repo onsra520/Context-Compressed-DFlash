@@ -114,7 +114,7 @@ This does not justify final claims. The next n=100 run, if accepted, should rema
 
 Recommended next task:
 
-- Task 70: bounded GSM8K n=100 full matrix using frozen quality-oriented setting (`max_new_tokens=384`, `seed=42`, `--resume`, `--store-generated-text`, unique `results/task70_*` artifacts).
+- Task 70: bounded GSM8K n=100 full matrix using frozen quality-oriented setting (`max_new_tokens=384`, `seed=42`, `--resume`, `--store-generated-text`, unique `results/phase_1_system_build_and_evaluation/early_experiments/task70_*` artifacts).
 
 ## Limitations
 

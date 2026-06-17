@@ -36,7 +36,7 @@ def analyze():
         for condition in conditions:
             # Map condition to filename format
             cond_str = condition.lower().replace('-', '_')
-            filepath = Path(f"results/task87_{dataset}_{cond_str}_n10.jsonl")
+            filepath = Path(f"results/phase_1_system_build_and_evaluation/repair_and_gate/task87_{dataset}_{cond_str}_n10.jsonl")
             if not filepath.exists():
                 logging.error(f"Missing file: {filepath}")
                 failures.append({"dataset": dataset, "condition": condition, "error": "File missing"})

@@ -13,7 +13,7 @@ run_bench() {
     cond_slug=$3
     extra_flags=$4
 
-    output_file="results/task88_${dataset}_${cond_slug}_n30.jsonl"
+    output_file="results/phase_1_system_build_and_evaluation/final_reruns/task88_${dataset}_${cond_slug}_n30.jsonl"
     echo "Running ${dataset} - ${condition}"
     
     $BASE_CMD --dataset "$dataset" --condition "$condition" --output "$output_file" $extra_flags

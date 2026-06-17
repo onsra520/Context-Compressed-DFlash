@@ -8,7 +8,7 @@ Status: PASS, preliminary smoke only
 
 Task 50 ran a tiny real benchmark smoke on the post-Task-48 two-dataset setup to verify that the frozen Task 49 matrix can execute beyond prompt dry-run. This was intentionally not a full benchmark.
 
-No full `n=100` run was performed. All real runs used `n=3`, `seed=42`, unique `results/task50_*` output filenames, `--resume`, and `--store-generated-text`.
+No full `n=100` run was performed. All real runs used `n=3`, `seed=42`, unique `results/phase_1_system_build_and_evaluation/early_experiments/task50_*` output filenames, `--resume`, and `--store-generated-text`.
 
 ## Task 49 Commit
 

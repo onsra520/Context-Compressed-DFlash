@@ -257,7 +257,7 @@ PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30
 PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "LLMLingua-AR-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_llmlingua_ar_r2_n3.log
 PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "CC-LLM-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_cc_llm_r2_n3.log
 grep -RIn "sequence length is longer\|Traceback\|RuntimeError\|IndexError" logs/task45_compression_fix_v2_*_n3.log || true
-wc -l results/task45_compression_fix_v2_*_n3.jsonl
+wc -l results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_*_n3.jsonl
 PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl
 ```
 

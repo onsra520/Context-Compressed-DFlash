@@ -11,7 +11,7 @@ Task 51 expanded the Task 50 tiny two-dataset smoke in two stages:
 - Stage A completed the deferred QMSum DFlash paths at `n=3`.
 - Stage B ran the frozen two-dataset matrix at `n=10`.
 
-All real runs used unique `results/task51_*` output paths, `--resume`, and `--store-generated-text`. No `--overwrite` flag was used. No `n=100` run was performed.
+All real runs used unique `results/phase_1_system_build_and_evaluation/early_experiments/task51_*` output paths, `--resume`, and `--store-generated-text`. No `--overwrite` flag was used. No `n=100` run was performed.
 
 This is not a final benchmark and does not support final speedup, final correctness, deployment readiness, confirmed 8 GB deployment, or proven end-to-end compression benefit.
 

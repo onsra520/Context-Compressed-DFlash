@@ -23,7 +23,7 @@ Task 80 was already committed before Task 80A work began:
 
 ## Commands
 
-All real run commands used `--resume`, unique `results/task80a_*` output paths, and `--store-generated-text`. Full command strings are recorded in:
+All real run commands used `--resume`, unique `results/phase_1_system_build_and_evaluation/early_experiments/task80a_*` output paths, and `--store-generated-text`. Full command strings are recorded in:
 
 - `results/phase_1_system_build_and_evaluation/early_experiments/task80a_run_manifest.json`
 
