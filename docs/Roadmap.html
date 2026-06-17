@@ -1262,10 +1262,16 @@
                             <td class="go">PASS_WITH_FIXES</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum inprog">T90</span></td>
+                            <td><span class="tnum blocked">T90</span></td>
                             <td>Phase 1 End-to-End Reproduction Rerun</td>
                             <td>Run canonical fetch → processed → eval n=100 pipeline and n=3 matrix rerun to validate post-cleanup reproducibility. Does not replace Task88 n=30 metrics.</td>
-                            <td class="info">NEXT</td>
+                            <td class="nogo">BLOCKED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T90A</span></td>
+                            <td>QMSum DFlash-R1 Segfault Isolation Gate</td>
+                            <td>Diagnose Task90 QMSum DFlash-R1 segmentation fault with isolated and sequence-sensitive targeted runs.</td>
+                            <td class="go">PASS_WITH_NOTES</td>
                         </tr>
                         <tr class="phase-row"><td colspan="4">PHASE 2 — SYSTEM OPTIMIZATION (T91+)</td></tr>
                         <tr>

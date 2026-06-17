@@ -1,0 +1,77 @@
+{
+  "conclusion": "PASSES_SEQUENCE_CHECK",
+  "experiments": [
+    {
+      "experiment_name": "task90a_qmsum_dflash_r1_isolated_n1",
+      "output_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_qmsum_dflash_r1_isolated_n1.jsonl",
+      "log_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_qmsum_dflash_r1_isolated_n1.log",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "row_count": 1,
+      "malformed_jsonl_count": 0,
+      "empty_output_count": 0,
+      "crash_detected": false,
+      "segfault_detected": false
+    },
+    {
+      "experiment_name": "task90a_qmsum_dflash_r1_isolated_n3",
+      "output_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_qmsum_dflash_r1_isolated_n3.jsonl",
+      "log_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_qmsum_dflash_r1_isolated_n3.log",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "row_count": 3,
+      "malformed_jsonl_count": 0,
+      "empty_output_count": 0,
+      "crash_detected": false,
+      "segfault_detected": false
+    },
+    {
+      "experiment_name": "task90a_sequence_1_gsm8k_baseline_n1",
+      "output_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_sequence_1_gsm8k_baseline_n1.jsonl",
+      "log_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_sequence_1_gsm8k_baseline_n1.log",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "row_count": 1,
+      "malformed_jsonl_count": 0,
+      "empty_output_count": 0,
+      "crash_detected": false,
+      "segfault_detected": false
+    },
+    {
+      "experiment_name": "task90a_sequence_2_gsm8k_dflash_n1",
+      "output_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_sequence_2_gsm8k_dflash_n1.jsonl",
+      "log_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_sequence_2_gsm8k_dflash_n1.log",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "row_count": 1,
+      "malformed_jsonl_count": 0,
+      "empty_output_count": 0,
+      "crash_detected": false,
+      "segfault_detected": false
+    },
+    {
+      "experiment_name": "task90a_sequence_3_qmsum_baseline_n1",
+      "output_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_sequence_3_qmsum_baseline_n1.jsonl",
+      "log_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_sequence_3_qmsum_baseline_n1.log",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "row_count": 1,
+      "malformed_jsonl_count": 0,
+      "empty_output_count": 0,
+      "crash_detected": false,
+      "segfault_detected": false
+    },
+    {
+      "experiment_name": "task90a_sequence_4_qmsum_dflash_n1",
+      "output_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_sequence_4_qmsum_dflash_n1.jsonl",
+      "log_path": "results/phase_1_system_build_and_evaluation/repair_and_gate/task90a_sequence_4_qmsum_dflash_n1.log",
+      "exit_code": 0,
+      "artifact_exists": true,
+      "row_count": 1,
+      "malformed_jsonl_count": 0,
+      "empty_output_count": 0,
+      "crash_detected": false,
+      "segfault_detected": false
+    }
+  ]
+}
