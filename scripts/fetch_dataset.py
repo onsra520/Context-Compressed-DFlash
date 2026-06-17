@@ -33,7 +33,6 @@ QMSUM_URLS = {
     "test": "https://raw.githubusercontent.com/Yale-LILY/QMSum/master/data/ALL/jsonl/test.jsonl",
 }
 
-
 def download_gsm8k_source(split: str, output_path: Path) -> list[dict]:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     url = GSM8K_SPLITS[split]
@@ -58,23 +57,16 @@ def fetch_qmsum_split(split: str) -> list[dict[str, Any]]:
         text = response.read().decode("utf-8")
     return [json.loads(line) for line in text.splitlines() if line.strip()]
 
-
-def build_gsm8k_short_rows(
+def process_gsm8k_rows(
     *,
     source_rows: list[dict],
-    max_samples: int,
-    seed: int,
     split: str,
     source_path: Path,
 ) -> list[dict]:
     if not source_rows:
         raise ValueError("no GSM8K rows provided")
-    if max_samples <= 0:
-        raise ValueError("max_samples must be positive")
-    rng = random.Random(seed)
-    selected = rng.sample(source_rows, min(max_samples, len(source_rows)))
     rows = []
-    for index, row in enumerate(selected, start=1):
+    for index, row in enumerate(source_rows, start=1):
         question = str(row["question"]).strip()
         answer = str(row["answer"]).strip()
         expected_answer = final_gsm8k_answer(answer)
@@ -86,7 +78,7 @@ def build_gsm8k_short_rows(
         )
         rows.append(
             {
-                "id": f"gsm8k_short_{split}_{index:04d}",
+                "id": f"gsm8k_short_{split}_{index:06d}",
                 "dataset_name": "gsm8k_short",
                 "source": "gsm8k",
                 "source_mode": "local_jsonl",
@@ -141,11 +133,9 @@ def _transcript(meeting: dict[str, Any]) -> str:
     return format_transcript(meeting.get("meeting_transcripts", []))
 
 
-def build_qmsum_eval_rows(
+def process_qmsum_rows(
     *,
     meetings: list[dict[str, Any]],
-    max_samples: int,
-    seed: int,
     min_context_words: int,
     max_context_words: int,
     split_label: str,
@@ -165,10 +155,9 @@ def build_qmsum_eval_rows(
             candidates.append((meeting_index, qa_index, context, question, answer, meeting))
     if not candidates:
         raise ValueError("no QMSum meeting QA rows survived filtering")
-    rng = random.Random(seed)
-    selected = rng.sample(candidates, min(max_samples, len(candidates)))
+    
     rows = []
-    for index, (meeting_index, qa_index, context, question, answer, meeting) in enumerate(selected, start=1):
+    for index, (meeting_index, qa_index, context, question, answer, meeting) in enumerate(candidates, start=1):
         prompt = (
             "Meeting transcript:\n"
             f"{context}\n\n"
@@ -177,7 +166,7 @@ def build_qmsum_eval_rows(
         )
         rows.append(
             {
-                "id": f"qmsum_meeting_qa_{split_label}_{index:04d}",
+                "id": f"qmsum_meeting_qa_{split_label}_{index:06d}",
                 "dataset_name": "qmsum_meeting_qa_long",
                 "source": "qmsum",
                 "source_mode": "download_or_local_jsonl",
@@ -203,67 +192,122 @@ def build_qmsum_eval_rows(
         )
     return rows
 
+def build_eval_rows(processed_rows: list[dict], max_samples: int, seed: int, id_prefix: str) -> list[dict]:
+    rng = random.Random(seed)
+    selected = rng.sample(processed_rows, min(max_samples, len(processed_rows)))
+    for index, row in enumerate(selected, start=1):
+        row["id"] = f"{id_prefix}_{index:04d}"
+    return selected
 
 def handle_gsm8k(args):
-    source_path = Path("data/raw/gsm8k_source.jsonl")
-    if not source_path.exists():
-        source_rows = download_gsm8k_source("test", source_path)
-    else:
-        source_rows = read_jsonl(source_path)
+    raw_path = Path("data/raw/gsm8k_source.jsonl")
+    processed_path = Path("data/processed/gsm8k_processed.jsonl")
+    eval_path = Path(args.output) if args.output else Path("data/eval/gsm8k_100.jsonl")
 
-    rows = build_gsm8k_short_rows(
-        source_rows=source_rows,
-        max_samples=args.max_samples,
-        seed=args.seed,
-        split="test",
-        source_path=source_path,
-    )
+    if args.stage in ("raw", "all"):
+        if not raw_path.exists():
+            download_gsm8k_source("test", raw_path)
+        else:
+            print(f"Raw cache already exists at {raw_path}")
     
-    output = Path(args.output) if args.output else Path("data/eval/gsm8k_100.jsonl")
-    write_jsonl(rows, output)
-    print(f"wrote {len(rows)} rows to {output}")
+    if args.stage in ("processed", "all"):
+        if not raw_path.exists():
+            download_gsm8k_source("test", raw_path)
+        source_rows = read_jsonl(raw_path)
+        processed_path.parent.mkdir(parents=True, exist_ok=True)
+        processed_rows = process_gsm8k_rows(
+            source_rows=source_rows,
+            split="test",
+            source_path=raw_path,
+        )
+        write_jsonl(processed_rows, processed_path)
+        print(f"Wrote {len(processed_rows)} processed rows to {processed_path}")
 
+    if args.stage in ("eval", "all"):
+        if not processed_path.exists():
+            raise FileNotFoundError(f"Processed file {processed_path} missing. Run --stage processed first.")
+        processed_rows = read_jsonl(processed_path)
+        eval_path.parent.mkdir(parents=True, exist_ok=True)
+        eval_rows = build_eval_rows(processed_rows, args.max_samples, args.seed, "gsm8k_short_test")
+        write_jsonl(eval_rows, eval_path)
+        print(f"Wrote {len(eval_rows)} eval rows to {eval_path}")
 
 def handle_qmsum(args):
-    meetings = []
-    splits = ["test"]
-    for split in splits:
-        fetched = fetch_qmsum_split(split)
-        for meeting in fetched:
-            meeting.setdefault("split", split)
-        meetings.extend(fetched)
-    split_label = "-".join(splits)
-    source_label = "QMSum GitHub"
+    raw_path = Path("data/raw/qmsum_meeting_qa_source.jsonl")
+    processed_path = Path("data/processed/qmsum_meeting_qa_processed.jsonl")
+    eval_path = Path(args.output) if args.output else Path("data/eval/qmsum_meeting_qa_100.jsonl")
 
-    rows = build_qmsum_eval_rows(
-        meetings=meetings,
-        max_samples=args.max_samples,
-        seed=args.seed,
-        min_context_words=500,
-        max_context_words=1500,
-        split_label=split_label,
-        source_label=source_label,
-    )
-    
-    output = Path(args.output) if args.output else Path("data/eval/qmsum_meeting_qa_100.jsonl")
-    write_jsonl(rows, output)
-    print(f"wrote {len(rows)} rows to {output}")
+    if args.stage in ("raw", "all"):
+        if not raw_path.exists():
+            meetings = []
+            splits = ["test"]
+            for split in splits:
+                fetched = fetch_qmsum_split(split)
+                for meeting in fetched:
+                    meeting.setdefault("split", split)
+                meetings.extend(fetched)
+            raw_path.parent.mkdir(parents=True, exist_ok=True)
+            write_jsonl(meetings, raw_path)
+            print(f"Wrote {len(meetings)} raw meetings to {raw_path}")
+        else:
+            print(f"Raw cache already exists at {raw_path}")
+            
+    if args.stage in ("processed", "all"):
+        if not raw_path.exists():
+            raise FileNotFoundError(f"Raw file {raw_path} missing. Run --stage raw first.")
+        meetings = read_jsonl(raw_path)
+        processed_path.parent.mkdir(parents=True, exist_ok=True)
+        processed_rows = process_qmsum_rows(
+            meetings=meetings,
+            min_context_words=500,
+            max_context_words=1500,
+            split_label="test",
+            source_label="QMSum GitHub",
+        )
+        write_jsonl(processed_rows, processed_path)
+        print(f"Wrote {len(processed_rows)} processed rows to {processed_path}")
 
+    if args.stage in ("eval", "all"):
+        if not processed_path.exists():
+            raise FileNotFoundError(f"Processed file {processed_path} missing. Run --stage processed first.")
+        processed_rows = read_jsonl(processed_path)
+        eval_path.parent.mkdir(parents=True, exist_ok=True)
+        eval_rows = build_eval_rows(processed_rows, args.max_samples, args.seed, "qmsum_meeting_qa_test")
+        write_jsonl(eval_rows, eval_path)
+        print(f"Wrote {len(eval_rows)} eval rows to {eval_path}")
+
+def build_gsm8k_short_rows(source_rows, max_samples, seed, split, source_path):
+    """Backwards compatibility for tests."""
+    processed = process_gsm8k_rows(source_rows=source_rows, split=split, source_path=source_path)
+    return build_eval_rows(processed, max_samples, seed, f"gsm8k_short_{split}")
+
+def build_qmsum_eval_rows(meetings, max_samples, seed, min_context_words, max_context_words, split_label, source_label):
+    """Backwards compatibility for tests."""
+    processed = process_qmsum_rows(meetings=meetings, min_context_words=min_context_words, max_context_words=max_context_words, split_label=split_label, source_label=source_label)
+    return build_eval_rows(processed, max_samples, seed, f"qmsum_meeting_qa_{split_label}")
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Fetch and format CC-DFlash evaluation datasets")
-    parser.add_argument("--dataset", required=True, choices=["gsm8k_eval", "qmsum_eval", "all_active"], help="Dataset to fetch")
+    parser.add_argument("--dataset", required=True, choices=["gsm8k", "qmsum", "all_active", "gsm8k_eval", "qmsum_eval"], help="Dataset to fetch")
+    parser.add_argument("--stage", choices=["raw", "processed", "eval", "all"], default="all", help="Lifecycle stage")
     parser.add_argument("--output", type=str, default="")
     parser.add_argument("--max-samples", type=int, default=100)
     parser.add_argument("--seed", type=int, default=42)
 
     args = parser.parse_args()
 
-    if args.dataset in ("gsm8k_eval", "all_active"):
-        handle_gsm8k(args)
-    if args.dataset in ("qmsum_eval", "all_active"):
-        handle_qmsum(args)
+    # Handle aliases
+    if args.dataset == "gsm8k_eval":
+        args.dataset = "gsm8k"
+        args.stage = "eval"
+    if args.dataset == "qmsum_eval":
+        args.dataset = "qmsum"
+        args.stage = "eval"
 
+    if args.dataset in ("gsm8k", "all_active"):
+        handle_gsm8k(args)
+    if args.dataset in ("qmsum", "all_active"):
+        handle_qmsum(args)
 
 if __name__ == "__main__":
     main()

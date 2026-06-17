@@ -1,18 +1,22 @@
 # Data Layout
 
-## Active benchmark data
+## raw
 
-`data/eval/` contains the active Phase 1/Phase 2 benchmark datasets:
+Fetched/source/cache data.
 
-- `gsm8k_100.jsonl`
-- `qmsum_meeting_qa_100.jsonl`
+## processed
 
-## Source cache
+Lightly processed and normalized data generated from raw sources.
 
-`data/raw/` contains source/cache files required by active dataset fetch/build commands.
+## eval
 
-- `gsm8k_source.jsonl` is retained only if required by `scripts/fetch_dataset.py`.
+Fixed n=100 benchmark datasets used by `scripts/run_mvp.py`.
 
-## Deprecated data branch
+## Active datasets
 
-The earlier GSM8K+Wikipedia augmented branch has been deprecated and removed from the active path. Active evaluation now uses GSM8K short-context numeric proxy and QMSum long-context diagnostic benchmark.
+- GSM8K short-context numeric proxy
+- QMSum meeting QA long-context diagnostic benchmark
+
+## Deprecated branch
+
+GSM8K+Wikipedia augmented has been deprecated and removed from the active path.
