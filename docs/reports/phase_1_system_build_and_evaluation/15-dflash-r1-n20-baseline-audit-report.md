@@ -8,7 +8,7 @@ The artifact is valid and good enough to close the Week-1 baseline path. It shou
 
 ## Artifact
 
-- Path: `results/dflash_r1_n20.jsonl`
+- Path: `results/_archives/early_smokes/dflash_r1_n20.jsonl`
 - Rows: 20
 - Condition: `DFlash-R1`
 - Backend: `torch.sdpa` fallback because `flash_attn` is not installed
@@ -51,7 +51,7 @@ Required fields checked:
 
 ## Recomputed Summary Metrics
 
-Computed from `results/dflash_r1_n20.jsonl`, not copied from the previous report.
+Computed from `results/_archives/early_smokes/dflash_r1_n20.jsonl`, not copied from the previous report.
 
 - average tok/s: 17.38
 - median tok/s: 13.52

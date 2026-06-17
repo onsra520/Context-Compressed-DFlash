@@ -14,20 +14,20 @@ The rerun was executed strictly under the `task86_rerun_gate_manifest.json` para
 
 ## 3. Artifact List
 **Generated Execution Outputs:**
-- `results/task87_gsm8k_short_baseline_ar_n10.jsonl`
-- `results/task87_gsm8k_short_dflash_r1_n10.jsonl`
-- `results/task87_gsm8k_short_llmlingua_ar_r2_n10.jsonl`
-- `results/task87_gsm8k_short_cc_dflash_r2_n10.jsonl`
-- `results/task87_qmsum_meeting_qa_long_baseline_ar_n10.jsonl`
-- `results/task87_qmsum_meeting_qa_long_dflash_r1_n10.jsonl`
-- `results/task87_qmsum_meeting_qa_long_llmlingua_ar_r2_n10.jsonl`
-- `results/task87_qmsum_meeting_qa_long_cc_dflash_r2_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_gsm8k_short_baseline_ar_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_gsm8k_short_dflash_r1_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_gsm8k_short_llmlingua_ar_r2_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_gsm8k_short_cc_dflash_r2_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_qmsum_meeting_qa_long_baseline_ar_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_qmsum_meeting_qa_long_dflash_r1_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_qmsum_meeting_qa_long_llmlingua_ar_r2_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_qmsum_meeting_qa_long_cc_dflash_r2_n10.jsonl`
 
 **Analysis Artifacts:**
 - `scripts/phase_1_system_build_and_evaluation/analysis/t87_n10_gate.py`
-- `results/task87_n10_gate_summary.json`
-- `results/task87_n10_gate_table.csv`
-- `results/task87_qmsum_dflash_r1_latency_inspection.json`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_n10_gate_summary.json`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_n10_gate_table.csv`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task87_qmsum_dflash_r1_latency_inspection.json`
 - `docs/reports/87-controlled-n10-benchmark-rerun-gate-report.md`
 
 ## 4. GSM8K n=10 Result

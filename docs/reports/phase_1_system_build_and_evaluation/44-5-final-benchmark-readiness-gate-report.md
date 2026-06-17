@@ -28,7 +28,7 @@ No benchmark was run, no model was loaded, no compressor was loaded, no CUDA pat
 | Gate | Status | Evidence | Required action |
 | --- | --- | --- | --- |
 | Full source-mode GSM8K + Wikipedia dataset generated | FAIL | `data/processed/gsm8k_wikipedia_augmented_smoke.jsonl` exists with 5 rows; no full source-mode artifact was found in `data/processed/` | Generate full source-mode dataset with Task 41 builder or documented successor |
-| Full source-mode dataset audited | FAIL | `results/task42_dataset_audit_summary.json` and `results/task43_dataset_audit_summary.json` both report `source_modes=["sample"]` and `full_benchmark_dataset_ready=false` | Audit full source-mode dataset and produce a new summary artifact |
+| Full source-mode dataset audited | FAIL | `results/phase_1_system_build_and_evaluation/early_experiments/task42_dataset_audit_summary.json` and `results/phase_1_system_build_and_evaluation/early_experiments/task43_dataset_audit_summary.json` both report `source_modes=["sample"]` and `full_benchmark_dataset_ready=false` | Audit full source-mode dataset and produce a new summary artifact |
 | Answer extraction tests passing | PASS | Focused pytest command passed: 6 tests | Keep in Task 45 validation |
 | Artifact schema audit passing against frozen schema | FAIL | `scripts/smoke_artifacts.py` exists, but it enforces the older smoke contract, not the frozen Task 44 nullable-field schema | Add a frozen-schema artifact audit before Task 45 |
 | `max_new_tokens` policy available in runner | PASS | `scripts/run_mvp.py` supports `--max-new-tokens`; focused test verifies default clamp plus override to 128 | Use `--max-new-tokens >= 128` for long-context benchmark runs |

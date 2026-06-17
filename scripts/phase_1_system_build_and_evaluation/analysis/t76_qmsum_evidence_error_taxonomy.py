@@ -17,10 +17,10 @@ if str(ROOT) not in sys.path:
 from scripts.phase_1_system_build_and_evaluation.analysis.t70_qmsum_diagnostic_audit import load_jsonl
 from scripts.phase_1_system_build_and_evaluation.analysis.t74_qmsum_proxy_case_triage import lexical_diagnostics
 
-DEFAULT_CASE_INPUT = Path("results/task75_qmsum_balanced_policy_cases.jsonl")
-DEFAULT_SUMMARY_OUTPUT = Path("results/task76_qmsum_evidence_error_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task76_qmsum_evidence_error_table.csv")
-DEFAULT_CASES_OUTPUT = Path("results/task76_qmsum_evidence_error_cases.jsonl")
+DEFAULT_CASE_INPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_cases.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_table.csv")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_cases.jsonl")
 
 STOPWORDS = {
     "about",

@@ -9,8 +9,8 @@ This is a smoke-only comparison against the existing DFlash-R1 control artifact.
 ## Exact Commands Run
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 3 --output results/cc_llm_r2_smoke.jsonl
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R3 --n 3 --output results/cc_llm_r3_smoke.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 3 --output results/_archives/early_smokes/cc_llm_r2_smoke.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R3 --n 3 --output results/_archives/early_smokes/cc_llm_r3_smoke.jsonl
 ```
 
 Verification commands:
@@ -20,16 +20,16 @@ python3 -m compileall src tests scripts
 PYTHONPATH=src .venv/bin/python -m pytest tests/test_compression.py -q
 PYTHONPATH=src .venv/bin/python scripts/synthetic_probe.py --config config.yml --dry-run
 PYTHONPATH=src .venv/bin/python -m pytest tests/test_dflash_core.py -q
-wc -l results/cc_llm_r2_smoke.jsonl results/cc_llm_r3_smoke.jsonl
-head -n 2 results/cc_llm_r2_smoke.jsonl
-head -n 2 results/cc_llm_r3_smoke.jsonl
+wc -l results/_archives/early_smokes/cc_llm_r2_smoke.jsonl results/_archives/early_smokes/cc_llm_r3_smoke.jsonl
+head -n 2 results/_archives/early_smokes/cc_llm_r2_smoke.jsonl
+head -n 2 results/_archives/early_smokes/cc_llm_r3_smoke.jsonl
 ```
 
 ## Artifact Paths
 
-- `results/cc_llm_r2_smoke.jsonl`
-- `results/cc_llm_r3_smoke.jsonl`
-- control: `results/dflash_r1_n20.jsonl`
+- `results/_archives/early_smokes/cc_llm_r2_smoke.jsonl`
+- `results/_archives/early_smokes/cc_llm_r3_smoke.jsonl`
+- control: `results/_archives/early_smokes/dflash_r1_n20.jsonl`
 
 ## Schema Status
 
@@ -47,8 +47,8 @@ Both CC-LLM artifacts use the DFlash-R1 JSONL schema plus compression fields:
 
 Validation result:
 
-- `results/cc_llm_r2_smoke.jsonl`: 3 rows
-- `results/cc_llm_r3_smoke.jsonl`: 3 rows
+- `results/_archives/early_smokes/cc_llm_r2_smoke.jsonl`: 3 rows
+- `results/_archives/early_smokes/cc_llm_r3_smoke.jsonl`: 3 rows
 - every row has the requested condition
 - every row has `question_preserved == true`
 - every row has `R_actual >= 1.0`
@@ -75,7 +75,7 @@ The smoke path keeps the fixed prompt text as the protected question, compresses
 
 ## Smoke-Only Comparison To DFlash-R1 Control
 
-The DFlash-R1 control artifact remains `results/dflash_r1_n20.jsonl`.
+The DFlash-R1 control artifact remains `results/_archives/early_smokes/dflash_r1_n20.jsonl`.
 
 Known control summary from the audited n=20 artifact:
 
@@ -106,7 +106,7 @@ Confirmed unchanged.
 
 - no DFlash generation logic was modified
 - no DFlash-R1 baseline behavior was modified
-- `results/dflash_r1_n20.jsonl` remains the control artifact
+- `results/_archives/early_smokes/dflash_r1_n20.jsonl` remains the control artifact
 
 ## Next Step
 

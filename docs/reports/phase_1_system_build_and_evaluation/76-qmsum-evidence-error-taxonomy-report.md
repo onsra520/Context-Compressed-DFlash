@@ -30,13 +30,13 @@ However, Task 75 did not solve QMSum quality under lexical proxy diagnostics. It
 
 | Input | Row count / status |
 | --- | ---: |
-| `results/task75_qmsum_balanced_policy_cases.jsonl` | 60 rows |
-| `results/task75_qmsum_balanced_policy_summary.json` | present |
-| `results/task75_qmsum_balanced_policy_table.csv` | present |
-| `results/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl` | 30 rows |
-| `results/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl` | 30 rows |
-| `results/task73_qmsum_concise_policy_cases.jsonl` | 91 rows |
-| `results/task71_qmsum_n30_failure_samples.jsonl` | 86 rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_cases.jsonl` | 60 rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_summary.json` | present |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_table.csv` | present |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl` | 30 rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl` | 30 rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_concise_policy_cases.jsonl` | 91 rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_failure_samples.jsonl` | 86 rows |
 | `docs/reports/75-qmsum-balanced-policy-report.md` | present |
 
 Primary taxonomy input was the 60-row Task 75 case file.
@@ -45,9 +45,9 @@ Primary taxonomy input was the 60-row Task 75 case file.
 
 | Output | Row count / scope |
 | --- | ---: |
-| `results/task76_qmsum_evidence_error_summary.json` | 60 rows summarized |
-| `results/task76_qmsum_evidence_error_table.csv` | 2 condition rows |
-| `results/task76_qmsum_evidence_error_cases.jsonl` | 60 labeled cases |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_summary.json` | 60 rows summarized |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_table.csv` | 2 condition rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_cases.jsonl` | 60 labeled cases |
 
 ## Old Task 75 Labels
 

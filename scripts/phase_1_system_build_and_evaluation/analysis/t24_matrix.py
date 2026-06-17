@@ -8,11 +8,11 @@ from typing import Any
 
 
 TASK24_ARTIFACTS = {
-    "DFlash-R1": Path("results/task24_dflash_r1_n10.jsonl"),
-    "CC-LLM-R2": Path("results/task24_cc_llm_r2_n10.jsonl"),
-    "CC-LLM-R3": Path("results/task24_cc_llm_r3_n10.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task24_llmlingua_ar_r2_n10.jsonl"),
-    "LLMLingua-AR-R3": Path("results/task24_llmlingua_ar_r3_n10.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task24_dflash_r1_n10.jsonl"),
+    "CC-LLM-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r2_n10.jsonl"),
+    "CC-LLM-R3": Path("results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r3_n10.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r2_n10.jsonl"),
+    "LLMLingua-AR-R3": Path("results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r3_n10.jsonl"),
 }
 
 LONG_CONTEXT_FIXTURE = Path("tests/fixtures/long_context_smoke.jsonl")

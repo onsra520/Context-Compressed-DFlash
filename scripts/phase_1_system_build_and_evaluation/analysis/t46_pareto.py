@@ -13,9 +13,9 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 
-DEFAULT_AUDIT = Path("results/task45_final_artifact_audit_summary.json")
-DEFAULT_OUTPUT = Path("results/task46_pareto_summary.json")
-DEFAULT_CSV = Path("results/task46_pareto_table.csv")
+DEFAULT_AUDIT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json")
+DEFAULT_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json")
+DEFAULT_CSV = Path("results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_table.csv")
 
 CONDITION_ORDER = ["Baseline-AR", "DFlash-R1", "LLMLingua-AR-R2", "CC-LLM-R2"]
 HIGHER_IS_BETTER = {

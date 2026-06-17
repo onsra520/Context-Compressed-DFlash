@@ -25,18 +25,18 @@ Task 80 was already committed before Task 80A work began:
 
 All real run commands used `--resume`, unique `results/task80a_*` output paths, and `--store-generated-text`. Full command strings are recorded in:
 
-- `results/task80a_run_manifest.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task80a_run_manifest.json`
 
 ## Run Completion
 
 | Dataset | Condition | Artifact | Rows | Status | Notes |
 | --- | --- | --- | ---: | --- | --- |
-| GSM8K | Baseline-AR | `results/task80a_gsm8k_short_baseline_ar_n30_mnt384.jsonl` | 30 | completed | real CUDA target run |
-| GSM8K | DFlash-R1 | `results/task80a_gsm8k_short_dflash_r1_n30_mnt384.jsonl` | 30 | completed | target + draft |
-| GSM8K | LLMLingua-AR-R2 | `results/task80a_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl` | 30 | completed | target + LLMLingua |
-| GSM8K | CC-DFlash-R2 | `results/task80a_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl` | 30 | completed | target + draft + LLMLingua |
-| QMSum | Baseline-AR | `results/task80a_qmsum_long_baseline_ar_n30_mnt384.jsonl` | 30 | completed | real CUDA target run |
-| QMSum | DFlash-R1 | `results/task80a_qmsum_long_dflash_r1_n30_mnt384.jsonl` | 2 | failed_partial | stopped at prompt_id=3 after prolonged no-progress interval with GPU active and near-full VRAM |
+| GSM8K | Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_baseline_ar_n30_mnt384.jsonl` | 30 | completed | real CUDA target run |
+| GSM8K | DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_dflash_r1_n30_mnt384.jsonl` | 30 | completed | target + draft |
+| GSM8K | LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl` | 30 | completed | target + LLMLingua |
+| GSM8K | CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl` | 30 | completed | target + draft + LLMLingua |
+| QMSum | Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_baseline_ar_n30_mnt384.jsonl` | 30 | completed | real CUDA target run |
+| QMSum | DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_dflash_r1_n30_mnt384.jsonl` | 2 | failed_partial | stopped at prompt_id=3 after prolonged no-progress interval with GPU active and near-full VRAM |
 | QMSum | LLMLingua-AR-R2 | not created | 0 | skipped | skipped after QMSum DFlash-R1 safety stop |
 | QMSum | CC-DFlash-R2 | not created | 0 | skipped | skipped after QMSum DFlash-R1 safety stop |
 
@@ -76,7 +76,7 @@ QMSum interpretation:
 
 Machine-readable delta table:
 
-- `results/task80a_condition_delta_vs_task80.csv`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task80a_condition_delta_vs_task80.csv`
 
 Summary:
 
@@ -125,10 +125,10 @@ Validation commands run:
 | --- | --- |
 | `python3 -m compileall src tests scripts 2>&1 | tail -20` | PASS |
 | `PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30` | PASS, 167 tests passed, 2 warnings |
-| `python3 -m json.tool results/task80a_final_two_dataset_rerun_summary.json >/dev/null` | PASS |
-| `python3 -m json.tool results/task80a_run_manifest.json >/dev/null` | PASS |
-| `wc -l results/task80a_final_two_dataset_rerun_table.csv` | 9 lines |
-| `wc -l results/task80a_condition_delta_vs_task80.csv` | 61 lines |
+| `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_summary.json >/dev/null` | PASS |
+| `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task80a_run_manifest.json >/dev/null` | PASS |
+| `wc -l results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_table.csv` | 9 lines |
+| `wc -l results/phase_1_system_build_and_evaluation/early_experiments/task80a_condition_delta_vs_task80.csv` | 61 lines |
 | Task80A GSM8K JSONL row counts | 4 files, 30 rows each |
 | Task80A QMSum JSONL row counts | Baseline-AR 30 rows, DFlash-R1 2 rows |
 | Markdown fence balance for this report | PASS |

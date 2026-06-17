@@ -12,35 +12,35 @@ Task 70 performed a read-only diagnostic audit of existing QMSum-style long-cont
 
 Inputs inspected:
 
-- `results/task50_qmsum_long_baseline_ar_n3.jsonl`
-- `results/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl`
-- `results/task51_qmsum_long_baseline_ar_n10.jsonl`
-- `results/task51_qmsum_long_dflash_r1_n10.jsonl`
-- `results/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl`
-- `results/task51_qmsum_long_cc_dflash_r2_n10.jsonl`
-- `results/task51_qmsum_long_dflash_r1_n3.jsonl`
-- `results/task51_qmsum_long_cc_dflash_r2_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_baseline_ar_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_baseline_ar_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_dflash_r1_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_cc_dflash_r2_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_dflash_r1_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_cc_dflash_r2_n3.jsonl`
 
 New audit outputs:
 
 - `scripts/phase_1_system_build_and_evaluation/analysis/t70_qmsum_diagnostic_audit.py`
 - `tests/test_task70_qmsum_diagnostic_audit.py`
-- `results/task70_qmsum_diagnostic_summary.json`
-- `results/task70_qmsum_diagnostic_table.csv`
-- `results/task70_qmsum_failure_samples.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_diagnostic_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_diagnostic_table.csv`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_failure_samples.jsonl`
 
 ## Artifact Inventory
 
 | Artifact | Rows | Condition | max_new_tokens | generated_text |
 |---|---:|---|---:|---:|
-| `results/task50_qmsum_long_baseline_ar_n3.jsonl` | 3 | Baseline-AR | 32 | 3/3 |
-| `results/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl` | 3 | LLMLingua-AR-R2 | 32 | 3/3 |
-| `results/task51_qmsum_long_baseline_ar_n10.jsonl` | 10 | Baseline-AR | 32 | 10/10 |
-| `results/task51_qmsum_long_dflash_r1_n10.jsonl` | 10 | DFlash-R1 | 32 | 10/10 |
-| `results/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl` | 10 | LLMLingua-AR-R2 | 32 | 10/10 |
-| `results/task51_qmsum_long_cc_dflash_r2_n10.jsonl` | 10 | CC-DFlash-R2 | 32 | 10/10 |
-| `results/task51_qmsum_long_dflash_r1_n3.jsonl` | 3 | DFlash-R1 | 32 | 3/3 |
-| `results/task51_qmsum_long_cc_dflash_r2_n3.jsonl` | 3 | CC-DFlash-R2 | 32 | 3/3 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_baseline_ar_n3.jsonl` | 3 | Baseline-AR | 32 | 3/3 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl` | 3 | LLMLingua-AR-R2 | 32 | 3/3 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_baseline_ar_n10.jsonl` | 10 | Baseline-AR | 32 | 10/10 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_dflash_r1_n10.jsonl` | 10 | DFlash-R1 | 32 | 10/10 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl` | 10 | LLMLingua-AR-R2 | 32 | 10/10 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_cc_dflash_r2_n10.jsonl` | 10 | CC-DFlash-R2 | 32 | 10/10 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_dflash_r1_n3.jsonl` | 3 | DFlash-R1 | 32 | 3/3 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_cc_dflash_r2_n3.jsonl` | 3 | CC-DFlash-R2 | 32 | 3/3 |
 
 ## Sufficiency Decision
 

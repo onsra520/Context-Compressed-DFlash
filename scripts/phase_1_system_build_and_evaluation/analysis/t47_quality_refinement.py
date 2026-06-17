@@ -18,13 +18,13 @@ if str(ROOT) not in sys.path:
 from scripts.phase_1_system_build_and_evaluation.probes.t29_answers import normalize_text
 
 
-DEFAULT_AUDIT = Path("results/task45_final_artifact_audit_summary.json")
-DEFAULT_PARETO = Path("results/task46_pareto_summary.json")
-DEFAULT_OUTPUT = Path("results/task47_quality_refinement_summary.json")
-DEFAULT_SAMPLES_OUTPUT = Path("results/task47_quality_failure_samples.jsonl")
-DEFAULT_CSV = Path("results/task47_quality_table.csv")
+DEFAULT_AUDIT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json")
+DEFAULT_PARETO = Path("results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json")
+DEFAULT_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_refinement_summary.json")
+DEFAULT_SAMPLES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_failure_samples.jsonl")
+DEFAULT_CSV = Path("results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_table.csv")
 DEFAULT_FIXTURE = Path("data/eval/gsm8k_100.jsonl")
-DEFAULT_QA_PROXY_RESULTS = Path("results/task43_5_output_inspection_summary.json")
+DEFAULT_QA_PROXY_RESULTS = Path("results/phase_1_system_build_and_evaluation/early_experiments/task43_5_output_inspection_summary.json")
 CONDITION_ORDER = ["Baseline-AR", "DFlash-R1", "LLMLingua-AR-R2", "CC-LLM-R2"]
 
 NUMBER_RE = re.compile(r"[-+]?\$?\d[\d,]*(?:\.\d+)?")

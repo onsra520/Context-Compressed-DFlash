@@ -58,11 +58,11 @@ PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dat
 Bounded real runs:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl --resume --store-generated-text
 ```
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl --resume --store-generated-text
 ```
 
 Analysis:
@@ -75,11 +75,11 @@ PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/anal
 
 | Artifact | Rows / scope |
 | --- | ---: |
-| `results/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl` | 30 |
-| `results/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl` | 30 |
-| `results/task75_qmsum_balanced_policy_summary.json` | 3 stages × 2 conditions |
-| `results/task75_qmsum_balanced_policy_table.csv` | 6 metric rows |
-| `results/task75_qmsum_balanced_policy_cases.jsonl` | 60 case rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl` | 30 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl` | 30 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_summary.json` | 3 stages × 2 conditions |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_table.csv` | 6 metric rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_cases.jsonl` | 60 case rows |
 
 Both real runs used `--resume` and did not use `--overwrite`.
 

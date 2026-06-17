@@ -131,7 +131,7 @@ def main():
     profiler.timings["outer_postprocessing"] = total_cpu_time - measured_subtimings
     
     # Save latency breakdown
-    lat_file = Path("results/task85_compression_latency_breakdown.json")
+    lat_file = Path("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_compression_latency_breakdown.json")
     lat_file.parent.mkdir(exist_ok=True, parents=True)
     with open(lat_file, "w") as f:
         json.dump(profiler.timings, f, indent=2)
@@ -190,9 +190,9 @@ try:
     t_unload = (time.perf_counter() - t0) * 1000
     vram_trace["after_gpu_unload"] = get_vram_stats()
     
-    with open("results/task85_load_unload_architecture.json", "w") as f:
+    with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_load_unload_architecture.json", "w") as f:
         json.dump({{"t_load_compressor_ms": t_load, "t_compress_gpu_ms": gpu_time, "t_unload_compressor_ms": t_unload}}, f)
-    with open("results/task85_vram_trace_gpu.json", "w") as f:
+    with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_vram_trace_gpu.json", "w") as f:
         json.dump(vram_trace, f)
 except Exception as e:
     sys.exit(1)
@@ -206,33 +206,33 @@ except Exception as e:
             vram_trace["gpu_error"] = "Subprocess crashed (Segfault/OOM)."
         else:
             logging.info("GPU Compressor succeeded.")
-            with open("results/task85_load_unload_architecture.json", "r") as f:
+            with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_load_unload_architecture.json", "r") as f:
                 arch_stats = json.load(f)
             arch_stats["t_total_compress_pass_ms"] = arch_stats["t_load_compressor_ms"] + arch_stats["t_compress_gpu_ms"] + arch_stats["t_unload_compressor_ms"]
             arch_stats["t_cpu_compress_ms"] = total_cpu_time
             arch_stats["load_unload_viable"] = arch_stats["t_total_compress_pass_ms"] < total_cpu_time
-            with open("results/task85_load_unload_architecture.json", "w") as f:
+            with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_load_unload_architecture.json", "w") as f:
                 json.dump(arch_stats, f, indent=2)
                 
-            with open("results/task85_vram_trace_gpu.json", "r") as f:
+            with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_vram_trace_gpu.json", "r") as f:
                 gpu_vram = json.load(f)
             vram_trace.update(gpu_vram)
             Path("scripts/temp_gpu_test.py").unlink(missing_ok=True)
-            Path("results/task85_vram_trace_gpu.json").unlink(missing_ok=True)
+            Path("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_vram_trace_gpu.json").unlink(missing_ok=True)
     
     # Write VRAM trace
-    with open("results/task85_vram_trace.json", "w") as f:
+    with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_vram_trace.json", "w") as f:
         json.dump(vram_trace, f, indent=2)
         
     # Write CSVs
     import csv
-    with open("results/task85_compression_latency_breakdown.csv", "w") as f:
+    with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_compression_latency_breakdown.csv", "w") as f:
         writer = csv.writer(f)
         writer.writerow(["metric", "value_ms"])
         for k, v in profiler.timings.items():
             writer.writerow([k, v])
             
-    with open("results/task85_vram_trace.csv", "w") as f:
+    with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_vram_trace.csv", "w") as f:
         writer = csv.writer(f)
         writer.writerow(["state", "allocated_mb", "reserved_mb"])
         for k, v in vram_trace.items():
@@ -245,10 +245,10 @@ except Exception as e:
         "offline_t_compress_ms": 0.0,
         "theoretical_e2e_improvement_ms": total_cpu_time
     }
-    with open("results/task85_cached_compression_upper_bound.json", "w") as f:
+    with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_cached_compression_upper_bound.json", "w") as f:
         json.dump(cached_upper_bound, f, indent=2)
 
-    with open("results/task85_cached_compression_upper_bound.csv", "w") as f:
+    with open("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_cached_compression_upper_bound.csv", "w") as f:
         writer = csv.writer(f)
         writer.writerow(["metric", "value"])
         for k, v in cached_upper_bound.items():

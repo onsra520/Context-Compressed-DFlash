@@ -31,7 +31,7 @@ Week 1 of the CCDF DFlash baseline path is complete. Gate 0 passed, the raw-free
 
 ## Measured Baseline
 
-Artifact: `results/dflash_r1_n20.jsonl`
+Artifact: `results/_archives/early_smokes/dflash_r1_n20.jsonl`
 
 - rows: 20
 - condition: `DFlash-R1`

@@ -14,11 +14,11 @@ Task 31 added opt-in generated text capture to the existing `scripts/run_mvp.py`
 
 | Condition | Artifact |
 | --- | --- |
-| DFlash-R1 | `results/task31_dflash_r1_longctx_text_n6.jsonl` |
-| CC-LLM-R2 | `results/task31_cc_llm_r2_longctx_text_n6.jsonl` |
-| CC-LLM-R3 | `results/task31_cc_llm_r3_longctx_text_n6.jsonl` |
-| LLMLingua-AR-R2 | `results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` |
-| LLMLingua-AR-R3 | `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` |
+| DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl` |
+| CC-LLM-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl` |
+| CC-LLM-R3 | `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl` |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` |
+| LLMLingua-AR-R3 | `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` |
 
 No Task 21, 22, 24, or 29 artifacts were overwritten.
 
@@ -41,13 +41,13 @@ DFlash rows decode from `dflash_generate(..., return_stats=True).output_ids`. Au
 | --- | --- | --- |
 | Compile | `python3 -m compileall src tests scripts` | PASS |
 | CPU tests | `PYTHONPATH=src .venv/bin/python -m pytest tests/test_compression.py tests/test_smoke_artifact_audit.py tests/test_long_context_fixture.py tests/test_task24_analysis.py tests/test_run_mvp_fixture_mode.py tests/test_task29_answer_check.py -q` | PASS, 27 passed |
-| DFlash-R1 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/task31_dflash_r1_longctx_text_n6.jsonl` | PASS |
-| CC-LLM-R2 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/task31_cc_llm_r2_longctx_text_n6.jsonl` | PASS |
-| CC-LLM-R3 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R3 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/task31_cc_llm_r3_longctx_text_n6.jsonl` | PASS |
-| LLMLingua-AR-R2 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | PASS |
-| LLMLingua-AR-R3 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R3 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
-| Answer check | `PYTHONPATH=src .venv/bin/python scripts/t29_answers.py results/task31_dflash_r1_longctx_text_n6.jsonl results/task31_cc_llm_r2_longctx_text_n6.jsonl results/task31_cc_llm_r3_longctx_text_n6.jsonl results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
-| Artifact audit | `PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/task31_dflash_r1_longctx_text_n6.jsonl results/task31_cc_llm_r2_longctx_text_n6.jsonl results/task31_cc_llm_r3_longctx_text_n6.jsonl results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
+| DFlash-R1 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl` | PASS |
+| CC-LLM-R2 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl` | PASS |
+| CC-LLM-R3 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R3 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl` | PASS |
+| LLMLingua-AR-R2 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | PASS |
+| LLMLingua-AR-R3 | `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R3 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
+| Answer check | `PYTHONPATH=src .venv/bin/python scripts/t29_answers.py results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
+| Artifact audit | `PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
 
 ## Artifact Metrics
 

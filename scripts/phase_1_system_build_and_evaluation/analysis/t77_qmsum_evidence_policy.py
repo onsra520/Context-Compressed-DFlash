@@ -18,25 +18,25 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t74_qmsum_proxy_case_t
 from scripts.phase_1_system_build_and_evaluation.analysis.t76_qmsum_evidence_error_taxonomy import classify_case
 
 TASK71_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
-    "CC-DFlash-R2": Path("results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
 }
 TASK73_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl"),
-    "CC-DFlash-R2": Path("results/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl"),
 }
 TASK75_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl"),
-    "CC-DFlash-R2": Path("results/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl"),
 }
 TASK77_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task77_qmsum_long_llmlingua_ar_r2_n30_mnt384_evidence.jsonl"),
-    "CC-DFlash-R2": Path("results/task77_qmsum_long_cc_dflash_r2_n30_mnt384_evidence.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_long_llmlingua_ar_r2_n30_mnt384_evidence.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_long_cc_dflash_r2_n30_mnt384_evidence.jsonl"),
 }
-TASK76_CASES = Path("results/task76_qmsum_evidence_error_cases.jsonl")
-DEFAULT_SUMMARY_OUTPUT = Path("results/task77_qmsum_evidence_policy_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task77_qmsum_evidence_policy_table.csv")
-DEFAULT_CASES_OUTPUT = Path("results/task77_qmsum_evidence_policy_cases.jsonl")
+TASK76_CASES = Path("results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_cases.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_table.csv")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_cases.jsonl")
 
 IMPROVED_LABELS = {
     "ACCEPTABLE_EVIDENCE_FOCUSED_ANSWER",

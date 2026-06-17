@@ -15,14 +15,14 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 
 ARTIFACTS = {
-    "Baseline-AR": Path("results/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl"),
-    "DFlash-R1": Path("results/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl"),
-    "CC-DFlash-R2": Path("results/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl"),
 }
 DATASET = Path("data/eval/gsm8k_100.jsonl")
-DEFAULT_JSON_OUTPUT = Path("results/task54_compressed_gsm8k_failure_triage.json")
-DEFAULT_SAMPLES_OUTPUT = Path("results/task54_compressed_gsm8k_failure_samples.jsonl")
+DEFAULT_JSON_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task54_compressed_gsm8k_failure_triage.json")
+DEFAULT_SAMPLES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task54_compressed_gsm8k_failure_samples.jsonl")
 COMPRESSED_CONDITIONS = {"LLMLingua-AR-R2", "CC-DFlash-R2"}
 UNCOMPRESSED_CONDITIONS = {"Baseline-AR", "DFlash-R1"}
 

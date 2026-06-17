@@ -24,7 +24,7 @@ Default behavior remains:
 
 Fixture example for a future pilot:
 
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/task29_dflash_fixture_n6.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task29_dflash_fixture_n6.jsonl`
 
 This command is documented as a future shape only; Task 28 did not run the benchmark.
 

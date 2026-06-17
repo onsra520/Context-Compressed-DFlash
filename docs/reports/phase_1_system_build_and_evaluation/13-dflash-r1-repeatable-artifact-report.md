@@ -6,12 +6,12 @@ Date: 2026-06-04
 
 **PASS**
 
-The DFlash-R1 smoke benchmark now writes a repeatable machine-readable artifact at `results/dflash_r1_smoke.jsonl` while keeping the baseline path fixed and raw-free.
+The DFlash-R1 smoke benchmark now writes a repeatable machine-readable artifact at `results/_archives/early_smokes/dflash_r1_smoke.jsonl` while keeping the baseline path fixed and raw-free.
 
 ## Exact Command
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 3 --output results/dflash_r1_smoke.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 3 --output results/_archives/early_smokes/dflash_r1_smoke.jsonl
 ```
 
 Final status:
@@ -23,7 +23,7 @@ PASS
 ## Artifact Path
 
 ```text
-results/dflash_r1_smoke.jsonl
+results/_archives/early_smokes/dflash_r1_smoke.jsonl
 ```
 
 Artifact created: **yes**
@@ -110,13 +110,13 @@ Result: **PASS**
 ```
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 3 --output results/dflash_r1_smoke.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 3 --output results/_archives/early_smokes/dflash_r1_smoke.jsonl
 ```
 
 Result: **PASS**
 
 ```bash
-head -n 3 results/dflash_r1_smoke.jsonl
+head -n 3 results/_archives/early_smokes/dflash_r1_smoke.jsonl
 ```
 
 Result: **PASS**

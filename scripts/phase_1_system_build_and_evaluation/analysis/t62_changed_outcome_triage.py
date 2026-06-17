@@ -17,17 +17,17 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 
 TASK60_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl"),
-    "CC-DFlash-R2": Path("results/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl"),
 }
 TASK61B_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl"),
-    "CC-DFlash-R2": Path("results/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl"),
 }
-DEFAULT_CHANGED_OUTCOMES = Path("results/task61b_keep_rate67_changed_outcomes.jsonl")
+DEFAULT_CHANGED_OUTCOMES = Path("results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_changed_outcomes.jsonl")
 DEFAULT_DATASET = Path("data/eval/gsm8k_100.jsonl")
-DEFAULT_SUMMARY_OUTPUT = Path("results/task62_changed_outcome_triage_summary.json")
-DEFAULT_CASES_OUTPUT = Path("results/task62_changed_outcome_cases.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task62_changed_outcome_triage_summary.json")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task62_changed_outcome_cases.jsonl")
 
 TRIAGED_OUTCOMES = {"FAIL_TO_PASS", "PASS_TO_FAIL", "SAME_FAIL"}
 FINAL_ANSWER_MARKER_RE = re.compile(

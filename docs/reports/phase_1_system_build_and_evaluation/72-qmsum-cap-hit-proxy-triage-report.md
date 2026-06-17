@@ -14,13 +14,13 @@ The main finding is that compressed QMSum rows still show strong output-budget p
 
 | Artifact | Condition | Rows | Notes |
 |---|---:|---:|---|
-| `results/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl` | Baseline-AR | 30 | Read-only |
-| `results/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl` | DFlash-R1 | 30 | Read-only |
-| `results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl` | LLMLingua-AR-R2 | 30 | Read-only |
-| `results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl` | CC-DFlash-R2 | 30 | Read-only |
-| `results/task71_qmsum_n30_full_matrix_summary.json` | Summary | 4 conditions | Read-only reference |
-| `results/task71_qmsum_n30_full_matrix_table.csv` | Summary table | 4 rows | Read-only reference |
-| `results/task71_qmsum_n30_failure_samples.jsonl` | Warning samples | 86 rows | Read-only reference |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl` | Baseline-AR | 30 | Read-only |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl` | DFlash-R1 | 30 | Read-only |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl` | LLMLingua-AR-R2 | 30 | Read-only |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl` | CC-DFlash-R2 | 30 | Read-only |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json` | Summary | 4 conditions | Read-only reference |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_table.csv` | Summary table | 4 rows | Read-only reference |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_failure_samples.jsonl` | Warning samples | 86 rows | Read-only reference |
 
 Task 71 commit: `4998ff7 test: run qmsum n30 full matrix`.
 
@@ -30,9 +30,9 @@ Task 71 commit: `4998ff7 test: run qmsum n30 full matrix`.
 |---|---|
 | `scripts/phase_1_system_build_and_evaluation/analysis/t72_qmsum_cap_hit_proxy_triage.py` | Read-only analyzer |
 | `tests/test_task72_qmsum_cap_hit_proxy_triage.py` | CPU-only analyzer tests |
-| `results/task72_qmsum_cap_hit_proxy_summary.json` | Machine-readable summary |
-| `results/task72_qmsum_cap_hit_proxy_cases.jsonl` | Cap-hit case labels and snippets |
-| `results/task72_qmsum_cap_hit_proxy_table.csv` | Compact metric table |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_summary.json` | Machine-readable summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_cases.jsonl` | Cap-hit case labels and snippets |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_table.csv` | Compact metric table |
 
 ## Cap-Hit Overlap
 

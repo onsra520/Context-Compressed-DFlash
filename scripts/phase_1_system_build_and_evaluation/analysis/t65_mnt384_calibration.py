@@ -18,17 +18,17 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 
 TASK63_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl"),
-    "CC-DFlash-R2": Path("results/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl"),
 }
 TASK65_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task65_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl"),
-    "CC-DFlash-R2": Path("results/task65_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl"),
 }
-DEFAULT_TASK64_CASES = Path("results/task64_cap_hit_cases.jsonl")
-DEFAULT_SUMMARY_OUTPUT = Path("results/task65_mnt384_calibration_summary.json")
-DEFAULT_CSV_OUTPUT = Path("results/task65_mnt384_calibration_table.csv")
-DEFAULT_CHANGED_OUTPUT = Path("results/task65_mnt384_changed_outcomes.jsonl")
+DEFAULT_TASK64_CASES = Path("results/phase_1_system_build_and_evaluation/early_experiments/task64_cap_hit_cases.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task65_mnt384_calibration_summary.json")
+DEFAULT_CSV_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task65_mnt384_calibration_table.csv")
+DEFAULT_CHANGED_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task65_mnt384_changed_outcomes.jsonl")
 
 FINAL_ANSWER_MARKER_RE = re.compile(
     r"final\s+(?:numeric\s+)?answer\s*(?:is|=|:|：)\s*[-+]?\$?\d[\d,]*(?:\.\d+)?",

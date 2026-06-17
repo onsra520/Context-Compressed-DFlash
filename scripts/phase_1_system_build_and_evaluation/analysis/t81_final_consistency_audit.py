@@ -17,7 +17,7 @@ def generate_task81_outputs():
         {"claim": "CC-DFlash-R2 faster than LLMLingua-AR-R2 on Task80A GSM8K while matching numeric quality", "status": "ALLOWED_WITH_CAVEAT"},
         {"claim": "DFlash-R1 remains faster than Baseline-AR on Task80A GSM8K", "status": "ALLOWED_WITH_CAVEAT"},
     ]
-    with open("results/task81_claim_safety_matrix.csv", "w", newline="", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task81_claim_safety_matrix.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["claim", "status"])
         writer.writeheader()
         writer.writerows(claims)
@@ -33,7 +33,7 @@ def generate_task81_outputs():
         {"dimension": "8 GB deployment", "evidence_source": "none", "allowed_usage_in_final_report": "none", "forbidden_usage": "confirmed fit", "caveat_text": "only smoke checked"},
         {"dimension": "compression usefulness end-to-end", "evidence_source": "Task69, Task71", "allowed_usage_in_final_report": "conditional theoretical tradeoff", "forbidden_usage": "proven universally useful", "caveat_text": "CPU overhead dominates short context"},
     ]
-    with open("results/task81_evidence_basis_matrix.csv", "w", newline="", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task81_evidence_basis_matrix.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["dimension", "evidence_source", "allowed_usage_in_final_report", "forbidden_usage", "caveat_text"])
         writer.writeheader()
         writer.writerows(evidence)
@@ -49,35 +49,35 @@ def generate_task81_outputs():
         ("docs/reports/80b-rerun-analysis-and-issue-gate-report.md", "Report", True),
         ("docs/reports/81-final-package-consistency-audit-report.md", "Report", True),
         # Task 69
-        ("results/task69_gsm8k_full_matrix_summary.json", "Summary", True),
-        ("results/task69_gsm8k_full_matrix_table.csv", "Table", False),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_summary.json", "Summary", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_table.csv", "Table", False),
         # Task 71
-        ("results/task71_qmsum_n30_full_matrix_summary.json", "Summary", True),
-        ("results/task71_qmsum_n30_full_matrix_table.csv", "Table", False),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json", "Summary", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_table.csv", "Table", False),
         # Task 79B
-        ("results/task79_qmsum_reporting_decision.json", "Summary", True),
-        ("results/task79_qmsum_reporting_decision_table.csv", "Table", False),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision.json", "Summary", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision_table.csv", "Table", False),
         # Task 80
-        ("results/task80_cross_dataset_final_summary.json", "Summary", True),
-        ("results/task80_cross_dataset_final_table.csv", "Table", True),
-        ("results/task80_cross_dataset_claims_matrix.csv", "Matrix", True),
-        ("results/task80_final_report_key_points.json", "Summary", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_summary.json", "Summary", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_table.csv", "Table", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_claims_matrix.csv", "Matrix", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80_final_report_key_points.json", "Summary", True),
         # Task 80A
-        ("results/task80a_final_two_dataset_rerun_summary.json", "Summary", True),
-        ("results/task80a_final_two_dataset_rerun_table.csv", "Table", True),
-        ("results/task80a_condition_delta_vs_task80.csv", "Table", True),
-        ("results/task80a_run_manifest.json", "Manifest", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_summary.json", "Summary", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_table.csv", "Table", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80a_condition_delta_vs_task80.csv", "Table", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80a_run_manifest.json", "Manifest", True),
         # Task 80B
-        ("results/task80b_rerun_issue_gate_summary.json", "Summary", True),
-        ("results/task80b_dflash_regression_check.json", "Check", True),
-        ("results/task80b_rerun_issue_gate_table.csv", "Table", True),
-        ("results/task80b_cleaned_delta_interpretation.csv", "Interpretation", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80b_rerun_issue_gate_summary.json", "Summary", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80b_dflash_regression_check.json", "Check", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80b_rerun_issue_gate_table.csv", "Table", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task80b_cleaned_delta_interpretation.csv", "Interpretation", True),
         # Task 81
-        ("results/task81_final_consistency_audit_summary.json", "Summary", True),
-        ("results/task81_claim_safety_matrix.csv", "Matrix", True),
-        ("results/task81_evidence_basis_matrix.csv", "Matrix", True),
-        ("results/task81_artifact_manifest.csv", "Manifest", True),
-        ("results/task81_final_report_readiness_checklist.csv", "Checklist", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task81_final_consistency_audit_summary.json", "Summary", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task81_claim_safety_matrix.csv", "Matrix", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task81_evidence_basis_matrix.csv", "Matrix", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task81_artifact_manifest.csv", "Manifest", True),
+        ("results/phase_1_system_build_and_evaluation/early_experiments/task81_final_report_readiness_checklist.csv", "Checklist", True),
     ]
 
     artifacts = []
@@ -120,7 +120,7 @@ def generate_task81_outputs():
             if not ex:
                 optional_missing += 1
 
-    with open("results/task81_artifact_manifest.csv", "w", newline="", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task81_artifact_manifest.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["path", "task", "exists", "required_for_t82", "role", "notes"])
         writer.writeheader()
         writer.writerows(artifacts)
@@ -138,7 +138,7 @@ def generate_task81_outputs():
         {"item": "report artifacts indexed", "status": "checked", "notes": ""},
         {"item": "no benchmark rerun required before T82", "status": "checked", "notes": ""},
     ]
-    with open("results/task81_final_report_readiness_checklist.csv", "w", newline="", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task81_final_report_readiness_checklist.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=["item", "status", "notes"])
         writer.writeheader()
         writer.writerows(checklist)
@@ -173,7 +173,7 @@ def generate_task81_outputs():
         "blocking_issues": [],
         "notes_for_t82": "QMSum diagnostic-only and local-runtime caveats must be preserved."
     }
-    with open("results/task81_final_consistency_audit_summary.json", "w", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task81_final_consistency_audit_summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
 
 if __name__ == "__main__":

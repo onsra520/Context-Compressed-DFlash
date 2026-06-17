@@ -9,14 +9,14 @@ PASS, preliminary.
 ## Command
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition Baseline-AR --n 3 --output results/baseline_ar_smoke.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition Baseline-AR --n 3 --output results/_archives/early_smokes/baseline_ar_smoke.jsonl
 ```
 
 ## Artifact
 
 Artifact path:
 
-- `results/baseline_ar_smoke.jsonl`
+- `results/_archives/early_smokes/baseline_ar_smoke.jsonl`
 
 Row count: 3
 

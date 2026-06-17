@@ -13,7 +13,7 @@ PASS
 
 ## Reason For Choosing It
 
-This model is now the locked MVP compressor default because it already passed the real CPU smoke path in this environment and produced a reproducible artifact at `results/llmlingua_cpu_smoke.json`. Using the model that has already been proven locally is lower risk than silently switching to a second meetingbank variant before CC-LLM-R2/R3 smoke comparison.
+This model is now the locked MVP compressor default because it already passed the real CPU smoke path in this environment and produced a reproducible artifact at `results/_archives/early_smokes/llmlingua_cpu_smoke.json`. Using the model that has already been proven locally is lower risk than silently switching to a second meetingbank variant before CC-LLM-R2/R3 smoke comparison.
 
 ## Config Keys Added Or Verified
 
@@ -52,7 +52,7 @@ Confirmed unchanged.
 
 - no DFlash generation logic changes
 - no DFlash-R1 baseline behavior changes
-- `results/dflash_r1_n20.jsonl` remains the control artifact
+- `results/_archives/early_smokes/dflash_r1_n20.jsonl` remains the control artifact
 
 ## Next Step
 

@@ -13,15 +13,15 @@ This report is preliminary only. It analyzes decoded-output containment in the T
 Task 32 adds a lightweight deterministic analyzer for the Task 31 decoded-output artifacts:
 
 - `scripts/phase_1_system_build_and_evaluation/analysis/t31_answer_quality.py`
-- `results/task32_answer_quality_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task32_answer_quality_summary.json`
 
 The Task 31 artifacts were treated as immutable inputs:
 
-- `results/task31_dflash_r1_longctx_text_n6.jsonl`
-- `results/task31_cc_llm_r2_longctx_text_n6.jsonl`
-- `results/task31_cc_llm_r3_longctx_text_n6.jsonl`
-- `results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl`
-- `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl`
 
 No new generation or GPU benchmark was run for this task.
 
@@ -85,10 +85,10 @@ The current evidence is therefore suitable for triage and breakeven-aware filter
 | Command | Result |
 | --- | --- |
 | `PYTHONPATH=src .venv/bin/python -m pytest tests/test_task31_answer_quality_analysis.py -q` | PASS, 3 passed |
-| `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t31_answer_quality.py` | PASS, wrote `results/task32_answer_quality_summary.json` |
+| `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t31_answer_quality.py` | PASS, wrote `results/phase_1_system_build_and_evaluation/early_experiments/task32_answer_quality_summary.json` |
 | `python3 -m compileall src tests scripts` | PASS |
 | `PYTHONPATH=src .venv/bin/python -m pytest tests/test_compression.py tests/test_smoke_artifact_audit.py tests/test_long_context_fixture.py tests/test_task24_analysis.py tests/test_run_mvp_fixture_mode.py tests/test_task29_answer_check.py -q` | PASS |
-| `PYTHONPATH=src .venv/bin/python scripts/t29_answers.py results/task31_dflash_r1_longctx_text_n6.jsonl results/task31_cc_llm_r2_longctx_text_n6.jsonl results/task31_cc_llm_r3_longctx_text_n6.jsonl results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
+| `PYTHONPATH=src .venv/bin/python scripts/t29_answers.py results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
 
 ## Limitations
 

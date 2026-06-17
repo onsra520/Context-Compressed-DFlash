@@ -31,7 +31,7 @@ def evaluate_task(task_id, manifest, checklist):
     
     for dataset in datasets:
         for condition in conditions:
-            # e.g., results/task87_gsm8k_short_baseline_ar_n10.jsonl
+            # e.g., results/phase_1_system_build_and_evaluation/repair_and_gate/task87_gsm8k_short_baseline_ar_n10.jsonl
             cond_str = condition.lower().replace("-", "_")
             filepath = Path(template.format(task_id=task_id, dataset=dataset, condition=cond_str, n=target_rows))
             if not filepath.exists():
@@ -81,8 +81,8 @@ def main():
     parser.add_argument("--task", type=str, default="task87", help="Task ID to validate (e.g. task87 or task88)")
     args = parser.parse_args()
     
-    manifest_path = Path("results/task86_rerun_gate_manifest.json")
-    checklist_path = Path("results/task86_rerun_validation_checklist.json")
+    manifest_path = Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_gate_manifest.json")
+    checklist_path = Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_validation_checklist.json")
     
     if not manifest_path.exists() or not checklist_path.exists():
         logging.error("Manifest or checklist JSON files missing. Run Task 86 setup first.")

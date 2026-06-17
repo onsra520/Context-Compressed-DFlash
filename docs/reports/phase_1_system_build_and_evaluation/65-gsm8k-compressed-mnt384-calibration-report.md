@@ -24,16 +24,16 @@ Task 64 was committed before Task 65:
 |---|---|---|
 | Prompt dry-run | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --n 3 --seed 42 --dry-run-prompts` | PASS |
 | Prompt suffix check | Direct formatter check for sampled GSM8K prompts | PASS, all sampled prompts ended with `Final answer: <number>` |
-| LLMLingua-AR-R2 | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task65_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl --resume --store-generated-text` | PASS, 30 rows |
-| CC-DFlash-R2 | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task65_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl --resume --store-generated-text` | PASS, 30 rows |
+| LLMLingua-AR-R2 | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl --resume --store-generated-text` | PASS, 30 rows |
+| CC-DFlash-R2 | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl --resume --store-generated-text` | PASS, 30 rows |
 | Analyzer | `scripts/phase_1_system_build_and_evaluation/analysis/t65_mnt384_calibration.py` | PASS |
 
 ## Run Completion
 
 | Condition | Artifact | Rows | Resume | Generated text | Keep rate | Suffix preserved | Question preserved |
 |---|---|---:|---|---:|---:|---:|---:|
-| LLMLingua-AR-R2 | `results/task65_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl` | 30 | yes | 30/30 | 0.50 | 30/30 | 30/30 |
-| CC-DFlash-R2 | `results/task65_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl` | 30 | yes | 30/30 | 0.50 | 30/30 | 30/30 |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl` | 30 | yes | 30/30 | 0.50 | 30/30 | 30/30 |
+| CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl` | 30 | yes | 30/30 | 0.50 | 30/30 | 30/30 |
 
 Both compressed artifacts include `t_compress_ms`, `original_input_tokens`, `compressed_input_tokens`, and compression-ratio fields in all rows.
 

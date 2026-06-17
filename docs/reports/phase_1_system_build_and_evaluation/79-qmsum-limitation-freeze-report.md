@@ -28,12 +28,12 @@ Task 78 was already committed before this task:
 | `docs/reports/76-qmsum-evidence-error-taxonomy-report.md` | present |
 | `docs/reports/77-qmsum-evidence-focused-policy-report.md` | present |
 | `docs/reports/78-qmsum-compressed-prompt-evidence-retention-report.md` | present |
-| `results/task71_qmsum_n30_full_matrix_summary.json` | present |
-| `results/task73_qmsum_concise_policy_summary.json` | present |
-| `results/task75_qmsum_balanced_policy_summary.json` | present |
-| `results/task76_qmsum_evidence_error_summary.json` | present |
-| `results/task77_qmsum_evidence_policy_summary.json` | present |
-| `results/task78_qmsum_evidence_retention_summary.json` | present |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json` | present |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_concise_policy_summary.json` | present |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_summary.json` | present |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_summary.json` | present |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_summary.json` | present |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_summary.json` | present |
 
 ## Task Timeline: 71–78
 
@@ -147,8 +147,8 @@ Vietnamese:
 
 | Output | Purpose |
 | --- | --- |
-| `results/task79_qmsum_reporting_decision.json` | Machine-readable reporting decision |
-| `results/task79_qmsum_reporting_decision_table.csv` | Compact decision table |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision.json` | Machine-readable reporting decision |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision_table.csv` | Compact decision table |
 | `docs/reports/79-qmsum-limitation-freeze-report.md` | Human-readable freeze report |
 
 ## Next Task Recommendation
@@ -162,7 +162,7 @@ Task 80 should package the current GSM8K and QMSum evidence with conservative la
 Task 79B validation:
 
 - `python3 -m compileall src tests scripts 2>&1 | tail -20`
-- `python3 -m json.tool results/task79_qmsum_reporting_decision.json >/dev/null`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision.json >/dev/null`
 - Markdown fence balance for this report
 - HTML sanity for changed docs
 

@@ -45,7 +45,7 @@ payload = {
     "info": info,
 }
 Path("results").mkdir(exist_ok=True)
-Path("results/llmlingua_cpu_smoke.json").write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+Path("results/_archives/early_smokes/llmlingua_cpu_smoke.json").write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 print(json.dumps(payload, indent=2, ensure_ascii=False))
 assert merged.strip()
 assert question in merged
@@ -66,7 +66,7 @@ PY
 - merged output was non-empty
 - compressed output kept the key counts and question-relevant terms
 - merged output word count: `30`
-- saved artifact: `results/llmlingua_cpu_smoke.json`
+- saved artifact: `results/_archives/early_smokes/llmlingua_cpu_smoke.json`
 
 Compressed output summary:
 
@@ -104,7 +104,7 @@ Confirmed unchanged.
 
 - No DFlash generation logic was modified
 - No DFlash-R1 baseline behavior was modified
-- `results/dflash_r1_n20.jsonl` remains the control artifact
+- `results/_archives/early_smokes/dflash_r1_n20.jsonl` remains the control artifact
 
 ## Next Step
 

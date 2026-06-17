@@ -24,16 +24,16 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t70_qmsum_diagnostic_a
 from scripts.phase_1_system_build_and_evaluation.analysis.t72_qmsum_cap_hit_proxy_triage import ends_naturally
 
 BEFORE_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
-    "CC-DFlash-R2": Path("results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
 }
 AFTER_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl"),
-    "CC-DFlash-R2": Path("results/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl"),
 }
-DEFAULT_SUMMARY_OUTPUT = Path("results/task74_qmsum_proxy_case_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task74_qmsum_proxy_case_table.csv")
-DEFAULT_SAMPLES_OUTPUT = Path("results/task74_qmsum_proxy_case_samples.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_table.csv")
+DEFAULT_SAMPLES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_samples.jsonl")
 
 STOPWORDS = {
     "a",

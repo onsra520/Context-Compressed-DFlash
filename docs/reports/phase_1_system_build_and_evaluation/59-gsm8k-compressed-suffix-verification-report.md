@@ -18,16 +18,16 @@ Task 58 commit verified before this task:
 
 - `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --n 3 --seed 42 --dry-run-prompts`
 - Direct prompt-content assertion for `Final answer: <number>` in three selected GSM8K prompts.
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 10 --seed 42 --max-new-tokens 192 --output results/task59_gsm8k_short_llmlingua_ar_r2_n10_mnt192_suffixfix.jsonl --resume --store-generated-text`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 10 --seed 42 --max-new-tokens 192 --output results/task59_gsm8k_short_cc_dflash_r2_n10_mnt192_suffixfix.jsonl --resume --store-generated-text`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 10 --seed 42 --max-new-tokens 192 --output results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_llmlingua_ar_r2_n10_mnt192_suffixfix.jsonl --resume --store-generated-text`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 10 --seed 42 --max-new-tokens 192 --output results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_cc_dflash_r2_n10_mnt192_suffixfix.jsonl --resume --store-generated-text`
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t59_suffix_verification.py`
 
 ## Run Completion
 
 | Condition | Artifact | Rows | Resume | max_new_tokens | Status |
 | --- | --- | ---: | --- | ---: | --- |
-| LLMLingua-AR-R2 | `results/task59_gsm8k_short_llmlingua_ar_r2_n10_mnt192_suffixfix.jsonl` | 10 | `--resume` | 192 | PASS |
-| CC-DFlash-R2 | `results/task59_gsm8k_short_cc_dflash_r2_n10_mnt192_suffixfix.jsonl` | 10 | `--resume` | 192 | PASS |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_llmlingua_ar_r2_n10_mnt192_suffixfix.jsonl` | 10 | `--resume` | 192 | PASS |
+| CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_cc_dflash_r2_n10_mnt192_suffixfix.jsonl` | 10 | `--resume` | 192 | PASS |
 
 No old result artifact was overwritten. Task 56 artifacts were read only by the analyzer.
 
@@ -99,10 +99,10 @@ Yes, but after confirming the 256-token cap result. The suffix survival issue is
 
 - `scripts/phase_1_system_build_and_evaluation/analysis/t59_suffix_verification.py`
 - `tests/test_task59_suffix_verification.py`
-- `results/task59_gsm8k_short_llmlingua_ar_r2_n10_mnt192_suffixfix.jsonl`
-- `results/task59_gsm8k_short_cc_dflash_r2_n10_mnt192_suffixfix.jsonl`
-- `results/task59_suffix_verification_summary.json`
-- `results/task59_suffix_verification_table.csv`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_llmlingua_ar_r2_n10_mnt192_suffixfix.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_cc_dflash_r2_n10_mnt192_suffixfix.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task59_suffix_verification_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task59_suffix_verification_table.csv`
 
 ## Validation
 

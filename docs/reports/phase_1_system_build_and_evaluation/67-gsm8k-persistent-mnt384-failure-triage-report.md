@@ -14,17 +14,17 @@ Task 66 commit:
 
 Inputs:
 
-- `results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl`
-- `results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl`
-- `results/task66_mnt384_rerun_changed_outcomes.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_changed_outcomes.jsonl`
 - `data/eval/gsm8k_100.jsonl`
 
 Outputs:
 
 - `scripts/phase_1_system_build_and_evaluation/analysis/t67_persistent_mnt384_failures.py`
 - `tests/test_task67_persistent_mnt384_failures.py`
-- `results/task67_persistent_mnt384_failure_summary.json`
-- `results/task67_persistent_mnt384_failure_cases.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_cases.jsonl`
 
 ## Summary
 
@@ -136,7 +136,7 @@ Commands run:
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t67_persistent_mnt384_failures.py`
 - `python3 -m compileall src tests scripts 2>&1 | tail -20`
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30`
-- `python3 -m json.tool results/task67_persistent_mnt384_failure_summary.json >/dev/null`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_summary.json >/dev/null`
 - HTML sanity checks for `<!DOCTYPE html>` and `</html>`
 - Markdown fence balance checks for `instruction.md` and this report
 

@@ -14,8 +14,8 @@ This task did not run benchmarks, load models, load compressors, use CUDA, overw
 
 | Input | Purpose |
 |---|---|
-| `results/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl` | Task 63 LLMLingua-AR-R2 n=30 artifact |
-| `results/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl` | Task 63 CC-DFlash-R2 n=30 artifact |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl` | Task 63 LLMLingua-AR-R2 n=30 artifact |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl` | Task 63 CC-DFlash-R2 n=30 artifact |
 | `data/eval/gsm8k_100.jsonl` | Dataset metadata |
 
 ## Outputs
@@ -24,8 +24,8 @@ This task did not run benchmarks, load models, load compressors, use CUDA, overw
 |---|---|
 | `scripts/phase_1_system_build_and_evaluation/analysis/t64_cap_hit_triage.py` | Read-only cap-hit/failure triage analyzer |
 | `tests/test_task64_cap_hit_triage.py` | Lightweight CPU-only analyzer test |
-| `results/task64_cap_hit_triage_summary.json` | Machine-readable triage summary |
-| `results/task64_cap_hit_cases.jsonl` | Per-case triage rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task64_cap_hit_triage_summary.json` | Machine-readable triage summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task64_cap_hit_cases.jsonl` | Per-case triage rows |
 
 ## Per-Condition Summary
 

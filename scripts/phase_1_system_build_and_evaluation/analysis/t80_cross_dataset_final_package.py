@@ -17,23 +17,23 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t69_gsm8k_full_matrix 
 
 
 GSM8K_ARTIFACTS = {
-    "Baseline-AR": Path("results/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl"),
-    "DFlash-R1": Path("results/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl"),
-    "CC-DFlash-R2": Path("results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl"),
 }
-QMSUM_DECISION = Path("results/task79_qmsum_reporting_decision.json")
-QMSUM_RETENTION = Path("results/task78_qmsum_evidence_retention_summary.json")
-QMSUM_FULL_MATRIX = Path("results/task71_qmsum_n30_full_matrix_summary.json")
+QMSUM_DECISION = Path("results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision.json")
+QMSUM_RETENTION = Path("results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_summary.json")
+QMSUM_FULL_MATRIX = Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json")
 QMSUM_POLICY_SUMMARIES = {
-    "task73_terse": Path("results/task73_qmsum_concise_policy_summary.json"),
-    "task75_balanced": Path("results/task75_qmsum_balanced_policy_summary.json"),
-    "task77_evidence_focused": Path("results/task77_qmsum_evidence_policy_summary.json"),
+    "task73_terse": Path("results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_concise_policy_summary.json"),
+    "task75_balanced": Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_summary.json"),
+    "task77_evidence_focused": Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_summary.json"),
 }
-DEFAULT_SUMMARY_OUTPUT = Path("results/task80_cross_dataset_final_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task80_cross_dataset_final_table.csv")
-DEFAULT_CLAIMS_OUTPUT = Path("results/task80_cross_dataset_claims_matrix.csv")
-DEFAULT_KEY_POINTS_OUTPUT = Path("results/task80_final_report_key_points.json")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_table.csv")
+DEFAULT_CLAIMS_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_claims_matrix.csv")
+DEFAULT_KEY_POINTS_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80_final_report_key_points.json")
 
 
 def _mean(values: list[float]) -> float:

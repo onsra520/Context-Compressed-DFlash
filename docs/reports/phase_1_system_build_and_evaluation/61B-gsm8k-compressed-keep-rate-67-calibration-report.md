@@ -28,8 +28,8 @@ Prompt-text assertion:
 
 Compressed calibration runs:
 
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 10 --seed 42 --max-new-tokens 256 --keep-rate-percent 67 --output results/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl --resume --store-generated-text`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 10 --seed 42 --max-new-tokens 256 --keep-rate-percent 67 --output results/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl --resume --store-generated-text`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 10 --seed 42 --max-new-tokens 256 --keep-rate-percent 67 --output results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl --resume --store-generated-text`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 10 --seed 42 --max-new-tokens 256 --keep-rate-percent 67 --output results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl --resume --store-generated-text`
 
 Analyzer:
 
@@ -39,11 +39,11 @@ Analyzer:
 
 | Artifact | Rows | Status |
 |---|---:|---|
-| `results/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl` | 10 | Created |
-| `results/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl` | 10 | Created |
-| `results/task61b_keep_rate67_calibration_summary.json` | 1 summary | Created |
-| `results/task61b_keep_rate67_calibration_table.csv` | 4 condition-stage rows | Created |
-| `results/task61b_keep_rate67_changed_outcomes.jsonl` | 20 rows | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl` | 10 | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl` | 10 | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_calibration_summary.json` | 1 summary | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_calibration_table.csv` | 4 condition-stage rows | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_changed_outcomes.jsonl` | 20 rows | Created |
 
 No prior Task 60 artifacts were modified.
 

@@ -19,7 +19,7 @@ Inspected:
 
 - `scripts/create_dataset.py`
 - `scripts/audit_dataset.py`
-- `results/task45_prep_source_mode_readiness.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_prep_source_mode_readiness.json`
 - `docs/reports/45-prep-full-dataset-schema-audit-report.md`
 
 Checked current environment/source availability without downloading datasets.
@@ -51,7 +51,7 @@ Calling the 5-row sample artifact full source-mode would violate the frozen Task
 
 The full source-mode dataset audit was not run because the full source-mode dataset artifact does not exist.
 
-No `results/task45_source_mode_dataset_audit_summary.json` was created.
+No `results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json` was created.
 
 ## Current Dataset State
 
@@ -59,7 +59,7 @@ No `results/task45_source_mode_dataset_audit_summary.json` was created.
 | --- | --- | --- |
 | `data/processed/gsm8k_wikipedia_augmented_smoke.jsonl` | Exists | 5-row sample-mode artifact only |
 | `data/processed/gsm8k_wikipedia_augmented_full.jsonl` | Missing | Required before final benchmark |
-| `results/task45_source_mode_dataset_audit_summary.json` | Missing | Must be produced after full source-mode generation |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json` | Missing | Must be produced after full source-mode generation |
 
 ## Required Unblock Inputs
 
@@ -82,7 +82,7 @@ PYTHONPATH=src .venv/bin/python scripts/create_dataset.py --output data/processe
 Then audit:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_full.jsonl --output results/task45_source_mode_dataset_audit_summary.json
+PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_full.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json
 ```
 
 ## Gate Decision

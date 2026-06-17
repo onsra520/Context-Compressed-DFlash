@@ -13,11 +13,11 @@ This report is preliminary only. It analyzes the existing Task 24 small-matrix a
 
 Task 24 artifacts:
 
-- `results/task24_dflash_r1_n10.jsonl`
-- `results/task24_cc_llm_r2_n10.jsonl`
-- `results/task24_cc_llm_r3_n10.jsonl`
-- `results/task24_llmlingua_ar_r2_n10.jsonl`
-- `results/task24_llmlingua_ar_r3_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task24_dflash_r1_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r2_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r3_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r2_n10.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r3_n10.jsonl`
 
 Task 25 fixture:
 

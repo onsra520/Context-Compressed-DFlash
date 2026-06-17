@@ -13,11 +13,11 @@ The checker validates fixture metadata and compression/AR contracts. It can also
 
 ## Input Artifacts
 
-- `results/task29_dflash_r1_longctx_n6.jsonl`
-- `results/task29_cc_llm_r2_longctx_n6.jsonl`
-- `results/task29_cc_llm_r3_longctx_n6.jsonl`
-- `results/task29_llmlingua_ar_r2_longctx_n6.jsonl`
-- `results/task29_llmlingua_ar_r3_longctx_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task29_dflash_r1_longctx_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r2_longctx_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r3_longctx_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r2_longctx_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r3_longctx_n6.jsonl`
 - `tests/fixtures/long_context_smoke.jsonl`
 
 ## Checker Behavior
@@ -63,11 +63,11 @@ Observed generated text fields:
 
 | Artifact | Generated text field present |
 | --- | --- |
-| `results/task29_dflash_r1_longctx_n6.jsonl` | no |
-| `results/task29_cc_llm_r2_longctx_n6.jsonl` | no |
-| `results/task29_cc_llm_r3_longctx_n6.jsonl` | no |
-| `results/task29_llmlingua_ar_r2_longctx_n6.jsonl` | no |
-| `results/task29_llmlingua_ar_r3_longctx_n6.jsonl` | no |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_dflash_r1_longctx_n6.jsonl` | no |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r2_longctx_n6.jsonl` | no |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r3_longctx_n6.jsonl` | no |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r2_longctx_n6.jsonl` | no |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r3_longctx_n6.jsonl` | no |
 
 ## Answer Correctness Result
 

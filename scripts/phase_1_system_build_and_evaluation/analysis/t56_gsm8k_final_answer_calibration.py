@@ -19,19 +19,19 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 CONDITIONS = ["Baseline-AR", "DFlash-R1", "LLMLingua-AR-R2", "CC-DFlash-R2"]
 TASK53_PATHS = {
-    "Baseline-AR": Path("results/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl"),
-    "DFlash-R1": Path("results/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl"),
-    "CC-DFlash-R2": Path("results/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl"),
 }
 TASK56_PATHS = {
-    "Baseline-AR": Path("results/task56_gsm8k_short_baseline_ar_n10_mnt192.jsonl"),
-    "DFlash-R1": Path("results/task56_gsm8k_short_dflash_r1_n10_mnt192.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task56_gsm8k_short_llmlingua_ar_r2_n10_mnt192.jsonl"),
-    "CC-DFlash-R2": Path("results/task56_gsm8k_short_cc_dflash_r2_n10_mnt192.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_baseline_ar_n10_mnt192.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_dflash_r1_n10_mnt192.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_llmlingua_ar_r2_n10_mnt192.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_cc_dflash_r2_n10_mnt192.jsonl"),
 }
-DEFAULT_JSON_OUTPUT = Path("results/task56_gsm8k_final_answer_calibration_summary.json")
-DEFAULT_CSV_OUTPUT = Path("results/task56_gsm8k_final_answer_calibration_table.csv")
+DEFAULT_JSON_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_final_answer_calibration_summary.json")
+DEFAULT_CSV_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_final_answer_calibration_table.csv")
 FINAL_ANSWER_RE = re.compile(
     r"final\s+(?:numeric\s+)?answer\s*(?:is|=|:|：)\s*([-+]?\$?\d[\d,]*(?:\.\d+)?)",
     re.IGNORECASE,

@@ -16,13 +16,13 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 
 TASK66_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl"),
-    "CC-DFlash-R2": Path("results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl"),
 }
 DEFAULT_DATASET = Path("data/eval/gsm8k_100.jsonl")
-DEFAULT_CHANGED_OUTCOMES = Path("results/task66_mnt384_rerun_changed_outcomes.jsonl")
-DEFAULT_SUMMARY_OUTPUT = Path("results/task67_persistent_mnt384_failure_summary.json")
-DEFAULT_CASES_OUTPUT = Path("results/task67_persistent_mnt384_failure_cases.jsonl")
+DEFAULT_CHANGED_OUTCOMES = Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_changed_outcomes.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_summary.json")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_cases.jsonl")
 
 NUMBER_RE = re.compile(r"[-+]?\$?\d[\d,]*(?:\.\d+)?")
 FINAL_ANSWER_MARKER_RE = re.compile(

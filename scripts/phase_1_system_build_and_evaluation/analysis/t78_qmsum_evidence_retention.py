@@ -24,14 +24,14 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t76_qmsum_evidence_err
 from scripts.eval_datasets import QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION, select_eval_dataset_rows
 from scripts.run_mvp import _append_protected_suffix, _preview_text, _tail_preview_text, _without_suffix
 
-DEFAULT_CASE_INPUT = Path("results/task77_qmsum_evidence_policy_cases.jsonl")
-DEFAULT_LLMLINGUA_ARTIFACT = Path("results/task77_qmsum_long_llmlingua_ar_r2_n30_mnt384_evidence.jsonl")
-DEFAULT_CC_DFLASH_ARTIFACT = Path("results/task77_qmsum_long_cc_dflash_r2_n30_mnt384_evidence.jsonl")
-DEFAULT_SUMMARY_OUTPUT = Path("results/task78_qmsum_evidence_retention_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task78_qmsum_evidence_retention_table.csv")
-DEFAULT_CASES_OUTPUT = Path("results/task78_qmsum_evidence_retention_cases.jsonl")
-DEFAULT_RECONSTRUCTED_OUTPUT = Path("results/task78_qmsum_reconstructed_prompt_previews.jsonl")
-DEFAULT_SPANS_OUTPUT = Path("results/task78_qmsum_selected_evidence_spans.jsonl")
+DEFAULT_CASE_INPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_cases.jsonl")
+DEFAULT_LLMLINGUA_ARTIFACT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_long_llmlingua_ar_r2_n30_mnt384_evidence.jsonl")
+DEFAULT_CC_DFLASH_ARTIFACT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_long_cc_dflash_r2_n30_mnt384_evidence.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_table.csv")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_cases.jsonl")
+DEFAULT_RECONSTRUCTED_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_reconstructed_prompt_previews.jsonl")
+DEFAULT_SPANS_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_selected_evidence_spans.jsonl")
 
 PRIORITY_PROMPT_IDS = [14, 20, 23, 27, 28, 30]
 SECONDARY_PROMPT_IDS = [4, 8, 13, 21]

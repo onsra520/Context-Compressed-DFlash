@@ -36,25 +36,25 @@ Validation:
 
 Task-24 matrix:
 
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 10 --output results/task24_dflash_r1_n10.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 10 --output results/task24_cc_llm_r2_n10.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R3 --n 10 --output results/task24_cc_llm_r3_n10.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 10 --output results/task24_llmlingua_ar_r2_n10.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R3 --n 10 --output results/task24_llmlingua_ar_r3_n10.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 10 --output results/phase_1_system_build_and_evaluation/early_experiments/task24_dflash_r1_n10.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 10 --output results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r2_n10.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R3 --n 10 --output results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r3_n10.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 10 --output results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r2_n10.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R3 --n 10 --output results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r3_n10.jsonl`
 
 Task-24 artifact audit:
 
-- `PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/task24_dflash_r1_n10.jsonl results/task24_cc_llm_r2_n10.jsonl results/task24_cc_llm_r3_n10.jsonl results/task24_llmlingua_ar_r2_n10.jsonl results/task24_llmlingua_ar_r3_n10.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/phase_1_system_build_and_evaluation/early_experiments/task24_dflash_r1_n10.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r2_n10.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r3_n10.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r2_n10.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r3_n10.jsonl`
 
 ## Artifact Table
 
 | Artifact | Condition | Rows | Contract status |
 | --- | --- | ---: | --- |
-| `results/task24_dflash_r1_n10.jsonl` | `DFlash-R1` | 10 | PASS |
-| `results/task24_cc_llm_r2_n10.jsonl` | `CC-LLM-R2` | 10 | PASS |
-| `results/task24_cc_llm_r3_n10.jsonl` | `CC-LLM-R3` | 10 | PASS |
-| `results/task24_llmlingua_ar_r2_n10.jsonl` | `LLMLingua-AR-R2` | 10 | PASS |
-| `results/task24_llmlingua_ar_r3_n10.jsonl` | `LLMLingua-AR-R3` | 10 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task24_dflash_r1_n10.jsonl` | `DFlash-R1` | 10 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r2_n10.jsonl` | `CC-LLM-R2` | 10 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task24_cc_llm_r3_n10.jsonl` | `CC-LLM-R3` | 10 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r2_n10.jsonl` | `LLMLingua-AR-R2` | 10 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task24_llmlingua_ar_r3_n10.jsonl` | `LLMLingua-AR-R3` | 10 | PASS |
 
 ## Metrics Table
 

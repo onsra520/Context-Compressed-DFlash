@@ -8,13 +8,13 @@ This is a target-only autoregressive baseline with LLMLingua compression. It is 
 
 ## Commands Run
 
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 3 --output results/llmlingua_ar_r2_smoke.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R3 --n 3 --output results/llmlingua_ar_r3_smoke.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 3 --output results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R3 --n 3 --output results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl`
 
 ## Artifact Paths
 
-- `results/llmlingua_ar_r2_smoke.jsonl`
-- `results/llmlingua_ar_r3_smoke.jsonl`
+- `results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl`
+- `results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl`
 
 Both artifacts were created and contain 3 JSONL rows.
 
@@ -99,11 +99,11 @@ The first prompt has low tok/s because it generated only 2 tokens; this is expec
 
 | Condition | Artifact | Rows | Avg tok/s | Avg tau_mean | Max VRAM allocated | Notes |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
-| DFlash-R1 | `results/dflash_r1_n20.jsonl` | 20 | 17.38 | 2.52 | 3.510836124420166 GiB | no compression control, smoke-level preliminary baseline |
-| CC-LLM-R2 | `results/cc_llm_r2_smoke.jsonl` | 3 | 27.70 | 4.33 | 3.510836124420166 GiB | LLMLingua + DFlash, smoke only |
-| CC-LLM-R3 | `results/cc_llm_r3_smoke.jsonl` | 3 | 23.19 | 3.72 | 3.510836124420166 GiB | LLMLingua + DFlash, smoke only |
-| LLMLingua-AR-R2 | `results/llmlingua_ar_r2_smoke.jsonl` | 3 | 11.86 | n/a | 2.5024728775024414 GiB | LLMLingua + target-only AR, smoke only |
-| LLMLingua-AR-R3 | `results/llmlingua_ar_r3_smoke.jsonl` | 3 | 11.23 | n/a | 2.502472400665283 GiB | LLMLingua + target-only AR, smoke only |
+| DFlash-R1 | `results/_archives/early_smokes/dflash_r1_n20.jsonl` | 20 | 17.38 | 2.52 | 3.510836124420166 GiB | no compression control, smoke-level preliminary baseline |
+| CC-LLM-R2 | `results/_archives/early_smokes/cc_llm_r2_smoke.jsonl` | 3 | 27.70 | 4.33 | 3.510836124420166 GiB | LLMLingua + DFlash, smoke only |
+| CC-LLM-R3 | `results/_archives/early_smokes/cc_llm_r3_smoke.jsonl` | 3 | 23.19 | 3.72 | 3.510836124420166 GiB | LLMLingua + DFlash, smoke only |
+| LLMLingua-AR-R2 | `results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl` | 3 | 11.86 | n/a | 2.5024728775024414 GiB | LLMLingua + target-only AR, smoke only |
+| LLMLingua-AR-R3 | `results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl` | 3 | 11.23 | n/a | 2.502472400665283 GiB | LLMLingua + target-only AR, smoke only |
 
 These numbers are not directly comparable as final benchmark results because the prompt count is tiny, generation length is short, and `flash_attn` is not installed. They are sufficient to prove the LLMLingua-AR path runs and emits comparable smoke artifacts.
 
@@ -126,7 +126,7 @@ Low tok/s on the first row in each condition is explained by very short output l
 
 The DFlash-R1 baseline behavior and artifact were not changed. Existing control remains:
 
-- `results/dflash_r1_n20.jsonl`
+- `results/_archives/early_smokes/dflash_r1_n20.jsonl`
 
 ## Verification
 
@@ -134,7 +134,7 @@ The DFlash-R1 baseline behavior and artifact were not changed. Existing control 
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_compression.py -q`: PASS, 9 tests
 - `PYTHONPATH=src .venv/bin/python scripts/synthetic_probe.py --config config.yml --dry-run`: PASS, `DRY-RUN-PASS`
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_dflash_core.py -q`: PASS, 7 tests
-- `wc -l results/llmlingua_ar_r2_smoke.jsonl results/llmlingua_ar_r3_smoke.jsonl`: PASS, 3 rows each
+- `wc -l results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl`: PASS, 3 rows each
 - JSONL validation for condition, question preservation, compression ratio, and `draft_used`: PASS
 
 ## Next Step

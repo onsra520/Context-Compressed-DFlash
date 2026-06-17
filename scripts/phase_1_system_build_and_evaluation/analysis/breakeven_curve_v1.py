@@ -7,14 +7,14 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_PREFILL_ARTIFACT = Path("results/task39_t_prefill_smoke.jsonl")
-DEFAULT_OUTPUT = Path("results/task40_breakeven_curve_v1_summary.json")
+DEFAULT_PREFILL_ARTIFACT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task39_t_prefill_smoke.jsonl")
+DEFAULT_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task40_breakeven_curve_v1_summary.json")
 DEFAULT_CONDITION_ARTIFACTS = {
-    "DFlash-R1": Path("results/task31_dflash_r1_longctx_text_n6.jsonl"),
-    "CC-LLM-R2": Path("results/task31_cc_llm_r2_longctx_text_n6.jsonl"),
-    "CC-LLM-R3": Path("results/task31_cc_llm_r3_longctx_text_n6.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl"),
-    "LLMLingua-AR-R3": Path("results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl"),
+    "CC-LLM-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl"),
+    "CC-LLM-R3": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl"),
+    "LLMLingua-AR-R3": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl"),
 }
 
 

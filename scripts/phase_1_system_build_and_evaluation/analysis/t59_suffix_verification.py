@@ -18,15 +18,15 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 COMPRESSED_CONDITIONS = ["LLMLingua-AR-R2", "CC-DFlash-R2"]
 TASK56_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task56_gsm8k_short_llmlingua_ar_r2_n10_mnt192.jsonl"),
-    "CC-DFlash-R2": Path("results/task56_gsm8k_short_cc_dflash_r2_n10_mnt192.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_llmlingua_ar_r2_n10_mnt192.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_cc_dflash_r2_n10_mnt192.jsonl"),
 }
 TASK59_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task59_gsm8k_short_llmlingua_ar_r2_n10_mnt192_suffixfix.jsonl"),
-    "CC-DFlash-R2": Path("results/task59_gsm8k_short_cc_dflash_r2_n10_mnt192_suffixfix.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_llmlingua_ar_r2_n10_mnt192_suffixfix.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_cc_dflash_r2_n10_mnt192_suffixfix.jsonl"),
 }
-DEFAULT_JSON_OUTPUT = Path("results/task59_suffix_verification_summary.json")
-DEFAULT_CSV_OUTPUT = Path("results/task59_suffix_verification_table.csv")
+DEFAULT_JSON_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task59_suffix_verification_summary.json")
+DEFAULT_CSV_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task59_suffix_verification_table.csv")
 
 FINAL_ANSWER_INSTRUCTION_RE = re.compile(
     r"end\s+with\s+exactly\s+one\s+line|final\s+answer\s*:\s*<number>",

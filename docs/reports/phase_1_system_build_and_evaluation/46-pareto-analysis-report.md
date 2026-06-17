@@ -14,16 +14,16 @@ No deployment readiness, confirmed 8 GB deployment, final semantic correctness, 
 
 Inputs:
 
-- `results/task45_final_artifact_audit_summary.json`
-- `results/task45_final_baseline_ar_n100.jsonl`
-- `results/task45_final_dflash_r1_n100.jsonl`
-- `results/task45_final_llmlingua_ar_r2_n100.jsonl`
-- `results/task45_final_cc_llm_r2_n100.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl`
 
 Outputs:
 
-- `results/task46_pareto_summary.json`
-- `results/task46_pareto_table.csv`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_table.csv`
 
 Analyzer:
 
@@ -32,7 +32,7 @@ Analyzer:
 Command:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t46_pareto.py --audit results/task45_final_artifact_audit_summary.json --output results/task46_pareto_summary.json
+PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t46_pareto.py --audit results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json --output results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json
 ```
 
 ## Method
@@ -175,8 +175,8 @@ Task 48 can then produce paper-ready figures if Task 47 resolves the quality pre
 Commands:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t46_pareto.py --audit results/task45_final_artifact_audit_summary.json --output results/task46_pareto_summary.json
-python3 -m json.tool results/task46_pareto_summary.json >/tmp/task46_pareto_summary.check.json
+PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t46_pareto.py --audit results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json --output results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json
+python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json >/tmp/task46_pareto_summary.check.json
 python3 -m compileall src tests scripts 2>&1 | tail -20
 PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30
 ```

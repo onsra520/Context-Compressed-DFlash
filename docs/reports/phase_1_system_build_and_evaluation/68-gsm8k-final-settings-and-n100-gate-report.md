@@ -14,12 +14,12 @@ Task 67 commit:
 
 Inputs:
 
-- `results/task60_mnt256_calibration_summary.json`
-- `results/task63_n30_stability_summary.json`
-- `results/task66_mnt384_rerun_reproducibility_summary.json`
-- `results/task67_persistent_mnt384_failure_summary.json`
-- `results/task61b_keep_rate67_calibration_summary.json`
-- `results/task62_changed_outcome_triage_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task60_mnt256_calibration_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task63_n30_stability_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_reproducibility_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_calibration_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task62_changed_outcome_triage_summary.json`
 - `docs/reports/60-gsm8k-compressed-mnt256-calibration-report.md`
 - `docs/reports/63-gsm8k-n30-stability-report.md`
 - `docs/reports/66-gsm8k-mnt384-rerun-reproducibility-report.md`
@@ -29,8 +29,8 @@ Outputs:
 
 - `scripts/phase_1_system_build_and_evaluation/analysis/t68_gsm8k_final_settings.py`
 - `tests/test_task68_gsm8k_final_settings.py`
-- `results/task68_gsm8k_final_settings_summary.json`
-- `results/task68_gsm8k_final_settings_table.csv`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task68_gsm8k_final_settings_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task68_gsm8k_final_settings_table.csv`
 
 ## GSM8K Recovery Path
 
@@ -107,7 +107,7 @@ Commands run:
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t68_gsm8k_final_settings.py`
 - `python3 -m compileall src tests scripts 2>&1 | tail -20`
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30`
-- `python3 -m json.tool results/task68_gsm8k_final_settings_summary.json >/dev/null`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task68_gsm8k_final_settings_summary.json >/dev/null`
 - HTML sanity checks for `<!DOCTYPE html>` and `</html>`
 - Markdown fence balance checks for `instruction.md` and this report
 

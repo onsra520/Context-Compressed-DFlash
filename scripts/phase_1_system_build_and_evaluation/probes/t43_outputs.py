@@ -19,9 +19,9 @@ from scripts.analyze_task31_answer_quality import (
 
 
 DEFAULT_ARTIFACTS = [
-    Path("results/task43_dflash_r1_sample_n5.jsonl"),
-    Path("results/task43_llmlingua_ar_r2_sample_n5.jsonl"),
-    Path("results/task43_cc_llm_r2_sample_n5.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task43_dflash_r1_sample_n5.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task43_llmlingua_ar_r2_sample_n5.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task43_cc_llm_r2_sample_n5.jsonl"),
 ]
 
 

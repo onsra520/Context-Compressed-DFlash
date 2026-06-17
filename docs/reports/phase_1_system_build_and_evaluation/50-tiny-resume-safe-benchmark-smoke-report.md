@@ -44,29 +44,29 @@ QMSum DFlash-R1 and QMSum CC-DFlash-R2 were intentionally deferred to avoid expa
 ## Commands Executed
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition Baseline-AR --n 3 --seed 42 --output results/task50_gsm8k_short_baseline_ar_n3.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition Baseline-AR --n 3 --seed 42 --output results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_baseline_ar_n3.jsonl --resume --store-generated-text
 
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 3 --seed 42 --output results/task50_gsm8k_short_llmlingua_ar_r2_n3.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 3 --seed 42 --output results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_llmlingua_ar_r2_n3.jsonl --resume --store-generated-text
 
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition DFlash-R1 --n 3 --seed 42 --output results/task50_gsm8k_short_dflash_r1_n3.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition DFlash-R1 --n 3 --seed 42 --output results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_dflash_r1_n3.jsonl --resume --store-generated-text
 
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 3 --seed 42 --output results/task50_gsm8k_short_cc_dflash_r2_n3.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 3 --seed 42 --output results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_cc_dflash_r2_n3.jsonl --resume --store-generated-text
 
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition Baseline-AR --n 3 --seed 42 --output results/task50_qmsum_long_baseline_ar_n3.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition Baseline-AR --n 3 --seed 42 --output results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_baseline_ar_n3.jsonl --resume --store-generated-text
 
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition LLMLingua-AR-R2 --n 3 --seed 42 --output results/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition LLMLingua-AR-R2 --n 3 --seed 42 --output results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl --resume --store-generated-text
 ```
 
 ## Completed Runs and Artifacts
 
 | Dataset | Condition | Artifact | Rows | Status | Avg tok/s | Avg tau | Avg T_compress ms | Avg R_actual | Max VRAM allocated GiB | Max VRAM reserved GiB |
 | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `gsm8k_short` | Baseline-AR | `results/task50_gsm8k_short_baseline_ar_n3.jsonl` | 3 | PASS | 13.47 | 0.00 | 0.00 | 0.00 | 2.50 | 2.61 |
-| `gsm8k_short` | LLMLingua-AR-R2 | `results/task50_gsm8k_short_llmlingua_ar_r2_n3.jsonl` | 3 | PASS | 16.45 | 0.00 | 1025.21 | 2.67 | 2.50 | 2.60 |
-| `gsm8k_short` | DFlash-R1 | `results/task50_gsm8k_short_dflash_r1_n3.jsonl` | 3 | PASS | 36.32 | 5.00 | 0.00 | 0.00 | 3.51 | 3.65 |
-| `gsm8k_short` | CC-DFlash-R2 | `results/task50_gsm8k_short_cc_dflash_r2_n3.jsonl` | 3 | PASS | 44.22 | 7.08 | 817.10 | 2.67 | 3.51 | 3.65 |
-| `qmsum_meeting_qa_long` | Baseline-AR | `results/task50_qmsum_long_baseline_ar_n3.jsonl` | 3 | PASS | 12.42 | 0.00 | 0.00 | 0.00 | 2.50 | 4.32 |
-| `qmsum_meeting_qa_long` | LLMLingua-AR-R2 | `results/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl` | 3 | PASS | 13.88 | 0.00 | 5244.05 | 2.06 | 2.50 | 3.42 |
+| `gsm8k_short` | Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_baseline_ar_n3.jsonl` | 3 | PASS | 13.47 | 0.00 | 0.00 | 0.00 | 2.50 | 2.61 |
+| `gsm8k_short` | LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_llmlingua_ar_r2_n3.jsonl` | 3 | PASS | 16.45 | 0.00 | 1025.21 | 2.67 | 2.50 | 2.60 |
+| `gsm8k_short` | DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_dflash_r1_n3.jsonl` | 3 | PASS | 36.32 | 5.00 | 0.00 | 0.00 | 3.51 | 3.65 |
+| `gsm8k_short` | CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_cc_dflash_r2_n3.jsonl` | 3 | PASS | 44.22 | 7.08 | 817.10 | 2.67 | 3.51 | 3.65 |
+| `qmsum_meeting_qa_long` | Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_baseline_ar_n3.jsonl` | 3 | PASS | 12.42 | 0.00 | 0.00 | 0.00 | 2.50 | 4.32 |
+| `qmsum_meeting_qa_long` | LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_llmlingua_ar_r2_n3.jsonl` | 3 | PASS | 13.88 | 0.00 | 5244.05 | 2.06 | 2.50 | 3.42 |
 
 All completed artifacts contain generated text.
 

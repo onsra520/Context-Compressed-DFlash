@@ -46,13 +46,13 @@ If the compression step could be performed entirely offline (cached), the `T_com
 Since GPU compression is inviable under the 8GB constraint, and CPU compression is fundamentally too slow for real-time online use, the fairest deployment model for CC-DFlash is **Cached/Offline Compression Mode**. Future reports should emphasize that CC-DFlash demonstrates significant end-to-end speedups *if* the context is pre-compressed offline. Online compression on limited hardware remains an unsolved bottleneck, which is a standard limitation for context-compression research.
 
 ## 10. Artifact List
-- `results/task85_compression_latency_breakdown.json`
-- `results/task85_compression_latency_breakdown.csv`
-- `results/task85_vram_trace.json`
-- `results/task85_vram_trace.csv`
-- `results/task85_load_unload_architecture.json`
-- `results/task85_cached_compression_upper_bound.json`
-- `results/task85_cached_compression_upper_bound.csv`
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_compression_latency_breakdown.json`
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_compression_latency_breakdown.csv`
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_vram_trace.json`
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_vram_trace.csv`
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_load_unload_architecture.json`
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_cached_compression_upper_bound.json`
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_cached_compression_upper_bound.csv`
 
 ## 11. Claim Boundary
 > [!IMPORTANT]

@@ -23,7 +23,7 @@ Changed:
 Generated:
 
 - `data/processed/gsm8k_wikipedia_augmented_full.jsonl`
-- `results/task45_source_mode_dataset_audit_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json`
 
 Updated:
 
@@ -123,7 +123,7 @@ Command run:
 ```bash
 PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py \
   --input data/processed/gsm8k_wikipedia_augmented_full.jsonl \
-  --output results/task45_source_mode_dataset_audit_summary.json
+  --output results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json
 ```
 
 Audit summary:
@@ -173,8 +173,8 @@ Commands run:
 python3 -m compileall src tests scripts
 PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q
 PYTHONPATH=src .venv/bin/python scripts/create_dataset.py --output data/processed/gsm8k_wikipedia_augmented_full.jsonl --max-samples 100 --min-context-words 500 --max-context-words 1500 --seed 41 --split test --source-mode hf --gsm8k-jsonl data/raw/gsm8k_source.jsonl --wikipedia-jsonl data/raw/wikipedia_source.jsonl
-PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_full.jsonl --output results/task45_source_mode_dataset_audit_summary.json
-python3 -m json.tool results/task45_source_mode_dataset_audit_summary.json
+PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_full.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json
+python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json
 wc -l data/processed/gsm8k_wikipedia_augmented_full.jsonl
 ```
 

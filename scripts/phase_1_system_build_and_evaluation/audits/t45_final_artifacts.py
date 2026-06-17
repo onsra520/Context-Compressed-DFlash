@@ -16,10 +16,10 @@ from scripts.analyze_task31_answer_quality import ScorerCategory, score_row
 
 
 FINAL_ARTIFACTS = {
-    "Baseline-AR": Path("results/task45_final_baseline_ar_n100.jsonl"),
-    "DFlash-R1": Path("results/task45_final_dflash_r1_n100.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task45_final_llmlingua_ar_r2_n100.jsonl"),
-    "CC-LLM-R2": Path("results/task45_final_cc_llm_r2_n100.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl"),
+    "CC-LLM-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl"),
 }
 
 FINAL_LOGS = {
@@ -421,7 +421,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Audit Task 45 final n=100 artifacts and logs")
     parser.add_argument(
         "--output",
-        default="results/task45_final_artifact_audit_summary.json",
+        default="results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json",
         help="Summary JSON output path",
     )
     args = parser.parse_args()

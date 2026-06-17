@@ -17,15 +17,15 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 
 TASK60_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl"),
-    "CC-DFlash-R2": Path("results/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl"),
 }
 TASK63_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl"),
-    "CC-DFlash-R2": Path("results/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl"),
 }
-DEFAULT_JSON_OUTPUT = Path("results/task63_n30_stability_summary.json")
-DEFAULT_CSV_OUTPUT = Path("results/task63_n30_stability_table.csv")
+DEFAULT_JSON_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_n30_stability_summary.json")
+DEFAULT_CSV_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_n30_stability_table.csv")
 
 FINAL_ANSWER_MARKER_RE = re.compile(
     r"final\s+(?:numeric\s+)?answer\s*(?:is|=|:|：)\s*[-+]?\$?\d[\d,]*(?:\.\d+)?",

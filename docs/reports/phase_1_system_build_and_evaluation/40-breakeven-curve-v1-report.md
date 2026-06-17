@@ -15,7 +15,7 @@ Task 40 produced a machine-readable breakeven v1 summary from existing artifacts
 
 - Added `scripts/breakeven_curve_v1.py`.
 - Added unit tests in `tests/test_breakeven_curve_v1.py`.
-- Generated `results/task40_breakeven_curve_v1_summary.json`.
+- Generated `results/phase_1_system_build_and_evaluation/early_experiments/task40_breakeven_curve_v1_summary.json`.
 - Updated `docs/Roadmap.html` to mark Task 40 as PARTIAL/preliminary and set Task 41 as next.
 - Updated `docs/CC-DFlash-Overview.html` to reflect that Task 40 is a partial preliminary summary, not a confirmed breakeven curve.
 
@@ -25,12 +25,12 @@ No benchmarks were run. No models were loaded. No old result artifacts were over
 
 | Input | Role |
 | --- | --- |
-| `results/task39_t_prefill_smoke.jsonl` | Baseline-AR target prefill reference |
-| `results/task31_dflash_r1_longctx_text_n6.jsonl` | No-compression DFlash reference |
-| `results/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM R2 compression timing and ratio |
-| `results/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM R3 compression timing and ratio |
-| `results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | AR R2 compression timing and ratio |
-| `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | AR R3 compression timing and ratio |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task39_t_prefill_smoke.jsonl` | Baseline-AR target prefill reference |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl` | No-compression DFlash reference |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM R2 compression timing and ratio |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM R3 compression timing and ratio |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | AR R2 compression timing and ratio |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | AR R3 compression timing and ratio |
 
 ## Method
 
@@ -55,7 +55,7 @@ PYTHONPATH=src .venv/bin/python scripts/breakeven_curve_v1.py
 
 ## Generated Artifact
 
-`results/task40_breakeven_curve_v1_summary.json`
+`results/phase_1_system_build_and_evaluation/early_experiments/task40_breakeven_curve_v1_summary.json`
 
 The generated summary is valid JSON and has top-level status `PARTIAL`.
 
@@ -63,7 +63,7 @@ The generated summary is valid JSON and has top-level status `PARTIAL`.
 
 | Field | Value |
 | --- | ---: |
-| Artifact | `results/task39_t_prefill_smoke.jsonl` |
+| Artifact | `results/phase_1_system_build_and_evaluation/early_experiments/task39_t_prefill_smoke.jsonl` |
 | Rows | 1 |
 | Condition | Baseline-AR |
 | Average input tokens | 19.00 |
@@ -101,7 +101,7 @@ Task 40 therefore supports Task 41+ planning, but it does not close the breakeve
 ## Validation
 
 - `PYTHONPATH=src .venv/bin/python scripts/breakeven_curve_v1.py`: PASS
-- `python3 -m json.tool results/task40_breakeven_curve_v1_summary.json`: PASS
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task40_breakeven_curve_v1_summary.json`: PASS
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_breakeven_curve_v1.py -q`: PASS, 3 passed
 
 ## Next Step

@@ -17,8 +17,8 @@ No new model, compressor, CUDA, or benchmark run was performed. No result artifa
 Generated outputs:
 
 - `scripts/phase_1_system_build_and_evaluation/analysis/t52_artifacts.py`
-- `results/task52_metric_summary.json`
-- `results/task52_metric_table.csv`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task52_metric_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task52_metric_table.csv`
 
 ## Commands
 
@@ -31,7 +31,7 @@ PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/anal
 Validation command for generated JSON:
 
 ```bash
-python3 -m json.tool results/task52_metric_summary.json
+python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task52_metric_summary.json
 ```
 
 ## Artifact Audit Result
@@ -154,7 +154,7 @@ Commands run:
 - `find docs -name "*.html" -exec grep -L "<!DOCTYPE html>" {} \;`
 - `find docs -name "*.html" -exec grep -L "</html>" {} \;`
 - Markdown fence balance for `instruction.md` and this report
-- `python3 -m json.tool results/task52_metric_summary.json`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task52_metric_summary.json`
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t52_artifacts.py`
 
 Results:

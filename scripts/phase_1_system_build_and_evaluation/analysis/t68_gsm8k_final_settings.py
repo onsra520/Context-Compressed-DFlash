@@ -8,15 +8,15 @@ from typing import Any
 
 
 DEFAULT_INPUTS = {
-    "task60_mnt256": Path("results/task60_mnt256_calibration_summary.json"),
-    "task61b_keep_rate67": Path("results/task61b_keep_rate67_calibration_summary.json"),
-    "task62_k67_triage": Path("results/task62_changed_outcome_triage_summary.json"),
-    "task63_n30_mnt256": Path("results/task63_n30_stability_summary.json"),
-    "task66_mnt384": Path("results/task66_mnt384_rerun_reproducibility_summary.json"),
-    "task67_failure_triage": Path("results/task67_persistent_mnt384_failure_summary.json"),
+    "task60_mnt256": Path("results/phase_1_system_build_and_evaluation/early_experiments/task60_mnt256_calibration_summary.json"),
+    "task61b_keep_rate67": Path("results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_calibration_summary.json"),
+    "task62_k67_triage": Path("results/phase_1_system_build_and_evaluation/early_experiments/task62_changed_outcome_triage_summary.json"),
+    "task63_n30_mnt256": Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_n30_stability_summary.json"),
+    "task66_mnt384": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_reproducibility_summary.json"),
+    "task67_failure_triage": Path("results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_summary.json"),
 }
-DEFAULT_SUMMARY_OUTPUT = Path("results/task68_gsm8k_final_settings_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task68_gsm8k_final_settings_table.csv")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task68_gsm8k_final_settings_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task68_gsm8k_final_settings_table.csv")
 
 
 def load_json(path: Path) -> dict[str, Any]:

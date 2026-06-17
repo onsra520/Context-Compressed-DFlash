@@ -7,12 +7,12 @@ PASS
 ## Exact Command
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 20 --output results/dflash_r1_n20.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 20 --output results/_archives/early_smokes/dflash_r1_n20.jsonl
 ```
 
 ## Artifact
 
-- Path: `results/dflash_r1_n20.jsonl`
+- Path: `results/_archives/early_smokes/dflash_r1_n20.jsonl`
 - Line count: `20`
 - Status: created successfully
 
@@ -62,10 +62,10 @@ These are not failures; they are the expected repeated prompt groups surfacing d
 - `python3 -m compileall src tests scripts`: PASS
 - `PYTHONPATH=src .venv/bin/python scripts/synthetic_probe.py --config config.yml --dry-run`: PASS
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_dflash_core.py -q`: PASS
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 20 --output results/dflash_r1_n20.jsonl`: PASS
-- `test -s results/dflash_r1_n20.jsonl`: PASS
-- `wc -l results/dflash_r1_n20.jsonl`: 20
-- `head -n 3 results/dflash_r1_n20.jsonl`: PASS
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 20 --output results/_archives/early_smokes/dflash_r1_n20.jsonl`: PASS
+- `test -s results/_archives/early_smokes/dflash_r1_n20.jsonl`: PASS
+- `wc -l results/_archives/early_smokes/dflash_r1_n20.jsonl`: 20
+- `head -n 3 results/_archives/early_smokes/dflash_r1_n20.jsonl`: PASS
 
 ## Next Step
 

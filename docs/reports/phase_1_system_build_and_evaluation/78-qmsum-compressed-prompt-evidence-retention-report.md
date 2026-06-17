@@ -36,21 +36,21 @@ Only the LLMLingua compressor was loaded for prompt reconstruction. Target/draft
 
 | Input | Rows |
 | --- | ---: |
-| `results/task77_qmsum_evidence_policy_cases.jsonl` | 60 |
-| `results/task77_qmsum_long_llmlingua_ar_r2_n30_mnt384_evidence.jsonl` | 30 |
-| `results/task77_qmsum_long_cc_dflash_r2_n30_mnt384_evidence.jsonl` | 30 |
-| `results/task76_qmsum_evidence_error_cases.jsonl` | 60 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_cases.jsonl` | 60 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_long_llmlingua_ar_r2_n30_mnt384_evidence.jsonl` | 30 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_long_cc_dflash_r2_n30_mnt384_evidence.jsonl` | 30 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_cases.jsonl` | 60 |
 | `data/eval/qmsum_meeting_qa_100.jsonl` | 100 |
 
 ## Outputs
 
 | Output | Rows |
 | --- | ---: |
-| `results/task78_qmsum_evidence_retention_summary.json` | JSON summary |
-| `results/task78_qmsum_evidence_retention_table.csv` | 4 label rows |
-| `results/task78_qmsum_evidence_retention_cases.jsonl` | 29 |
-| `results/task78_qmsum_reconstructed_prompt_previews.jsonl` | 29 |
-| `results/task78_qmsum_selected_evidence_spans.jsonl` | 29 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_summary.json` | JSON summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_table.csv` | 4 label rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_cases.jsonl` | 29 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_reconstructed_prompt_previews.jsonl` | 29 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_selected_evidence_spans.jsonl` | 29 |
 
 The audit uses one shared compressed-prompt case per selected prompt because LLMLingua-AR-R2 and CC-DFlash-R2 share the same compression path.
 
@@ -148,6 +148,6 @@ Commands run:
 
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_task78_qmsum_evidence_retention.py -q`
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t78_qmsum_evidence_retention.py`
-- `python3 -m json.tool results/task78_qmsum_evidence_retention_summary.json >/dev/null`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_summary.json >/dev/null`
 
 Full final validation is recorded in the task completion response.

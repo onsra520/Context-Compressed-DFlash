@@ -24,16 +24,16 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t65_mnt384_calibration
 
 
 TASK65_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task65_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl"),
-    "CC-DFlash-R2": Path("results/task65_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl"),
 }
 TASK66_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl"),
-    "CC-DFlash-R2": Path("results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl"),
 }
-DEFAULT_SUMMARY_OUTPUT = Path("results/task66_mnt384_rerun_reproducibility_summary.json")
-DEFAULT_CSV_OUTPUT = Path("results/task66_mnt384_rerun_reproducibility_table.csv")
-DEFAULT_CHANGED_OUTPUT = Path("results/task66_mnt384_rerun_changed_outcomes.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_reproducibility_summary.json")
+DEFAULT_CSV_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_reproducibility_table.csv")
+DEFAULT_CHANGED_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_changed_outcomes.jsonl")
 NOISY_RELATIVE_THRESHOLD = 0.25
 
 

@@ -41,16 +41,16 @@ The preflight was materially cleaner than the Task 65 run environment.
 |---|---|---|
 | Prompt dry-run | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --n 3 --seed 42 --dry-run-prompts` | PASS |
 | Prompt suffix check | Direct formatter check for sampled GSM8K prompts | PASS, all sampled prompts ended with `Final answer: <number>` |
-| LLMLingua-AR-R2 rerun | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl --resume --store-generated-text` | PASS, 30 rows |
-| CC-DFlash-R2 rerun | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl --resume --store-generated-text` | PASS, 30 rows |
+| LLMLingua-AR-R2 rerun | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl --resume --store-generated-text` | PASS, 30 rows |
+| CC-DFlash-R2 rerun | `scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl --resume --store-generated-text` | PASS, 30 rows |
 | Analyzer | `scripts/phase_1_system_build_and_evaluation/analysis/t66_mnt384_rerun_reproducibility.py` | PASS |
 
 ## Run Completion
 
 | Condition | Artifact | Rows | Generated text | Keep rate | Suffix preserved | Question preserved |
 |---|---|---:|---:|---:|---:|---:|
-| LLMLingua-AR-R2 | `results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl` | 30 | 30/30 | 0.50 | 30/30 | 30/30 |
-| CC-DFlash-R2 | `results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl` | 30 | 30/30 | 0.50 | 30/30 | 30/30 |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl` | 30 | 30/30 | 0.50 | 30/30 | 30/30 |
+| CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl` | 30 | 30/30 | 0.50 | 30/30 | 30/30 |
 
 Both artifacts include `t_compress_ms`, `original_input_tokens`, `compressed_input_tokens`, and compression-ratio fields in every row.
 

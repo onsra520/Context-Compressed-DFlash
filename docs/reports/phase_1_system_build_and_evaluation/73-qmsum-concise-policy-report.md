@@ -45,11 +45,11 @@ PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dat
 Real bounded compressed-only runs:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl --resume --store-generated-text
 ```
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl --resume --store-generated-text
 ```
 
 Analyzer:
@@ -62,8 +62,8 @@ PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/anal
 
 | Condition | Artifact | Rows | Policy Preserved | Cap Hits |
 |---|---|---:|---:|---:|
-| LLMLingua-AR-R2 | `results/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl` | 30 | 30/30 | 0/30 |
-| CC-DFlash-R2 | `results/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl` | 30 | 30/30 | 0/30 |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl` | 30 | 30/30 | 0/30 |
+| CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl` | 30 | 30/30 | 0/30 |
 
 ## Cap-Hit Before/After
 

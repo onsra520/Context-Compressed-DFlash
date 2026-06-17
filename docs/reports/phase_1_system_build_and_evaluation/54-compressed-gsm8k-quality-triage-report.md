@@ -8,10 +8,10 @@ Status: PASS, preliminary artifact triage
 
 Task 54 analyzes existing Task 53 GSM8K `max_new_tokens=128` artifacts only:
 
-- `results/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl`
-- `results/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl`
-- `results/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl`
-- `results/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl`
 - `data/eval/gsm8k_100.jsonl`
 
 No new model, compressor, CUDA, or benchmark run was performed. Existing Task 53 artifacts were read only and not modified.
@@ -23,8 +23,8 @@ Task 53 was already committed before this task:
 ## Outputs
 
 - `scripts/phase_1_system_build_and_evaluation/analysis/t54_compressed_gsm8k_triage.py`
-- `results/task54_compressed_gsm8k_failure_triage.json`
-- `results/task54_compressed_gsm8k_failure_samples.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task54_compressed_gsm8k_failure_triage.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task54_compressed_gsm8k_failure_samples.jsonl`
 
 ## Command
 
@@ -114,7 +114,7 @@ Recommended next task:
 Commands run:
 
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t54_compressed_gsm8k_triage.py`
-- `python3 -m json.tool results/task54_compressed_gsm8k_failure_triage.json`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task54_compressed_gsm8k_failure_triage.json`
 - `python3 -m compileall src tests scripts 2>&1 | tail -20`
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30`
 - `find docs -name "*.html" -exec grep -L "<!DOCTYPE html>" {} \;`

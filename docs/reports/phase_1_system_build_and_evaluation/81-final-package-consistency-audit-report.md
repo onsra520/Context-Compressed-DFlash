@@ -18,33 +18,33 @@ The following files were part of this final consistency audit:
 * `docs/reports/80-cross-dataset-final-result-package-report.md`
 * `docs/reports/80a-final-two-dataset-rerun-report.md`
 * `docs/reports/80b-rerun-analysis-and-issue-gate-report.md`
-* `results/task71_qmsum_n30_full_matrix_summary.json`
-* `results/task79_qmsum_reporting_decision.json`
-* `results/task80_cross_dataset_final_summary.json`
-* `results/task80_cross_dataset_final_table.csv`
-* `results/task80_cross_dataset_claims_matrix.csv`
-* `results/task80_final_report_key_points.json`
-* `results/task80a_final_two_dataset_rerun_summary.json`
-* `results/task80a_condition_delta_vs_task80.csv`
-* `results/task80a_run_manifest.json`
-* `results/task80b_rerun_issue_gate_summary.json`
-* `results/task80b_dflash_regression_check.json`
-* `results/task80b_cleaned_delta_interpretation.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_table.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_claims_matrix.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80_final_report_key_points.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80a_condition_delta_vs_task80.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80a_run_manifest.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80b_rerun_issue_gate_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80b_dflash_regression_check.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80b_cleaned_delta_interpretation.csv`
 
 **Optional missing files**
 * `docs/reports/69-gsm8k-n30-full-matrix-report.md`
-* `results/task69_gsm8k_full_matrix_summary.json`
-* `results/task69_gsm8k_full_matrix_table.csv`
-* `results/task71_qmsum_n30_full_matrix_table.csv`
-* `results/task79_qmsum_reporting_decision_table.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_table.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_table.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision_table.csv`
 
 **Generated Task81 files**
 * `docs/reports/81-final-package-consistency-audit-report.md`
-* `results/task81_final_consistency_audit_summary.json`
-* `results/task81_claim_safety_matrix.csv`
-* `results/task81_evidence_basis_matrix.csv`
-* `results/task81_artifact_manifest.csv`
-* `results/task81_final_report_readiness_checklist.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task81_final_consistency_audit_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task81_claim_safety_matrix.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task81_evidence_basis_matrix.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task81_artifact_manifest.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task81_final_report_readiness_checklist.csv`
 
 ## 3. Task chain consistency
 The task chain follows a coherent progression into the final phase:

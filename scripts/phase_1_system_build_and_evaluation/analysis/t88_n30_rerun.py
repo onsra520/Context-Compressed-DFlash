@@ -30,7 +30,7 @@ def analyze():
     failures = []
     
     # We load the Task 86 checklist limits
-    with open("results/task86_rerun_validation_checklist.json", "r") as f:
+    with open("results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_validation_checklist.json", "r") as f:
         checklist = json.load(f)["gate_criteria"]
 
     all_passed = True
@@ -168,11 +168,11 @@ def analyze():
                         } for r in outliers
                     ]
                 }
-                with open("results/task88_qmsum_dflash_r1_latency_inspection.json", "w") as f:
+                with open("results/phase_1_system_build_and_evaluation/final_reruns/task88_qmsum_dflash_r1_latency_inspection.json", "w") as f:
                     json.dump(inspection, f, indent=2)
                 
                 if outliers:
-                    with open("results/task88_qmsum_dflash_r1_latency_outliers.jsonl", "w") as f:
+                    with open("results/phase_1_system_build_and_evaluation/final_reruns/task88_qmsum_dflash_r1_latency_outliers.jsonl", "w") as f:
                         for r in outliers:
                             f.write(json.dumps(r) + "\n")
 
@@ -193,11 +193,11 @@ def analyze():
     summary["gate_status"] = gate_status
 
     # Write summary
-    summary_path = "results/task88_n30_rerun_summary.json"
+    summary_path = "results/phase_1_system_build_and_evaluation/final_reruns/task88_n30_rerun_summary.json"
     with open(summary_path, "w") as f:
         json.dump({"status": gate_status, "metrics": summary}, f, indent=2)
         
-    csv_path = "results/task88_n30_rerun_table.csv"
+    csv_path = "results/phase_1_system_build_and_evaluation/final_reruns/task88_n30_rerun_table.csv"
     with open(csv_path, "w", newline="") as f:
         if table_rows:
             writer = csv.DictWriter(f, fieldnames=table_rows[0].keys())
@@ -205,7 +205,7 @@ def analyze():
             writer.writerows(table_rows)
             
     if failures:
-        failures_path = "results/task88_n30_rerun_failures.jsonl"
+        failures_path = "results/phase_1_system_build_and_evaluation/final_reruns/task88_n30_rerun_failures.jsonl"
         with open(failures_path, "w") as f:
             for fail in failures:
                 f.write(json.dumps(fail) + "\n")

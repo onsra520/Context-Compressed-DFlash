@@ -32,15 +32,15 @@ The full QMSum rerun completed successfully for all four conditions, with 30/30 
 
 ## 5. Artifact list
 
-* `results/task83_gsm8k_dflash_r1_repair_n30.jsonl`
-* `results/task83_gsm8k_dflash_r1_repair_summary.json`
-* `results/task83_gsm8k_dflash_r1_repair_table.csv`
-* `results/task83_qmsum_baseline_ar_n30.jsonl`
-* `results/task83_qmsum_dflash_r1_n30.jsonl`
-* `results/task83_qmsum_llmlingua_ar_r2_n30.jsonl`
-* `results/task83_qmsum_cc_dflash_r2_n30.jsonl`
-* `results/task83_qmsum_repair_summary.json`
-* `results/task83_qmsum_repair_table.csv`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_n30.jsonl`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_summary.json`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_table.csv`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_baseline_ar_n30.jsonl`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_dflash_r1_n30.jsonl`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_llmlingua_ar_r2_n30.jsonl`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_cc_dflash_r2_n30.jsonl`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_repair_summary.json`
+* `results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_repair_table.csv`
 * `scripts/phase_1_system_build_and_evaluation/analysis/t83_repair.py`
 
 ## 6. Decision on metric source replacement

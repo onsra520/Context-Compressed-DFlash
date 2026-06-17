@@ -13,7 +13,7 @@ Task 39 added target-model prefill latency measurement to the smoke runner artif
 - Added per-row target prefill timing fields to `scripts/run_mvp.py`.
 - Added CPU-safe helper behavior for prefill timing.
 - Added lightweight tests for field presence, JSONL schema compatibility, and Baseline-AR compatibility.
-- Created a new tiny smoke artifact: `results/task39_t_prefill_smoke.jsonl`.
+- Created a new tiny smoke artifact: `results/phase_1_system_build_and_evaluation/early_experiments/task39_t_prefill_smoke.jsonl`.
 - Updated `docs/Roadmap.html` to mark Task 39 PASS and set Task 40 as next.
 - Updated `docs/CC-DFlash-Overview.html` only to replace stale "T_prefill not measured" wording with a preliminary Task 39 smoke-measurement note.
 
@@ -47,7 +47,7 @@ The current smoke still uses the Transformers backend and keeps `enable_thinking
 ## Smoke Command
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition Baseline-AR --n 1 --output results/task39_t_prefill_smoke.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition Baseline-AR --n 1 --output results/phase_1_system_build_and_evaluation/early_experiments/task39_t_prefill_smoke.jsonl
 ```
 
 ## Smoke Result
@@ -95,7 +95,7 @@ Added or updated lightweight CPU-safe tests in `tests/test_run_mvp_fixture_mode.
 
 - `python3 -m compileall scripts tests src 2>&1 | tail -20`: PASS
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_run_mvp_fixture_mode.py -q`: PASS, 7 passed
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition Baseline-AR --n 1 --output results/task39_t_prefill_smoke.jsonl`: PASS
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition Baseline-AR --n 1 --output results/phase_1_system_build_and_evaluation/early_experiments/task39_t_prefill_smoke.jsonl`: PASS
 - Artifact inspection confirmed `t_prefill_ms`, `t_prefill_mode`, prefill VRAM fields, and Baseline-AR target-only fields.
 
 ## Next Step

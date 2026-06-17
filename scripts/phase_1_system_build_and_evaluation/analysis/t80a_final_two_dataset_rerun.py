@@ -24,21 +24,21 @@ CONDITIONS = ["Baseline-AR", "DFlash-R1", "LLMLingua-AR-R2", "CC-DFlash-R2"]
 DATASETS = ["gsm8k_short", "qmsum_meeting_qa_long"]
 EXPECTED_ROWS = 30
 MAX_NEW_TOKENS = 384
-SUMMARY_OUTPUT = Path("results/task80a_final_two_dataset_rerun_summary.json")
-TABLE_OUTPUT = Path("results/task80a_final_two_dataset_rerun_table.csv")
-DELTA_OUTPUT = Path("results/task80a_condition_delta_vs_task80.csv")
-MANIFEST_OUTPUT = Path("results/task80a_run_manifest.json")
-TASK80_SUMMARY = Path("results/task80_cross_dataset_final_summary.json")
+SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_summary.json")
+TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_table.csv")
+DELTA_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_condition_delta_vs_task80.csv")
+MANIFEST_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_run_manifest.json")
+TASK80_SUMMARY = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_summary.json")
 
 ARTIFACTS = {
-    ("gsm8k_short", "Baseline-AR"): Path("results/task80a_gsm8k_short_baseline_ar_n30_mnt384.jsonl"),
-    ("gsm8k_short", "DFlash-R1"): Path("results/task80a_gsm8k_short_dflash_r1_n30_mnt384.jsonl"),
-    ("gsm8k_short", "LLMLingua-AR-R2"): Path("results/task80a_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl"),
-    ("gsm8k_short", "CC-DFlash-R2"): Path("results/task80a_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl"),
-    ("qmsum_meeting_qa_long", "Baseline-AR"): Path("results/task80a_qmsum_long_baseline_ar_n30_mnt384.jsonl"),
-    ("qmsum_meeting_qa_long", "DFlash-R1"): Path("results/task80a_qmsum_long_dflash_r1_n30_mnt384.jsonl"),
-    ("qmsum_meeting_qa_long", "LLMLingua-AR-R2"): Path("results/task80a_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
-    ("qmsum_meeting_qa_long", "CC-DFlash-R2"): Path("results/task80a_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
+    ("gsm8k_short", "Baseline-AR"): Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_baseline_ar_n30_mnt384.jsonl"),
+    ("gsm8k_short", "DFlash-R1"): Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_dflash_r1_n30_mnt384.jsonl"),
+    ("gsm8k_short", "LLMLingua-AR-R2"): Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_llmlingua_ar_r2_n30_mnt384.jsonl"),
+    ("gsm8k_short", "CC-DFlash-R2"): Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_cc_dflash_r2_n30_mnt384.jsonl"),
+    ("qmsum_meeting_qa_long", "Baseline-AR"): Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_baseline_ar_n30_mnt384.jsonl"),
+    ("qmsum_meeting_qa_long", "DFlash-R1"): Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_dflash_r1_n30_mnt384.jsonl"),
+    ("qmsum_meeting_qa_long", "LLMLingua-AR-R2"): Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
+    ("qmsum_meeting_qa_long", "CC-DFlash-R2"): Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
 }
 
 

@@ -26,36 +26,36 @@ No final benchmark was run.
 
 ## Artifacts Inspected
 
-- `results/task43_dflash_r1_sample_n5.jsonl`
-- `results/task43_llmlingua_ar_r2_sample_n5.jsonl`
-- `results/task43_cc_llm_r2_sample_n5.jsonl`
-- `results/task43_answer_quality_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task43_dflash_r1_sample_n5.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task43_llmlingua_ar_r2_sample_n5.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task43_cc_llm_r2_sample_n5.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task43_answer_quality_summary.json`
 
 ## New Artifacts
 
 | Artifact | Purpose |
 | --- | --- |
-| `results/task43_5_original_output_inspection_summary.json` | Inspection summary for original Task 43 outputs |
-| `results/task43_5_dflash_r1_calibration_n5.jsonl` | DFlash-R1 n=5 calibration with `max_new_tokens=128` |
-| `results/task43_5_output_inspection_summary.json` | Inspection summary for calibration output |
-| `results/task43_5_answer_quality_summary.json` | Extraction-aware answer-quality summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_5_original_output_inspection_summary.json` | Inspection summary for original Task 43 outputs |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_5_dflash_r1_calibration_n5.jsonl` | DFlash-R1 n=5 calibration with `max_new_tokens=128` |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_5_output_inspection_summary.json` | Inspection summary for calibration output |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_5_answer_quality_summary.json` | Extraction-aware answer-quality summary |
 
 ## Commands
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/t43_outputs.py results/task43_dflash_r1_sample_n5.jsonl results/task43_llmlingua_ar_r2_sample_n5.jsonl results/task43_cc_llm_r2_sample_n5.jsonl --output results/task43_5_original_output_inspection_summary.json
+PYTHONPATH=src .venv/bin/python scripts/t43_outputs.py results/phase_1_system_build_and_evaluation/early_experiments/task43_dflash_r1_sample_n5.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task43_llmlingua_ar_r2_sample_n5.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task43_cc_llm_r2_sample_n5.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task43_5_original_output_inspection_summary.json
 ```
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 5 --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --store-generated-text --max-new-tokens 128 --output results/task43_5_dflash_r1_calibration_n5.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 5 --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --store-generated-text --max-new-tokens 128 --output results/phase_1_system_build_and_evaluation/early_experiments/task43_5_dflash_r1_calibration_n5.jsonl
 ```
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/t43_outputs.py results/task43_5_dflash_r1_calibration_n5.jsonl --output results/task43_5_output_inspection_summary.json
+PYTHONPATH=src .venv/bin/python scripts/t43_outputs.py results/phase_1_system_build_and_evaluation/early_experiments/task43_5_dflash_r1_calibration_n5.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task43_5_output_inspection_summary.json
 ```
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t31_answer_quality.py results/task43_5_dflash_r1_calibration_n5.jsonl --output results/task43_5_answer_quality_summary.json
+PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t31_answer_quality.py results/phase_1_system_build_and_evaluation/early_experiments/task43_5_dflash_r1_calibration_n5.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task43_5_answer_quality_summary.json
 ```
 
 ## Original Task 43 Inspection

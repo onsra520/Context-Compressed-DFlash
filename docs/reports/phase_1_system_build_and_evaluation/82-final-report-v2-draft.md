@@ -70,4 +70,4 @@
 *   **Purpose:** List raw artifacts and logs for reproducibility.
 
 ***
-**Next manual writing steps**: Proceed to flesh out each section following the `results/task82_final_report_claim_map.csv` constraints. Do not overclaim.
+**Next manual writing steps**: Proceed to flesh out each section following the `results/phase_1_system_build_and_evaluation/early_experiments/task82_final_report_claim_map.csv` constraints. Do not overclaim.

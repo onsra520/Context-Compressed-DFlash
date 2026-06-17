@@ -24,11 +24,11 @@ No QMSum run, no n=100 run, no keep-rate override, and no prompt/compression/ext
 
 LLMLingua-AR-R2:
 
-`PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 256 --resume --store-generated-text --output results/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl`
+`PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 256 --resume --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl`
 
 CC-DFlash-R2:
 
-`PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 256 --resume --store-generated-text --output results/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl`
+`PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 256 --resume --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl`
 
 Analyzer:
 
@@ -38,10 +38,10 @@ Analyzer:
 
 | Artifact | Rows | Status |
 |---|---:|---|
-| `results/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl` | 30 | Created |
-| `results/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl` | 30 | Created |
-| `results/task63_n30_stability_summary.json` | 1 summary | Created |
-| `results/task63_n30_stability_table.csv` | 4 condition-stage rows | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl` | 30 | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl` | 30 | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task63_n30_stability_summary.json` | 1 summary | Created |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task63_n30_stability_table.csv` | 4 condition-stage rows | Created |
 
 ## Quality Summary
 

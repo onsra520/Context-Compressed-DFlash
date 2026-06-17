@@ -8,11 +8,11 @@ from typing import Any
 
 
 ARTIFACTS = [
-    Path("results/dflash_r1_n20.jsonl"),
-    Path("results/cc_llm_r2_smoke.jsonl"),
-    Path("results/cc_llm_r3_smoke.jsonl"),
-    Path("results/llmlingua_ar_r2_smoke.jsonl"),
-    Path("results/llmlingua_ar_r3_smoke.jsonl"),
+    Path("results/_archives/early_smokes/dflash_r1_n20.jsonl"),
+    Path("results/_archives/early_smokes/cc_llm_r2_smoke.jsonl"),
+    Path("results/_archives/early_smokes/cc_llm_r3_smoke.jsonl"),
+    Path("results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl"),
+    Path("results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl"),
 ]
 
 COMMON_REQUIRED_FIELDS = [

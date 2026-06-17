@@ -18,16 +18,16 @@ Task 59 commit verified before this task:
 
 - `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --n 3 --seed 42 --dry-run-prompts`
 - Direct prompt-content assertion for `Final answer: <number>` in three selected GSM8K prompts.
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 10 --seed 42 --max-new-tokens 256 --output results/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl --resume --store-generated-text`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 10 --seed 42 --max-new-tokens 256 --output results/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl --resume --store-generated-text`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 10 --seed 42 --max-new-tokens 256 --output results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl --resume --store-generated-text`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 10 --seed 42 --max-new-tokens 256 --output results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl --resume --store-generated-text`
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t60_mnt256_calibration.py`
 
 ## Run Completion
 
 | Condition | Artifact | Rows | Resume | max_new_tokens | Status |
 | --- | --- | ---: | --- | ---: | --- |
-| LLMLingua-AR-R2 | `results/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl` | 10 | `--resume` | 256 | PASS |
-| CC-DFlash-R2 | `results/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl` | 10 | `--resume` | 256 | PASS |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl` | 10 | `--resume` | 256 | PASS |
+| CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl` | 10 | `--resume` | 256 | PASS |
 
 No old result artifact was overwritten. Task 59 artifacts were read only by the analyzer.
 
@@ -98,11 +98,11 @@ Test a tiny gentler keep-rate next, starting with `keep_rate=0.67`; only test `0
 
 - `scripts/phase_1_system_build_and_evaluation/analysis/t60_mnt256_calibration.py`
 - `tests/test_task60_mnt256_calibration.py`
-- `results/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl`
-- `results/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl`
-- `results/task60_mnt256_calibration_summary.json`
-- `results/task60_mnt256_calibration_table.csv`
-- `results/task60_mnt256_changed_outcomes.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task60_mnt256_calibration_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task60_mnt256_calibration_table.csv`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task60_mnt256_changed_outcomes.jsonl`
 
 ## Validation
 

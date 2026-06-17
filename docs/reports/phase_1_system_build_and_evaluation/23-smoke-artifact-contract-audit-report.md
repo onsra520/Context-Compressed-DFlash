@@ -11,11 +11,11 @@ This task audits existing smoke JSONL artifacts only.
 
 In scope:
 
-- `results/dflash_r1_n20.jsonl`
-- `results/cc_llm_r2_smoke.jsonl`
-- `results/cc_llm_r3_smoke.jsonl`
-- `results/llmlingua_ar_r2_smoke.jsonl`
-- `results/llmlingua_ar_r3_smoke.jsonl`
+- `results/_archives/early_smokes/dflash_r1_n20.jsonl`
+- `results/_archives/early_smokes/cc_llm_r2_smoke.jsonl`
+- `results/_archives/early_smokes/cc_llm_r3_smoke.jsonl`
+- `results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl`
+- `results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl`
 - `scripts/smoke_artifacts.py`
 - lightweight CPU-only audit tests
 
@@ -29,11 +29,11 @@ Out of scope:
 
 | Artifact | Condition | Rows | Status |
 | --- | --- | ---: | --- |
-| `results/dflash_r1_n20.jsonl` | `DFlash-R1` | 20 | PASS |
-| `results/cc_llm_r2_smoke.jsonl` | `CC-LLM-R2` | 3 | PASS |
-| `results/cc_llm_r3_smoke.jsonl` | `CC-LLM-R3` | 3 | PASS |
-| `results/llmlingua_ar_r2_smoke.jsonl` | `LLMLingua-AR-R2` | 3 | PASS |
-| `results/llmlingua_ar_r3_smoke.jsonl` | `LLMLingua-AR-R3` | 3 | PASS |
+| `results/_archives/early_smokes/dflash_r1_n20.jsonl` | `DFlash-R1` | 20 | PASS |
+| `results/_archives/early_smokes/cc_llm_r2_smoke.jsonl` | `CC-LLM-R2` | 3 | PASS |
+| `results/_archives/early_smokes/cc_llm_r3_smoke.jsonl` | `CC-LLM-R3` | 3 | PASS |
+| `results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl` | `LLMLingua-AR-R2` | 3 | PASS |
+| `results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl` | `LLMLingua-AR-R3` | 3 | PASS |
 
 ## Contract Fields Checked
 
@@ -121,11 +121,11 @@ Results:
 
 Compact audit output:
 
-- `PASS results/dflash_r1_n20.jsonl condition=DFlash-R1 rows=20 issues=0`
-- `PASS results/cc_llm_r2_smoke.jsonl condition=CC-LLM-R2 rows=3 issues=0`
-- `PASS results/cc_llm_r3_smoke.jsonl condition=CC-LLM-R3 rows=3 issues=0`
-- `PASS results/llmlingua_ar_r2_smoke.jsonl condition=LLMLingua-AR-R2 rows=3 issues=0`
-- `PASS results/llmlingua_ar_r3_smoke.jsonl condition=LLMLingua-AR-R3 rows=3 issues=0`
+- `PASS results/_archives/early_smokes/dflash_r1_n20.jsonl condition=DFlash-R1 rows=20 issues=0`
+- `PASS results/_archives/early_smokes/cc_llm_r2_smoke.jsonl condition=CC-LLM-R2 rows=3 issues=0`
+- `PASS results/_archives/early_smokes/cc_llm_r3_smoke.jsonl condition=CC-LLM-R3 rows=3 issues=0`
+- `PASS results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl condition=LLMLingua-AR-R2 rows=3 issues=0`
+- `PASS results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl condition=LLMLingua-AR-R3 rows=3 issues=0`
 
 ## Limitations
 

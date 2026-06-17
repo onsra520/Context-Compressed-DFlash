@@ -29,7 +29,7 @@ No final benchmark was run. No model, compressor, CUDA, vLLM, SGLang, Docker, or
   - `tests/test_frozen_benchmark_schema.py`
 - Checked local source-mode data/cache availability without downloading datasets.
 - Created readiness artifact:
-  - `results/task45_prep_source_mode_readiness.json`
+  - `results/phase_1_system_build_and_evaluation/early_experiments/task45_prep_source_mode_readiness.json`
 
 ## Frozen Schema Audit
 
@@ -88,7 +88,7 @@ Existing local artifact:
 
 Readiness artifact:
 
-- `results/task45_prep_source_mode_readiness.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_prep_source_mode_readiness.json`
 
 ## Documented Full Source-Mode Command Path
 
@@ -107,7 +107,7 @@ PYTHONPATH=src .venv/bin/python scripts/create_dataset.py --output data/processe
 Audit command after generation:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_full.jsonl --output results/task45_source_mode_dataset_audit_summary.json
+PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_full.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json
 ```
 
 ## Gate Decision
@@ -132,7 +132,7 @@ Commands run:
 ```bash
 python3 -m compileall src tests scripts
 PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q
-python3 -m json.tool results/task45_prep_source_mode_readiness.json
+python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task45_prep_source_mode_readiness.json
 PYTHONPATH=src .venv/bin/python scripts/frozen_benchmark_schema.py /tmp/task45_frozen_schema_valid.jsonl
 ```
 

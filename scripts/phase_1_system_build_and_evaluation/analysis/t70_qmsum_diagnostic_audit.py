@@ -16,14 +16,14 @@ if str(ROOT) not in sys.path:
 
 
 DEFAULT_ARTIFACTS = {
-    "Baseline-AR": Path("results/task51_qmsum_long_baseline_ar_n10.jsonl"),
-    "DFlash-R1": Path("results/task51_qmsum_long_dflash_r1_n10.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl"),
-    "CC-DFlash-R2": Path("results/task51_qmsum_long_cc_dflash_r2_n10.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_baseline_ar_n10.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_dflash_r1_n10.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_cc_dflash_r2_n10.jsonl"),
 }
-DEFAULT_SUMMARY_OUTPUT = Path("results/task70_qmsum_diagnostic_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task70_qmsum_diagnostic_table.csv")
-DEFAULT_CASES_OUTPUT = Path("results/task70_qmsum_failure_samples.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_diagnostic_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_diagnostic_table.csv")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_failure_samples.jsonl")
 WORD_RE = re.compile(r"[a-z0-9]+")
 
 

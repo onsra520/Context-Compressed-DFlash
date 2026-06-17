@@ -14,17 +14,17 @@ This task combines immutable Task 31 timing/performance artifacts with the Task 
 
 Inputs used:
 
-- `results/task31_dflash_r1_longctx_text_n6.jsonl`
-- `results/task31_cc_llm_r2_longctx_text_n6.jsonl`
-- `results/task31_cc_llm_r3_longctx_text_n6.jsonl`
-- `results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl`
-- `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl`
-- `results/task32_answer_quality_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task32_answer_quality_summary.json`
 
 Outputs created:
 
 - `scripts/breakeven_with_quality.py`
-- `results/task33_phase2_breakeven_quality_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task33_phase2_breakeven_quality_summary.json`
 - `docs/reports/33-phase2-breakeven-quality-analysis-report.md`
 
 ## Breakeven Method
@@ -108,10 +108,10 @@ Task 34 should be targeted, not broad:
 | Command | Result |
 | --- | --- |
 | `PYTHONPATH=src .venv/bin/python -m pytest tests/test_phase2_breakeven_with_quality.py -q` | PASS, 5 passed |
-| `PYTHONPATH=src .venv/bin/python scripts/breakeven_with_quality.py` | PASS, wrote `results/task33_phase2_breakeven_quality_summary.json` |
+| `PYTHONPATH=src .venv/bin/python scripts/breakeven_with_quality.py` | PASS, wrote `results/phase_1_system_build_and_evaluation/early_experiments/task33_phase2_breakeven_quality_summary.json` |
 | `python3 -m compileall src tests scripts` | PASS |
 | `PYTHONPATH=src .venv/bin/python -m pytest tests/test_compression.py tests/test_smoke_artifact_audit.py tests/test_long_context_fixture.py tests/test_task24_analysis.py tests/test_run_mvp_fixture_mode.py tests/test_task29_answer_check.py tests/test_task31_answer_quality_analysis.py -q` | PASS |
-| `PYTHONPATH=src .venv/bin/python scripts/t29_answers.py results/task31_dflash_r1_longctx_text_n6.jsonl results/task31_cc_llm_r2_longctx_text_n6.jsonl results/task31_cc_llm_r3_longctx_text_n6.jsonl results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
+| `PYTHONPATH=src .venv/bin/python scripts/t29_answers.py results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | PASS |
 | `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t31_answer_quality.py` | PASS |
 
 ## Limitations

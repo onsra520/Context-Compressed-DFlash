@@ -41,13 +41,13 @@ Phase 2 should proceed only as a controlled longer-context experiment. It should
 
 | Task | Report | Artifact or output | Status |
 | --- | --- | --- | --- |
-| 16 | `docs/reports/16-week-1-closeout-report.md` | `results/dflash_r1_n20.jsonl` | PASS |
+| 16 | `docs/reports/16-week-1-closeout-report.md` | `results/_archives/early_smokes/dflash_r1_n20.jsonl` | PASS |
 | 17 | `docs/reports/17-week-1-2-spec-cleanup-alignment-report.md` | spec alignment notes | PASS |
 | 18 | `docs/reports/18-llmlingua-compressor-smoke-report.md` | `tests/test_compression.py` wrapper/unit smoke | PASS |
-| 19 | `docs/reports/19-real-llmlingua-cpu-smoke-report.md` | `results/llmlingua_cpu_smoke.json` | PASS |
+| 19 | `docs/reports/19-real-llmlingua-cpu-smoke-report.md` | `results/_archives/early_smokes/llmlingua_cpu_smoke.json` | PASS |
 | 20 | `docs/reports/20-llmlingua-model-lock-report.md` | locked LLMLingua config | PASS |
-| 21 | `docs/reports/21-cc-llm-r2-r3-smoke-comparison-report.md` | `results/cc_llm_r2_smoke.jsonl`, `results/cc_llm_r3_smoke.jsonl` | PASS |
-| 22 | `docs/reports/22-llmlingua-ar-smoke-baseline-report.md` | `results/llmlingua_ar_r2_smoke.jsonl`, `results/llmlingua_ar_r3_smoke.jsonl` | PASS |
+| 21 | `docs/reports/21-cc-llm-r2-r3-smoke-comparison-report.md` | `results/_archives/early_smokes/cc_llm_r2_smoke.jsonl`, `results/_archives/early_smokes/cc_llm_r3_smoke.jsonl` | PASS |
+| 22 | `docs/reports/22-llmlingua-ar-smoke-baseline-report.md` | `results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl`, `results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl` | PASS |
 | 23 | `docs/reports/23-smoke-artifact-contract-audit-report.md` | `scripts/smoke_artifacts.py` | PASS |
 | 24 | `docs/reports/24-small-condition-matrix-report.md` | `results/task24_*_n10.jsonl` | PASS, preliminary |
 | 25 | `docs/reports/25-long-context-fixture-report.md` | `tests/fixtures/long_context_smoke.jsonl` | PASS |

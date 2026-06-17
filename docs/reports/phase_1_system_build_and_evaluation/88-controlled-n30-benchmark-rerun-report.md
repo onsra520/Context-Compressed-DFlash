@@ -14,17 +14,17 @@ Run the full `n=30` controlled benchmark rerun across 4 conditions on GSM8K and 
 *Note: Task 87/88 use max_new_tokens=512 as the controlled rerun setting. Task 83 remains the repaired reference under its original setting and should not be treated as an identical-latency comparison against this 512-token rerun.*
 
 ## 3. Artifact List
-- `results/task88_gsm8k_short_baseline_ar_n30.jsonl`
-- `results/task88_gsm8k_short_dflash_r1_n30.jsonl`
-- `results/task88_gsm8k_short_llmlingua_ar_r2_n30.jsonl`
-- `results/task88_gsm8k_short_cc_dflash_r2_n30.jsonl`
-- `results/task88_qmsum_meeting_qa_long_baseline_ar_n30.jsonl`
-- `results/task88_qmsum_meeting_qa_long_dflash_r1_n30.jsonl`
-- `results/task88_qmsum_meeting_qa_long_llmlingua_ar_r2_n30.jsonl`
-- `results/task88_qmsum_meeting_qa_long_cc_dflash_r2_n30.jsonl`
-- `results/task88_n30_rerun_summary.json`
-- `results/task88_n30_rerun_table.csv`
-- `results/task88_qmsum_dflash_r1_latency_inspection.json`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_gsm8k_short_baseline_ar_n30.jsonl`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_gsm8k_short_dflash_r1_n30.jsonl`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_gsm8k_short_llmlingua_ar_r2_n30.jsonl`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_gsm8k_short_cc_dflash_r2_n30.jsonl`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_qmsum_meeting_qa_long_baseline_ar_n30.jsonl`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_qmsum_meeting_qa_long_dflash_r1_n30.jsonl`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_qmsum_meeting_qa_long_llmlingua_ar_r2_n30.jsonl`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_qmsum_meeting_qa_long_cc_dflash_r2_n30.jsonl`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_n30_rerun_summary.json`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_n30_rerun_table.csv`
+- `results/phase_1_system_build_and_evaluation/final_reruns/task88_qmsum_dflash_r1_latency_inspection.json`
 
 ## 4. GSM8K n=30 Results
 | Condition | E2E Latency (avg s) | E2E Tok/s | Numeric Match Rate |

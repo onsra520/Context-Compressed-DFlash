@@ -18,14 +18,14 @@ from scripts.phase_1_system_build_and_evaluation.probes.t29_answers import norma
 
 
 TASK31_ARTIFACTS = [
-    Path("results/task31_dflash_r1_longctx_text_n6.jsonl"),
-    Path("results/task31_cc_llm_r2_longctx_text_n6.jsonl"),
-    Path("results/task31_cc_llm_r3_longctx_text_n6.jsonl"),
-    Path("results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl"),
-    Path("results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl"),
 ]
 
-DEFAULT_OUTPUT = Path("results/task32_answer_quality_summary.json")
+DEFAULT_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task32_answer_quality_summary.json")
 
 
 class ScorerCategory(Enum):

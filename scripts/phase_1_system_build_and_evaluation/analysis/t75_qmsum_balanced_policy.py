@@ -24,20 +24,20 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t70_qmsum_diagnostic_a
 from scripts.phase_1_system_build_and_evaluation.analysis.t74_qmsum_proxy_case_triage import lexical_diagnostics
 
 ORIGINAL_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
-    "CC-DFlash-R2": Path("results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
 }
 TERSE_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl"),
-    "CC-DFlash-R2": Path("results/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl"),
 }
 BALANCED_ARTIFACTS = {
-    "LLMLingua-AR-R2": Path("results/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl"),
-    "CC-DFlash-R2": Path("results/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl"),
 }
-DEFAULT_SUMMARY_OUTPUT = Path("results/task75_qmsum_balanced_policy_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task75_qmsum_balanced_policy_table.csv")
-DEFAULT_CASES_OUTPUT = Path("results/task75_qmsum_balanced_policy_cases.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_table.csv")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_cases.jsonl")
 
 
 def _mean(values: list[float]) -> float:

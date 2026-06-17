@@ -17,10 +17,10 @@ We created a new row-level analyzer (`scripts/phase_1_system_build_and_evaluatio
 - **`too_short_output` / `generic_output` / `empty_output`**: Heuristic flags for detecting failure modes (e.g., outputs containing "The meeting transcript does not mention...").
 
 The script generated:
-- `results/task84_qmsum_quality_proxy_summary.json` (aggregate metrics).
-- `results/task84_qmsum_quality_proxy_table.csv` (row-by-row metrics).
-- `results/task84_qmsum_manual_audit_samples.jsonl` (15 representative cases).
-- `results/task84_qmsum_quality_proxy_failure_samples.jsonl` (21 failure instances).
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_summary.json` (aggregate metrics).
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_table.csv` (row-by-row metrics).
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_manual_audit_samples.jsonl` (15 representative cases).
+- `results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_failure_samples.jsonl` (21 failure instances).
 
 ## 3. Findings
 

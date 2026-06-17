@@ -34,8 +34,8 @@ The runner accepted these condition names from `scripts/run_mvp.py`:
 
 | Dataset | Condition | Artifact | Rows | Status | Avg tok/s | Avg tau | Avg T_compress ms | Avg R_actual | Max VRAM allocated GiB | Max VRAM reserved GiB |
 | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `qmsum_meeting_qa_long` | DFlash-R1 | `results/task51_qmsum_long_dflash_r1_n3.jsonl` | 3 | PASS | 15.25 | 2.65 | 0.00 | 0.00 | 3.51 | 5.32 |
-| `qmsum_meeting_qa_long` | CC-DFlash-R2 | `results/task51_qmsum_long_cc_dflash_r2_n3.jsonl` | 3 | PASS | 21.25 | 2.89 | 5027.84 | 2.06 | 3.51 | 4.39 |
+| `qmsum_meeting_qa_long` | DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_dflash_r1_n3.jsonl` | 3 | PASS | 15.25 | 2.65 | 0.00 | 0.00 | 3.51 | 5.32 |
+| `qmsum_meeting_qa_long` | CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_cc_dflash_r2_n3.jsonl` | 3 | PASS | 21.25 | 2.89 | 5027.84 | 2.06 | 3.51 | 4.39 |
 
 Stage A completed without stall, OOM, or partial-row failure. Because Stage A passed, Stage B was executed.
 
@@ -43,14 +43,14 @@ Stage A completed without stall, OOM, or partial-row failure. Because Stage A pa
 
 | Dataset | Condition | Artifact | Rows | Status | Avg tok/s | Avg tau | Avg T_compress ms | Avg R_actual | Max VRAM allocated GiB | Max VRAM reserved GiB |
 | --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| `gsm8k_short` | Baseline-AR | `results/task51_gsm8k_short_baseline_ar_n10.jsonl` | 10 | PASS | 16.72 | 0.00 | 0.00 | 0.00 | 2.50 | 2.61 |
-| `gsm8k_short` | LLMLingua-AR-R2 | `results/task51_gsm8k_short_llmlingua_ar_r2_n10.jsonl` | 10 | PASS | 16.17 | 0.00 | 771.69 | 2.67 | 2.50 | 2.60 |
-| `gsm8k_short` | DFlash-R1 | `results/task51_gsm8k_short_dflash_r1_n10.jsonl` | 10 | PASS | 40.85 | 4.99 | 0.00 | 0.00 | 3.51 | 3.65 |
-| `gsm8k_short` | CC-DFlash-R2 | `results/task51_gsm8k_short_cc_dflash_r2_n10.jsonl` | 10 | PASS | 45.61 | 6.01 | 735.00 | 2.67 | 3.51 | 3.65 |
-| `qmsum_meeting_qa_long` | Baseline-AR | `results/task51_qmsum_long_baseline_ar_n10.jsonl` | 10 | PASS | 12.65 | 0.00 | 0.00 | 0.00 | 2.50 | 4.32 |
-| `qmsum_meeting_qa_long` | LLMLingua-AR-R2 | `results/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl` | 10 | PASS | 12.98 | 0.00 | 5251.99 | 2.07 | 2.50 | 3.42 |
-| `qmsum_meeting_qa_long` | DFlash-R1 | `results/task51_qmsum_long_dflash_r1_n10.jsonl` | 10 | PASS | 15.53 | 2.78 | 0.00 | 0.00 | 3.51 | 5.32 |
-| `qmsum_meeting_qa_long` | CC-DFlash-R2 | `results/task51_qmsum_long_cc_dflash_r2_n10.jsonl` | 10 | PASS | 20.87 | 3.08 | 5221.31 | 2.07 | 3.51 | 4.39 |
+| `gsm8k_short` | Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_baseline_ar_n10.jsonl` | 10 | PASS | 16.72 | 0.00 | 0.00 | 0.00 | 2.50 | 2.61 |
+| `gsm8k_short` | LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_llmlingua_ar_r2_n10.jsonl` | 10 | PASS | 16.17 | 0.00 | 771.69 | 2.67 | 2.50 | 2.60 |
+| `gsm8k_short` | DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_dflash_r1_n10.jsonl` | 10 | PASS | 40.85 | 4.99 | 0.00 | 0.00 | 3.51 | 3.65 |
+| `gsm8k_short` | CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_cc_dflash_r2_n10.jsonl` | 10 | PASS | 45.61 | 6.01 | 735.00 | 2.67 | 3.51 | 3.65 |
+| `qmsum_meeting_qa_long` | Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_baseline_ar_n10.jsonl` | 10 | PASS | 12.65 | 0.00 | 0.00 | 0.00 | 2.50 | 4.32 |
+| `qmsum_meeting_qa_long` | LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_llmlingua_ar_r2_n10.jsonl` | 10 | PASS | 12.98 | 0.00 | 5251.99 | 2.07 | 2.50 | 3.42 |
+| `qmsum_meeting_qa_long` | DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_dflash_r1_n10.jsonl` | 10 | PASS | 15.53 | 2.78 | 0.00 | 0.00 | 3.51 | 5.32 |
+| `qmsum_meeting_qa_long` | CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_cc_dflash_r2_n10.jsonl` | 10 | PASS | 20.87 | 3.08 | 5221.31 | 2.07 | 3.51 | 4.39 |
 
 ## Resume and Artifact Behavior
 

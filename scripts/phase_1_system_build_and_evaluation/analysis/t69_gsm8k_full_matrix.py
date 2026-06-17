@@ -17,14 +17,14 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 
 DEFAULT_ARTIFACTS = {
-    "Baseline-AR": Path("results/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl"),
-    "DFlash-R1": Path("results/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl"),
-    "CC-DFlash-R2": Path("results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl"),
 }
-DEFAULT_SUMMARY_OUTPUT = Path("results/task69_gsm8k_full_matrix_summary.json")
-DEFAULT_TABLE_OUTPUT = Path("results/task69_gsm8k_full_matrix_table.csv")
-DEFAULT_FAILURE_OUTPUT = Path("results/task69_gsm8k_full_matrix_failure_samples.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_summary.json")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_table.csv")
+DEFAULT_FAILURE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_failure_samples.jsonl")
 FINAL_ANSWER_RE = re.compile(r"final\s+(?:numeric\s+)?answer\s*(?:is|=|:|：)\s*[-+]?\$?\d", re.IGNORECASE)
 
 

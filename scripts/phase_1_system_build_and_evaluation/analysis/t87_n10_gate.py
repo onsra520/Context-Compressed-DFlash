@@ -27,7 +27,7 @@ def analyze():
     failures = []
     
     # We load the Task 86 checklist limits
-    with open("results/task86_rerun_validation_checklist.json", "r") as f:
+    with open("results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_validation_checklist.json", "r") as f:
         checklist = json.load(f)["gate_criteria"]
 
     all_passed = True
@@ -149,20 +149,20 @@ def analyze():
     summary["gate_status"] = gate_status
 
     # Write summary
-    with open("results/task87_n10_gate_summary.json", "w") as f:
+    with open("results/phase_1_system_build_and_evaluation/repair_and_gate/task87_n10_gate_summary.json", "w") as f:
         json.dump(summary, f, indent=2)
         
     # Write CSV
     if table_rows:
         keys = table_rows[0].keys()
-        with open("results/task87_n10_gate_table.csv", "w", newline='') as f:
+        with open("results/phase_1_system_build_and_evaluation/repair_and_gate/task87_n10_gate_table.csv", "w", newline='') as f:
             writer = csv.DictWriter(f, fieldnames=keys)
             writer.writeheader()
             writer.writerows(table_rows)
             
     # Write failures
     if failures:
-        with open("results/task87_n10_gate_failures.jsonl", "w") as f:
+        with open("results/phase_1_system_build_and_evaluation/repair_and_gate/task87_n10_gate_failures.jsonl", "w") as f:
             for fail in failures:
                 f.write(json.dumps(fail) + "\n")
                 

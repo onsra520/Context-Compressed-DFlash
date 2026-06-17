@@ -23,8 +23,8 @@ DEFAULT_PATTERNS = [
     "results/task51_*_n3.jsonl",
     "results/task51_*_n10.jsonl",
 ]
-DEFAULT_JSON_OUTPUT = Path("results/task52_metric_summary.json")
-DEFAULT_CSV_OUTPUT = Path("results/task52_metric_table.csv")
+DEFAULT_JSON_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task52_metric_summary.json")
+DEFAULT_CSV_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task52_metric_table.csv")
 
 COMMON_REQUIRED_FIELDS = {
     "condition",

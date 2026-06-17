@@ -1,0 +1,356 @@
+{
+  "comparisons": {
+    "CC-LLM-R2_vs_Baseline-AR": {
+      "avg_tok_s_delta": 31.35109191249855,
+      "comparison": "CC-LLM-R2 vs Baseline-AR",
+      "compression_cost_delta_ms": 4179.746552970032,
+      "decode_throughput_ratio": 2.8538927572672947,
+      "e2e_latency_ratio": 0.9057268996906656,
+      "e2e_tok_s_ratio": 1.1065109890803186,
+      "input_token_ratio": 0.5294381533693125,
+      "left_condition": "CC-LLM-R2",
+      "left_is_pareto_dominant_decode_view": false,
+      "left_is_pareto_dominant_e2e_view": false,
+      "quality_extracted_numeric_delta": -0.04000000000000001,
+      "quality_normalized_delta": -0.06,
+      "right_condition": "Baseline-AR",
+      "tau_mean_delta": 5.063362563116501,
+      "vram_reserved_delta_gib": -2.2890625
+    },
+    "CC-LLM-R2_vs_DFlash-R1": {
+      "avg_tok_s_delta": 5.387479587853612,
+      "comparison": "CC-LLM-R2 vs DFlash-R1",
+      "compression_cost_delta_ms": 4179.746552970032,
+      "decode_throughput_ratio": 1.1256567766950076,
+      "e2e_latency_ratio": 2.2540551367525263,
+      "e2e_tok_s_ratio": 0.4445148309709688,
+      "input_token_ratio": 0.5294381533693125,
+      "left_condition": "CC-LLM-R2",
+      "left_is_pareto_dominant_decode_view": false,
+      "left_is_pareto_dominant_e2e_view": false,
+      "quality_extracted_numeric_delta": -0.04000000000000001,
+      "quality_normalized_delta": -0.04999999999999999,
+      "right_condition": "DFlash-R1",
+      "tau_mean_delta": -0.20934727818192567,
+      "vram_reserved_delta_gib": -3.3046875
+    },
+    "CC-LLM-R2_vs_LLMLingua-AR-R2": {
+      "avg_tok_s_delta": 31.376111157885084,
+      "comparison": "CC-LLM-R2 vs LLMLingua-AR-R2",
+      "compression_cost_delta_ms": 122.07426886002486,
+      "decode_throughput_ratio": 2.858121261735539,
+      "e2e_latency_ratio": 0.5912152929189901,
+      "e2e_tok_s_ratio": 1.6910340701154858,
+      "input_token_ratio": 1.0,
+      "left_condition": "CC-LLM-R2",
+      "left_is_pareto_dominant_decode_view": false,
+      "left_is_pareto_dominant_e2e_view": false,
+      "quality_extracted_numeric_delta": 0.009999999999999995,
+      "quality_normalized_delta": 0.01999999999999999,
+      "right_condition": "LLMLingua-AR-R2",
+      "tau_mean_delta": 5.063362563116501,
+      "vram_reserved_delta_gib": 1.017578125
+    },
+    "DFlash-R1_vs_Baseline-AR": {
+      "avg_tok_s_delta": 25.963612324644938,
+      "comparison": "DFlash-R1 vs Baseline-AR",
+      "compression_cost_delta_ms": 0.0,
+      "decode_throughput_ratio": 2.5353134422079227,
+      "e2e_latency_ratio": 0.4018210934252341,
+      "e2e_tok_s_ratio": 2.4892555028216474,
+      "input_token_ratio": 1.0,
+      "left_condition": "DFlash-R1",
+      "left_is_pareto_dominant_decode_view": false,
+      "left_is_pareto_dominant_e2e_view": false,
+      "quality_extracted_numeric_delta": 0.0,
+      "quality_normalized_delta": -0.010000000000000009,
+      "right_condition": "Baseline-AR",
+      "tau_mean_delta": 5.272709841298426,
+      "vram_reserved_delta_gib": 1.015625
+    },
+    "LLMLingua-AR-R2_vs_Baseline-AR": {
+      "avg_tok_s_delta": -0.02501924538653455,
+      "comparison": "LLMLingua-AR-R2 vs Baseline-AR",
+      "compression_cost_delta_ms": 4057.6722841100072,
+      "decode_throughput_ratio": 0.9985205300681761,
+      "e2e_latency_ratio": 1.5319747485198607,
+      "e2e_tok_s_ratio": 0.6543398554972648,
+      "input_token_ratio": 0.5294381533693125,
+      "left_condition": "LLMLingua-AR-R2",
+      "left_is_pareto_dominant_decode_view": false,
+      "left_is_pareto_dominant_e2e_view": false,
+      "quality_extracted_numeric_delta": -0.05,
+      "quality_normalized_delta": -0.07999999999999999,
+      "right_condition": "Baseline-AR",
+      "tau_mean_delta": 0.0,
+      "vram_reserved_delta_gib": -3.306640625
+    }
+  },
+  "conditions": {
+    "Baseline-AR": {
+      "artifact": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl",
+      "avg_R_actual": null,
+      "avg_e2e_latency_s": 7.619460089069926,
+      "avg_generation_time_s": 7.619460089069926,
+      "avg_input_tokens": 1471.22,
+      "avg_output_tokens": 127.46,
+      "avg_t_compress_ms": null,
+      "avg_t_prefill_ms": 1323.817624650037,
+      "avg_tau_mean": 0.0,
+      "avg_tokens_per_second": 16.910952259563924,
+      "condition": "Baseline-AR",
+      "e2e_output_tokens_per_second": 16.7282193895655,
+      "max_vram_allocated_gib": 2.502530574798584,
+      "max_vram_reserved_gib": 6.509765625,
+      "median_e2e_latency_s": 7.4017353515009745,
+      "median_generation_time_s": 7.4017353515009745,
+      "median_tau_mean": 0.0,
+      "median_tokens_per_second": 17.26172644370548,
+      "quality": {
+        "exact_containment": 24,
+        "exact_containment_rate": 0.24,
+        "extracted_numeric_match_rate": 0.1,
+        "extracted_numeric_matches": 10,
+        "generated_text_rows": 100,
+        "no_containment": 75,
+        "normalized_containment_rate": 0.25,
+        "normalized_containment_total": 25,
+        "not_evaluable": 0,
+        "policy": "diagnostic_only"
+      },
+      "rows": 100
+    },
+    "CC-LLM-R2": {
+      "artifact": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl",
+      "avg_R_actual": 2.0555409612256184,
+      "avg_e2e_latency_s": 6.901149963790067,
+      "avg_generation_time_s": 2.721403410820035,
+      "avg_input_tokens": 778.92,
+      "avg_output_tokens": 127.74,
+      "avg_t_compress_ms": 4179.746552970032,
+      "avg_t_prefill_ms": 277.74914802998865,
+      "avg_tau_mean": 5.063362563116501,
+      "avg_tokens_per_second": 48.262044172062474,
+      "condition": "CC-LLM-R2",
+      "e2e_output_tokens_per_second": 18.509958582300683,
+      "max_vram_allocated_gib": 3.4799718856811523,
+      "max_vram_reserved_gib": 4.220703125,
+      "median_e2e_latency_s": 6.805880436999587,
+      "median_generation_time_s": 2.667442218000133,
+      "median_tau_mean": 4.9423076923076925,
+      "median_tokens_per_second": 47.98783330635918,
+      "quality": {
+        "exact_containment": 18,
+        "exact_containment_rate": 0.18,
+        "extracted_numeric_match_rate": 0.06,
+        "extracted_numeric_matches": 6,
+        "generated_text_rows": 100,
+        "no_containment": 81,
+        "normalized_containment_rate": 0.19,
+        "normalized_containment_total": 19,
+        "not_evaluable": 0,
+        "policy": "diagnostic_only"
+      },
+      "rows": 100
+    },
+    "DFlash-R1": {
+      "artifact": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl",
+      "avg_R_actual": null,
+      "avg_e2e_latency_s": 3.061659784300009,
+      "avg_generation_time_s": 3.061659784300009,
+      "avg_input_tokens": 1471.22,
+      "avg_output_tokens": 127.49,
+      "avg_t_compress_ms": null,
+      "avg_t_prefill_ms": 492.3703169798682,
+      "avg_tau_mean": 5.272709841298426,
+      "avg_tokens_per_second": 42.87456458420886,
+      "condition": "DFlash-R1",
+      "e2e_output_tokens_per_second": 41.6408121678837,
+      "max_vram_allocated_gib": 3.5108747482299805,
+      "max_vram_reserved_gib": 7.525390625,
+      "median_e2e_latency_s": 3.01660127049945,
+      "median_generation_time_s": 3.01660127049945,
+      "median_tau_mean": 5.1225000000000005,
+      "median_tokens_per_second": 42.23691204972367,
+      "quality": {
+        "exact_containment": 23,
+        "exact_containment_rate": 0.23,
+        "extracted_numeric_match_rate": 0.1,
+        "extracted_numeric_matches": 10,
+        "generated_text_rows": 100,
+        "no_containment": 76,
+        "normalized_containment_rate": 0.24,
+        "normalized_containment_total": 24,
+        "not_evaluable": 0,
+        "policy": "diagnostic_only"
+      },
+      "rows": 100
+    },
+    "LLMLingua-AR-R2": {
+      "artifact": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl",
+      "avg_R_actual": 2.0555409612256184,
+      "avg_e2e_latency_s": 11.672820453810015,
+      "avg_generation_time_s": 7.615148169700007,
+      "avg_input_tokens": 778.92,
+      "avg_output_tokens": 127.77,
+      "avg_t_compress_ms": 4057.6722841100072,
+      "avg_t_prefill_ms": 276.6773896900028,
+      "avg_tau_mean": 0.0,
+      "avg_tokens_per_second": 16.88593301417739,
+      "condition": "LLMLingua-AR-R2",
+      "e2e_output_tokens_per_second": 10.945940658094832,
+      "max_vram_allocated_gib": 2.478942394256592,
+      "max_vram_reserved_gib": 3.203125,
+      "median_e2e_latency_s": 11.56012152249997,
+      "median_generation_time_s": 7.350388782999985,
+      "median_tau_mean": 0.0,
+      "median_tokens_per_second": 17.414044860075567,
+      "quality": {
+        "exact_containment": 16,
+        "exact_containment_rate": 0.16,
+        "extracted_numeric_match_rate": 0.05,
+        "extracted_numeric_matches": 5,
+        "generated_text_rows": 100,
+        "no_containment": 83,
+        "normalized_containment_rate": 0.17,
+        "normalized_containment_total": 17,
+        "not_evaluable": 0,
+        "policy": "diagnostic_only"
+      },
+      "rows": 100
+    }
+  },
+  "inputs": {
+    "artifacts": {
+      "Baseline-AR": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl",
+      "CC-LLM-R2": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl",
+      "DFlash-R1": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl",
+      "LLMLingua-AR-R2": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl"
+    },
+    "audit_summary": "results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json"
+  },
+  "interpretation": {
+    "claim_policy": "No deployment readiness, confirmed 8 GB fit, final semantic correctness, or proven e2e compression benefit is claimed.",
+    "decode_only": "CC-LLM-R2 has the highest decode-only throughput, while DFlash-R1 substantially improves decode throughput over Baseline-AR without CPU compression cost.",
+    "e2e_with_compression": "CPU LLMLingua compression adds about four seconds per prompt for compressed conditions. This materially changes the apparent speed tradeoff and prevents a proven end-to-end compression-benefit claim from Task 46 alone.",
+    "quality": "Diagnostic containment/extraction rates are low across all conditions and lower for compressed conditions than the no-compression controls, so quality prevents a strong global dominance claim."
+  },
+  "method": {
+    "compression_latency_s": "t_compress_ms / 1000 when present, otherwise 0",
+    "decode_latency_s": "generation_time_s",
+    "e2e_latency_s": "generation_time_s + t_compress_ms / 1000",
+    "e2e_output_tokens_per_second": "sum(output_tokens) / sum(e2e_latency_s)",
+    "pareto_decode_metrics": [
+      "avg_tokens_per_second",
+      "quality_normalized_rate",
+      "max_vram_reserved_gib"
+    ],
+    "pareto_e2e_metrics": [
+      "e2e_output_tokens_per_second",
+      "quality_normalized_rate",
+      "max_vram_reserved_gib"
+    ],
+    "quality_metric": "diagnostic normalized containment rate from Task 45 audit summary"
+  },
+  "pareto": {
+    "decode_only_front": [
+      "Baseline-AR",
+      "DFlash-R1",
+      "LLMLingua-AR-R2",
+      "CC-LLM-R2"
+    ],
+    "decode_only_metrics": [
+      "avg_tokens_per_second",
+      "quality_normalized_rate",
+      "max_vram_reserved_gib"
+    ],
+    "e2e_with_compression_cost_front": [
+      "Baseline-AR",
+      "DFlash-R1",
+      "LLMLingua-AR-R2",
+      "CC-LLM-R2"
+    ],
+    "e2e_with_compression_cost_metrics": [
+      "e2e_output_tokens_per_second",
+      "quality_normalized_rate",
+      "max_vram_reserved_gib"
+    ],
+    "interpretation": "Pareto membership is conservative and uses diagnostic quality, not final semantic correctness. A condition with high decode throughput can remain non-dominant if it loses quality or uses more VRAM."
+  },
+  "rankings": {
+    "decode_only_tok_s_desc": [
+      {
+        "avg_tokens_per_second": 48.262044172062474,
+        "condition": "CC-LLM-R2"
+      },
+      {
+        "avg_tokens_per_second": 42.87456458420886,
+        "condition": "DFlash-R1"
+      },
+      {
+        "avg_tokens_per_second": 16.910952259563924,
+        "condition": "Baseline-AR"
+      },
+      {
+        "avg_tokens_per_second": 16.88593301417739,
+        "condition": "LLMLingua-AR-R2"
+      }
+    ],
+    "e2e_latency_asc": [
+      {
+        "avg_e2e_latency_s": 3.061659784300009,
+        "condition": "DFlash-R1"
+      },
+      {
+        "avg_e2e_latency_s": 6.901149963790067,
+        "condition": "CC-LLM-R2"
+      },
+      {
+        "avg_e2e_latency_s": 7.619460089069926,
+        "condition": "Baseline-AR"
+      },
+      {
+        "avg_e2e_latency_s": 11.672820453810015,
+        "condition": "LLMLingua-AR-R2"
+      }
+    ],
+    "e2e_tok_s_desc": [
+      {
+        "condition": "DFlash-R1",
+        "e2e_output_tokens_per_second": 41.6408121678837
+      },
+      {
+        "condition": "CC-LLM-R2",
+        "e2e_output_tokens_per_second": 18.509958582300683
+      },
+      {
+        "condition": "Baseline-AR",
+        "e2e_output_tokens_per_second": 16.7282193895655
+      },
+      {
+        "condition": "LLMLingua-AR-R2",
+        "e2e_output_tokens_per_second": 10.945940658094832
+      }
+    ],
+    "quality_normalized_rate_desc": [
+      {
+        "condition": "Baseline-AR",
+        "quality_normalized_rate": 0.25
+      },
+      {
+        "condition": "DFlash-R1",
+        "quality_normalized_rate": 0.24
+      },
+      {
+        "condition": "CC-LLM-R2",
+        "quality_normalized_rate": 0.19
+      },
+      {
+        "condition": "LLMLingua-AR-R2",
+        "quality_normalized_rate": 0.17
+      }
+    ]
+  },
+  "status": "PASS",
+  "task": "46-pareto-analysis"
+}

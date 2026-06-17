@@ -14,13 +14,13 @@ Task 73 commit: `67718b7 test: refine qmsum concise output policy`.
 
 | Artifact | Rows | Role |
 |---|---:|---|
-| `results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl` | 30 | Task 71 LLMLingua before concise policy |
-| `results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl` | 30 | Task 71 CC-DFlash before concise policy |
-| `results/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl` | 30 | Task 73 LLMLingua after concise policy |
-| `results/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl` | 30 | Task 73 CC-DFlash after concise policy |
-| `results/task71_qmsum_n30_full_matrix_summary.json` | 4 conditions | Reference summary |
-| `results/task73_qmsum_concise_policy_summary.json` | 2 conditions | Reference summary |
-| `results/task73_qmsum_concise_policy_cases.jsonl` | 91 rows | Reference changed-case list |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl` | 30 | Task 71 LLMLingua before concise policy |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl` | 30 | Task 71 CC-DFlash before concise policy |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl` | 30 | Task 73 LLMLingua after concise policy |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl` | 30 | Task 73 CC-DFlash after concise policy |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json` | 4 conditions | Reference summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_concise_policy_summary.json` | 2 conditions | Reference summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_concise_policy_cases.jsonl` | 91 rows | Reference changed-case list |
 
 ## Outputs
 
@@ -28,9 +28,9 @@ Task 73 commit: `67718b7 test: refine qmsum concise output policy`.
 |---|---|
 | `scripts/phase_1_system_build_and_evaluation/analysis/t74_qmsum_proxy_case_triage.py` | Read-only case triage analyzer |
 | `tests/test_task74_qmsum_proxy_case_triage.py` | CPU-only analyzer tests |
-| `results/task74_qmsum_proxy_case_summary.json` | Machine-readable summary |
-| `results/task74_qmsum_proxy_case_table.csv` | Per-condition summary table |
-| `results/task74_qmsum_proxy_case_samples.jsonl` | Per-prompt labels and snippets |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_summary.json` | Machine-readable summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_table.csv` | Per-condition summary table |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_samples.jsonl` | Per-prompt labels and snippets |
 
 ## Cap-Hit Fix Summary
 

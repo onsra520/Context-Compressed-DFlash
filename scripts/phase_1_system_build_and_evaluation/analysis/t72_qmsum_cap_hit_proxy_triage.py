@@ -24,14 +24,14 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t70_qmsum_diagnostic_a
 
 
 DEFAULT_ARTIFACTS = {
-    "Baseline-AR": Path("results/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl"),
-    "DFlash-R1": Path("results/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
-    "CC-DFlash-R2": Path("results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl"),
 }
-DEFAULT_SUMMARY_OUTPUT = Path("results/task72_qmsum_cap_hit_proxy_summary.json")
-DEFAULT_CASES_OUTPUT = Path("results/task72_qmsum_cap_hit_proxy_cases.jsonl")
-DEFAULT_TABLE_OUTPUT = Path("results/task72_qmsum_cap_hit_proxy_table.csv")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_summary.json")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_cases.jsonl")
+DEFAULT_TABLE_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_table.csv")
 INCOMPLETE_TAIL_WORDS = {
     "and",
     "or",

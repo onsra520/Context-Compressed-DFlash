@@ -25,10 +25,10 @@ Changed:
 Created:
 
 - `docs/reports/45-runner-benchmark-protocol-fix-report.md`
-- `results/task45_runner_fix_llmlingua_ar_r2_n3.jsonl`
-- `results/task45_runner_fix_cc_llm_r2_n3.jsonl`
-- `results/task45_runner_fix_baseline_ar_n1.jsonl`
-- `results/task45_runner_fix_dflash_r1_n1.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_llmlingua_ar_r2_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_cc_llm_r2_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_baseline_ar_n1.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_dflash_r1_n1.jsonl`
 - `logs/task45_runner_fix_llmlingua_ar_r2_n3.log`
 - `logs/task45_runner_fix_cc_llm_r2_n3.log`
 - `logs/task45_runner_fix_baseline_ar_n1.log`
@@ -106,35 +106,35 @@ Common settings:
 
 | Artifact | Condition | Measured rows | Warm-up rows written | Average tok/s | Average tau_mean | Average t_compress_ms | Average R_actual | Max VRAM allocated GiB | Max VRAM reserved GiB | Status |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `results/task45_runner_fix_llmlingua_ar_r2_n3.jsonl` | LLMLingua-AR-R2 | 3 | 0 | 16.49 | 0.00 | 4081.54 | 2.08 | 2.5024919509887695 | 3.423828125 | PASS |
-| `results/task45_runner_fix_cc_llm_r2_n3.jsonl` | CC-LLM-R2 | 3 | 0 | 39.61 | 4.98 | 4169.98 | 2.08 | 3.5108489990234375 | 4.427734375 | PASS |
-| `results/task45_runner_fix_baseline_ar_n1.jsonl` | Baseline-AR | 1 | 0 | 13.46 | 0.00 | 0.00 | 0.00 | 2.50250244140625 | 3.326171875 | PASS |
-| `results/task45_runner_fix_dflash_r1_n1.jsonl` | DFlash-R1 | 1 | 0 | 21.40 | 3.89 | 0.00 | 0.00 | 3.5108561515808105 | 4.341796875 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_llmlingua_ar_r2_n3.jsonl` | LLMLingua-AR-R2 | 3 | 0 | 16.49 | 0.00 | 4081.54 | 2.08 | 2.5024919509887695 | 3.423828125 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_cc_llm_r2_n3.jsonl` | CC-LLM-R2 | 3 | 0 | 39.61 | 4.98 | 4169.98 | 2.08 | 3.5108489990234375 | 4.427734375 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_baseline_ar_n1.jsonl` | Baseline-AR | 1 | 0 | 13.46 | 0.00 | 0.00 | 0.00 | 2.50250244140625 | 3.326171875 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_dflash_r1_n1.jsonl` | DFlash-R1 | 1 | 0 | 21.40 | 3.89 | 0.00 | 0.00 | 3.5108561515808105 | 4.341796875 | PASS |
 
 ## Commands Run
 
 LLMLingua-AR-R2:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "LLMLingua-AR-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --warmup-prompts 1 --max-new-tokens 128 --store-generated-text --overwrite --output results/task45_runner_fix_llmlingua_ar_r2_n3.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "LLMLingua-AR-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --warmup-prompts 1 --max-new-tokens 128 --store-generated-text --overwrite --output results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_llmlingua_ar_r2_n3.jsonl
 ```
 
 CC-LLM-R2:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "CC-LLM-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --warmup-prompts 1 --max-new-tokens 128 --store-generated-text --overwrite --output results/task45_runner_fix_cc_llm_r2_n3.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "CC-LLM-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --warmup-prompts 1 --max-new-tokens 128 --store-generated-text --overwrite --output results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_cc_llm_r2_n3.jsonl
 ```
 
 Baseline-AR:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "Baseline-AR" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 1 --warmup-prompts 1 --max-new-tokens 32 --store-generated-text --overwrite --output results/task45_runner_fix_baseline_ar_n1.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "Baseline-AR" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 1 --warmup-prompts 1 --max-new-tokens 32 --store-generated-text --overwrite --output results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_baseline_ar_n1.jsonl
 ```
 
 DFlash-R1:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "DFlash-R1" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 1 --warmup-prompts 1 --max-new-tokens 32 --store-generated-text --overwrite --output results/task45_runner_fix_dflash_r1_n1.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "DFlash-R1" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 1 --warmup-prompts 1 --max-new-tokens 32 --store-generated-text --overwrite --output results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_dflash_r1_n1.jsonl
 ```
 
 ## Validation
@@ -163,10 +163,10 @@ PASS: no matches
 Row counts:
 
 ```text
-1 results/task45_runner_fix_baseline_ar_n1.jsonl
-3 results/task45_runner_fix_cc_llm_r2_n3.jsonl
-1 results/task45_runner_fix_dflash_r1_n1.jsonl
-3 results/task45_runner_fix_llmlingua_ar_r2_n3.jsonl
+1 results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_baseline_ar_n1.jsonl
+3 results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_cc_llm_r2_n3.jsonl
+1 results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_dflash_r1_n1.jsonl
+3 results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_llmlingua_ar_r2_n3.jsonl
 ```
 
 JSONL protocol inspection:

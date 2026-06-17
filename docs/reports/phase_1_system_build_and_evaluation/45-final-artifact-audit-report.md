@@ -14,18 +14,18 @@ This report audits artifact integrity, schema compatibility, logs, and diagnosti
 
 | Condition | Artifact | Rows | Schema status |
 | --- | --- | ---: | --- |
-| Baseline-AR | `results/task45_final_baseline_ar_n100.jsonl` | 100 | PASS, legacy schema accepted |
-| DFlash-R1 | `results/task45_final_dflash_r1_n100.jsonl` | 100 | PASS, legacy schema accepted |
-| LLMLingua-AR-R2 | `results/task45_final_llmlingua_ar_r2_n100.jsonl` | 100 | PASS, `per_prompt_jsonl_v1` |
-| CC-LLM-R2 | `results/task45_final_cc_llm_r2_n100.jsonl` | 100 | PASS, `per_prompt_jsonl_v1` |
+| Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl` | 100 | PASS, legacy schema accepted |
+| DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl` | 100 | PASS, legacy schema accepted |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl` | 100 | PASS, `per_prompt_jsonl_v1` |
+| CC-LLM-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl` | 100 | PASS, `per_prompt_jsonl_v1` |
 
 Row count command:
 
 ```text
-100 results/task45_final_baseline_ar_n100.jsonl
-100 results/task45_final_dflash_r1_n100.jsonl
-100 results/task45_final_llmlingua_ar_r2_n100.jsonl
-100 results/task45_final_cc_llm_r2_n100.jsonl
+100 results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl
+100 results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl
+100 results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl
+100 results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl
 400 total
 ```
 
@@ -33,12 +33,12 @@ Row count command:
 
 Created:
 
-- `results/task45_final_artifact_audit_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json`
 
 Command:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/t45_final_artifacts.py --output results/task45_final_artifact_audit_summary.json
+PYTHONPATH=src .venv/bin/python scripts/t45_final_artifacts.py --output results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json
 ```
 
 Result:
@@ -156,11 +156,11 @@ Interpretation must remain conservative:
 Commands run:
 
 ```bash
-wc -l results/task45_final_baseline_ar_n100.jsonl results/task45_final_dflash_r1_n100.jsonl results/task45_final_llmlingua_ar_r2_n100.jsonl results/task45_final_cc_llm_r2_n100.jsonl
+wc -l results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl
 python3 scripts/phase_1_system_build_and_evaluation/analysis/t31_answer_quality.py --help 2>&1 | head -80 || true
 python3 scripts/frozen_benchmark_schema.py --help 2>&1 | head -80 || true
 python3 scripts/smoke_artifacts.py --help 2>&1 | head -80 || true
-PYTHONPATH=src .venv/bin/python scripts/t45_final_artifacts.py --output results/task45_final_artifact_audit_summary.json
+PYTHONPATH=src .venv/bin/python scripts/t45_final_artifacts.py --output results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json
 ```
 
 Remaining validation:

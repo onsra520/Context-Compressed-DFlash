@@ -16,7 +16,7 @@ Task 42 added a dataset audit utility and audited the Task 41 dev-safe GSM8K + W
 - Added `scripts/audit_dataset.py`.
 - Added CPU-only tests in `tests/test_audit_dataset.py`.
 - Audited `data/processed/gsm8k_wikipedia_augmented_smoke.jsonl`.
-- Generated `results/task42_dataset_audit_summary.json`.
+- Generated `results/phase_1_system_build_and_evaluation/early_experiments/task42_dataset_audit_summary.json`.
 - Updated `docs/Roadmap.html` to mark Task 42 complete and set Task 43 as next.
 - Updated `docs/CC-DFlash-Overview.html` to clarify sample-mode readiness versus full benchmark dataset readiness.
 
@@ -25,12 +25,12 @@ No model benchmarks were run. No target, draft, tokenizer, compressor, CUDA, or 
 ## Audit Command
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --output results/task42_dataset_audit_summary.json
+PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task42_dataset_audit_summary.json
 ```
 
 ## Summary Artifact
 
-`results/task42_dataset_audit_summary.json`
+`results/phase_1_system_build_and_evaluation/early_experiments/task42_dataset_audit_summary.json`
 
 Top-level result:
 
@@ -107,8 +107,8 @@ Task 42 gives us a reliable guardrail for the dataset contract and verifies that
 ## Validation
 
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_audit_dataset.py -q`: PASS, 5 passed
-- `PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --output results/task42_dataset_audit_summary.json`: PASS
-- `python3 -m json.tool results/task42_dataset_audit_summary.json`: PASS
+- `PYTHONPATH=src .venv/bin/python scripts/audit_dataset.py --input data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task42_dataset_audit_summary.json`: PASS
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task42_dataset_audit_summary.json`: PASS
 
 ## Next Step
 

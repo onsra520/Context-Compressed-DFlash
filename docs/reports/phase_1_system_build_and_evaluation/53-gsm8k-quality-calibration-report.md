@@ -19,25 +19,25 @@ Task 52 was already committed before this task:
 Baseline-AR:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition Baseline-AR --n 10 --seed 42 --max-new-tokens 128 --output results/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition Baseline-AR --n 10 --seed 42 --max-new-tokens 128 --output results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl --resume --store-generated-text
 ```
 
 DFlash-R1:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition DFlash-R1 --n 10 --seed 42 --max-new-tokens 128 --output results/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition DFlash-R1 --n 10 --seed 42 --max-new-tokens 128 --output results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl --resume --store-generated-text
 ```
 
 LLMLingua-AR-R2:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 10 --seed 42 --max-new-tokens 128 --output results/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition LLMLingua-AR-R2 --n 10 --seed 42 --max-new-tokens 128 --output results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl --resume --store-generated-text
 ```
 
 CC-DFlash-R2:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 10 --seed 42 --max-new-tokens 128 --output results/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition CC-DFlash-R2 --n 10 --seed 42 --max-new-tokens 128 --output results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl --resume --store-generated-text
 ```
 
 Analyzer:
@@ -50,10 +50,10 @@ PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/anal
 
 | Condition | Artifact | Rows | Status |
 | --- | --- | ---: | --- |
-| Baseline-AR | `results/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl` | 10 | PASS |
-| DFlash-R1 | `results/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl` | 10 | PASS |
-| LLMLingua-AR-R2 | `results/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl` | 10 | PASS |
-| CC-DFlash-R2 | `results/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl` | 10 | PASS |
+| Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl` | 10 | PASS |
+| DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl` | 10 | PASS |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl` | 10 | PASS |
+| CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl` | 10 | PASS |
 
 All real runs used `--resume`, unique Task 53 output filenames, and `--store-generated-text`. No `--overwrite` was used.
 
@@ -109,7 +109,7 @@ Recommended next task:
 Commands run:
 
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t53_gsm8k_quality.py`
-- `python3 -m json.tool results/task53_gsm8k_quality_calibration_summary.json`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_quality_calibration_summary.json`
 - `python3 -m compileall src tests scripts 2>&1 | tail -20`
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30`
 - `find docs -name "*.html" -exec grep -L "<!DOCTYPE html>" {} \;`

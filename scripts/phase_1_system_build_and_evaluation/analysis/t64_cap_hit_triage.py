@@ -17,12 +17,12 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 
 TASK63_PATHS = {
-    "LLMLingua-AR-R2": Path("results/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl"),
-    "CC-DFlash-R2": Path("results/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_llmlingua_ar_r2_n30_mnt256.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_cc_dflash_r2_n30_mnt256.jsonl"),
 }
 DEFAULT_DATASET = Path("data/eval/gsm8k_100.jsonl")
-DEFAULT_SUMMARY_OUTPUT = Path("results/task64_cap_hit_triage_summary.json")
-DEFAULT_CASES_OUTPUT = Path("results/task64_cap_hit_cases.jsonl")
+DEFAULT_SUMMARY_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task64_cap_hit_triage_summary.json")
+DEFAULT_CASES_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task64_cap_hit_cases.jsonl")
 
 FINAL_ANSWER_MARKER_RE = re.compile(
     r"final\s+(?:numeric\s+)?answer\s*(?:is|=|:|：)\s*[-+]?\$?\d[\d,]*(?:\.\d+)?",

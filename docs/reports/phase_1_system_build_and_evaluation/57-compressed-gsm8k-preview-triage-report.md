@@ -10,10 +10,10 @@ Task 57 analyzes the Task 56 GSM8K `max_new_tokens=192` artifacts without runnin
 
 Inputs inspected:
 
-- `results/task56_gsm8k_short_baseline_ar_n10_mnt192.jsonl`
-- `results/task56_gsm8k_short_dflash_r1_n10_mnt192.jsonl`
-- `results/task56_gsm8k_short_llmlingua_ar_r2_n10_mnt192.jsonl`
-- `results/task56_gsm8k_short_cc_dflash_r2_n10_mnt192.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_baseline_ar_n10_mnt192.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_dflash_r1_n10_mnt192.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_llmlingua_ar_r2_n10_mnt192.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_cc_dflash_r2_n10_mnt192.jsonl`
 - `data/eval/gsm8k_100.jsonl`
 
 Task 56 was already committed before this task:
@@ -30,8 +30,8 @@ PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/anal
 
 Outputs:
 
-- `results/task57_compressed_preview_triage_summary.json`
-- `results/task57_compressed_preview_failure_samples.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task57_compressed_preview_triage_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task57_compressed_preview_failure_samples.jsonl`
 
 ## Metadata Presence Summary
 

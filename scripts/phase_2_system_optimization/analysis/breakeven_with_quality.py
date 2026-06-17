@@ -13,15 +13,15 @@ if str(ROOT) not in sys.path:
 
 
 TASK31_ARTIFACTS = {
-    "DFlash-R1": Path("results/task31_dflash_r1_longctx_text_n6.jsonl"),
-    "CC-LLM-R2": Path("results/task31_cc_llm_r2_longctx_text_n6.jsonl"),
-    "CC-LLM-R3": Path("results/task31_cc_llm_r3_longctx_text_n6.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl"),
-    "LLMLingua-AR-R3": Path("results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl"),
+    "CC-LLM-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl"),
+    "CC-LLM-R3": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl"),
+    "LLMLingua-AR-R3": Path("results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl"),
 }
 
-QUALITY_SUMMARY = Path("results/task32_answer_quality_summary.json")
-DEFAULT_OUTPUT = Path("results/task33_phase2_breakeven_quality_summary.json")
+QUALITY_SUMMARY = Path("results/phase_1_system_build_and_evaluation/early_experiments/task32_answer_quality_summary.json")
+DEFAULT_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task33_phase2_breakeven_quality_summary.json")
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:

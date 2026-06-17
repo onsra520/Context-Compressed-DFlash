@@ -17,19 +17,19 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 
 
 TASK51_PATHS = {
-    "Baseline-AR": Path("results/task51_gsm8k_short_baseline_ar_n10.jsonl"),
-    "DFlash-R1": Path("results/task51_gsm8k_short_dflash_r1_n10.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task51_gsm8k_short_llmlingua_ar_r2_n10.jsonl"),
-    "CC-DFlash-R2": Path("results/task51_gsm8k_short_cc_dflash_r2_n10.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_baseline_ar_n10.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_dflash_r1_n10.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_llmlingua_ar_r2_n10.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_cc_dflash_r2_n10.jsonl"),
 }
 TASK53_PATHS = {
-    "Baseline-AR": Path("results/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl"),
-    "DFlash-R1": Path("results/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl"),
-    "CC-DFlash-R2": Path("results/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_baseline_ar_n10_mnt128.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_dflash_r1_n10_mnt128.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_llmlingua_ar_r2_n10_mnt128.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_cc_dflash_r2_n10_mnt128.jsonl"),
 }
-DEFAULT_JSON_OUTPUT = Path("results/task53_gsm8k_quality_calibration_summary.json")
-DEFAULT_CSV_OUTPUT = Path("results/task53_gsm8k_quality_calibration_table.csv")
+DEFAULT_JSON_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_quality_calibration_summary.json")
+DEFAULT_CSV_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_quality_calibration_table.csv")
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:

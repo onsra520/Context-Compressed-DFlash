@@ -17,10 +17,10 @@ if str(ROOT) not in sys.path:
 # to keep this script self-contained with new deterministic heuristics.
 
 QMSUM_FILES = {
-    "Baseline-AR": Path("results/task83_qmsum_baseline_ar_n30.jsonl"),
-    "DFlash-R1": Path("results/task83_qmsum_dflash_r1_n30.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task83_qmsum_llmlingua_ar_r2_n30.jsonl"),
-    "CC-DFlash-R2": Path("results/task83_qmsum_cc_dflash_r2_n30.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_baseline_ar_n30.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_dflash_r1_n30.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_llmlingua_ar_r2_n30.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_cc_dflash_r2_n30.jsonl"),
 }
 
 STOPWORDS = {
@@ -297,10 +297,10 @@ def main():
 
     failure_samples = [d for d in all_row_diagnostics if d["too_short_output"] or d["generic_output"] or d["empty_output"]]
 
-    _write_json(Path("results/task84_qmsum_quality_proxy_summary.json"), condition_summaries)
-    _write_csv(Path("results/task84_qmsum_quality_proxy_table.csv"), all_row_diagnostics)
-    _write_jsonl(Path("results/task84_qmsum_manual_audit_samples.jsonl"), chosen_samples)
-    _write_jsonl(Path("results/task84_qmsum_quality_proxy_failure_samples.jsonl"), failure_samples)
+    _write_json(Path("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_summary.json"), condition_summaries)
+    _write_csv(Path("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_table.csv"), all_row_diagnostics)
+    _write_jsonl(Path("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_manual_audit_samples.jsonl"), chosen_samples)
+    _write_jsonl(Path("results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_failure_samples.jsonl"), failure_samples)
     
     print(f"Generated metrics for {len(all_row_diagnostics)} rows.")
     print(f"Selected {len(chosen_samples)} manual audit samples.")

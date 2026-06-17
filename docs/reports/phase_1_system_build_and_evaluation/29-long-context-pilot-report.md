@@ -20,21 +20,21 @@ Settings:
 
 ## Commands Run
 
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/task29_dflash_r1_longctx_n6.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/task29_cc_llm_r2_longctx_n6.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R3 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/task29_cc_llm_r3_longctx_n6.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/task29_llmlingua_ar_r2_longctx_n6.jsonl`
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R3 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/task29_llmlingua_ar_r3_longctx_n6.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task29_dflash_r1_longctx_n6.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r2_longctx_n6.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R3 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r3_longctx_n6.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r2_longctx_n6.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R3 --n 6 --prompt-source fixture --fixture tests/fixtures/long_context_smoke.jsonl --output results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r3_longctx_n6.jsonl`
 
 ## Artifact Table
 
 | Artifact | Condition | Rows | Contract status |
 | --- | --- | ---: | --- |
-| `results/task29_dflash_r1_longctx_n6.jsonl` | `DFlash-R1` | 6 | PASS |
-| `results/task29_cc_llm_r2_longctx_n6.jsonl` | `CC-LLM-R2` | 6 | PASS |
-| `results/task29_cc_llm_r3_longctx_n6.jsonl` | `CC-LLM-R3` | 6 | PASS |
-| `results/task29_llmlingua_ar_r2_longctx_n6.jsonl` | `LLMLingua-AR-R2` | 6 | PASS |
-| `results/task29_llmlingua_ar_r3_longctx_n6.jsonl` | `LLMLingua-AR-R3` | 6 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_dflash_r1_longctx_n6.jsonl` | `DFlash-R1` | 6 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r2_longctx_n6.jsonl` | `CC-LLM-R2` | 6 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r3_longctx_n6.jsonl` | `CC-LLM-R3` | 6 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r2_longctx_n6.jsonl` | `LLMLingua-AR-R2` | 6 | PASS |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r3_longctx_n6.jsonl` | `LLMLingua-AR-R3` | 6 | PASS |
 
 Existing Task 21, 22, and 24 artifacts were not overwritten. Task 29 used new filenames only.
 
@@ -119,7 +119,7 @@ Commands:
 - `python3 -m compileall src tests scripts`
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_compression.py tests/test_smoke_artifact_audit.py tests/test_long_context_fixture.py tests/test_task24_analysis.py tests/test_run_mvp_fixture_mode.py -q`
 - five Task 29 pilot commands listed above
-- `PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/task29_dflash_r1_longctx_n6.jsonl results/task29_cc_llm_r2_longctx_n6.jsonl results/task29_cc_llm_r3_longctx_n6.jsonl results/task29_llmlingua_ar_r2_longctx_n6.jsonl results/task29_llmlingua_ar_r3_longctx_n6.jsonl`
+- `PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/phase_1_system_build_and_evaluation/early_experiments/task29_dflash_r1_longctx_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r2_longctx_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r3_longctx_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r2_longctx_n6.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r3_longctx_n6.jsonl`
 - inline JSONL metadata validation for fixture fields, compression fields, and AR fields
 
 Results:

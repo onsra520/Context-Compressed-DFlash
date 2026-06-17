@@ -111,7 +111,7 @@ def main():
     }
 
     delta_rows = []
-    p = Path("results/task80a_condition_delta_vs_task80.csv")
+    p = Path("results/phase_1_system_build_and_evaluation/early_experiments/task80a_condition_delta_vs_task80.csv")
     if p.exists():
         with p.open(newline='', encoding='utf-8') as f:
             delta_rows = list(csv.DictReader(f))
@@ -121,14 +121,14 @@ def main():
         actual_rc = condition_counts.get((row["condition"], row["dataset"]), 0)
         cleaned_deltas.append(process_delta_row(row, actual_rc))
         
-    with open("results/task80b_cleaned_delta_interpretation.csv", "w", newline="", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task80b_cleaned_delta_interpretation.csv", "w", newline="", encoding="utf-8") as f:
         if cleaned_deltas:
             writer = csv.DictWriter(f, fieldnames=cleaned_deltas[0].keys())
             writer.writeheader()
             writer.writerows(cleaned_deltas)
 
     summary = generate_decision()
-    with open("results/task80b_rerun_issue_gate_summary.json", "w", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task80b_rerun_issue_gate_summary.json", "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
         
     regression_check = {
@@ -159,10 +159,10 @@ def main():
         "regression_classification": "timing_runtime_watch, not a confirmed regression",
         "final_issue_classification": "Proceed to T81 with caveat",
     }
-    with open("results/task80b_dflash_regression_check.json", "w", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task80b_dflash_regression_check.json", "w", encoding="utf-8") as f:
         json.dump(regression_check, f, indent=2)
 
-    with open("results/task80b_rerun_issue_gate_table.csv", "w", newline="", encoding="utf-8") as f:
+    with open("results/phase_1_system_build_and_evaluation/early_experiments/task80b_rerun_issue_gate_table.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow(["metric", "value"])
         for k, v in regression_check.items():

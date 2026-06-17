@@ -1,0 +1,73 @@
+{
+  "by_condition": {
+    "CC-DFlash-R2": {
+      "avg_k50_compressed_input_tokens": 6.0,
+      "avg_k67_compressed_input_tokens": 10.0,
+      "cases": 3,
+      "fail_to_pass_cases": 1,
+      "label_counts": {
+        "K67_HURT_BY_EXTRA_CONTEXT_OR_GENERATION_VARIANCE": 1,
+        "TRUNCATION_REMAINING": 1,
+        "UNCLEAR": 1
+      },
+      "outcome_counts": {
+        "FAIL_TO_PASS": 1,
+        "PASS_TO_FAIL": 1,
+        "SAME_FAIL": 1
+      },
+      "pass_to_fail_cases": 1,
+      "same_fail_cases": 1
+    },
+    "LLMLingua-AR-R2": {
+      "avg_k50_compressed_input_tokens": 6.0,
+      "avg_k67_compressed_input_tokens": 10.0,
+      "cases": 3,
+      "fail_to_pass_cases": 1,
+      "label_counts": {
+        "K67_HURT_BY_EXTRA_CONTEXT_OR_GENERATION_VARIANCE": 1,
+        "TRUNCATION_REMAINING": 1,
+        "UNCLEAR": 1
+      },
+      "outcome_counts": {
+        "FAIL_TO_PASS": 1,
+        "PASS_TO_FAIL": 1,
+        "SAME_FAIL": 1
+      },
+      "pass_to_fail_cases": 1,
+      "same_fail_cases": 1
+    }
+  },
+  "claim_policy": "read-only triage; no final correctness or compression-loss claim",
+  "direct_evidence_k67_helped_compression_loss": false,
+  "direct_evidence_k67_hurt_or_instability": true,
+  "inputs": {
+    "changed_outcomes": "results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_changed_outcomes.jsonl",
+    "dataset": "data/eval/gsm8k_100.jsonl",
+    "task60_artifacts": {
+      "CC-DFlash-R2": "results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl",
+      "LLMLingua-AR-R2": "results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl"
+    },
+    "task61b_artifacts": {
+      "CC-DFlash-R2": "results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl",
+      "LLMLingua-AR-R2": "results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl"
+    }
+  },
+  "label_counts": {
+    "K67_HURT_BY_EXTRA_CONTEXT_OR_GENERATION_VARIANCE": 2,
+    "TRUNCATION_REMAINING": 2,
+    "UNCLEAR": 2
+  },
+  "n30_recommendation": "Run n=30 only after triage, preferably keep_rate=50 baseline plus optional 67% comparison.",
+  "outcome_counts": {
+    "FAIL_TO_PASS": 2,
+    "PASS_TO_FAIL": 2,
+    "SAME_FAIL": 2
+  },
+  "recommendation": "Do not test keep_rate_percent=80 yet. Triage the pass-to-fail and same-fail rows first; if scaling is needed, run n=30 with default keep_rate=50 and optionally keep_rate=67 for confidence intervals.",
+  "remaining_truncation": true,
+  "status": "PASS",
+  "task": "Task 62 compressed GSM8K changed-outcome triage after keep_rate=67",
+  "task61b_commit": "56b3567 test: calibrate compressed gsm8k at keep rate 67",
+  "test_keep_rate_80_next": false,
+  "total_cases": 6
+}

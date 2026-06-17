@@ -951,7 +951,7 @@ def main() -> None:
     parser.add_argument("--config", default="config.yml")
     parser.add_argument("--condition", default="DFlash-R1")
     parser.add_argument("--n", type=int, default=3)
-    parser.add_argument("--output", default="results/dflash_r1_smoke.jsonl")
+    parser.add_argument("--output", default="results/_archives/early_smokes/dflash_r1_smoke.jsonl")
     parser.add_argument("--prompt-source", choices=["smoke", "fixture", "dataset"], default="smoke")
     parser.add_argument("--fixture", type=Path, default=None)
     parser.add_argument("--dataset", choices=sorted(DATASET_REGISTRY), default="gsm8k_short")

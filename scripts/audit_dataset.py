@@ -17,7 +17,7 @@ from scripts.create_dataset import BuildOptions, build_rows, write_jsonl
 
 
 DEFAULT_INPUT = Path("data/eval/gsm8k_100.jsonl")
-DEFAULT_OUTPUT = Path("results/task42_dataset_audit_summary.json")
+DEFAULT_OUTPUT = Path("results/phase_1_system_build_and_evaluation/early_experiments/task42_dataset_audit_summary.json")
 
 REQUIRED_FIELDS = {
     "id",

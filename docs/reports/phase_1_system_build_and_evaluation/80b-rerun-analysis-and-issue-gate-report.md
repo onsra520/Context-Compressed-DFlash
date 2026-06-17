@@ -4,15 +4,15 @@
 This task analyzes the results of Task80A to determine whether the DFlash-R1 timing shift is a regression and why the QMSum DFlash-R1 run stalled. No blind reruns were executed; the analysis relies solely on the read-only inspection of completed JSONL artifacts and previously audited Task69/Task71/Task80 references.
 
 ## 2. Inputs read
-* `results/task80a_run_manifest.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80a_run_manifest.json`
 * `docs/reports/80a-final-two-dataset-rerun-report.md`
-* `results/task80a_final_two_dataset_rerun_summary.json`
-* `results/task80a_condition_delta_vs_task80.csv`
-* `results/task80a_qmsum_long_dflash_r1_n30_mnt384.jsonl`
-* `results/task80a_gsm8k_short_dflash_r1_n30_mnt384.jsonl`
-* `results/task69_gsm8k_full_matrix_summary.json`
-* `results/task80_cross_dataset_final_summary.json`
-* `results/task71_qmsum_n30_full_matrix_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80a_condition_delta_vs_task80.csv`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_dflash_r1_n30_mnt384.jsonl`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_dflash_r1_n30_mnt384.jsonl`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_summary.json`
+* `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json`
 * `docs/reports/71-qmsum-n30-full-matrix-report.md`
 * `docs/reports/79-qmsum-limitation-freeze-report.md`
 

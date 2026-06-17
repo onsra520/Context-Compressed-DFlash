@@ -21,10 +21,10 @@ PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dat
 Real runs:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition Baseline-AR --n 30 --seed 42 --max-new-tokens 384 --output results/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl --resume --store-generated-text
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition DFlash-R1 --n 30 --seed 42 --max-new-tokens 384 --output results/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl --resume --store-generated-text
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl --resume --store-generated-text
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition Baseline-AR --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition DFlash-R1 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition LLMLingua-AR-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl --resume --store-generated-text
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset qmsum_meeting_qa_long --condition CC-DFlash-R2 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl --resume --store-generated-text
 ```
 
 Analyzer:
@@ -37,10 +37,10 @@ PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/anal
 
 | Condition | Artifact | Rows | Status |
 |---|---|---:|---|
-| Baseline-AR | `results/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl` | 30 | PASS |
-| DFlash-R1 | `results/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl` | 30 | PASS |
-| LLMLingua-AR-R2 | `results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl` | 30 | PASS |
-| CC-DFlash-R2 | `results/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl` | 30 | PASS |
+| Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl` | 30 | PASS |
+| DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl` | 30 | PASS |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl` | 30 | PASS |
+| CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl` | 30 | PASS |
 
 All real runs used `--resume`, `--store-generated-text`, unique Task 71 output filenames, and no `--overwrite`.
 

@@ -48,26 +48,26 @@ Dataset audit result:
 ## Commands
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 5 --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --store-generated-text --output results/task43_dflash_r1_sample_n5.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition DFlash-R1 --n 5 --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task43_dflash_r1_sample_n5.jsonl
 ```
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 5 --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --store-generated-text --output results/task43_llmlingua_ar_r2_sample_n5.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition LLMLingua-AR-R2 --n 5 --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task43_llmlingua_ar_r2_sample_n5.jsonl
 ```
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 5 --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --store-generated-text --output results/task43_cc_llm_r2_sample_n5.jsonl
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition CC-LLM-R2 --n 5 --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_smoke.jsonl --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task43_cc_llm_r2_sample_n5.jsonl
 ```
 
 ## Artifacts
 
 | Artifact | Condition | Rows |
 | --- | --- | ---: |
-| `results/task43_dflash_r1_sample_n5.jsonl` | DFlash-R1 | 5 |
-| `results/task43_llmlingua_ar_r2_sample_n5.jsonl` | LLMLingua-AR-R2 | 5 |
-| `results/task43_cc_llm_r2_sample_n5.jsonl` | CC-LLM-R2 | 5 |
-| `results/task43_dataset_audit_summary.json` | dataset audit summary | 5 |
-| `results/task43_answer_quality_summary.json` | answer-quality proxy | 3 artifacts |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_dflash_r1_sample_n5.jsonl` | DFlash-R1 | 5 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_llmlingua_ar_r2_sample_n5.jsonl` | LLMLingua-AR-R2 | 5 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_cc_llm_r2_sample_n5.jsonl` | CC-LLM-R2 | 5 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_dataset_audit_summary.json` | dataset audit summary | 5 |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task43_answer_quality_summary.json` | answer-quality proxy | 3 artifacts |
 
 Smoke artifact audit passed for all three JSONL artifacts.
 

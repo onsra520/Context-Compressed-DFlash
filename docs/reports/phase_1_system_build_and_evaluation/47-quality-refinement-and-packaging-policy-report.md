@@ -17,12 +17,12 @@ This task did not rerun benchmarks, did not use an LLM judge, and did not modify
 
 | Input | Purpose |
 |---|---|
-| `results/task45_final_artifact_audit_summary.json` | Audited final artifact paths and Task 45 diagnostic quality summary |
-| `results/task46_pareto_summary.json` | Decode-only and end-to-end Pareto interpretation |
-| `results/task45_final_baseline_ar_n100.jsonl` | Baseline-AR generated text rows |
-| `results/task45_final_dflash_r1_n100.jsonl` | DFlash-R1 generated text rows |
-| `results/task45_final_llmlingua_ar_r2_n100.jsonl` | LLMLingua-AR-R2 generated text rows |
-| `results/task45_final_cc_llm_r2_n100.jsonl` | CC-LLM-R2 generated text rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json` | Audited final artifact paths and Task 45 diagnostic quality summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json` | Decode-only and end-to-end Pareto interpretation |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl` | Baseline-AR generated text rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl` | DFlash-R1 generated text rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl` | LLMLingua-AR-R2 generated text rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl` | CC-LLM-R2 generated text rows |
 | `data/processed/gsm8k_wikipedia_augmented_full.jsonl` | Expected-answer fallback by fixture id |
 
 ## Outputs
@@ -30,9 +30,9 @@ This task did not rerun benchmarks, did not use an LLM judge, and did not modify
 | Output | Purpose |
 |---|---|
 | `scripts/phase_1_system_build_and_evaluation/analysis/t47_quality_refinement.py` | Deterministic quality-refinement analyzer |
-| `results/task47_quality_refinement_summary.json` | Machine-readable quality summary and claim policy |
-| `results/task47_quality_failure_samples.jsonl` | Representative compact failure samples, up to 5 per condition |
-| `results/task47_quality_table.csv` | Compact condition-level quality table |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_refinement_summary.json` | Machine-readable quality summary and claim policy |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_failure_samples.jsonl` | Representative compact failure samples, up to 5 per condition |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_table.csv` | Compact condition-level quality table |
 | `tests/test_task47_quality_refinement.py` | CPU-only unit tests for extraction, classification, and summary behavior |
 
 ## Extraction Method
@@ -144,13 +144,13 @@ Commands run:
 
 ```bash
 PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t47_quality_refinement.py \
-  --audit results/task45_final_artifact_audit_summary.json \
-  --pareto results/task46_pareto_summary.json \
-  --output results/task47_quality_refinement_summary.json \
-  --samples-output results/task47_quality_failure_samples.jsonl
+  --audit results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json \
+  --pareto results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json \
+  --output results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_refinement_summary.json \
+  --samples-output results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_failure_samples.jsonl
 ```
 
-Result: PASS. The script wrote `results/task47_quality_refinement_summary.json`, `results/task47_quality_failure_samples.jsonl`, and `results/task47_quality_table.csv`.
+Result: PASS. The script wrote `results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_refinement_summary.json`, `results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_failure_samples.jsonl`, and `results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_table.csv`.
 
 Additional validation is recorded in the final agent response for this task.
 

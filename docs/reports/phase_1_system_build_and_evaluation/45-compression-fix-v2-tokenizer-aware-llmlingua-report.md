@@ -30,8 +30,8 @@ Verified:
 
 Created:
 
-- `results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl`
-- `results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl`
 - `logs/task45_compression_fix_v2_llmlingua_ar_r2_n3.log`
 - `logs/task45_compression_fix_v2_cc_llm_r2_n3.log`
 - `docs/reports/45-compression-fix-v2-tokenizer-aware-llmlingua-report.md`
@@ -111,13 +111,13 @@ Existing fields remain:
 
 Valid existing partial-final artifacts:
 
-- `results/task45_final_baseline_ar_n100.jsonl`: `100` rows.
-- `results/task45_final_dflash_r1_n100.jsonl`: `100` rows.
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl`: `100` rows.
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl`: `100` rows.
 
 Missing compressed final artifacts:
 
-- `results/task45_final_llmlingua_ar_r2_n100.jsonl`: missing, not a valid final artifact.
-- `results/task45_final_cc_llm_r2_n100.jsonl`: missing, not run yet.
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl`: missing, not a valid final artifact.
+- `results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl`: missing, not run yet.
 
 No valid compressed n=100 final benchmark artifact is claimed by this task.
 
@@ -164,7 +164,7 @@ Settings:
 Command:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "LLMLingua-AR-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_llmlingua_ar_r2_n3.log
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "LLMLingua-AR-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_llmlingua_ar_r2_n3.log
 ```
 
 Result: PASS.
@@ -188,7 +188,7 @@ Summary:
 Command:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "CC-LLM-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_cc_llm_r2_n3.log
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "CC-LLM-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_cc_llm_r2_n3.log
 ```
 
 Result: PASS.
@@ -222,14 +222,14 @@ Result: PASS. No matching encoder-length warning or runtime error appeared in th
 Command:
 
 ```bash
-PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl
+PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl
 ```
 
 Result:
 
 ```text
-PASS results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl condition=LLMLingua-AR-R2 rows=3 issues=0
-PASS results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl condition=CC-LLM-R2 rows=3 issues=0
+PASS results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl condition=LLMLingua-AR-R2 rows=3 issues=0
+PASS results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl condition=CC-LLM-R2 rows=3 issues=0
 ```
 
 ## Understand-Anything Context
@@ -254,11 +254,11 @@ grep -n "Traceback\|RuntimeError\|IndexError\|sequence length\|LLMLingua" "$LOG"
 PYTHONPATH=src .venv/bin/python -m pytest tests/test_compression.py tests/test_run_mvp_fixture_mode.py -q
 python3 -m compileall src tests scripts 2>&1 | tail -20
 PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "LLMLingua-AR-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_llmlingua_ar_r2_n3.log
-PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "CC-LLM-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_cc_llm_r2_n3.log
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "LLMLingua-AR-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_llmlingua_ar_r2_n3.log
+PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --config config.yml --condition "CC-LLM-R2" --prompt-source fixture --fixture data/processed/gsm8k_wikipedia_augmented_full.jsonl --n 3 --max-new-tokens 128 --store-generated-text --output results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl 2>&1 | tee logs/task45_compression_fix_v2_cc_llm_r2_n3.log
 grep -RIn "sequence length is longer\|Traceback\|RuntimeError\|IndexError" logs/task45_compression_fix_v2_*_n3.log || true
 wc -l results/task45_compression_fix_v2_*_n3.jsonl
-PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl results/task45_compression_fix_v2_cc_llm_r2_n3.jsonl
+PYTHONPATH=src .venv/bin/python scripts/smoke_artifacts.py results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl
 ```
 
 Results:

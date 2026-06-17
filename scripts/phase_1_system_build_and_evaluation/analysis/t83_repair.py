@@ -16,12 +16,12 @@ from scripts.phase_1_system_build_and_evaluation.analysis.t47_quality_refinement
 from scripts.phase_1_system_build_and_evaluation.analysis.t70_qmsum_diagnostic_audit import normalized_token_overlap
 
 
-GSM8K_FILE = Path("results/task83_gsm8k_dflash_r1_repair_n30.jsonl")
+GSM8K_FILE = Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_n30.jsonl")
 QMSUM_FILES = {
-    "Baseline-AR": Path("results/task83_qmsum_baseline_ar_n30.jsonl"),
-    "DFlash-R1": Path("results/task83_qmsum_dflash_r1_n30.jsonl"),
-    "LLMLingua-AR-R2": Path("results/task83_qmsum_llmlingua_ar_r2_n30.jsonl"),
-    "CC-DFlash-R2": Path("results/task83_qmsum_cc_dflash_r2_n30.jsonl"),
+    "Baseline-AR": Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_baseline_ar_n30.jsonl"),
+    "DFlash-R1": Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_dflash_r1_n30.jsonl"),
+    "LLMLingua-AR-R2": Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_llmlingua_ar_r2_n30.jsonl"),
+    "CC-DFlash-R2": Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_cc_dflash_r2_n30.jsonl"),
 }
 
 
@@ -204,12 +204,12 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
 
 def main() -> int:
     gsm8k_summary, gsm8k_table = analyze_gsm8k()
-    _write_json(Path("results/task83_gsm8k_dflash_r1_repair_summary.json"), gsm8k_summary)
-    _write_csv(Path("results/task83_gsm8k_dflash_r1_repair_table.csv"), gsm8k_table)
+    _write_json(Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_summary.json"), gsm8k_summary)
+    _write_csv(Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_table.csv"), gsm8k_table)
     
     qmsum_summary, qmsum_table = analyze_qmsum()
-    _write_json(Path("results/task83_qmsum_repair_summary.json"), qmsum_summary)
-    _write_csv(Path("results/task83_qmsum_repair_table.csv"), qmsum_table)
+    _write_json(Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_repair_summary.json"), qmsum_summary)
+    _write_csv(Path("results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_repair_table.csv"), qmsum_table)
     return 0
 
 

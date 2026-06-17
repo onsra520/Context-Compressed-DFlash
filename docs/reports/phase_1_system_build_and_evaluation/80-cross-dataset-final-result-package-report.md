@@ -23,11 +23,11 @@ Task 79B was already committed before this task:
 
 GSM8K:
 
-- `results/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl`
-- `results/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl`
-- `results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl`
-- `results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl`
-- `results/task69_gsm8k_full_matrix_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_summary.json`
 
 QMSum:
 
@@ -36,10 +36,10 @@ QMSum:
 - `docs/reports/77-qmsum-evidence-focused-policy-report.md`
 - `docs/reports/75-qmsum-balanced-policy-report.md`
 - `docs/reports/71-qmsum-n30-full-matrix-report.md`
-- `results/task79_qmsum_reporting_decision.json`
-- `results/task77_qmsum_evidence_policy_summary.json`
-- `results/task78_qmsum_evidence_retention_summary.json`
-- `results/task71_qmsum_n30_full_matrix_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_summary.json`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json`
 
 ## Outputs Created
 
@@ -47,10 +47,10 @@ QMSum:
 | --- | --- |
 | `scripts/phase_1_system_build_and_evaluation/analysis/t80_cross_dataset_final_package.py` | Deterministic package builder |
 | `tests/test_task80_cross_dataset_final_package.py` | CPU-only package tests |
-| `results/task80_cross_dataset_final_summary.json` | Machine-readable cross-dataset summary |
-| `results/task80_cross_dataset_final_table.csv` | Compact report/presentation result table |
-| `results/task80_cross_dataset_claims_matrix.csv` | Allowed/forbidden claims matrix |
-| `results/task80_final_report_key_points.json` | Conservative final-report bullet points |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_summary.json` | Machine-readable cross-dataset summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_table.csv` | Compact report/presentation result table |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_claims_matrix.csv` | Allowed/forbidden claims matrix |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task80_final_report_key_points.json` | Conservative final-report bullet points |
 | `docs/reports/80-cross-dataset-final-result-package-report.md` | Human-readable package report |
 
 ## Final GSM8K Table
@@ -139,8 +139,8 @@ Task-specific validation:
 
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/test_task80_cross_dataset_final_package.py -q`
 - `PYTHONPATH=src .venv/bin/python scripts/phase_1_system_build_and_evaluation/analysis/t80_cross_dataset_final_package.py`
-- `python3 -m json.tool results/task80_cross_dataset_final_summary.json >/dev/null`
-- `python3 -m json.tool results/task80_final_report_key_points.json >/dev/null`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_summary.json >/dev/null`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task80_final_report_key_points.json >/dev/null`
 
 Full final validation is recorded in the Task 80 completion response.
 

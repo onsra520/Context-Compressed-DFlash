@@ -17,7 +17,7 @@ No retroactive patches to these reports were necessary.
 The Roadmap was previously pointing prematurely to Task 86 (or Task 85) as the "Final Report Drafting" phase. It has been updated to explicitly point to the newly established **Task 87 — Controlled n=10 benchmark rerun gate**. 
 
 ## 5. Rerun Manifest
-A formal execution plan has been locked in `results/task86_rerun_gate_manifest.json`.
+A formal execution plan has been locked in `results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_gate_manifest.json`.
 - **Target Datasets**: `gsm8k_short` and `qmsum_meeting_qa_long`
 - **Conditions**: Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-DFlash-R2
 - **Parameters**: `seed=42`, `max_new_tokens=512`, `keep_rate_percent=50`, `prompt_source="dataset"`, `prompt_policy="strict zero-shot"`
@@ -26,7 +26,7 @@ A formal execution plan has been locked in `results/task86_rerun_gate_manifest.j
 > Task87/Task88 use `max_new_tokens=512` as the controlled rerun setting. Task83 remains the repaired reference under its original setting and should not be treated as an identical-latency comparison against the 512-token rerun.
 
 ## 6. Validation Checklist
-A strict set of gate criteria has been codified in `results/task86_rerun_validation_checklist.json` to prevent silent benchmark failures, including:
+A strict set of gate criteria has been codified in `results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_validation_checklist.json` to prevent silent benchmark failures, including:
 - **Row count**: Must strictly equal 10 (for Task 87) or 30 (for Task 88).
 - **Quality limits**: Maximum repetitions (<=2), empty outputs (0), hit cap limits (<=3).
 - **Diagnostics Logging**: Ensures latency (`avg_e2e_latency`, `avg_generation_latency`, `avg_T_compress`), throughput, and VRAM are properly captured.
@@ -36,8 +36,8 @@ A strict set of gate criteria has been codified in `results/task86_rerun_validat
 - **Task 88 (n=30)** is strictly gated. It may **only** proceed if Task 87 passes all criteria defined in the Task 86 validation checklist. The companion script `scripts/phase_1_system_build_and_evaluation/analysis/t86_rerun_gate.py` can be used to automatically verify the success of these gates.
 
 ## 8. Artifact List
-- `results/task86_rerun_gate_manifest.json`
-- `results/task86_rerun_validation_checklist.json`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_gate_manifest.json`
+- `results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_validation_checklist.json`
 - `scripts/phase_1_system_build_and_evaluation/analysis/t86_rerun_gate.py`
 - `docs/reports/86-benchmark-cleanup-and-rerun-gate-preparation-report.md`
 

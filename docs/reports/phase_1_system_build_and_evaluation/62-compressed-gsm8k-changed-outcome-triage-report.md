@@ -18,11 +18,11 @@ Task 61B was already committed:
 
 | Input | Purpose |
 |---|---|
-| `results/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl` | Task 60 LLMLingua-AR-R2 keep_rate=0.50 artifact |
-| `results/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl` | Task 60 CC-DFlash-R2 keep_rate=0.50 artifact |
-| `results/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl` | Task 61B LLMLingua-AR-R2 keep_rate=0.67 artifact |
-| `results/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl` | Task 61B CC-DFlash-R2 keep_rate=0.67 artifact |
-| `results/task61b_keep_rate67_changed_outcomes.jsonl` | Task 60 to Task 61B outcome map |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_llmlingua_ar_r2_n10_mnt256_suffixfix.jsonl` | Task 60 LLMLingua-AR-R2 keep_rate=0.50 artifact |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_cc_dflash_r2_n10_mnt256_suffixfix.jsonl` | Task 60 CC-DFlash-R2 keep_rate=0.50 artifact |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_llmlingua_ar_r2_n10_mnt256_k067.jsonl` | Task 61B LLMLingua-AR-R2 keep_rate=0.67 artifact |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_cc_dflash_r2_n10_mnt256_k067.jsonl` | Task 61B CC-DFlash-R2 keep_rate=0.67 artifact |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_changed_outcomes.jsonl` | Task 60 to Task 61B outcome map |
 | `data/eval/gsm8k_100.jsonl` | Dataset metadata and question context |
 
 ## Outputs
@@ -31,8 +31,8 @@ Task 61B was already committed:
 |---|---|
 | `scripts/phase_1_system_build_and_evaluation/analysis/t62_changed_outcome_triage.py` | Read-only changed-outcome triage analyzer |
 | `tests/test_task62_changed_outcome_triage.py` | Lightweight CPU-only analyzer test |
-| `results/task62_changed_outcome_triage_summary.json` | Machine-readable summary |
-| `results/task62_changed_outcome_cases.jsonl` | Per-case triage rows |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task62_changed_outcome_triage_summary.json` | Machine-readable summary |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task62_changed_outcome_cases.jsonl` | Per-case triage rows |
 
 ## Summary
 

@@ -21,11 +21,11 @@ Prompt dry-run:
 
 Baseline-AR:
 
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition Baseline-AR --n 30 --seed 42 --max-new-tokens 384 --output results/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl --resume --store-generated-text`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition Baseline-AR --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl --resume --store-generated-text`
 
 DFlash-R1:
 
-- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition DFlash-R1 --n 30 --seed 42 --max-new-tokens 384 --output results/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl --resume --store-generated-text`
+- `PYTHONPATH=src .venv/bin/python scripts/run_mvp.py --prompt-source dataset --dataset gsm8k_short --condition DFlash-R1 --n 30 --seed 42 --max-new-tokens 384 --output results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl --resume --store-generated-text`
 
 Analyzer:
 
@@ -37,15 +37,15 @@ New Task 69 artifacts:
 
 | Condition | Artifact | Rows | Status |
 | --- | --- | ---: | --- |
-| Baseline-AR | `results/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl` | 30 | Created |
-| DFlash-R1 | `results/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl` | 30 | Created |
+| Baseline-AR | `results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl` | 30 | Created |
+| DFlash-R1 | `results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl` | 30 | Created |
 
 Reused read-only artifacts:
 
 | Condition | Artifact | Rows | Reuse check |
 | --- | --- | ---: | --- |
-| LLMLingua-AR-R2 | `results/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl` | 30 | PASS |
-| CC-DFlash-R2 | `results/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl` | 30 | PASS |
+| LLMLingua-AR-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_llmlingua_ar_r2_n30_mnt384_rerun.jsonl` | 30 | PASS |
+| CC-DFlash-R2 | `results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_cc_dflash_r2_n30_mnt384_rerun.jsonl` | 30 | PASS |
 
 Compressed reuse checks verified:
 
@@ -130,7 +130,7 @@ Commands run:
 
 - `python3 -m compileall src tests scripts 2>&1 | tail -20`
 - `PYTHONPATH=src .venv/bin/python -m pytest tests/ -x -q 2>&1 | tail -30`
-- `python3 -m json.tool results/task69_gsm8k_full_matrix_summary.json >/dev/null`
+- `python3 -m json.tool results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_summary.json >/dev/null`
 - HTML sanity checks for `<!DOCTYPE html>` and `</html>`
 - Markdown fence balance checks for `instruction.md` and this report
 

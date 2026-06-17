@@ -10,11 +10,11 @@ from typing import Any
 
 
 TASK29_ARTIFACTS = [
-    Path("results/task29_dflash_r1_longctx_n6.jsonl"),
-    Path("results/task29_cc_llm_r2_longctx_n6.jsonl"),
-    Path("results/task29_cc_llm_r3_longctx_n6.jsonl"),
-    Path("results/task29_llmlingua_ar_r2_longctx_n6.jsonl"),
-    Path("results/task29_llmlingua_ar_r3_longctx_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task29_dflash_r1_longctx_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r2_longctx_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task29_cc_llm_r3_longctx_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r2_longctx_n6.jsonl"),
+    Path("results/phase_1_system_build_and_evaluation/early_experiments/task29_llmlingua_ar_r3_longctx_n6.jsonl"),
 ]
 FIXTURE_PATH = Path("tests/fixtures/long_context_smoke.jsonl")
 FIXTURE_FIELDS = {

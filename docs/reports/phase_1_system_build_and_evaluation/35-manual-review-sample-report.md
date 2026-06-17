@@ -14,15 +14,15 @@ Reviewed all Task 31 rows that the deterministic Task 32 scorer labeled `NO_CONT
 
 Artifacts inspected:
 
-- `results/task31_dflash_r1_longctx_text_n6.jsonl`
-- `results/task31_cc_llm_r2_longctx_text_n6.jsonl`
-- `results/task31_cc_llm_r3_longctx_text_n6.jsonl`
-- `results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl`
-- `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl`
+- `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl`
 
 Selection method:
 
-- Use the deterministic Task 32 scorer output from `results/task32_answer_quality_summary.json`.
+- Use the deterministic Task 32 scorer output from `results/phase_1_system_build_and_evaluation/early_experiments/task32_answer_quality_summary.json`.
 - Include every row with `score_category == NO_CONTAINMENT`.
 - The sample was small enough to review exhaustively, so no sampling was needed.
 
@@ -30,26 +30,26 @@ Selection method:
 
 | Source artifact | Condition | Prompt id | Expected answer | Generated output summary | Original label | Manual label | Rationale |
 | --- | --- | ---: | --- | --- | --- | --- | --- |
-| `results/task31_dflash_r1_longctx_text_n6.jsonl` | DFlash-R1 | 1 | 410 dollars | Begins with “The question asks…” and then steps through context; no amount appears. | NO_CONTAINMENT | TRUE_FAIL | The output does not give the paid amount, and the evidence clearly contains `410 dollars`. |
-| `results/task31_dflash_r1_longctx_text_n6.jsonl` | DFlash-R1 | 3 | 37 cartons | Starts with “Let’s break down the information…” but never states the remaining cartons. | NO_CONTAINMENT | TRUE_FAIL | The expected arithmetic result is absent even though the evidence states `37 cartons`. |
-| `results/task31_dflash_r1_longctx_text_n6.jsonl` | DFlash-R1 | 6 | 23 students | Lists `26 students` and `3 students` withdrawn, but the final roster count is not stated. | NO_CONTAINMENT | TRUE_FAIL | The output shows intermediate facts but never concludes with `23 students`. |
-| `results/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM-R2 | 1 | 410 dollars | Opens with a question restatement and extraction steps; no final payment amount is shown. | NO_CONTAINMENT | TRUE_FAIL | The answer is missing even though the evidence explicitly gives `410 dollars`. |
-| `results/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM-R2 | 2 | 20 items | Explains the tier lookup but stops before stating the borrow limit. | NO_CONTAINMENT | TRUE_FAIL | The evidence says `20 items`; the generation does not. |
-| `results/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM-R2 | 3 | 37 cartons | Describes the Bay 2 shipment calculation but does not state the result. | NO_CONTAINMENT | TRUE_FAIL | The final arithmetic answer is absent. |
-| `results/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM-R2 | 6 | 23 students | Walks through the roster logic and stops at “Given Information.” | NO_CONTAINMENT | TRUE_FAIL | The final roster count never appears, despite being explicit in the evidence. |
-| `results/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 1 | 410 dollars | Restates the invoice question and starts extracting details, but no amount appears. | NO_CONTAINMENT | TRUE_FAIL | The model never outputs `410 dollars`. |
-| `results/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 2 | 20 items | Identifies the Research tier and borrow policy context, but no limit is given. | NO_CONTAINMENT | TRUE_FAIL | The answer is not present in any form reviewed. |
-| `results/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 3 | 37 cartons | Restates the cartons problem and continues reasoning without a conclusion. | NO_CONTAINMENT | TRUE_FAIL | The expected count is missing. |
-| `results/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 5 | 5 years | Discusses retention policy context but does not state the retention length. | NO_CONTAINMENT | TRUE_FAIL | The explicit answer `5 years` is absent. |
-| `results/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 6 | 23 students | Explains the roster logic and stops while analyzing the input. | NO_CONTAINMENT | TRUE_FAIL | No final count is produced. |
-| `results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | LLMLingua-AR-R2 | 1 | 410 dollars | Same pattern as DFlash: question restated, then reasoning starts, but no amount. | NO_CONTAINMENT | TRUE_FAIL | The output does not answer the question. |
-| `results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | LLMLingua-AR-R2 | 3 | 37 cartons | Shows the setup for the Bay 2 subtraction, but not the final total. | NO_CONTAINMENT | TRUE_FAIL | The arithmetic result is missing. |
-| `results/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | LLMLingua-AR-R2 | 6 | 23 students | Begins the roster count explanation and stops after introducing the facts. | NO_CONTAINMENT | TRUE_FAIL | The final roster count is absent. |
-| `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 1 | 410 dollars | Restates the payment question and extracts context, but no amount is returned. | NO_CONTAINMENT | TRUE_FAIL | The expected answer is not present. |
-| `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 2 | 20 items | Explains the Research tier lookup and does not conclude. | NO_CONTAINMENT | TRUE_FAIL | The borrow limit never appears. |
-| `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 3 | 37 cartons | Continues the carton subtraction setup without stating the result. | NO_CONTAINMENT | TRUE_FAIL | The final arithmetic answer is missing. |
-| `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 5 | 5 years | Discusses retention policy background and stops before the duration. | NO_CONTAINMENT | TRUE_FAIL | The expected duration is absent. |
-| `results/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 6 | 23 students | Analyzes the trip roster changes but never gives the final count. | NO_CONTAINMENT | TRUE_FAIL | The answer `23 students` is not present. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl` | DFlash-R1 | 1 | 410 dollars | Begins with “The question asks…” and then steps through context; no amount appears. | NO_CONTAINMENT | TRUE_FAIL | The output does not give the paid amount, and the evidence clearly contains `410 dollars`. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl` | DFlash-R1 | 3 | 37 cartons | Starts with “Let’s break down the information…” but never states the remaining cartons. | NO_CONTAINMENT | TRUE_FAIL | The expected arithmetic result is absent even though the evidence states `37 cartons`. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_dflash_r1_longctx_text_n6.jsonl` | DFlash-R1 | 6 | 23 students | Lists `26 students` and `3 students` withdrawn, but the final roster count is not stated. | NO_CONTAINMENT | TRUE_FAIL | The output shows intermediate facts but never concludes with `23 students`. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM-R2 | 1 | 410 dollars | Opens with a question restatement and extraction steps; no final payment amount is shown. | NO_CONTAINMENT | TRUE_FAIL | The answer is missing even though the evidence explicitly gives `410 dollars`. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM-R2 | 2 | 20 items | Explains the tier lookup but stops before stating the borrow limit. | NO_CONTAINMENT | TRUE_FAIL | The evidence says `20 items`; the generation does not. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM-R2 | 3 | 37 cartons | Describes the Bay 2 shipment calculation but does not state the result. | NO_CONTAINMENT | TRUE_FAIL | The final arithmetic answer is absent. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r2_longctx_text_n6.jsonl` | CC-LLM-R2 | 6 | 23 students | Walks through the roster logic and stops at “Given Information.” | NO_CONTAINMENT | TRUE_FAIL | The final roster count never appears, despite being explicit in the evidence. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 1 | 410 dollars | Restates the invoice question and starts extracting details, but no amount appears. | NO_CONTAINMENT | TRUE_FAIL | The model never outputs `410 dollars`. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 2 | 20 items | Identifies the Research tier and borrow policy context, but no limit is given. | NO_CONTAINMENT | TRUE_FAIL | The answer is not present in any form reviewed. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 3 | 37 cartons | Restates the cartons problem and continues reasoning without a conclusion. | NO_CONTAINMENT | TRUE_FAIL | The expected count is missing. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 5 | 5 years | Discusses retention policy context but does not state the retention length. | NO_CONTAINMENT | TRUE_FAIL | The explicit answer `5 years` is absent. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_cc_llm_r3_longctx_text_n6.jsonl` | CC-LLM-R3 | 6 | 23 students | Explains the roster logic and stops while analyzing the input. | NO_CONTAINMENT | TRUE_FAIL | No final count is produced. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | LLMLingua-AR-R2 | 1 | 410 dollars | Same pattern as DFlash: question restated, then reasoning starts, but no amount. | NO_CONTAINMENT | TRUE_FAIL | The output does not answer the question. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | LLMLingua-AR-R2 | 3 | 37 cartons | Shows the setup for the Bay 2 subtraction, but not the final total. | NO_CONTAINMENT | TRUE_FAIL | The arithmetic result is missing. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r2_longctx_text_n6.jsonl` | LLMLingua-AR-R2 | 6 | 23 students | Begins the roster count explanation and stops after introducing the facts. | NO_CONTAINMENT | TRUE_FAIL | The final roster count is absent. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 1 | 410 dollars | Restates the payment question and extracts context, but no amount is returned. | NO_CONTAINMENT | TRUE_FAIL | The expected answer is not present. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 2 | 20 items | Explains the Research tier lookup and does not conclude. | NO_CONTAINMENT | TRUE_FAIL | The borrow limit never appears. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 3 | 37 cartons | Continues the carton subtraction setup without stating the result. | NO_CONTAINMENT | TRUE_FAIL | The final arithmetic answer is missing. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 5 | 5 years | Discusses retention policy background and stops before the duration. | NO_CONTAINMENT | TRUE_FAIL | The expected duration is absent. |
+| `results/phase_1_system_build_and_evaluation/early_experiments/task31_llmlingua_ar_r3_longctx_text_n6.jsonl` | LLMLingua-AR-R3 | 6 | 23 students | Analyzes the trip roster changes but never gives the final count. | NO_CONTAINMENT | TRUE_FAIL | The answer `23 students` is not present. |
 
 ## Summary
 
