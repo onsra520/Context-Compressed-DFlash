@@ -319,16 +319,29 @@
             background: var(--warn-bg);
             color: var(--warn)
         }
-
         /* Phase header rows */
-        .phase-hdr td {
-            background: #1e1e1a;
-            color: #e8e8e4;
-            font-weight: 700;
-            font-size: .80rem;
-            letter-spacing: .06em;
+        .phase-row td {
+            background: #111;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            border-bottom: none
+            padding: 14px 18px;
+        }
+
+        .artifact-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .deprecated-note {
+            display: inline-flex;
+            margin-top: 10px;
+            max-width: 100%;
+            white-space: normal;
+            line-height: 1.4;
         }
 
         /* Code */
@@ -1243,29 +1256,29 @@
                             <td class="planned">PLANNED</td>
                         </tr>
                         <tr>
-                            <td>90</td>
-                            <td><span class="sv info">Phase 1 End-to-End Reproduction Rerun</span></td>
-                            <td><span class="sv info">NEXT</span></td>
+                            <td><span class="tnum inprog">T90</span></td>
+                            <td>Phase 1 End-to-End Reproduction Rerun</td>
                             <td>Run canonical fetch → processed → eval n=100 pipeline and n=3 matrix rerun to validate post-cleanup reproducibility. Does not replace Task88 n=30 metrics.</td>
+                            <td class="info">NEXT</td>
                         </tr>
                         <tr class="phase-row"><td colspan="4">PHASE 2 — SYSTEM OPTIMIZATION (T91+)</td></tr>
                         <tr>
-                            <td>91</td>
-                            <td><span class="sv info">Adaptive Compression Policy</span></td>
-                            <td><span class="sv info">PLANNED</span></td>
+                            <td><span class="tnum planned">T91</span></td>
+                            <td>Adaptive Compression Policy</td>
                             <td>Planned Phase 2 routing policy based on context length, cache availability, and T_compress tradeoff.</td>
+                            <td class="info">PLANNED</td>
                         </tr>
                         <tr>
-                            <td>92</td>
-                            <td><span class="sv info">Cached/Offline Compression Path</span></td>
-                            <td><span class="sv info">PLANNED</span></td>
+                            <td><span class="tnum planned">T92</span></td>
+                            <td>Cached/Offline Compression Path</td>
                             <td>Planned cached compression mode to remove online T_compress from request latency.</td>
+                            <td class="info">PLANNED</td>
                         </tr>
                         <tr>
-                            <td>93</td>
-                            <td><span class="sv info">T_compress-Aware Routing</span></td>
-                            <td><span class="sv info">PLANNED</span></td>
+                            <td><span class="tnum planned">T93</span></td>
+                            <td>T_compress-Aware Routing</td>
                             <td>Planned system routing rule for when to use Baseline/DFlash/Compressed paths.</td>
+                            <td class="info">PLANNED</td>
                         </tr>
 </tbody>
                 </table>
@@ -1430,10 +1443,12 @@
                         <tr>
                             <td><strong>Deprecated / Removed Artifacts</strong></td>
                             <td>
-                                <code>data/processed/gsm8k_wikipedia_augmented_smoke.jsonl</code><br>
-                                <code>data/processed/gsm8k_wikipedia_augmented_full.jsonl</code><br>
-                                <code>data/raw/wikipedia_source.jsonl</code><br>
-                                <span class="sv stop">DEPRECATED / REMOVED_FROM_ACTIVE_PATH</span>
+                                <div class="artifact-list">
+                                    <code>data/processed/gsm8k_wikipedia_augmented_smoke.jsonl</code>
+                                    <code>data/processed/gsm8k_wikipedia_augmented_full.jsonl</code>
+                                    <code>data/raw/wikipedia_source.jsonl</code>
+                                </div>
+                                <div class="artifact-note deprecated-note sv stop">DEPRECATED / REMOVED_FROM_ACTIVE_PATH</div>
                             </td>
                         </tr>
                     </tbody>
