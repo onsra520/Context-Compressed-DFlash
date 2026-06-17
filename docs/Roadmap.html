@@ -1244,16 +1244,22 @@
                             <td class="go">PASS: Manifests, checklist, and strict claim boundaries confirmed.</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T87</span></td>
-                            <td>Controlled n=10 benchmark rerun gate</td>
-                            <td>Execute n=10 validation rerun according to Task 86 manifest.</td>
-                            <td class="planned">PLANNED</td>
+                            <td><span class="tnum done">T87</span></td>
+                            <td>Controlled n=10 Benchmark Rerun Gate</td>
+                            <td>Executed n=10 validation rerun according to Task86 manifest. Initial analyzer issue was fixed; metrics parsed from real JSONL fields. QMSum DFlash-R1 slowdown was inspected as an outlier-based caveat, not a blocking failure.</td>
+                            <td class="go">PASS_WITH_NOTES</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T88</span></td>
-                            <td>Controlled n=30 benchmark rerun</td>
-                            <td>Execute full n=30 rerun only if Task 87 passes all checklist gates.</td>
-                            <td class="planned">PLANNED</td>
+                            <td><span class="tnum done">T88</span></td>
+                            <td>Controlled n=30 Benchmark Rerun</td>
+                            <td>Completed controlled n=30 rerun for the active two-dataset setup. This is the current controlled n=30 benchmark evidence before post-cleanup reproduction. <br><code>results/phase_1_system_build_and_evaluation/final_reruns/task88_*</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T89</span></td>
+                            <td>Repository Cleanup and Phase Transition</td>
+                            <td>Repository restructured; Wikipedia/GSM8K-augmented branch deprecated and removed from active path; fetch pipeline consolidated; data raw/processed/eval normalized; reports/results/scripts taxonomy normalized; canonical active eval frozen; roadmap synced for Phase 1 closeout.</td>
+                            <td class="go">PASS_WITH_FIXES</td>
                         </tr>
                         <tr>
                             <td><span class="tnum inprog">T90</span></td>
