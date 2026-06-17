@@ -398,7 +398,7 @@
     <main class="page">
 
         <!-- ─────────────────────────────────────────── HERO -->
-        <header class="hero">
+                <header class="hero">
             <div class="kicker">CC-DFlash · Live Project Roadmap · Updated after each task</div>
             <h1>CC-DFlash Roadmap</h1>
             <p class="subtitle">
@@ -408,12 +408,9 @@
                 <a href="CC-DFlash-Overview.html">docs/CC-DFlash-Overview.html</a>.
             </p>
             <div class="status-row">
-                <span class="sv go">✓ Phase 1 MVP: PASS</span>
-                <span class="sv go">✓ T81 Audit: PASS_WITH_NOTES</span>
-                <span class="sv go">✓ Final Benchmark Artifacts: AUDITED</span>
-                <span class="sv go">✓ T88 Full Rerun: PASS</span>
-                <span class="sv go">✓ T89 Repo Cleanup: PASS</span>
-                <span class="sv info">→ Current next: Task 90 Phase 1 End-to-End Reproduction Rerun</span>
+                <span class="sv go">Current Phase: Phase 1 Closeout</span>
+                <span class="sv ok">Latest Completed: Task89 — Repository Cleanup, Data Pipeline Normalization, and Phase Transition Readiness</span>
+                <span class="sv info">Current Next: Task90 — Phase 1 End-to-End Reproduction Rerun</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -422,7 +419,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                This roadmap is synced through Task 89 Repository Cleanup and Phase Migration. Current next: Task 90 Phase 1 End-to-End Reproduction Rerun to definitively seal Phase 1 before Phase 2.
+                Task90 validates post-cleanup reproducibility from the canonical data pipeline to an n=3 matrix rerun. It does not replace Task88 controlled n=30 benchmark metrics.
             </div>
         </header>
 
@@ -438,66 +435,46 @@
                             <th>Requirements / Notes</th>
                         </tr>
                     </thead>
-                    <tbody>
+                                        <tbody>
                         <tr>
-                            <td><strong>MVP / Implementation Gate</strong></td>
+                            <td><strong>Phase 0 — Research / Concept Gate</strong></td>
+                            <td class="go">PASS</td>
+                            <td>Research direction, CC-DFlash hypothesis, MVP scope, tokenizer/vocab risks, and repo setup.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 1 — System Build Gate</strong></td>
                             <td class="go">PASS</td>
                             <td>Core runner, Baseline-AR, DFlash-R1, LLMLingua-AR-R2, CC-DFlash-R2, generated-text capture, and artifact audit paths exist.</td>
                         </tr>
                         <tr>
-                            <td><strong>Two-Dataset Evaluation Gate</strong></td>
+                            <td><strong>Phase 1 — Data Pipeline Gate</strong></td>
                             <td class="go">PASS</td>
-                            <td>Main evaluation uses GSM8K short-context for numeric quality and QMSum-style meeting QA for long-context diagnostic behavior. GSM8K+Wikipedia remains optional/legacy ablation.</td>
+                            <td>Active data lifecycle is raw → processed → eval. Active datasets are GSM8K short-context and QMSum meeting QA. GSM8K+Wikipedia augmented branch is deprecated and removed from active path.</td>
                         </tr>
                         <tr>
-                            <td><strong>GSM8K Numeric Quality Gate</strong></td>
+                            <td><strong>Phase 1 — Evaluation Evidence Gate</strong></td>
                             <td class="go">PASS_WITH_NOTES</td>
-                            <td>Task69 and Task80A show the n=30 numeric-quality pattern is stable: Baseline-AR 25/30, DFlash-R1 24/30, LLMLingua-AR-R2 24/30, CC-DFlash-R2 24/30. Timing is still local/preliminary.</td>
+                            <td>Task88 is the current controlled n=30 benchmark evidence. GSM8K is numeric-quality proxy; QMSum is long-context diagnostic-only.</td>
                         </tr>
                         <tr>
-                            <td><strong>QMSum Diagnostic Gate</strong></td>
-                            <td class="go">PASS_WITH_NOTES</td>
-                            <td>QMSum is frozen as long-context diagnostic evidence for lexical latency, prefill, compression overhead, compression ratio, and lexical proxy quality. It is not semantic correctness evidence.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Final Fresh Rerun Gate</strong></td>
-                            <td class="stop">BLOCKED / PASS_WITH_NOTES</td>
-                            <td>Task80A completed GSM8K n=30 and QMSum Baseline-AR, but QMSum DFlash-R1 stopped after 2 rows and QMSum compressed reruns were skipped by the safety rule.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rerun Issue Gate</strong></td>
-                            <td class="go">PASS_WITH_NOTES</td>
-                            <td>Task80B analyzed the QMSum DFlash stall and GSM8K DFlash timing shift. T80C/T80D are not needed. Proceed to T81.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Conditional DFlash Fix Gate</strong></td>
-                            <td class="neu">SKIPPED_BY_T80B / NOT_NEEDED</td>
-                            <td>T80C and T80D only happen if T80B identifies a real DFlash-R1 regression/runtime bug. If T80B finds only runtime noise or a non-blocking diagnostic limitation, skip T80C/T80D.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Conditional Confirmation Gate</strong></td>
-                            <td class="neu">SKIPPED_BY_T80B / NOT_NEEDED</td>
-                            <td>Conditional rerun confirmation post-fix.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Final Consistency Audit Gate</strong></td>
-                            <td class="go">PASS_WITH_NOTES</td>
-                            <td>T81 audited the final package. Evidence basis and claim-safety bounds (no universal speedup, no 8GB claim) are verified. Proceed to T82.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Final Report Gate</strong></td>
-                            <td class="info">SCAFFOLD_READY</td>
-                            <td>T82 drafted final report v2 scaffold and claim map. Full prose must be written manually based on strict scaffold constraints.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Phase 1 Migration Gate</strong></td>
+                            <td><strong>Phase 1 — Cleanup / Transition Gate</strong></td>
                             <td class="go">PASS</td>
-                            <td>T89 cleaned legacy Wikipedia scripts, consolidated fetch scripts, and moved Phase 1 artifacts into phase_1_ directories.</td>
+                            <td>Task89 cleaned repository taxonomy, scripts, results, reports, data lifecycle, and canonical active eval datasets.</td>
                         </tr>
                         <tr>
-                            <td><strong>Deployment / 8 GB Gate</strong></td>
-                            <td class="neu">NOT CLAIMED</td>
-                            <td>No deployment readiness or confirmed 8 GB deployment claim.</td>
+                            <td><strong>Phase 1 — Reproduction Rerun Gate</strong></td>
+                            <td class="info">NEXT</td>
+                            <td>Task90 will run fetch → processed → eval n=100 and an n=3 reproduction rerun over 2 datasets × 4 conditions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2 — System Optimization Gate</strong></td>
+                            <td class="info">PLANNED</td>
+                            <td>Adaptive compression policy, cached/offline compression, and T_compress-aware routing will start after Phase 1 closeout.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deployment / 8GB Gate</strong></td>
+                            <td class="neu">NOT_CLAIMED</td>
+                            <td>No deployment readiness or confirmed 8GB claim.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -516,46 +493,34 @@
                             <th>Notes</th>
                         </tr>
                     </thead>
-                    <tbody>
+                                        <tbody>
                         <tr>
-                            <td>Current next</td>
-                            <td class="info">Task 90 Phase 1 E2E Rerun</td>
-                            <td>Run the full n=30 pipeline on the cleaned repository structure to definitively seal Phase 1.</td>
+                            <td><strong>Current next</strong></td>
+                            <td>Task90 — Phase 1 End-to-End Reproduction Rerun</td>
                         </tr>
                         <tr>
-                            <td>GSM8K evidence</td>
-                            <td class="go">PASS_WITH_NOTES</td>
-                            <td>Task80A completed all four GSM8K n=30 conditions and reproduced the numeric-quality pattern. Use as short-context numeric-quality evidence.</td>
+                            <td><strong>Current metric evidence</strong></td>
+                            <td>Task88 controlled n=30 rerun</td>
                         </tr>
                         <tr>
-                            <td>DFlash-R1 status</td>
-                            <td class="go">RESOLVED_BY_T80B / PASS_WITH_NOTES</td>
-                            <td>no confirmed regression; timing remains local-runtime caveat.</td>
+                            <td><strong>Current cleanup evidence</strong></td>
+                            <td>Task89 cleanup and canonical active eval freeze</td>
                         </tr>
                         <tr>
-                            <td>CC-DFlash compressed path</td>
-                            <td class="go">PASS_WITH_NOTES</td>
-                            <td>On GSM8K, CC-DFlash-R2 matches LLMLingua-AR-R2 numeric quality and remains faster than LLMLingua-AR-R2 in Task80A.</td>
+                            <td><strong>GSM8K evidence</strong></td>
+                            <td>numeric-quality proxy, active canonical eval has updated final-answer instruction</td>
                         </tr>
                         <tr>
-                            <td>QMSum evidence</td>
-                            <td class="info">DIAGNOSTIC_ONLY</td>
-                            <td>Task71/79B remain completed diagnostic basis; Task80A incomplete rerun is caveat.</td>
+                            <td><strong>QMSum evidence</strong></td>
+                            <td>diagnostic-only, not semantic correctness evidence</td>
                         </tr>
                         <tr>
-                            <td>T80C/T80D</td>
-                            <td class="neu">NOT_NEEDED</td>
-                            <td>NOT_NEEDED after T80B Decision D</td>
+                            <td><strong>Wikipedia branch</strong></td>
+                            <td>deprecated / removed from active path</td>
                         </tr>
                         <tr>
-                            <td>Final report readiness</td>
-                            <td class="neu">PENDING</td>
-                            <td>PENDING after T81</td>
-                        </tr>
-                        <tr>
-                            <td>Deployment / 8GB</td>
-                            <td class="neu">NOT CLAIMED</td>
-                            <td>No deployment readiness or confirmed 8 GB claim.</td>
+                            <td><strong>Phase 2</strong></td>
+                            <td>planned after Task90</td>
                         </tr>
                     </tbody>
                 </table>
@@ -564,7 +529,7 @@
 
         <!-- ─────────────────────────────────────────── MAIN TASK ROADMAP -->
         <section>
-            <h2>Main Task Roadmap — Technical Benchmark Path</h2>
+            <h2>Main Task Roadmap — Phase 1 — CC-DFlash System Build and Evaluation</h2>
             <p>
                 One row per main technical task. This section includes both completed and planned technical tasks; auxiliary UI/docs tasks are tracked separately below.
             </p>
@@ -1896,1742 +1861,89 @@
 
         <!-- ─────────────────────────────────────────── REPORTS INDEX -->
         <section>
-            <h2>Reports Index</h2>
-            <p>All reports under <code>docs/reports/</code> use chronological numeric prefixes.</p>
+                        <h2>Reports Index</h2>
             <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
-                            <th>File</th>
-                            <th>Task</th>
-                            <th>Title</th>
-                            <th>Status</th>
+                            <th>Phase</th>
+                            <th>Report Name</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>16-week-1-closeout-report.md</code></td>
-                            <td>T16</td>
-                            <td>Week 1 Closeout Report</td>
-                            <td class="go">Exists</td>
+                            <td>Phase 1</td>
+                            <td><code>docs/reports/phase_1_system_build_and_evaluation/*.md</code></td>
                         </tr>
                         <tr>
-                            <td><code>27-phase-1-mvp-closeout-go-nogo-report.md</code></td>
-                            <td>T27</td>
-                            <td>Phase 1 MVP Closeout Go/No-Go Report</td>
-                            <td class="go">Exists</td>
+                            <td>Phase 2</td>
+                            <td><code>docs/reports/phase_2_system_optimization/*.md</code> (Planned)</td>
                         </tr>
                         <tr>
-                            <td><code>32-answer-quality-scorer-policy-report.md</code></td>
-                            <td>T32</td>
-                            <td>Answer Quality Scorer Policy Report</td>
-                            <td class="warn">Presumed / verify</td>
+                            <td>Extra</td>
+                            <td><code>docs/reports/extra/*.md</code> (UI, Docs, Aux)</td>
                         </tr>
-                        <tr>
-                            <td><code>33-phase2-breakeven-quality-analysis-report.md</code></td>
-                            <td>T33</td>
-                            <td>Phase 2 Breakeven + Quality Analysis Report</td>
-                            <td class="warn">Presumed / verify</td>
-                        </tr>
-                        <tr>
-                            <td><code>34-docs-restructure-roadmap-overview-report.md</code></td>
-                            <td>T34</td>
-                            <td>Docs Restructure — Roadmap + Overview Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>35-manual-review-sample-report.md</code></td>
-                            <td>T35</td>
-                            <td>Manual Review Sample for No-Containment Rows</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>36-manual-review-analysis-report.md</code></td>
-                            <td>T36</td>
-                            <td>Manual Review Analysis Summary</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>37-baseline-ar-implementation-report.md</code></td>
-                            <td>T37</td>
-                            <td>Baseline-AR Implementation Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>38-baseline-ar-smoke-report.md</code></td>
-                            <td>T38</td>
-                            <td>Baseline-AR Smoke Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>39-t-prefill-measurement-report.md</code></td>
-                            <td>T39</td>
-                            <td>T_prefill Measurement Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>40-breakeven-curve-v1-report.md</code></td>
-                            <td>T40</td>
-                            <td>Breakeven Curve v1 Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>41-dataset-builder-report.md</code></td>
-                            <td>T41</td>
-                            <td>GSM8K + Wikipedia Dataset Builder Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>42-dataset-audit-report.md</code></td>
-                            <td>T42</td>
-                            <td>Dataset Audit Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>43-targeted-longctx-rerun-report.md</code></td>
-                            <td>T43</td>
-                            <td>Targeted Long-Context Rerun Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>43-5-output-quality-warning-triage-report.md</code></td>
-                            <td>T43.5</td>
-                            <td>Output Quality Warning Triage Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>44-final-matrix-freeze-report.md</code></td>
-                            <td>T44</td>
-                            <td>Final Matrix Freeze Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>44-5-final-benchmark-readiness-gate-report.md</code></td>
-                            <td>T44.5</td>
-                            <td>Final Benchmark Readiness Gate Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-prep-full-dataset-schema-audit-report.md</code></td>
-                            <td>T45-prep</td>
-                            <td>Full Dataset and Frozen Schema Audit Prep Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-data-full-source-mode-dataset-report.md</code></td>
-                            <td>T45-data</td>
-                            <td>Full Source-Mode Dataset Generation and Audit Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-data-fix-leakage-safe-dataset-generation-report.md</code></td>
-                            <td>T45-data-fix</td>
-                            <td>Leakage-Safe Source-Mode Dataset Generation Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-compression-fix-llmlingua-long-context-report.md</code></td>
-                            <td>T45-compression-fix</td>
-                            <td>LLMLingua Long-Context Compression Safety Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-compression-fix-v2-tokenizer-aware-llmlingua-report.md</code></td>
-                            <td>T45-compression-fix-v2</td>
-                            <td>Tokenizer-Aware LLMLingua Compression Safety Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-runner-benchmark-protocol-fix-report.md</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>Warm-Up and Incremental Artifact Protocol Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-final-artifact-audit-report.md</code></td>
-                            <td>T45</td>
-                            <td>Final n=100 Artifact Audit Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>45-5-roadmap-understand-dual-sync-protocol-report.md</code></td>
-                            <td>T45.5-sync</td>
-                            <td>Roadmap and Understand-Anything Dual Sync Protocol Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>46-pareto-analysis-report.md</code></td>
-                            <td>T46</td>
-                            <td>Pareto Analysis Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>47-quality-refinement-and-packaging-policy-report.md</code></td>
-                            <td>T47</td>
-                            <td>Quality Refinement and Packaging Policy Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>48-dataset-plan-two-dataset-evaluation-report.md</code></td>
-                            <td>T48</td>
-                            <td>Two-Dataset Evaluation Plan Migration Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>49-two-dataset-benchmark-matrix-freeze-report.md</code></td>
-                            <td>T49</td>
-                            <td>Two-Dataset Benchmark Matrix Freeze Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>50-tiny-resume-safe-benchmark-smoke-report.md</code></td>
-                            <td>T50</td>
-                            <td>Tiny Resume-Safe Two-Dataset Benchmark Smoke Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>51-staged-two-dataset-benchmark-expansion-report.md</code></td>
-                            <td>T51</td>
-                            <td>Staged Two-Dataset Benchmark Expansion Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>52-artifact-audit-and-metric-summary-report.md</code></td>
-                            <td>T52</td>
-                            <td>Artifact Audit and Metric Summary Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>53-gsm8k-quality-calibration-report.md</code></td>
-                            <td>T53</td>
-                            <td>GSM8K Quality Calibration Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>54-compressed-gsm8k-quality-triage-report.md</code></td>
-                            <td>T54</td>
-                            <td>Compressed GSM8K Quality Triage Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>55-gsm8k-final-answer-and-compression-audit-policy-report.md</code></td>
-                            <td>T55</td>
-                            <td>GSM8K Final-Answer and Compression Audit Policy Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>56-gsm8k-final-answer-calibration-report.md</code></td>
-                            <td>T56</td>
-                            <td>GSM8K Final-Answer Calibration Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>57-compressed-gsm8k-preview-triage-report.md</code></td>
-                            <td>T57</td>
-                            <td>Compressed GSM8K Preview Triage Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>58-gsm8k-protected-final-answer-suffix-report.md</code></td>
-                            <td>T58</td>
-                            <td>GSM8K Protected Final-Answer Suffix Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>59-gsm8k-compressed-suffix-verification-report.md</code></td>
-                            <td>T59</td>
-                            <td>GSM8K Compressed Suffix Verification Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>60-gsm8k-compressed-mnt256-calibration-report.md</code></td>
-                            <td>T60</td>
-                            <td>GSM8K Compressed max_new_tokens=256 Calibration Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>61A-cli-keep-rate-percent-override-report.md</code></td>
-                            <td>T61A</td>
-                            <td>CLI Keep-Rate Percent Override Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>61B-gsm8k-compressed-keep-rate-67-calibration-report.md</code></td>
-                            <td>T61B</td>
-                            <td>GSM8K Compressed keep_rate_percent=67 Calibration Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>62-compressed-gsm8k-changed-outcome-triage-report.md</code></td>
-                            <td>T62</td>
-                            <td>Compressed GSM8K Changed-Outcome Triage Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>63-gsm8k-n30-stability-report.md</code></td>
-                            <td>T63</td>
-                            <td>GSM8K n=30 Stability Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>64-gsm8k-cap-hit-triage-report.md</code></td>
-                            <td>T64</td>
-                            <td>GSM8K Cap-Hit Triage Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>65-gsm8k-compressed-mnt384-calibration-report.md</code></td>
-                            <td>T65</td>
-                            <td>GSM8K Compressed max_new_tokens=384 Calibration Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>66-gsm8k-mnt384-rerun-reproducibility-report.md</code></td>
-                            <td>T66</td>
-                            <td>GSM8K mnt384 Rerun Reproducibility Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>67-gsm8k-persistent-mnt384-failure-triage-report.md</code></td>
-                            <td>T67</td>
-                            <td>GSM8K Persistent mnt384 Failure Triage Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>68-gsm8k-final-settings-and-n100-gate-report.md</code></td>
-                            <td>T68</td>
-                            <td>GSM8K Final Settings and n=100 Gate Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>69-gsm8k-n30-full-matrix-report.md</code></td>
-                            <td>T69</td>
-                            <td>GSM8K n=30 Full Matrix Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>70-qmsum-diagnostic-audit-report.md</code></td>
-                            <td>T70</td>
-                            <td>QMSum Long-Context Diagnostic Audit Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>71-qmsum-n30-full-matrix-report.md</code></td>
-                            <td>T71</td>
-                            <td>QMSum n=30 Full Matrix Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>72-qmsum-cap-hit-proxy-triage-report.md</code></td>
-                            <td>T72</td>
-                            <td>QMSum Cap-Hit and Proxy Triage Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>73-qmsum-concise-policy-report.md</code></td>
-                            <td>T73</td>
-                            <td>QMSum Concise-Answer Policy Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>74-qmsum-proxy-case-triage-report.md</code></td>
-                            <td>T74</td>
-                            <td>QMSum Proxy Case Triage Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>75-qmsum-balanced-policy-report.md</code></td>
-                            <td>T75</td>
-                            <td>QMSum Balanced-Answer Policy Calibration Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>76-qmsum-evidence-error-taxonomy-report.md</code></td>
-                            <td>T76</td>
-                            <td>QMSum Evidence-Error Taxonomy Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>77-qmsum-evidence-focused-policy-report.md</code></td>
-                            <td>T77</td>
-                            <td>QMSum Evidence-Focused Protected-Suffix Calibration Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>78-qmsum-compressed-prompt-evidence-retention-report.md</code></td>
-                            <td>T78</td>
-                            <td>QMSum Compressed-Prompt Evidence-Retention Audit Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>79-qmsum-limitation-freeze-report.md</code></td>
-                            <td>T79B</td>
-                            <td>QMSum Limitation Freeze / Reporting Decision Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>80-cross-dataset-final-result-package-report.md</code></td>
-                            <td>T80</td>
-                            <td>Cross-Dataset Final Result Package Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>80a-final-two-dataset-rerun-report.md</code></td>
-                            <td>T80A</td>
-                            <td>Final Two-Dataset Rerun / Recompute Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>80b-rerun-analysis-and-issue-gate-report.md</code></td>
-                            <td>T80B</td>
-                            <td>Rerun Analysis and Issue Gate Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>81-final-package-consistency-audit-report.md</code></td>
-                            <td>T81</td>
-                            <td>Final Package Consistency Audit Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><code>82-final-report-v2-draft.md</code></td>
-                            <td>T82</td>
-                            <td>Final Report Scaffold (v2 Draft)</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/83-benchmark-repair-and-rerun-stability-report.md"><code>83-benchmark-repair-and-rerun-stability-report.md</code></a></td>
-                            <td>T83</td>
-                            <td>Benchmark Repair and Rerun Stability Report</td>
-                            <td class="go">Exists</td>
-                        </tr></tbody>
+                    </tbody>
                 </table>
             </div>
         </section>
 
         <!-- ─────────────────────────────────────────── EXTRA REPORTS INDEX -->
         <section>
-            <h2>Extra Reports Index</h2>
-            <p>Auxiliary reports that are not part of the main benchmark task chronology. UI and presentation reports live under <code>docs/reports/extra/</code>.</p>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">File</th>
-                            <th scope="col">Extra Task</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><a href="reports/extra/ui-01-frontend-skeleton-report.md"><code>extra/ui-01-frontend-skeleton-report.md</code></a></td>
-                            <td>UI-01</td>
-                            <td>Frontend Skeleton Reset Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-02-cc-dflash-toc-layout-update.md"><code>extra/ui-02-cc-dflash-toc-layout-update.md</code></a></td>
-                            <td>UI-02</td>
-                            <td>CC-DFlash ToC Layout Update Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-03-cc-dflash-toc-container-cleanup.md"><code>extra/ui-03-cc-dflash-toc-container-cleanup.md</code></a></td>
-                            <td>UI-03</td>
-                            <td>CC-DFlash ToC Container Cleanup Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-04-cc-dflash-part1-layout-cleanup.md"><code>extra/ui-04-cc-dflash-part1-layout-cleanup.md</code></a></td>
-                            <td>UI-04</td>
-                            <td>CC-DFlash Part 1 Layout Cleanup Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-05-cc-dflash-part1-card-layout-fix.md"><code>extra/ui-05-cc-dflash-part1-card-layout-fix.md</code></a></td>
-                            <td>UI-05</td>
-                            <td>CC-DFlash Part 1 Card Layout Fix Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-06-cc-dflash-part1-merge-13-14.md"><code>extra/ui-06-cc-dflash-part1-merge-13-14.md</code></a></td>
-                            <td>UI-06</td>
-                            <td>CC-DFlash Part 1 Card Merge Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-07-cc-dflash-part1-card13-pivot-layout.md"><code>extra/ui-07-cc-dflash-part1-card13-pivot-layout.md</code></a></td>
-                            <td>UI-07</td>
-                            <td>CC-DFlash Part 1 Card 1.3 Pivot Layout Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-08-cc-dflash-part1-card13-insight-strip.md"><code>extra/ui-08-cc-dflash-part1-card13-insight-strip.md</code></a></td>
-                            <td>UI-08</td>
-                            <td>CC-DFlash Part 1 Card 1.3 Insight Strip Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-09-cc-dflash-part1-card13-insight-badges-grid.md"><code>extra/ui-09-cc-dflash-part1-card13-insight-badges-grid.md</code></a></td>
-                            <td>UI-09</td>
-                            <td>CC-DFlash Part 1 Card 1.3 Insight Badges Grid Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-10-cc-dflash-part2-layout-refine.md"><code>extra/ui-10-cc-dflash-part2-layout-refine.md</code></a></td>
-                            <td>UI-10</td>
-                            <td>CC-DFlash Part 2 Layout Refinement Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-11-cc-dflash-part2-card22-23-align.md"><code>extra/ui-11-cc-dflash-part2-card22-23-align.md</code></a></td>
-                            <td>UI-11</td>
-                            <td>CC-DFlash Part 2 Card 2.2/2.3 Alignment Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-12-cc-dflash-part2-comparison-cards-scoped.md"><code>extra/ui-12-cc-dflash-part2-comparison-cards-scoped.md</code></a></td>
-                            <td>UI-12</td>
-                            <td>CC-DFlash Part 2 Comparison Cards Scoped Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-13-cc-dflash-part2-card22-spacing.md"><code>extra/ui-13-cc-dflash-part2-card22-spacing.md</code></a></td>
-                            <td>UI-13</td>
-                            <td>CC-DFlash Part 2 Card 2.2 Spacing &amp; Wrap Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-14-cc-dflash-part3-layout-refine.md"><code>extra/ui-14-cc-dflash-part3-layout-refine.md</code></a></td>
-                            <td>UI-14</td>
-                            <td>CC-DFlash Part 3 Layout Refinement Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-15-cc-dflash-part3-4-layout-refine.md"><code>extra/ui-15-cc-dflash-part3-4-layout-refine.md</code></a></td>
-                            <td>UI-15</td>
-                            <td>CC-DFlash Part 3 &amp; 4 Spacing &amp; Layout Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-16-cc-dflash-part3-4-layout-refine.md"><code>extra/ui-16-cc-dflash-part3-4-layout-refine.md</code></a></td>
-                            <td>UI-16</td>
-                            <td>CC-DFlash Part 3 &amp; 4 Layout Refinement Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-17-cc-dflash-part5-layout-refine.md"><code>extra/ui-17-cc-dflash-part5-layout-refine.md</code></a></td>
-                            <td>UI-17</td>
-                            <td>CC-DFlash Part 5 Layout Refinement Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-18-cc-dflash-part6-layout-refine.md"><code>extra/ui-18-cc-dflash-part6-layout-refine.md</code></a></td>
-                            <td>UI-18</td>
-                            <td>CC-DFlash Part 6 Layout Refinement Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-19-cc-dflash-part6-card63-64-refine.md"><code>extra/ui-19-cc-dflash-part6-card63-64-refine.md</code></a></td>
-                            <td>UI-19</td>
-                            <td>CC-DFlash Part 6 Card 6.3/6.4 Refine Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-20-cc-dflash-script-separation.md"><code>extra/ui-20-cc-dflash-script-separation.md</code></a></td>
-                            <td>UI-20</td>
-                            <td>CC-DFlash Script Separation Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-21-cc-dflash-part5-sec54-refine.md"><code>extra/ui-21-cc-dflash-part5-sec54-refine.md</code></a></td>
-                            <td>UI-21</td>
-                            <td>CC-DFlash Part 5 Section 5.4 Refine Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-22-cc-dflash-part5-qmsum-interpretation.md"><code>extra/ui-22-cc-dflash-part5-qmsum-interpretation.md</code></a></td>
-                            <td>UI-22</td>
-                            <td>CC-DFlash Part 5 QMSum Interpretation Layout Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-23-cc-dflash-part5-qmsum-refine-copy.md"><code>extra/ui-23-cc-dflash-part5-qmsum-refine-copy.md</code></a></td>
-                            <td>UI-23</td>
-                            <td>CC-DFlash Part 5 QMSum Interpretation Table Data and Copy Refinement Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-24-cc-dflash-part5-merge-56-57.md"><code>extra/ui-24-cc-dflash-part5-merge-56-57.md</code></a></td>
-                            <td>UI-24</td>
-                            <td>CC-DFlash Part 5 merge sections 5.6 and 5.7 Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-                        <tr>
-                            <td><a href="reports/extra/ui-25-cc-dflash-part5-sec56-presentation-ready.md"><code>extra/ui-25-cc-dflash-part5-sec56-presentation-ready.md</code></a></td>
-                            <td>UI-25</td>
-                            <td>CC-DFlash Part 5 Section 5.6 presentation refinement Report</td>
-                            <td class="go">Exists</td>
-                        </tr>
-
-
-                    </tbody>
-                </table>
-            </div>
+            
         </section>
 
         <!-- ─────────────────────────────────────────── ARTIFACTS INDEX -->
         <section>
-            <h2>Artifacts Index</h2>
-            <p>Key result artifacts in <code>results/</code> and <code>tests/fixtures/</code>. Do not modify these.</p>
+                        <h2>Artifacts Index</h2>
             <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
-                            <th>Artifact</th>
-                            <th>Task</th>
-                            <th>Condition</th>
-                            <th>n</th>
+                            <th>Group</th>
+                            <th>Items</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>results/_archives/early_smokes/dflash_r1_n20.jsonl</code></td>
-                            <td>T13</td>
-                            <td>DFlash-R1</td>
-                            <td>20</td>
+                            <td><strong>Canonical Active Data</strong></td>
+                            <td>
+                                <code>data/raw/gsm8k_source.jsonl</code><br>
+                                <code>data/raw/qmsum_meeting_qa_source.jsonl</code><br>
+                                <code>data/processed/gsm8k_processed.jsonl</code><br>
+                                <code>data/processed/qmsum_meeting_qa_processed.jsonl</code><br>
+                                <code>data/eval/gsm8k_100.jsonl</code><br>
+                                <code>data/eval/qmsum_meeting_qa_100.jsonl</code>
+                            </td>
                         </tr>
                         <tr>
-                            <td><code>results/_archives/early_smokes/llmlingua_cpu_smoke.json</code></td>
-                            <td>T19</td>
-                            <td>LLMLingua smoke</td>
-                            <td>—</td>
+                            <td><strong>Current Benchmark Evidence</strong></td>
+                            <td><code>results/phase_1_system_build_and_evaluation/final_reruns/task88_*</code></td>
                         </tr>
                         <tr>
-                            <td><code>results/_archives/early_smokes/cc_llm_r2_smoke.jsonl</code></td>
-                            <td>T21</td>
-                            <td>CC-LLM-R2</td>
-                            <td>smoke</td>
+                            <td><strong>Repair and Gate Artifacts</strong></td>
+                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/</code> (Task83, Task86, Task87)</td>
                         </tr>
                         <tr>
-                            <td><code>results/_archives/early_smokes/cc_llm_r3_smoke.jsonl</code></td>
-                            <td>T21</td>
-                            <td>CC-LLM-R3</td>
-                            <td>smoke</td>
+                            <td><strong>Quality and Latency Audit Artifacts</strong></td>
+                            <td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/</code> (Task84, Task85)</td>
                         </tr>
                         <tr>
-                            <td><code>results/_archives/early_smokes/llmlingua_ar_r2_smoke.jsonl</code></td>
-                            <td>T22</td>
-                            <td>LLMLingua-AR-R2</td>
-                            <td>smoke</td>
+                            <td><strong>Historical / Early Experiments</strong></td>
+                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/</code></td>
                         </tr>
                         <tr>
-                            <td><code>results/_archives/early_smokes/llmlingua_ar_r3_smoke.jsonl</code></td>
-                            <td>T22</td>
-                            <td>LLMLingua-AR-R3</td>
-                            <td>smoke</td>
+                            <td><strong>Archives</strong></td>
+                            <td><code>results/_archives/early_smokes/</code></td>
                         </tr>
                         <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task24_*_n10.jsonl</code></td>
-                            <td>T24</td>
-                            <td>All conditions</td>
-                            <td>10 each</td>
-                        </tr>
-                        <tr>
-                            <td><code>tests/fixtures/long_context_smoke.jsonl</code></td>
-                            <td>T25</td>
-                            <td>Fixture (synthetic)</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task29_*_longctx_n6.jsonl</code></td>
-                            <td>T29</td>
-                            <td>All conditions</td>
-                            <td>6 each</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task31_*_text_n6.jsonl</code></td>
-                            <td>T31</td>
-                            <td>All conditions + decoded text</td>
-                            <td>6 each</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task32_answer_quality_summary.json</code></td>
-                            <td>T32</td>
-                            <td>Quality scorer</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task33_phase2_breakeven_quality_summary.json</code></td>
-                            <td>T33</td>
-                            <td>Breakeven+quality</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/_archives/early_smokes/baseline_ar_smoke.jsonl</code></td>
-                            <td>T38</td>
-                            <td>Baseline-AR</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task39_t_prefill_smoke.jsonl</code></td>
-                            <td>T39</td>
-                            <td>Baseline-AR + T_prefill</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task40_breakeven_curve_v1_summary.json</code></td>
-                            <td>T40</td>
-                            <td>Breakeven v1 summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>data/processed/gsm8k_wikipedia_augmented_smoke.jsonl</code></td>
-                            <td>T41</td>
-                            <td>GSM8K + Wikipedia augmented sample-mode dataset, legacy/optional ablation</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task42_dataset_audit_summary.json</code></td>
-                            <td>T42</td>
-                            <td>Dataset audit summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_dflash_r1_sample_n5.jsonl</code></td>
-                            <td>T43</td>
-                            <td>DFlash-R1 sample-mode rerun</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_llmlingua_ar_r2_sample_n5.jsonl</code></td>
-                            <td>T43</td>
-                            <td>LLMLingua-AR-R2 sample-mode rerun</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_cc_llm_r2_sample_n5.jsonl</code></td>
-                            <td>T43</td>
-                            <td>CC-LLM-R2 sample-mode rerun</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_dataset_audit_summary.json</code></td>
-                            <td>T43</td>
-                            <td>Task 43 dataset audit summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_answer_quality_summary.json</code></td>
-                            <td>T43</td>
-                            <td>Answer-quality proxy summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_5_original_output_inspection_summary.json</code></td>
-                            <td>T43.5</td>
-                            <td>Original Task 43 output inspection summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_5_dflash_r1_calibration_n5.jsonl</code></td>
-                            <td>T43.5</td>
-                            <td>DFlash-R1 output-length calibration</td>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_5_output_inspection_summary.json</code></td>
-                            <td>T43.5</td>
-                            <td>Calibration output inspection summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task43_5_answer_quality_summary.json</code></td>
-                            <td>T43.5</td>
-                            <td>Extraction-aware answer-quality summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_prep_source_mode_readiness.json</code></td>
-                            <td>T45-prep</td>
-                            <td>Source-mode readiness and frozen-schema audit prep</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>data/processed/gsm8k_wikipedia_augmented_full.jsonl</code></td>
-                            <td>T45-data-fix</td>
-                            <td>Full source-mode GSM8K + SQuAD-derived Wikipedia dataset</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_source_mode_dataset_audit_summary.json</code></td>
-                            <td>T45-data-fix</td>
-                            <td>Full source-mode dataset audit summary</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_llmlingua_ar_r2_n2.jsonl</code></td>
-                            <td>T45-compression-fix</td>
-                            <td>LLMLingua-AR-R2 long-context compression-fix smoke</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_cc_llm_r2_n2.jsonl</code></td>
-                            <td>T45-compression-fix</td>
-                            <td>CC-LLM-R2 long-context compression-fix smoke</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_llmlingua_ar_r2_n3.jsonl</code></td>
-                            <td>T45-compression-fix-v2</td>
-                            <td>LLMLingua-AR-R2 tokenizer-aware compression-fix smoke</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_compression_fix_v2_cc_llm_r2_n3.jsonl</code></td>
-                            <td>T45-compression-fix-v2</td>
-                            <td>CC-LLM-R2 tokenizer-aware compression-fix smoke</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>logs/task45_compression_fix_v2_*_n3.log</code></td>
-                            <td>T45-compression-fix-v2</td>
-                            <td>Tokenizer-aware smoke logs with encoder-warning check</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_llmlingua_ar_r2_n3.jsonl</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>LLMLingua-AR-R2 runner protocol smoke artifact</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_cc_llm_r2_n3.jsonl</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>CC-LLM-R2 runner protocol smoke artifact</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_baseline_ar_n1.jsonl</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>Baseline-AR runner protocol compatibility smoke artifact</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_runner_fix_dflash_r1_n1.jsonl</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>DFlash-R1 runner protocol compatibility smoke artifact</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td><code>logs/task45_runner_fix_*.log</code></td>
-                            <td>T45-runner-fix</td>
-                            <td>Runner protocol smoke logs with warm-up/start/finish/write progress</td>
-                            <td>—</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_final_baseline_ar_n100.jsonl</code></td>
-                            <td>T45</td>
-                            <td>Baseline-AR final benchmark artifact, legacy schema accepted</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_final_dflash_r1_n100.jsonl</code></td>
-                            <td>T45</td>
-                            <td>DFlash-R1 final benchmark artifact, legacy schema accepted</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_final_llmlingua_ar_r2_n100.jsonl</code></td>
-                            <td>T45</td>
-                            <td>LLMLingua-AR-R2 final benchmark artifact, per_prompt_jsonl_v1</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_final_cc_llm_r2_n100.jsonl</code></td>
-                            <td>T45</td>
-                            <td>CC-LLM-R2 final benchmark artifact, per_prompt_jsonl_v1</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task45_final_artifact_audit_summary.json</code></td>
-                            <td>T45</td>
-                            <td>Machine-readable final artifact audit summary</td>
-                            <td>400 rows audited</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_summary.json</code></td>
-                            <td>T46</td>
-                            <td>Machine-readable Pareto analysis summary</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task46_pareto_table.csv</code></td>
-                            <td>T46</td>
-                            <td>Compact Pareto metric table</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_refinement_summary.json</code></td>
-                            <td>T47</td>
-                            <td>Deterministic quality-refinement summary and claim policy</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_failure_samples.jsonl</code></td>
-                            <td>T47</td>
-                            <td>Representative compact failure samples</td>
-                            <td>20 samples</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task47_quality_table.csv</code></td>
-                            <td>T47</td>
-                            <td>Compact deterministic quality metric table</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>data/eval/gsm8k_100.jsonl</code></td>
-                            <td>T48</td>
-                            <td>GSM8K short-context numeric QA evaluation dataset</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>data/eval/qmsum_meeting_qa_100.jsonl</code></td>
-                            <td>T48</td>
-                            <td>QMSum-style meeting QA long-context evaluation dataset</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task50_gsm8k_short_*_n3.jsonl</code></td>
-                            <td>T50</td>
-                            <td>GSM8K short-context tiny resume-safe smoke artifacts</td>
-                            <td>4 conditions × 3 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task50_qmsum_long_*_n3.jsonl</code></td>
-                            <td>T50</td>
-                            <td>QMSum-style long-context tiny resume-safe AR/compression-only smoke artifacts</td>
-                            <td>2 conditions × 3 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_*_n3.jsonl</code></td>
-                            <td>T51</td>
-                            <td>Deferred QMSum DFlash/CC-DFlash n=3 Stage A artifacts</td>
-                            <td>2 conditions × 3 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task51_gsm8k_short_*_n10.jsonl</code></td>
-                            <td>T51</td>
-                            <td>GSM8K short-context staged expansion artifacts</td>
-                            <td>4 conditions × 10 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task51_qmsum_long_*_n10.jsonl</code></td>
-                            <td>T51</td>
-                            <td>QMSum-style long-context staged expansion artifacts</td>
-                            <td>4 conditions × 10 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task52_metric_summary.json</code></td>
-                            <td>T52</td>
-                            <td>Task 50/51 artifact audit and metric summary JSON</td>
-                            <td>16 artifacts audited</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task52_metric_table.csv</code></td>
-                            <td>T52</td>
-                            <td>Task 50/51 compact metric table CSV</td>
-                            <td>16 artifact rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_short_*_n10_mnt128.jsonl</code></td>
-                            <td>T53</td>
-                            <td>GSM8K max_new_tokens=128 quality calibration artifacts</td>
-                            <td>4 conditions × 10 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_quality_calibration_summary.json</code></td>
-                            <td>T53</td>
-                            <td>Task 51 vs Task 53 GSM8K quality comparison summary</td>
-                            <td>8 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task53_gsm8k_quality_calibration_table.csv</code></td>
-                            <td>T53</td>
-                            <td>Task 51 vs Task 53 GSM8K quality comparison table</td>
-                            <td>8 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task54_compressed_gsm8k_failure_triage.json</code></td>
-                            <td>T54</td>
-                            <td>Compressed GSM8K quality triage summary</td>
-                            <td>40 condition rows analyzed</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task54_compressed_gsm8k_failure_samples.jsonl</code></td>
-                            <td>T54</td>
-                            <td>Representative compressed GSM8K failure samples</td>
-                            <td>5 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_short_*_n10_mnt192.jsonl</code></td>
-                            <td>T56</td>
-                            <td>GSM8K max_new_tokens=192 final-answer calibration artifacts</td>
-                            <td>4 conditions × 10 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_final_answer_calibration_summary.json</code></td>
-                            <td>T56</td>
-                            <td>Task 53 vs Task 56 GSM8K final-answer calibration summary</td>
-                            <td>8 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task56_gsm8k_final_answer_calibration_table.csv</code></td>
-                            <td>T56</td>
-                            <td>Task 53 vs Task 56 GSM8K final-answer calibration table</td>
-                            <td>8 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task57_compressed_preview_triage_summary.json</code></td>
-                            <td>T57</td>
-                            <td>Task 56 compressed prompt-preview triage summary</td>
-                            <td>20 compressed condition rows analyzed</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task57_compressed_preview_failure_samples.jsonl</code></td>
-                            <td>T57</td>
-                            <td>Representative compressed GSM8K preview-triage failures</td>
-                            <td>5 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task59_gsm8k_short_*_n10_mnt192_suffixfix.jsonl</code></td>
-                            <td>T59</td>
-                            <td>Compressed GSM8K suffix-fix verification artifacts</td>
-                            <td>2 conditions × 10 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task59_suffix_verification_summary.json</code></td>
-                            <td>T59</td>
-                            <td>Task 56 vs Task 59 suffix survival and quality summary</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task59_suffix_verification_table.csv</code></td>
-                            <td>T59</td>
-                            <td>Compact Task 59 suffix verification table</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task60_gsm8k_short_*_n10_mnt256_suffixfix.jsonl</code></td>
-                            <td>T60</td>
-                            <td>Compressed GSM8K max_new_tokens=256 calibration artifacts</td>
-                            <td>2 conditions × 10 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task60_mnt256_calibration_summary.json</code></td>
-                            <td>T60</td>
-                            <td>Task 59 vs Task 60 max_new_tokens=256 calibration summary</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task60_mnt256_calibration_table.csv</code></td>
-                            <td>T60</td>
-                            <td>Compact Task 60 calibration table</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task60_mnt256_changed_outcomes.jsonl</code></td>
-                            <td>T60</td>
-                            <td>Per-row Task 59 to Task 60 numeric outcome changes</td>
-                            <td>20 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task61b_gsm8k_short_*_n10_mnt256_k067.jsonl</code></td>
-                            <td>T61B</td>
-                            <td>Compressed GSM8K keep_rate_percent=67 calibration artifacts</td>
-                            <td>2 conditions × 10 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_calibration_summary.json</code></td>
-                            <td>T61B</td>
-                            <td>Task 60 vs Task 61B keep-rate calibration summary</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_calibration_table.csv</code></td>
-                            <td>T61B</td>
-                            <td>Compact Task 61B keep-rate calibration table</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task61b_keep_rate67_changed_outcomes.jsonl</code></td>
-                            <td>T61B</td>
-                            <td>Per-row Task 60 to Task 61B numeric outcome changes</td>
-                            <td>20 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task62_changed_outcome_triage_summary.json</code></td>
-                            <td>T62</td>
-                            <td>Task 62 changed-outcome triage summary</td>
-                            <td>6 triaged cases</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task62_changed_outcome_cases.jsonl</code></td>
-                            <td>T62</td>
-                            <td>Per-case Task 60 vs Task 61B changed/failure triage rows</td>
-                            <td>6 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task63_gsm8k_short_*_n30_mnt256.jsonl</code></td>
-                            <td>T63</td>
-                            <td>Compressed GSM8K n=30 stability artifacts</td>
-                            <td>2 conditions × 30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task63_n30_stability_summary.json</code></td>
-                            <td>T63</td>
-                            <td>Task 60 vs Task 63 n=30 stability summary</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task63_n30_stability_table.csv</code></td>
-                            <td>T63</td>
-                            <td>Compact Task 63 n=30 stability table</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task64_cap_hit_triage_summary.json</code></td>
-                            <td>T64</td>
-                            <td>Task 63 failure and cap-hit triage summary</td>
-                            <td>2 conditions, 16 labeled failure/cap cases</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task64_cap_hit_cases.jsonl</code></td>
-                            <td>T64</td>
-                            <td>Per-row Task 63 failure and cap-hit triage cases</td>
-                            <td>16 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task65_gsm8k_short_*_n30_mnt384.jsonl</code></td>
-                            <td>T65</td>
-                            <td>Compressed GSM8K max_new_tokens=384 calibration artifacts</td>
-                            <td>2 conditions × 30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task65_mnt384_calibration_summary.json</code></td>
-                            <td>T65</td>
-                            <td>Task 63 vs Task 65 mnt384 calibration summary</td>
-                            <td>2 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task65_mnt384_calibration_table.csv</code></td>
-                            <td>T65</td>
-                            <td>Compact Task 65 calibration metrics table</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task65_mnt384_changed_outcomes.jsonl</code></td>
-                            <td>T65</td>
-                            <td>Task 63 to Task 65 changed and unchanged numeric outcomes</td>
-                            <td>60 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_preflight.txt</code></td>
-                            <td>T66</td>
-                            <td>Task 66 preflight resource snapshot</td>
-                            <td>clean GPU preflight, no active benchmark process</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task66_gsm8k_short_*_n30_mnt384_rerun.jsonl</code></td>
-                            <td>T66</td>
-                            <td>Compressed GSM8K max_new_tokens=384 rerun artifacts</td>
-                            <td>2 conditions × 30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_reproducibility_summary.json</code></td>
-                            <td>T66</td>
-                            <td>Task 65 vs Task 66 mnt384 latency reproducibility summary</td>
-                            <td>2 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_reproducibility_table.csv</code></td>
-                            <td>T66</td>
-                            <td>Compact Task 66 rerun metrics table</td>
-                            <td>4 condition-stage rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task66_mnt384_rerun_changed_outcomes.jsonl</code></td>
-                            <td>T66</td>
-                            <td>Task 65 to Task 66 changed and unchanged numeric outcomes</td>
-                            <td>60 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_summary.json</code></td>
-                            <td>T67</td>
-                            <td>Persistent mnt384 GSM8K failure triage summary</td>
-                            <td>12 failure cases across 2 compressed conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task67_persistent_mnt384_failure_cases.jsonl</code></td>
-                            <td>T67</td>
-                            <td>Persistent mnt384 failure and cap-hit case records</td>
-                            <td>read-only triage cases</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task68_gsm8k_final_settings_summary.json</code></td>
-                            <td>T68</td>
-                            <td>Frozen GSM8K settings and n=100 gate summary</td>
-                            <td>read-only synthesis</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task68_gsm8k_final_settings_table.csv</code></td>
-                            <td>T68</td>
-                            <td>Frozen speed/quality GSM8K settings table</td>
-                            <td>4 condition-setting rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_baseline_ar_n30_mnt384.jsonl</code></td>
-                            <td>T69</td>
-                            <td>Baseline-AR GSM8K n=30 mnt384 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_short_dflash_r1_n30_mnt384.jsonl</code></td>
-                            <td>T69</td>
-                            <td>DFlash-R1 GSM8K n=30 mnt384 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_summary.json</code></td>
-                            <td>T69</td>
-                            <td>GSM8K n=30 full matrix summary</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_table.csv</code></td>
-                            <td>T69</td>
-                            <td>GSM8K n=30 full matrix metric table</td>
-                            <td>4 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task69_gsm8k_full_matrix_failure_samples.jsonl</code></td>
-                            <td>T69</td>
-                            <td>GSM8K n=30 full matrix numeric failure samples</td>
-                            <td>23 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_diagnostic_summary.json</code></td>
-                            <td>T70</td>
-                            <td>QMSum diagnostic audit summary</td>
-                            <td>4 Task 51 n=10 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_diagnostic_table.csv</code></td>
-                            <td>T70</td>
-                            <td>QMSum diagnostic metric table</td>
-                            <td>4 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task70_qmsum_failure_samples.jsonl</code></td>
-                            <td>T70</td>
-                            <td>QMSum diagnostic warning/sample rows</td>
-                            <td>63 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_baseline_ar_n30_mnt384.jsonl</code></td>
-                            <td>T71</td>
-                            <td>Baseline-AR QMSum n=30 mnt384 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_dflash_r1_n30_mnt384.jsonl</code></td>
-                            <td>T71</td>
-                            <td>DFlash-R1 QMSum n=30 mnt384 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl</code></td>
-                            <td>T71</td>
-                            <td>LLMLingua-AR-R2 QMSum n=30 mnt384 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_long_cc_dflash_r2_n30_mnt384.jsonl</code></td>
-                            <td>T71</td>
-                            <td>CC-DFlash-R2 QMSum n=30 mnt384 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_summary.json</code></td>
-                            <td>T71</td>
-                            <td>QMSum n=30 full matrix summary</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_full_matrix_table.csv</code></td>
-                            <td>T71</td>
-                            <td>QMSum n=30 full matrix metric table</td>
-                            <td>4 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task71_qmsum_n30_failure_samples.jsonl</code></td>
-                            <td>T71</td>
-                            <td>QMSum n=30 diagnostic warning/sample rows</td>
-                            <td>86 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_summary.json</code></td>
-                            <td>T72</td>
-                            <td>QMSum cap-hit/proxy triage summary</td>
-                            <td>4 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_cases.jsonl</code></td>
-                            <td>T72</td>
-                            <td>QMSum compressed cap-hit labeled cases</td>
-                            <td>43 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task72_qmsum_cap_hit_proxy_table.csv</code></td>
-                            <td>T72</td>
-                            <td>QMSum cap-hit/proxy compact metric table</td>
-                            <td>4 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_llmlingua_ar_r2_n30_mnt384_concise.jsonl</code></td>
-                            <td>T73</td>
-                            <td>LLMLingua-AR-R2 QMSum concise-policy n=30 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_long_cc_dflash_r2_n30_mnt384_concise.jsonl</code></td>
-                            <td>T73</td>
-                            <td>CC-DFlash-R2 QMSum concise-policy n=30 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_concise_policy_summary.json</code></td>
-                            <td>T73</td>
-                            <td>QMSum concise-policy comparison summary</td>
-                            <td>2 compressed conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_concise_policy_table.csv</code></td>
-                            <td>T73</td>
-                            <td>QMSum concise-policy metric table</td>
-                            <td>4 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task73_qmsum_concise_policy_cases.jsonl</code></td>
-                            <td>T73</td>
-                            <td>QMSum concise-policy changed prompt cases</td>
-                            <td>91 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_summary.json</code></td>
-                            <td>T74</td>
-                            <td>QMSum proxy/case triage summary</td>
-                            <td>2 compressed conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_table.csv</code></td>
-                            <td>T74</td>
-                            <td>QMSum proxy/case triage table</td>
-                            <td>2 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task74_qmsum_proxy_case_samples.jsonl</code></td>
-                            <td>T74</td>
-                            <td>QMSum proxy/case labeled samples</td>
-                            <td>60 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_llmlingua_ar_r2_n30_mnt384_balanced.jsonl</code></td>
-                            <td>T75</td>
-                            <td>LLMLingua-AR-R2 QMSum balanced-policy n=30 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_long_cc_dflash_r2_n30_mnt384_balanced.jsonl</code></td>
-                            <td>T75</td>
-                            <td>CC-DFlash-R2 QMSum balanced-policy n=30 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_summary.json</code></td>
-                            <td>T75</td>
-                            <td>QMSum balanced-policy comparison summary</td>
-                            <td>3 stages × 2 conditions</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_table.csv</code></td>
-                            <td>T75</td>
-                            <td>QMSum balanced-policy metric table</td>
-                            <td>6 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task75_qmsum_balanced_policy_cases.jsonl</code></td>
-                            <td>T75</td>
-                            <td>QMSum balanced-policy labeled cases</td>
-                            <td>60 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_summary.json</code></td>
-                            <td>T76</td>
-                            <td>QMSum evidence-error taxonomy summary</td>
-                            <td>60 rows analyzed</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_table.csv</code></td>
-                            <td>T76</td>
-                            <td>QMSum evidence-error taxonomy table</td>
-                            <td>2 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task76_qmsum_evidence_error_cases.jsonl</code></td>
-                            <td>T76</td>
-                            <td>QMSum evidence-error labeled cases</td>
-                            <td>60 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_long_llmlingua_ar_r2_n30_mnt384_evidence.jsonl</code></td>
-                            <td>T77</td>
-                            <td>LLMLingua-AR-R2 QMSum evidence-focused n=30 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_long_cc_dflash_r2_n30_mnt384_evidence.jsonl</code></td>
-                            <td>T77</td>
-                            <td>CC-DFlash-R2 QMSum evidence-focused n=30 artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_summary.json</code></td>
-                            <td>T77</td>
-                            <td>QMSum evidence-focused policy summary</td>
-                            <td>60 rows analyzed</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_table.csv</code></td>
-                            <td>T77</td>
-                            <td>QMSum evidence-focused policy table</td>
-                            <td>2 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task77_qmsum_evidence_policy_cases.jsonl</code></td>
-                            <td>T77</td>
-                            <td>QMSum evidence-focused labeled cases</td>
-                            <td>60 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_summary.json</code></td>
-                            <td>T78</td>
-                            <td>QMSum compressed-prompt evidence-retention summary</td>
-                            <td>PASS_WITH_NOTES</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_table.csv</code></td>
-                            <td>T78</td>
-                            <td>QMSum evidence-retention label table</td>
-                            <td>4 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_evidence_retention_cases.jsonl</code></td>
-                            <td>T78</td>
-                            <td>QMSum evidence-retention prompt-level cases</td>
-                            <td>29 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_reconstructed_prompt_previews.jsonl</code></td>
-                            <td>T78</td>
-                            <td>Bounded compressor-only reconstructed prompt previews</td>
-                            <td>29 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task78_qmsum_selected_evidence_spans.jsonl</code></td>
-                            <td>T78</td>
-                            <td>Selected QMSum evidence term span audit</td>
-                            <td>29 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision.json</code></td>
-                            <td>T79B</td>
-                            <td>QMSum reporting decision summary</td>
-                            <td>PASS_WITH_NOTES</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task79_qmsum_reporting_decision_table.csv</code></td>
-                            <td>T79B</td>
-                            <td>Compact QMSum reporting decision table</td>
-                            <td>7 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_summary.json</code></td>
-                            <td>T80</td>
-                            <td>Cross-dataset final package summary</td>
-                            <td>PASS_WITH_NOTES</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_final_table.csv</code></td>
-                            <td>T80</td>
-                            <td>Cross-dataset final compact table</td>
-                            <td>8 data rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80_cross_dataset_claims_matrix.csv</code></td>
-                            <td>T80</td>
-                            <td>Allowed and forbidden claims matrix</td>
-                            <td>12 claim rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80_final_report_key_points.json</code></td>
-                            <td>T80</td>
-                            <td>Final report conservative key points</td>
-                            <td>present</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80a_gsm8k_short_*_n30_mnt384.jsonl</code></td>
-                            <td>T80A</td>
-                            <td>GSM8K final rerun artifacts for Baseline-AR, DFlash-R1, LLMLingua-AR-R2, and CC-DFlash-R2</td>
-                            <td>4 files, 30 rows each</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_baseline_ar_n30_mnt384.jsonl</code></td>
-                            <td>T80A</td>
-                            <td>QMSum Baseline-AR rerun artifact</td>
-                            <td>30 rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80a_qmsum_long_dflash_r1_n30_mnt384.jsonl</code></td>
-                            <td>T80A</td>
-                            <td>QMSum DFlash-R1 partial rerun artifact</td>
-                            <td>2 rows, stopped by safety rule</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_summary.json</code></td>
-                            <td>T80A</td>
-                            <td>Task80A machine-readable rerun summary</td>
-                            <td>BLOCKED</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80a_final_two_dataset_rerun_table.csv</code></td>
-                            <td>T80A</td>
-                            <td>Task80A compact metrics table</td>
-                            <td>8 data rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80a_condition_delta_vs_task80.csv</code></td>
-                            <td>T80A</td>
-                            <td>Task80A delta table versus Task80 package</td>
-                            <td>60 data rows</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80a_run_manifest.json</code></td>
-                            <td>T80A</td>
-                            <td>Task80A run manifest with commands, resume status, rows, and skip notes</td>
-                            <td>8 entries</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80b_rerun_issue_gate_summary.json</code></td>
-                            <td>T80B</td>
-                            <td>Task80B issue gate summary JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80b_dflash_regression_check.json</code></td>
-                            <td>T80B</td>
-                            <td>Task80B DFlash regression check JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80b_cleaned_delta_interpretation.csv</code></td>
-                            <td>T80B</td>
-                            <td>Task80B cleaned delta interpretation CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task80b_rerun_issue_gate_table.csv</code></td>
-                            <td>T80B</td>
-                            <td>Task80B rerun issue gate summary CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task81_final_consistency_audit_summary.json</code></td>
-                            <td>T81</td>
-                            <td>Task81 consistency audit summary JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task81_claim_safety_matrix.csv</code></td>
-                            <td>T81</td>
-                            <td>Task81 claim safety matrix CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task81_evidence_basis_matrix.csv</code></td>
-                            <td>T81</td>
-                            <td>Task81 evidence basis matrix CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task81_artifact_manifest.csv</code></td>
-                            <td>T81</td>
-                            <td>Task81 artifact manifest CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task81_final_report_readiness_checklist.csv</code></td>
-                            <td>T81</td>
-                            <td>Task81 final report readiness checklist CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task82_final_report_outline.json</code></td>
-                            <td>T82</td>
-                            <td>Task82 final report scaffold outline JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/early_experiments/task82_final_report_claim_map.csv</code></td>
-                            <td>T82</td>
-                            <td>Task82 final report claim map CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_n30.jsonl</code></td>
-                            <td>T83</td>
-                            <td>Task83 GSM8K DFlash-R1 repaired run JSONL</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_summary.json</code></td>
-                            <td>T83</td>
-                            <td>Task83 GSM8K DFlash-R1 repaired summary JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_gsm8k_dflash_r1_repair_table.csv</code></td>
-                            <td>T83</td>
-                            <td>Task83 GSM8K DFlash-R1 repaired table CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_baseline_ar_n30.jsonl</code></td>
-                            <td>T83</td>
-                            <td>Task83 QMSum Baseline-AR repaired run JSONL</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_dflash_r1_n30.jsonl</code></td>
-                            <td>T83</td>
-                            <td>Task83 QMSum DFlash-R1 repaired run JSONL</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_llmlingua_ar_r2_n30.jsonl</code></td>
-                            <td>T83</td>
-                            <td>Task83 QMSum LLMLingua-AR-R2 repaired run JSONL</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_cc_dflash_r2_n30.jsonl</code></td>
-                            <td>T83</td>
-                            <td>Task83 QMSum CC-DFlash-R2 repaired run JSONL</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_repair_summary.json</code></td>
-                            <td>T83</td>
-                            <td>Task83 QMSum repaired summary JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task83_qmsum_repair_table.csv</code></td>
-                            <td>T83</td>
-                            <td>Task83 QMSum repaired table CSV</td>
-<td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_summary.json</code></td>
-                            <td>T84</td>
-                            <td>Task84 QMSum quality proxy summary JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_table.csv</code></td>
-                            <td>T84</td>
-                            <td>Task84 QMSum quality proxy table CSV</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_manual_audit_samples.jsonl</code></td>
-                            <td>T84</td>
-                            <td>Task84 QMSum manual audit samples JSONL</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task84_qmsum_quality_proxy_failure_samples.jsonl</code></td>
-                            <td>T84</td>
-                            <td>Task84 QMSum failure samples JSONL</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>docs/reports/84-qmsum-quality-proxy-audit-and-metric-fix-report.md</code></td>
-                            <td>T84</td>
-                            <td>Task84 QMSum quality proxy audit report</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_compression_latency_breakdown.json</code></td>
-                            <td>T85</td>
-                            <td>Task85 Latency Breakdown JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_vram_trace.json</code></td>
-                            <td>T85</td>
-                            <td>Task85 VRAM Trace JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_load_unload_architecture.json</code></td>
-                            <td>T85</td>
-                            <td>Task85 Load/Unload Arch JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/quality_and_latency_audits/task85_cached_compression_upper_bound.json</code></td>
-                            <td>T85</td>
-                            <td>Task85 Cached Compression Upper Bound JSON</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>docs/reports/85-llmlingua-compression-latency-and-device-placement-report.md</code></td>
-                            <td>T85</td>
-                            <td>Task85 Latency Breakdown Report</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_gate_manifest.json</code></td>
-                            <td>T86</td>
-                            <td>Task86 Rerun Gate Manifest</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>results/phase_1_system_build_and_evaluation/repair_and_gate/task86_rerun_validation_checklist.json</code></td>
-                            <td>T86</td>
-                            <td>Task86 Rerun Validation Checklist</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>scripts/phase_1_system_build_and_evaluation/analysis/t86_rerun_gate.py</code></td>
-                            <td>T86</td>
-                            <td>Task86 Rerun Validation Analyzer</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td><code>docs/reports/86-benchmark-cleanup-and-rerun-gate-preparation-report.md</code></td>
-                            <td>T86</td>
-                            <td>Task86 Report</td>
-                            <td>-</td>
+                            <td><strong>Deprecated / Removed Artifacts</strong></td>
+                            <td>
+                                <code>data/processed/gsm8k_wikipedia_augmented_smoke.jsonl</code><br>
+                                <code>data/processed/gsm8k_wikipedia_augmented_full.jsonl</code><br>
+                                <code>data/raw/wikipedia_source.jsonl</code><br>
+                                <span class="sv stop">DEPRECATED / REMOVED_FROM_ACTIVE_PATH</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -3642,8 +1954,6 @@
         <section>
             <h2>Update Policy</h2>
             <div class="status-row" aria-label="Roadmap status badges">
-                <span class="sv go">Synced through Task 86 Benchmark Cleanup</span>
-                <span class="sv info">Current next: Task 87 — Controlled n=10 benchmark rerun gate</span>
                 <span class="sv go">Final Benchmark Artifacts: AUDITED</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
@@ -3690,6 +2000,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+                        <div class="log-entry">
+                <div class="log-date">2026-06-17</div>
+                <div class="log-body">
+                    <strong>Task89-roadmap-sync — PASS</strong><br>
+                    Rebuilt Roadmap phase gates and task grouping after Task89 cleanup. Phase 1 is now represented as system build and evaluation; active data pipeline is raw → processed → eval; GSM8K+Wikipedia is deprecated/removed from active path; Task90 is the next post-cleanup n=3 reproduction rerun, not a replacement for Task88 n=30 metrics.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-15</div>
                 <div class="log-body">
