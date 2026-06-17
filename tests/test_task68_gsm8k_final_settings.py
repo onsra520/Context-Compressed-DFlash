@@ -1,4 +1,4 @@
-from scripts.analyze_task68_gsm8k_final_settings import synthesize_final_settings
+from scripts.phase_1_analysis.analyze_task68_gsm8k_final_settings import synthesize_final_settings
 
 
 def test_synthesis_freezes_settings_and_recommends_n30_gate():

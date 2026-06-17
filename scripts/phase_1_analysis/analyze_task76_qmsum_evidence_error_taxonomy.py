@@ -14,8 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.analyze_task70_qmsum_diagnostic_audit import load_jsonl
-from scripts.analyze_task74_qmsum_proxy_case_triage import lexical_diagnostics
+from scripts.phase_1_analysis.analyze_task70_qmsum_diagnostic_audit import load_jsonl
+from scripts.phase_1_analysis.analyze_task74_qmsum_proxy_case_triage import lexical_diagnostics
 
 DEFAULT_CASE_INPUT = Path("results/task75_qmsum_balanced_policy_cases.jsonl")
 DEFAULT_SUMMARY_OUTPUT = Path("results/task76_qmsum_evidence_error_summary.json")

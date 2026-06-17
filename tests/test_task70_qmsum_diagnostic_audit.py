@@ -1,4 +1,4 @@
-from scripts.analyze_task70_qmsum_diagnostic_audit import (
+from scripts.phase_1_analysis.analyze_task70_qmsum_diagnostic_audit import (
     analyze_rows,
     has_repetition,
     normalized_token_overlap,

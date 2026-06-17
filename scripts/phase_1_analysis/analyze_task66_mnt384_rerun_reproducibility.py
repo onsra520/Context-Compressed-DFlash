@@ -13,8 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.analyze_task47_quality_refinement import classify_row
-from scripts.analyze_task65_mnt384_calibration import (
+from scripts.phase_1_analysis.analyze_task47_quality_refinement import classify_row
+from scripts.phase_1_analysis.analyze_task65_mnt384_calibration import (
     _has_final_answer_marker,
     _hit_token_cap,
     _numeric_values,

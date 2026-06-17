@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 def test_claim_safety_forbids():
-    p = Path("results/task81_claim_safety_matrix.csv")
+    p = Path("results/phase_1_result/task81_claim_safety_matrix.csv")
     assert p.exists()
     rows = list(csv.DictReader(p.open(encoding="utf-8")))
     found_universal_speedup = False
@@ -30,7 +30,7 @@ def test_claim_safety_forbids():
     assert found_8gb
 
 def test_evidence_basis():
-    p = Path("results/task81_evidence_basis_matrix.csv")
+    p = Path("results/phase_1_result/task81_evidence_basis_matrix.csv")
     assert p.exists()
     rows = list(csv.DictReader(p.open(encoding="utf-8")))
     found_gsm8k = False
@@ -47,7 +47,7 @@ def test_evidence_basis():
     assert found_qmsum
 
 def test_summary():
-    p = Path("results/task81_final_consistency_audit_summary.json")
+    p = Path("results/phase_1_result/task81_final_consistency_audit_summary.json")
     assert p.exists()
     s = json.loads(p.read_text(encoding="utf-8"))
     assert s["ready_for_t82"] is True

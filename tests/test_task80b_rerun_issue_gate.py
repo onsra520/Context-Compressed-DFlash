@@ -5,7 +5,7 @@ import os
 # Ensure the scripts directory is in path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from scripts.analyze_task80b_rerun_issue_gate import (
+from scripts.phase_1_analysis.analyze_task80b_rerun_issue_gate import (
     extract_vram_reserved,
     extract_vram_allocated,
     extract_prefill_ms,

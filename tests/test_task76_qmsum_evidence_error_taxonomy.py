@@ -1,4 +1,4 @@
-from scripts.analyze_task76_qmsum_evidence_error_taxonomy import (
+from scripts.phase_1_analysis.analyze_task76_qmsum_evidence_error_taxonomy import (
     analyze_evidence_errors,
     classify_case,
 )

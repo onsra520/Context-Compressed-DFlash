@@ -4,8 +4,7 @@ import json
 from pathlib import Path
 
 from scripts.eval_datasets import load_eval_dataset, select_eval_dataset_rows, write_jsonl
-from scripts.fetch_gsm8k_dataset import build_gsm8k_short_rows
-from scripts.fetch_qmsum_meeting_qa_dataset import build_qmsum_eval_rows
+from scripts.fetch_dataset import build_gsm8k_short_rows, build_qmsum_eval_rows
 from scripts.run_mvp import _select_prompt_items
 from scripts.eval_datasets import (
     GSM8K_FINAL_ANSWER_INSTRUCTION,
@@ -27,7 +26,9 @@ def test_build_gsm8k_short_rows_preserves_question_and_numeric_answer(tmp_path: 
         encoding="utf-8",
     )
 
-    rows = build_gsm8k_short_rows(source_path=source, max_samples=1, seed=42, split="test")
+    from scripts.eval_datasets import read_jsonl
+    source_rows = read_jsonl(source)
+    rows = build_gsm8k_short_rows(source_rows=source_rows, source_path=source, max_samples=1, seed=42, split="test")
 
     assert rows[0]["dataset_name"] == "gsm8k_short"
     assert rows[0]["expected_answer"] == "9"
@@ -59,6 +60,7 @@ def test_build_qmsum_eval_rows_flattens_meeting_qa_and_truncates_context():
         min_context_words=10,
         max_context_words=25,
         split_label="test",
+        source_label="QMSum GitHub",
     )
 
     assert rows[0]["dataset_name"] == "qmsum_meeting_qa_long"

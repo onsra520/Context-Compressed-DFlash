@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.analyze_task47_quality_refinement import classify_row, extract_numeric_answer
+from scripts.phase_1_analysis.analyze_task47_quality_refinement import classify_row, extract_numeric_answer
 
 
 CONDITIONS = ["Baseline-AR", "DFlash-R1", "LLMLingua-AR-R2", "CC-DFlash-R2"]

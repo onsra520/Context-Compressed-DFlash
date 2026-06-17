@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from scripts.analyze_task80_cross_dataset_final_package import (
+from scripts.phase_1_analysis.analyze_task80_cross_dataset_final_package import (
     build_claims_matrix,
     build_cross_dataset_package,
     summarize_gsm8k_condition,

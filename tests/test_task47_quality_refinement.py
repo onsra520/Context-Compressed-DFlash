@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.analyze_task47_quality_refinement import (
+from scripts.phase_1_analysis.analyze_task47_quality_refinement import (
     analyze_task47,
     classify_row,
     extract_numeric_answer,

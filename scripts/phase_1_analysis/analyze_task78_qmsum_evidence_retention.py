@@ -16,8 +16,8 @@ if str(ROOT) not in sys.path:
 
 from ccdf.compression.llmlingua import LLMLinguaCompressor
 from ccdf.config import load_config
-from scripts.analyze_task70_qmsum_diagnostic_audit import load_jsonl
-from scripts.analyze_task76_qmsum_evidence_error_taxonomy import (
+from scripts.phase_1_analysis.analyze_task70_qmsum_diagnostic_audit import load_jsonl
+from scripts.phase_1_analysis.analyze_task76_qmsum_evidence_error_taxonomy import (
     NOISY_ENTITY_WORDS,
     _entities_and_numbers,
 )

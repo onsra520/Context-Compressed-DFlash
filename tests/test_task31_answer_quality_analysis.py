@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.analyze_task31_answer_quality import (
+from scripts.phase_1_analysis.analyze_task31_answer_quality import (
     ScorerCategory,
     analyze_artifact,
     extract_final_numeric_answer,

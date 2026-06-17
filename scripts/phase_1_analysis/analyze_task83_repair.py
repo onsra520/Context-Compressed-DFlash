@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.analyze_task47_quality_refinement import classify_row
-from scripts.analyze_task70_qmsum_diagnostic_audit import normalized_token_overlap
+from scripts.phase_1_analysis.analyze_task47_quality_refinement import classify_row
+from scripts.phase_1_analysis.analyze_task70_qmsum_diagnostic_audit import normalized_token_overlap
 
 
 GSM8K_FILE = Path("results/task83_gsm8k_dflash_r1_repair_n30.jsonl")

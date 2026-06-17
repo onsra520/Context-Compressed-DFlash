@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.analyze_task46_pareto import (
+from scripts.phase_1_analysis.analyze_task46_pareto import (
     analyze_task46,
     dominates,
     e2e_latency_s,

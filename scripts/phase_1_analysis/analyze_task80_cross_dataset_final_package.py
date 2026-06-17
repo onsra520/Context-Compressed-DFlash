@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.analyze_task47_quality_refinement import classify_row
-from scripts.analyze_task69_gsm8k_full_matrix import load_jsonl
+from scripts.phase_1_analysis.analyze_task47_quality_refinement import classify_row
+from scripts.phase_1_analysis.analyze_task69_gsm8k_full_matrix import load_jsonl
 
 
 GSM8K_ARTIFACTS = {

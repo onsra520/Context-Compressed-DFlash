@@ -252,23 +252,16 @@ def handle_qmsum(args):
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Fetch and format CC-DFlash evaluation datasets")
-    subparsers = parser.add_subparsers(dest="dataset", required=True)
-
-    gsm8k_parser = subparsers.add_parser("gsm8k", help="Fetch GSM8K short-context dataset")
-    gsm8k_parser.add_argument("--output", type=str, default="data/eval/gsm8k_100.jsonl")
-    gsm8k_parser.add_argument("--max-samples", type=int, default=100)
-    gsm8k_parser.add_argument("--seed", type=int, default=42)
-
-    qmsum_parser = subparsers.add_parser("qmsum_meeting_qa", help="Fetch QMSum long-context dataset")
-    qmsum_parser.add_argument("--output", type=str, default="data/eval/qmsum_meeting_qa_100.jsonl")
-    qmsum_parser.add_argument("--max-samples", type=int, default=100)
-    qmsum_parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--dataset", required=True, choices=["gsm8k_eval", "qmsum_eval", "all_active"], help="Dataset to fetch")
+    parser.add_argument("--output", type=str, default="")
+    parser.add_argument("--max-samples", type=int, default=100)
+    parser.add_argument("--seed", type=int, default=42)
 
     args = parser.parse_args()
 
-    if args.dataset == "gsm8k":
+    if args.dataset in ("gsm8k_eval", "all_active"):
         handle_gsm8k(args)
-    elif args.dataset == "qmsum_meeting_qa":
+    if args.dataset in ("qmsum_eval", "all_active"):
         handle_qmsum(args)
 
 

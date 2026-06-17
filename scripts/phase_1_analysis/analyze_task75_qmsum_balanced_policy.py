@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.analyze_task70_qmsum_diagnostic_audit import (
+from scripts.phase_1_analysis.analyze_task70_qmsum_diagnostic_audit import (
     _condition_summary as base_condition_summary,
     _hit_cap,
     _tokens,
@@ -21,7 +21,7 @@ from scripts.analyze_task70_qmsum_diagnostic_audit import (
     load_jsonl,
     normalized_token_overlap,
 )
-from scripts.analyze_task74_qmsum_proxy_case_triage import lexical_diagnostics
+from scripts.phase_1_analysis.analyze_task74_qmsum_proxy_case_triage import lexical_diagnostics
 
 ORIGINAL_ARTIFACTS = {
     "LLMLingua-AR-R2": Path("results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),

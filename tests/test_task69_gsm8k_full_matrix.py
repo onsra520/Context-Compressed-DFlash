@@ -1,4 +1,4 @@
-from scripts.analyze_task69_gsm8k_full_matrix import analyze_rows
+from scripts.phase_1_analysis.analyze_task69_gsm8k_full_matrix import analyze_rows
 
 
 def _row(condition, expected, generated, *, gen_s=1.0, output_tokens=10, compress_ms=0.0, tau=0.0):

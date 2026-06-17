@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from scripts.analyze_task78_qmsum_evidence_retention import (
+from scripts.phase_1_analysis.analyze_task78_qmsum_evidence_retention import (
     analyze_retention,
     classify_retention,
     extract_important_terms,

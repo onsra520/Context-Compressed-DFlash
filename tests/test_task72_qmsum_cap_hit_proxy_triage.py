@@ -1,4 +1,4 @@
-from scripts.analyze_task72_qmsum_cap_hit_proxy_triage import (
+from scripts.phase_1_analysis.analyze_task72_qmsum_cap_hit_proxy_triage import (
     analyze_rows,
     ends_naturally,
     label_cap_hit_case,

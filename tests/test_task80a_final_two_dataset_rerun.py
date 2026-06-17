@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from scripts.analyze_task80a_final_two_dataset_rerun import (
+from scripts.phase_1_analysis.analyze_task80a_final_two_dataset_rerun import (
     build_delta_rows,
     build_run_manifest,
     summarize_condition,

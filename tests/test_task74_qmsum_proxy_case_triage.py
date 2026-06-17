@@ -1,4 +1,4 @@
-from scripts.analyze_task74_qmsum_proxy_case_triage import (
+from scripts.phase_1_analysis.analyze_task74_qmsum_proxy_case_triage import (
     analyze_case_pairs,
     bigram_overlap,
     label_case,

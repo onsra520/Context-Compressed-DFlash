@@ -1,4 +1,4 @@
-from scripts.analyze_task73_qmsum_concise_policy import analyze_comparisons
+from scripts.phase_1_analysis.analyze_task73_qmsum_concise_policy import analyze_comparisons
 
 
 def _row(

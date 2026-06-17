@@ -13,9 +13,9 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.analyze_task70_qmsum_diagnostic_audit import _hit_cap, has_repetition, load_jsonl
-from scripts.analyze_task74_qmsum_proxy_case_triage import lexical_diagnostics
-from scripts.analyze_task76_qmsum_evidence_error_taxonomy import classify_case
+from scripts.phase_1_analysis.analyze_task70_qmsum_diagnostic_audit import _hit_cap, has_repetition, load_jsonl
+from scripts.phase_1_analysis.analyze_task74_qmsum_proxy_case_triage import lexical_diagnostics
+from scripts.phase_1_analysis.analyze_task76_qmsum_evidence_error_taxonomy import classify_case
 
 TASK71_ARTIFACTS = {
     "LLMLingua-AR-R2": Path("results/task71_qmsum_long_llmlingua_ar_r2_n30_mnt384.jsonl"),

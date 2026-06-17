@@ -770,7 +770,7 @@
                         <tr>
                             <td><span class="tnum done">T26</span></td>
                             <td>Analysis</td>
-                            <td>Preliminary speedup/breakeven analysis: <code>scripts/analyze_task24_matrix.py</code>
+                            <td>Preliminary speedup/breakeven analysis: <code>scripts/phase_1_analysis/analyze_task24_matrix.py</code>
                             </td>
                             <td class="go">PASS</td>
                         </tr>
@@ -3622,7 +3622,7 @@
                             <td>-</td>
                         </tr>
                         <tr>
-                            <td><code>scripts/analyze_task86_rerun_gate.py</code></td>
+                            <td><code>scripts/phase_1_analysis/analyze_task86_rerun_gate.py</code></td>
                             <td>T86</td>
                             <td>Task86 Rerun Validation Analyzer</td>
                             <td>-</td>
@@ -3984,7 +3984,7 @@
                 <div class="log-date">2026-06-06</div>
                 <div class="log-body">
                     <strong>Task 46 — Pareto Analysis — PASS</strong><br>
-                    Added <code>scripts/analyze_task46_pareto.py</code>, generated
+                    Added <code>scripts/phase_1_analysis/analyze_task46_pareto.py</code>, generated
                     <code>results/task46_pareto_summary.json</code> and <code>results/task46_pareto_table.csv</code>,
                     and wrote <code>docs/reports/46-pareto-analysis-report.md</code>. Result: CC-LLM-R2 leads
                     decode-only throughput, but DFlash-R1 leads end-to-end throughput once CPU compression cost is
@@ -3995,7 +3995,7 @@
                 <div class="log-date">2026-06-06</div>
                 <div class="log-body">
                     <strong>Task 47 — Quality Refinement and Packaging Policy — PASS</strong><br>
-                    Added <code>scripts/analyze_task47_quality_refinement.py</code>, generated
+                    Added <code>scripts/phase_1_analysis/analyze_task47_quality_refinement.py</code>, generated
                     <code>results/task47_quality_refinement_summary.json</code>,
                     <code>results/task47_quality_failure_samples.jsonl</code>, and
                     <code>results/task47_quality_table.csv</code>, and wrote
@@ -4008,8 +4008,8 @@
                 <div class="log-date">2026-06-11</div>
                 <div class="log-body">
                     <strong>Task 48 — Two-Dataset Evaluation Plan Migration — PASS</strong><br>
-                    Added <code>scripts/fetch_gsm8k_dataset.py</code>,
-                    <code>scripts/fetch_qmsum_meeting_qa_dataset.py</code>, and a named evaluation dataset registry.
+                    Added <code>scripts/fetch_dataset.py --dataset gsm8k_eval</code>,
+                    <code>scripts/fetch_dataset.py --dataset qmsum_eval</code>, and a named evaluation dataset registry.
                     Generated <code>data/eval/gsm8k_100.jsonl</code> and
                     <code>data/eval/qmsum_meeting_qa_100.jsonl</code>. The main dataset plan is now GSM8K
                     short-context for numeric QA quality and QMSum-style meeting QA long-context for speed/prefill/
