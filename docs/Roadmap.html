@@ -421,9 +421,9 @@
                 <a href="CC-DFlash-Overview.html">docs/CC-DFlash-Overview.html</a>.
             </p>
             <div class="status-row">
-                <span class="sv go">Current Phase: Phase 2 — System Optimization</span>
+                <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
                 <span class="sv ok">Latest Completed: Task90B — Task90 Isolated Resume</span>
-                <span class="sv info">Current Next: Task91 — Adaptive Compression Policy</span>
+                <span class="sv info">Current Next: Task91 — Lighter Compressor Feasibility Setup</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -485,9 +485,9 @@
                             <td>Task90 ran fetch → processed → eval n=100 and an n=3 reproduction rerun over 2 datasets × 4 conditions. Segfault was isolated (T90A) and bypassed (T90B). It does not replace Task88 n=30 metrics.</td>
                         </tr>
                         <tr>
-                            <td><strong>Phase 2 — System Optimization Gate</strong></td>
+                            <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="info">PLANNED</td>
-                            <td>After Task90, Phase 2 starts with adaptive compression policy, cached/offline compression, T_compress-aware routing, and optimization benchmark.</td>
+                            <td>After Task90, Phase 2 focuses on $T_{\text{compress}}$ reduction via a lighter compressor (llmlingua-2-bert-base-multilingual-cased-meetingbank), checking integration, budgets, quality proxy preservation, GPU coresident stability, and running optimized reruns (T91–T100).</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -514,11 +514,11 @@
                                         <tbody>
                         <tr>
                             <td><strong>Current Phase</strong></td>
-                            <td>Phase 2 — System Optimization</td>
+                            <td>Phase 2 — Lighter Compressor Optimization</td>
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>Task91 — Adaptive Compression Policy</td>
+                            <td>Task91 — Lighter Compressor Feasibility Setup</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
@@ -1279,23 +1279,65 @@
                             <td>Completed missing QMSum Task90 artifacts using isolated per-condition execution after Task90A.</td>
                             <td class="go">PASS_WITH_NOTES</td>
                         </tr>
-                        <tr class="phase-row"><td colspan="4">PHASE 2 — SYSTEM OPTIMIZATION (T91+)</td></tr>
+                        <tr class="phase-row"><td colspan="4">PHASE 2 — LIGHTER COMPRESSOR OPTIMIZATION (T91–T100)</td></tr>
                         <tr>
-                            <td><span class="tnum planned">T91</span></td>
-                            <td>Adaptive Compression Policy</td>
-                            <td>Planned Phase 2 routing policy based on context length, cache availability, and T_compress tradeoff.</td>
-                            <td class="info">PLANNED</td>
+                            <td><span class="tnum inprog">T91</span></td>
+                            <td>Lighter Compressor Feasibility Setup</td>
+                            <td>Identify lighter compressor candidate, freeze benchmark budget/config, and prepare feasibility checks.</td>
+                            <td class="warn">NEXT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T92</span></td>
-                            <td>Cached/Offline Compression Path</td>
-                            <td>Planned cached compression mode to remove online T_compress from request latency.</td>
+                            <td>Lighter Compressor Integration</td>
+                            <td>Add runner/config support for the lighter compressor without breaking the existing large-compressor path.</td>
                             <td class="info">PLANNED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T93</span></td>
-                            <td>T_compress-Aware Routing</td>
-                            <td>Planned system routing rule for when to use Baseline/DFlash/Compressed paths.</td>
+                            <td>Compression Rate / Budget Calibration</td>
+                            <td>Compare large vs lighter compressor under the same compression budget, including max_cut_token=368 and same keep_rate/token-reduction target.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T94</span></td>
+                            <td>Quality Proxy Calibration</td>
+                            <td>Measure whether lighter-compressor outputs preserve GSM8K numeric proxy and QMSum diagnostic proxy near Baseline-AR / existing large-compressor behavior.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T95</span></td>
+                            <td>GPU Co-resident Feasibility under 8GB</td>
+                            <td>Check whether the lighter compressor can run on GPU with target/DFlash under 8GB without OOM, segfault, or harmful runtime instability.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T96</span></td>
+                            <td>Controlled n=10 Optimized CC-DFlash Rerun</td>
+                            <td>Run controlled n=10 benchmark with the best validated lighter-compressor setting.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T97</span></td>
+                            <td>Controlled n=30 Phase 2 Benchmark</td>
+                            <td>If T96 passes, run controlled n=30 Phase 2 benchmark and compare against Task88 evidence.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T98</span></td>
+                            <td>Phase 2 Optimization Summary</td>
+                            <td>Summarize quality-speed-compression tradeoff from the optimized compressed path.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T99</span></td>
+                            <td>Final Claim Boundary Audit</td>
+                            <td>Audit which claims are supported and which must remain out of scope.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T100</span></td>
+                            <td>Final Report Integration</td>
+                            <td>Integrate Phase 2 result into final report/demo materials.</td>
                             <td class="info">PLANNED</td>
                         </tr>
 </tbody>
@@ -1400,7 +1442,11 @@
                             <td><code>docs/reports/phase_1_system_build_and_evaluation/*.md</code></td>
                         </tr>
                         <tr>
-                            <td>Phase 2</td>
+                            <td>Phase 2 Plan</td>
+                            <td><code>docs/plans/phase_2_lighter_compressor_optimization_plan.md</code></td>
+                        </tr>
+                        <tr>
+                            <td>Phase 2 Reports</td>
                             <td><code>docs/reports/phase_2_system_optimization/*.md</code> (Planned)</td>
                         </tr>
                         <tr>
@@ -1524,6 +1570,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-18</div>
+                <div class="log-body">
+                    <strong>Task91-plan — Sync Phase 2 Lighter Compressor Roadmap and Plan — PASS</strong><br>
+                    Updated Roadmap and created the Phase 2 Lighter Compressor Optimization plan, defining candidate lighter compressor (llmlingua-2-bert-base-multilingual-cased-meetingbank), budget freeze items (max_cut_token = 368), and acceptance gates. Removed stale Phase 2 main directions.
+                </div>
+            </div>
                         <div class="log-entry">
                 <div class="log-date">2026-06-17</div>
                 <div class="log-body">
