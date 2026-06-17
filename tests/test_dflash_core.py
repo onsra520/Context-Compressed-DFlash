@@ -24,7 +24,7 @@ def test_dflash_split_modules_do_not_import_raw_references():
 
 
 def test_synthetic_probe_has_dry_run_and_no_raw_imports():
-    text = pathlib.Path("scripts/synthetic_probe.py").read_text(encoding="utf-8")
+    text = pathlib.Path("scripts/phase_1_system_build_and_evaluation/probes/synthetic_probe.py").read_text(encoding="utf-8")
 
     assert "--dry-run" in text
     assert "import model_raw" not in text

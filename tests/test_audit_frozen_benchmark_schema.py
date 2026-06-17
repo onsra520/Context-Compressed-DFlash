@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.audit_frozen_benchmark_schema import audit_artifact
+from scripts.phase_1_system_build_and_evaluation.audits.frozen_benchmark_schema import audit_artifact
 
 
 def _base_row(**overrides):

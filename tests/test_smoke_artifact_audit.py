@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.audit_smoke_artifacts import ARTIFACTS, audit_artifact, resolve_artifact_paths
+from scripts.phase_1_system_build_and_evaluation.audits.smoke_artifacts import ARTIFACTS, audit_artifact, resolve_artifact_paths
 
 
 def _write_jsonl(path: Path, rows: list[dict]) -> None:

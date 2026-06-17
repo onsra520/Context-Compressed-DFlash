@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.phase_1_analysis.analyze_task24_matrix import (
+from scripts.phase_1_system_build_and_evaluation.analysis.t24_matrix import (
     compute_generation_speed_ratio,
     summarize_fixture,
     summarize_rows,

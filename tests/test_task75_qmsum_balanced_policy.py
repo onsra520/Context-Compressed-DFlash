@@ -1,4 +1,4 @@
-from scripts.phase_1_analysis.analyze_task75_qmsum_balanced_policy import analyze_policy_stages
+from scripts.phase_1_system_build_and_evaluation.analysis.t75_qmsum_balanced_policy import analyze_policy_stages
 
 
 def _row(

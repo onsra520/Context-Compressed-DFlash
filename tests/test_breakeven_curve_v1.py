@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.analyze_breakeven_curve_v1 import (
+from scripts.phase_1_system_build_and_evaluation.analysis.breakeven_curve_v1 import (
     analyze_breakeven_curve_v1,
     summarize_condition,
     summarize_prefill_reference,

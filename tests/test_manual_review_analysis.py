@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.analyze_manual_review import (
+from scripts.phase_1_system_build_and_evaluation.analysis.manual_review import (
     compute_summary,
     parse_manual_review_report,
 )

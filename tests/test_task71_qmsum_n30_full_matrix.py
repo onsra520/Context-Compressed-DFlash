@@ -1,4 +1,4 @@
-from scripts.phase_1_analysis.analyze_task71_qmsum_n30_full_matrix import analyze_rows
+from scripts.phase_1_system_build_and_evaluation.analysis.t71_qmsum_n30_full_matrix import analyze_rows
 
 
 def _row(condition, expected, generated, *, output_tokens=20, max_new_tokens=384, gen_s=1.0, compress_ms=0.0):

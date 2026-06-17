@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from scripts.phase_1_analysis.analyze_task77_qmsum_evidence_policy import analyze_evidence_policy
+from scripts.phase_1_system_build_and_evaluation.analysis.t77_qmsum_evidence_policy import analyze_evidence_policy
 
 
 def _row(

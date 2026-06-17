@@ -746,7 +746,7 @@
                         <tr>
                             <td><span class="tnum done">T23</span></td>
                             <td>Artifact Audit</td>
-                            <td>Artifact contract audit script: <code>scripts/audit_smoke_artifacts.py</code></td>
+                            <td>Artifact contract audit script: <code>scripts/smoke_artifacts.py</code></td>
                             <td class="go">PASS</td>
                         </tr>
 
@@ -770,7 +770,7 @@
                         <tr>
                             <td><span class="tnum done">T26</span></td>
                             <td>Analysis</td>
-                            <td>Preliminary speedup/breakeven analysis: <code>scripts/phase_1_analysis/analyze_task24_matrix.py</code>
+                            <td>Preliminary speedup/breakeven analysis: <code>scripts/phase_1_system_build_and_evaluation/analysis/t24_matrix.py</code>
                             </td>
                             <td class="go">PASS</td>
                         </tr>
@@ -812,7 +812,7 @@
                         <tr>
                             <td><span class="tnum done">T30</span></td>
                             <td>Answer Check</td>
-                            <td>Answer checker contract: <code>scripts/check_task29_answers.py</code>; discovered
+                            <td>Answer checker contract: <code>scripts/t29_answers.py</code>; discovered
                                 missing decoded output</td>
                             <td class="go">PASS</td>
                         </tr>
@@ -872,7 +872,7 @@
                         <tr>
                             <td><span class="tnum done">T36</span></td>
                             <td>Review Analyzer</td>
-                            <td>Add <code>scripts/analyze_manual_review.py</code>; produce quality-interpretation
+                            <td>Add <code>scripts/manual_review.py</code>; produce quality-interpretation
                                 summary; update containment-vs-correctness estimate; create report
                                 <code>36-manual-review-analysis-report.md</code></td>
                             <td class="go">PASS</td>
@@ -3622,7 +3622,7 @@
                             <td>-</td>
                         </tr>
                         <tr>
-                            <td><code>scripts/phase_1_analysis/analyze_task86_rerun_gate.py</code></td>
+                            <td><code>scripts/phase_1_system_build_and_evaluation/analysis/t86_rerun_gate.py</code></td>
                             <td>T86</td>
                             <td>Task86 Rerun Validation Analyzer</td>
                             <td>-</td>
@@ -3984,7 +3984,7 @@
                 <div class="log-date">2026-06-06</div>
                 <div class="log-body">
                     <strong>Task 46 — Pareto Analysis — PASS</strong><br>
-                    Added <code>scripts/phase_1_analysis/analyze_task46_pareto.py</code>, generated
+                    Added <code>scripts/phase_1_system_build_and_evaluation/analysis/t46_pareto.py</code>, generated
                     <code>results/task46_pareto_summary.json</code> and <code>results/task46_pareto_table.csv</code>,
                     and wrote <code>docs/reports/46-pareto-analysis-report.md</code>. Result: CC-LLM-R2 leads
                     decode-only throughput, but DFlash-R1 leads end-to-end throughput once CPU compression cost is
@@ -3995,7 +3995,7 @@
                 <div class="log-date">2026-06-06</div>
                 <div class="log-body">
                     <strong>Task 47 — Quality Refinement and Packaging Policy — PASS</strong><br>
-                    Added <code>scripts/phase_1_analysis/analyze_task47_quality_refinement.py</code>, generated
+                    Added <code>scripts/phase_1_system_build_and_evaluation/analysis/t47_quality_refinement.py</code>, generated
                     <code>results/task47_quality_refinement_summary.json</code>,
                     <code>results/task47_quality_failure_samples.jsonl</code>, and
                     <code>results/task47_quality_table.csv</code>, and wrote

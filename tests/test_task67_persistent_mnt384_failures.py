@@ -1,4 +1,4 @@
-from scripts.phase_1_analysis.analyze_task67_persistent_mnt384_failures import (
+from scripts.phase_1_system_build_and_evaluation.analysis.t67_persistent_mnt384_failures import (
     label_failure_case,
     summarize_condition_rows,
 )

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.check_task29_answers import check_artifact, normalize_text
+from scripts.phase_1_system_build_and_evaluation.probes.t29_answers import check_artifact, normalize_text
 
 
 def _base_row(**overrides):

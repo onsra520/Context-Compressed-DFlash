@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.phase_1_analysis.analyze_task64_cap_hit_triage import analyze_paths
+from scripts.phase_1_system_build_and_evaluation.analysis.t64_cap_hit_triage import analyze_paths
 
 
 def _write_jsonl(path: Path, rows: list[dict]) -> None:

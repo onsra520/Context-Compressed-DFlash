@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.phase_1_analysis.analyze_task66_mnt384_rerun_reproducibility import analyze_paths
+from scripts.phase_1_system_build_and_evaluation.analysis.t66_mnt384_rerun_reproducibility import analyze_paths
 
 
 def _write_jsonl(path: Path, rows: list[dict]) -> None:

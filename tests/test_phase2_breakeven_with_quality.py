@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from scripts.analyze_phase2_breakeven_with_quality import (
+from scripts.phase_2_system_optimization.analysis.breakeven_with_quality import (
     assign_carry_forward_label,
     analyze_condition,
     analyze_phase2,
