@@ -1,0 +1,33 @@
+=== DFlash-R1 audit run 2 ===
+DFlash-R1 smoke benchmark
+Compression: none
+Target model path: models/Qwen3-4B
+Draft model path: models/Qwen3-4B-DFlash-b16
+Tokenizer path: models/Qwen3-4B
+Device: cuda:0
+Block size: 16
+Max new tokens: 512
+Prompt source: dataset
+Prompt count: 1
+Warmup prompts: 0
+Output path: results/setup_validation/dflash_audit/20260620_142514_run2_dflash_r1_n1.jsonl
+Resume enabled: True
+Resumed from rows: 0
+Output write mode: write_new_resume
+Backend warning: flash_attn not installed; using torch.sdpa fallback.
+VRAM before load: allocated=0.00GiB reserved=0.00GiB free=6.41GiB total=7.62GiB
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:01<00:03,  1.80s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:03<00:01,  1.98s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:03<00:00,  1.32s/it]
+VRAM after target load: allocated=2.48GiB reserved=2.65GiB free=3.75GiB total=7.62GiB
+VRAM after draft load: allocated=3.49GiB reserved=3.56GiB free=2.84GiB total=7.62GiB
+Starting prompt_id=1 condition=DFlash-R1 benchmark_prompt_index=1/1 compression_active=False draft_speculative=True output_path=results/setup_validation/dflash_audit/20260620_142514_run2_dflash_r1_n1.jsonl resume_enabled=True resumed_from_rows=0
+VRAM after prompt 1: allocated=3.50GiB reserved=3.74GiB free=2.64GiB total=7.62GiB
+prompt_id=1 input_tokens=122 output_tokens=284 generation_time_s=4.2492 tok/s=66.84 acceptance_lengths=[3, 3, 5, 1, 8, 4, 11, 5, 11, 10, 6, 3, 5, 2, 6, 1, 7, 14, 9, 2, 1, 1, 5, 9, 3, 4, 6, 1, 2, 3, 7, 2, 1, 9, 12, 1, 4, 5, 5, 16, 16, 12, 16, 16, 5, 1, 5] tau_mean=6.04 t_prefill_ms=240.78
+Finished prompt_id=1 benchmark_prompt_index=1 output_tokens=284 tok/s=66.84
+Wrote row 1/1 to results/setup_validation/dflash_audit/20260620_142514_run2_dflash_r1_n1.jsonl
+Summary:
+measured rows: 1
+average tok/s: 66.84
+average tau_mean: 6.04
+max VRAM allocated: 3.50GiB
+max VRAM reserved: 3.74GiB
+Final status: PASS
