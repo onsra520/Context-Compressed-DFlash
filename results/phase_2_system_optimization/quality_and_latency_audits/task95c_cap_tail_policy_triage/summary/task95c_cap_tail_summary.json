@@ -1,0 +1,50 @@
+{
+  "blocked_reason": "GPU unavailable before bounded mnt256 benchmark execution.",
+  "claim_boundary": {
+    "no_deployment_or_8gb_claim": true,
+    "no_final_quality_claim": true,
+    "no_final_speedup_claim": true,
+    "no_full_benchmark_claim": true,
+    "no_n30_or_n100_run": true,
+    "no_qmsum_semantic_correctness_claim": true
+  },
+  "decision": "PARTIAL",
+  "gpu_gate": {
+    "cuda_available": false,
+    "gpu": "NONE",
+    "nvidia_smi": "failed: could not communicate with NVIDIA driver",
+    "torch": "2.5.1+cu121",
+    "torch_cuda": "12.1"
+  },
+  "recommendation": {
+    "analyzer_complete": false,
+    "decision": "PARTIAL",
+    "gpu_blocked": true,
+    "keep_rate_tuning_in_this_task": false,
+    "n30_recommended_now": false,
+    "next_task": "restore_gpu_then_rerun_bounded_T95C_only",
+    "reason": "GPU/run gate blocked before Task95C mnt256 benchmark execution.",
+    "runs_complete": false
+  },
+  "static_cap_audit": {
+    "interpretation": "light has more incomplete cap-limited rows than large, justifying the bounded mnt256 test once GPU is available",
+    "large": {
+      "cap_limited_incomplete": 5,
+      "hit_max_new_tokens": 6,
+      "missing_final_answer_marker": 5,
+      "rows": 10,
+      "strict_calibrated_correct": 5,
+      "tail_observation": "all cap_limited_incomplete rows lacked final-answer markers and appeared cut at or near max_new_tokens=128"
+    },
+    "light": {
+      "cap_limited_incomplete": 7,
+      "hit_max_new_tokens": 7,
+      "missing_final_answer_marker": 7,
+      "rows": 10,
+      "strict_calibrated_correct": 2,
+      "tail_observation": "all cap_limited_incomplete rows lacked final-answer markers and appeared cut at max_new_tokens=128"
+    }
+  },
+  "task": "Task95C",
+  "title": "Cap/Tail Policy Triage"
+}

@@ -423,7 +423,8 @@
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
                 <span class="sv ok">Latest Completed: Task95B — Quality Proxy Calibration</span>
-                <span class="sv info">Current Next: Task95C — Light Compressor Parameter/Tail Policy Triage</span>
+                <span class="sv warn">Latest Attempted: Task95C — PARTIAL / GPU blocked</span>
+                <span class="sv info">Current Next: Restore GPU and rerun bounded Task95C only</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -432,7 +433,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task95B calibrated the deterministic GSM8K proxy without model loading or benchmark execution. The calibrated policy separated wrong numeric answers from cap-limited incomplete rows and exact-containment diagnostics. The light-profile quality gap remains after calibration, so Task95C light-compressor parameter/tail-policy triage is next; <code>n=30</code> remains gated.
+                Task95C completed the static cap audit and confirmed that Task94 light has more cap-limited incomplete rows than large, but the bounded <code>max_new_tokens=256</code> comparison was blocked because CUDA was unavailable. No benchmark, <code>n=30</code>, <code>n=100</code>, full benchmark, or keep-rate tuning was run. Next step: restore GPU availability and rerun only the bounded Task95C large/light <code>n=10</code> mnt256 jobs.
             </div>
         </header>
 
@@ -487,7 +488,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, and Task95B calibrated the quality proxy. T95C light-compressor parameter/tail-policy triage is next; <code>n=30</code> is still gated.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, and Task95B calibrated the quality proxy. T95C completed static cap audit but the bounded mnt256 run is GPU-blocked; <code>n=30</code> is still gated.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -1329,10 +1330,10 @@
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum inprog">T95C</span></td>
-                            <td>Light Compressor Parameter/Tail Policy Triage</td>
-                            <td>Next follow-up because T95B showed the light-profile quality gap remains after calibration and cap-limited incomplete rows are common for the light profile.</td>
-                            <td class="warn">NEXT / ACTIVE</td>
+                            <td><span class="tnum done">T95C</span></td>
+                            <td>Cap/Tail Policy Triage</td>
+                            <td>Static cap audit completed for Task94/Task95B outputs: calibrated mnt128 strict counts remain large <code>5/10</code> vs light <code>2/10</code>, with cap-limited incomplete rows large <code>5/10</code> vs light <code>7/10</code>. The bounded mnt256 large/light <code>n=10</code> jobs were not run because the GPU gate failed (<code>torch.cuda.is_available() == False</code>), so Task95C is PARTIAL and must be resumed only after GPU availability is restored. <br><code>docs/reports/phase_2_system_optimization/95c-cap-tail-policy-triage-report.md</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/task95c_cap_tail_policy_triage/</code></td>
+                            <td class="warn">PARTIAL / GPU BLOCKED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T96</span></td>
@@ -1349,7 +1350,7 @@
                         <tr>
                             <td><span class="tnum planned">T98</span></td>
                             <td>Controlled n=30 Phase 2 Benchmark</td>
-                            <td>Blocked until T95B/T95C decide whether proxy calibration, light-compressor tuning, or another bounded check is needed before larger sample size.</td>
+                            <td>Blocked until Task95C completes the bounded mnt256 comparison after GPU availability is restored and decides whether cap/tail policy explains enough of the light quality gap.</td>
                             <td class="stop">BLOCKED</td>
                         </tr>
                         <tr>
@@ -1619,6 +1620,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-21</div>
+                <div class="log-body">
+                    <strong>Task95C — Cap/Tail Policy Triage — PARTIAL / GPU BLOCKED</strong><br>
+                    Completed the static cap audit before model execution: Task94 mnt128 calibrated strict counts remain large <code>5/10</code> vs light <code>2/10</code>, and cap-limited incomplete rows remain large <code>5/10</code> vs light <code>7/10</code>. The audit supports the bounded mnt256 test, but <code>nvidia-smi</code> could not communicate with the NVIDIA driver and torch reported <code>cuda available False</code>, so no Task95C mnt256 benchmark jobs were run. Keep <code>n=30</code>, <code>n=100</code>, full benchmark, and keep-rate tuning blocked until GPU is restored and only the bounded Task95C <code>n=10</code> mnt256 comparison is completed.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-21</div>
                 <div class="log-body">
