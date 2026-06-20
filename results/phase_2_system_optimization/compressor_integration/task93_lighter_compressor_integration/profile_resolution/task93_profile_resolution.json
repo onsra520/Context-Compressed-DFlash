@@ -1,0 +1,36 @@
+{
+  "large": {
+    "compressor_path": "models/llmlingua-2-xlm-roberta-large-meetingbank",
+    "config_key": "large_llmlingua",
+    "device_map": "cpu",
+    "local_files_only": true,
+    "model_name": "microsoft/llmlingua-2-xlm-roberta-large-meetingbank",
+    "path_exists": true,
+    "profile_name": "large",
+    "resolved_compressor_path": "/home/quyseggs/Projects/CCDF/models/llmlingua-2-xlm-roberta-large-meetingbank",
+    "source_kind": "compressor_path"
+  },
+  "light": {
+    "compressor_path": "models/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+    "config_key": "light_llmlingua",
+    "device_map": "cpu",
+    "local_files_only": true,
+    "model_name": "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+    "path_exists": true,
+    "profile_name": "light",
+    "resolved_compressor_path": "/home/quyseggs/Projects/CCDF/models/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+    "source_kind": "compressor_path"
+  },
+  "model_loaded": false,
+  "no_benchmark_performed": true,
+  "no_downloads_performed": true,
+  "purpose": "static profile resolution for lighter compressor integration",
+  "runner_profile_flag": "--compressor-profile",
+  "supported_runner_aliases": [
+    "large",
+    "large_llmlingua",
+    "light",
+    "light_llmlingua"
+  ],
+  "task": "Task93"
+}

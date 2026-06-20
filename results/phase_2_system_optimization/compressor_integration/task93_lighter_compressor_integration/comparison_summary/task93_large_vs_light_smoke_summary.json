@@ -1,0 +1,88 @@
+{
+  "acceptance": {
+    "claim_boundary": "integration smoke only; no final speedup claim",
+    "large_profile_ran": true,
+    "light_local_files_only_true": true,
+    "light_profile_ran": true,
+    "light_reports_local_path": true,
+    "light_t_compress_lower_in_smoke": true
+  },
+  "generated_at": "2026-06-20T09:26:49.056839+00:00",
+  "large_artifact": "results/phase_2_system_optimization/compressor_integration/task93_lighter_compressor_integration/smoke/20260620_162415_cc_dflash_r2_large_n3.jsonl",
+  "light_artifact": "results/phase_2_system_optimization/compressor_integration/task93_lighter_compressor_integration/smoke/20260620_162511_cc_dflash_r2_light_n3.jsonl",
+  "light_minus_large": {
+    "avg_R_actual": -0.6666666666666665,
+    "avg_e2e_tok_per_s": 8.71889033683226,
+    "avg_t_compress_ms": -900.0640670001303,
+    "avg_tau_mean": -0.27820241139934243,
+    "avg_tokens_per_second": -4.468573274808662
+  },
+  "profiles": {
+    "large": {
+      "artifact_path": "results/phase_2_system_optimization/compressor_integration/task93_lighter_compressor_integration/smoke/20260620_162415_cc_dflash_r2_large_n3.jsonl",
+      "avg_R_actual": 2.6666666666666665,
+      "avg_e2e_tok_per_s": 35.72591309500379,
+      "avg_generation_time_s": 2.1066392586665947,
+      "avg_prefill_vram_allocated_gib": 3.5007028579711914,
+      "avg_t_compress_ms": 1326.8266573334888,
+      "avg_t_prefill_ms": 139.52950100004577,
+      "avg_tau_mean": 5.4416011042098,
+      "avg_tok_per_sec": 58.39360053488905,
+      "avg_tokens_per_second": 58.39360053488905,
+      "avg_vram_allocated_gib": 3.500704765319824,
+      "avg_vram_reserved_gib": 3.69921875,
+      "compressor_path_values": [
+        "models/llmlingua-2-xlm-roberta-large-meetingbank"
+      ],
+      "compressor_profile_values": [
+        "large"
+      ],
+      "generated_text_preview": "We are given: - Jamal's phone can hold **6 times more** photographs than Brittany's phone. - The **maximum number of photographs** that Brittany's phone can hold is **50 times more...",
+      "local_files_only_values": [
+        "True"
+      ],
+      "max_vram_allocated_gib": 3.500704765319824,
+      "max_vram_reserved_gib": 3.69921875,
+      "missing_metadata_fields": [],
+      "profile": "large",
+      "resolved_compressor_path_values": [
+        "/home/quyseggs/Projects/CCDF/models/llmlingua-2-xlm-roberta-large-meetingbank"
+      ],
+      "row_count": 3
+    },
+    "light": {
+      "artifact_path": "results/phase_2_system_optimization/compressor_integration/task93_lighter_compressor_integration/smoke/20260620_162511_cc_dflash_r2_light_n3.jsonl",
+      "avg_R_actual": 2.0,
+      "avg_e2e_tok_per_s": 44.44480343183605,
+      "avg_generation_time_s": 2.499009324332898,
+      "avg_prefill_vram_allocated_gib": 3.5002145767211914,
+      "avg_t_compress_ms": 426.76259033335856,
+      "avg_t_prefill_ms": 142.08473399988483,
+      "avg_tau_mean": 5.163398692810458,
+      "avg_tok_per_sec": 53.92502726008039,
+      "avg_tokens_per_second": 53.92502726008039,
+      "avg_vram_allocated_gib": 3.5002166430155435,
+      "avg_vram_reserved_gib": 3.693359375,
+      "compressor_path_values": [
+        "models/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+      ],
+      "compressor_profile_values": [
+        "light"
+      ],
+      "generated_text_preview": "We are given the following: 1. Jamal's phone can hold **6 times more** photographs than Brittany's phone. 2. The **maximum number of photographs** that Brittany's phone can hold is...",
+      "local_files_only_values": [
+        "True"
+      ],
+      "max_vram_allocated_gib": 3.5002169609069824,
+      "max_vram_reserved_gib": 3.693359375,
+      "missing_metadata_fields": [],
+      "profile": "light",
+      "resolved_compressor_path_values": [
+        "/home/quyseggs/Projects/CCDF/models/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+      ],
+      "row_count": 3
+    }
+  },
+  "scope": "n=3 CC-DFlash-R2 GSM8K smoke comparison only; not a final benchmark",
+  "task": "Task93"
+}
