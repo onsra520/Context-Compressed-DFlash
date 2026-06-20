@@ -422,8 +422,8 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv ok">Latest Completed: Task93 — Lighter Compressor Integration</span>
-                <span class="sv info">Current Next: Task94 — Light vs Large Compressor Controlled Comparison</span>
+                <span class="sv ok">Latest Completed: Task94 — Light vs Large Compressor Controlled Comparison</span>
+                <span class="sv info">Current Next: Task95 — Quality Proxy Calibration</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -432,7 +432,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task93 integrated the light LLMLingua-2 BERT-base compressor profile into the real CC-DFlash runner and completed a tiny <code>n=3</code> CC-DFlash-R2 large-vs-light smoke comparison. The light profile used the local path <code>models/llmlingua-2-bert-base-multilingual-cased-meetingbank</code> with <code>local_files_only=true</code> and lowered <code>t_compress_ms</code> in this smoke only. Task94 is now the next active step for controlled light-vs-large comparison without final speedup, deployment, or QMSum semantic correctness claims.
+                Task94 completed the bounded <code>n=10</code> CC-DFlash-R2 large-vs-light compressor comparison on <code>gsm8k_short</code>. The light profile lowered average <code>t_compress_ms</code> and average end-to-end time, but also lowered average <code>R_actual</code> and underperformed the large profile on the bounded GSM8K numeric proxy, so <code>n=30</code> remains gated and Task95 now focuses on quality-proxy calibration rather than a larger benchmark claim.
             </div>
         </header>
 
@@ -487,7 +487,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, and Task93 integrated the light compressor with a tiny runner smoke. Task94 is the active next step: controlled large-vs-light comparison starting at <code>n=10</code>, with <code>n=30</code> only after stable evidence, and without final speedup, deployment, or QMSum semantic correctness claims.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, and Task94 completed the bounded <code>n=10</code> large-vs-light comparison. Light reduced average <code>t_compress_ms</code> but also reduced average <code>R_actual</code> and the bounded GSM8K numeric proxy, so <code>n=30</code> is still not justified and Task95 is the next active follow-up.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -518,11 +518,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>Task94 — Light vs Large Compressor Controlled Comparison</td>
+                            <td>Task95 — Quality Proxy Calibration</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task93 — Lighter Compressor Integration</td>
+                            <td>Task94 — Light vs Large Compressor Controlled Comparison</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -546,7 +546,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91, Task91B, Task92, Task92B, and Task93 completed; Task94 ready to start</td>
+                            <td>Task91, Task91B, Task92, Task92B, Task93, and Task94 completed; Task95 ready to start</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1311,16 +1311,16 @@
                             <td class="go">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum inprog">T94</span></td>
+                            <td><span class="tnum done">T94</span></td>
                             <td>Light vs Large Compressor Controlled Comparison</td>
-                            <td>Run a bounded controlled comparison starting at <code>n=10</code>, compare large vs light compressor under the same dataset/settings, and evaluate <code>T_compress</code>, <code>R_actual</code>, end-to-end feasibility, and quality proxy stability. Run <code>n=30</code> only after <code>n=10</code> is stable.</td>
-                            <td class="warn">NEXT / ACTIVE / READY</td>
+                            <td>Completed the bounded <code>n=10</code> CC-DFlash-R2 comparison on <code>gsm8k_short</code> with matched settings, recorded large and light artifacts plus summary/table outputs, and found that light reduced average <code>t_compress_ms</code> and average e2e time but also reduced average <code>R_actual</code> and the bounded GSM8K numeric proxy. <br><code>docs/reports/phase_2_system_optimization/94-light-vs-large-compressor-controlled-comparison-report.md</code><br><code>results/phase_2_system_optimization/compressor_comparison/task94_light_vs_large_compressor_controlled_comparison/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T95</span></td>
+                            <td><span class="tnum inprog">T95</span></td>
                             <td>Quality Proxy Calibration</td>
                             <td>Measure whether lighter-compressor outputs preserve GSM8K numeric proxy and QMSum diagnostic proxy near Baseline-AR / existing large-compressor behavior.</td>
-                            <td class="info">PLANNED</td>
+                            <td class="warn">NEXT / ACTIVE</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T96</span></td>
@@ -1465,7 +1465,7 @@
                         </tr>
                         <tr>
                             <td>Phase 2 Reports</td>
-                            <td><code>docs/reports/phase_2_system_optimization/91-lighter-compressor-feasibility-setup-report.md</code><br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/92-local-model-and-compressor-config-loading-report.md</code><br><code>docs/reports/phase_2_system_optimization/92b-project-instruction-cleanup-and-results-skeleton-report.md</code><br><code>docs/reports/phase_2_system_optimization/93-lighter-compressor-integration-report.md</code><br><code>docs/reports/phase_2_system_optimization/*.md</code> (Task94+ continuing)</td>
+                            <td><code>docs/reports/phase_2_system_optimization/91-lighter-compressor-feasibility-setup-report.md</code><br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/92-local-model-and-compressor-config-loading-report.md</code><br><code>docs/reports/phase_2_system_optimization/92b-project-instruction-cleanup-and-results-skeleton-report.md</code><br><code>docs/reports/phase_2_system_optimization/93-lighter-compressor-integration-report.md</code><br><code>docs/reports/phase_2_system_optimization/94-light-vs-large-compressor-controlled-comparison-report.md</code><br><code>docs/reports/phase_2_system_optimization/*.md</code> (Task95+ continuing)</td>
                         </tr>
                         <tr>
                             <td>Extra</td>
@@ -1535,6 +1535,10 @@
                             <td><code>results/phase_2_system_optimization/compressor_integration/task93_lighter_compressor_integration/</code></td>
                         </tr>
                         <tr>
+                            <td><strong>Phase 2 Compressor Comparison Artifacts</strong></td>
+                            <td><code>results/phase_2_system_optimization/compressor_comparison/task94_light_vs_large_compressor_controlled_comparison/</code></td>
+                        </tr>
+                        <tr>
                             <td><strong>Deprecated / Removed Artifacts</strong></td>
                             <td>
                                 <div class="artifact-list">
@@ -1599,6 +1603,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-20</div>
+                <div class="log-body">
+                    <strong>Task94 — Light vs Large Compressor Controlled Comparison — PASS_WITH_CAVEAT</strong><br>
+                    Completed the bounded <code>n=10</code> CC-DFlash-R2 large-vs-light comparison on <code>gsm8k_short</code> with matched settings and valid 10-row artifacts for both profiles. The light profile reduced average <code>t_compress_ms</code> and average end-to-end time, but also reduced average <code>R_actual</code> and underperformed the large profile on the bounded GSM8K numeric proxy, so <code>n=30</code> remains gated and Task95 now focuses on quality-proxy calibration.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-20</div>
                 <div class="log-body">
