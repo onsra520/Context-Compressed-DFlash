@@ -422,9 +422,9 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv go">Latest Completed: Task95C-R — Cap/Tail Policy Resume</span>
+                <span class="sv go">Latest Completed: Task95D — Bounded mnt256 Confirmation</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv info">Current Next: Bounded confirmation before any n=30 move</span>
+                <span class="sv info">Current Next: T96 n=30 controlled mnt256 comparison</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -433,7 +433,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task95C-R resumed only the bounded <code>max_new_tokens=256</code> comparison after GPU recovery. Large and light each completed <code>n=10</code>; calibrated strict correctness moved to large <code>8/10</code> and light <code>8/10</code>, while cap-limited incomplete rows fell to <code>1/10</code> for both. No <code>n=30</code>, <code>n=100</code>, full benchmark, keep-rate tuning, model-loading change, or LLM judge was run. Next step: bounded confirmation before any larger run.
+                Task95D completed a bounded seed43 mnt256 confirmation sample with zero fixture overlap against Task95C-R seed42. Seed43 calibrated strict correctness was large <code>7/10</code> and light <code>8/10</code>; cap-limited incomplete rows were large <code>3/10</code> and light <code>2/10</code>. No <code>n=30</code>, <code>n=100</code>, full benchmark, keep-rate tuning, model-loading change, or LLM judge was run. Next step: gated T96 <code>n=30</code> controlled mnt256 comparison.
             </div>
         </header>
 
@@ -488,7 +488,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, and Task95C-R completed the bounded mnt256 resume. <code>n=30</code> remains gated behind bounded confirmation.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, and Task95D confirmed the bounded mnt256 behavior on seed43. T96 is now a gated <code>n=30</code> controlled mnt256 comparison, not a final claim.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -519,11 +519,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>Bounded confirmation after Task95C-R before any <code>n=30</code> move</td>
+                            <td>T96 — controlled <code>n=30</code> mnt256 comparison</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task95C-R — Cap/Tail Policy Resume after GPU Recovery</td>
+                            <td>Task95D — Bounded mnt256 Confirmation</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -547,7 +547,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task95C-R completed or preserved as historical records. Task95C-R repaired the bounded mnt256 proxy gap in <code>n=10</code>; <code>n=30</code> remains blocked pending bounded confirmation.</td>
+                            <td>Task91 through Task95D completed or preserved as historical records. Task95D confirmed the bounded mnt256 light behavior on an independent seed43 <code>n=10</code> sample; T96 may run a gated controlled <code>n=30</code> mnt256 comparison.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1342,10 +1342,16 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
+                            <td><span class="tnum done">T95D</span></td>
+                            <td>Bounded mnt256 Confirmation</td>
+                            <td>Ran a second bounded mnt256 confirmation sample with seed <code>43</code>, <code>n=10</code>, and zero fixture overlap against Task95C-R seed42. Seed43 calibrated strict correctness was large <code>7/10</code> vs light <code>8/10</code>; cap-limited incomplete rows were large <code>3/10</code> vs light <code>2/10</code>. Light remained lower e2e by about <code>0.79s</code> and lower <code>t_compress_ms</code> by about <code>797ms</code>. No <code>n=30</code>, <code>n=100</code>, full benchmark, keep-rate tuning, model-loading change, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/95d-bounded-mnt256-confirmation-report.md</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/task95d_bounded_mnt256_confirmation/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
+                        </tr>
+                        <tr>
                             <td><span class="tnum planned">T96</span></td>
-                            <td>GPU Co-resident Feasibility under 8GB</td>
-                            <td>Check whether the lighter compressor can run on GPU with target/DFlash under 8GB without OOM, segfault, or harmful runtime instability.</td>
-                            <td class="info">PLANNED</td>
+                            <td>Controlled n=30 mnt256 Comparison</td>
+                            <td>Gated next step after Task95D confirmation. Run a controlled <code>n=30</code> mnt256 comparison under the same policy boundaries; this is still not a final speedup, final quality, deployment, or QMSum semantic-correctness claim.</td>
+                            <td class="info">PLANNED / GATED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T97</span></td>
@@ -1356,8 +1362,8 @@
                         <tr>
                             <td><span class="tnum planned">T98</span></td>
                             <td>Controlled n=30 Phase 2 Benchmark</td>
-                            <td>Still blocked. Task95C-R repaired the bounded <code>n=10</code> mnt256 proxy gap, but a small bounded confirmation is recommended before any <code>n=30</code> move.</td>
-                            <td class="stop">BLOCKED</td>
+                            <td>Superseded by the more specific T96 gated controlled <code>n=30</code> mnt256 comparison path after Task95D.</td>
+                            <td class="neu">SUPERSEDED / SEE T96</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T99</span></td>
@@ -1626,6 +1632,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-21</div>
+                <div class="log-body">
+                    <strong>Task95D — Bounded mnt256 Confirmation — PASS_WITH_CAVEAT</strong><br>
+                    Ran exactly two seed43 bounded confirmation jobs: <code>CC-DFlash-R2</code> large and light on <code>gsm8k_short</code>, <code>n=10</code>, <code>max_new_tokens=256</code>. The seed43 fixture set had zero overlap with Task95C-R seed42. Calibrated strict correctness was large <code>7/10</code> and light <code>8/10</code>; cap-limited incomplete rows were large <code>3/10</code> and light <code>2/10</code>. Light remained lower e2e by about <code>0.79s</code> and lower <code>t_compress_ms</code> by about <code>797ms</code>. No <code>n=30</code>, <code>n=100</code>, full benchmark, keep-rate tuning, model-loading change, or LLM judge was run. Recommendation: gated T96 controlled <code>n=30</code> mnt256 comparison.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-21</div>
                 <div class="log-body">
