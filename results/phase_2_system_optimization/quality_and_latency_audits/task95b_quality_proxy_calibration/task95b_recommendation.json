@@ -1,0 +1,20 @@
+{
+  "claim_boundary": {
+    "deterministic_proxy_analysis_only": true,
+    "no_benchmark_run": true,
+    "no_deployment_or_8gb_claim": true,
+    "no_final_quality_claim": true,
+    "no_final_speedup_claim": true,
+    "no_llm_judge": true,
+    "no_model_inference": true,
+    "no_qmsum_semantic_correctness_claim": true
+  },
+  "decision": "A",
+  "n30_recommended_now": false,
+  "next_task": "T95C",
+  "proxy_uncertainty_explains_gap": false,
+  "rationale": "The strict large-vs-light quality gap remains after calibration, and light has cap-limited or wrong-numeric rows that calibration does not count as correct.",
+  "strict_quality_gap_large_minus_light": 3,
+  "t95c_needed": true,
+  "title": "Proceed to T95C Light Compressor Parameter/Tail Policy Triage"
+}

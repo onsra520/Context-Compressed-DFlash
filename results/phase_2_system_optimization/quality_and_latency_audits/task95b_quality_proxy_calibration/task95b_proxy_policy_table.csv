@@ -1,0 +1,7 @@
+label,counted_as_strict_correct,policy
+strict_correct,yes,Task47 strict numeric extraction matches normalized expected answer.
+strict_wrong_numeric,no,"A usable strict numeric answer exists, but it differs from expected."
+cap_limited_incomplete,no,Output appears truncated or unfinished; do not rescue with exact containment or fallback number.
+format_or_extraction_sensitive,no,"Expected answer appears plausibly in text, but strict extraction did not produce a match."
+answer_missing,no,No generated text or no usable numeric answer.
+proxy_uncertain,no,Insufficient deterministic evidence to classify safely.
