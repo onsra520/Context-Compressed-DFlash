@@ -69,9 +69,9 @@ Dependency correction preserved in Task92:
 
 Task92 writes static config-audit artifacts to:
 
-- `results/phase_2_system_optimization/runtime_config_audit/task92_local_model_and_compressor_config_loading/config_resolved_paths.json`
-- `results/phase_2_system_optimization/runtime_config_audit/task92_local_model_and_compressor_config_loading/compressor_profile_resolution.json`
-- `results/phase_2_system_optimization/runtime_config_audit/task92_local_model_and_compressor_config_loading/task92_validation_summary.json`
+- `results/phase_2_system_optimization/runtime_readiness_and_config/task92_local_model_and_compressor_config_loading/config_audit/config_resolved_paths.json`
+- `results/phase_2_system_optimization/runtime_readiness_and_config/task92_local_model_and_compressor_config_loading/config_audit/compressor_profile_resolution.json`
+- `results/phase_2_system_optimization/runtime_readiness_and_config/task92_local_model_and_compressor_config_loading/config_audit/task92_validation_summary.json`
 
 These artifacts are small and safe to commit because they contain only config-resolution and validation-summary data, not benchmark outputs.
 

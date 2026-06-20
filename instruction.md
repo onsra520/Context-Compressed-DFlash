@@ -15,19 +15,22 @@
 
 ---
 
-## Mandatory Reading Order
+## Active Agent Bootstrap
 
-Before starting any meaningful task, read these files in order:
+Before starting any meaningful task, read these sources in order:
 
 1. `instruction.md`
 2. `docs/Roadmap.html`
 3. `docs/CC-DFlash-Overview.html`
+4. The latest relevant task report under `docs/reports/`
 
 Use `docs/Roadmap.html` to determine the current task, next task, task status, required report path, and expected artifacts.
 
 Use `docs/CC-DFlash-Overview.html` to understand the project context, research claim, architecture, benchmark philosophy, and risks.
 
 Use `instruction.md` to determine what is allowed, forbidden, and required during execution.
+
+Do not use Understand-Anything commands. They are no longer part of the active workflow in this environment.
 
 ---
 
@@ -53,58 +56,20 @@ Use `instruction.md` to determine what is allowed, forbidden, and required durin
 
 ---
 
-## Agent Sync Protocol
-
-### Purpose
-
-This protocol keeps human-facing task tracking and automated codebase understanding aligned. It prevents agents from drifting away from the live roadmap, the stable research context, or the latest analyzed codespace state.
-
-### Roadmap vs Understand-Anything Roles
+## Agent Coordination
 
 - `docs/Roadmap.html` is the source of truth for live task progress, task ledger, next task, reports, artifacts, and phase gates.
 - `docs/CC-DFlash-Overview.html` is the source of truth for stable research context, claims, architecture, benchmark philosophy, and risks.
 - `instruction.md` is the source of truth for agent behavior, forbidden actions, update rules, and validation expectations.
-- `Understand-Anything` under `.understand-anything/` is the source of truth for codebase understanding, analyzed nodes, file relationships, and navigation context.
-
-### Bootstrap Commands
-
-Before starting any meaningful task work, run:
-
-```bash
-# 1. Read current task status and next task from Roadmap
-grep -E "Current: Task|Current next:" docs/Roadmap.html | head -n 10
-
-# 2. Identify the latest reports in chronological order
-find docs/reports -maxdepth 1 -type f | sort | tail -5
-
-# 3. Verify actual repository status and history
-git status --short
-git log --oneline -5
-
-# 4. Check current Understand-Anything build metadata if available
-cat .understand-anything/meta.json 2>/dev/null || true
-```
-
-### Reconciliation Rules
-
-- If `docs/Roadmap.html` and the reports in `docs/reports/` disagree, inspect the actual repository state with `git diff` and `git log` before updating any docs.
+- If `docs/Roadmap.html` and the relevant reports disagree, verify the repository state with `git status`, `git diff`, and `git log` before updating docs.
 - Update only with verified, objective facts.
 - Do not overwrite or modify completed task logs or report index entries unless explicitly instructed.
-- Do not invent or consume the next major task number for sync/protocol work.
-- Use the task prefix assigned by `docs/Roadmap.html` or by the user.
-- For auxiliary sync tasks, use a subtask prefix such as `45-5` or `45-sync`.
 
-### What To Update After Each Task
+## What To Update After Each Task
 
-1. `docs/Roadmap.html`: update the task status, add the report filename under the reports index, update the hero badges at the top to list the next task, and add a short entry to the update log.
-2. `docs/reports/`: write a new report file named `<prefix>-<description>-report.md` using the task prefix assigned by `docs/Roadmap.html` or by the user. Do not consume the next major task number for auxiliary sync/protocol work; use a subtask prefix such as `45-5` or `45-sync`.
-3. `Understand-Anything`: if codebase analysis runs or the graph's analyzed nodes advance, note the latest node ID in the completed report.
-
-### Understand-Anything Metadata Rule
-
-- If `.understand-anything/meta.json` is available, read the latest known Understand-Anything node or progress from that file.
-- Do not hard-code a stale node number in `instruction.md`.
-- If no metadata file is available, state that explicitly rather than guessing.
+1. `docs/Roadmap.html`: update the task status, relevant artifact paths, next task, and update log.
+2. `docs/reports/`: create or update a numbered report file for the task under the appropriate report folder.
+3. `docs/CC-DFlash-Overview.html`: update only if research interpretation, claims, architecture, benchmark policy, or risks actually changed.
 
 ### Final Response Checklist
 
@@ -212,24 +177,6 @@ Benchmark interpretation:
 - If HTML docs changed, sanity-check the HTML structure before completion.
 - Always report `git diff --stat` and `git status --short` in the final response.
 
-### Understand-Anything Refresh Rule
-
-After any meaningful task that changes code, tests, scripts, benchmark logic, or canonical docs, the agent must update Understand-Anything graph context when the `/understand` command is available.
-
-Required flow:
-
-1. Before task work, read `.understand-anything/meta.json` if available.
-2. After task work and validation, run `/understand` to incrementally re-analyze changed files and update the Understand dashboard graph.
-3. If the task changes behavior across multiple modules, also run `/understand-diff` when available to inspect impact of current changes.
-4. Record in the task report:
-   - whether `/understand` ran,
-   - whether `/understand-diff` ran,
-   - latest analyzed node/progress if available,
-   - whether `.understand-anything/meta.json` changed.
-5. If the current agent environment does not support slash commands, explicitly say:
-   “Understand-Anything refresh was skipped because `/understand` is not available in this environment.”
-6. Do not claim the graph/dashboard was refreshed unless `/understand` actually ran successfully.
-
 ---
 
 ## Final Response Format
@@ -242,4 +189,3 @@ Final agent response must include:
 4. `git status --short` output
 5. `git diff --stat` output
 6. List of changed files
-7. Understand-Anything refresh/check status: whether `/understand` ran, whether `/understand-diff` ran, whether `.understand-anything/meta.json` changed, or why refresh was skipped

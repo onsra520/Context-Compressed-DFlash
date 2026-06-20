@@ -422,7 +422,7 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv ok">Latest Completed: Task92 — Local Model and Compressor Config Loading Audit</span>
+                <span class="sv ok">Latest Completed: Task92B — Project Instruction Cleanup and Phase 2 Results Skeleton</span>
                 <span class="sv info">Current Next: Task93 — Lighter Compressor Integration</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
@@ -432,7 +432,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task92 completed the local model and compressor config loading audit for Phase 2. Large and light LLMLingua profiles now resolve explicit local compressor paths, prefer local folders over HF model IDs when configured, and fail clearly when a configured local path is missing. Task93 is now the next active step: lighter compressor integration and comparison against the current large compressor profile.
+                Task92B cleaned the active workflow docs and standardized the Phase 2 results skeleton. Understand-Anything is no longer part of the active agent workflow, Task91B and Task92 artifacts now live under <code>runtime_readiness_and_config/</code>, and Task93 is now the next active step: lighter compressor integration and comparison against the current large compressor profile.
             </div>
         </header>
 
@@ -486,8 +486,8 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
-                            <td class="warn">ACTIVE / CONFIG_AUDITED</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, and Task92 completed local model/compressor config loading hardening for Phase 2. Task93 is the active next step: integrate the lighter compressor (<code>llmlingua-2-bert-base-multilingual-cased-meetingbank</code>) and compare it against the current large-compressor path to reduce $T_{\text{compress}}$ without making final speedup, deployment, or QMSum semantic correctness claims.</td>
+                            <td class="warn">ACTIVE / SKELETON_READY</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, and Task92B cleaned the active docs plus standardized the Phase 2 result skeleton. Task93 is the active next step: integrate the lighter compressor (<code>llmlingua-2-bert-base-multilingual-cased-meetingbank</code>) and compare it against the current large-compressor path to reduce $T_{\text{compress}}$ without making final speedup, deployment, or QMSum semantic correctness claims.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -522,7 +522,7 @@
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task92 — Local Model and Compressor Config Loading Audit</td>
+                            <td>Task92B — Project Instruction Cleanup and Phase 2 Results Skeleton</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -546,7 +546,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91, Task91B, and Task92 completed; Task93 ready to start</td>
+                            <td>Task91, Task91B, Task92, and Task92B completed; Task93 ready to start</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1289,19 +1289,25 @@
                         <tr>
                             <td><span class="tnum done">T91B</span></td>
                             <td>Linux GPU Readiness and DFlash Path Audit</td>
-                            <td>Synchronized Linux/Kubuntu runtime for Phase 2; validated dependency pins (<code>torch 2.5.1+cu121</code>, <code>huggingface_hub 0.36.2</code>, <code>transformers 4.57.3</code>), validated local model folders (<code>models/Qwen3-4B</code>, <code>models/Qwen3-4B-DFlash-b16</code>, <code>models/llmlingua-2-xlm-roberta-large-meetingbank</code>, <code>models/llmlingua-2-bert-base-multilingual-cased-meetingbank</code>), validated Qwen3-4B target 4-bit NF4 GPU load, validated DFlash-R1 runner path against Task88, validated CC-DFlash-R2 n=1 large-compressor smoke, organized Task91B tracking under Phase 2 folders, and prepared one-GPU local runtime for target + draft + compressor workflow. <br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/</code><br><code>results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/smoke/</code><br><code>results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/dflash_path_audit/</code></td>
+                            <td>Synchronized Linux/Kubuntu runtime for Phase 2; validated dependency pins (<code>torch 2.5.1+cu121</code>, <code>huggingface_hub 0.36.2</code>, <code>transformers 4.57.3</code>), validated local model folders (<code>models/Qwen3-4B</code>, <code>models/Qwen3-4B-DFlash-b16</code>, <code>models/llmlingua-2-xlm-roberta-large-meetingbank</code>, <code>models/llmlingua-2-bert-base-multilingual-cased-meetingbank</code>), validated Qwen3-4B target 4-bit NF4 GPU load, validated DFlash-R1 runner path against Task88, validated CC-DFlash-R2 n=1 large-compressor smoke, organized Task91B tracking under Phase 2 folders, and prepared one-GPU local runtime for target + draft + compressor workflow. <br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/</code><br><code>results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/smoke/</code><br><code>results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/dflash_path_audit/</code></td>
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T92</span></td>
                             <td>Local Model and Compressor Config Loading Audit</td>
-                            <td>Added explicit local <code>compressor_path</code> fields for large and light LLMLingua profiles, enforced/validated local path resolution, prevented silent HF cache or network drift when a local path is configured, and prepared the config for the one-GPU target + draft + compressor workflow. <br><code>docs/reports/phase_2_system_optimization/92-local-model-and-compressor-config-loading-report.md</code><br><code>results/phase_2_system_optimization/runtime_config_audit/task92_local_model_and_compressor_config_loading/</code></td>
+                            <td>Added explicit local <code>compressor_path</code> fields for large and light LLMLingua profiles, enforced/validated local path resolution, prevented silent HF cache or network drift when a local path is configured, and prepared the config for the one-GPU target + draft + compressor workflow. <br><code>docs/reports/phase_2_system_optimization/92-local-model-and-compressor-config-loading-report.md</code><br><code>results/phase_2_system_optimization/runtime_readiness_and_config/task92_local_model_and_compressor_config_loading/config_audit/</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T92B</span></td>
+                            <td>Project Instruction Cleanup and Phase 2 Results Skeleton</td>
+                            <td>Removed Understand-Anything from the active workflow docs, simplified agent bootstrap to the canonical docs plus latest relevant report, standardized Phase 2 result categories, moved Task91B and Task92 artifacts under <code>runtime_readiness_and_config/</code>, and prepared the clean Phase 2 result skeleton for T93 and later tasks. <br><code>docs/reports/phase_2_system_optimization/92b-project-instruction-cleanup-and-results-skeleton-report.md</code><br><code>results/phase_2_system_optimization/runtime_readiness_and_config/</code><br><code>results/phase_2_system_optimization/compressor_integration/</code><br><code>results/phase_2_system_optimization/compressor_comparison/</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/</code><br><code>results/phase_2_system_optimization/final_reruns/</code></td>
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
                             <td><span class="tnum inprog">T93</span></td>
                             <td>Lighter Compressor Integration</td>
-                            <td>Integrate the lighter LLMLingua-2 BERT-base MeetingBank compressor profile using local path <code>models/llmlingua-2-bert-base-multilingual-cased-meetingbank</code>, compare it against the current large compressor path <code>models/llmlingua-2-xlm-roberta-large-meetingbank</code>, and reduce <code>T_compress</code> while preserving enough compression and keeping the quality proxy near Baseline-AR. This is an integration and feasibility step, not a final benchmark claim.</td>
+                            <td>Integrate and use the lighter LLMLingua-2 BERT-base MeetingBank compressor profile with local path <code>models/llmlingua-2-bert-base-multilingual-cased-meetingbank</code>, compare it against the current large compressor path <code>models/llmlingua-2-xlm-roberta-large-meetingbank</code>, and focus on lowering <code>T_compress</code> to improve end-to-end feasibility. This is an integration and feasibility step, not a final benchmark claim.</td>
                             <td class="warn">NEXT / ACTIVE / READY</td>
                         </tr>
                         <tr>
@@ -1459,7 +1465,7 @@
                         </tr>
                         <tr>
                             <td>Phase 2 Reports</td>
-                            <td><code>docs/reports/phase_2_system_optimization/91-lighter-compressor-feasibility-setup-report.md</code><br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/92-local-model-and-compressor-config-loading-report.md</code><br><code>docs/reports/phase_2_system_optimization/*.md</code> (Task93+ continuing)</td>
+                            <td><code>docs/reports/phase_2_system_optimization/91-lighter-compressor-feasibility-setup-report.md</code><br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/92-local-model-and-compressor-config-loading-report.md</code><br><code>docs/reports/phase_2_system_optimization/92b-project-instruction-cleanup-and-results-skeleton-report.md</code><br><code>docs/reports/phase_2_system_optimization/*.md</code> (Task93+ continuing)</td>
                         </tr>
                         <tr>
                             <td>Extra</td>
@@ -1517,12 +1523,12 @@
                             <td><code>results/_archives/early_smokes/</code></td>
                         </tr>
                         <tr>
-                            <td><strong>Phase 2 Readiness / Audit Artifacts</strong></td>
-                            <td><code>results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/</code><br><code>results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/smoke/</code><br><code>results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/dflash_path_audit/</code></td>
+                            <td><strong>Phase 2 Runtime Readiness / Config Artifacts</strong></td>
+                            <td><code>results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/</code><br><code>results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/smoke/</code><br><code>results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/dflash_path_audit/</code><br><code>results/phase_2_system_optimization/runtime_readiness_and_config/task92_local_model_and_compressor_config_loading/config_audit/</code></td>
                         </tr>
                         <tr>
-                            <td><strong>Phase 2 Runtime Config Audit Artifacts</strong></td>
-                            <td><code>results/phase_2_system_optimization/runtime_config_audit/task92_local_model_and_compressor_config_loading/</code></td>
+                            <td><strong>Phase 2 Future Result Skeleton</strong></td>
+                            <td><code>results/phase_2_system_optimization/compressor_integration/</code><br><code>results/phase_2_system_optimization/compressor_comparison/</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/</code><br><code>results/phase_2_system_optimization/final_reruns/</code></td>
                         </tr>
                         <tr>
                             <td><strong>Deprecated / Removed Artifacts</strong></td>
@@ -1573,23 +1579,29 @@
             </div>
         </section>
 
-        <!-- ─────────────────────────────────────────── ROADMAP & UNDERSTAND-ANYTHING SYNC -->
+        <!-- ─────────────────────────────────────────── ROADMAP COORDINATION -->
         <section>
-            <h2>Roadmap + Understand-Anything Sync</h2>
+            <h2>Roadmap Coordination</h2>
             <div class="note info">
-                <strong>Roadmap &amp; Codespace Alignment Protocol:</strong><br>
-                - <strong>docs/Roadmap.html</strong> serves as the human-readable task and progress tracker. It determines task scheduling, completion logs, and milestones.<br>
-                - <strong>Understand-Anything</strong> functions as the automated codespace understanding graph used by agents for semantic navigation and relationship tracking.<br>
-                - <strong>Current known Understand-Anything node:</strong> read <code>.understand-anything/meta.json</code> when available; do not hard-code a stale node.<br>
-                - Future agents must utilize <strong>Roadmap.html</strong> to get task direction and target objectives, while using the <strong>Understand-Anything</strong> graph/search/grep context for code navigation and dependency analysis.<br>
-                - Every completed task must update <strong>Roadmap.html</strong> and create/update a numbered report under <code>docs/reports/</code>.<br>
-                - If the Understand-Anything analysis progresses, the new node must be documented in the corresponding report and the Roadmap update log.
+                <strong>Canonical workflow:</strong><br>
+                - <strong>instruction.md</strong>, <strong>docs/Roadmap.html</strong>, and <strong>docs/CC-DFlash-Overview.html</strong> are the active canonical docs.<br>
+                - Agents should also read the latest relevant task report under <code>docs/reports/</code> before continuing a task line.<br>
+                - <strong>Roadmap.html</strong> remains the source of truth for live task status, next steps, reports, artifacts, and phase gates.<br>
+                - Understand-Anything is not part of the active workflow in the current environment.<br>
+                - Every completed task must update <strong>Roadmap.html</strong> and create/update a numbered report under <code>docs/reports/</code>.
             </div>
         </section>
 
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-20</div>
+                <div class="log-body">
+                    <strong>Task92B — Project Instruction Cleanup and Phase 2 Results Skeleton — PASS</strong><br>
+                    Removed Understand-Anything from the active workflow docs, simplified the agent bootstrap to canonical docs plus latest relevant report, moved Task91B and Task92 artifacts into <code>runtime_readiness_and_config/</code>, and created the clean Phase 2 result skeleton for T93 and later tasks.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-20</div>
                 <div class="log-body">

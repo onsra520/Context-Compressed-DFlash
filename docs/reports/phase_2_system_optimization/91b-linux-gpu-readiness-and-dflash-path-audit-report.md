@@ -115,9 +115,9 @@ Task92 goals:
 ## 9. Artifact locations
 
 - Report: `docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md`
-- Results base: `results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/`
-- Smoke artifacts: `results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/smoke/`
-- DFlash path audit artifacts: `results/phase_2_system_optimization/readiness_and_gate/task91b_linux_gpu_readiness/dflash_path_audit/`
+- Results base: `results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/`
+- Smoke artifacts: `results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/smoke/`
+- DFlash path audit artifacts: `results/phase_2_system_optimization/runtime_readiness_and_config/task91b_linux_gpu_readiness/dflash_path_audit/`
 
 Local diagnostic logs may exist under `logs/`, but they are local-only support files and are not primary committed artifacts for Task91B.
 
