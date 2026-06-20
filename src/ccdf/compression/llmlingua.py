@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import time
 from typing import Any
 
@@ -22,6 +23,12 @@ class LLMLinguaCompressor(CompressorBase):
         self,
         model_name: str = DEFAULT_LLM_LINGUA_2_MODEL,
         device_map: str = "cpu",
+        compressor_path: str | None = None,
+        resolved_compressor_path: str | None = None,
+        model_source: str | None = None,
+        source_kind: str = "model_name",
+        local_files_only: bool = False,
+        compressor_profile: str = "large",
         use_llmlingua2: bool = True,
         default_keep_rate: float = 0.5,
         llmlingua2_config: dict[str, Any] | None = None,
@@ -31,6 +38,12 @@ class LLMLinguaCompressor(CompressorBase):
     ) -> None:
         self.model_name = model_name
         self.device_map = device_map
+        self.compressor_path = compressor_path
+        self.resolved_compressor_path = resolved_compressor_path
+        self.model_source = model_source or model_name
+        self.source_kind = source_kind
+        self.local_files_only = local_files_only
+        self.compressor_profile = compressor_profile
         self.use_llmlingua2 = use_llmlingua2
         self.default_keep_rate = default_keep_rate
         self.llmlingua2_config = llmlingua2_config or {}
@@ -47,12 +60,19 @@ class LLMLinguaCompressor(CompressorBase):
         config: dict[str, Any] | None = None,
         profile: str = "large",
     ) -> "LLMLinguaCompressor":
-        from ccdf.config.loader import resolve_llmlingua_config
+        from ccdf.config.loader import resolve_compressor_model_source, resolve_llmlingua_config
 
         cfg = resolve_llmlingua_config(config, profile=profile)
+        source = resolve_compressor_model_source(cfg)
         return cls(
             model_name=cfg.get("model_name", DEFAULT_LLM_LINGUA_2_MODEL),
             device_map=cfg.get("device_map", "cpu"),
+            compressor_path=source.get("compressor_path"),
+            resolved_compressor_path=source.get("resolved_compressor_path"),
+            model_source=source.get("source"),
+            source_kind=str(source.get("source_kind", "model_name")),
+            local_files_only=bool(source.get("local_files_only", False)),
+            compressor_profile=str(profile),
             use_llmlingua2=bool(cfg.get("use_llmlingua2", True)),
             default_keep_rate=float(cfg.get("default_keep_rate", 0.5)),
             llmlingua2_config=cfg.get("llmlingua2_config") or {},
@@ -66,6 +86,27 @@ class LLMLinguaCompressor(CompressorBase):
             max_context_words_per_chunk=cfg.get("max_context_words_per_chunk"),
         )
 
+    def _source_metadata(self) -> dict[str, Any]:
+        return {
+            "compressor_model_name": self.model_name,
+            "compressor_path": self.compressor_path,
+            "resolved_compressor_path": self.resolved_compressor_path,
+            "compressor_model_source": self.model_source,
+            "compressor_source_kind": self.source_kind,
+            "local_files_only": self.local_files_only,
+            "compressor_profile": self.compressor_profile,
+        }
+
+    @staticmethod
+    def _supports_constructor_kwarg(constructor, name: str) -> bool:
+        try:
+            parameters = inspect.signature(constructor).parameters.values()
+        except (TypeError, ValueError):
+            return False
+        return any(
+            parameter.kind == inspect.Parameter.VAR_KEYWORD or parameter.name == name
+            for parameter in parameters
+        )
 
     def _get_compressor(self):
         if PromptCompressor is None:
@@ -74,12 +115,16 @@ class LLMLinguaCompressor(CompressorBase):
                 "Install it with: PYTHONPATH=src .venv/bin/python -m pip install llmlingua>=0.2.0"
             )
         if self._compressor is None:
-            self._compressor = PromptCompressor(
-                model_name=self.model_name,
-                device_map=self.device_map,
-                use_llmlingua2=self.use_llmlingua2,
-                llmlingua2_config=self.llmlingua2_config,
-            )
+            kwargs = {
+                "model_name": self.model_source,
+                "device_map": self.device_map,
+                "use_llmlingua2": self.use_llmlingua2,
+                "llmlingua2_config": self.llmlingua2_config,
+            }
+            constructor = getattr(PromptCompressor, "__init__", PromptCompressor)
+            if self._supports_constructor_kwarg(constructor, "local_files_only"):
+                kwargs["local_files_only"] = self.local_files_only
+            self._compressor = PromptCompressor(**kwargs)
         return self._compressor
 
     def _get_tokenizer(self, compressor):
@@ -102,7 +147,10 @@ class LLMLinguaCompressor(CompressorBase):
         try:
             from transformers import AutoTokenizer
 
-            self._tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+            self._tokenizer = AutoTokenizer.from_pretrained(
+                self.model_source,
+                local_files_only=self.local_files_only,
+            )
             self._tokenizer_is_fallback = False
             return self._tokenizer
         except Exception:  # pragma: no cover - fallback is only for hostile runtime environments
@@ -287,6 +335,7 @@ class LLMLinguaCompressor(CompressorBase):
                 "compressor_chunk_safety_margin": DEFAULT_ENCODER_MAX_LENGTH - self.max_context_tokens_per_chunk,
                 "compressor_chunk_backend_calls": 0,
             }
+            info.update(self._source_metadata())
             return merged_text, info
 
         compressor = self._get_compressor()
@@ -347,6 +396,7 @@ class LLMLinguaCompressor(CompressorBase):
             "compressor_chunk_safety_margin": chunk_plan["safety_margin"],
             "compressor_chunk_backend_calls": backend_calls,
         }
+        info.update(self._source_metadata())
         return merged_text, info
 
 

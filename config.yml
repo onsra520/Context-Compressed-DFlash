@@ -13,12 +13,16 @@ compression:
     keep_rate: 1.0
     large_llmlingua:
         model_name: microsoft/llmlingua-2-xlm-roberta-large-meetingbank
+        compressor_path: models/llmlingua-2-xlm-roberta-large-meetingbank
         device_map: cpu
+        local_files_only: true
         use_llmlingua2: true
         default_keep_rate: 0.5
     light_llmlingua:
         model_name: microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
-        device_map: cuda:0
+        compressor_path: models/llmlingua-2-bert-base-multilingual-cased-meetingbank
+        device_map: cpu
+        local_files_only: true
         use_llmlingua2: true
         default_keep_rate: 0.5
 
