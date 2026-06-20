@@ -1,0 +1,14 @@
+{
+  "analyzer_complete": true,
+  "decision": "PASS_WITH_CAVEAT",
+  "gpu_blocked": false,
+  "keep_rate_tuning_in_this_task": false,
+  "light_cap_limited_reduced": true,
+  "light_quality_gap_large256_minus_light256": 0,
+  "light_strict_correct_improved": true,
+  "light_tcompress_advantage_remains": true,
+  "n30_recommended_now": false,
+  "next_task": "bounded_confirmation_only",
+  "reason": "mnt256 strongly improved light and reduced cap-limited rows; confirm boundedly before n=30.",
+  "runs_complete": true
+}

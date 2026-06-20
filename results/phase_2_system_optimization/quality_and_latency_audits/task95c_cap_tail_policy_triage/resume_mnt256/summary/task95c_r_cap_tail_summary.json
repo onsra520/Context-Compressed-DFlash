@@ -1,0 +1,255 @@
+{
+  "claim_boundary": {
+    "deterministic_proxy_only": true,
+    "no_deployment_or_8gb_claim": true,
+    "no_final_quality_claim": true,
+    "no_final_speedup_claim": true,
+    "no_full_benchmark_claim": true,
+    "no_qmsum_semantic_correctness_claim": true
+  },
+  "comparisons": {
+    "large_128_vs_256": {
+      "avg_R_actual_delta": 0.0,
+      "avg_e2e_time_s_delta": 0.680947,
+      "avg_output_length_chars_delta": 86.8,
+      "avg_t_compress_ms_delta": 82.5075,
+      "avg_tau_mean_delta": -0.036027,
+      "avg_tokens_per_second_delta": -2.471207,
+      "cap_limited_incomplete_delta": -4,
+      "final_answer_marker_delta": 4,
+      "strict_correct_delta": 3,
+      "strict_wrong_numeric_delta": 1
+    },
+    "large_256_vs_light_256": {
+      "avg_R_actual_delta": -0.666667,
+      "avg_e2e_time_s_delta": -0.692687,
+      "avg_output_length_chars_delta": 41.5,
+      "avg_t_compress_ms_delta": -859.65087,
+      "avg_tau_mean_delta": -0.145266,
+      "avg_tokens_per_second_delta": -0.753546,
+      "cap_limited_incomplete_delta": 0,
+      "final_answer_marker_delta": 0,
+      "strict_correct_delta": 0,
+      "strict_wrong_numeric_delta": 0
+    },
+    "light_128_vs_256": {
+      "avg_R_actual_delta": 0.0,
+      "avg_e2e_time_s_delta": 0.630685,
+      "avg_output_length_chars_delta": 102.5,
+      "avg_t_compress_ms_delta": 6.578173,
+      "avg_tau_mean_delta": 0.000979,
+      "avg_tokens_per_second_delta": -2.046102,
+      "cap_limited_incomplete_delta": -6,
+      "final_answer_marker_delta": 6,
+      "strict_correct_delta": 6,
+      "strict_wrong_numeric_delta": 0
+    }
+  },
+  "method": {
+    "condition": "CC-DFlash-R2",
+    "dataset": "gsm8k_short",
+    "keep_rate_tuning": false,
+    "llm_judge": false,
+    "model_loading_in_analyzer": false,
+    "n": 10,
+    "n100_run": false,
+    "n30_run": false,
+    "only_changed_max_new_tokens": "128_to_256",
+    "seed": 42,
+    "strict_policy_source": "Task95B calibrated policy"
+  },
+  "profiles": {
+    "large_128": {
+      "artifact": "results/phase_2_system_optimization/compressor_comparison/task94_light_vs_large_compressor_controlled_comparison/runs/20260620_192758_cc_dflash_r2_large_n10.jsonl",
+      "avg_R_actual": 2.666667,
+      "avg_e2e_time_s": 3.10351,
+      "avg_output_length_chars": 341.5,
+      "avg_t_compress_ms": 1190.111126,
+      "avg_tau_mean": 6.061607,
+      "avg_tokens_per_second": 64.455549,
+      "calibrated_label_counts": {
+        "answer_missing": 0,
+        "cap_limited_incomplete": 5,
+        "format_or_extraction_sensitive": 0,
+        "proxy_uncertain": 0,
+        "strict_correct": 5,
+        "strict_wrong_numeric": 0
+      },
+      "cap_limited_incomplete_count": 5,
+      "compressor_metadata_sanity": {
+        "expected_max_new_tokens": 128,
+        "expected_profile": "large",
+        "metadata_ok": true,
+        "observed_conditions": [
+          "CC-DFlash-R2"
+        ],
+        "observed_keep_rates": [
+          "0.5"
+        ],
+        "rows_missing_compressor_path": 0,
+        "rows_missing_compressor_profile": 0,
+        "rows_missing_or_false_local_files_only": 0,
+        "rows_missing_resolved_compressor_path": 0,
+        "rows_wrong_compressor_profile": 0,
+        "rows_wrong_max_new_tokens": 0
+      },
+      "exact_containment_count": 7,
+      "final_answer_marker_count": 5,
+      "invalid_or_empty_output_count": 0,
+      "key": "large_128",
+      "max_new_tokens": 128,
+      "profile": "large",
+      "row_count": 10,
+      "strict_correct_count": 5,
+      "strict_wrong_numeric_count": 0
+    },
+    "large_256": {
+      "artifact": "results/phase_2_system_optimization/quality_and_latency_audits/task95c_cap_tail_policy_triage/resume_mnt256/runs/20260621_024734_cc_dflash_r2_large_n10_mnt256.jsonl",
+      "avg_R_actual": 2.666667,
+      "avg_e2e_time_s": 3.784457,
+      "avg_output_length_chars": 428.3,
+      "avg_t_compress_ms": 1272.618626,
+      "avg_tau_mean": 6.02558,
+      "avg_tokens_per_second": 61.984342,
+      "calibrated_label_counts": {
+        "answer_missing": 0,
+        "cap_limited_incomplete": 1,
+        "format_or_extraction_sensitive": 0,
+        "proxy_uncertain": 0,
+        "strict_correct": 8,
+        "strict_wrong_numeric": 1
+      },
+      "cap_limited_incomplete_count": 1,
+      "compressor_metadata_sanity": {
+        "expected_max_new_tokens": 256,
+        "expected_profile": "large",
+        "metadata_ok": true,
+        "observed_conditions": [
+          "CC-DFlash-R2"
+        ],
+        "observed_keep_rates": [
+          "0.5"
+        ],
+        "rows_missing_compressor_path": 0,
+        "rows_missing_compressor_profile": 0,
+        "rows_missing_or_false_local_files_only": 0,
+        "rows_missing_resolved_compressor_path": 0,
+        "rows_wrong_compressor_profile": 0,
+        "rows_wrong_max_new_tokens": 0
+      },
+      "exact_containment_count": 10,
+      "final_answer_marker_count": 9,
+      "invalid_or_empty_output_count": 0,
+      "key": "large_256",
+      "max_new_tokens": 256,
+      "profile": "large",
+      "row_count": 10,
+      "strict_correct_count": 8,
+      "strict_wrong_numeric_count": 1
+    },
+    "light_128": {
+      "artifact": "results/phase_2_system_optimization/compressor_comparison/task94_light_vs_large_compressor_controlled_comparison/runs/20260620_192904_cc_dflash_r2_light_n10.jsonl",
+      "avg_R_actual": 2.0,
+      "avg_e2e_time_s": 2.461085,
+      "avg_output_length_chars": 367.3,
+      "avg_t_compress_ms": 406.389583,
+      "avg_tau_mean": 5.879335,
+      "avg_tokens_per_second": 63.276898,
+      "calibrated_label_counts": {
+        "answer_missing": 0,
+        "cap_limited_incomplete": 7,
+        "format_or_extraction_sensitive": 0,
+        "proxy_uncertain": 0,
+        "strict_correct": 2,
+        "strict_wrong_numeric": 1
+      },
+      "cap_limited_incomplete_count": 7,
+      "compressor_metadata_sanity": {
+        "expected_max_new_tokens": 128,
+        "expected_profile": "light",
+        "metadata_ok": true,
+        "observed_conditions": [
+          "CC-DFlash-R2"
+        ],
+        "observed_keep_rates": [
+          "0.5"
+        ],
+        "rows_missing_compressor_path": 0,
+        "rows_missing_compressor_profile": 0,
+        "rows_missing_or_false_local_files_only": 0,
+        "rows_missing_resolved_compressor_path": 0,
+        "rows_wrong_compressor_profile": 0,
+        "rows_wrong_max_new_tokens": 0
+      },
+      "exact_containment_count": 4,
+      "final_answer_marker_count": 3,
+      "invalid_or_empty_output_count": 0,
+      "key": "light_128",
+      "max_new_tokens": 128,
+      "profile": "light",
+      "row_count": 10,
+      "strict_correct_count": 2,
+      "strict_wrong_numeric_count": 1
+    },
+    "light_256": {
+      "artifact": "results/phase_2_system_optimization/quality_and_latency_audits/task95c_cap_tail_policy_triage/resume_mnt256/runs/20260621_024839_cc_dflash_r2_light_n10_mnt256.jsonl",
+      "avg_R_actual": 2.0,
+      "avg_e2e_time_s": 3.09177,
+      "avg_output_length_chars": 469.8,
+      "avg_t_compress_ms": 412.967756,
+      "avg_tau_mean": 5.880314,
+      "avg_tokens_per_second": 61.230796,
+      "calibrated_label_counts": {
+        "answer_missing": 0,
+        "cap_limited_incomplete": 1,
+        "format_or_extraction_sensitive": 0,
+        "proxy_uncertain": 0,
+        "strict_correct": 8,
+        "strict_wrong_numeric": 1
+      },
+      "cap_limited_incomplete_count": 1,
+      "compressor_metadata_sanity": {
+        "expected_max_new_tokens": 256,
+        "expected_profile": "light",
+        "metadata_ok": true,
+        "observed_conditions": [
+          "CC-DFlash-R2"
+        ],
+        "observed_keep_rates": [
+          "0.5"
+        ],
+        "rows_missing_compressor_path": 0,
+        "rows_missing_compressor_profile": 0,
+        "rows_missing_or_false_local_files_only": 0,
+        "rows_missing_resolved_compressor_path": 0,
+        "rows_wrong_compressor_profile": 0,
+        "rows_wrong_max_new_tokens": 0
+      },
+      "exact_containment_count": 9,
+      "final_answer_marker_count": 9,
+      "invalid_or_empty_output_count": 0,
+      "key": "light_256",
+      "max_new_tokens": 256,
+      "profile": "light",
+      "row_count": 10,
+      "strict_correct_count": 8,
+      "strict_wrong_numeric_count": 1
+    }
+  },
+  "recommendation": {
+    "analyzer_complete": true,
+    "decision": "PASS_WITH_CAVEAT",
+    "gpu_blocked": false,
+    "keep_rate_tuning_in_this_task": false,
+    "light_cap_limited_reduced": true,
+    "light_quality_gap_large256_minus_light256": 0,
+    "light_strict_correct_improved": true,
+    "light_tcompress_advantage_remains": true,
+    "n30_recommended_now": false,
+    "next_task": "bounded_confirmation_only",
+    "reason": "mnt256 strongly improved light and reduced cap-limited rows; confirm boundedly before n=30.",
+    "runs_complete": true
+  },
+  "task": "Task95C",
+  "title": "Cap/Tail Policy Triage"
+}

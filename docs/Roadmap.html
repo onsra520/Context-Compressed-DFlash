@@ -422,9 +422,9 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv ok">Latest Completed: Task95B — Quality Proxy Calibration</span>
-                <span class="sv warn">Latest Attempted: Task95C — PARTIAL / GPU blocked</span>
-                <span class="sv info">Current Next: Restore GPU and rerun bounded Task95C only</span>
+                <span class="sv go">Latest Completed: Task95C-R — Cap/Tail Policy Resume</span>
+                <span class="sv warn">Task95C remains PARTIAL historical record</span>
+                <span class="sv info">Current Next: Bounded confirmation before any n=30 move</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -433,7 +433,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task95C completed the static cap audit and confirmed that Task94 light has more cap-limited incomplete rows than large, but the bounded <code>max_new_tokens=256</code> comparison was blocked because CUDA was unavailable. No benchmark, <code>n=30</code>, <code>n=100</code>, full benchmark, or keep-rate tuning was run. Next step: restore GPU availability and rerun only the bounded Task95C large/light <code>n=10</code> mnt256 jobs.
+                Task95C-R resumed only the bounded <code>max_new_tokens=256</code> comparison after GPU recovery. Large and light each completed <code>n=10</code>; calibrated strict correctness moved to large <code>8/10</code> and light <code>8/10</code>, while cap-limited incomplete rows fell to <code>1/10</code> for both. No <code>n=30</code>, <code>n=100</code>, full benchmark, keep-rate tuning, model-loading change, or LLM judge was run. Next step: bounded confirmation before any larger run.
             </div>
         </header>
 
@@ -488,7 +488,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, and Task95B calibrated the quality proxy. T95C completed static cap audit but the bounded mnt256 run is GPU-blocked; <code>n=30</code> is still gated.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, and Task95C-R completed the bounded mnt256 resume. <code>n=30</code> remains gated behind bounded confirmation.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -519,11 +519,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>Task95B — Quality Proxy Calibration</td>
+                            <td>Bounded confirmation after Task95C-R before any <code>n=30</code> move</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task95A — Analysis and Failure Row Audit</td>
+                            <td>Task95C-R — Cap/Tail Policy Resume after GPU Recovery</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -547,7 +547,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91, Task91B, Task92, Task92B, Task93, Task94, and Task95A completed; Task95B ready to start; Task95C conditional; <code>n=30</code> remains blocked until the T95B/T95C decision</td>
+                            <td>Task91 through Task95C-R completed or preserved as historical records. Task95C-R repaired the bounded mnt256 proxy gap in <code>n=10</code>; <code>n=30</code> remains blocked pending bounded confirmation.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1336,6 +1336,12 @@
                             <td class="warn">PARTIAL / GPU BLOCKED</td>
                         </tr>
                         <tr>
+                            <td><span class="tnum done">T95C-R</span></td>
+                            <td>Cap/Tail Policy Resume after GPU Recovery</td>
+                            <td>Resumed only the bounded mnt256 comparison after GPU recovery: large and light each ran <code>CC-DFlash-R2</code>, <code>gsm8k_short</code>, seed <code>42</code>, <code>n=10</code>, <code>max_new_tokens=256</code>. Calibrated strict correctness improved to large <code>8/10</code> and light <code>8/10</code>; cap-limited incomplete rows fell to <code>1/10</code> for both. No <code>n=30</code>, <code>n=100</code>, full benchmark, keep-rate tuning, model-loading change, or LLM judge was run. Next step: bounded confirmation before any larger run. <br><code>docs/reports/phase_2_system_optimization/95c-r-cap-tail-policy-resume-report.md</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/task95c_cap_tail_policy_triage/resume_mnt256/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
+                        </tr>
+                        <tr>
                             <td><span class="tnum planned">T96</span></td>
                             <td>GPU Co-resident Feasibility under 8GB</td>
                             <td>Check whether the lighter compressor can run on GPU with target/DFlash under 8GB without OOM, segfault, or harmful runtime instability.</td>
@@ -1350,7 +1356,7 @@
                         <tr>
                             <td><span class="tnum planned">T98</span></td>
                             <td>Controlled n=30 Phase 2 Benchmark</td>
-                            <td>Blocked until Task95C completes the bounded mnt256 comparison after GPU availability is restored and decides whether cap/tail policy explains enough of the light quality gap.</td>
+                            <td>Still blocked. Task95C-R repaired the bounded <code>n=10</code> mnt256 proxy gap, but a small bounded confirmation is recommended before any <code>n=30</code> move.</td>
                             <td class="stop">BLOCKED</td>
                         </tr>
                         <tr>
@@ -1620,6 +1626,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-21</div>
+                <div class="log-body">
+                    <strong>Task95C-R — Cap/Tail Policy Resume after GPU Recovery — PASS_WITH_CAVEAT</strong><br>
+                    Resumed only the bounded Task95C mnt256 comparison after GPU recovery. Both <code>CC-DFlash-R2</code> large and light completed <code>gsm8k_short</code>, seed <code>42</code>, <code>n=10</code>, <code>max_new_tokens=256</code>. Calibrated strict correctness improved from large <code>5/10</code> and light <code>2/10</code> at mnt128 to <code>8/10</code> for both at mnt256; cap-limited incomplete rows fell from large <code>5/10</code> and light <code>7/10</code> to <code>1/10</code> for both. Light e2e increased by about <code>0.63s</code> but remained about <code>0.69s</code> below large mnt256. No <code>n=30</code>, <code>n=100</code>, full benchmark, keep-rate tuning, model-loading change, or LLM judge was run. Recommendation: bounded confirmation before any larger comparison.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-21</div>
                 <div class="log-body">

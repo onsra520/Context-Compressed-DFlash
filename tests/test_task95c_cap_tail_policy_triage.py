@@ -99,6 +99,42 @@ def test_analyzer_compares_four_artifacts_and_writes_outputs(tmp_path: Path) -> 
     assert (table_dir / "task95c_cap_tail_table.csv").exists()
 
 
+def test_analyzer_can_write_resume_prefixed_outputs(tmp_path: Path) -> None:
+    large128 = tmp_path / "large128.jsonl"
+    light128 = tmp_path / "light128.jsonl"
+    large256 = tmp_path / "large256.jsonl"
+    light256 = tmp_path / "light256.jsonl"
+    summary_dir = tmp_path / "summary"
+    table_dir = tmp_path / "tables"
+
+    for path, profile, max_new_tokens in (
+        (large128, "large", 128),
+        (light128, "light", 128),
+        (large256, "large", 256),
+        (light256, "light", 256),
+    ):
+        _write_jsonl(
+            path,
+            [_row("a", "1", "Final answer: 1", profile=profile, max_new_tokens=max_new_tokens)],
+        )
+
+    t95c.analyze(
+        large128,
+        light128,
+        large256,
+        light256,
+        summary_dir,
+        table_dir,
+        output_prefix="task95c_r",
+    )
+
+    assert (summary_dir / "task95c_r_cap_tail_summary.json").exists()
+    assert (summary_dir / "task95c_r_row_delta_analysis.jsonl").exists()
+    assert (summary_dir / "task95c_r_recommendation.json").exists()
+    assert (table_dir / "task95c_r_cap_tail_table.csv").exists()
+    assert not (summary_dir / "task95c_cap_tail_summary.json").exists()
+
+
 def test_recommendation_blocks_n30_and_keep_rate_when_light_quality_remains_weak(tmp_path: Path) -> None:
     summary = {
         "profiles": {

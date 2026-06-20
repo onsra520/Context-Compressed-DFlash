@@ -351,6 +351,8 @@ def analyze(
     light256_jsonl: Path,
     summary_dir: Path,
     table_dir: Path,
+    *,
+    output_prefix: str = "task95c",
 ) -> dict[str, Any]:
     profiles = {
         "large_128": summarize_artifact(large128_jsonl, profile="large", max_new_tokens_setting=128),
@@ -399,10 +401,10 @@ def analyze(
     recommendation = build_recommendation(summary, runs_complete=True, analyzer_complete=True)
     summary["recommendation"] = recommendation
 
-    _write_json(summary_dir / "task95c_cap_tail_summary.json", summary)
-    _write_jsonl(summary_dir / "task95c_row_delta_analysis.jsonl", row_deltas)
-    _write_json(summary_dir / "task95c_recommendation.json", recommendation)
-    _write_csv(table_dir / "task95c_cap_tail_table.csv", _table_rows(profiles))
+    _write_json(summary_dir / f"{output_prefix}_cap_tail_summary.json", summary)
+    _write_jsonl(summary_dir / f"{output_prefix}_row_delta_analysis.jsonl", row_deltas)
+    _write_json(summary_dir / f"{output_prefix}_recommendation.json", recommendation)
+    _write_csv(table_dir / f"{output_prefix}_cap_tail_table.csv", _table_rows(profiles))
     return summary
 
 
@@ -446,6 +448,7 @@ def main() -> None:
     parser.add_argument("--light256-jsonl", type=Path, required=True)
     parser.add_argument("--summary-dir", type=Path, default=DEFAULT_SUMMARY_DIR)
     parser.add_argument("--table-dir", type=Path, default=DEFAULT_TABLE_DIR)
+    parser.add_argument("--output-prefix", default="task95c")
     args = parser.parse_args()
 
     summary = analyze(
@@ -455,13 +458,14 @@ def main() -> None:
         args.light256_jsonl,
         args.summary_dir,
         args.table_dir,
+        output_prefix=args.output_prefix,
     )
     recommendation = summary["recommendation"]
     print(f"status={recommendation['decision']}")
     print(f"n30_recommended_now={recommendation['n30_recommended_now']}")
     print(f"next_task={recommendation['next_task']}")
-    print(f"wrote_summary={args.summary_dir / 'task95c_cap_tail_summary.json'}")
-    print(f"wrote_table={args.table_dir / 'task95c_cap_tail_table.csv'}")
+    print(f"wrote_summary={args.summary_dir / f'{args.output_prefix}_cap_tail_summary.json'}")
+    print(f"wrote_table={args.table_dir / f'{args.output_prefix}_cap_tail_table.csv'}")
 
 
 if __name__ == "__main__":
