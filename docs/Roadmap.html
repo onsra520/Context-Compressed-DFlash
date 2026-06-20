@@ -422,7 +422,7 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv ok">Latest Completed: Task91 — Lighter Compressor Feasibility Setup</span>
+                <span class="sv ok">Latest Completed: Task91B — Linux GPU Readiness and DFlash Path Audit</span>
                 <span class="sv info">Current Next: Task92 — Lighter Compressor Integration</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
@@ -432,7 +432,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task90 validates post-cleanup reproducibility from canonical data pipeline to n=3 matrix rerun. It does not replace Task88 controlled n=30 benchmark metrics.
+                Task91B completed Linux/Kubuntu GPU readiness and DFlash path audit for Phase 2. The local runtime now validates target Qwen3-4B 4-bit GPU loading, the DFlash-R1 runner path against Task88, and CC-DFlash-R2 large-compressor n=1 smoke. Task92 is now the next active step: integrate the lighter LLMLingua-2 BERT-base MeetingBank compressor and compare it against the current large compressor path to reduce T_compress without making final benchmark claims.
             </div>
         </header>
 
@@ -486,8 +486,8 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
-                            <td class="info">PLANNED</td>
-                            <td>After Task90, Phase 2 focuses on $T_{\text{compress}}$ reduction via a lighter compressor (llmlingua-2-bert-base-multilingual-cased-meetingbank), checking integration, budgets, quality proxy preservation, GPU coresident stability, and running optimized reruns (T91–T100).</td>
+                            <td class="warn">ACTIVE / READINESS_PASS</td>
+                            <td>Task91 completed feasibility setup and Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation for Phase 2. Task92 is the active next step: integrate the lighter compressor (<code>llmlingua-2-bert-base-multilingual-cased-meetingbank</code>) and compare it against the current large-compressor path to reduce $T_{\text{compress}}$ without making final speedup, deployment, or QMSum semantic correctness claims.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -522,7 +522,7 @@
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task91 — Lighter Compressor Feasibility Setup</td>
+                            <td>Task91B — Linux GPU Readiness and DFlash Path Audit</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -546,7 +546,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>planned after Task90</td>
+                            <td>Task91 and Task91B completed; Task92 ready to start</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1287,10 +1287,16 @@
                             <td class="go">PASS_WITH_NOTES</td>
                         </tr>
                         <tr>
+                            <td><span class="tnum done">T91B</span></td>
+                            <td>Linux GPU Readiness and DFlash Path Audit</td>
+                            <td>Synchronized Linux/Kubuntu runtime for Phase 2; validated dependency pins (<code>torch 2.5.1+cu121</code>, <code>huggingface_hub 0.36.2</code>, <code>transformers 4.57.3</code>), validated local model folders (<code>models/Qwen3-4B</code>, <code>models/Qwen3-4B-DFlash-b16</code>, <code>models/llmlingua-2-xlm-roberta-large-meetingbank</code>, <code>models/llmlingua-2-bert-base-multilingual-cased-meetingbank</code>), validated Qwen3-4B target 4-bit NF4 GPU load, validated DFlash-R1 runner path against Task88, validated CC-DFlash-R2 n=1 large-compressor smoke, organized Task91B tracking under Phase 2 folders, and prepared one-GPU local runtime for target + draft + compressor workflow. <br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>results/phase_2_system_optimization/91b_linux_gpu_readiness_and_dflash_path_audit/</code><br><code>logs/phase_2_system_optimization/91b_linux_gpu_readiness_and_dflash_path_audit/</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
                             <td><span class="tnum inprog">T92</span></td>
                             <td>Lighter Compressor Integration</td>
-                            <td>Add runner/config support for the lighter compressor without breaking the existing large-compressor path.</td>
-                            <td class="warn">NEXT</td>
+                            <td>Integrate the lighter LLMLingua-2 BERT-base MeetingBank compressor profile using local path <code>models/llmlingua-2-bert-base-multilingual-cased-meetingbank</code>, compare it against the current large compressor path <code>models/llmlingua-2-xlm-roberta-large-meetingbank</code>, and reduce <code>T_compress</code> while preserving enough compression and keeping the quality proxy near Baseline-AR. This is an integration and feasibility step, not a final benchmark claim.</td>
+                            <td class="warn">NEXT / ACTIVE / READY</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T93</span></td>
@@ -1447,7 +1453,7 @@
                         </tr>
                         <tr>
                             <td>Phase 2 Reports</td>
-                            <td><code>docs/reports/phase_2_system_optimization/*.md</code> (Planned)</td>
+                            <td><code>docs/reports/phase_2_system_optimization/91-lighter-compressor-feasibility-setup-report.md</code><br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/*.md</code> (Task92+ continuing)</td>
                         </tr>
                         <tr>
                             <td>Extra</td>
@@ -1503,6 +1509,10 @@
                         <tr>
                             <td><strong>Archives</strong></td>
                             <td><code>results/_archives/early_smokes/</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2 Readiness / Audit Artifacts</strong></td>
+                            <td><code>results/phase_2_system_optimization/91b_linux_gpu_readiness_and_dflash_path_audit/</code><br><code>logs/phase_2_system_optimization/91b_linux_gpu_readiness_and_dflash_path_audit/</code></td>
                         </tr>
                         <tr>
                             <td><strong>Deprecated / Removed Artifacts</strong></td>
@@ -1570,6 +1580,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-20</div>
+                <div class="log-body">
+                    <strong>Task91B — Linux GPU Readiness and DFlash Path Audit — PASS</strong><br>
+                    Updated Phase 2 roadmap status for Linux/Kubuntu GPU readiness and DFlash path validation. Task91B is recorded as a readiness/path audit only: validated local Phase 2 runtime assumptions, DFlash-R1 runner-path evidence against Task88, and a CC-DFlash-R2 large-compressor n=1 smoke. Task92 is now the active next step for lighter compressor integration without making final benchmark, deployment, or QMSum semantic correctness claims.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-18</div>
                 <div class="log-body">
