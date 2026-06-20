@@ -422,9 +422,9 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv go">Latest Completed: Task95D — Bounded mnt256 Confirmation</span>
+                <span class="sv go">Latest Completed: Task96 — n=30 Controlled mnt256 Comparison</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv info">Current Next: T96 n=30 controlled mnt256 comparison</span>
+                <span class="sv info">Current Next: T97 packaging controlled evidence summary</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -433,7 +433,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task95D completed a bounded seed43 mnt256 confirmation sample with zero fixture overlap against Task95C-R seed42. Seed43 calibrated strict correctness was large <code>7/10</code> and light <code>8/10</code>; cap-limited incomplete rows were large <code>3/10</code> and light <code>2/10</code>. No <code>n=30</code>, <code>n=100</code>, full benchmark, keep-rate tuning, model-loading change, or LLM judge was run. Next step: gated T96 <code>n=30</code> controlled mnt256 comparison.
+                Task96 completed the gated <code>n=30</code> mnt256 comparison for <code>CC-DFlash-R2</code> on <code>gsm8k_short</code>, seed <code>42</code>. Calibrated strict correctness tied at large <code>22/30</code> and light <code>22/30</code>; cap-limited incomplete rows tied at <code>5/30</code> for both. Light remained lower e2e by about <code>0.74s</code> and lower <code>t_compress_ms</code> by about <code>838ms</code>. No <code>n=100</code>, full benchmark, Baseline-AR, DFlash-R1, QMSum, keep-rate tuning, model-loading change, model download, or LLM judge was run. Next step: T97 packaging controlled evidence summary.
             </div>
         </header>
 
@@ -488,7 +488,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, and Task95D confirmed the bounded mnt256 behavior on seed43. T96 is now a gated <code>n=30</code> controlled mnt256 comparison, not a final claim.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, and Task96 confirmed the bounded behavior at <code>n=30</code>. T97 is now a controlled evidence packaging step, not a final claim.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -519,11 +519,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T96 — controlled <code>n=30</code> mnt256 comparison</td>
+                            <td>T97 — packaging controlled Phase 2 evidence summary</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task95D — Bounded mnt256 Confirmation</td>
+                            <td>Task96 — n=30 Controlled mnt256 Comparison</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -547,7 +547,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task95D completed or preserved as historical records. Task95D confirmed the bounded mnt256 light behavior on an independent seed43 <code>n=10</code> sample; T96 may run a gated controlled <code>n=30</code> mnt256 comparison.</td>
+                            <td>Task91 through Task96 completed or preserved as historical records. Task96 confirmed the bounded mnt256 light behavior at <code>n=30</code>; T97 should package the controlled evidence before any further scaling decision.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1348,16 +1348,16 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T96</span></td>
+                            <td><span class="tnum done">T96</span></td>
                             <td>Controlled n=30 mnt256 Comparison</td>
-                            <td>Gated next step after Task95D confirmation. Run a controlled <code>n=30</code> mnt256 comparison under the same policy boundaries; this is still not a final speedup, final quality, deployment, or QMSum semantic-correctness claim.</td>
-                            <td class="info">PLANNED / GATED</td>
+                            <td>Ran exactly two controlled Task96 jobs: <code>CC-DFlash-R2</code> large and light on <code>gsm8k_short</code>, seed <code>42</code>, <code>n=30</code>, <code>max_new_tokens=256</code>. Calibrated strict correctness tied at <code>22/30</code> for both profiles; cap-limited incomplete rows tied at <code>5/30</code>. Light remained lower e2e by about <code>0.74s</code> and lower <code>t_compress_ms</code> by about <code>838ms</code>. No <code>n=100</code>, full benchmark, Baseline-AR, DFlash-R1, QMSum, keep-rate tuning, model-loading change, model download, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/96-n30-controlled-mnt256-comparison-report.md</code><br><code>results/phase_2_system_optimization/compressor_comparison/task96_n30_controlled_mnt256_comparison/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T97</span></td>
-                            <td>Controlled n=10 Optimized CC-DFlash Rerun</td>
-                            <td>Run controlled n=10 benchmark with the best validated lighter-compressor setting.</td>
-                            <td class="info">PLANNED</td>
+                            <td>Packaging Controlled Phase 2 Evidence Summary</td>
+                            <td>Package the Task94 through Task96 controlled evidence, document the light-vs-large tradeoff, preserve claim boundaries, and decide explicitly whether any further scaling is justified. This is not an automatic <code>n=100</code> or full benchmark authorization.</td>
+                            <td class="info">PLANNED / GATED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T98</span></td>
@@ -1632,6 +1632,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-21</div>
+                <div class="log-body">
+                    <strong>Task96 — n=30 Controlled mnt256 Comparison — PASS_WITH_CAVEAT</strong><br>
+                    Ran exactly two gated Task96 jobs: <code>CC-DFlash-R2</code> large and light on <code>gsm8k_short</code>, seed <code>42</code>, <code>n=30</code>, <code>max_new_tokens=256</code>. Calibrated strict correctness tied at large <code>22/30</code> and light <code>22/30</code>; cap-limited incomplete rows tied at <code>5/30</code> for both. Light remained lower e2e by about <code>0.74s</code> and lower <code>t_compress_ms</code> by about <code>838ms</code>. No <code>n=100</code>, full benchmark, Baseline-AR, DFlash-R1, QMSum, keep-rate tuning, model-loading change, model download, or LLM judge was run. Recommendation: T97 packaging controlled evidence summary before any further scaling decision.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-21</div>
                 <div class="log-body">
