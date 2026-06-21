@@ -1,0 +1,12 @@
+{
+  "rewrites": {
+    "No DFlash-R1 broken claim": "DFlash-R1 retained as historical reference",
+    "No QMSum semantic correctness claim": "No Phase 2 Light GPU QMSum semantic claim",
+    "No confirmed 8GB claim": "Observed on local RTX 4070 8GB-class GPU; not universal 8GB guarantee",
+    "No default GPU switch": "GPU placement remains runtime/gated candidate",
+    "No deployment readiness claim": "Local feasibility observed; deployment readiness not proven",
+    "No final correctness claim": "Deterministic GSM8K numeric proxy only",
+    "No universal speedup claim": "Bounded GSM8K Light GPU speed evidence only"
+  },
+  "task": "Task101"
+}

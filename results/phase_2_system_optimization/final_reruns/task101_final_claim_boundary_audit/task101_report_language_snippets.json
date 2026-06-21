@@ -1,0 +1,28 @@
+{
+  "english": {
+    "allowed": [
+      "In the controlled GSM8K mnt256 Light GPU n100 run, CC-DFlash-R2 completed 100/100 rows with 79/100 calibrated strict numeric proxy and no recorded OOM/CUDA failure.",
+      "This is controlled bounded evidence, not a final speedup, final quality, QMSum semantic, deployment, or default-GPU claim."
+    ],
+    "labels": [
+      "Bounded GSM8K Light GPU speed evidence only",
+      "Deterministic GSM8K numeric proxy only",
+      "Local feasibility observed; deployment readiness not proven",
+      "GPU placement remains runtime/gated candidate"
+    ]
+  },
+  "primary_language": "vi",
+  "task": "Task101",
+  "vietnamese": {
+    "allowed": [
+      "Trong phạm vi GSM8K mnt256, đường CC-DFlash-R2 với light compressor đặt trên GPU đã hoàn thành n=100 với 79/100 strict numeric proxy, không ghi nhận OOM/CUDA failure, và giảm mạnh T_compress so với các tham chiếu CPU trước đó.",
+      "Kết quả này là evidence có kiểm soát, không phải claim final speedup hay deployment readiness.",
+      "Light GPU là một candidate khả quan trong môi trường local đã đo, còn default config vẫn giữ CPU và mọi claim deployment vẫn bị chặn."
+    ],
+    "blocked_replacements": [
+      "Thay vì nói GPU path is production-ready, dùng GPU path is a promising local feasibility candidate.",
+      "Thay vì nói final quality is proven, dùng deterministic GSM8K numeric proxy evidence.",
+      "Thay vì nói DFlash-R1 is broken, dùng DFlash-R1 remains a historical reference with setting caveats."
+    ]
+  }
+}
