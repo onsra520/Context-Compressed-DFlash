@@ -174,6 +174,27 @@ def test_task99_analyzer_writes_outputs_and_marks_historical_reference(tmp_path:
     assert (output_dir / "tables" / "task99_gpu_placement_table.csv").exists()
 
 
+def test_task99_analyzer_supports_resume_output_prefix(tmp_path: Path) -> None:
+    refs = _reference_summary(tmp_path)
+    output_dir = tmp_path / "resume_gpu"
+
+    summary = t99.analyze(
+        gpu_artifact=refs["gpu_jsonl"],
+        output_dir=output_dir,
+        task96_light_reference=refs["task96_light_json"],
+        task96_large_reference=refs["task96_large_json"],
+        dflash_reference=refs["task88_dflash_json"],
+        output_prefix="task99r",
+        task_label="Task99-R",
+    )
+
+    assert summary["task"] == "Task99-R"
+    assert (output_dir / "summary" / "task99r_gpu_placement_summary.json").exists()
+    assert (output_dir / "summary" / "task99r_reference_comparison.json").exists()
+    assert (output_dir / "summary" / "task99r_recommendation.json").exists()
+    assert (output_dir / "tables" / "task99r_gpu_placement_table.csv").exists()
+
+
 def test_task99_analyzer_handles_blocked_gpu_result(tmp_path: Path) -> None:
     refs = _reference_summary(tmp_path)
     blocked = tmp_path / "blocked.jsonl"
@@ -203,6 +224,35 @@ def test_task99_analyzer_handles_blocked_gpu_result(tmp_path: Path) -> None:
     assert summary["gpu_run"]["failure_flags"]["oom_or_cuda_failure"] is True
     assert summary["recommendation"]["keep_cpu_light_supported_path"] is True
     assert summary["comparisons"]["light_gpu_vs_task96_light_cpu"]["comparisons"]["strict_correct_delta"] is None
+
+
+def test_task99_recommendation_uses_rates_when_reference_sample_size_differs() -> None:
+    recommendation = t99.build_recommendation(
+        gpu_run={
+            "row_count": 10,
+            "metadata_ok": True,
+            "failure_flags": {
+                "oom_or_cuda_failure": False,
+                "shell_gpu_unavailable": False,
+            },
+            "strict_correct_count": 8,
+            "cap_limited_incomplete_count": 1,
+            "avg_t_compress_ms": 25.57,
+            "avg_e2e_time_s": 2.67,
+        },
+        task96_light={
+            "row_count": 30,
+            "strict_correct_count": 22,
+            "cap_limited_incomplete_count": 5,
+            "avg_t_compress_ms": 363.46,
+            "avg_e2e_time_s": 3.23,
+        },
+        n10_present=True,
+    )
+
+    assert recommendation["decision"] == "PASS_WITH_CAVEAT"
+    assert recommendation["automatic_default_gpu_switch"] is False
+    assert recommendation["keep_cpu_light_supported_path"] is True
 
 
 def test_no_model_loading_in_task99_analyzer() -> None:

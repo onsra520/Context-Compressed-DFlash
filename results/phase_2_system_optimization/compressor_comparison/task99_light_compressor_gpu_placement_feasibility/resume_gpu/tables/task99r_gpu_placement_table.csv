@@ -1,0 +1,10 @@
+section,label,value,note
+gpu_run,row_count,10,
+gpu_run,compressor_device_map,cuda,
+gpu_run,strict_correct_count,8,
+gpu_run,cap_limited_incomplete_count,1,
+gpu_run,avg_t_compress_ms,25.57,
+gpu_run,avg_e2e_time_s,2.67,
+reference,task96_light_cpu_avg_t_compress_ms,363.46,controlled cpu reference
+reference,task96_large_cpu_avg_t_compress_ms,1201.58,controlled cpu reference
+reference,dflash_r1_avg_e2e_time_s,3.22,historical-only

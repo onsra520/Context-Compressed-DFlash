@@ -69,6 +69,16 @@ def _round2(value: Any) -> Any:
     return value
 
 
+def _rate(count: Any, total: Any) -> float | None:
+    if isinstance(count, bool) or isinstance(total, bool):
+        return None
+    if not isinstance(count, (int, float)) or not isinstance(total, (int, float)):
+        return None
+    if total <= 0:
+        return None
+    return round(float(count) / float(total), 6)
+
+
 def _failure_flags(rows: list[dict[str, Any]]) -> dict[str, Any]:
     messages = [str(row.get("task99_gpu_failure", "")).strip() for row in rows if row.get("task99_gpu_failure")]
     types = [str(row.get("task99_gpu_failure_type", "")).strip().lower() for row in rows if row.get("task99_gpu_failure_type")]
@@ -189,22 +199,66 @@ def _comparison_section(gpu_run: dict[str, Any], reference: dict[str, Any], *, l
     comparisons = {
         "strict_correct_delta": (
             gpu_run["strict_correct_count"] - strict_correct
-            if not blocked_gpu_run and isinstance(strict_correct, int)
+            if not blocked_gpu_run and row_count == gpu_run["row_count"] and isinstance(strict_correct, int)
             else None
         ),
         "cap_limited_incomplete_delta": (
             gpu_run["cap_limited_incomplete_count"] - cap_limited
-            if not blocked_gpu_run and isinstance(cap_limited, int)
+            if not blocked_gpu_run and row_count == gpu_run["row_count"] and isinstance(cap_limited, int)
             else None
         ),
         "final_answer_marker_delta": (
             gpu_run["final_answer_marker_count"] - final_markers
-            if not blocked_gpu_run and isinstance(final_markers, int)
+            if not blocked_gpu_run and row_count == gpu_run["row_count"] and isinstance(final_markers, int)
             else None
         ),
         "strict_wrong_numeric_delta": (
             gpu_run["strict_wrong_numeric_count"] - strict_wrong
-            if not blocked_gpu_run and isinstance(strict_wrong, int)
+            if not blocked_gpu_run and row_count == gpu_run["row_count"] and isinstance(strict_wrong, int)
+            else None
+        ),
+        "strict_correct_rate_delta": (
+            round(
+                _rate(gpu_run["strict_correct_count"], gpu_run["row_count"])
+                - _rate(strict_correct, row_count),
+                6,
+            )
+            if not blocked_gpu_run
+            and _rate(gpu_run["strict_correct_count"], gpu_run["row_count"]) is not None
+            and _rate(strict_correct, row_count) is not None
+            else None
+        ),
+        "cap_limited_incomplete_rate_delta": (
+            round(
+                _rate(gpu_run["cap_limited_incomplete_count"], gpu_run["row_count"])
+                - _rate(cap_limited, row_count),
+                6,
+            )
+            if not blocked_gpu_run
+            and _rate(gpu_run["cap_limited_incomplete_count"], gpu_run["row_count"]) is not None
+            and _rate(cap_limited, row_count) is not None
+            else None
+        ),
+        "final_answer_marker_rate_delta": (
+            round(
+                _rate(gpu_run["final_answer_marker_count"], gpu_run["row_count"])
+                - _rate(final_markers, row_count),
+                6,
+            )
+            if not blocked_gpu_run
+            and _rate(gpu_run["final_answer_marker_count"], gpu_run["row_count"]) is not None
+            and _rate(final_markers, row_count) is not None
+            else None
+        ),
+        "strict_wrong_numeric_rate_delta": (
+            round(
+                _rate(gpu_run["strict_wrong_numeric_count"], gpu_run["row_count"])
+                - _rate(strict_wrong, row_count),
+                6,
+            )
+            if not blocked_gpu_run
+            and _rate(gpu_run["strict_wrong_numeric_count"], gpu_run["row_count"]) is not None
+            and _rate(strict_wrong, row_count) is not None
             else None
         ),
         "avg_t_compress_ms_delta": (
@@ -254,11 +308,23 @@ def build_recommendation(
 ) -> dict[str, Any]:
     failure = gpu_run["failure_flags"]["oom_or_cuda_failure"] or not gpu_run["metadata_ok"]
     strict_delta = None
-    if isinstance(task96_light.get("strict_correct_count"), int):
+    same_sample_size = task96_light.get("row_count", task96_light.get("n")) == gpu_run.get("row_count")
+    if same_sample_size and isinstance(task96_light.get("strict_correct_count"), int):
         strict_delta = gpu_run["strict_correct_count"] - task96_light["strict_correct_count"]
     cap_delta = None
-    if isinstance(task96_light.get("cap_limited_incomplete_count"), int):
+    if same_sample_size and isinstance(task96_light.get("cap_limited_incomplete_count"), int):
         cap_delta = gpu_run["cap_limited_incomplete_count"] - task96_light["cap_limited_incomplete_count"]
+    strict_rate_delta = None
+    task96_row_count = task96_light.get("row_count", task96_light.get("n"))
+    gpu_strict_rate = _rate(gpu_run.get("strict_correct_count"), gpu_run.get("row_count"))
+    task96_strict_rate = _rate(task96_light.get("strict_correct_count"), task96_row_count)
+    if gpu_strict_rate is not None and task96_strict_rate is not None:
+        strict_rate_delta = round(gpu_strict_rate - task96_strict_rate, 6)
+    cap_rate_delta = None
+    gpu_cap_rate = _rate(gpu_run.get("cap_limited_incomplete_count"), gpu_run.get("row_count"))
+    task96_cap_rate = _rate(task96_light.get("cap_limited_incomplete_count"), task96_row_count)
+    if gpu_cap_rate is not None and task96_cap_rate is not None:
+        cap_rate_delta = round(gpu_cap_rate - task96_cap_rate, 6)
     compress_delta = None
     if isinstance(gpu_run.get("avg_t_compress_ms"), float) and isinstance(task96_light.get("avg_t_compress_ms"), (int, float)):
         compress_delta = round(gpu_run["avg_t_compress_ms"] - task96_light["avg_t_compress_ms"], 6)
@@ -278,9 +344,15 @@ def build_recommendation(
     elif strict_delta is not None and strict_delta < -1:
         decision = "PARTIAL"
         reason = "GPU placement completed but regressed the bounded strict proxy relative to the Task96 light CPU reference."
+    elif strict_rate_delta is not None and strict_rate_delta < -0.10:
+        decision = "PARTIAL"
+        reason = "GPU placement completed but regressed the bounded strict proxy rate relative to the Task96 light CPU reference."
     elif cap_delta is not None and cap_delta > 1:
         decision = "PARTIAL"
         reason = "GPU placement increased cap-limited incomplete rows beyond the bounded caveat threshold."
+    elif cap_rate_delta is not None and cap_rate_delta > 0.10:
+        decision = "PARTIAL"
+        reason = "GPU placement increased cap-limited incomplete rate beyond the bounded caveat threshold."
     elif compress_delta is not None and e2e_delta is not None and compress_delta < 0.0 and e2e_delta <= 0.25:
         decision = "PASS_WITH_CAVEAT"
         reason = "Smoke and n10 GPU placement completed with CUDA metadata, no OOM, and bounded quality while compression overhead improved."
@@ -293,7 +365,7 @@ def build_recommendation(
         "reason": reason,
         "automatic_default_gpu_switch": False,
         "automatic_n100": False,
-        "keep_cpu_light_supported_path": decision != "PASS_WITH_CAVEAT",
+        "keep_cpu_light_supported_path": True,
         "next_step": (
             "T100_phase2_optimization_summary"
             if decision == "PASS_WITH_CAVEAT"
@@ -309,6 +381,8 @@ def analyze(
     task96_light_reference: Path,
     task96_large_reference: Path,
     dflash_reference: Path | None = None,
+    output_prefix: str = "task99",
+    task_label: str = "Task99",
 ) -> dict[str, Any]:
     gpu_run = summarize_gpu_artifact(gpu_artifact)
     task96_light = _load_reference(
@@ -347,7 +421,7 @@ def analyze(
     decision = recommendation["decision"]
 
     summary = {
-        "task": "Task99",
+        "task": task_label,
         "decision": decision,
         "gpu_run": gpu_run,
         "references": {
@@ -363,9 +437,9 @@ def analyze(
     tables_dir = output_dir / "tables"
     summary_dir.mkdir(parents=True, exist_ok=True)
     tables_dir.mkdir(parents=True, exist_ok=True)
-    _write_json(summary_dir / "task99_gpu_placement_summary.json", summary)
-    _write_json(summary_dir / "task99_reference_comparison.json", comparisons)
-    _write_json(summary_dir / "task99_recommendation.json", recommendation)
+    _write_json(summary_dir / f"{output_prefix}_gpu_placement_summary.json", summary)
+    _write_json(summary_dir / f"{output_prefix}_reference_comparison.json", comparisons)
+    _write_json(summary_dir / f"{output_prefix}_recommendation.json", recommendation)
 
     table_rows = [
         {"section": "gpu_run", "label": "row_count", "value": gpu_run["row_count"], "note": ""},
@@ -383,7 +457,7 @@ def analyze(
             "note": "historical-only" if dflash else "",
         },
     ]
-    _write_csv(tables_dir / "task99_gpu_placement_table.csv", table_rows)
+    _write_csv(tables_dir / f"{output_prefix}_gpu_placement_table.csv", table_rows)
     return summary
 
 
@@ -394,6 +468,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--task96-light-reference", type=Path, required=True)
     parser.add_argument("--task96-large-reference", type=Path, required=True)
     parser.add_argument("--dflash-reference", type=Path, default=None)
+    parser.add_argument("--output-prefix", default="task99")
+    parser.add_argument("--task-label", default="Task99")
     return parser
 
 
@@ -405,6 +481,8 @@ def main() -> None:
         task96_light_reference=args.task96_light_reference,
         task96_large_reference=args.task96_large_reference,
         dflash_reference=args.dflash_reference,
+        output_prefix=args.output_prefix,
+        task_label=args.task_label,
     )
 
 

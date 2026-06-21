@@ -1,0 +1,8 @@
+{
+  "automatic_default_gpu_switch": false,
+  "automatic_n100": false,
+  "decision": "PASS_WITH_CAVEAT",
+  "keep_cpu_light_supported_path": true,
+  "next_step": "T100_phase2_optimization_summary",
+  "reason": "Smoke and n10 GPU placement completed with CUDA metadata, no OOM, and bounded quality while compression overhead improved."
+}
