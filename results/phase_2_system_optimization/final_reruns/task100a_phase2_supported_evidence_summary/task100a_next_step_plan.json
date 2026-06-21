@@ -1,0 +1,26 @@
+{
+  "blocked_actions": {
+    "baseline_ar": true,
+    "dflash_r1": true,
+    "full_matrix": true,
+    "keep_rate_tuning": true,
+    "large_cpu_n100": true,
+    "qmsum": true
+  },
+  "framing": {
+    "not_final_benchmark": true,
+    "not_full_matrix": true,
+    "scale_up_validation_only": true,
+    "task96_cpu_references_remain_reference_evidence": true
+  },
+  "next_gated_task": "T100B \u2014 Light GPU n100 Controlled Run",
+  "purpose": "Scale the promising light GPU candidate to n100 GSM8K mnt256.",
+  "scope": {
+    "compressor_device_map": "cuda",
+    "compressor_profile": "light",
+    "condition": "CC-DFlash-R2",
+    "dataset": "gsm8k_short",
+    "max_new_tokens": 256,
+    "n": 100
+  }
+}

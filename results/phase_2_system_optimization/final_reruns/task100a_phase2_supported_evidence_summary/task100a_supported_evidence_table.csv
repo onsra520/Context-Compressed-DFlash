@@ -1,0 +1,5 @@
+profile_path,source_task,n,mnt,strict_proxy,cap_limited,t_compress_ms,e2e_s,R_actual,status
+CC-DFlash-R2 Light CPU,Task96,30,256,22/30,5/30,363.46,3.23,2.0,supported controlled Phase 2 CPU path
+CC-DFlash-R2 Large CPU,Task96,30,256,22/30,5/30,1201.58,3.97,2.67,superseded as preferred optimization candidate; retained as historical/control reference
+CC-DFlash-R2 Light GPU,Task99-R,10,256,8/10,1/10,25.57,2.67,2.0,"promising bounded candidate, not default, not deployment-ready"
+DFlash-R1,Task88,30,512,,,,,,historical-only reference

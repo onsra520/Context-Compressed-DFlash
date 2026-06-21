@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv go">Latest Completed: Task99-R — GPU Placement Resume</span>
+                <span class="sv go">Latest Completed: Task100A — Supported Evidence Summary</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv info">Current Next: T100 Phase 2 Optimization Summary</span>
+                <span class="sv info">Current Next: T100B Light GPU n100 Controlled Run</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -459,7 +459,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task99-R resumed the bounded light-compressor GPU placement test after CUDA recovery. The <code>n=3</code> smoke and <code>n=10</code> run both passed with <code>compressor_device_map=cuda</code>; the <code>n=10</code> result was calibrated strict <code>8/10</code>, cap-limited <code>1/10</code>, average <code>t_compress_ms=25.57</code>, average e2e <code>2.67s</code>, and max reserved VRAM about <code>4.37GiB</code>. T98 remains no-go/redirected, original T99 remains a historical partial record, and T100 is still the next planned summary step. No <code>n=30</code>, <code>n=100</code>, full benchmark, QMSum run, keep-rate tuning, model download, default GPU switch, or LLM judge was run.
+                Task100A packaged the supported Phase 2 evidence after Task99-R: Light CPU is the supported controlled Phase 2 result, Large CPU remains a historical/control reference, Light GPU is a promising bounded candidate, and DFlash-R1 remains historical-only. The next gated task is T100B Light GPU <code>n=100</code> Controlled Run, scoped to <code>CC-DFlash-R2</code> light GPU on <code>gsm8k_short</code> with <code>max_new_tokens=256</code>. Task100A ran no benchmark, model inference, GPU job, <code>n=100</code>, <code>n=30</code>, QMSum run, keep-rate tuning, model/config change, model download, or LLM judge.
             </div>
         </header>
 
@@ -514,7 +514,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, and Task99-R resumed the bounded runtime GPU placement after CUDA recovery. Further scaling remains gated.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, and Task100A packaged the supported evidence and T100B plan. Further scaling remains gated.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -545,15 +545,15 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T100 — Phase 2 Optimization Summary</td>
+                            <td>T100B — Light GPU n100 Controlled Run</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task99-R — Light Compressor GPU Placement Resume</td>
+                            <td>Task100A — Phase 2 Supported Evidence Summary</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
-                            <td>Task88 controlled n=30 rerun</td>
+                            <td>Task96 Light CPU controlled <code>n=30</code> plus Task99-R Light GPU bounded <code>n=10</code>; Task88 remains historical DFlash-R1 reference</td>
                         </tr>
                         <tr>
                             <td><strong>Current cleanup evidence</strong></td>
@@ -573,7 +573,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task97 completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, and Task99-R completed the bounded CUDA resume with <code>n=3</code> smoke plus <code>n=10</code> light GPU placement. Task96 remains the stronger controlled CPU quality baseline; Task99-R adds bounded GPU placement feasibility evidence.</td>
+                            <td>Task91 through Task97 completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed the bounded CUDA resume with <code>n=3</code> smoke plus <code>n=10</code> light GPU placement, and Task100A packaged supported evidence classes. Task96 Light CPU is the supported controlled CPU result; Task99-R Light GPU is a promising bounded candidate.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1404,9 +1404,21 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T100</span></td>
-                            <td>Phase 2 Optimization Summary</td>
-                            <td>Summarize the quality-speed-compression tradeoff after the CPU light evidence package and any optional GPU-placement feasibility follow-up.</td>
+                            <td><span class="tnum done">T100A</span></td>
+                            <td>Phase 2 Supported Evidence Summary</td>
+                            <td>Packaged the supported Phase 2 evidence after Task99-R: Light CPU as the supported controlled CPU result, Large CPU as historical/control reference, Light GPU as promising bounded candidate, and DFlash-R1 as historical-only reference. Wrote deterministic claim-language and T100B plan artifacts. No benchmark, model inference, GPU run, <code>n=100</code>, <code>n=30</code>, full matrix, QMSum run, keep-rate tuning, model/config change, model download, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/100a-phase2-supported-evidence-summary-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task100a_phase2_supported_evidence_summary/</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T100B</span></td>
+                            <td>Light GPU n100 Controlled Run</td>
+                            <td>Planned gated scale-up of the promising Light GPU candidate to <code>n=100</code> GSM8K mnt256. Scope is <code>CC-DFlash-R2</code> only, light compressor only, <code>--compressor-device-map cuda</code>, <code>gsm8k_short</code>, <code>max_new_tokens=256</code>. No large CPU <code>n=100</code>, no Baseline-AR, no DFlash-R1, no full matrix, no QMSum, and no keep-rate tuning.</td>
+                            <td class="info">PLANNED / GATED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T100C</span></td>
+                            <td>Optimization Gap Analysis</td>
+                            <td>Planned analysis after T100B to inspect stability, bottlenecks, VRAM, failures, cap-limited rows, and remaining optimization points.</td>
                             <td class="info">PLANNED</td>
                         </tr>
                         <tr>
@@ -1677,8 +1689,15 @@
             <div class="log-entry">
                 <div class="log-date">2026-06-21</div>
                 <div class="log-body">
+                    <strong>Task100A — Phase 2 Supported Evidence Summary — PASS</strong><br>
+                    Packaged the supported Phase 2 evidence after Task99-R into deterministic summary/table/candidate-status/next-step/claim-language artifacts. The evidence classes are: Light CPU as the supported controlled Phase 2 CPU result from Task96, Large CPU as a retained historical/control reference from Task96, Light GPU as a promising bounded candidate from Task99-R, and DFlash-R1 as historical-only Task88 reference with setting caveats. The next gated task is T100B Light GPU <code>n=100</code> Controlled Run, scoped to <code>CC-DFlash-R2</code> light GPU on <code>gsm8k_short</code> with <code>max_new_tokens=256</code>. No benchmark, model inference, GPU run, <code>n=100</code>, <code>n=30</code>, full matrix, QMSum run, keep-rate tuning, model/config change, model download, or LLM judge was run.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-21</div>
+                <div class="log-body">
                     <strong>Task99-R — Light Compressor GPU Placement Resume — PASS_WITH_CAVEAT</strong><br>
-                    Resumed only the bounded Task99 runtime path after CUDA recovery. The <code>n=3</code> smoke and <code>n=10</code> light GPU placement run both completed under <code>CC-DFlash-R2</code>, <code>gsm8k_short</code>, seed <code>42</code>, and <code>max_new_tokens=256</code> with <code>compressor_device_map=cuda</code>. The <code>n=10</code> calibrated proxy was strict <code>8/10</code>, cap-limited incomplete <code>1/10</code>, average <code>t_compress_ms=25.57</code>, average e2e <code>2.67s</code>, and max reserved VRAM about <code>4.37GiB</code>. This supports bounded GPU-placement feasibility, but not a default GPU switch, final speedup claim, deployment/8GB readiness claim, or automatic <code>n=100</code>. Recommendation: proceed to T100 Phase 2 Optimization Summary with CPU light as the stronger controlled baseline and GPU light as a promising bounded candidate.
+                    Resumed only the bounded Task99 runtime path after CUDA recovery. The <code>n=3</code> smoke and <code>n=10</code> light GPU placement run both completed under <code>CC-DFlash-R2</code>, <code>gsm8k_short</code>, seed <code>42</code>, and <code>max_new_tokens=256</code> with <code>compressor_device_map=cuda</code>. The <code>n=10</code> calibrated proxy was strict <code>8/10</code>, cap-limited incomplete <code>1/10</code>, average <code>t_compress_ms=25.57</code>, average e2e <code>2.67s</code>, and max reserved VRAM about <code>4.37GiB</code>. This supports bounded GPU-placement feasibility, but not a default GPU switch, final speedup claim, deployment/8GB readiness claim, or automatic <code>n=100</code>. Recommendation: package supported evidence boundaries before any gated scale-up.
                 </div>
             </div>
             <div class="log-entry">

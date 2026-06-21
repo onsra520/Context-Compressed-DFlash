@@ -1,0 +1,19 @@
+{
+  "allowed": [
+    "The light CPU compressor path is the supported controlled Phase 2 result.",
+    "The light GPU placement path is a promising bounded candidate.",
+    "In controlled GSM8K mnt256 n30, light CPU matched large CPU on calibrated strict proxy and reduced t_compress/e2e.",
+    "In bounded n10, light GPU placement further reduced t_compress without observed OOM in that run."
+  ],
+  "blocked": [
+    "Light GPU is the default.",
+    "Large CPU is invalid.",
+    "Final speedup is proven.",
+    "Final quality is proven.",
+    "Deployment readiness is proven.",
+    "8GB deployment readiness is confirmed.",
+    "QMSum semantic correctness is proven.",
+    "n100 is already completed.",
+    "DFlash-R1 is broken."
+  ]
+}

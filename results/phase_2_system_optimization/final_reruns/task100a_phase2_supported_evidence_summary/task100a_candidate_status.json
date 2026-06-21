@@ -1,0 +1,18 @@
+{
+  "large_cpu": {
+    "deleted_or_invalid": false,
+    "retained_as_reference": true,
+    "status": "superseded as preferred optimization candidate; retained as historical/control reference"
+  },
+  "light_cpu": {
+    "preferred_cpu_path": true,
+    "status": "supported controlled Phase 2 CPU path",
+    "supported_controlled_result": true
+  },
+  "light_gpu": {
+    "deployment_ready": false,
+    "is_default": false,
+    "promising_bounded_candidate": true,
+    "status": "promising bounded candidate, not default, not deployment-ready"
+  }
+}
