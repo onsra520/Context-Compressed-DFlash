@@ -1,0 +1,18 @@
+{
+  "alternate_next_task": "T99_light_compressor_gpu_placement_feasibility",
+  "decision": "PASS",
+  "guardrails": {
+    "automatic_full_benchmark": false,
+    "automatic_gpu_switch_default": false,
+    "automatic_n100_authorization": false,
+    "automatic_qmsum_run": false
+  },
+  "reasoning": [
+    "Task96 provided bounded n=30 mnt256 evidence that light matched large on calibrated strict proxy while preserving lower t_compress_ms and e2e time.",
+    "The project still only has deterministic proxy evidence, so the next step should be gated planning rather than automatic scale-up.",
+    "n100 remains optional and blocked until an explicit go/no-go decision is made.",
+    "Any GPU-placement follow-up should stay small and gated before larger runs."
+  ],
+  "recommended_next_task": "T98_optional_n100_go_no_go_decision",
+  "task": "Task97"
+}

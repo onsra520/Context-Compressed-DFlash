@@ -1,0 +1,42 @@
+{
+  "decision": "PASS",
+  "future_plan": [
+    {
+      "status": "PASS",
+      "summary": "Package T93-T96 controlled evidence, preserve claim boundaries, update future roadmap, and fix the Roadmap status-column UI without running a model or benchmark.",
+      "task": "T97",
+      "title": "Phase 2 Controlled Evidence Packaging"
+    },
+    {
+      "status": "PLANNED / GATED",
+      "summary": "Decision gate only for whether an n100 run is worth doing; this is not automatic authorization.",
+      "task": "T98",
+      "title": "Optional n100 Go/No-Go Decision"
+    },
+    {
+      "status": "PLANNED / GATED",
+      "summary": "If controlled CPU-path evidence remains favorable, test whether the validated light compressor benefits from CUDA/GPU placement without causing OOM or hurting target/draft generation. Start with n=3 or n=10 gates, not n=30.",
+      "task": "T99",
+      "title": "Light Compressor GPU Placement Feasibility"
+    },
+    {
+      "status": "PLANNED",
+      "summary": "Summarize the quality-speed-compression tradeoff after CPU light evidence and any optional GPU-placement feasibility follow-up.",
+      "task": "T100",
+      "title": "Phase 2 Optimization Summary"
+    },
+    {
+      "status": "PLANNED",
+      "summary": "Audit supported versus unsupported claims before final report or demo integration.",
+      "task": "T101",
+      "title": "Final Claim Boundary Audit"
+    },
+    {
+      "status": "PLANNED",
+      "summary": "Integrate the bounded Phase 2 result into final report and demo materials.",
+      "task": "T102",
+      "title": "Final Report Integration"
+    }
+  ],
+  "task": "Task97"
+}

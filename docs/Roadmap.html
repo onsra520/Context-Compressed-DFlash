@@ -236,7 +236,8 @@
             padding: 10px 13px;
             text-align: left;
             vertical-align: top;
-            border-bottom: 1px solid var(--line)
+            border-bottom: 1px solid var(--line);
+            box-sizing: border-box
         }
 
         th {
@@ -285,6 +286,29 @@
             color: var(--neu);
             font-weight: 600;
             white-space: normal
+        }
+
+        .gate-overview th:nth-child(2),
+        .gate-overview td:nth-child(2),
+        .current-status th:nth-child(2),
+        .current-status td:nth-child(2),
+        .task-roadmap th:nth-child(4),
+        .task-roadmap td:nth-child(4),
+        .aux-roadmap th:nth-child(4),
+        .aux-roadmap td:nth-child(4) {
+            min-width: 150px;
+            padding-right: 18px;
+        }
+
+        .gate-overview td:nth-child(2),
+        .current-status td:nth-child(2),
+        .task-roadmap td:nth-child(4),
+        .aux-roadmap td:nth-child(4) {
+            overflow: hidden;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            line-height: 1.35;
         }
 
         td.muted {
@@ -422,9 +446,9 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv go">Latest Completed: Task96 — n=30 Controlled mnt256 Comparison</span>
+                <span class="sv go">Latest Completed: Task97 — Controlled Evidence Packaging + Roadmap/UI Repair</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv info">Current Next: T97 packaging controlled evidence summary</span>
+                <span class="sv info">Current Next: T98 optional n100 go/no-go decision</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -433,7 +457,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task96 completed the gated <code>n=30</code> mnt256 comparison for <code>CC-DFlash-R2</code> on <code>gsm8k_short</code>, seed <code>42</code>. Calibrated strict correctness tied at large <code>22/30</code> and light <code>22/30</code>; cap-limited incomplete rows tied at <code>5/30</code> for both. Light remained lower e2e by about <code>0.74s</code> and lower <code>t_compress_ms</code> by about <code>838ms</code>. No <code>n=100</code>, full benchmark, Baseline-AR, DFlash-R1, QMSum, keep-rate tuning, model-loading change, model download, or LLM judge was run. Next step: T97 packaging controlled evidence summary.
+                Task97 packaged the controlled Phase 2 evidence from T93 through T96, preserved the bounded claim boundary after the Task96 <code>n=30</code> mnt256 result, updated the future Phase 2 plan, and repaired the Roadmap status-column layout so long statuses wrap inside the table border. No benchmark, model inference, GPU run, <code>n=100</code>, QMSum run, keep-rate tuning, model-loading change, model download, or LLM judge was run. Next step: T98 optional n100 go/no-go decision, with T99 GPU placement feasibility still gated.
             </div>
         </header>
 
@@ -441,7 +465,7 @@
         <section>
             <h2>Phase &amp; Gate Overview</h2>
             <div class="table-wrap">
-                <table>
+                <table class="gate-overview">
                     <thead>
                         <tr>
                             <th>Gate</th>
@@ -488,7 +512,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, and Task96 confirmed the bounded behavior at <code>n=30</code>. T97 is now a controlled evidence packaging step, not a final claim.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, and Task97 packaged the controlled evidence plus updated the future plan/UI. Further scaling remains gated.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -504,7 +528,7 @@
         <section>
             <h2>Current Status Summary</h2>
             <div class="table-wrap">
-                <table>
+                <table class="current-status">
                     <thead>
                         <tr>
                             <th>Dimension</th>
@@ -519,11 +543,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T97 — packaging controlled Phase 2 evidence summary</td>
+                            <td>T98 — optional n100 go/no-go decision</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task96 — n=30 Controlled mnt256 Comparison</td>
+                            <td>Task97 — Controlled Evidence Packaging + Roadmap/UI Repair</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -547,7 +571,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task96 completed or preserved as historical records. Task96 confirmed the bounded mnt256 light behavior at <code>n=30</code>; T97 should package the controlled evidence before any further scaling decision.</td>
+                            <td>Task91 through Task97 completed or preserved as historical records. Task96 confirmed the bounded mnt256 light behavior at <code>n=30</code>; Task97 packaged that evidence and kept T98/T99 gated instead of authorizing further runs.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -562,7 +586,7 @@
             </p>
 
             <div class="table-wrap">
-                <table>
+                <table class="task-roadmap">
                     <thead>
                         <tr>
                             <th style="width:68px">Task</th>
@@ -1280,7 +1304,7 @@
                             <td>Completed missing QMSum Task90 artifacts using isolated per-condition execution after Task90A.</td>
                             <td class="go">PASS_WITH_NOTES</td>
                         </tr>
-                        <tr class="phase-row"><td colspan="4">PHASE 2 — LIGHTER COMPRESSOR OPTIMIZATION (T91–T101)</td></tr>
+                        <tr class="phase-row"><td colspan="4">PHASE 2 — LIGHTER COMPRESSOR OPTIMIZATION (T91–T102)</td></tr>
                         <tr>
                             <td><span class="tnum done">T91</span></td>
                             <td>Lighter Compressor Feasibility Setup</td>
@@ -1354,33 +1378,39 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T97</span></td>
-                            <td>Packaging Controlled Phase 2 Evidence Summary</td>
-                            <td>Package the Task94 through Task96 controlled evidence, document the light-vs-large tradeoff, preserve claim boundaries, and decide explicitly whether any further scaling is justified. This is not an automatic <code>n=100</code> or full benchmark authorization.</td>
-                            <td class="info">PLANNED / GATED</td>
+                            <td><span class="tnum done">T97</span></td>
+                            <td>Phase 2 Controlled Evidence Packaging</td>
+                            <td>Packaged the controlled T93 through T96 evidence chain, wrote deterministic packaging artifacts under <code>results/phase_2_system_optimization/final_reruns/task97_phase2_controlled_evidence_packaging/</code>, updated the future Phase 2 roadmap after the Task96 <code>n=30</code> mnt256 result, and repaired the Roadmap status-column UI overlap without changing task semantics. No benchmark, model inference, GPU run, <code>n=100</code>, QMSum run, keep-rate tuning, model-loading change, model download, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/97-phase2-controlled-evidence-packaging-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task97_phase2_controlled_evidence_packaging/</code></td>
+                            <td class="go">PASS</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T98</span></td>
-                            <td>Controlled n=30 Phase 2 Benchmark</td>
-                            <td>Superseded by the more specific T96 gated controlled <code>n=30</code> mnt256 comparison path after Task95D.</td>
-                            <td class="neu">SUPERSEDED / SEE T96</td>
+                            <td>Optional n100 Go/No-Go Decision</td>
+                            <td>Explicit decision gate for whether any <code>n=100</code> Phase 2 follow-up is worth running after the bounded T96 evidence package. This task does not authorize or launch <code>n=100</code> automatically.</td>
+                            <td class="info">PLANNED / GATED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T99</span></td>
-                            <td>Phase 2 Optimization Summary</td>
-                            <td>Summarize quality-speed-compression tradeoff from the optimized compressed path.</td>
-                            <td class="info">PLANNED</td>
+                            <td>Light Compressor GPU Placement Feasibility</td>
+                            <td>If the controlled CPU-path evidence remains favorable, test whether the validated light compressor benefits from CUDA/GPU placement without causing OOM or hurting target/draft generation. Start with small <code>n=3</code>/<code>n=10</code> gates, not <code>n=30</code>. This is feasibility work only, not a default GPU switch.</td>
+                            <td class="info">PLANNED / GATED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T100</span></td>
-                            <td>Final Claim Boundary Audit</td>
-                            <td>Audit which claims are supported and which must remain out of scope.</td>
+                            <td>Phase 2 Optimization Summary</td>
+                            <td>Summarize the quality-speed-compression tradeoff after the CPU light evidence package and any optional GPU-placement feasibility follow-up.</td>
                             <td class="info">PLANNED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T101</span></td>
+                            <td>Final Claim Boundary Audit</td>
+                            <td>Audit which claims are supported and which must remain out of scope before final report/demo integration.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T102</span></td>
                             <td>Final Report Integration</td>
-                            <td>Integrate Phase 2 result into final report/demo materials.</td>
+                            <td>Integrate the bounded Phase 2 result into final report and demo materials.</td>
                             <td class="info">PLANNED</td>
                         </tr>
 </tbody>
@@ -1395,7 +1425,7 @@
                 Auxiliary and documentation-focused presentation/planning tasks. These tasks are tracked separately from the main technical benchmark path, and must not modify benchmark logic, model code, datasets, result artifacts, claims, or phase-gate status unless explicitly requested.
             </p>
             <div class="table-wrap">
-                <table>
+                <table class="aux-roadmap">
                     <thead>
                         <tr>
                             <th style="width:68px">Task</th>
@@ -1490,7 +1520,7 @@
                         </tr>
                         <tr>
                             <td>Phase 2 Reports</td>
-                            <td><code>docs/reports/phase_2_system_optimization/91-lighter-compressor-feasibility-setup-report.md</code><br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/92-local-model-and-compressor-config-loading-report.md</code><br><code>docs/reports/phase_2_system_optimization/92b-project-instruction-cleanup-and-results-skeleton-report.md</code><br><code>docs/reports/phase_2_system_optimization/93-lighter-compressor-integration-report.md</code><br><code>docs/reports/phase_2_system_optimization/94-light-vs-large-compressor-controlled-comparison-report.md</code><br><code>docs/reports/phase_2_system_optimization/95a-analysis-and-failure-row-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/95b-quality-proxy-calibration-report.md</code><br><code>docs/reports/phase_2_system_optimization/*.md</code> (Task95C+ continuing)</td>
+                            <td><code>docs/reports/phase_2_system_optimization/91-lighter-compressor-feasibility-setup-report.md</code><br><code>docs/reports/phase_2_system_optimization/91b-linux-gpu-readiness-and-dflash-path-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/92-local-model-and-compressor-config-loading-report.md</code><br><code>docs/reports/phase_2_system_optimization/92b-project-instruction-cleanup-and-results-skeleton-report.md</code><br><code>docs/reports/phase_2_system_optimization/93-lighter-compressor-integration-report.md</code><br><code>docs/reports/phase_2_system_optimization/94-light-vs-large-compressor-controlled-comparison-report.md</code><br><code>docs/reports/phase_2_system_optimization/95a-analysis-and-failure-row-audit-report.md</code><br><code>docs/reports/phase_2_system_optimization/95b-quality-proxy-calibration-report.md</code><br><code>docs/reports/phase_2_system_optimization/95c-cap-tail-policy-triage-report.md</code><br><code>docs/reports/phase_2_system_optimization/95c-r-cap-tail-policy-resume-report.md</code><br><code>docs/reports/phase_2_system_optimization/95d-bounded-mnt256-confirmation-report.md</code><br><code>docs/reports/phase_2_system_optimization/96-n30-controlled-mnt256-comparison-report.md</code><br><code>docs/reports/phase_2_system_optimization/97-phase2-controlled-evidence-packaging-report.md</code></td>
                         </tr>
                         <tr>
                             <td>Extra</td>
@@ -1561,11 +1591,15 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2 Compressor Comparison Artifacts</strong></td>
-                            <td><code>results/phase_2_system_optimization/compressor_comparison/task94_light_vs_large_compressor_controlled_comparison/</code></td>
+                            <td><code>results/phase_2_system_optimization/compressor_comparison/task94_light_vs_large_compressor_controlled_comparison/</code><br><code>results/phase_2_system_optimization/compressor_comparison/task96_n30_controlled_mnt256_comparison/</code></td>
                         </tr>
                         <tr>
                             <td><strong>Phase 2 Quality and Latency Audit Artifacts</strong></td>
-                            <td><code>results/phase_2_system_optimization/quality_and_latency_audits/task95a_analysis_and_failure_row_audit/</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/task95b_quality_proxy_calibration/</code></td>
+                            <td><code>results/phase_2_system_optimization/quality_and_latency_audits/task95a_analysis_and_failure_row_audit/</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/task95b_quality_proxy_calibration/</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/task95c_cap_tail_policy_triage/</code><br><code>results/phase_2_system_optimization/quality_and_latency_audits/task95d_bounded_mnt256_confirmation/</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phase 2 Controlled Evidence Packaging Artifacts</strong></td>
+                            <td><code>results/phase_2_system_optimization/final_reruns/task97_phase2_controlled_evidence_packaging/</code></td>
                         </tr>
                         <tr>
                             <td><strong>Deprecated / Removed Artifacts</strong></td>
@@ -1632,6 +1666,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-21</div>
+                <div class="log-body">
+                    <strong>Task97 — Phase 2 Controlled Evidence Packaging — PASS</strong><br>
+                    Packaged the controlled T93 through T96 evidence chain into deterministic summary/table/claim-boundary/roadmap-plan artifacts, updated the future Phase 2 plan so T98 is an optional <code>n=100</code> go/no-go gate and T99 is a gated GPU placement feasibility task, and repaired the Roadmap status-column layout so long labels like <code>PASS_WITH_CAVEAT</code>, <code>PARTIAL / GPU BLOCKED</code>, <code>PLANNED / GATED</code>, and <code>SUPERSEDED / SEE T96</code> wrap cleanly inside the table border. No benchmark, model inference, GPU run, <code>n=100</code>, QMSum run, keep-rate tuning, model-loading change, model download, or LLM judge was run. Recommendation: T98 optional go/no-go decision first, with T99 remaining a small gated feasibility path.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-21</div>
                 <div class="log-body">

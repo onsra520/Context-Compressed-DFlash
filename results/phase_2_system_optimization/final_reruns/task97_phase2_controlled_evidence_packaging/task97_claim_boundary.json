@@ -1,0 +1,21 @@
+{
+  "allowed_bounded_claims": [
+    "light compressor is integrated through the real CC-DFlash runner",
+    "in controlled GSM8K mnt256 comparisons, light matched large on calibrated strict proxy at n=30",
+    "light reduced average t_compress_ms versus large in the controlled n=30 mnt256 setup",
+    "light reduced average e2e time versus large in the controlled n=30 mnt256 setup",
+    "mnt256 reduced cap-limited incompleteness relative to mnt128",
+    "light compresses less aggressively than large: R_actual about 2.00 vs 2.67"
+  ],
+  "blocked_claims": [
+    "no final speedup claim",
+    "no final quality claim",
+    "no deployment or 8GB readiness claim",
+    "no QMSum semantic correctness claim",
+    "no full benchmark claim",
+    "no automatic n100 authorization",
+    "no claim that GPU compressor placement is better yet"
+  ],
+  "decision": "PASS",
+  "task": "Task97"
+}
