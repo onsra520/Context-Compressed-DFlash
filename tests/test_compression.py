@@ -165,6 +165,33 @@ def test_prepare_cc_prompt_adds_capped_audit_previews(monkeypatch):
     assert len(info["compressed_prompt_preview"]) <= 243
 
 
+def test_prepare_cc_prompt_records_compressor_device_map(monkeypatch):
+    tokenizer = ExpandingTokenizer(wide_multiplier=1)
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            return {
+                "compressed_prompt": "compressed context",
+                "origin_tokens": 20,
+                "compressed_tokens": 10,
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    compressor = LLMLinguaCompressor(device_map="cuda")
+    _, info = _prepare_cc_prompt(
+        "What is 2 + 2?",
+        compressor,
+        keep_rate=0.5,
+        context="math context",
+    )
+
+    assert info["compressor_device_map"] == "cuda"
+
+
 def test_prepare_cc_prompt_appends_protected_suffix_outside_compression(monkeypatch):
     captured = {}
     tokenizer = ExpandingTokenizer(wide_multiplier=1)
@@ -693,3 +720,40 @@ def test_llmlingua_compressor_from_config_profile():
     comp_light = LLMLinguaCompressor.from_config(new_config, profile="light")
     assert comp_light.model_name == "light-model"
 
+
+def test_llmlingua_compressor_from_config_runtime_device_override(monkeypatch):
+    captured = {}
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            captured["device_map"] = device_map
+            self.tokenizer = CharTokenizer()
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            return {
+                "compressed_prompt": context[0],
+                "origin_tokens": 10,
+                "compressed_tokens": 5,
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    config = {
+        "compression": {
+            "light_llmlingua": {
+                "model_name": "light-model",
+                "device_map": "cpu",
+                "use_llmlingua2": True,
+            }
+        }
+    }
+
+    compressor = LLMLinguaCompressor.from_config(
+        config,
+        profile="light",
+        device_map_override="cuda",
+    )
+    compressor.compress("context", "question", keep_rate=0.5)
+
+    assert compressor.device_map == "cuda"
+    assert captured["device_map"] == "cuda"

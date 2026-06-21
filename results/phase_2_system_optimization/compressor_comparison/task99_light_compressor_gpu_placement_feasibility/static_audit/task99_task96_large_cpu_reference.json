@@ -1,0 +1,21 @@
+{
+  "avg_R_actual": 2.666667,
+  "avg_e2e_time_s": 3.967615,
+  "avg_t_compress_ms": 1201.57527,
+  "avg_t_prefill_ms": 105.152591,
+  "avg_tau_mean": 5.456126,
+  "avg_tokens_per_second": 58.293439,
+  "cap_limited_incomplete_count": 5,
+  "comparison_role": "controlled_cpu_reference",
+  "condition": "CC-DFlash-R2",
+  "dataset": "gsm8k_short",
+  "final_answer_marker_count": 25,
+  "max_new_tokens": 256,
+  "n": 30,
+  "profile": "large_cpu_task96",
+  "row_count": 30,
+  "seed": 42,
+  "source_task": "Task96",
+  "strict_correct_count": 22,
+  "strict_wrong_numeric_count": 3
+}

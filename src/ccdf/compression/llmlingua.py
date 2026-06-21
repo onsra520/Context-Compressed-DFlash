@@ -23,6 +23,7 @@ class LLMLinguaCompressor(CompressorBase):
         self,
         model_name: str = DEFAULT_LLM_LINGUA_2_MODEL,
         device_map: str = "cpu",
+        requested_device_map: str | None = None,
         compressor_path: str | None = None,
         resolved_compressor_path: str | None = None,
         model_source: str | None = None,
@@ -38,6 +39,7 @@ class LLMLinguaCompressor(CompressorBase):
     ) -> None:
         self.model_name = model_name
         self.device_map = device_map
+        self.requested_device_map = requested_device_map
         self.compressor_path = compressor_path
         self.resolved_compressor_path = resolved_compressor_path
         self.model_source = model_source or model_name
@@ -59,14 +61,17 @@ class LLMLinguaCompressor(CompressorBase):
         cls,
         config: dict[str, Any] | None = None,
         profile: str = "large",
+        device_map_override: str | None = None,
     ) -> "LLMLinguaCompressor":
         from ccdf.config.loader import resolve_compressor_model_source, resolve_llmlingua_config
 
         cfg = resolve_llmlingua_config(config, profile=profile)
         source = resolve_compressor_model_source(cfg)
+        resolved_device_map = str(device_map_override or cfg.get("device_map", "cpu"))
         return cls(
             model_name=cfg.get("model_name", DEFAULT_LLM_LINGUA_2_MODEL),
-            device_map=cfg.get("device_map", "cpu"),
+            device_map=resolved_device_map,
+            requested_device_map=device_map_override,
             compressor_path=source.get("compressor_path"),
             resolved_compressor_path=source.get("resolved_compressor_path"),
             model_source=source.get("source"),
@@ -95,6 +100,8 @@ class LLMLinguaCompressor(CompressorBase):
             "compressor_source_kind": self.source_kind,
             "local_files_only": self.local_files_only,
             "compressor_profile": self.compressor_profile,
+            "compressor_device_map": self.device_map,
+            "requested_compressor_device_map": self.requested_device_map,
         }
 
     @staticmethod

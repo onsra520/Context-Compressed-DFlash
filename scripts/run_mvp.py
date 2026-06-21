@@ -222,6 +222,8 @@ def _prepare_cc_prompt(
         "compressor_source_kind": getattr(compressor, "source_kind", "model_name"),
         "local_files_only": getattr(compressor, "local_files_only", None),
         "compressor_profile": getattr(compressor, "compressor_profile", None),
+        "compressor_device_map": getattr(compressor, "device_map", None),
+        "requested_compressor_device_map": getattr(compressor, "requested_device_map", None),
         "question_preserved": question in final_prompt,
         "protected_suffix_preserved": not suffix_text or suffix_text in final_prompt,
         "protected_suffix_preview": _preview_text(suffix_text),
@@ -991,6 +993,11 @@ def main() -> None:
         default="large",
         help="Select compression config profile shape: large or light candidate.",
     )
+    parser.add_argument(
+        "--compressor-device-map",
+        default=None,
+        help="Runtime-only override for LLMLingua compressor device_map, e.g. cpu or cuda. Does not change config.yml defaults.",
+    )
     args = parser.parse_args()
     if args.resume and args.overwrite:
         parser.error("--resume and --overwrite cannot be used together")
@@ -1075,13 +1082,22 @@ def main() -> None:
 
     compressor = None
     if keep_rate is not None:
-        compressor = LLMLinguaCompressor.from_config(config.raw_config, profile=args.compressor_profile)
+        compressor = LLMLinguaCompressor.from_config(
+            config.raw_config,
+            profile=args.compressor_profile,
+            device_map_override=args.compressor_device_map,
+        )
 
     print(f"{args.condition} smoke benchmark")
     if keep_rate is None:
         print("Compression: none")
     else:
         print(f"Compression: LLMLingua keep_rate={keep_rate} profile={args.compressor_profile}")
+        print(
+            "Compressor device map: "
+            f"{getattr(compressor, 'device_map', None)} "
+            f"(requested override: {getattr(compressor, 'requested_device_map', None)})"
+        )
     if requested_keep_rate_percent is not None:
         print(f"Requested keep-rate override: {requested_keep_rate_percent:.6g}% ({requested_keep_rate:.6g})")
 

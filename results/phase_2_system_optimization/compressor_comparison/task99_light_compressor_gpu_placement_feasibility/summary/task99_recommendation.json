@@ -1,0 +1,8 @@
+{
+  "automatic_default_gpu_switch": false,
+  "automatic_n100": false,
+  "decision": "PARTIAL",
+  "keep_cpu_light_supported_path": true,
+  "next_step": "keep_cpu_light_and_document_gpu_as_experimental",
+  "reason": "GPU is unavailable in the current agent shell, so runtime feasibility was blocked before smoke execution."
+}
