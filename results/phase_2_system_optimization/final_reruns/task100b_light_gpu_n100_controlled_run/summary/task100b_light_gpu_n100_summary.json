@@ -1,0 +1,3992 @@
+{
+  "comparisons": {
+    "light_gpu_n100_vs_dflash_r1_historical": {
+      "caveat": "Historical-only reference; settings differ and this is not an apples-to-apples claim.",
+      "comparison_class": "historical_reference",
+      "comparisons": {
+        "avg_R_actual_delta": null,
+        "avg_e2e_time_s_delta": -0.33977,
+        "avg_t_compress_ms_delta": 17.34867,
+        "avg_t_prefill_ms_delta": -14.654106,
+        "avg_tau_mean_delta": 0.420137,
+        "avg_tokens_per_second_delta": 7.385134,
+        "cap_limited_incomplete_rate_delta": null,
+        "strict_correct_rate_delta": null
+      },
+      "historical_only": true,
+      "label": "Task88 DFlash-R1 historical",
+      "reference": {
+        "avg_e2e_time_s": 3.2194646628332824,
+        "avg_t_compress_ms": 0.0,
+        "avg_t_prefill_ms": 110.60761659996388,
+        "avg_tau_mean": 5.21,
+        "avg_tokens_per_second": 52.44143080134073,
+        "comparison_role": "historical_reference",
+        "condition": "DFlash-R1",
+        "dataset": "gsm8k_short",
+        "historical_only": true,
+        "max_new_tokens": 512,
+        "n": 30,
+        "numeric_match_count": 25,
+        "numeric_match_rate": 0.8333333333333334,
+        "path": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/static_audit/task99_task88_dflash_r1_historical_reference.json",
+        "profile": "dflash_r1_task88",
+        "row_count": 30,
+        "seed": 42,
+        "source_task": "Task88"
+      },
+      "settings_match": false
+    },
+    "light_gpu_n100_vs_task96_large_cpu_n30": {
+      "caveat": "Bounded reference comparison because sample size or setup differs.",
+      "comparison_class": "bounded_reference",
+      "comparisons": {
+        "avg_R_actual_delta": -0.666667,
+        "avg_e2e_time_s_delta": -1.08792,
+        "avg_t_compress_ms_delta": -1184.2266,
+        "avg_t_prefill_ms_delta": -9.19908,
+        "avg_tau_mean_delta": 0.174011,
+        "avg_tokens_per_second_delta": 1.533126,
+        "cap_limited_incomplete_rate_delta": -0.016667,
+        "strict_correct_rate_delta": 0.056667
+      },
+      "historical_only": false,
+      "label": "Task96 large CPU n30",
+      "reference": {
+        "avg_R_actual": 2.666667,
+        "avg_e2e_time_s": 3.967615,
+        "avg_t_compress_ms": 1201.57527,
+        "avg_t_prefill_ms": 105.152591,
+        "avg_tau_mean": 5.456126,
+        "avg_tokens_per_second": 58.293439,
+        "cap_limited_incomplete_count": 5,
+        "comparison_role": "controlled_cpu_reference",
+        "condition": "CC-DFlash-R2",
+        "dataset": "gsm8k_short",
+        "final_answer_marker_count": 25,
+        "historical_only": false,
+        "max_new_tokens": 256,
+        "n": 30,
+        "path": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/static_audit/task99_task96_large_cpu_reference.json",
+        "profile": "large_cpu_task96",
+        "row_count": 30,
+        "seed": 42,
+        "source_task": "Task96",
+        "strict_correct_count": 22,
+        "strict_wrong_numeric_count": 3
+      },
+      "settings_match": false
+    },
+    "light_gpu_n100_vs_task96_light_cpu_n30": {
+      "caveat": "Bounded reference comparison because sample size or setup differs.",
+      "comparison_class": "bounded_reference",
+      "comparisons": {
+        "avg_R_actual_delta": 0.0,
+        "avg_e2e_time_s_delta": -0.345826,
+        "avg_t_compress_ms_delta": -346.110707,
+        "avg_t_prefill_ms_delta": -5.35544,
+        "avg_tau_mean_delta": 0.06498,
+        "avg_tokens_per_second_delta": 0.070948,
+        "cap_limited_incomplete_rate_delta": -0.016667,
+        "strict_correct_rate_delta": 0.056667
+      },
+      "historical_only": false,
+      "label": "Task96 light CPU n30",
+      "reference": {
+        "avg_R_actual": 2.0,
+        "avg_e2e_time_s": 3.225521,
+        "avg_t_compress_ms": 363.459377,
+        "avg_t_prefill_ms": 101.308951,
+        "avg_tau_mean": 5.565157,
+        "avg_tokens_per_second": 59.755617,
+        "cap_limited_incomplete_count": 5,
+        "comparison_role": "controlled_cpu_reference",
+        "condition": "CC-DFlash-R2",
+        "dataset": "gsm8k_short",
+        "final_answer_marker_count": 25,
+        "historical_only": false,
+        "max_new_tokens": 256,
+        "n": 30,
+        "path": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/static_audit/task99_task96_light_cpu_reference.json",
+        "profile": "light_cpu_task96",
+        "row_count": 30,
+        "seed": 42,
+        "source_task": "Task96",
+        "strict_correct_count": 22,
+        "strict_wrong_numeric_count": 3
+      },
+      "settings_match": false
+    },
+    "light_gpu_n100_vs_task99r_light_gpu_n10": {
+      "caveat": "Bounded reference comparison because sample size or setup differs.",
+      "comparison_class": "bounded_reference",
+      "comparisons": {
+        "avg_R_actual_delta": 0.0,
+        "avg_e2e_time_s_delta": 0.211628,
+        "avg_t_compress_ms_delta": -8.220002,
+        "avg_t_prefill_ms_delta": -3.379659,
+        "avg_tau_mean_delta": -0.250177,
+        "avg_tokens_per_second_delta": -2.914237,
+        "cap_limited_incomplete_rate_delta": 0.05,
+        "strict_correct_rate_delta": -0.01
+      },
+      "historical_only": false,
+      "label": "Task99-R light GPU n10",
+      "reference": {
+        "artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+        "avg_R_actual": 2.0,
+        "avg_e2e_time_s": 2.668067,
+        "avg_prefill_vram_allocated_gib": 4.164382,
+        "avg_prefill_vram_reserved_gib": 4.355273,
+        "avg_t_compress_ms": 25.568672,
+        "avg_t_prefill_ms": 99.33317,
+        "avg_tau_mean": 5.880314,
+        "avg_tokens_per_second": 62.740802,
+        "avg_vram_allocated_gib": 4.164385,
+        "avg_vram_reserved_gib": 4.363477,
+        "calibrated_label_counts": {
+          "answer_missing": 0,
+          "cap_limited_incomplete": 1,
+          "format_or_extraction_sensitive": 0,
+          "proxy_uncertain": 0,
+          "strict_correct": 8,
+          "strict_wrong_numeric": 1
+        },
+        "cap_limited_incomplete_count": 1,
+        "comparison_role": "bounded_gpu_reference",
+        "compressor_device_map": "cuda",
+        "compressor_profile": "light",
+        "failure_flags": {
+          "failure_messages": [],
+          "failure_types": [],
+          "oom_or_cuda_failure": false,
+          "shell_gpu_unavailable": false
+        },
+        "final_answer_marker_count": 9,
+        "historical_only": false,
+        "labels": [
+          {
+            "calibrated_label": "cap_limited_incomplete",
+            "cap_limited": true,
+            "dataset_id": "gsm8k_short_test_0082",
+            "exact_containment": true,
+            "expected_answer": "6",
+            "expected_numeric": "6",
+            "final_answer_marker_present": false,
+            "fixture_id": "gsm8k_short_test_0082",
+            "generated_text_preview": "We are given the following: 1. Jamal's phone can hold **6 times more** photographs than Brittany's phone. 2. The **maximum number of photographs** that Brittany's phone can hold is **50 times more** than the number of birds in Jamal's photograph of the ducks a...",
+            "historical_task47_strict_correct": false,
+            "max_new_tokens": 256,
+            "notes": [
+              "output appears cap-limited or unfinished; strict correctness remains false"
+            ],
+            "output_tokens": 256,
+            "pair_id": "gsm8k_short_test_0082",
+            "pair_index": 1,
+            "profile": "light_gpu",
+            "prompt_id": 1,
+            "row_index": 1,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "50",
+              "6",
+              "1800",
+              "2"
+            ],
+            "strict_correct": false,
+            "strict_extracted_answer": "2",
+            "strict_extraction_source": "last_number_fallback"
+          },
+          {
+            "calibrated_label": "strict_correct",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0015",
+            "exact_containment": true,
+            "expected_answer": "5",
+            "expected_numeric": "5",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0015",
+            "generated_text_preview": "To find out how many pounds of insects ten ducks need per day, we start with the weekly requirement: - Each duck needs 3.5 pounds of insects per week. - For 10 ducks, the total weekly requirement is: $ 3.5 \\, \\text{pounds/duck/week} \\times 10 \\, \\text{ducks} =...",
+            "historical_task47_strict_correct": true,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction matched expected answer"
+            ],
+            "output_tokens": 138,
+            "pair_id": "gsm8k_short_test_0015",
+            "pair_index": 2,
+            "profile": "light_gpu",
+            "prompt_id": 2,
+            "row_index": 2,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "5"
+            ],
+            "strict_correct": true,
+            "strict_extracted_answer": "5",
+            "strict_extraction_source": "marked_final_answer"
+          },
+          {
+            "calibrated_label": "strict_correct",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0004",
+            "exact_containment": true,
+            "expected_answer": "12",
+            "expected_numeric": "12",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0004",
+            "generated_text_preview": "James has two sons: one is 12 years old, and the other is 4 years younger, so the other son is 12 - 4 = 8 years old. He needs to buy candles for both sons, so he needs 12 + 8 = 20 candles. A pack of 5 candles costs $3. To find out how many packs he needs: 20 \u00f7...",
+            "historical_task47_strict_correct": true,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction matched expected answer"
+            ],
+            "output_tokens": 123,
+            "pair_id": "gsm8k_short_test_0004",
+            "pair_index": 3,
+            "profile": "light_gpu",
+            "prompt_id": 3,
+            "row_index": 3,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "12"
+            ],
+            "strict_correct": true,
+            "strict_extracted_answer": "12",
+            "strict_extraction_source": "marked_final_answer"
+          },
+          {
+            "calibrated_label": "strict_correct",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0095",
+            "exact_containment": true,
+            "expected_answer": "650",
+            "expected_numeric": "650",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0095",
+            "generated_text_preview": "We are given the following: - Craig has spelled out **20 words**, each with **15 letters**. - Craig's brother has spelled words with a **total count of letters 50 more** than Craig. - We are to find the **total number of letters** in the words they've spelled ...",
+            "historical_task47_strict_correct": true,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction matched expected answer"
+            ],
+            "output_tokens": 255,
+            "pair_id": "gsm8k_short_test_0095",
+            "pair_index": 4,
+            "profile": "light_gpu",
+            "prompt_id": 4,
+            "row_index": 4,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "650"
+            ],
+            "strict_correct": true,
+            "strict_extracted_answer": "650",
+            "strict_extraction_source": "marked_final_answer"
+          },
+          {
+            "calibrated_label": "strict_correct",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0036",
+            "exact_containment": true,
+            "expected_answer": "38",
+            "expected_numeric": "38",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0036",
+            "generated_text_preview": "Winston picked 6 pounds of peaches at $2.00 per pound: 6 \u00d7 $2.00 = $12.00 He also picked 8 pounds of plums at $1.00 per pound: 8 \u00d7 $1.00 = $8.00 And 6 pounds of apricots at $3.00 per pound: 6 \u00d7 $3.00 = $18.00 Total cost: $12.00 + $8.00 + $18.00 = $38.00 Final ...",
+            "historical_task47_strict_correct": true,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction matched expected answer"
+            ],
+            "output_tokens": 137,
+            "pair_id": "gsm8k_short_test_0036",
+            "pair_index": 5,
+            "profile": "light_gpu",
+            "prompt_id": 5,
+            "row_index": 5,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "38"
+            ],
+            "strict_correct": true,
+            "strict_extracted_answer": "38",
+            "strict_extraction_source": "marked_final_answer"
+          },
+          {
+            "calibrated_label": "strict_correct",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0032",
+            "exact_containment": true,
+            "expected_answer": "123",
+            "expected_numeric": "123",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0032",
+            "generated_text_preview": "We are given: - The classroom has **30 boys**. - There are **3 times as many girls as boys**. - There are **1/10 as many nongendered children as boys**. Let's calculate the number of each type of child: 1. **Girls**: $ 3 \\times 30 = 90 $ girls. 2. **Nongendere...",
+            "historical_task47_strict_correct": true,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction matched expected answer"
+            ],
+            "output_tokens": 172,
+            "pair_id": "gsm8k_short_test_0032",
+            "pair_index": 6,
+            "profile": "light_gpu",
+            "prompt_id": 6,
+            "row_index": 6,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "123"
+            ],
+            "strict_correct": true,
+            "strict_extracted_answer": "123",
+            "strict_extraction_source": "marked_final_answer"
+          },
+          {
+            "calibrated_label": "strict_correct",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0029",
+            "exact_containment": true,
+            "expected_answer": "14",
+            "expected_numeric": "14",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0029",
+            "generated_text_preview": "We are given the following information: - Let $ x $ be the number of people who got on the bus at the terminal. - At the first stop, 5 more people got on: total becomes $ x + 5 $. - At the second stop, 7 people got off and 8 more got on: total becomes $ (x + 5...",
+            "historical_task47_strict_correct": true,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction matched expected answer"
+            ],
+            "output_tokens": 156,
+            "pair_id": "gsm8k_short_test_0029",
+            "pair_index": 7,
+            "profile": "light_gpu",
+            "prompt_id": 7,
+            "row_index": 7,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "14"
+            ],
+            "strict_correct": true,
+            "strict_extracted_answer": "14",
+            "strict_extraction_source": "marked_final_answer"
+          },
+          {
+            "calibrated_label": "strict_correct",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0018",
+            "exact_containment": true,
+            "expected_answer": "66",
+            "expected_numeric": "66",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0018",
+            "generated_text_preview": "Ted starts with $200. He buys 3 books at $16 each: $ 3 \\times 16 = 48 $ dollars. He buys 3 pencils at $6 each: $ 3 \\times 6 = 18 $ dollars. Total amount spent: $ 48 + 18 = 66 $ dollars. Final answer: 66",
+            "historical_task47_strict_correct": true,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction matched expected answer"
+            ],
+            "output_tokens": 91,
+            "pair_id": "gsm8k_short_test_0018",
+            "pair_index": 8,
+            "profile": "light_gpu",
+            "prompt_id": 8,
+            "row_index": 8,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "66"
+            ],
+            "strict_correct": true,
+            "strict_extracted_answer": "66",
+            "strict_extraction_source": "marked_final_answer"
+          },
+          {
+            "calibrated_label": "strict_correct",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0014",
+            "exact_containment": true,
+            "expected_answer": "1430",
+            "expected_numeric": "1430",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0014",
+            "generated_text_preview": "Janet buys a brooch for her daughter. She pays $500 for the material and $800 for the jeweler to construct it. That is: $$ 500 + 800 = 1300 $$ Then she pays 10% of that amount to get it insured: $$ 10\\% \\text{ of } 1300 = 0.10 \\times 1300 = 130 $$ So, the tota...",
+            "historical_task47_strict_correct": true,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction matched expected answer"
+            ],
+            "output_tokens": 144,
+            "pair_id": "gsm8k_short_test_0014",
+            "pair_index": 9,
+            "profile": "light_gpu",
+            "prompt_id": 9,
+            "row_index": 9,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "1430"
+            ],
+            "strict_correct": true,
+            "strict_extracted_answer": "1430",
+            "strict_extraction_source": "marked_final_answer"
+          },
+          {
+            "calibrated_label": "strict_wrong_numeric",
+            "cap_limited": false,
+            "dataset_id": "gsm8k_short_test_0087",
+            "exact_containment": false,
+            "expected_answer": "40",
+            "expected_numeric": "40",
+            "final_answer_marker_present": true,
+            "fixture_id": "gsm8k_short_test_0087",
+            "generated_text_preview": "We are told: - Brian has 20 video games, but **lost 5** right before the comparison was made. - So, **before losing**, Brian had 20 video games. - Bobby has **5 fewer than 3 times as many** video games as Brian **had before losing**. Let\u2019s break it down: - Bri...",
+            "historical_task47_strict_correct": false,
+            "max_new_tokens": 256,
+            "notes": [
+              "strict numeric extraction produced a different answer"
+            ],
+            "output_tokens": 119,
+            "pair_id": "gsm8k_short_test_0087",
+            "pair_index": 10,
+            "profile": "light_gpu",
+            "prompt_id": 10,
+            "row_index": 10,
+            "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+            "strict_candidate_answers": [
+              "55"
+            ],
+            "strict_correct": false,
+            "strict_extracted_answer": "55",
+            "strict_extraction_source": "marked_final_answer"
+          }
+        ],
+        "metadata_ok": true,
+        "path": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/summary/task99r_gpu_placement_summary.json",
+        "requested_compressor_device_map": "cuda",
+        "row_count": 10,
+        "source_task": "Task99-R",
+        "strict_correct_count": 8,
+        "strict_wrong_numeric_count": 1
+      },
+      "settings_match": false
+    }
+  },
+  "decision": "PASS_WITH_CAVEAT",
+  "forbidden_scope_confirmation": {
+    "baseline_ar_run": false,
+    "default_gpu_switch": false,
+    "dflash_r1_run": false,
+    "full_matrix_run": false,
+    "keep_rate_tuning": false,
+    "large_cpu_n100_run": false,
+    "qmsum_run": false
+  },
+  "light_gpu_n100": {
+    "answer_missing_count": 0,
+    "artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+    "avg_R_actual": 2.0,
+    "avg_e2e_time_s": 2.879695,
+    "avg_prefill_vram_allocated_gib": 4.162686,
+    "avg_prefill_vram_reserved_gib": 4.378418,
+    "avg_t_compress_ms": 17.34867,
+    "avg_t_prefill_ms": 95.953511,
+    "avg_tau_mean": 5.630137,
+    "avg_tokens_per_second": 59.826565,
+    "avg_vram_allocated_gib": 4.162689,
+    "avg_vram_reserved_gib": 4.379336,
+    "calibrated_label_counts": {
+      "answer_missing": 0,
+      "cap_limited_incomplete": 15,
+      "format_or_extraction_sensitive": 0,
+      "proxy_uncertain": 0,
+      "strict_correct": 79,
+      "strict_wrong_numeric": 6
+    },
+    "cap_limited_incomplete_count": 15,
+    "cap_limited_incomplete_rate": 0.15,
+    "compressor_device_map": "cuda",
+    "compressor_device_maps": [
+      "cuda"
+    ],
+    "compressor_path": "models/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+    "compressor_profile": "light",
+    "compressor_profiles": [
+      "light"
+    ],
+    "conditions": [
+      "CC-DFlash-R2"
+    ],
+    "datasets": [
+      "gsm8k_short"
+    ],
+    "exact_containment_diagnostic_count": 83,
+    "expected_row_count": 100,
+    "failure_flags": {
+      "failure_messages": [],
+      "failure_types": [],
+      "oom_or_cuda_failure": false
+    },
+    "final_answer_marker_count": 85,
+    "invalid_or_malformed_generated_text_count": 0,
+    "is_complete_n100": true,
+    "labels": [
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0082",
+        "exact_containment": true,
+        "expected_answer": "6",
+        "expected_numeric": "6",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0082",
+        "generated_text_preview": "We are given the following: 1. Jamal's phone can hold **6 times more** photographs than Brittany's phone. 2. The **maximum number of photographs** that Brittany's phone can hold is **50 times more** than the number of birds in Jamal's photograph of the ducks a...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0082",
+        "pair_index": 1,
+        "profile": "light_gpu_n100",
+        "prompt_id": 1,
+        "row_index": 1,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "50",
+          "6",
+          "1800",
+          "2"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "2",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0015",
+        "exact_containment": true,
+        "expected_answer": "5",
+        "expected_numeric": "5",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0015",
+        "generated_text_preview": "To find out how many pounds of insects ten ducks need per day, we start with the weekly requirement: - Each duck needs 3.5 pounds of insects per week. - For 10 ducks, the total weekly requirement is: $ 3.5 \\, \\text{pounds/duck/week} \\times 10 \\, \\text{ducks} =...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 138,
+        "pair_id": "gsm8k_short_test_0015",
+        "pair_index": 2,
+        "profile": "light_gpu_n100",
+        "prompt_id": 2,
+        "row_index": 2,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "5"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "5",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0004",
+        "exact_containment": true,
+        "expected_answer": "12",
+        "expected_numeric": "12",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0004",
+        "generated_text_preview": "James has two sons: one is 12 years old, and the other is 4 years younger, so the other son is 12 - 4 = 8 years old. He needs to buy candles for both sons, so he needs 12 + 8 = 20 candles. A pack of 5 candles costs $3. To find out how many packs he needs: 20 \u00f7...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 123,
+        "pair_id": "gsm8k_short_test_0004",
+        "pair_index": 3,
+        "profile": "light_gpu_n100",
+        "prompt_id": 3,
+        "row_index": 3,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "12"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "12",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0095",
+        "exact_containment": true,
+        "expected_answer": "650",
+        "expected_numeric": "650",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0095",
+        "generated_text_preview": "We are given the following: - Craig has spelled out **20 words**, each with **15 letters**. - Craig's brother has spelled words with a **total count of letters 50 more** than Craig. - We are to find the **total number of letters** in the words they've spelled ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 255,
+        "pair_id": "gsm8k_short_test_0095",
+        "pair_index": 4,
+        "profile": "light_gpu_n100",
+        "prompt_id": 4,
+        "row_index": 4,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "650"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "650",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0036",
+        "exact_containment": true,
+        "expected_answer": "38",
+        "expected_numeric": "38",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0036",
+        "generated_text_preview": "Winston picked 6 pounds of peaches at $2.00 per pound: 6 \u00d7 $2.00 = $12.00 He also picked 8 pounds of plums at $1.00 per pound: 8 \u00d7 $1.00 = $8.00 And 6 pounds of apricots at $3.00 per pound: 6 \u00d7 $3.00 = $18.00 Total cost: $12.00 + $8.00 + $18.00 = $38.00 Final ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 137,
+        "pair_id": "gsm8k_short_test_0036",
+        "pair_index": 5,
+        "profile": "light_gpu_n100",
+        "prompt_id": 5,
+        "row_index": 5,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "38"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "38",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0032",
+        "exact_containment": true,
+        "expected_answer": "123",
+        "expected_numeric": "123",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0032",
+        "generated_text_preview": "We are given: - The classroom has **30 boys**. - There are **3 times as many girls as boys**. - There are **1/10 as many nongendered children as boys**. Let's calculate the number of each type of child: 1. **Girls**: $ 3 \\times 30 = 90 $ girls. 2. **Nongendere...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 172,
+        "pair_id": "gsm8k_short_test_0032",
+        "pair_index": 6,
+        "profile": "light_gpu_n100",
+        "prompt_id": 6,
+        "row_index": 6,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "123"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "123",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0029",
+        "exact_containment": true,
+        "expected_answer": "14",
+        "expected_numeric": "14",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0029",
+        "generated_text_preview": "We are given the following information: - Let $ x $ be the number of people who got on the bus at the terminal. - At the first stop, 5 more people got on: total becomes $ x + 5 $. - At the second stop, 7 people got off and 8 more got on: total becomes $ (x + 5...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 156,
+        "pair_id": "gsm8k_short_test_0029",
+        "pair_index": 7,
+        "profile": "light_gpu_n100",
+        "prompt_id": 7,
+        "row_index": 7,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "14"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "14",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0018",
+        "exact_containment": true,
+        "expected_answer": "66",
+        "expected_numeric": "66",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0018",
+        "generated_text_preview": "Ted starts with $200. He buys 3 books at $16 each: $ 3 \\times 16 = 48 $ dollars. He buys 3 pencils at $6 each: $ 3 \\times 6 = 18 $ dollars. Total amount spent: $ 48 + 18 = 66 $ dollars. Final answer: 66",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 91,
+        "pair_id": "gsm8k_short_test_0018",
+        "pair_index": 8,
+        "profile": "light_gpu_n100",
+        "prompt_id": 8,
+        "row_index": 8,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "66"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "66",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0014",
+        "exact_containment": true,
+        "expected_answer": "1430",
+        "expected_numeric": "1430",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0014",
+        "generated_text_preview": "Janet buys a brooch for her daughter. She pays $500 for the material and $800 for the jeweler to construct it. That is: $$ 500 + 800 = 1300 $$ Then she pays 10% of that amount to get it insured: $$ 10\\% \\text{ of } 1300 = 0.10 \\times 1300 = 130 $$ So, the tota...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 144,
+        "pair_id": "gsm8k_short_test_0014",
+        "pair_index": 9,
+        "profile": "light_gpu_n100",
+        "prompt_id": 9,
+        "row_index": 9,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1430"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "1430",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_wrong_numeric",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0087",
+        "exact_containment": false,
+        "expected_answer": "40",
+        "expected_numeric": "40",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0087",
+        "generated_text_preview": "We are told: - Brian has 20 video games, but **lost 5** right before the comparison was made. - So, **before losing**, Brian had 20 video games. - Bobby has **5 fewer than 3 times as many** video games as Brian **had before losing**. Let\u2019s break it down: - Bri...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction produced a different answer"
+        ],
+        "output_tokens": 119,
+        "pair_id": "gsm8k_short_test_0087",
+        "pair_index": 10,
+        "profile": "light_gpu_n100",
+        "prompt_id": 10,
+        "row_index": 10,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "55"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "55",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_wrong_numeric",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0070",
+        "exact_containment": false,
+        "expected_answer": "7",
+        "expected_numeric": "7",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0070",
+        "generated_text_preview": "Brendan starts with 10 marbles. He drops half of them: $ \\frac{10}{2} = 5 $ marbles dropped. He finds 3 marbles. So, he has $ 3 $ marbles. Then he discards 1 bead (which isn't a marble), so the number of marbles remains $ 3 $. Final answer: 3",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction produced a different answer"
+        ],
+        "output_tokens": 88,
+        "pair_id": "gsm8k_short_test_0070",
+        "pair_index": 11,
+        "profile": "light_gpu_n100",
+        "prompt_id": 11,
+        "row_index": 11,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "3"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "3",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0012",
+        "exact_containment": true,
+        "expected_answer": "80",
+        "expected_numeric": "80",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0012",
+        "generated_text_preview": "We are given: - Total burritos ordered: 600 - Number of students: 50 - Burritos per student: 10 - Mr. George ate: 20 burritos **Step 1: Calculate the total number of burritos given to students.** $$ 50 \\text{ students} \\times 10 \\text{ burritos per student} = ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 181,
+        "pair_id": "gsm8k_short_test_0012",
+        "pair_index": 12,
+        "profile": "light_gpu_n100",
+        "prompt_id": 12,
+        "row_index": 12,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "80"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "80",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0076",
+        "exact_containment": true,
+        "expected_answer": "4400",
+        "expected_numeric": "4400",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0076",
+        "generated_text_preview": "Mike has 600 movies. - A third of the movies are in various series: $ \\frac{1}{3} \\times 600 = 200 $ movies. - These 200 series movies cost $6 each: $ 200 \\times 6 = 1200 $ dollars. - The remaining movies: $ 600 - 200 = 400 $ movies. - 40% of the remaining 400...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 251,
+        "pair_id": "gsm8k_short_test_0076",
+        "pair_index": 13,
+        "profile": "light_gpu_n100",
+        "prompt_id": 13,
+        "row_index": 13,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "4400"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "4400",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0055",
+        "exact_containment": true,
+        "expected_answer": "140",
+        "expected_numeric": "140",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0055",
+        "generated_text_preview": "Jordan plays video games for 2 hours every day. If he spent that time working instead, he would earn $10 per hour. First, calculate his daily earnings: $$ 2 \\, \\text{hours/day} \\times \\$10/\\text{hour} = \\$20/\\text{day} $$ Next, calculate his weekly earnings: $...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 116,
+        "pair_id": "gsm8k_short_test_0055",
+        "pair_index": 14,
+        "profile": "light_gpu_n100",
+        "prompt_id": 14,
+        "row_index": 14,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "140"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "140",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0005",
+        "exact_containment": true,
+        "expected_answer": "273",
+        "expected_numeric": "273",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0005",
+        "generated_text_preview": "Mariah used $ \\frac{1}{4} $ of a skein, and her grandma used $ \\frac{1}{2} $ of a skein. Each skein has 364 yards. So, Mariah used: $ \\frac{1}{4} \\times 364 = 91 $ yards. Her grandma used: $ \\frac{1}{2} \\times 364 = 182 $ yards. Together, they used: $ 91 + 182...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 132,
+        "pair_id": "gsm8k_short_test_0005",
+        "pair_index": 15,
+        "profile": "light_gpu_n100",
+        "prompt_id": 15,
+        "row_index": 15,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "273"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "273",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0098",
+        "exact_containment": false,
+        "expected_answer": "1,600",
+        "expected_numeric": "1600",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0098",
+        "generated_text_preview": "To solve this problem, we need to determine how Frederick can use his $24 to buy the cheapest lumber (either 2 x 4 or 2 x 8) in order to make the most popsicle sticks. ### Step 1: Understand the cost and yield per piece of wood - **2 x 4 piece**: Costs $4, yie...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0098",
+        "pair_index": 16,
+        "profile": "light_gpu_n100",
+        "prompt_id": 16,
+        "row_index": 16,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "2",
+          "8",
+          "6",
+          "400",
+          "4",
+          "24",
+          "3",
+          "200",
+          "1200"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "1200",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0089",
+        "exact_containment": false,
+        "expected_answer": "170",
+        "expected_numeric": "170",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0089",
+        "generated_text_preview": "We are given that Abraham owns **80 square meters** of land and sells it in three parts. We need to calculate the total amount of money he earns from selling all of it. --- ### Step 1: First Sale - He sells **half** of the land: $$ \\frac{1}{2} \\times 80 = 40 \\...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0089",
+        "pair_index": 17,
+        "profile": "light_gpu_n100",
+        "prompt_id": 17,
+        "row_index": 17,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1",
+          "2",
+          "80",
+          "40",
+          "50",
+          "2000",
+          "4",
+          "20",
+          "30",
+          "600",
+          "3"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "3",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0028",
+        "exact_containment": false,
+        "expected_answer": "18",
+        "expected_numeric": "18",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0028",
+        "generated_text_preview": "We are given that Melanie started with some number of vacuum cleaners, and we are to find that number based on the following: - She sold a third of her vacuum cleaners at the **green house**. - Then she sold **2 more** to the **red house**. - Then she sold **h...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0028",
+        "pair_index": 18,
+        "profile": "light_gpu_n100",
+        "prompt_id": 18,
+        "row_index": 18,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1",
+          "3",
+          "2"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "2",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0030",
+        "exact_containment": true,
+        "expected_answer": "23",
+        "expected_numeric": "23",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0030",
+        "generated_text_preview": "We are given the following information: - Number of **red cars** = 12 - Number of **green cars** = 12 - 2 = **10** - Number of **blue cars** = 3 \u00d7 number of green cars = 3 \u00d7 10 = **30** - Total number of cars = 75 - Let the number of **yellow cars** = $ y $ We...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 188,
+        "pair_id": "gsm8k_short_test_0030",
+        "pair_index": 19,
+        "profile": "light_gpu_n100",
+        "prompt_id": 19,
+        "row_index": 19,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "23"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "23",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0065",
+        "exact_containment": true,
+        "expected_answer": "133",
+        "expected_numeric": "133",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0065",
+        "generated_text_preview": "To calculate the final price after a 5% discount on a $140 item: 1. Calculate the discount amount: $ 140 \\times 0.05 = 7 $ 2. Subtract the discount from the original price: $ 140 - 7 = 133 $ Final answer: 133",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 78,
+        "pair_id": "gsm8k_short_test_0065",
+        "pair_index": 20,
+        "profile": "light_gpu_n100",
+        "prompt_id": 20,
+        "row_index": 20,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "133"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "133",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0078",
+        "exact_containment": false,
+        "expected_answer": "64",
+        "expected_numeric": "64",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0078",
+        "generated_text_preview": "We are given: - Aaron runs each mile **twice as fast** as Vanessa. - Vanessa runs **twice as far** as Aaron. - Vanessa ran **4 miles**. - Aaron completed his part of the race in **16 minutes**. We are to find how long **Vanessa took** to complete her part of t...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0078",
+        "pair_index": 21,
+        "profile": "light_gpu_n100",
+        "prompt_id": 21,
+        "row_index": 21,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "2",
+          "4",
+          "16"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "16",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0085",
+        "exact_containment": true,
+        "expected_answer": "35",
+        "expected_numeric": "35",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0085",
+        "generated_text_preview": "Hunter initially counted 50 cars in the parking lot when entering class. During the first break, he counted 20 more cars, so the total number of cars at that point was: 50 + 20 = 70 cars. When he left for lunch, he realized that **half** the number of cars had...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 139,
+        "pair_id": "gsm8k_short_test_0085",
+        "pair_index": 22,
+        "profile": "light_gpu_n100",
+        "prompt_id": 22,
+        "row_index": 22,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "35"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "35",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0072",
+        "exact_containment": true,
+        "expected_answer": "8",
+        "expected_numeric": "8",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0072",
+        "generated_text_preview": "To find the total number of hours Peyton's after-work activities take, we calculate the duration of each activity: - **Monday**: 1 hour (yoga class) - **Tuesday**: 3 \u00d7 1 = 3 hours (cooking class) - **Wednesday**: 0.5 hours (cheese-tasting) - **Thursday**: 3 \u00f7 ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 136,
+        "pair_id": "gsm8k_short_test_0072",
+        "pair_index": 23,
+        "profile": "light_gpu_n100",
+        "prompt_id": 23,
+        "row_index": 23,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "8"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "8",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0026",
+        "exact_containment": true,
+        "expected_answer": "40,000",
+        "expected_numeric": "40000",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0026",
+        "generated_text_preview": "John's house is worth $250,000. He gets a loan worth 40% of that: $$ 0.40 \\times 250,000 = 100,000 $$ He uses 60% of that loan amount to pay off his debts: $$ 0.60 \\times 100,000 = 60,000 $$ The leftover amount after paying off debt is: $$ 100,000 - 60,000 = 4...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 145,
+        "pair_id": "gsm8k_short_test_0026",
+        "pair_index": 24,
+        "profile": "light_gpu_n100",
+        "prompt_id": 24,
+        "row_index": 24,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "40000"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "40000",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0090",
+        "exact_containment": true,
+        "expected_answer": "29",
+        "expected_numeric": "29",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0090",
+        "generated_text_preview": "We are given the following information: - Steve is 60 years old. - His wife is 4 years older than him. - Their son is currently half as old as his mom (Steve's wife). - Their son's wife is 3 years younger than her husband (the son). We are to find the age of S...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0090",
+        "pair_index": 25,
+        "profile": "light_gpu_n100",
+        "prompt_id": 25,
+        "row_index": 25,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "29"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "29",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0054",
+        "exact_containment": true,
+        "expected_answer": "20",
+        "expected_numeric": "20",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0054",
+        "generated_text_preview": "Carol spends 4 hours writing a song. Half that time recording: $ \\frac{4}{2} = 2 $ hours. 90 minutes editing: $ 90 \\div 60 = 1.5 $ hours. Total work time: $ 4 + 2 + 1.5 = 7.5 $ hours. Percentage of time spent editing: $$ \\frac{1.5}{7.5} \\times 100 = 20\\% $$ Fi...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 116,
+        "pair_id": "gsm8k_short_test_0054",
+        "pair_index": 26,
+        "profile": "light_gpu_n100",
+        "prompt_id": 26,
+        "row_index": 26,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "20"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "20",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0094",
+        "exact_containment": true,
+        "expected_answer": "230",
+        "expected_numeric": "230",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0094",
+        "generated_text_preview": "Mark originally paid $400 for a new radiator, but he got it for 80% off. 80% off means he paid 20% of the original price: $ 400 \u00d7 0.20 = $80 Next, he hired a mechanic for 3 hours at $50 per hour: $ 50 \u00d7 3 = $150 Total amount he paid: $80 + $150 = $230 Final an...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 116,
+        "pair_id": "gsm8k_short_test_0094",
+        "pair_index": 27,
+        "profile": "light_gpu_n100",
+        "prompt_id": 27,
+        "row_index": 27,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "230"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "230",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0058",
+        "exact_containment": true,
+        "expected_answer": "1",
+        "expected_numeric": "1",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0058",
+        "generated_text_preview": "To determine how much more expensive the boots are on eBay compared to Amazon, we need to compare the total cost (price + shipping) on both sites. **Amazon:** - Price: $16 - Shipping: $4 - Total cost: $16 + $4 = **$20** **eBay:** - Price: $13 - Shipping: Twice...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 141,
+        "pair_id": "gsm8k_short_test_0058",
+        "pair_index": 28,
+        "profile": "light_gpu_n100",
+        "prompt_id": 28,
+        "row_index": 28,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "1",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0096",
+        "exact_containment": true,
+        "expected_answer": "75",
+        "expected_numeric": "75",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0096",
+        "generated_text_preview": "Susan earns $5 every 10 minutes for an online task. She works between 8 a.m. and 11 a.m., which is a total of 3 hours = 180 minutes. She pauses for half an hour in between, so she works for: 180 minutes - 30 minutes = 150 minutes. Now, calculate how many 10-mi...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 137,
+        "pair_id": "gsm8k_short_test_0096",
+        "pair_index": 29,
+        "profile": "light_gpu_n100",
+        "prompt_id": 29,
+        "row_index": 29,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "75"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "75",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_wrong_numeric",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0001",
+        "exact_containment": false,
+        "expected_answer": "2280",
+        "expected_numeric": "2280",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0001",
+        "generated_text_preview": "We are given the following: - Alexandra raises $430. - Kim raises $320 more than Alexandra: $$ \\text{Kim} = 430 + 320 = 750 $$ - Sarah raises $300. - Maryam raises $400 more than Sarah: $$ \\text{Maryam} = 300 + 400 = 700 $$ Now, we add all the amounts raised: ...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction produced a different answer"
+        ],
+        "output_tokens": 184,
+        "pair_id": "gsm8k_short_test_0001",
+        "pair_index": 30,
+        "profile": "light_gpu_n100",
+        "prompt_id": 30,
+        "row_index": 30,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "2180"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "2180",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0021",
+        "exact_containment": true,
+        "expected_answer": "93",
+        "expected_numeric": "93",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0021",
+        "generated_text_preview": "Jen has 3 fish, and each fish needs $1 worth of food per day. So, the daily cost is: 3 fish \u00d7 $1 = $3 per day. May has 31 days. Total cost for the month of May: $3/day \u00d7 31 days = $93. Final answer: 93",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 76,
+        "pair_id": "gsm8k_short_test_0021",
+        "pair_index": 31,
+        "profile": "light_gpu_n100",
+        "prompt_id": 31,
+        "row_index": 31,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "93"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "93",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0091",
+        "exact_containment": true,
+        "expected_answer": "5",
+        "expected_numeric": "5",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0091",
+        "generated_text_preview": "Ray had 25 lollipops. He kept 5 lollipops, so he shared 25 - 5 = 20 lollipops with his four friends. To find how many lollipops each friend received, divide 20 by 4: 20 \u00f7 4 = 5 Final answer: 5",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 77,
+        "pair_id": "gsm8k_short_test_0091",
+        "pair_index": 32,
+        "profile": "light_gpu_n100",
+        "prompt_id": 32,
+        "row_index": 32,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "5"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "5",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0044",
+        "exact_containment": true,
+        "expected_answer": "30",
+        "expected_numeric": "30",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0044",
+        "generated_text_preview": "We are given the following information: - Jeff is 10 years older than his younger sister, Martha. - Martha is 4 years younger than her boyfriend, Mike. - Mike is 24 years old. First, find Martha's age: Since Martha is 4 years younger than Mike, and Mike is 24:...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 141,
+        "pair_id": "gsm8k_short_test_0044",
+        "pair_index": 33,
+        "profile": "light_gpu_n100",
+        "prompt_id": 33,
+        "row_index": 33,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "30"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "30",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0080",
+        "exact_containment": true,
+        "expected_answer": "112",
+        "expected_numeric": "112",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0080",
+        "generated_text_preview": "Beatrice bought 10 packets of crayons. - 6 packets had 8 pieces each: $6 \\times 8 = 48$ - 4 packets had 16 pieces each: $4 \\times 16 = 64$ Total number of colors: $48 + 64 = 112$ Final answer: 112",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 85,
+        "pair_id": "gsm8k_short_test_0080",
+        "pair_index": 34,
+        "profile": "light_gpu_n100",
+        "prompt_id": 34,
+        "row_index": 34,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "112"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "112",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0020",
+        "exact_containment": true,
+        "expected_answer": "40",
+        "expected_numeric": "40",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0020",
+        "generated_text_preview": "The Doubtfire sisters are driving home with 7 kittens they adopted. Their mother informs them that their two house cats have had kittens: - Patchy has had **thrice the number of adopted kittens**. Let's denote the number of kittens Patchy has had as $ P $. - T...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 170,
+        "pair_id": "gsm8k_short_test_0020",
+        "pair_index": 35,
+        "profile": "light_gpu_n100",
+        "prompt_id": 35,
+        "row_index": 35,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "40"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "40",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0083",
+        "exact_containment": true,
+        "expected_answer": "4",
+        "expected_numeric": "4",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0083",
+        "generated_text_preview": "Mary has 6 jars of sprinkles, and each jar can decorate 8 cupcakes. So, the total number of cupcakes she can decorate is: $$ 6 \\text{ jars} \\times 8 \\text{ cupcakes/jar} = 48 \\text{ cupcakes} $$ Each pan holds 12 cupcakes. To find out how many pans are needed ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 108,
+        "pair_id": "gsm8k_short_test_0083",
+        "pair_index": 36,
+        "profile": "light_gpu_n100",
+        "prompt_id": 36,
+        "row_index": 36,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "4"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "4",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0068",
+        "exact_containment": true,
+        "expected_answer": "130",
+        "expected_numeric": "130",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0068",
+        "generated_text_preview": "Elise is writing the alphabet multiple times. Let's break down the problem step by step. 1. **First full writing of the alphabet**: 26 letters 2. **Second full writing of the alphabet**: 26 letters 3. **Half of the alphabet**: 13 letters 4. **Rewriting everyth...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 187,
+        "pair_id": "gsm8k_short_test_0068",
+        "pair_index": 37,
+        "profile": "light_gpu_n100",
+        "prompt_id": 37,
+        "row_index": 37,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "130"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "130",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0007",
+        "exact_containment": true,
+        "expected_answer": "21",
+        "expected_numeric": "21",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0007",
+        "generated_text_preview": "If Ann is 9 years old and her brother is twice her age, then her brother is $ 2 \\times 9 = 18 $ years old. In 3 years, her brother will be $ 18 + 3 = 21 $ years old. Final answer: 21",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 65,
+        "pair_id": "gsm8k_short_test_0007",
+        "pair_index": 38,
+        "profile": "light_gpu_n100",
+        "prompt_id": 38,
+        "row_index": 38,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "21"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "21",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0006",
+        "exact_containment": true,
+        "expected_answer": "45",
+        "expected_numeric": "45",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0006",
+        "generated_text_preview": "Let's break down the problem step by step: 1. **Initial number of fairies:** Katelyn saw 50 fairies. 2. **After 20 minutes:** One of her friends saw **half as many fairies** as Katelyn saw come from the east. - Katelyn saw 50 fairies. - Half of that is $ \\frac...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 187,
+        "pair_id": "gsm8k_short_test_0006",
+        "pair_index": 39,
+        "profile": "light_gpu_n100",
+        "prompt_id": 39,
+        "row_index": 39,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "45"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "45",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0025",
+        "exact_containment": true,
+        "expected_answer": "90",
+        "expected_numeric": "90",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0025",
+        "generated_text_preview": "To determine how much money the class was able to raise from the profit of selling lollipops, we need to calculate the total profit made by the class. ### Step 1: Calculate the total number of lollipops sold - There are 30 students. - Each student sold on aver...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 247,
+        "pair_id": "gsm8k_short_test_0025",
+        "pair_index": 40,
+        "profile": "light_gpu_n100",
+        "prompt_id": 40,
+        "row_index": 40,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "90"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "90",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0063",
+        "exact_containment": true,
+        "expected_answer": "350",
+        "expected_numeric": "350",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0063",
+        "generated_text_preview": "The vendor sells 500 tomatoes each day. Previously, he paid $0.50 per tomato, so his daily cost was: $ 500 \\times 0.50 = $250 $. Now, he pays $0.40 per tomato, so his daily cost is: $ 500 \\times 0.40 = $200 $. The daily savings are: $ 250 - 200 = $50 $. For a ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 146,
+        "pair_id": "gsm8k_short_test_0063",
+        "pair_index": 41,
+        "profile": "light_gpu_n100",
+        "prompt_id": 41,
+        "row_index": 41,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "350"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "350",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0023",
+        "exact_containment": true,
+        "expected_answer": "1520",
+        "expected_numeric": "1520",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0023",
+        "generated_text_preview": "We are given: - Rafaela received tips from 40 customers, each giving a $20 tip. - Julieta received 10% less in tips than Rafaela. - We need to find the total amount of money both Rafaela and Julieta received in tips. ### Step 1: Calculate Rafaela's total tips ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 212,
+        "pair_id": "gsm8k_short_test_0023",
+        "pair_index": 42,
+        "profile": "light_gpu_n100",
+        "prompt_id": 42,
+        "row_index": 42,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1520"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "1520",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0069",
+        "exact_containment": true,
+        "expected_answer": "2,125",
+        "expected_numeric": "2125",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0069",
+        "generated_text_preview": "Johnny is picking up toys from three different lego boxes. - The first box has **500** pieces. - The second box has **3 times more** than the first, so: $ 3 \\times 500 = 1500 $ pieces. - The third box has **1/4 the number of pieces** of the first box: $ \\frac{...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 143,
+        "pair_id": "gsm8k_short_test_0069",
+        "pair_index": 43,
+        "profile": "light_gpu_n100",
+        "prompt_id": 43,
+        "row_index": 43,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "2125"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "2125",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0059",
+        "exact_containment": true,
+        "expected_answer": "50",
+        "expected_numeric": "50",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0059",
+        "generated_text_preview": "We are given: - 5 red cars - 3 action figures - 1 doll We are told: - The **doll costs as much as 3 action figures**. - One **red car costs $4**. - An **action figure costs $5**. We are to find the **total value of all the toys**. --- ### Step 1: Value of each...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 212,
+        "pair_id": "gsm8k_short_test_0059",
+        "pair_index": 44,
+        "profile": "light_gpu_n100",
+        "prompt_id": 44,
+        "row_index": 44,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "50"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "50",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0039",
+        "exact_containment": true,
+        "expected_answer": "50",
+        "expected_numeric": "50",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0039",
+        "generated_text_preview": "Gerald and Julia divided $100 in the ratio 3:2. Total parts = 3 + 2 = 5 Gerald's share = (3/5) \u00d7 100 = $60 Gerald spent $10 on a book. Money left = $60 - $10 = $50 Final answer: 50",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 83,
+        "pair_id": "gsm8k_short_test_0039",
+        "pair_index": 45,
+        "profile": "light_gpu_n100",
+        "prompt_id": 45,
+        "row_index": 45,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "50"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "50",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0017",
+        "exact_containment": true,
+        "expected_answer": "5",
+        "expected_numeric": "5",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0017",
+        "generated_text_preview": "Sarah spent $300 on books, and each book cost $15. To find the total number of books she bought: $$ \\frac{300}{15} = 20 \\text{ books} $$ She gave an equal number of books to her 4 kids: $$ \\frac{20}{4} = 5 $$ Final answer: 5",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 85,
+        "pair_id": "gsm8k_short_test_0017",
+        "pair_index": 46,
+        "profile": "light_gpu_n100",
+        "prompt_id": 46,
+        "row_index": 46,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "5"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "5",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0052",
+        "exact_containment": true,
+        "expected_answer": "25",
+        "expected_numeric": "25",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0052",
+        "generated_text_preview": "We are given: - Total number of students = 50 - Number of students who like to bake = 10 - Number of students who like to play basketball = 5 - Number of students who like to play music = twice the number who like basketball - The rest like to play video games...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 220,
+        "pair_id": "gsm8k_short_test_0052",
+        "pair_index": 47,
+        "profile": "light_gpu_n100",
+        "prompt_id": 47,
+        "row_index": 47,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "25"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "25",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0003",
+        "exact_containment": true,
+        "expected_answer": "5",
+        "expected_numeric": "5",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0003",
+        "generated_text_preview": "Tom sails from 1 PM to 4 PM, which is a total of 3 hours. At a speed of 10 mph, the distance he covers is: $$ \\text{Distance} = \\text{Speed} \\times \\text{Time} = 10 \\, \\text{mph} \\times 3 \\, \\text{hours} = 30 \\, \\text{miles} $$ To return, he travels at 6 mph. ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 164,
+        "pair_id": "gsm8k_short_test_0003",
+        "pair_index": 48,
+        "profile": "light_gpu_n100",
+        "prompt_id": 48,
+        "row_index": 48,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "5"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "5",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0047",
+        "exact_containment": true,
+        "expected_answer": "32",
+        "expected_numeric": "32",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0047",
+        "generated_text_preview": "Anakin caught: - 10 starfish - 6 sea horses - 3 clownfish Total for Anakin: $ 10 + 6 + 3 = 19 $ fish Locsin caught: - 5 fewer starfish than Anakin: $ 10 - 5 = 5 $ starfish - 3 fewer sea horses than Anakin: $ 6 - 3 = 3 $ sea horses - 2 more clownfish than Anaki...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 170,
+        "pair_id": "gsm8k_short_test_0047",
+        "pair_index": 49,
+        "profile": "light_gpu_n100",
+        "prompt_id": 49,
+        "row_index": 49,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "32"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "32",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0100",
+        "exact_containment": true,
+        "expected_answer": "18",
+        "expected_numeric": "18",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0100",
+        "generated_text_preview": "Emma wants to make 72 vlogs per month. So far, she has made: - 18 vlogs in the first week - 21 vlogs in the second week - 15 vlogs in the third week Total vlogs made so far: 18 + 21 + 15 = 54 vlogs To complete 72 vlogs, she needs to make: 72 - 54 = 18 vlogs Fi...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 111,
+        "pair_id": "gsm8k_short_test_0100",
+        "pair_index": 50,
+        "profile": "light_gpu_n100",
+        "prompt_id": 50,
+        "row_index": 50,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "18"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "18",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0035",
+        "exact_containment": false,
+        "expected_answer": "34",
+        "expected_numeric": "34",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0035",
+        "generated_text_preview": "We are given the following information: - **Tickets**: 3 tickets cost $20.25. - **Food**: They spent $4.50 **less** on food than on tickets. - **Rides**: They went on 2 different rides, each costing $33. - They **split all costs evenly**. --- ### Step 1: Total...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0035",
+        "pair_index": 51,
+        "profile": "light_gpu_n100",
+        "prompt_id": 51,
+        "row_index": 51,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "33",
+          "1",
+          "20.25",
+          "2",
+          "4.5",
+          "15.75",
+          "3",
+          "66",
+          "4",
+          "6"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "6",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0008",
+        "exact_containment": false,
+        "expected_answer": "145",
+        "expected_numeric": "145",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0008",
+        "generated_text_preview": "We are given: - 20 dozen cups cost $1200 less than the total cost of half a dozen plates sold at $6000 each. We are to find the **total cost of buying each cup**. --- ### Step 1: Understand the given information - **Half a dozen plates** = 6 plates - Each plat...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0008",
+        "pair_index": 52,
+        "profile": "light_gpu_n100",
+        "prompt_id": 52,
+        "row_index": 52,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1",
+          "6",
+          "6000",
+          "36000",
+          "20",
+          "12",
+          "240",
+          "1200",
+          "34800",
+          "2"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "2",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_wrong_numeric",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0061",
+        "exact_containment": false,
+        "expected_answer": "60",
+        "expected_numeric": "60",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0061",
+        "generated_text_preview": "Rita removes Junebugs over 5 days as follows: - Monday: 39 - Tuesday: 2 \u00d7 39 = 78 - Wednesday: 2 \u00d7 39 = 78 - Thursday: 48 - Friday: 57 Total Junebugs removed: 39 + 78 + 78 + 48 + 57 = 290 Average per day: 290 \u00f7 5 = 58 Final answer: 58",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction produced a different answer"
+        ],
+        "output_tokens": 115,
+        "pair_id": "gsm8k_short_test_0061",
+        "pair_index": 53,
+        "profile": "light_gpu_n100",
+        "prompt_id": 53,
+        "row_index": 53,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "58"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "58",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0062",
+        "exact_containment": true,
+        "expected_answer": "23",
+        "expected_numeric": "23",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0062",
+        "generated_text_preview": "Randy starts with: - Oatmeal cookies: 9 - Chocolate chip cookies: 4 - Sugar cookies: 5 He eats 3 cookies for an early day snack, one of each flavor: - Oatmeal: 9 - 1 = 8 - Chocolate chip: 4 - 1 = 3 - Sugar: 5 - 1 = 4 He eats 2 oatmeal cookies for lunch: - Oatm...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 224,
+        "pair_id": "gsm8k_short_test_0062",
+        "pair_index": 54,
+        "profile": "light_gpu_n100",
+        "prompt_id": 54,
+        "row_index": 54,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "23"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "23",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0067",
+        "exact_containment": true,
+        "expected_answer": "13",
+        "expected_numeric": "13",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0067",
+        "generated_text_preview": "Indras has 6 letters in her name. Half of 6 is 3, and 4 more than that is $3 + 4 = 7$. So, Indras's sister's name has 7 letters. Total letters in both names: $6 + 7 = 13$. Final answer: 13",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 72,
+        "pair_id": "gsm8k_short_test_0067",
+        "pair_index": 55,
+        "profile": "light_gpu_n100",
+        "prompt_id": 55,
+        "row_index": 55,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "13"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "13",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0019",
+        "exact_containment": true,
+        "expected_answer": "15",
+        "expected_numeric": "15",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0019",
+        "generated_text_preview": "Eve originally had 20 pomelos. After giving some away, she was left with 1/4 of the original amount. So, the number of pomelos she was left with is: $$ \\frac{1}{4} \\times 20 = 5 $$ Therefore, the number of pomelos she gave away is: $$ 20 - 5 = 15 $$ Final answ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 97,
+        "pair_id": "gsm8k_short_test_0019",
+        "pair_index": 56,
+        "profile": "light_gpu_n100",
+        "prompt_id": 56,
+        "row_index": 56,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "15"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "15",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0041",
+        "exact_containment": true,
+        "expected_answer": "50",
+        "expected_numeric": "50",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0041",
+        "generated_text_preview": "Elvis wants to save a total of $1125 in April. April has 30 days, so we divide the month into two halves: the first half (15 days) and the second half (15 days). Let $ x $ be the amount he saves per day in the first half. Then, the amount he saves per day in t...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 179,
+        "pair_id": "gsm8k_short_test_0041",
+        "pair_index": 57,
+        "profile": "light_gpu_n100",
+        "prompt_id": 57,
+        "row_index": 57,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "50"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "50",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0040",
+        "exact_containment": true,
+        "expected_answer": "84",
+        "expected_numeric": "84",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0040",
+        "generated_text_preview": "To solve the problem, let's break it down step by step: 1. **Madeline ate 6 grapes.** 2. **Her brother used 5 times as many grapes as Madeline:** $ 5 \\times 6 = 30 $ grapes. 3. **Their mother used the remaining grapes to make 4 pies, with 12 grapes per pie:** ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 172,
+        "pair_id": "gsm8k_short_test_0040",
+        "pair_index": 58,
+        "profile": "light_gpu_n100",
+        "prompt_id": 58,
+        "row_index": 58,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "84"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "84",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0024",
+        "exact_containment": true,
+        "expected_answer": "11050",
+        "expected_numeric": "11050",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0024",
+        "generated_text_preview": "We are given the following information: - On the first day, filling **20 helium balloons** cost **$900**. - Two days later, the cost per balloon was increased by **$20**. - Bentley filled **170 balloons** after the price increase. - We are to find how much **B...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 239,
+        "pair_id": "gsm8k_short_test_0024",
+        "pair_index": 59,
+        "profile": "light_gpu_n100",
+        "prompt_id": 59,
+        "row_index": 59,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "11050"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "11050",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0037",
+        "exact_containment": true,
+        "expected_answer": "320",
+        "expected_numeric": "320",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0037",
+        "generated_text_preview": "Elaine initially had 20 Pok\u00e9mon cards. - **First month**: She collected 3 times that number: $ 3 \\times 20 = 60 $ cards. - **Second month**: She collected 20 fewer than the first month: $ 60 - 20 = 40 $ cards. - **Third month**: She collected twice the combine...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 177,
+        "pair_id": "gsm8k_short_test_0037",
+        "pair_index": 60,
+        "profile": "light_gpu_n100",
+        "prompt_id": 60,
+        "row_index": 60,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "320"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "320",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0013",
+        "exact_containment": true,
+        "expected_answer": "36",
+        "expected_numeric": "36",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0013",
+        "generated_text_preview": "Jim spends 2 hours watching TV. Then he reads for half as long, which is 1 hour. So, each day, he spends 2 + 1 = 3 hours on TV and reading. He does this 3 times a week, so in one week, he spends 3 \u00d7 3 = 9 hours. In 4 weeks, he spends 9 \u00d7 4 = 36 hours. Final an...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 94,
+        "pair_id": "gsm8k_short_test_0013",
+        "pair_index": 61,
+        "profile": "light_gpu_n100",
+        "prompt_id": 61,
+        "row_index": 61,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "36"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "36",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0086",
+        "exact_containment": true,
+        "expected_answer": "100",
+        "expected_numeric": "100",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0086",
+        "generated_text_preview": "Mark was unwell for 3 months and lost 10 pounds per month. So, the total weight loss is: $$ 3 \\text{ months} \\times 10 \\text{ pounds/month} = 30 \\text{ pounds} $$ His final weight was 70 pounds. To find his initial weight, we add the weight loss to the final w...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 118,
+        "pair_id": "gsm8k_short_test_0086",
+        "pair_index": 62,
+        "profile": "light_gpu_n100",
+        "prompt_id": 62,
+        "row_index": 62,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "100"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "100",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0053",
+        "exact_containment": true,
+        "expected_answer": "1800",
+        "expected_numeric": "1800",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0053",
+        "generated_text_preview": "Bob spends $27,000 distributed between 3 schools. This means each school gets: $$ \\frac{27000}{3} = 9000 \\text{ dollars per school.} $$ He can buy 100 books for $500. So, the number of books he can buy with $9000 is: $$ \\frac{9000}{500} \\times 100 = 18 \\times ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 136,
+        "pair_id": "gsm8k_short_test_0053",
+        "pair_index": 63,
+        "profile": "light_gpu_n100",
+        "prompt_id": 63,
+        "row_index": 63,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1800"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "1800",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0099",
+        "exact_containment": false,
+        "expected_answer": "90",
+        "expected_numeric": "90",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0099",
+        "generated_text_preview": "We are given the following information: - A fifth of the jellyfish are **large**. - A third of the **large** jellyfish change color from green to blue under UV light. - The **other** jellyfish (not large) are **small** and always stay **blue**. - When UV light...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0099",
+        "pair_index": 64,
+        "profile": "light_gpu_n100",
+        "prompt_id": 64,
+        "row_index": 64,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1",
+          "5",
+          "4",
+          "2",
+          "3",
+          "15",
+          "6"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "6",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0045",
+        "exact_containment": false,
+        "expected_answer": "192",
+        "expected_numeric": "192",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0045",
+        "generated_text_preview": "We are given: - There are **10 stalls**, each with **20 cows**. - Mr. Sylas buys **40 cows** and **divides them equally** into the **20 stalls**. We are to find: **How many cows are in 8 of the stalls?** --- ### Step 1: Total number of cows initially Each of t...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0045",
+        "pair_index": 65,
+        "profile": "light_gpu_n100",
+        "prompt_id": 65,
+        "row_index": 65,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "10",
+          "20",
+          "200",
+          "2",
+          "40",
+          "22",
+          "3",
+          "8"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "8",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0075",
+        "exact_containment": true,
+        "expected_answer": "450",
+        "expected_numeric": "450",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0075",
+        "generated_text_preview": "We are given that the bakery has 40 less than seven times as many loaves of bread as Sam had last Friday. Sam had 70 loaves of bread last Friday. First, calculate seven times as many loaves as Sam had: $$ 7 \\times 70 = 490 $$ Next, subtract 40: $$ 490 - 40 = 4...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 99,
+        "pair_id": "gsm8k_short_test_0075",
+        "pair_index": 66,
+        "profile": "light_gpu_n100",
+        "prompt_id": 66,
+        "row_index": 66,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "450"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "450",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0064",
+        "exact_containment": true,
+        "expected_answer": "100",
+        "expected_numeric": "100",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0064",
+        "generated_text_preview": "To find the cost difference between the two offers, we calculate the total cost for each offer and then subtract. **Furniture United:** - Advance payment: $1,350 - 6 monthly installments: 6 \u00d7 $350 = $2,100 - Total cost = $1,350 + $2,100 = **$3,450** **Cozy Hom...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 195,
+        "pair_id": "gsm8k_short_test_0064",
+        "pair_index": 67,
+        "profile": "light_gpu_n100",
+        "prompt_id": 67,
+        "row_index": 67,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "100"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "100",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0060",
+        "exact_containment": true,
+        "expected_answer": "860",
+        "expected_numeric": "860",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0060",
+        "generated_text_preview": "To find the total number of kilometers Micheal rode, we break the problem into two parts: **First 4 weeks:** - Rides: 5 times a week - Distance per ride: 25 km - Total distance for 4 weeks: $ 5 \\text{ rides/week} \\times 25 \\text{ km/ride} \\times 4 \\text{ weeks...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 221,
+        "pair_id": "gsm8k_short_test_0060",
+        "pair_index": 68,
+        "profile": "light_gpu_n100",
+        "prompt_id": 68,
+        "row_index": 68,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "860"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "860",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0048",
+        "exact_containment": true,
+        "expected_answer": "25",
+        "expected_numeric": "25",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0048",
+        "generated_text_preview": "Nik has 200 crayons. Each crayon weighs 1 ounce, so the total weight of the crayons is: $$ 200 \\text{ crayons} \\times 1 \\text{ ounce/crayon} = 200 \\text{ ounces} $$ He wants to put them into boxes, with each box holding 8 crayons. So the number of boxes is: $$...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0048",
+        "pair_index": 69,
+        "profile": "light_gpu_n100",
+        "prompt_id": 69,
+        "row_index": 69,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "8",
+          "200",
+          "25",
+          "400",
+          "16",
+          "1"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "1",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0009",
+        "exact_containment": true,
+        "expected_answer": "60",
+        "expected_numeric": "60",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0009",
+        "generated_text_preview": "Last year there were 50 students enrolled in the calligraphy class. This year, there was a 20% increase in enrollment. To find the number of students this year: $$ \\text{Increase} = 50 \\times 0.20 = 10 $$ $$ \\text{This year's enrollment} = 50 + 10 = 60 $$ Fina...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 95,
+        "pair_id": "gsm8k_short_test_0009",
+        "pair_index": 70,
+        "profile": "light_gpu_n100",
+        "prompt_id": 70,
+        "row_index": 70,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "60"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "60",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0034",
+        "exact_containment": true,
+        "expected_answer": "7",
+        "expected_numeric": "7",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0034",
+        "generated_text_preview": "Manolo bought 5 lollipops and 4 candies for a total of $3.20. Each lollipop costs $0.40. First, calculate the total cost of the lollipops: $$ 5 \\times 0.40 = 2.00 $$ Next, calculate the cost of the candies: $$ 3.20 - 2.00 = 1.20 $$ So, 4 candies cost $1.20. Th...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 231,
+        "pair_id": "gsm8k_short_test_0034",
+        "pair_index": 71,
+        "profile": "light_gpu_n100",
+        "prompt_id": 71,
+        "row_index": 71,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "7"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "7",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0088",
+        "exact_containment": true,
+        "expected_answer": "30",
+        "expected_numeric": "30",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0088",
+        "generated_text_preview": "We are given the following: - **Prince Thaddeus** slew **100 dragons**. - **Prince Arthur** slew **three quarters as many dragons as Prince Thaddeus**. - **Prince Walter** slew **twice as many dragons as Prince Arthur**. - **Prince Bruce** slew **one-fifth as ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0088",
+        "pair_index": 72,
+        "profile": "light_gpu_n100",
+        "prompt_id": 72,
+        "row_index": 72,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "30"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "30",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0027",
+        "exact_containment": true,
+        "expected_answer": "21",
+        "expected_numeric": "21",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0027",
+        "generated_text_preview": "We are given: - Liam made **$63** one weekend. - Mitchell sold **21 lemonades** at **$4** each. First, calculate how much Mitchell made: $$ 21 \\text{ lemonades} \\times \\$4 = \\$84 $$ Now, find the difference between what Mitchell made and what Liam made: $$ \\$8...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 97,
+        "pair_id": "gsm8k_short_test_0027",
+        "pair_index": 73,
+        "profile": "light_gpu_n100",
+        "prompt_id": 73,
+        "row_index": 73,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "21"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "21",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0084",
+        "exact_containment": true,
+        "expected_answer": "79",
+        "expected_numeric": "79",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0084",
+        "generated_text_preview": "Alisa biked for 4.5 hours at 12 miles per hour: $ 12 \\times 4.5 = 54 $ miles. Stanley biked for 2.5 hours at 10 miles per hour: $ 10 \\times 2.5 = 25 $ miles. Total miles biked: $ 54 + 25 = 79 $ miles. Final answer: 79",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 100,
+        "pair_id": "gsm8k_short_test_0084",
+        "pair_index": 74,
+        "profile": "light_gpu_n100",
+        "prompt_id": 74,
+        "row_index": 74,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "79"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "79",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0050",
+        "exact_containment": true,
+        "expected_answer": "84",
+        "expected_numeric": "84",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0050",
+        "generated_text_preview": "We are given the following information: - There are 2 brothers and 3 sisters. - All sisters are the same age, which is 16. - One of the brothers is 12 years old, which is half the age of the older brother. ### Step 1: Determine the age of the older brother If ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 217,
+        "pair_id": "gsm8k_short_test_0050",
+        "pair_index": 75,
+        "profile": "light_gpu_n100",
+        "prompt_id": 75,
+        "row_index": 75,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "84"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "84",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0081",
+        "exact_containment": true,
+        "expected_answer": "32",
+        "expected_numeric": "32",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0081",
+        "generated_text_preview": "John takes a cooking class 4 times a week for 2 hours each time, for 6 weeks. First, calculate the total class time: - Hours per session: 2 - Sessions per week: 4 - Weeks: 6 Total class time = 2 hours/session \u00d7 4 sessions/week \u00d7 6 weeks = 48 hours He learns a ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 122,
+        "pair_id": "gsm8k_short_test_0081",
+        "pair_index": 76,
+        "profile": "light_gpu_n100",
+        "prompt_id": 76,
+        "row_index": 76,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "32"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "32",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0097",
+        "exact_containment": true,
+        "expected_answer": "7",
+        "expected_numeric": "7",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0097",
+        "generated_text_preview": "Verna bought: - 3 apples at $1.50 each: $ 3 \\times 1.50 = 4.50 $ - 5 oranges at $0.80 each: $ 5 \\times 0.80 = 4.00 $ - 6 peaches at $0.75 each: $ 6 \\times 0.75 = 4.50 $ Total cost: $ 4.50 + 4.00 + 4.50 = 13.00 $ She gave $20.00, so the change is: $ 20.00 - 13....",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 167,
+        "pair_id": "gsm8k_short_test_0097",
+        "pair_index": 77,
+        "profile": "light_gpu_n100",
+        "prompt_id": 77,
+        "row_index": 77,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "7"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "7",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0033",
+        "exact_containment": true,
+        "expected_answer": "98",
+        "expected_numeric": "98",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0033",
+        "generated_text_preview": "We are given: - Area of the rectangular bedroom = 360 square feet - Length of the room = 3 yards = 9 feet (since 1 yard = 3 feet) Let the width of the room be $ w $ feet. Using the formula for the area of a rectangle: $$ \\text{Area} = \\text{Length} \\times \\tex...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 191,
+        "pair_id": "gsm8k_short_test_0033",
+        "pair_index": 78,
+        "profile": "light_gpu_n100",
+        "prompt_id": 78,
+        "row_index": 78,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "98"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "98",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0022",
+        "exact_containment": true,
+        "expected_answer": "2000",
+        "expected_numeric": "2000",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0022",
+        "generated_text_preview": "Elliott's goal is 10,000 steps per day. He took: - Half of his steps on his walks to and from school: $ \\frac{1}{2} \\times 10,000 = 5,000 $ steps. - 1,000 steps on his short walk with his friend. So far, he has taken: $ 5,000 + 1,000 = 6,000 $ steps. He had 2,...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 179,
+        "pair_id": "gsm8k_short_test_0022",
+        "pair_index": 79,
+        "profile": "light_gpu_n100",
+        "prompt_id": 79,
+        "row_index": 79,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "2000"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "2000",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0031",
+        "exact_containment": false,
+        "expected_answer": "145",
+        "expected_numeric": "145",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0031",
+        "generated_text_preview": "We are given the following information: - Adam has **50 points**. - **Betty** has **30% more** points than Adam. - **Tom** has **30 points less** than Betty. - **Marta** has **3 times more** points than Tom. - The **minimum threshold** is **400 points**. - We ...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0031",
+        "pair_index": 80,
+        "profile": "light_gpu_n100",
+        "prompt_id": 80,
+        "row_index": 80,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "400",
+          "1",
+          "30",
+          "50",
+          "15",
+          "65",
+          "2",
+          "35",
+          "3",
+          "105"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "105",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0038",
+        "exact_containment": true,
+        "expected_answer": "50",
+        "expected_numeric": "50",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0038",
+        "generated_text_preview": "We are given the following: - Total number of voters = 100 - Candidate A got 20% of the votes. - Candidate B got 50% more votes than candidate A. - The rest of the votes went to candidate C. ### Step 1: Calculate votes for candidate A $$ \\text{Votes for A} = 2...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 238,
+        "pair_id": "gsm8k_short_test_0038",
+        "pair_index": 81,
+        "profile": "light_gpu_n100",
+        "prompt_id": 81,
+        "row_index": 81,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "50"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "50",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0077",
+        "exact_containment": true,
+        "expected_answer": "450",
+        "expected_numeric": "450",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0077",
+        "generated_text_preview": "We are given that Antonella sold goods worth $2500, and the commission structure is as follows: - For the first $1000 sold, she earns 30% commission. - For sales over $1000 (i.e., $1500 in this case), she earns an additional 10% commission. ### Step 1: Calcula...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 205,
+        "pair_id": "gsm8k_short_test_0077",
+        "pair_index": 82,
+        "profile": "light_gpu_n100",
+        "prompt_id": 82,
+        "row_index": 82,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "450"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "450",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0093",
+        "exact_containment": false,
+        "expected_answer": "310",
+        "expected_numeric": "310",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0093",
+        "generated_text_preview": "We are told that the number of students on campus **doubles at the end of every month**. There are **10 students at the beginning of the year**. We are to find how many **additional students** have joined by the **end of May**, **above and beyond** the initial...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0093",
+        "pair_index": 83,
+        "profile": "light_gpu_n100",
+        "prompt_id": 83,
+        "row_index": 83,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "10",
+          "2",
+          "12",
+          "6"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "6",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0049",
+        "exact_containment": true,
+        "expected_answer": "10",
+        "expected_numeric": "10",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0049",
+        "generated_text_preview": "Jamaal starts with an 8-pound weight. He increases the weight by 50%, so: $$ 8 \\times 1.5 = 12 \\text{ pounds} $$ Then he uses a weight that is 2 pounds lighter than 12 pounds: $$ 12 - 2 = 10 \\text{ pounds} $$ Final answer: 10",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 85,
+        "pair_id": "gsm8k_short_test_0049",
+        "pair_index": 84,
+        "profile": "light_gpu_n100",
+        "prompt_id": 84,
+        "row_index": 84,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "10"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "10",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0046",
+        "exact_containment": true,
+        "expected_answer": "276",
+        "expected_numeric": "276",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0046",
+        "generated_text_preview": "Henry needs to assemble 57 cars and 73 motorcycles. - Each car requires 4 wheels: $ 57 \\times 4 = 228 $ wheels. - Each motorcycle requires 2 wheels: $ 73 \\times 2 = 146 $ wheels. Total wheels needed: $ 228 + 146 = 374 $ wheels. Henry has 650 wheels. Wheels lef...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 127,
+        "pair_id": "gsm8k_short_test_0046",
+        "pair_index": 85,
+        "profile": "light_gpu_n100",
+        "prompt_id": 85,
+        "row_index": 85,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "276"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "276",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0073",
+        "exact_containment": true,
+        "expected_answer": "144",
+        "expected_numeric": "144",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0073",
+        "generated_text_preview": "To determine the cost to paint the room, we need to calculate the total area of the walls and then determine how much paint is needed, and finally the cost. ### Step 1: Calculate the area of each wall - **North and South walls**: 10 ft (height) \u00d7 8 ft (width) ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 248,
+        "pair_id": "gsm8k_short_test_0073",
+        "pair_index": 86,
+        "profile": "light_gpu_n100",
+        "prompt_id": 86,
+        "row_index": 86,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "144"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "144",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_wrong_numeric",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0057",
+        "exact_containment": true,
+        "expected_answer": "1",
+        "expected_numeric": "1",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0057",
+        "generated_text_preview": "Becky bought 20 apples at 45 cents each, and received a $1 discount. Total cost for Becky: $ 20 \\times 45 = 900 $ cents Minus $1 discount: $ 900 - 100 = 800 $ cents Which is $8.00. Kelly bought 20 apples at 50 cents each, and received a 10% discount. Total cos...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction produced a different answer"
+        ],
+        "output_tokens": 212,
+        "pair_id": "gsm8k_short_test_0057",
+        "pair_index": 87,
+        "profile": "light_gpu_n100",
+        "prompt_id": 87,
+        "row_index": 87,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "100"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "100",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0056",
+        "exact_containment": false,
+        "expected_answer": "36",
+        "expected_numeric": "36",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0056",
+        "generated_text_preview": "We are told: - Lee used to be able to run the 400-meter hurdles **2 seconds faster** than Gerald. - Gerald improved his speed by **10%**. - Lee now runs the 400-meter hurdles in **38 seconds**. - We are to find how fast **Gerald**, with his improved diet, can ...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0056",
+        "pair_index": 88,
+        "profile": "light_gpu_n100",
+        "prompt_id": 88,
+        "row_index": 88,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "2",
+          "10",
+          "1",
+          "0.1",
+          "0.9",
+          "400",
+          "38"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "38",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_wrong_numeric",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0011",
+        "exact_containment": false,
+        "expected_answer": "29",
+        "expected_numeric": "29",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0011",
+        "generated_text_preview": "We are given the dehumidifier's water removal rates per day for each speed: - **Low setting**: 1 liter/day - **Medium setting**: twice the low = 2 liters/day - **High setting**: twice the medium = 4 liters/day Brian used the dehumidifier for the following dura...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction produced a different answer"
+        ],
+        "output_tokens": 227,
+        "pair_id": "gsm8k_short_test_0011",
+        "pair_index": 89,
+        "profile": "light_gpu_n100",
+        "prompt_id": 89,
+        "row_index": 89,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "30"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "30",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0074",
+        "exact_containment": true,
+        "expected_answer": "6",
+        "expected_numeric": "6",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0074",
+        "generated_text_preview": "We are given the total number of paintball guns: - DJ: 8 guns - Nick: 10 guns - RJ: 1 gun - Richard: 5 guns Total number of guns = 8 + 10 + 1 + 5 = 24 guns. There are 4 people: Nick, Richard, Jason, and DJ. If they share the guns equally, each person would get...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 107,
+        "pair_id": "gsm8k_short_test_0074",
+        "pair_index": 90,
+        "profile": "light_gpu_n100",
+        "prompt_id": 90,
+        "row_index": 90,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "6"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "6",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0079",
+        "exact_containment": true,
+        "expected_answer": "27",
+        "expected_numeric": "27",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0079",
+        "generated_text_preview": "Gomer ate 5 less than 23 scoops of mashed potatoes: $$ 23 - 5 = 18 \\text{ scoops} $$ Now, we are told: \"It takes 3 less than 6 potatoes to make 1 less than 3 scoops of mashed potatoes.\" First, calculate the number of potatoes per scoop: - 1 less than 3 scoops ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 202,
+        "pair_id": "gsm8k_short_test_0079",
+        "pair_index": 91,
+        "profile": "light_gpu_n100",
+        "prompt_id": 91,
+        "row_index": 91,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "27"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "27",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0016",
+        "exact_containment": true,
+        "expected_answer": "5",
+        "expected_numeric": "5",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0016",
+        "generated_text_preview": "Joey starts with 214 points and scores 26 points: $ 214 + 26 = 240 $ points. Marcy starts with 225 points and scores 10 points: $ 225 + 10 = 235 $ points. Now, Joey has 240 points and Marcy has 235 points. The difference is: $ 240 - 235 = 5 $. Final answer: 5",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 114,
+        "pair_id": "gsm8k_short_test_0016",
+        "pair_index": 92,
+        "profile": "light_gpu_n100",
+        "prompt_id": 92,
+        "row_index": 92,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "5"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "5",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0071",
+        "exact_containment": true,
+        "expected_answer": "120",
+        "expected_numeric": "120",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0071",
+        "generated_text_preview": "Josh services 3 cars a day. He is open every day of the week except Sunday and Wednesday, so he is open for 5 days a week. In one week, he services: 3 cars/day \u00d7 5 days = 15 cars. He gets paid $4 per car, so in one week he makes: 15 cars \u00d7 $4 = $60. In two wee...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 113,
+        "pair_id": "gsm8k_short_test_0071",
+        "pair_index": 93,
+        "profile": "light_gpu_n100",
+        "prompt_id": 93,
+        "row_index": 93,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "120"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "120",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0002",
+        "exact_containment": true,
+        "expected_answer": "1",
+        "expected_numeric": "1",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0002",
+        "generated_text_preview": "We are given: - Total puzzle pieces: 360 - Kalinda's rate: 4 pieces per minute - Mom's rate: half of Kalinda's, so 2 pieces per minute Combined rate = 4 + 2 = 6 pieces per minute Time to complete the puzzle = Total pieces \u00f7 Combined rate = 360 \u00f7 6 = 60 minutes...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 111,
+        "pair_id": "gsm8k_short_test_0002",
+        "pair_index": 94,
+        "profile": "light_gpu_n100",
+        "prompt_id": 94,
+        "row_index": 94,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "1",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0051",
+        "exact_containment": true,
+        "expected_answer": "147",
+        "expected_numeric": "147",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0051",
+        "generated_text_preview": "The Kennel house has 3 German Shepherds and 2 Bulldogs. - Each German Shepherd consumes 5 kg of dog food per day: $ 3 \\times 5 = 15 $ kg per day. - Each Bulldog consumes 3 kg of dog food per day: $ 2 \\times 3 = 6 $ kg per day. Total daily consumption: $ 15 + 6...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 132,
+        "pair_id": "gsm8k_short_test_0051",
+        "pair_index": 95,
+        "profile": "light_gpu_n100",
+        "prompt_id": 95,
+        "row_index": 95,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "147"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "147",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0066",
+        "exact_containment": false,
+        "expected_answer": "112",
+        "expected_numeric": "112",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0066",
+        "generated_text_preview": "To solve the problem, we need to calculate how many windows Hannah smashes based on the given fractions and the total number of windows in students' and teachers' cars. ### Step 1: Calculate the number of windows in students' cars - There are 64 students' cars...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0066",
+        "pair_index": 96,
+        "profile": "light_gpu_n100",
+        "prompt_id": 96,
+        "row_index": 96,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "1",
+          "4",
+          "256",
+          "64",
+          "2",
+          "32",
+          "3",
+          "48"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "48",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0010",
+        "exact_containment": true,
+        "expected_answer": "122",
+        "expected_numeric": "122",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0010",
+        "generated_text_preview": "We are given: - Bo has 40 crabs. - Monic has 4 fewer crabs than Bo. - Rani has 10 more crabs than Monic. Step 1: Find how many crabs Monic has. Monic has 4 fewer than Bo: $$ 40 - 4 = 36 $$ Step 2: Find how many crabs Rani has. Rani has 10 more than Monic: $$ 3...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 161,
+        "pair_id": "gsm8k_short_test_0010",
+        "pair_index": 97,
+        "profile": "light_gpu_n100",
+        "prompt_id": 97,
+        "row_index": 97,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "122"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "122",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "cap_limited_incomplete",
+        "cap_limited": true,
+        "dataset_id": "gsm8k_short_test_0092",
+        "exact_containment": true,
+        "expected_answer": "12",
+        "expected_numeric": "12",
+        "final_answer_marker_present": false,
+        "fixture_id": "gsm8k_short_test_0092",
+        "generated_text_preview": "We are given the following information: - Teresa sells **large** stuffed animals for **three times** the price of **small** ones. - Each **small** stuffed animal costs **$4**. - She sold **twice as many small** as **large** stuffed animals. - She earned **$120...",
+        "historical_task47_strict_correct": false,
+        "max_new_tokens": 256,
+        "notes": [
+          "output appears cap-limited or unfinished; strict correctness remains false"
+        ],
+        "output_tokens": 256,
+        "pair_id": "gsm8k_short_test_0092",
+        "pair_index": 98,
+        "profile": "light_gpu_n100",
+        "prompt_id": 98,
+        "row_index": 98,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "2",
+          "4",
+          "3",
+          "12",
+          "120",
+          "8"
+        ],
+        "strict_correct": false,
+        "strict_extracted_answer": "8",
+        "strict_extraction_source": "last_number_fallback"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0042",
+        "exact_containment": true,
+        "expected_answer": "8000",
+        "expected_numeric": "8000",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0042",
+        "generated_text_preview": "Let the number of copies Harald sold be $ H $. Since Marilyn's record sold 10 times as many copies as Harald's, Marilyn sold $ 10H $ copies. Together, they sold 88,000 copies: $$ H + 10H = 88,000 $$ $$ 11H = 88,000 $$ $$ H = \\frac{88,000}{11} = 8,000 $$ Final ...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 124,
+        "pair_id": "gsm8k_short_test_0042",
+        "pair_index": 99,
+        "profile": "light_gpu_n100",
+        "prompt_id": 99,
+        "row_index": 99,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "8000"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "8000",
+        "strict_extraction_source": "marked_final_answer"
+      },
+      {
+        "calibrated_label": "strict_correct",
+        "cap_limited": false,
+        "dataset_id": "gsm8k_short_test_0043",
+        "exact_containment": true,
+        "expected_answer": "280",
+        "expected_numeric": "280",
+        "final_answer_marker_present": true,
+        "fixture_id": "gsm8k_short_test_0043",
+        "generated_text_preview": "To determine the total number of children in the drill, we need to calculate the total number of children based on the given information: - There are **8 children in a row**. - There are **7 rows**. - There are **5 different Schools**. ### Step-by-step calcula...",
+        "historical_task47_strict_correct": true,
+        "max_new_tokens": 256,
+        "notes": [
+          "strict numeric extraction matched expected answer"
+        ],
+        "output_tokens": 134,
+        "pair_id": "gsm8k_short_test_0043",
+        "pair_index": 100,
+        "profile": "light_gpu_n100",
+        "prompt_id": 100,
+        "row_index": 100,
+        "source_artifact": "results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/runs/20260621_1555_cc_dflash_r2_light_gpu_seed42_n100_mnt256.jsonl",
+        "strict_candidate_answers": [
+          "280"
+        ],
+        "strict_correct": true,
+        "strict_extracted_answer": "280",
+        "strict_extraction_source": "marked_final_answer"
+      }
+    ],
+    "local_files_only": true,
+    "local_files_only_values": [
+      "True"
+    ],
+    "max_R_actual": 2.0,
+    "max_e2e_time_s": 6.704996,
+    "max_prefill_vram_allocated_gib": 4.162687,
+    "max_prefill_vram_reserved_gib": 4.431641,
+    "max_t_compress_ms": 156.056854,
+    "max_t_prefill_ms": 212.204966,
+    "max_tau_mean": 8.333333,
+    "max_tokens_per_second": 84.878337,
+    "max_vram_allocated_gib": 4.162691,
+    "max_vram_reserved_gib": 4.431641,
+    "metadata_ok": true,
+    "min_R_actual": 2.0,
+    "min_e2e_time_s": 1.10317,
+    "min_prefill_vram_allocated_gib": 4.162685,
+    "min_prefill_vram_reserved_gib": 4.283203,
+    "min_t_compress_ms": 13.806546,
+    "min_t_prefill_ms": 86.436029,
+    "min_tau_mean": 3.259259,
+    "min_tokens_per_second": 34.720021,
+    "min_vram_allocated_gib": 4.162688,
+    "min_vram_reserved_gib": 4.357422,
+    "proxy_uncertain_count": 0,
+    "requested_compressor_device_map": "cuda",
+    "requested_compressor_device_maps": [
+      "cuda"
+    ],
+    "resolved_compressor_path": "/home/quyseggs/Projects/CCDF/models/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+    "row_count": 100,
+    "strict_correct_count": 79,
+    "strict_correct_rate": 0.79,
+    "strict_wrong_numeric_count": 6
+  },
+  "recommendation": {
+    "automatic_default_gpu_switch": false,
+    "automatic_full_matrix": false,
+    "automatic_large_cpu_n100": false,
+    "automatic_qmsum": false,
+    "claim_boundary": {
+      "no_default_gpu_switch": true,
+      "no_deployment_or_8gb_readiness_claim": true,
+      "no_final_quality_claim": true,
+      "no_final_speedup_claim": true,
+      "no_full_benchmark_claim": true,
+      "no_qmsum_semantic_correctness_claim": true
+    },
+    "decision": "PASS_WITH_CAVEAT",
+    "diagnostics": {
+      "avg_e2e_time_s_delta_vs_task96_light": -0.345826,
+      "avg_t_compress_ms_delta_vs_task96_light": -346.110707,
+      "cap_rate_delta_vs_task96_light": -0.016667,
+      "strict_rate_delta_vs_task96_light": 0.056667,
+      "task96_light_cap_limited_rate": 0.166667,
+      "task96_light_strict_rate": 0.733333,
+      "task99r_row_count": 10
+    },
+    "final_claims_allowed": false,
+    "keep_cpu_light_supported_path": true,
+    "next_step": "T100C_optimization_gap_analysis",
+    "reason": "Light GPU n100 completed with CUDA metadata, no OOM/CUDA flags, bounded proxy quality, and lower compression overhead."
+  },
+  "references": {
+    "dflash_r1_historical": {
+      "avg_e2e_time_s": 3.2194646628332824,
+      "avg_t_compress_ms": 0.0,
+      "avg_t_prefill_ms": 110.60761659996388,
+      "avg_tau_mean": 5.21,
+      "avg_tokens_per_second": 52.44143080134073,
+      "comparison_role": "historical_reference",
+      "condition": "DFlash-R1",
+      "dataset": "gsm8k_short",
+      "historical_only": true,
+      "max_new_tokens": 512,
+      "n": 30,
+      "numeric_match_count": 25,
+      "numeric_match_rate": 0.8333333333333334,
+      "path": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/static_audit/task99_task88_dflash_r1_historical_reference.json",
+      "profile": "dflash_r1_task88",
+      "row_count": 30,
+      "seed": 42,
+      "source_task": "Task88"
+    },
+    "task96_large_cpu_n30": {
+      "avg_R_actual": 2.666667,
+      "avg_e2e_time_s": 3.967615,
+      "avg_t_compress_ms": 1201.57527,
+      "avg_t_prefill_ms": 105.152591,
+      "avg_tau_mean": 5.456126,
+      "avg_tokens_per_second": 58.293439,
+      "cap_limited_incomplete_count": 5,
+      "comparison_role": "controlled_cpu_reference",
+      "condition": "CC-DFlash-R2",
+      "dataset": "gsm8k_short",
+      "final_answer_marker_count": 25,
+      "historical_only": false,
+      "max_new_tokens": 256,
+      "n": 30,
+      "path": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/static_audit/task99_task96_large_cpu_reference.json",
+      "profile": "large_cpu_task96",
+      "row_count": 30,
+      "seed": 42,
+      "source_task": "Task96",
+      "strict_correct_count": 22,
+      "strict_wrong_numeric_count": 3
+    },
+    "task96_light_cpu_n30": {
+      "avg_R_actual": 2.0,
+      "avg_e2e_time_s": 3.225521,
+      "avg_t_compress_ms": 363.459377,
+      "avg_t_prefill_ms": 101.308951,
+      "avg_tau_mean": 5.565157,
+      "avg_tokens_per_second": 59.755617,
+      "cap_limited_incomplete_count": 5,
+      "comparison_role": "controlled_cpu_reference",
+      "condition": "CC-DFlash-R2",
+      "dataset": "gsm8k_short",
+      "final_answer_marker_count": 25,
+      "historical_only": false,
+      "max_new_tokens": 256,
+      "n": 30,
+      "path": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/static_audit/task99_task96_light_cpu_reference.json",
+      "profile": "light_cpu_task96",
+      "row_count": 30,
+      "seed": 42,
+      "source_task": "Task96",
+      "strict_correct_count": 22,
+      "strict_wrong_numeric_count": 3
+    },
+    "task99r_light_gpu_n10": {
+      "artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+      "avg_R_actual": 2.0,
+      "avg_e2e_time_s": 2.668067,
+      "avg_prefill_vram_allocated_gib": 4.164382,
+      "avg_prefill_vram_reserved_gib": 4.355273,
+      "avg_t_compress_ms": 25.568672,
+      "avg_t_prefill_ms": 99.33317,
+      "avg_tau_mean": 5.880314,
+      "avg_tokens_per_second": 62.740802,
+      "avg_vram_allocated_gib": 4.164385,
+      "avg_vram_reserved_gib": 4.363477,
+      "calibrated_label_counts": {
+        "answer_missing": 0,
+        "cap_limited_incomplete": 1,
+        "format_or_extraction_sensitive": 0,
+        "proxy_uncertain": 0,
+        "strict_correct": 8,
+        "strict_wrong_numeric": 1
+      },
+      "cap_limited_incomplete_count": 1,
+      "comparison_role": "bounded_gpu_reference",
+      "compressor_device_map": "cuda",
+      "compressor_profile": "light",
+      "failure_flags": {
+        "failure_messages": [],
+        "failure_types": [],
+        "oom_or_cuda_failure": false,
+        "shell_gpu_unavailable": false
+      },
+      "final_answer_marker_count": 9,
+      "historical_only": false,
+      "labels": [
+        {
+          "calibrated_label": "cap_limited_incomplete",
+          "cap_limited": true,
+          "dataset_id": "gsm8k_short_test_0082",
+          "exact_containment": true,
+          "expected_answer": "6",
+          "expected_numeric": "6",
+          "final_answer_marker_present": false,
+          "fixture_id": "gsm8k_short_test_0082",
+          "generated_text_preview": "We are given the following: 1. Jamal's phone can hold **6 times more** photographs than Brittany's phone. 2. The **maximum number of photographs** that Brittany's phone can hold is **50 times more** than the number of birds in Jamal's photograph of the ducks a...",
+          "historical_task47_strict_correct": false,
+          "max_new_tokens": 256,
+          "notes": [
+            "output appears cap-limited or unfinished; strict correctness remains false"
+          ],
+          "output_tokens": 256,
+          "pair_id": "gsm8k_short_test_0082",
+          "pair_index": 1,
+          "profile": "light_gpu",
+          "prompt_id": 1,
+          "row_index": 1,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "50",
+            "6",
+            "1800",
+            "2"
+          ],
+          "strict_correct": false,
+          "strict_extracted_answer": "2",
+          "strict_extraction_source": "last_number_fallback"
+        },
+        {
+          "calibrated_label": "strict_correct",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0015",
+          "exact_containment": true,
+          "expected_answer": "5",
+          "expected_numeric": "5",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0015",
+          "generated_text_preview": "To find out how many pounds of insects ten ducks need per day, we start with the weekly requirement: - Each duck needs 3.5 pounds of insects per week. - For 10 ducks, the total weekly requirement is: $ 3.5 \\, \\text{pounds/duck/week} \\times 10 \\, \\text{ducks} =...",
+          "historical_task47_strict_correct": true,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction matched expected answer"
+          ],
+          "output_tokens": 138,
+          "pair_id": "gsm8k_short_test_0015",
+          "pair_index": 2,
+          "profile": "light_gpu",
+          "prompt_id": 2,
+          "row_index": 2,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "5"
+          ],
+          "strict_correct": true,
+          "strict_extracted_answer": "5",
+          "strict_extraction_source": "marked_final_answer"
+        },
+        {
+          "calibrated_label": "strict_correct",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0004",
+          "exact_containment": true,
+          "expected_answer": "12",
+          "expected_numeric": "12",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0004",
+          "generated_text_preview": "James has two sons: one is 12 years old, and the other is 4 years younger, so the other son is 12 - 4 = 8 years old. He needs to buy candles for both sons, so he needs 12 + 8 = 20 candles. A pack of 5 candles costs $3. To find out how many packs he needs: 20 \u00f7...",
+          "historical_task47_strict_correct": true,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction matched expected answer"
+          ],
+          "output_tokens": 123,
+          "pair_id": "gsm8k_short_test_0004",
+          "pair_index": 3,
+          "profile": "light_gpu",
+          "prompt_id": 3,
+          "row_index": 3,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "12"
+          ],
+          "strict_correct": true,
+          "strict_extracted_answer": "12",
+          "strict_extraction_source": "marked_final_answer"
+        },
+        {
+          "calibrated_label": "strict_correct",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0095",
+          "exact_containment": true,
+          "expected_answer": "650",
+          "expected_numeric": "650",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0095",
+          "generated_text_preview": "We are given the following: - Craig has spelled out **20 words**, each with **15 letters**. - Craig's brother has spelled words with a **total count of letters 50 more** than Craig. - We are to find the **total number of letters** in the words they've spelled ...",
+          "historical_task47_strict_correct": true,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction matched expected answer"
+          ],
+          "output_tokens": 255,
+          "pair_id": "gsm8k_short_test_0095",
+          "pair_index": 4,
+          "profile": "light_gpu",
+          "prompt_id": 4,
+          "row_index": 4,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "650"
+          ],
+          "strict_correct": true,
+          "strict_extracted_answer": "650",
+          "strict_extraction_source": "marked_final_answer"
+        },
+        {
+          "calibrated_label": "strict_correct",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0036",
+          "exact_containment": true,
+          "expected_answer": "38",
+          "expected_numeric": "38",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0036",
+          "generated_text_preview": "Winston picked 6 pounds of peaches at $2.00 per pound: 6 \u00d7 $2.00 = $12.00 He also picked 8 pounds of plums at $1.00 per pound: 8 \u00d7 $1.00 = $8.00 And 6 pounds of apricots at $3.00 per pound: 6 \u00d7 $3.00 = $18.00 Total cost: $12.00 + $8.00 + $18.00 = $38.00 Final ...",
+          "historical_task47_strict_correct": true,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction matched expected answer"
+          ],
+          "output_tokens": 137,
+          "pair_id": "gsm8k_short_test_0036",
+          "pair_index": 5,
+          "profile": "light_gpu",
+          "prompt_id": 5,
+          "row_index": 5,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "38"
+          ],
+          "strict_correct": true,
+          "strict_extracted_answer": "38",
+          "strict_extraction_source": "marked_final_answer"
+        },
+        {
+          "calibrated_label": "strict_correct",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0032",
+          "exact_containment": true,
+          "expected_answer": "123",
+          "expected_numeric": "123",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0032",
+          "generated_text_preview": "We are given: - The classroom has **30 boys**. - There are **3 times as many girls as boys**. - There are **1/10 as many nongendered children as boys**. Let's calculate the number of each type of child: 1. **Girls**: $ 3 \\times 30 = 90 $ girls. 2. **Nongendere...",
+          "historical_task47_strict_correct": true,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction matched expected answer"
+          ],
+          "output_tokens": 172,
+          "pair_id": "gsm8k_short_test_0032",
+          "pair_index": 6,
+          "profile": "light_gpu",
+          "prompt_id": 6,
+          "row_index": 6,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "123"
+          ],
+          "strict_correct": true,
+          "strict_extracted_answer": "123",
+          "strict_extraction_source": "marked_final_answer"
+        },
+        {
+          "calibrated_label": "strict_correct",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0029",
+          "exact_containment": true,
+          "expected_answer": "14",
+          "expected_numeric": "14",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0029",
+          "generated_text_preview": "We are given the following information: - Let $ x $ be the number of people who got on the bus at the terminal. - At the first stop, 5 more people got on: total becomes $ x + 5 $. - At the second stop, 7 people got off and 8 more got on: total becomes $ (x + 5...",
+          "historical_task47_strict_correct": true,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction matched expected answer"
+          ],
+          "output_tokens": 156,
+          "pair_id": "gsm8k_short_test_0029",
+          "pair_index": 7,
+          "profile": "light_gpu",
+          "prompt_id": 7,
+          "row_index": 7,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "14"
+          ],
+          "strict_correct": true,
+          "strict_extracted_answer": "14",
+          "strict_extraction_source": "marked_final_answer"
+        },
+        {
+          "calibrated_label": "strict_correct",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0018",
+          "exact_containment": true,
+          "expected_answer": "66",
+          "expected_numeric": "66",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0018",
+          "generated_text_preview": "Ted starts with $200. He buys 3 books at $16 each: $ 3 \\times 16 = 48 $ dollars. He buys 3 pencils at $6 each: $ 3 \\times 6 = 18 $ dollars. Total amount spent: $ 48 + 18 = 66 $ dollars. Final answer: 66",
+          "historical_task47_strict_correct": true,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction matched expected answer"
+          ],
+          "output_tokens": 91,
+          "pair_id": "gsm8k_short_test_0018",
+          "pair_index": 8,
+          "profile": "light_gpu",
+          "prompt_id": 8,
+          "row_index": 8,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "66"
+          ],
+          "strict_correct": true,
+          "strict_extracted_answer": "66",
+          "strict_extraction_source": "marked_final_answer"
+        },
+        {
+          "calibrated_label": "strict_correct",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0014",
+          "exact_containment": true,
+          "expected_answer": "1430",
+          "expected_numeric": "1430",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0014",
+          "generated_text_preview": "Janet buys a brooch for her daughter. She pays $500 for the material and $800 for the jeweler to construct it. That is: $$ 500 + 800 = 1300 $$ Then she pays 10% of that amount to get it insured: $$ 10\\% \\text{ of } 1300 = 0.10 \\times 1300 = 130 $$ So, the tota...",
+          "historical_task47_strict_correct": true,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction matched expected answer"
+          ],
+          "output_tokens": 144,
+          "pair_id": "gsm8k_short_test_0014",
+          "pair_index": 9,
+          "profile": "light_gpu",
+          "prompt_id": 9,
+          "row_index": 9,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "1430"
+          ],
+          "strict_correct": true,
+          "strict_extracted_answer": "1430",
+          "strict_extraction_source": "marked_final_answer"
+        },
+        {
+          "calibrated_label": "strict_wrong_numeric",
+          "cap_limited": false,
+          "dataset_id": "gsm8k_short_test_0087",
+          "exact_containment": false,
+          "expected_answer": "40",
+          "expected_numeric": "40",
+          "final_answer_marker_present": true,
+          "fixture_id": "gsm8k_short_test_0087",
+          "generated_text_preview": "We are told: - Brian has 20 video games, but **lost 5** right before the comparison was made. - So, **before losing**, Brian had 20 video games. - Bobby has **5 fewer than 3 times as many** video games as Brian **had before losing**. Let\u2019s break it down: - Bri...",
+          "historical_task47_strict_correct": false,
+          "max_new_tokens": 256,
+          "notes": [
+            "strict numeric extraction produced a different answer"
+          ],
+          "output_tokens": 119,
+          "pair_id": "gsm8k_short_test_0087",
+          "pair_index": 10,
+          "profile": "light_gpu",
+          "prompt_id": 10,
+          "row_index": 10,
+          "source_artifact": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/n10/20260621_133708_cc_dflash_r2_light_gpu_seed42_n10_mnt256.jsonl",
+          "strict_candidate_answers": [
+            "55"
+          ],
+          "strict_correct": false,
+          "strict_extracted_answer": "55",
+          "strict_extraction_source": "marked_final_answer"
+        }
+      ],
+      "metadata_ok": true,
+      "path": "results/phase_2_system_optimization/compressor_comparison/task99_light_compressor_gpu_placement_feasibility/resume_gpu/summary/task99r_gpu_placement_summary.json",
+      "requested_compressor_device_map": "cuda",
+      "row_count": 10,
+      "source_task": "Task99-R",
+      "strict_correct_count": 8,
+      "strict_wrong_numeric_count": 1
+    }
+  },
+  "task": "Task100B"
+}

@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv go">Latest Completed: Task100A — Supported Evidence Summary</span>
+                <span class="sv go">Latest Completed: Task100B — Light GPU n100 Controlled Run</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv info">Current Next: T100B Light GPU n100 Controlled Run</span>
+                <span class="sv info">Current Next: T100C Optimization Gap Analysis</span>
                 <span class="sv stop">No universal speedup claim</span>
                 <span class="sv stop">No final correctness claim</span>
                 <span class="sv stop">No QMSum semantic correctness claim</span>
@@ -459,7 +459,7 @@
                 <span class="sv stop">No DFlash-R1 broken claim</span>
             </div>
             <div class="update-bar">
-                Task100A packaged the supported Phase 2 evidence after Task99-R: Light CPU is the supported controlled Phase 2 result, Large CPU remains a historical/control reference, Light GPU is a promising bounded candidate, and DFlash-R1 remains historical-only. The next gated task is T100B Light GPU <code>n=100</code> Controlled Run, scoped to <code>CC-DFlash-R2</code> light GPU on <code>gsm8k_short</code> with <code>max_new_tokens=256</code>. Task100A ran no benchmark, model inference, GPU job, <code>n=100</code>, <code>n=30</code>, QMSum run, keep-rate tuning, model/config change, model download, or LLM judge.
+                Task100B scaled the promising Light GPU candidate to one bounded <code>n=100</code> GSM8K mnt256 run: <code>CC-DFlash-R2</code>, light compressor, runtime <code>--compressor-device-map cuda</code>, seed <code>42</code>. The run completed <code>100/100</code> rows with calibrated strict <code>79/100</code>, cap-limited incomplete <code>15/100</code>, average <code>t_compress_ms=17.35</code>, average e2e <code>2.88s</code>, average tok/s <code>59.83</code>, average <code>R_actual=2.00</code>, and max reserved VRAM <code>4.43GiB</code>. Decision: <strong>PASS_WITH_CAVEAT</strong>. This remains a bounded candidate scale-up, not a final speedup/quality/deployment claim and not a default GPU switch.
             </div>
         </header>
 
@@ -514,7 +514,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, and Task100A packaged the supported evidence and T100B plan. Further scaling remains gated.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, and Task100B completed the single bounded Light GPU <code>n=100</code> scale-up. T100C optimization gap analysis is next; final claims remain gated.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -545,15 +545,15 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T100B — Light GPU n100 Controlled Run</td>
+                            <td>T100C — Optimization Gap Analysis</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task100A — Phase 2 Supported Evidence Summary</td>
+                            <td>Task100B — Light GPU n100 Controlled Run</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
-                            <td>Task96 Light CPU controlled <code>n=30</code> plus Task99-R Light GPU bounded <code>n=10</code>; Task88 remains historical DFlash-R1 reference</td>
+                            <td>Task96 Light CPU controlled <code>n=30</code>, Task99-R Light GPU bounded <code>n=10</code>, and Task100B Light GPU bounded <code>n=100</code>; Task88 remains historical DFlash-R1 reference</td>
                         </tr>
                         <tr>
                             <td><strong>Current cleanup evidence</strong></td>
@@ -1410,10 +1410,10 @@
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T100B</span></td>
+                            <td><span class="tnum done">T100B</span></td>
                             <td>Light GPU n100 Controlled Run</td>
-                            <td>Planned gated scale-up of the promising Light GPU candidate to <code>n=100</code> GSM8K mnt256. Scope is <code>CC-DFlash-R2</code> only, light compressor only, <code>--compressor-device-map cuda</code>, <code>gsm8k_short</code>, <code>max_new_tokens=256</code>. No large CPU <code>n=100</code>, no Baseline-AR, no DFlash-R1, no full matrix, no QMSum, and no keep-rate tuning.</td>
-                            <td class="info">PLANNED / GATED</td>
+                            <td>Ran exactly one gated scale-up job for the promising Light GPU candidate: <code>CC-DFlash-R2</code>, <code>gsm8k_short</code>, seed <code>42</code>, <code>n=100</code>, <code>max_new_tokens=256</code>, light compressor, runtime <code>--compressor-device-map cuda</code>. The run completed <code>100/100</code> rows with calibrated strict <code>79/100</code>, cap-limited incomplete <code>15/100</code>, final-answer markers <code>85/100</code>, strict wrong numeric <code>6/100</code>, average <code>t_compress_ms=17.35</code>, average e2e <code>2.88s</code>, average tok/s <code>59.83</code>, average <code>R_actual=2.00</code>, and max reserved VRAM <code>4.43GiB</code>. Metadata confirmed <code>compressor_profile=light</code>, <code>compressor_device_map=cuda</code>, <code>requested_compressor_device_map=cuda</code>, and <code>local_files_only=true</code>. No large CPU <code>n=100</code>, Baseline-AR, DFlash-R1 run, full matrix, QMSum, keep-rate tuning, default GPU switch, model download, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/100b-light-gpu-n100-controlled-run-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task100b_light_gpu_n100_controlled_run/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T100C</span></td>
@@ -1686,6 +1686,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-21</div>
+                <div class="log-body">
+                    <strong>Task100B — Light GPU n100 Controlled Run — PASS_WITH_CAVEAT</strong><br>
+                    Scaled the promising Light GPU candidate from Task99-R to one bounded <code>n=100</code> GSM8K mnt256 run under <code>CC-DFlash-R2</code>, seed <code>42</code>, light compressor, and runtime <code>--compressor-device-map cuda</code>. The run completed <code>100/100</code> rows with calibrated strict <code>79/100</code>, cap-limited incomplete <code>15/100</code>, final-answer markers <code>85/100</code>, strict wrong numeric <code>6/100</code>, average <code>t_compress_ms=17.35</code>, average e2e <code>2.88s</code>, average tok/s <code>59.83</code>, average <code>R_actual=2.00</code>, and max reserved VRAM <code>4.43GiB</code>. Metadata confirmed light/cuda placement and no OOM/CUDA failure fields were recorded. No large CPU <code>n=100</code>, Baseline-AR, DFlash-R1 run, full matrix, QMSum run, keep-rate tuning, default GPU switch, model download, or LLM judge was run. Recommendation: proceed to T100C Optimization Gap Analysis without making final speedup, quality, deployment, 8GB-readiness, QMSum semantic-correctness, or default-GPU claims.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-21</div>
                 <div class="log-body">
