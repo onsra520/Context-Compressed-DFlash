@@ -95,6 +95,8 @@ class PromptItem:
     context: str | None = None
     question: str | None = None
     protected_suffix: str | None = None
+    qmsum_policy_suffix_override: bool = False
+    qmsum_policy_name: str | None = None
     metadata: dict = field(default_factory=dict)
 
 
@@ -192,6 +194,8 @@ def _prepare_cc_prompt(
     protected_suffix: str | None = None,
     requested_keep_rate_percent: float | None = None,
     requested_keep_rate: float | None = None,
+    qmsum_policy_suffix_override: bool = False,
+    qmsum_policy_name: str | None = None,
 ) -> tuple[str, dict]:
     merged_prompt, info = compressor.compress(context=context, question=question, keep_rate=keep_rate)
     original_prompt = _append_protected_suffix(
@@ -255,6 +259,16 @@ def _prepare_cc_prompt(
                 "qmsum_output_policy_preview": _preview_text(suffix_text, limit=640),
                 "qmsum_evidence_focus_enabled": True,
                 "qmsum_evidence_focus_version": "task77",
+            }
+        )
+    if qmsum_policy_suffix_override:
+        compression_info.update(
+            {
+                "qmsum_answer_policy_enabled": True,
+                "qmsum_answer_policy_type": qmsum_policy_name or "custom_runtime_override",
+                "qmsum_answer_policy_preserved": suffix_text in final_prompt,
+                "qmsum_output_policy_preview": _preview_text(suffix_text, limit=640),
+                "qmsum_policy_suffix_override": True,
             }
         )
     for field_name in (
@@ -361,6 +375,8 @@ def _select_prompt_items(
     dataset_name: str = "gsm8k_short",
     dataset_path: Path | None = None,
     seed: int = 42,
+    qmsum_policy_suffix: str | None = None,
+    qmsum_policy_name: str | None = None,
 ) -> list[PromptItem]:
     if prompt_source == "smoke":
         return [
@@ -369,23 +385,41 @@ def _select_prompt_items(
         ]
     if prompt_source == "dataset":
         rows = select_eval_dataset_rows(dataset_name, n=n_prompts, seed=seed, path=dataset_path)
-        return [
-            PromptItem(
-                prompt_id=index,
-                text=row.prompt,
-                context=row.context,
-                question=row.question,
-                protected_suffix=(
-                    GSM8K_FINAL_ANSWER_INSTRUCTION
-                    if dataset_name == "gsm8k_short"
-                    else QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION
-                    if dataset_name == "qmsum_meeting_qa_long"
-                    else None
-                ),
-                metadata=_metadata_from_dataset_row(row),
+        items = []
+        for index, row in enumerate(rows, start=1):
+            protected_suffix = (
+                GSM8K_FINAL_ANSWER_INSTRUCTION
+                if dataset_name == "gsm8k_short"
+                else QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION
+                if dataset_name == "qmsum_meeting_qa_long"
+                else None
             )
-            for index, row in enumerate(rows, start=1)
-        ]
+            policy_suffix_override = False
+            policy_name = None
+            metadata = _metadata_from_dataset_row(row)
+            if dataset_name == "qmsum_meeting_qa_long" and qmsum_policy_suffix is not None:
+                protected_suffix = qmsum_policy_suffix
+                policy_suffix_override = True
+                policy_name = qmsum_policy_name or "custom_runtime_override"
+                metadata.update(
+                    {
+                        "qmsum_policy_suffix_override": True,
+                        "qmsum_answer_policy_type": policy_name,
+                    }
+                )
+            items.append(
+                PromptItem(
+                    prompt_id=index,
+                    text=row.prompt,
+                    context=row.context,
+                    question=row.question,
+                    protected_suffix=protected_suffix,
+                    qmsum_policy_suffix_override=policy_suffix_override,
+                    qmsum_policy_name=policy_name,
+                    metadata=metadata,
+                )
+            )
+        return items
     if prompt_source == "fixture":
         if fixture_path is None:
             raise ValueError("--fixture is required when --prompt-source=fixture")
@@ -916,6 +950,8 @@ def _run_benchmark_item(
             protected_suffix=item.protected_suffix,
             requested_keep_rate_percent=requested_keep_rate_percent,
             requested_keep_rate=requested_keep_rate,
+            qmsum_policy_suffix_override=item.qmsum_policy_suffix_override,
+            qmsum_policy_name=item.qmsum_policy_name,
         )
         if not compression_info["question_preserved"]:
             raise RuntimeError(f"protected question was not preserved for prompt {item.prompt_id}")
@@ -998,9 +1034,21 @@ def main() -> None:
         default=None,
         help="Runtime-only override for LLMLingua compressor device_map, e.g. cpu or cuda. Does not change config.yml defaults.",
     )
+    parser.add_argument(
+        "--qmsum-policy-suffix",
+        default=None,
+        help="Runtime-only QMSum answer-policy suffix override. Only applies with --dataset qmsum_meeting_qa_long.",
+    )
+    parser.add_argument(
+        "--qmsum-policy-name",
+        default=None,
+        help="Metadata label for --qmsum-policy-suffix, e.g. qmsum_targeted_evidence_repair_v1.",
+    )
     args = parser.parse_args()
     if args.resume and args.overwrite:
         parser.error("--resume and --overwrite cannot be used together")
+    if args.qmsum_policy_suffix is not None and args.dataset != "qmsum_meeting_qa_long":
+        parser.error("--qmsum-policy-suffix is only valid with --dataset qmsum_meeting_qa_long")
 
     config = _read_config(args.config, max_new_tokens_override=args.max_new_tokens)
     from ccdf.config.loader import resolve_llmlingua_config
@@ -1030,6 +1078,8 @@ def main() -> None:
         dataset_name=args.dataset,
         dataset_path=args.dataset_path,
         seed=args.seed,
+        qmsum_policy_suffix=args.qmsum_policy_suffix,
+        qmsum_policy_name=args.qmsum_policy_name,
     )
     warmup_items = _select_prompt_items(
         prompt_source=args.prompt_source,
@@ -1038,6 +1088,8 @@ def main() -> None:
         dataset_name=args.dataset,
         dataset_path=args.dataset_path,
         seed=args.seed,
+        qmsum_policy_suffix=args.qmsum_policy_suffix,
+        qmsum_policy_name=args.qmsum_policy_name,
     ) if warmup_count else []
 
     if args.dry_run_prompts:

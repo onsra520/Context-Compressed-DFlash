@@ -324,6 +324,44 @@ def test_prepare_cc_prompt_preserves_qmsum_evidence_policy_metadata(monkeypatch)
     assert "Final answer: <number>" not in info["final_prompt_tail_preview"]
 
 
+def test_prepare_cc_prompt_records_qmsum_runtime_policy_override(monkeypatch):
+    tokenizer = ExpandingTokenizer(wide_multiplier=1)
+
+    class FakePromptCompressor:
+        def __init__(self, model_name, device_map, use_llmlingua2, llmlingua2_config):
+            self.tokenizer = tokenizer
+
+        def compress_prompt(self, context, question="", rate=0.5, concate_question=True, **kwargs):
+            return {
+                "compressed_prompt": "compressed meeting context with project evidence",
+                "origin_tokens": 100,
+                "compressed_tokens": 50,
+            }
+
+    monkeypatch.setattr("ccdf.compression.llmlingua.PromptCompressor", FakePromptCompressor)
+
+    suffix = (
+        "Answer the question using only evidence from the meeting context. "
+        "Keep the answer concise but complete in 2-5 sentences."
+    )
+    merged_prompt, info = _prepare_cc_prompt(
+        "What did the team approve?",
+        LLMLinguaCompressor(),
+        keep_rate=0.5,
+        context="Original meeting context",
+        protected_suffix=suffix,
+        qmsum_policy_suffix_override=True,
+        qmsum_policy_name="qmsum_targeted_evidence_repair_v1",
+    )
+
+    assert merged_prompt.endswith(suffix)
+    assert info["qmsum_answer_policy_enabled"] is True
+    assert info["qmsum_policy_suffix_override"] is True
+    assert info["qmsum_answer_policy_type"] == "qmsum_targeted_evidence_repair_v1"
+    assert info["qmsum_answer_policy_preserved"] is True
+    assert "2-5 sentences" in info["qmsum_output_policy_preview"]
+
+
 def test_non_compressed_rows_do_not_claim_compression_preview_metadata():
     metric = PromptMetrics(
         prompt_id=1,

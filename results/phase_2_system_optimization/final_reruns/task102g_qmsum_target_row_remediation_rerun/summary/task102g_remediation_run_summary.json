@@ -1,0 +1,68 @@
+{
+  "cap_limited_incomplete_heuristic_count": 0,
+  "decision": "PASS_WITH_CAVEAT",
+  "empty_or_malformed_count": 0,
+  "expected_row_count": 6,
+  "fixture_id_match": true,
+  "metadata_valid": true,
+  "metrics": {
+    "R_actual": {
+      "avg": 2.162981,
+      "max": 2.220982,
+      "min": 2.133011
+    },
+    "e2e_time_s": {
+      "avg": 4.281798,
+      "max": 5.275747,
+      "min": 3.369337
+    },
+    "t_compress_ms": {
+      "avg": 146.420088,
+      "max": 309.453104,
+      "min": 100.935655
+    },
+    "t_prefill_ms": {
+      "avg": 367.784344,
+      "max": 460.716298,
+      "min": 337.621075
+    },
+    "tau_mean": {
+      "avg": 2.262766,
+      "max": 2.485714,
+      "min": 2.0
+    },
+    "tokens_per_second": {
+      "avg": 21.863859,
+      "max": 24.067253,
+      "min": 18.994836
+    },
+    "vram_allocated_gib": {
+      "avg": 4.162718,
+      "max": 4.162719,
+      "min": 4.162717
+    },
+    "vram_reserved_gib": {
+      "avg": 5.029948,
+      "max": 5.078125,
+      "min": 4.789062
+    }
+  },
+  "oom_cuda_failure_flags": false,
+  "row_count": 6,
+  "run_artifact": "results/phase_2_system_optimization/final_reruns/task102g_qmsum_target_row_remediation_rerun/runs/20260622_235012_cc_dflash_r2_light_gpu_qmsum_target_rows_n6_mnt384.jsonl",
+  "scope": {
+    "compressor_device_map": "cuda",
+    "compressor_profile": "light",
+    "condition": "CC-DFlash-R2",
+    "dataset": "qmsum_meeting_qa_long",
+    "max_new_tokens": 384,
+    "n": 6,
+    "no_full_matrix": true,
+    "no_llm_judge": true,
+    "no_qmsum_n100": true,
+    "seed": 42,
+    "semantic_reassessment_deferred_to": "T102H"
+  },
+  "target_dataset_valid": true,
+  "task": "T102G — QMSum Target-row Remediation Rerun"
+}

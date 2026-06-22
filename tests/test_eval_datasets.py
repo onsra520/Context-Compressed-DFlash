@@ -207,3 +207,44 @@ def test_run_mvp_qmsum_dataset_items_keep_evidence_policy_as_protected_suffix(tm
     assert "Final answer: <number>" not in items[0].text
     assert items[0].question == "What did the team approve?"
     assert items[0].protected_suffix == QMSUM_EVIDENCE_FOCUSED_ANSWER_INSTRUCTION
+
+
+def test_run_mvp_qmsum_dataset_items_accept_runtime_policy_suffix_override(tmp_path: Path):
+    path = tmp_path / "qmsum_eval.jsonl"
+    suffix = (
+        "Answer the question using only evidence from the meeting context. "
+        "Keep the answer concise but complete in 2-5 sentences."
+    )
+    write_jsonl(
+        [
+            {
+                "id": "qmsum_meeting_qa_test_0036",
+                "dataset_name": "qmsum_meeting_qa_long",
+                "context": "Speaker A: The team approved the launch plan after budget review.",
+                "question": "What did the team approve?",
+                "expected_answer": "The team approved the launch plan.",
+                "prompt": "Meeting transcript:\nSpeaker A: The team approved the launch plan after budget review.\n\nQuestion: What did the team approve?",
+                "domain": "meeting_qa_long_context",
+                "evidence": "QMSum reference answer",
+                "approximate_context_words": 10,
+                "quality_policy": "normalized_text_containment_proxy",
+            }
+        ],
+        path,
+    )
+
+    items = _select_prompt_items(
+        prompt_source="dataset",
+        n_prompts=1,
+        fixture_path=None,
+        dataset_name="qmsum_meeting_qa_long",
+        dataset_path=path,
+        seed=42,
+        qmsum_policy_suffix=suffix,
+        qmsum_policy_name="qmsum_targeted_evidence_repair_v1",
+    )
+
+    assert items[0].protected_suffix == suffix
+    assert items[0].metadata["qmsum_policy_suffix_override"] is True
+    assert items[0].metadata["qmsum_answer_policy_type"] == "qmsum_targeted_evidence_repair_v1"
+    assert "First focus on the exact evidence" not in items[0].protected_suffix
