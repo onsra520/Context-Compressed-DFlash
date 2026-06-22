@@ -367,6 +367,15 @@ def _metadata_from_dataset_row(row) -> dict:
     }
 
 
+def _dataset_prompt_text(row, dataset_name: str, protected_suffix: str | None) -> str:
+    if dataset_name == "qmsum_meeting_qa_long" and protected_suffix:
+        return _append_protected_suffix(
+            f"Meeting transcript:\n{str(row.context or '').strip()}\n\nQuestion: {str(row.question or '').strip()}",
+            protected_suffix,
+        )
+    return row.prompt
+
+
 def _select_prompt_items(
     *,
     prompt_source: str,
@@ -404,13 +413,17 @@ def _select_prompt_items(
                 metadata.update(
                     {
                         "qmsum_policy_suffix_override": True,
+                        "qmsum_answer_policy_enabled": True,
                         "qmsum_answer_policy_type": policy_name,
+                        "qmsum_answer_policy_preserved": True,
+                        "qmsum_output_policy_preview": _preview_text(protected_suffix, limit=640),
                     }
                 )
+            prompt_text = _dataset_prompt_text(row, dataset_name, protected_suffix)
             items.append(
                 PromptItem(
                     prompt_id=index,
-                    text=row.prompt,
+                    text=prompt_text,
                     context=row.context,
                     question=row.question,
                     protected_suffix=protected_suffix,

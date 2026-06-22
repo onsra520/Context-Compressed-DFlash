@@ -245,6 +245,10 @@ def test_run_mvp_qmsum_dataset_items_accept_runtime_policy_suffix_override(tmp_p
     )
 
     assert items[0].protected_suffix == suffix
+    assert items[0].text.rstrip().endswith(suffix)
+    assert "First focus on the exact evidence" not in items[0].text
+    assert "Answer concisely in 1-3 sentences." not in items[0].text
     assert items[0].metadata["qmsum_policy_suffix_override"] is True
     assert items[0].metadata["qmsum_answer_policy_type"] == "qmsum_targeted_evidence_repair_v1"
-    assert "First focus on the exact evidence" not in items[0].protected_suffix
+    assert items[0].metadata["qmsum_answer_policy_preserved"] is True
+    assert suffix in items[0].metadata["qmsum_output_policy_preview"]

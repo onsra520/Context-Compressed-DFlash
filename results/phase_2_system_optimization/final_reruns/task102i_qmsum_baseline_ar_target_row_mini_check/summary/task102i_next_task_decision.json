@@ -1,0 +1,5 @@
+{
+  "next_task": "T102J — QMSum Residual Risk Stop-or-Judge Decision",
+  "reason": "Baseline-AR also fails or remains uncertain on most target rows, consistent with target-model/QMSum grounding or proxy limitations rather than only compression.",
+  "recommended_path": "accept residual caveat and unblock T103 if the user agrees"
+}
