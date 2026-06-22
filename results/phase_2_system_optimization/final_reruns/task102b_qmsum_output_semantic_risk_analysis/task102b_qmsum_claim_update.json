@@ -1,0 +1,46 @@
+{
+  "Benchmark-scoped quality": {
+    "allowed_wording": [
+      "Quality evidence covers GSM8K deterministic numeric proxy and QMSum deterministic semantic-risk/proxy audit."
+    ],
+    "blocked_wording": [
+      "Final semantic correctness is proven."
+    ],
+    "status": "GSM8K_NUMERIC_PLUS_QMSUM_PROXY"
+  },
+  "DFlash-R1 broken": {
+    "status": "REMOVED",
+    "wording": "DFlash-R1 retained as reference condition."
+  },
+  "Full matrix": {
+    "reason": "T102B analyzes one QMSum condition, not a full matrix.",
+    "status": "PENDING_T104"
+  },
+  "GPU default": {
+    "reason": "Candidate strengthened, but default decision belongs to T105.",
+    "status": "PENDING_T105"
+  },
+  "Local 8GB-class feasibility": {
+    "allowed_wording": [
+      "Observed on local RTX 4070 8GB-class GPU across GSM8K n100 and QMSum n30."
+    ],
+    "blocked_wording": [
+      "Universal 8GB deployment readiness is proven."
+    ],
+    "status": "STRENGTHENED_LOCAL_OBSERVATION"
+  },
+  "QMSum claim": {
+    "allowed_wording": [
+      "QMSum-style long-context prompts were covered by Light GPU feasibility plus deterministic semantic-risk/proxy analysis."
+    ],
+    "blocked_wording": [
+      "QMSum semantic correctness is proven."
+    ],
+    "reason": "Deterministic lexical/evidence proxy analysis was produced without an LLM judge.",
+    "status": "SCOPED_WITH_RISK"
+  },
+  "Speed": {
+    "reason": "QMSum Light GPU runtime is measured, but near-DFlash / final speed wording still needs aligned references.",
+    "status": "PENDING_T103_REFERENCE_ALIGNMENT"
+  }
+}
