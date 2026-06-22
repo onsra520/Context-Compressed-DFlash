@@ -1,0 +1,33 @@
+{
+  "aggregate_deltas": {
+    "output_tokens": 15.0,
+    "question_overlap": 0.141204,
+    "reference_bigram_overlap": 0.008081,
+    "reference_overlap": 0.04844,
+    "source_grounding_overlap": 0.011193
+  },
+  "confirmed_failures_before_task102e": 3,
+  "confirmed_failures_reduced_from_task102e": false,
+  "decision": "PASS_WITH_CAVEAT",
+  "generic_flags_after": 2,
+  "generic_flags_before": 1,
+  "improved_but_still_risky_count": 2,
+  "input_artifacts": {
+    "original_jsonl": "results/phase_2_system_optimization/final_reruns/task102_qmsum_light_gpu_n30_feasibility_run/runs/20260622_151200_cc_dflash_r2_light_gpu_qmsum_seed42_n30_mnt384.jsonl",
+    "remediated_jsonl": "results/phase_2_system_optimization/final_reruns/task102g_qmsum_target_row_remediation_rerun/runs/20260622_235012_cc_dflash_r2_light_gpu_qmsum_target_rows_n6_mnt384.jsonl",
+    "task102e_resolution": "results/phase_2_system_optimization/final_reruns/task102e_qmsum_hard_risk_and_residual_uncertainty_resolution/task102e_target_row_resolution.jsonl"
+  },
+  "method": "deterministic before/after lexical, source-grounding, question-focus, genericness, cap, and malformed-output heuristics only",
+  "next_task": "T102I — QMSum Residual Risk Stop-or-Judge Decision",
+  "qmsum_claim_status": "REMEDIATION_FAILED",
+  "remaining_hard_risk_count": 3,
+  "remaining_unresolved_count": 2,
+  "resolved_by_targeted_policy_count": 0,
+  "still_unresolved_without_semantic_judge_count": 2,
+  "target_rows_total": 6,
+  "task": "T102H — QMSum Remediation Reassessment",
+  "unchanged_quality_failure_count": 1,
+  "unresolved_rows_before_task102e": 3,
+  "unresolved_rows_reduced_from_task102e": true,
+  "worsened_count": 1
+}
