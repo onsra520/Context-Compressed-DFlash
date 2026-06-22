@@ -1,0 +1,20 @@
+{
+  "QMSum claim": {
+    "allowed_wording": [
+      "QMSum Light GPU completed n30 without runtime, cap, or malformed-output failures; remaining uncertainty was triaged into proxy/reference limitations, possible evidence misses, and unresolved deterministic-proxy limits.",
+      "QMSum evidence supports benchmark-scoped semantic-risk/proxy coverage, not semantic correctness proof."
+    ],
+    "blocked_wording": [
+      "QMSum semantic correctness is proven.",
+      "QMSum quality is fully solved.",
+      "Final semantic correctness is proven."
+    ],
+    "status": "SCOPED_WITH_TRIAGED_RISK"
+  },
+  "reason": {
+    "hard_risk_rows": 3,
+    "proxy_reference_limitation_rows": 11,
+    "uncertain_rows_analyzed": 18,
+    "unresolved_rows": 4
+  }
+}

@@ -446,7 +446,7 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv go">Latest Completed: Task102B — QMSum Output + Semantic-Risk Analysis</span>
+                <span class="sv go">Latest Completed: Task102C — QMSum Proxy-Uncertainty Triage</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
@@ -459,7 +459,7 @@
                 <span class="sv stop">DFlash-R1 retained as historical reference</span>
             </div>
             <div class="update-bar">
-                Task102B analyzed the Task102 QMSum Light GPU <code>n=30</code> output without any benchmark or model run. All <code>30/30</code> answers completed with <code>0</code> empty/malformed rows, <code>0</code> cap-limited/incomplete rows, and no OOM/CUDA flags, but the deterministic lexical/evidence audit found <code>18/30</code> low-reference-overlap rows and <code>18/30</code> proxy-uncertain rows. Runtime stayed bounded for this local run: average <code>t_compress_ms=125.26</code>, e2e/generation time <code>5.00s</code>, tok/s <code>21.34</code>, <code>R_actual=2.19</code>, and max reserved VRAM <code>5.41GiB</code>. Decision: <strong>PASS_WITH_CAVEAT</strong>; QMSum claim status: <strong>SCOPED_WITH_RISK</strong>. Current next: T103 Reference Alignment for Speed Claim. Final report integration remains deferred outside active Phase 2.
+                Task102C triaged the <code>18/30</code> QMSum low-overlap/proxy-uncertain rows from Task102B without any benchmark/model run or LLM judge. Bucket counts: <code>1</code> proxy false negative, <code>10</code> source/reference mismatch possible, <code>2</code> evidence miss likely, <code>1</code> generic/under-specific, <code>0</code> acceptable after proxy review, and <code>4</code> unresolved deterministic-proxy limitations. Hard-risk rows are <code>3/30</code> total rows, unresolved rows are <code>4/18</code> uncertain rows, and QMSum status moves to <strong>SCOPED_WITH_TRIAGED_RISK</strong>. Decision: <strong>PASS_WITH_CAVEAT</strong>. Current next: T103 Reference Alignment for Speed Claim. Final report integration remains deferred outside active Phase 2.
             </div>
         </header>
 
@@ -514,7 +514,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, and Task102B completed deterministic QMSum proxy/risk analysis. T103 reference alignment is next; final report integration is deferred outside active Phase 2.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, and Task102C triaged the proxy-uncertain rows. T103 reference alignment is next; final report integration is deferred outside active Phase 2.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -549,7 +549,7 @@
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task102B — QMSum Output + Semantic-Risk Analysis</td>
+                            <td>Task102C — QMSum Proxy-Uncertainty Triage</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -565,7 +565,7 @@
                         </tr>
                         <tr>
                             <td><strong>QMSum evidence</strong></td>
-                            <td>Task102B completed deterministic semantic-risk/proxy analysis for the Task102 Light GPU <code>n=30</code> artifact; claim status is <code>SCOPED_WITH_RISK</code>, not semantic correctness proof</td>
+                            <td>Task102C triaged Task102B uncertain QMSum rows; claim status is <code>SCOPED_WITH_TRIAGED_RISK</code>, not semantic correctness proof</td>
                         </tr>
                         <tr>
                             <td><strong>Wikipedia branch</strong></td>
@@ -573,7 +573,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task102B completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, and Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats. Current active Phase 2 focus is optimization and benchmark-scoped claim closure, not final report integration.</td>
+                            <td>Task91 through Task102C completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, and Task102C upgraded that to triaged-risk wording. Current active Phase 2 focus is optimization and benchmark-scoped claim closure, not final report integration.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1436,13 +1436,19 @@
                         <tr>
                             <td><span class="tnum planned">T102A</span></td>
                             <td>QMSum Failure Audit / Fix</td>
-                            <td>Conditional branch only if Task102 output is malformed, incomplete, unstable, or blocked. Task102 passed feasibility, so this remains inactive unless Task102B finds a serious deterministic issue.</td>
+                            <td>Conditional branch only if Task102 output is malformed, incomplete, unstable, blocked, or if T102B/T102C finds a serious deterministic issue. Task102C did not trigger the severe-issue threshold, so this remains inactive.</td>
                             <td class="neu">CONDITIONAL</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T102B</span></td>
                             <td>QMSum Output + Semantic-Risk Analysis</td>
                             <td>Analyzed the Task102 QMSum Light GPU <code>n=30</code> artifact with deterministic lexical/evidence proxy heuristics only. All rows completed: <code>30/30</code> completed answers, <code>0/30</code> empty/malformed rows, and <code>0/30</code> cap-limited/incomplete rows. Remaining proxy risks were substantial: <code>18/30</code> low-reference-overlap rows, <code>18/30</code> source/reference mismatch possible rows, <code>18/30</code> proxy-uncertain rows, and <code>3/30</code> possible-evidence-miss rows; <code>10/30</code> rows had acceptable proxy signal. Runtime remained bounded with average <code>t_compress_ms=125.26</code>, e2e/generation time <code>5.00s</code>, tok/s <code>21.34</code>, <code>R_actual=2.19</code>, and max reserved VRAM <code>5.41GiB</code>. Claim update: QMSum is <code>SCOPED_WITH_RISK</code>, local 8GB-class observation is strengthened but not deployment readiness, speed remains pending T103, full matrix pending T104, GPU default pending T105, and DFlash-R1 broken claim remains removed. No benchmark, model inference, QMSum rerun, QMSum <code>n=100</code>, full matrix, other condition, keep-rate tuning, default switch, model download, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/102b-qmsum-output-semantic-risk-analysis-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task102b_qmsum_output_semantic_risk_analysis/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T102C</span></td>
+                            <td>QMSum Proxy-Uncertainty Triage</td>
+                            <td>Triaged the <code>18/30</code> Task102B low-overlap/proxy-uncertain QMSum rows into concrete deterministic buckets without benchmark execution, model inference, QMSum rerun, QMSum <code>n=100</code>, full matrix, other runtime condition, keep-rate tuning, default switch, model download, or LLM judge. Bucket counts were <code>proxy_false_negative=1</code>, <code>source_reference_mismatch_possible=10</code>, <code>evidence_miss_likely=2</code>, <code>generic_or_under_specific=1</code>, <code>acceptable_after_proxy_review=0</code>, and <code>unresolved_proxy_limitation=4</code>. Hard-risk rows were <code>3/30</code> total rows and unresolved rows were <code>4/18</code> uncertain rows, so T102A is not activated. Claim update: QMSum moves to <code>SCOPED_WITH_TRIAGED_RISK</code>, still with no semantic-correctness or fully-solved quality claim. <br><code>docs/reports/phase_2_system_optimization/102c-qmsum-proxy-uncertainty-triage-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task102c_qmsum_proxy_uncertainty_triage/</code></td>
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
@@ -1466,7 +1472,7 @@
                         <tr>
                             <td><span class="tnum planned">T106</span></td>
                             <td>Phase 2 Optimization Closure Pack</td>
-                            <td>Package Phase 2 optimization and claim-closure evidence after T102B through T105. Final report integration remains deferred outside active Phase 2 until explicitly requested.</td>
+                            <td>Package Phase 2 optimization and claim-closure evidence after T102C through T105. Final report integration remains deferred outside active Phase 2 until explicitly requested.</td>
                             <td class="info">PLANNED</td>
                         </tr>
 </tbody>
@@ -1723,6 +1729,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-22</div>
+                <div class="log-body">
+                    <strong>Task102C — QMSum Proxy-Uncertainty Triage — PASS_WITH_CAVEAT</strong><br>
+                    Triaged the <code>18/30</code> Task102B low-overlap/proxy-uncertain QMSum rows without benchmark execution, model inference, QMSum rerun, QMSum <code>n=100</code>, full matrix, other runtime conditions, keep-rate tuning, default config switch, model download, or LLM judge. Bucket counts: <code>proxy_false_negative=1</code>, <code>source_reference_mismatch_possible=10</code>, <code>evidence_miss_likely=2</code>, <code>generic_or_under_specific=1</code>, <code>acceptable_after_proxy_review=0</code>, and <code>unresolved_proxy_limitation=4</code>. Hard-risk rows are <code>3/30</code> total rows, unresolved rows are <code>4/18</code> uncertain rows, and severe thresholds were not triggered. QMSum claim status moves to <code>SCOPED_WITH_TRIAGED_RISK</code>, still not semantic correctness proof. Current next: T103 Reference Alignment for Speed Claim.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-22</div>
                 <div class="log-body">
