@@ -1,0 +1,20 @@
+{
+  "QMSum claim": {
+    "allowed_wording": [
+      "QMSum Light GPU n30 has deterministic proxy/evidence analysis through residual hard-risk resolution.",
+      "Remaining QMSum quality concerns are explicitly bounded by confirmed failure and unresolved rows."
+    ],
+    "blocked_wording": [
+      "QMSum semantic correctness is proven.",
+      "QMSum quality risk has been eliminated.",
+      "T103 speed-claim closure can proceed without acknowledging QMSum residual quality risk."
+    ],
+    "reason": {
+      "after_hard_risk_count": 3,
+      "after_unexplained_deterministic_uncertainty_count": 3,
+      "confirmed_quality_failure_rows_count": 3,
+      "still_unresolved_rows_count": 3
+    },
+    "status": "SCOPED_WITH_CONFIRMED_FAILURES"
+  }
+}

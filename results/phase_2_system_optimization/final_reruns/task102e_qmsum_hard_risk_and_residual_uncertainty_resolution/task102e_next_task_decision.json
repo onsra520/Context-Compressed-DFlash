@@ -1,0 +1,14 @@
+{
+  "decision": "NEEDS_REMEDIATION_TASK",
+  "next_task": "T102F — QMSum Target-row Remediation Decision",
+  "reason": "Confirmed quality failures or unresolved rows remain, so T103 should wait unless the user explicitly accepts the caveat.",
+  "recommended_options": [
+    "prompt/evidence policy improvement",
+    "small controlled rerun on only target rows",
+    "human review",
+    "LLM judge",
+    "keep caveat and stop QMSum quality expansion"
+  ],
+  "remediation_required": true,
+  "t103_allowed_to_proceed": false
+}
