@@ -1,0 +1,6 @@
+{
+  "automatic_benchmark": false,
+  "decision": "PASS_WITH_CAVEAT",
+  "next_task": "T103 — Reference Alignment for Speed Claim",
+  "reason": "Improved deterministic proxy materially reduced unexplained uncertainty while preserving caveats and hard-risk rows."
+}

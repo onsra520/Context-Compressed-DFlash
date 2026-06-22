@@ -1,0 +1,26 @@
+{
+  "QMSum claim": {
+    "allowed_wording": [
+      "QMSum Light GPU n30 now has an improved deterministic proxy reassessment that separates reference overlap, source grounding, output genericness, and remaining unresolved proxy limits.",
+      "The reassessment can support benchmark-scoped QMSum proxy-risk reporting, not semantic correctness proof."
+    ],
+    "blocked_wording": [
+      "QMSum semantic correctness is proven.",
+      "The improved proxy is equivalent to human semantic scoring.",
+      "QMSum quality is fully solved.",
+      "A QMSum n100 or full matrix result was run."
+    ],
+    "limitations": [
+      "No LLM judge or human semantic scoring was used.",
+      "Rows marked source-grounded/reference-mismatch are not automatically correct.",
+      "Hard-risk rows remain visible and are not relabeled as acceptable."
+    ],
+    "status": "SCOPED_WITH_IMPROVED_PROXY_CAVEAT"
+  },
+  "reason": {
+    "before_proxy_uncertain_rows": 18,
+    "hard_risk_rows": 3,
+    "materially_reduced": true,
+    "remaining_unexplained_uncertain_rows": 3
+  }
+}
