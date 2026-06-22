@@ -1,0 +1,6 @@
+{
+  "automatic_extra_benchmark": false,
+  "final_report_integration_now": false,
+  "next_task": "T102B — QMSum Output + Semantic-Risk / Proxy / Cap / Latency / VRAM Analysis",
+  "reason": "QMSum Light GPU feasibility completed at n=30; the next step is static output and risk analysis, not another benchmark."
+}

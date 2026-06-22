@@ -1,0 +1,178 @@
+{
+  "n30": {
+    "artifact": "results/phase_2_system_optimization/final_reruns/task102_qmsum_light_gpu_n30_feasibility_run/runs/20260622_151200_cc_dflash_r2_light_gpu_qmsum_seed42_n30_mnt384.jsonl",
+    "cap_limited_or_truncated_heuristic_count": 0,
+    "empty_or_malformed_output_count": 0,
+    "expected_rows": 30,
+    "max_vram_reserved_gib": 5.414062,
+    "metadata": {
+      "compressor_device_map": [
+        "cuda"
+      ],
+      "compressor_profile": [
+        "light"
+      ],
+      "condition": [
+        "CC-DFlash-R2"
+      ],
+      "dataset_name": [
+        "qmsum_meeting_qa_long"
+      ],
+      "local_files_only": [
+        true
+      ],
+      "max_new_tokens": [
+        384
+      ],
+      "qmsum_answer_policy_type": [
+        "evidence_focused"
+      ],
+      "requested_compressor_device_map": [
+        "cuda"
+      ]
+    },
+    "metadata_confirms_light_gpu": true,
+    "oom_cuda_or_failure_flag_count": 0,
+    "row_count": 30,
+    "run_complete": true,
+    "run_kind": "n30",
+    "stats": {
+      "R_actual": {
+        "avg": 2.192619,
+        "max": 2.251326,
+        "min": 2.133011,
+        "p95": 2.245495
+      },
+      "e2e_time_s": {
+        "avg": 5.003203,
+        "max": 7.438285,
+        "min": 1.248316,
+        "p95": 6.96693
+      },
+      "t_compress_ms": {
+        "avg": 125.263221,
+        "max": 236.318902,
+        "min": 97.241485,
+        "p95": 153.605866
+      },
+      "t_prefill_ms": {
+        "avg": 363.826869,
+        "max": 455.878806,
+        "min": 333.457338,
+        "p95": 383.131349
+      },
+      "tau_mean": {
+        "avg": 2.157238,
+        "max": 2.793103,
+        "min": 1.716667,
+        "p95": 2.589744
+      },
+      "tokens_per_second": {
+        "avg": 21.3377,
+        "max": 26.671838,
+        "min": 17.623737,
+        "p95": 25.285012
+      },
+      "vram_allocated_gib": {
+        "avg": 4.162704,
+        "max": 4.162705,
+        "min": 4.162703,
+        "p95": 4.162705
+      },
+      "vram_reserved_gib": {
+        "avg": 5.341732,
+        "max": 5.414062,
+        "min": 4.794922,
+        "p95": 5.414062
+      }
+    }
+  },
+  "smoke": {
+    "artifact": "results/phase_2_system_optimization/final_reruns/task102_qmsum_light_gpu_n30_feasibility_run/smoke/20260622_151043_cc_dflash_r2_light_gpu_qmsum_seed42_n3_mnt384.jsonl",
+    "cap_limited_or_truncated_heuristic_count": 0,
+    "empty_or_malformed_output_count": 0,
+    "expected_rows": 3,
+    "max_vram_reserved_gib": 5.103516,
+    "metadata": {
+      "compressor_device_map": [
+        "cuda"
+      ],
+      "compressor_profile": [
+        "light"
+      ],
+      "condition": [
+        "CC-DFlash-R2"
+      ],
+      "dataset_name": [
+        "qmsum_meeting_qa_long"
+      ],
+      "local_files_only": [
+        true
+      ],
+      "max_new_tokens": [
+        384
+      ],
+      "qmsum_answer_policy_type": [
+        "evidence_focused"
+      ],
+      "requested_compressor_device_map": [
+        "cuda"
+      ]
+    },
+    "metadata_confirms_light_gpu": true,
+    "oom_cuda_or_failure_flag_count": 0,
+    "row_count": 3,
+    "run_complete": true,
+    "run_kind": "smoke",
+    "stats": {
+      "R_actual": {
+        "avg": 2.197131,
+        "max": 2.251326,
+        "min": 2.145655,
+        "p95": 2.251326
+      },
+      "e2e_time_s": {
+        "avg": 5.659303,
+        "max": 6.688401,
+        "min": 4.553379,
+        "p95": 6.688401
+      },
+      "t_compress_ms": {
+        "avg": 171.507483,
+        "max": 266.70935,
+        "min": 103.825723,
+        "p95": 266.70935
+      },
+      "t_prefill_ms": {
+        "avg": 402.40773,
+        "max": 500.684843,
+        "min": 335.001775,
+        "p95": 500.684843
+      },
+      "tau_mean": {
+        "avg": 1.981877,
+        "max": 2.058824,
+        "min": 1.869565,
+        "p95": 2.058824
+      },
+      "tokens_per_second": {
+        "avg": 19.948912,
+        "max": 20.782246,
+        "min": 18.667454,
+        "p95": 20.782246
+      },
+      "vram_allocated_gib": {
+        "avg": 4.162704,
+        "max": 4.162704,
+        "min": 4.162703,
+        "p95": 4.162704
+      },
+      "vram_reserved_gib": {
+        "avg": 4.897786,
+        "max": 5.103516,
+        "min": 4.794922,
+        "p95": 5.103516
+      }
+    }
+  }
+}

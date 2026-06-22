@@ -1,0 +1,49 @@
+{
+  "active_phase2_focus": "optimization and benchmark-scoped claim closure",
+  "current_next": "T102B — QMSum Output + Semantic-Risk / Proxy / Cap / Latency / VRAM Analysis",
+  "final_report_integration": "deferred outside active Phase 2 until explicitly requested",
+  "tasks": [
+    {
+      "status": "PASS_WITH_CAVEAT",
+      "summary": "Small-gated QMSum Light GPU feasibility run; no QMSum n100 or full matrix.",
+      "task": "T102",
+      "title": "QMSum Light GPU n30 Feasibility Run"
+    },
+    {
+      "status": "CONDITIONAL",
+      "summary": "Activated only if T102 fails, is malformed, or shows unstable metadata.",
+      "task": "T102A",
+      "title": "QMSum Failure Audit / Fix"
+    },
+    {
+      "status": "PLANNED / NEXT",
+      "summary": "Analyze generated QMSum outputs and risk boundaries without a new benchmark.",
+      "task": "T102B",
+      "title": "QMSum Output + Semantic-Risk / Proxy / Cap / Latency / VRAM Analysis"
+    },
+    {
+      "status": "PLANNED",
+      "summary": "Align speed reference wording before any near-DFlash claim.",
+      "task": "T103",
+      "title": "Reference Alignment for Speed Claim"
+    },
+    {
+      "status": "PLANNED",
+      "summary": "Close what is and is not covered by the benchmark scope.",
+      "task": "T104",
+      "title": "Full Matrix / Benchmark-Scope Claim Closure"
+    },
+    {
+      "status": "PLANNED",
+      "summary": "Decide whether GPU placement can become a candidate default; not automatic.",
+      "task": "T105",
+      "title": "Optimized Default Candidate Decision"
+    },
+    {
+      "status": "PLANNED",
+      "summary": "Package Phase 2 optimization evidence after claim closure.",
+      "task": "T106",
+      "title": "Phase 2 Optimization Closure Pack"
+    }
+  ]
+}

@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv go">Latest Completed: Task101 — Final Claim Boundary Audit</span>
+                <span class="sv go">Latest Completed: Task102 — QMSum Light GPU n30 Feasibility Run</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv info">Current Next: T102 Final Report Integration</span>
+                <span class="sv info">Current Next: T102B QMSum Output + Semantic-Risk Analysis</span>
                 <span class="sv stop">Bounded GSM8K Light GPU speed evidence only</span>
                 <span class="sv stop">Deterministic GSM8K numeric proxy only</span>
                 <span class="sv stop">No Phase 2 Light GPU QMSum semantic claim</span>
@@ -459,7 +459,7 @@
                 <span class="sv stop">DFlash-R1 retained as historical reference</span>
             </div>
             <div class="update-bar">
-                Task101 finalized the Phase 2 claim boundary after Task100B/Task100C without running any benchmark or model inference. The audit converts rough blocked-claim labels into precise final-report wording: bounded GSM8K Light GPU speed evidence only, deterministic GSM8K numeric proxy only, no Phase 2 Light GPU QMSum semantic claim, local feasibility observed without deployment-readiness proof, observed local RTX 4070 8GB-class behavior without universal 8GB guarantee, DFlash-R1 retained as historical reference, and GPU placement remaining a runtime/gated candidate. Decision: <strong>PASS</strong>. Current next: T102 Final Report Integration.
+                Task102 completed a bounded QMSum-style Light GPU feasibility path after CUDA verification: <code>CC-DFlash-R2</code>, <code>qmsum_meeting_qa_long</code>, seed <code>42</code>, light compressor, runtime <code>--compressor-device-map cuda</code>, and canonical QMSum <code>max_new_tokens=384</code>. The <code>n=3</code> smoke and <code>n=30</code> run both completed with metadata-confirmed light/cuda/local placement, no empty outputs, and no recorded OOM/CUDA flags; the <code>n=30</code> run averaged <code>t_compress_ms=125.26</code>, e2e/generation time <code>5.00s</code>, tok/s <code>21.34</code>, <code>R_actual=2.19</code>, and max reserved VRAM <code>5.41GiB</code>. Decision: <strong>PASS_WITH_CAVEAT</strong>. Current next: T102B QMSum Output + Semantic-Risk / Proxy / Cap / Latency / VRAM Analysis. Final report integration is deferred outside active Phase 2 until claim closure is explicitly requested.
             </div>
         </header>
 
@@ -514,7 +514,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, and Task101 finalized the allowed/blocked claim boundary. T102 final report integration is next; final claims remain bounded.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, and Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility. T102B QMSum output/risk analysis is next; final report integration is deferred outside active Phase 2.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -545,11 +545,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T102 — Final Report Integration</td>
+                            <td>T102B — QMSum Output + Semantic-Risk / Proxy / Cap / Latency / VRAM Analysis</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task101 — Final Claim Boundary Audit</td>
+                            <td>Task102 — QMSum Light GPU n30 Feasibility Run</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -565,7 +565,7 @@
                         </tr>
                         <tr>
                             <td><strong>QMSum evidence</strong></td>
-                            <td>diagnostic-only, not semantic correctness evidence</td>
+                            <td>Task102 completed bounded Light GPU <code>n=30</code> feasibility with <code>max_new_tokens=384</code>; still diagnostic-only, not semantic correctness evidence</td>
                         </tr>
                         <tr>
                             <td><strong>Wikipedia branch</strong></td>
@@ -573,7 +573,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task97 completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed the bounded CUDA resume with <code>n=3</code> smoke plus <code>n=10</code> light GPU placement, and Task100A packaged supported evidence classes. Task96 Light CPU is the supported controlled CPU result; Task99-R Light GPU is a promising bounded candidate.</td>
+                            <td>Task91 through Task102 completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, and Task102 completed QMSum Light GPU <code>n=30</code> feasibility. Current active Phase 2 focus is optimization and benchmark-scoped claim closure, not final report integration.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1306,7 +1306,7 @@
                             <td>Completed missing QMSum Task90 artifacts using isolated per-condition execution after Task90A.</td>
                             <td class="go">PASS_WITH_NOTES</td>
                         </tr>
-                        <tr class="phase-row"><td colspan="4">PHASE 2 — LIGHTER COMPRESSOR OPTIMIZATION (T91–T102)</td></tr>
+                        <tr class="phase-row"><td colspan="4">PHASE 2 — LIGHTER COMPRESSOR OPTIMIZATION AND CLAIM CLOSURE (T91–T106)</td></tr>
                         <tr>
                             <td><span class="tnum done">T91</span></td>
                             <td>Lighter Compressor Feasibility Setup</td>
@@ -1424,13 +1424,49 @@
                         <tr>
                             <td><span class="tnum done">T101</span></td>
                             <td>Final Claim Boundary Audit</td>
-                            <td>Finalized allowed/blocked claims after Task100B/Task100C, reworded old rough <code>NO</code> badges into precise bounded claim labels, generated Vietnamese and English final-report language snippets, and preserved the no-benchmark/no-model-run boundary. Recommendation: proceed to T102 Final Report Integration with no additional benchmark by default. <br><code>docs/reports/phase_2_system_optimization/101-final-claim-boundary-audit-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task101_final_claim_boundary_audit/</code></td>
+                            <td>Finalized allowed/blocked claims after Task100B/Task100C, reworded old rough <code>NO</code> badges into precise bounded claim labels, generated Vietnamese and English final-report language snippets, and preserved the no-benchmark/no-model-run boundary. This record is superseded by the Task102 roadmap rebase for active next-step planning: final report integration is deferred until claim closure is explicitly requested. <br><code>docs/reports/phase_2_system_optimization/101-final-claim-boundary-audit-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task101_final_claim_boundary_audit/</code></td>
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T102</span></td>
-                            <td>Final Report Integration</td>
-                            <td>Integrate the bounded Phase 2 result into final report and demo materials.</td>
+                            <td><span class="tnum done">T102</span></td>
+                            <td>QMSum Light GPU n30 Feasibility Run</td>
+                            <td>Ran the bounded QMSum-style Light GPU feasibility path after CUDA verification: <code>CC-DFlash-R2</code>, <code>qmsum_meeting_qa_long</code>, seed <code>42</code>, light compressor, runtime <code>--compressor-device-map cuda</code>, and canonical QMSum <code>max_new_tokens=384</code>. The <code>n=3</code> smoke completed <code>3/3</code> rows; the gated <code>n=30</code> run completed <code>30/30</code> rows with no empty outputs and no recorded OOM/CUDA flags. Metadata confirmed <code>compressor_profile=light</code>, <code>compressor_device_map=cuda</code>, <code>requested_compressor_device_map=cuda</code>, and <code>local_files_only=true</code>. The <code>n=30</code> run averaged <code>t_compress_ms=125.26</code>, e2e/generation time <code>5.00s</code>, tok/s <code>21.34</code>, <code>R_actual=2.19</code>, and max reserved VRAM <code>5.41GiB</code>. No QMSum <code>n=100</code>, full matrix, GSM8K, Baseline-AR, DFlash-R1, Large CPU, keep-rate tuning, default config switch, model download, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/102-qmsum-light-gpu-n30-feasibility-run-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task102_qmsum_light_gpu_n30_feasibility_run/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T102A</span></td>
+                            <td>QMSum Failure Audit / Fix</td>
+                            <td>Conditional branch only if Task102 output is malformed, incomplete, unstable, or blocked. Task102 passed feasibility, so this remains inactive unless Task102B finds a serious deterministic issue.</td>
+                            <td class="neu">CONDITIONAL</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T102B</span></td>
+                            <td>QMSum Output + Semantic-Risk Analysis</td>
+                            <td>Analyze Task102 QMSum generated outputs, proxy/cap behavior, latency, compression, and VRAM risk without a new benchmark. This is the current next task; it must not claim QMSum semantic correctness.</td>
+                            <td class="info">PLANNED / NEXT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T103</span></td>
+                            <td>Reference Alignment for Speed Claim</td>
+                            <td>Align speed-reference wording before any near-DFlash or cross-condition speed claim. DFlash-R1 remains a reference condition, not a broken baseline.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T104</span></td>
+                            <td>Full Matrix / Benchmark-Scope Claim Closure</td>
+                            <td>Close which benchmark-scope claims are supported and which remain blocked. This does not automatically authorize a full matrix run.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T105</span></td>
+                            <td>Optimized Default Candidate Decision</td>
+                            <td>Decide whether the Light GPU path can be treated as a candidate optimized default. GPU placement remains runtime/gated until this decision is supported.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T106</span></td>
+                            <td>Phase 2 Optimization Closure Pack</td>
+                            <td>Package Phase 2 optimization and claim-closure evidence after T102B through T105. Final report integration remains deferred outside active Phase 2 until explicitly requested.</td>
                             <td class="info">PLANNED</td>
                         </tr>
 </tbody>
@@ -1688,10 +1724,17 @@
         <section>
             <h2>Update Log</h2>
             <div class="log-entry">
+                <div class="log-date">2026-06-22</div>
+                <div class="log-body">
+                    <strong>Task102 — QMSum Light GPU n30 Feasibility Run — PASS_WITH_CAVEAT</strong><br>
+                    Completed a bounded QMSum-style Light GPU feasibility run after CUDA verification. The path used <code>CC-DFlash-R2</code>, <code>qmsum_meeting_qa_long</code>, seed <code>42</code>, light compressor, runtime <code>--compressor-device-map cuda</code>, and canonical QMSum <code>max_new_tokens=384</code>. The <code>n=3</code> smoke completed <code>3/3</code> rows and the gated <code>n=30</code> run completed <code>30/30</code> rows with no empty outputs, metadata-confirmed light/cuda/local placement, and no recorded OOM/CUDA flags. The <code>n=30</code> run averaged <code>t_compress_ms=125.26</code>, e2e/generation time <code>5.00s</code>, tok/s <code>21.34</code>, <code>R_actual=2.19</code>, and max reserved VRAM <code>5.41GiB</code>. No QMSum <code>n=100</code>, full matrix, GSM8K, Baseline-AR, DFlash-R1, Large CPU, keep-rate tuning, default config switch, model download, or LLM judge was run. Current next: T102B QMSum Output + Semantic-Risk / Proxy / Cap / Latency / VRAM Analysis; final report integration is deferred outside active Phase 2 until claim closure is explicitly requested.
+                </div>
+            </div>
+            <div class="log-entry">
                 <div class="log-date">2026-06-21</div>
                 <div class="log-body">
                     <strong>Task101 — Final Claim Boundary Audit — PASS</strong><br>
-                    Finalized the Phase 2 allowed/blocked claim boundary after Task100B and Task100C without benchmark execution, model inference, QMSum, full matrix, keep-rate tuning, model/config changes, downloads, or LLM judge. The audit emitted a claim-boundary matrix, allowed-claims file, blocked-claims file, reworded badge map, Vietnamese/English report-language snippets, and final recommendation under <code>results/phase_2_system_optimization/final_reruns/task101_final_claim_boundary_audit/</code>. Final wording keeps speed as bounded GSM8K Light GPU evidence, quality as deterministic GSM8K numeric proxy evidence, QMSum outside the Light GPU claim, local GPU feasibility separate from deployment readiness, DFlash-R1 as historical reference, and GPU placement as a runtime/gated candidate. Recommendation: proceed to T102 Final Report Integration with no extra benchmark by default.
+                    Finalized the Phase 2 allowed/blocked claim boundary after Task100B and Task100C without benchmark execution, model inference, QMSum, full matrix, keep-rate tuning, model/config changes, downloads, or LLM judge. The audit emitted a claim-boundary matrix, allowed-claims file, blocked-claims file, reworded badge map, Vietnamese/English report-language snippets, and final recommendation under <code>results/phase_2_system_optimization/final_reruns/task101_final_claim_boundary_audit/</code>. Final wording keeps speed as bounded GSM8K Light GPU evidence, quality as deterministic GSM8K numeric proxy evidence, QMSum outside the Light GPU claim, local GPU feasibility separate from deployment readiness, DFlash-R1 as historical reference, and GPU placement as a runtime/gated candidate. Task102 later rebased active Phase 2 toward QMSum feasibility and claim closure, so final report integration is deferred until explicitly requested.
                 </div>
             </div>
             <div class="log-entry">
