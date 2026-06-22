@@ -1,0 +1,8 @@
+{
+  "automatic_benchmark": false,
+  "decision": "PASS",
+  "next_task": "T102G — QMSum Target-row Remediation Rerun",
+  "reason": "Option B selected: rerun only the six residual QMSum target rows with targeted evidence-focused remediation policy.",
+  "t103_allowed_to_proceed": false,
+  "t103_gate": "Wait for T102G/T102H or explicit user approval to carry residual caveat."
+}

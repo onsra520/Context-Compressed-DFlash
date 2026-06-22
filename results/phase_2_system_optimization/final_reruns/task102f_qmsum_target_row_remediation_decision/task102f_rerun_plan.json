@@ -1,0 +1,31 @@
+{
+  "command_template": "OUTDIR=\"results/phase_2_system_optimization/final_reruns/task102g_qmsum_target_row_remediation_rerun/runs\"\nmkdir -p \"$OUTDIR\"\nSTAMP=\"$(date +%Y%m%d_%H%M%S)\"\nPYTHONPATH=src .venv/bin/python scripts/run_mvp.py \\\n  --condition CC-DFlash-R2 \\\n  --prompt-source dataset \\\n  --dataset qmsum_meeting_qa_long \\\n  --dataset-path data/eval/qmsum_meeting_qa_target_rows_task102f.jsonl \\\n  --seed 42 \\\n  --n 6 \\\n  --warmup-prompts 0 \\\n  --max-new-tokens 384 \\\n  --store-generated-text \\\n  --resume \\\n  --compressor-profile light \\\n  --compressor-device-map cuda \\\n  --output \"$OUTDIR/${STAMP}_cc_dflash_r2_light_gpu_qmsum_target6_seed42_mnt384.jsonl\"",
+  "compressor_device_map": "cuda",
+  "compressor_profile": "light",
+  "condition": "CC-DFlash-R2",
+  "dataset": "qmsum_meeting_qa_long",
+  "dataset_path": "data/eval/qmsum_meeting_qa_target_rows_task102f.jsonl",
+  "implementation_precondition": "Confirm or add a runtime-only QMSum policy suffix override before T102G if exact qmsum_targeted_evidence_repair_v1 wording is required.",
+  "max_new_tokens": 384,
+  "n": 6,
+  "requires_cuda_gate": true,
+  "requires_runtime_policy_override_for_exact_suffix": true,
+  "run_scope": "target rows only; no n100; no full matrix",
+  "seed": 42,
+  "stop_conditions": [
+    "CUDA unavailable before run.",
+    "OOM/CUDA failure.",
+    "Runner selects more than the six target rows.",
+    "Target dataset contains previous generated_text as prompt input.",
+    "Generated artifact is malformed or row count differs from 6."
+  ],
+  "target_fixture_ids": [
+    "qmsum_meeting_qa_test_0036",
+    "qmsum_meeting_qa_test_0070",
+    "qmsum_meeting_qa_test_0055",
+    "qmsum_meeting_qa_test_0078",
+    "qmsum_meeting_qa_test_0094",
+    "qmsum_meeting_qa_test_0001"
+  ],
+  "task": "T102G — QMSum Target-row Remediation Rerun"
+}
