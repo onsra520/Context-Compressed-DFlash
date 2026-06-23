@@ -1,0 +1,28 @@
+{
+  "available_paths": {
+    "deterministic_only": {
+      "next_task": "T103D — QMSum Deep Fix Closure Decision",
+      "reason": "If deterministic-only methodology is preserved, freeze the caveat and close the QMSum deep-fix branch.",
+      "recommended_option": "A"
+    },
+    "query_aware_compression": {
+      "next_task": "T103B — Query-aware Compression Prototype",
+      "reason": "Query-aware compression may be explored only after preserving the T103A caveat.",
+      "recommended_option": "preserve T103A caveat first"
+    },
+    "stronger_semantic_claim": {
+      "next_task": "T103C-R — QMSum Human/Semantic Review Execution",
+      "reason": "A stronger QMSum semantic claim requires executing the prepared review protocol.",
+      "recommended_option": "B or D"
+    }
+  },
+  "decision": "USER_DECISION_REQUIRED",
+  "default_guidance": {
+    "deterministic_only_methodology": "Choose T103D and freeze the QMSum caveat.",
+    "query_aware_compression": "Choose T103B only after preserving the T103A caveat.",
+    "stronger_qmsum_semantic_claim": "Choose T103C-R with Option B or D."
+  },
+  "next_task": "User choice required: T103C-R, T103D, or T103B",
+  "reason": "Task103C prepares the protocol but does not execute a review or choose a semantic-claim path automatically.",
+  "selected_intent": "decision_required"
+}

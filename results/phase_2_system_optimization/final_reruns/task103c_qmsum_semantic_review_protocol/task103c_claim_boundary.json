@@ -1,0 +1,23 @@
+{
+  "allowed_claims": [
+    "A semantic review protocol was prepared for residual QMSum rows.",
+    "QMSum deterministic proxy limitations remain explicitly bounded.",
+    "The review packet can support a future approved human or judge review on six target rows."
+  ],
+  "blocked_claims": [
+    "QMSum semantic correctness is proven.",
+    "Human/LLM review was performed.",
+    "Query-aware compression is validated by T103C.",
+    "The full QMSum matrix is complete.",
+    "Residual QMSum risk is eliminated."
+  ],
+  "qmsum_claim_status": "SEMANTIC_REVIEW_PROTOCOL_PREPARED",
+  "remaining_limitations": [
+    "No semantic review was executed in Task103C.",
+    "Only six residual target rows are covered by the packet.",
+    "The packet combines deterministic artifacts and does not adjudicate semantics.",
+    "No LLM judge, human scoring, QMSum rerun, or full matrix was performed."
+  ],
+  "review_performed": false,
+  "semantic_correctness_proven": false
+}

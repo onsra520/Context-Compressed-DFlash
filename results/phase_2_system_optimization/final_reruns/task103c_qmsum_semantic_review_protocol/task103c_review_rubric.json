@@ -1,0 +1,59 @@
+{
+  "labels": [
+    {
+      "label": "correct_supported",
+      "meaning": "The answer directly addresses the question and is supported by the provided source/evidence packet."
+    },
+    {
+      "label": "partially_correct_or_incomplete",
+      "meaning": "The answer contains some supported information but omits required entities/actions/numbers/reasons or is materially incomplete."
+    },
+    {
+      "label": "unsupported_or_wrong",
+      "meaning": "The answer is contradicted by, unsupported by, or off-topic relative to the provided source/evidence packet."
+    },
+    {
+      "label": "cannot_determine_from_available_context",
+      "meaning": "The packet does not provide enough context to distinguish model failure from source/reference mismatch or insufficient evidence."
+    }
+  ],
+  "review_performed_in_task103c": false,
+  "review_rules": [
+    "Use only the review packet content; do not use external knowledge.",
+    "Do not infer semantic correctness from lexical overlap alone.",
+    "Prefer cannot_determine_from_available_context when the packet lacks decisive evidence.",
+    "Record a short rationale for every label if review execution is later approved."
+  ],
+  "review_scope": "six residual QMSum target rows only",
+  "rubric_name": "task103c_qmsum_residual_row_semantic_review_v1",
+  "scoring_dimensions": [
+    {
+      "name": "answers_the_question",
+      "prompt": "Does the output directly answer the user question rather than a nearby or generic topic?"
+    },
+    {
+      "name": "uses_correct_evidence",
+      "prompt": "Is the answer grounded in the supplied meeting source/evidence packet?"
+    },
+    {
+      "name": "required_entities_actions_numbers_reasons",
+      "prompt": "Does the answer include required people, actions, decisions, numbers, or reasons when present?"
+    },
+    {
+      "name": "avoids_hallucination",
+      "prompt": "Does the answer avoid unsupported details not present in the packet?"
+    },
+    {
+      "name": "avoids_unsupported_not_discussed",
+      "prompt": "Does the answer avoid saying 'not discussed' or equivalent unless the packet truly lacks evidence?"
+    },
+    {
+      "name": "completeness",
+      "prompt": "Is the answer complete enough for the question while remaining concise?"
+    },
+    {
+      "name": "reference_source_mismatch_risk",
+      "prompt": "Could the reference answer require evidence not available in the supplied source/evidence packet?"
+    }
+  ]
+}
