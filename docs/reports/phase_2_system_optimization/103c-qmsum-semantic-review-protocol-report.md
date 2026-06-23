@@ -53,8 +53,8 @@ Each review unit contains:
 
 Rows covered:
 
-| Fixture ID |
-| --- |
+| Fixture ID                   |
+| ---------------------------- |
 | `qmsum_meeting_qa_test_0036` |
 | `qmsum_meeting_qa_test_0070` |
 | `qmsum_meeting_qa_test_0055` |
@@ -70,11 +70,11 @@ Rubric artifact:
 
 Allowed review labels:
 
-| Label | Meaning |
-| --- | --- |
-| `correct_supported` | The answer directly addresses the question and is supported by the provided source/evidence packet. |
-| `partially_correct_or_incomplete` | The answer contains some supported information but omits required entities/actions/numbers/reasons or is materially incomplete. |
-| `unsupported_or_wrong` | The answer is contradicted by, unsupported by, or off-topic relative to the provided source/evidence packet. |
+| Label                                     | Meaning                                                                                                                          |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `correct_supported`                       | The answer directly addresses the question and is supported by the provided source/evidence packet.                              |
+| `partially_correct_or_incomplete`         | The answer contains some supported information but omits required entities/actions/numbers/reasons or is materially incomplete.  |
+| `unsupported_or_wrong`                    | The answer is contradicted by, unsupported by, or off-topic relative to the provided source/evidence packet.                     |
 | `cannot_determine_from_available_context` | The packet does not provide enough context to distinguish model failure from source/reference mismatch or insufficient evidence. |
 
 Scoring dimensions:
@@ -93,12 +93,12 @@ Option matrix artifact:
 
 - `results/phase_2_system_optimization/final_reruns/task103c_qmsum_semantic_review_protocol/task103c_option_matrix.json`
 
-| Option | Summary | Recommended when |
-| --- | --- | --- |
-| A | No semantic judge; freeze caveat | Phase 2 should continue with deterministic-only methodology. |
-| B | Human review on six target rows | User wants a stronger QMSum semantic claim without an LLM judge. |
-| C | LLM judge with fixed rubric and evidence packet | Only after explicit approval for an LLM judge path. |
-| D | Hybrid: human review only unresolved/conflicting rows | User wants stronger semantic evidence while keeping review small. |
+| Option | Summary                                               | Recommended when                                                  |
+| ------ | ----------------------------------------------------- | ----------------------------------------------------------------- |
+| A      | No semantic judge; freeze caveat                      | Phase 2 should continue with deterministic-only methodology.      |
+| B      | Human review on six target rows                       | User wants a stronger QMSum semantic claim without an LLM judge.  |
+| C      | LLM judge with fixed rubric and evidence packet       | Only after explicit approval for an LLM judge path.               |
+| D      | Hybrid: human review only unresolved/conflicting rows | User wants stronger semantic evidence while keeping review small. |
 
 Default guidance:
 
