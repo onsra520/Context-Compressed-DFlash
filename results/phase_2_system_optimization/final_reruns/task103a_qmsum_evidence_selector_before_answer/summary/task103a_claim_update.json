@@ -1,0 +1,18 @@
+{
+  "allowed_wording": [
+    "Task103A tested deterministic question-focused evidence selection on the six residual QMSum rows.",
+    "Task103A supports bounded discussion of whether selected evidence helps target-model grounding."
+  ],
+  "blocked_wording": [
+    "QMSum semantic correctness is proven.",
+    "Evidence selection proves the root cause of QMSum residual failures.",
+    "The full QMSum matrix is complete."
+  ],
+  "interpretation": "GENERATION_OR_SEMANTIC_LIMITATION_REMAINS",
+  "qmsum_claim_status": "EVIDENCE_SELECTION_MINI_CHECK_COMPLETE",
+  "remaining_limitations": [
+    "Only six target rows were run.",
+    "Evidence selection used deterministic lexical heuristics, not semantic retrieval.",
+    "No LLM judge or human semantic scoring was used."
+  ]
+}

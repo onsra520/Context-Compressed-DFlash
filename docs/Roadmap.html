@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv go">Latest Completed: Task102I — QMSum Baseline-AR Target-row Mini-check</span>
+                <span class="sv go">Latest Completed: Task103A — QMSum Evidence Selector before Answer</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv warn">Current Next: T102J QMSum Residual Risk Stop-or-Judge Decision</span>
+                <span class="sv warn">Current Next: T103C Semantic Judge / Human Review Protocol</span>
                 <span class="sv stop">Bounded GSM8K Light GPU speed evidence only</span>
                 <span class="sv stop">Deterministic GSM8K numeric proxy only</span>
                 <span class="sv stop">No Phase 2 Light GPU QMSum semantic claim</span>
@@ -459,7 +459,7 @@
                 <span class="sv stop">DFlash-R1 retained as historical reference</span>
             </div>
             <div class="update-bar">
-                Task102I ran a six-row Baseline-AR mini-check on the same QMSum residual-risk target rows with the targeted evidence-repair policy. Result: <code>6/6</code> rows completed, condition metadata confirmed <code>Baseline-AR</code>, compression was <code>none</code>, policy override was confirmed, and deterministic categories were <code>5/6</code> baseline-also-fails-or-uncertain plus <code>1/6</code> proxy/reference limitation persists. Interpretation: residual QMSum risk is consistent with target-model/QMSum grounding or proxy/reference limitations, not solely CC-DFlash compression. Current next is T102J QMSum Residual Risk Stop-or-Judge Decision; T103 remains waiting.
+                Task103A started the QMSum Deep Audit &amp; Deep Fix track by selecting deterministic question-focused evidence for the six residual QMSum target rows, then running Baseline-AR and CC-DFlash-R2 Light GPU evidence-selected mini-checks. Both runs completed <code>6/6</code>; Baseline evidence-selected outcomes were <code>4/6</code> unchanged and <code>2/6</code> worsened, while CC-DFlash evidence-selected outcomes were <code>1/6</code> improved, <code>3/6</code> unchanged, and <code>2/6</code> worsened. Interpretation: deterministic evidence selection alone did not materially repair residual QMSum risk. Current next is T103C Semantic Judge / Human Review Protocol; speed-reference alignment moves to T104.
             </div>
         </header>
 
@@ -514,7 +514,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic QMSum proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, and Task102I completed the six-row Baseline-AR mini-check. T102J stop-or-judge decision is next by default; final report integration is deferred outside active Phase 2.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, and Task103A tested deterministic evidence selection before answer. T103C semantic/human-review protocol is next by default; speed-reference alignment moves to T104; final report integration is deferred outside active Phase 2.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -545,11 +545,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T102J — QMSum Residual Risk Stop-or-Judge Decision</td>
+                            <td>T103C — Semantic Judge / Human Review Protocol</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task102I — QMSum Baseline-AR Target-row Mini-check</td>
+                            <td>Task103A — QMSum Evidence Selector before Answer</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -565,7 +565,7 @@
                         </tr>
                         <tr>
                             <td><strong>QMSum evidence</strong></td>
-                            <td>Task102I found Baseline-AR also fails or remains uncertain on most residual target rows: <code>5/6</code> baseline-also-fails-or-uncertain and <code>1/6</code> proxy/reference limitation persists. QMSum remains not semantic correctness proof</td>
+                            <td>Task103A found deterministic evidence selection alone did not materially repair QMSum residual risk: Baseline evidence-selected had <code>4/6</code> unchanged and <code>2/6</code> worsened; CC-DFlash evidence-selected had <code>1/6</code> improved, <code>3/6</code> unchanged, and <code>2/6</code> worsened. QMSum remains not semantic correctness proof</td>
                         </tr>
                         <tr>
                             <td><strong>Wikipedia branch</strong></td>
@@ -573,7 +573,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task102I completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, and Task102I checked Baseline-AR on the same six rows. Current active Phase 2 focus is T102J stop-or-judge decision before speed-claim closure.</td>
+                            <td>Task91 through Task103A completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, and Task103A tested evidence selection before answer. Current active Phase 2 focus is T103C semantic/human-review protocol before speed-claim closure.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1488,33 +1488,57 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T102J</span></td>
-                            <td>QMSum Residual Risk Stop-or-Judge Decision</td>
-                            <td>Decide whether to accept the explicit QMSum residual caveat and unblock T103, add an approved semantic review/judge path, or stop QMSum quality expansion. T103 remains waiting until this decision.</td>
+                            <td><span class="tnum planned">T103</span></td>
+                            <td>QMSum Deep Audit &amp; Deep Fix Track</td>
+                            <td>Umbrella track for attacking the six residual QMSum target rows before speed-reference alignment. The track is active because T102H/T102I showed that residual QMSum risk remains and cannot be closed by the first remediation rerun or Baseline-AR mini-check alone. No final QMSum semantic-correctness claim is allowed during this track.</td>
+                            <td class="warn">ACTIVE</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum done">T103A</span></td>
+                            <td>QMSum Evidence Selector before Answer</td>
+                            <td>Created a deterministic question-focused evidence selector for the same six residual QMSum rows, using only each question plus meeting source text and excluding reference answers and prior generated outputs from retrieval. The evidence-selected target dataset was saved at <code>data/eval/qmsum_meeting_qa_target_rows_task103a_evidence_selected.jsonl</code>. Baseline-AR and CC-DFlash-R2 Light GPU evidence-selected mini-checks both completed <code>6/6</code> rows at <code>max_new_tokens=384</code>. Deterministic before/after assessment found Baseline evidence-selected outcomes were <code>4/6</code> unchanged and <code>2/6</code> worsened, while CC-DFlash evidence-selected outcomes were <code>1/6</code> improved, <code>3/6</code> unchanged, and <code>2/6</code> worsened. Interpretation: evidence selection alone did not materially repair residual QMSum risk, so current next is T103C Semantic Judge / Human Review Protocol rather than T103B by default. No QMSum <code>n=100</code>, full matrix, DFlash-R1, Large CPU, GSM8K, keep-rate tuning, default switch, download, LLM judge, or human scoring was run. <br><code>docs/reports/phase_2_system_optimization/103a-qmsum-evidence-selector-before-answer-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task103a_qmsum_evidence_selector_before_answer/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T103B</span></td>
+                            <td>QMSum Query-aware Compression</td>
+                            <td>Reserved follow-up if evidence selection shows a strong deterministic signal that selected evidence helps and compression should be made query-aware. T103A did not make this the default next step.</td>
+                            <td class="info">PLANNED / RESERVED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T103C</span></td>
+                            <td>Semantic Judge / Human Review Protocol</td>
+                            <td>Define a bounded review protocol for the residual QMSum rows before any further QMSum quality claim expansion. This is the current next step after T103A because deterministic evidence selection did not materially close the residual risk.</td>
                             <td class="warn">PLANNED / NEXT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T103</span></td>
-                            <td>Reference Alignment for Speed Claim</td>
-                            <td>Align speed-reference wording before any near-DFlash or cross-condition speed claim. DFlash-R1 remains a reference condition, not a broken baseline. Blocked by default until T102J decides whether to accept the residual QMSum caveat, add semantic review, or stop QMSum quality expansion.</td>
-                            <td class="stop">BLOCKED / WAITING ON T102J</td>
+                            <td><span class="tnum planned">T103D</span></td>
+                            <td>QMSum Deep Fix Closure Decision</td>
+                            <td>Close the T103 QMSum deep-fix track after T103B/T103C decisions and determine whether QMSum remains caveated, requires more approved review, or can be summarized as scoped diagnostic evidence only.</td>
+                            <td class="info">PLANNED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T104</span></td>
+                            <td>Reference Alignment for Speed Claim</td>
+                            <td>Align speed-reference wording before any near-DFlash or cross-condition speed claim. DFlash-R1 remains a reference condition, not a broken baseline. Waiting until the T103 QMSum deep-fix track is closed or explicitly deferred.</td>
+                            <td class="stop">WAITING ON T103</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T105</span></td>
                             <td>Full Matrix / Benchmark-Scope Claim Closure</td>
                             <td>Close which benchmark-scope claims are supported and which remain blocked. This does not automatically authorize a full matrix run.</td>
                             <td class="info">PLANNED</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T105</span></td>
+                            <td><span class="tnum planned">T106</span></td>
                             <td>Optimized Default Candidate Decision</td>
                             <td>Decide whether the Light GPU path can be treated as a candidate optimized default. GPU placement remains runtime/gated until this decision is supported.</td>
                             <td class="info">PLANNED</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T106</span></td>
+                            <td><span class="tnum planned">T107</span></td>
                             <td>Phase 2 Optimization Closure Pack</td>
-                            <td>Package Phase 2 optimization and claim-closure evidence after T102C through T105. Final report integration remains deferred outside active Phase 2 until explicitly requested.</td>
+                            <td>Package Phase 2 optimization and claim-closure evidence after T103 through T106. Final report integration remains deferred outside active Phase 2 until explicitly requested.</td>
                             <td class="info">PLANNED</td>
                         </tr>
 </tbody>
@@ -1771,6 +1795,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-23</div>
+                <div class="log-body">
+                    <strong>Task103A — QMSum Evidence Selector before Answer — PASS_WITH_CAVEAT</strong><br>
+                    Started the QMSum Deep Audit &amp; Deep Fix track by creating a deterministic question-focused evidence selector for the six residual QMSum target rows. The selector used only each question plus meeting source text and excluded reference answers and prior generated outputs from retrieval. Baseline-AR and CC-DFlash-R2 Light GPU evidence-selected mini-checks both completed <code>6/6</code> rows with <code>max_new_tokens=384</code>. Deterministic before/after assessment found Baseline evidence-selected outcomes were <code>4/6</code> unchanged and <code>2/6</code> worsened, while CC-DFlash evidence-selected outcomes were <code>1/6</code> improved, <code>3/6</code> unchanged, and <code>2/6</code> worsened. Interpretation: evidence selection alone did not materially repair residual QMSum risk. Current next is T103C Semantic Judge / Human Review Protocol; speed-reference alignment moves to T104. No QMSum <code>n=100</code>, full matrix, DFlash-R1, Large CPU, GSM8K, keep-rate tuning, default switch, model download, LLM judge, or human semantic scoring was run.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-23</div>
                 <div class="log-body">

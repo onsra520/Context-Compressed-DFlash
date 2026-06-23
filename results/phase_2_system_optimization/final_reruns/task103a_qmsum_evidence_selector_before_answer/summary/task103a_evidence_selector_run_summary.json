@@ -1,0 +1,24 @@
+{
+  "baseline_category_counts": {
+    "unchanged": 4,
+    "worsened": 2
+  },
+  "cc_category_counts": {
+    "improved": 1,
+    "unchanged": 3,
+    "worsened": 2
+  },
+  "decision": "PASS_WITH_CAVEAT",
+  "input_artifacts": {
+    "baseline_evidence_jsonl": "results/phase_2_system_optimization/final_reruns/task103a_qmsum_evidence_selector_before_answer/runs/20260623_120446_baseline_ar_qmsum_evidence_selected_n6_mnt384.jsonl",
+    "baseline_full_jsonl": "results/phase_2_system_optimization/final_reruns/task102i_qmsum_baseline_ar_target_row_mini_check/runs/20260623_003802_baseline_ar_qmsum_target_rows_n6_mnt384.jsonl",
+    "cc_evidence_jsonl": "results/phase_2_system_optimization/final_reruns/task103a_qmsum_evidence_selector_before_answer/runs/20260623_120542_cc_dflash_r2_light_gpu_qmsum_evidence_selected_n6_mnt384.jsonl",
+    "evidence_selected_dataset": "data/eval/qmsum_meeting_qa_target_rows_task103a_evidence_selected.jsonl",
+    "original_cc_jsonl": "results/phase_2_system_optimization/final_reruns/task102_qmsum_light_gpu_n30_feasibility_run/runs/20260622_151200_cc_dflash_r2_light_gpu_qmsum_seed42_n30_mnt384.jsonl",
+    "remediated_cc_jsonl": "results/phase_2_system_optimization/final_reruns/task102g_qmsum_target_row_remediation_rerun/runs/20260622_235012_cc_dflash_r2_light_gpu_qmsum_target_rows_n6_mnt384.jsonl"
+  },
+  "interpretation": "GENERATION_OR_SEMANTIC_LIMITATION_REMAINS",
+  "row_count": 6,
+  "scope": "six QMSum target rows only; deterministic proxy analysis only",
+  "task": "T103A — QMSum Evidence Retrieval / Evidence Selector before Answer"
+}

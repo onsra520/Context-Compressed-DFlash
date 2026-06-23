@@ -1,0 +1,32 @@
+{
+  "dataset_output_path": "data/eval/qmsum_meeting_qa_target_rows_task103a_evidence_selected.jsonl",
+  "input_path": "data/eval/qmsum_meeting_qa_target_rows_task102f.jsonl",
+  "max_chars": 2600,
+  "prior_generated_outputs_used": false,
+  "reference_used_for_retrieval": false,
+  "row_count": 6,
+  "selected_chars_by_fixture": {
+    "qmsum_meeting_qa_test_0001": 2345,
+    "qmsum_meeting_qa_test_0036": 2530,
+    "qmsum_meeting_qa_test_0055": 2150,
+    "qmsum_meeting_qa_test_0070": 2597,
+    "qmsum_meeting_qa_test_0078": 2195,
+    "qmsum_meeting_qa_test_0094": 2593
+  },
+  "selector_name": "task103a_question_focused_evidence_selector_v1",
+  "source_validation": {
+    "errors": [],
+    "fixture_ids": [
+      "qmsum_meeting_qa_test_0036",
+      "qmsum_meeting_qa_test_0070",
+      "qmsum_meeting_qa_test_0055",
+      "qmsum_meeting_qa_test_0078",
+      "qmsum_meeting_qa_test_0094",
+      "qmsum_meeting_qa_test_0001"
+    ],
+    "row_count": 6,
+    "valid": true
+  },
+  "task": "T103A — QMSum Evidence Retrieval / Evidence Selector before Answer",
+  "top_k": 5
+}
