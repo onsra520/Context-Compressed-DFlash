@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv warn">Latest Updated: Task103C-R — human review sheet prepared</span>
+                <span class="sv warn">Latest Updated: Task103D — QMSum deep-fix branch closed with residual risk</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv warn">Current Next: human labels for T103C-R or T103D deterministic closure</span>
+                <span class="sv warn">Current Next: T104 reference alignment with mandatory QMSum caveat</span>
                 <span class="sv stop">Bounded GSM8K Light GPU speed evidence only</span>
                 <span class="sv stop">Deterministic GSM8K numeric proxy only</span>
                 <span class="sv stop">No Phase 2 Light GPU QMSum semantic claim</span>
@@ -459,7 +459,7 @@
                 <span class="sv stop">DFlash-R1 retained as historical reference</span>
             </div>
             <div class="update-bar">
-                Task103C-R prepared the fixed six-row human-review workflow from the T103C protocol. No filled <code>task103cr_human_labels_input.csv</code> existed, so the task exported <code>task103cr_human_review_sheet.csv</code> and reviewer instructions, wrote <code>WAITING_FOR_HUMAN_LABELS</code>, and did not create fake labels or claim human review was performed. Current next is either human label input followed by rerunning the script, or T103D deterministic-only closure.
+                Task103D closes the QMSum deep-fix branch with persistent residual risk after deterministic remediation, Baseline-AR mini-checking, evidence selection, and a fixed six-row human-review pass failed to eliminate QMSum semantic uncertainty. Human-review labels were <code>0</code> correct-supported, <code>2</code> partial, <code>1</code> unsupported/wrong, and <code>3</code> cannot-determine. T103B is deferred/reserved, not the default next task. Current next is T104 reference alignment with a mandatory QMSum residual-risk caveat.
             </div>
         </header>
 
@@ -514,7 +514,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, and Task103C-R prepared the human review sheet while waiting for labels. Current next is human label input for T103C-R or T103D deterministic closure; speed-reference alignment moves to T104; final report integration is deferred outside active Phase 2.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, Task103C-R executed fixed six-row human review, and Task103D closed the QMSum deep-fix branch with persistent residual risk. Current next is T104 reference alignment with a mandatory QMSum caveat; final report integration is deferred outside active Phase 2.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -545,11 +545,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>Human label input for T103C-R or T103D deterministic closure</td>
+                            <td>T104 — Reference Alignment for Speed Claim</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task103C-R — QMSum Human Review Execution workflow prepared</td>
+                            <td>Task103D — QMSum Deep Fix Closure Decision</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -565,7 +565,7 @@
                         </tr>
                         <tr>
                             <td><strong>QMSum evidence</strong></td>
-                            <td>Task103C-R exported a six-row human-review sheet and reviewer instructions from the T103C packet. Human labels are still absent, so QMSum remains not semantic correctness proof and human review is not yet performed.</td>
+                            <td>Task103D closes the QMSum deep-fix branch with persistent residual risk. Fixed six-row human review found <code>0</code> correct-supported, <code>2</code> partial, <code>1</code> unsupported/wrong, and <code>3</code> cannot-determine labels. QMSum remains not semantic correctness proof.</td>
                         </tr>
                         <tr>
                             <td><strong>Wikipedia branch</strong></td>
@@ -573,7 +573,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task103C-R completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, and Task103C-R prepared the review sheet while waiting for human labels. Current active Phase 2 focus is either human label input or T103D deterministic closure before speed-claim closure.</td>
+                            <td>Task91 through Task103D completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, Task103C-R executed fixed six-row human review, and Task103D closed the QMSum deep-fix branch with persistent residual risk. Current active Phase 2 focus is T104 speed/reference alignment with the QMSum caveat preserved.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1490,8 +1490,8 @@
                         <tr>
                             <td><span class="tnum planned">T103</span></td>
                             <td>QMSum Deep Audit &amp; Deep Fix Track</td>
-                            <td>Umbrella track for attacking the six residual QMSum target rows before speed-reference alignment. The track is active because T102H/T102I showed that residual QMSum risk remains and cannot be closed by the first remediation rerun or Baseline-AR mini-check alone. No final QMSum semantic-correctness claim is allowed during this track.</td>
-                            <td class="warn">ACTIVE</td>
+                            <td>Umbrella track for attacking the six residual QMSum target rows before speed-reference alignment. Task103D closes this branch with persistent residual risk after remediation, Baseline-AR mini-checking, evidence selection, semantic-review protocol preparation, and fixed six-row human review did not eliminate QMSum semantic uncertainty. No final QMSum semantic-correctness claim is allowed.</td>
+                            <td class="warn">CLOSED_WITH_PERSISTENT_RESIDUAL_RISK</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T103A</span></td>
@@ -1502,8 +1502,8 @@
                         <tr>
                             <td><span class="tnum planned">T103B</span></td>
                             <td>QMSum Query-aware Compression</td>
-                            <td>Reserved follow-up if evidence selection shows a strong deterministic signal that selected evidence helps and compression should be made query-aware. T103A did not make this the default next step.</td>
-                            <td class="info">PLANNED / RESERVED</td>
+                            <td>Reserved follow-up if evidence selection shows a strong deterministic signal that selected evidence helps and compression should be made query-aware. T103A did not make this the default next step, and Task103D closes the active deep-fix branch without opening T103B by default.</td>
+                            <td class="info">DEFERRED / RESERVED NOT DEFAULT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T103C</span></td>
@@ -1512,22 +1512,22 @@
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T103C-R</span></td>
+                            <td><span class="tnum done">T103C-R</span></td>
                             <td>QMSum Human/Semantic Review Execution</td>
-                            <td>Prepared the fixed six-row human-review workflow from the Task103C packet. Because <code>task103cr_human_labels_input.csv</code> was absent, the script exported a blank <code>task103cr_human_review_sheet.csv</code>, reviewer instructions, <code>task103cr_review_execution_summary.json</code>, <code>task103cr_claim_update.json</code>, and <code>task103cr_next_task_decision.json</code>. Status is <code>WAITING_FOR_HUMAN_LABELS</code>; human review was not performed, no fake labels were created, and QMSum semantic correctness remains blocked. <br><code>docs/reports/phase_2_system_optimization/103c-r-qmsum-human-review-execution-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task103c_r_qmsum_human_review_execution/</code></td>
-                            <td class="warn">WAITING_FOR_HUMAN_LABELS</td>
+                            <td>Executed the fixed six-row human-review workflow from the Task103C packet using validated human labels. Label counts: <code>0</code> correct-supported, <code>2</code> partially correct/incomplete, <code>1</code> unsupported/wrong, and <code>3</code> cannot-determine from available context. This confirms bounded human review was performed while keeping QMSum semantic correctness blocked and full-matrix correctness unclaimed. <br><code>docs/reports/phase_2_system_optimization/103c-r-qmsum-human-review-execution-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task103c_r_qmsum_human_review_execution/</code></td>
+                            <td class="warn">HUMAN_REVIEW_EXECUTED</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T103D</span></td>
+                            <td><span class="tnum done">T103D</span></td>
                             <td>QMSum Deep Fix Closure Decision</td>
-                            <td>Close the T103 QMSum deep-fix track if the user chooses deterministic-only methodology. This freezes the explicit QMSum caveat and decides whether speed-reference alignment can proceed with QMSum semantic correctness still blocked.</td>
-                            <td class="warn">PLANNED / DECISION PATH</td>
+                            <td>Closed the QMSum deep-fix branch with persistent residual risk. Evidence chain: T102H remediation resolved <code>0/6</code>, T102I showed Baseline-AR also failed or remained uncertain on most target rows, T103A evidence selection did not repair the rows, T103C prepared the fixed review protocol, and T103C-R validated six human labels with <code>0</code> correct-supported, <code>2</code> partial, <code>1</code> unsupported/wrong, and <code>3</code> cannot-determine. T103B is deferred/reserved, not default next. T104 may proceed only as speed/reference alignment with mandatory QMSum caveat. No benchmark, model inference, QMSum rerun, n100, full matrix, query-aware compression, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/103d-qmsum-deep-fix-closure-decision-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task103d_qmsum_deep_fix_closure_decision/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T104</span></td>
                             <td>Reference Alignment for Speed Claim</td>
-                            <td>Align speed-reference wording before any near-DFlash or cross-condition speed claim. DFlash-R1 remains a reference condition, not a broken baseline. Waiting until the T103 QMSum deep-fix track is closed or explicitly deferred.</td>
-                            <td class="stop">WAITING ON T103</td>
+                            <td>Align speed-reference wording before any near-DFlash or cross-condition speed claim. DFlash-R1 remains a reference condition, not a broken baseline. Task103D allows T104 to proceed only as speed/reference alignment with mandatory QMSum residual-risk caveat and no QMSum semantic-correctness claim.</td>
+                            <td class="warn">NEXT / QMSUM CAVEAT REQUIRED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T105</span></td>
@@ -1801,6 +1801,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-24</div>
+                <div class="log-body">
+                    <strong>Task103D — QMSum Deep Fix Closure Decision — PASS_WITH_CAVEAT</strong><br>
+                    Closed the QMSum deep-fix branch with persistent residual risk after T102H remediation failed to resolve the six target rows, T102I showed Baseline-AR also failed or remained uncertain on most rows, T103A evidence selection did not repair the rows, T103C prepared the fixed semantic-review protocol, and T103C-R validated fixed six-row human labels. Human-review labels were <code>0</code> correct-supported, <code>2</code> partially correct/incomplete, <code>1</code> unsupported/wrong, and <code>3</code> cannot-determine from available context. QMSum semantic correctness remains not claimed; residual QMSum risk is not eliminated; T103B is deferred/reserved, not default next; and T104 may proceed only as speed/reference alignment with the mandatory QMSum caveat. No benchmark, model inference, QMSum rerun, QMSum <code>n=100</code>, full matrix, DFlash-R1, Large CPU, GSM8K, query-aware compression, keep-rate tuning, default switch, download, human scoring by agent, or LLM judge was run.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-24</div>
                 <div class="log-body">

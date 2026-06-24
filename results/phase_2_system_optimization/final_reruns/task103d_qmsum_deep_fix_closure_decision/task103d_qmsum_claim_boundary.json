@@ -1,0 +1,22 @@
+{
+  "allowed_claims": [
+    "QMSum deep-fix work closed with persistent residual risk.",
+    "A fixed six-row human-review pass found 0 correct-supported rows, 2 partial rows, 1 unsupported/wrong row, and 3 cannot-determine rows.",
+    "The residual QMSum risk is bounded and must be carried forward into T104.",
+    "T102I supports that residual failures are not solely compression-path-specific."
+  ],
+  "blocked_claims": [
+    "QMSum semantic correctness is proven.",
+    "Residual QMSum risk is eliminated.",
+    "The full QMSum matrix is semantically correct.",
+    "Query-aware compression is validated.",
+    "The six-row human review proves general QMSum quality."
+  ],
+  "final_report_language": [
+    "QMSum remains a scoped residual-risk area; Phase 2 does not claim semantic correctness for QMSum.",
+    "T104 may discuss speed/reference alignment only if it carries the QMSum residual-risk caveat forward."
+  ],
+  "qmsum_deep_fix_status": "CLOSED_WITH_PERSISTENT_RESIDUAL_RISK",
+  "qmsum_quality_risk_eliminated": "NO",
+  "qmsum_semantic_correctness": "NOT_CLAIMED"
+}
