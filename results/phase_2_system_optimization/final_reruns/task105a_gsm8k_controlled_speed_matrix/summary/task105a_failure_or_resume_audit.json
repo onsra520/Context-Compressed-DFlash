@@ -1,0 +1,35 @@
+{
+  "any_incomplete": false,
+  "any_metadata_mismatch": false,
+  "any_oom_or_cuda_failure": false,
+  "conditions": {
+    "Baseline-AR": {
+      "artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/baseline_ar_gsm8k_short_seed42_n100_mnt256.jsonl",
+      "expected_row_count": 100,
+      "failure_messages": [],
+      "metadata_ok": true,
+      "oom_or_cuda_failure": false,
+      "row_count": 100,
+      "row_count_ok": true
+    },
+    "CC-DFlash-R2 Light GPU": {
+      "artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/cc_dflash_r2_light_gpu_gsm8k_short_seed42_n100_mnt256.jsonl",
+      "expected_row_count": 100,
+      "failure_messages": [],
+      "metadata_ok": true,
+      "oom_or_cuda_failure": false,
+      "row_count": 100,
+      "row_count_ok": true
+    },
+    "DFlash-R1": {
+      "artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/dflash_r1_gsm8k_short_seed42_n100_mnt256.jsonl",
+      "expected_row_count": 100,
+      "failure_messages": [],
+      "metadata_ok": true,
+      "oom_or_cuda_failure": false,
+      "row_count": 100,
+      "row_count_ok": true
+    }
+  },
+  "resume_needed_conditions": []
+}

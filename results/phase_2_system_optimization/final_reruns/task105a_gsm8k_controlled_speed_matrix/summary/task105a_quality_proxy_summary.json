@@ -1,0 +1,36 @@
+{
+  "best_reference_strict_correct_rate": 0.85,
+  "conditions": {
+    "Baseline-AR": {
+      "answer_missing_count": 0,
+      "cap_limited_incomplete_count": 8,
+      "final_answer_marker_count": 92,
+      "proxy_uncertain_count": 0,
+      "strict_correct_count": 85,
+      "strict_correct_rate": 0.85,
+      "strict_wrong_numeric_count": 7
+    },
+    "CC-DFlash-R2 Light GPU": {
+      "answer_missing_count": 0,
+      "cap_limited_incomplete_count": 15,
+      "final_answer_marker_count": 85,
+      "proxy_uncertain_count": 0,
+      "strict_correct_count": 79,
+      "strict_correct_rate": 0.79,
+      "strict_wrong_numeric_count": 6
+    },
+    "DFlash-R1": {
+      "answer_missing_count": 0,
+      "cap_limited_incomplete_count": 9,
+      "final_answer_marker_count": 91,
+      "proxy_uncertain_count": 0,
+      "strict_correct_count": 84,
+      "strict_correct_rate": 0.84,
+      "strict_wrong_numeric_count": 7
+    }
+  },
+  "optimized_strict_correct_rate": 0.79,
+  "policy": "Task95B calibrated deterministic GSM8K numeric proxy",
+  "qmsum_not_evaluated": true,
+  "quality_proxy_preserved_against_best_reference_with_5pp_margin": false
+}

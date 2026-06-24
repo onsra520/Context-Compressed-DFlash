@@ -1,0 +1,47 @@
+{
+  "allowed_claims": [
+    "T105A is a controlled GSM8K-only n=100 speed/quality matrix over Baseline-AR, DFlash-R1, and CC-DFlash-R2 Light GPU.",
+    "CC-DFlash-R2 Light GPU may be compared to Baseline-AR and DFlash-R1 only within this matched GSM8K_short seed42 mnt256 setup.",
+    "QMSum residual semantic risk remains caveated from T103D/T104 and is not resolved by this GSM8K matrix."
+  ],
+  "blocked_claims": [
+    "full_benchmark_speed_claim",
+    "qmsum_semantic_correctness",
+    "universal_8gb_deployment_readiness",
+    "default_gpu_switch",
+    "dflash_r1_broken_claim",
+    "quality_proxy_regression",
+    "controlled_gsm8k_speed_win"
+  ],
+  "bounded_gsm8k_speed_claim_supported": false,
+  "comparisons": {
+    "optimized_vs_baseline_ar": {
+      "avg_e2e_time_s_delta_optimized_minus_reference": -1.744452,
+      "cap_limited_delta": 7,
+      "optimized_avg_e2e_time_s": 2.896622,
+      "optimized_faster_on_avg_e2e": true,
+      "optimized_percent_lower_e2e_time": 37.587248,
+      "reference_avg_e2e_time_s": 4.641074,
+      "reference_condition": "Baseline-AR",
+      "strict_correct_delta": -6,
+      "strict_correct_rate_delta": -0.06,
+      "tok_per_sec_delta": 26.985944
+    },
+    "optimized_vs_dflash_r1": {
+      "avg_e2e_time_s_delta_optimized_minus_reference": 0.246058,
+      "cap_limited_delta": 6,
+      "optimized_avg_e2e_time_s": 2.896622,
+      "optimized_faster_on_avg_e2e": false,
+      "optimized_percent_lower_e2e_time": -9.283232,
+      "reference_avg_e2e_time_s": 2.650564,
+      "reference_condition": "DFlash-R1",
+      "strict_correct_delta": -5,
+      "strict_correct_rate_delta": -0.05,
+      "tok_per_sec_delta": 2.460894
+    }
+  },
+  "qmsum_caveat_carryforward": true,
+  "qmsum_claim_status_from_t103d_t104": "SCOPED_WITH_HUMAN_REVIEWED_RESIDUAL_RISK",
+  "recommendation": "Proceed to T105B for QMSum runtime/reference alignment with QMSum caveat carried forward.",
+  "speed_ranking_metric": "avg_e2e_time_s"
+}
