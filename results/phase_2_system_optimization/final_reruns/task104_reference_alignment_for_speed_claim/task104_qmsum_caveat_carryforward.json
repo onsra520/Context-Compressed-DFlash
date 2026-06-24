@@ -1,0 +1,14 @@
+{
+  "human_review_label_counts": {
+    "cannot_determine_from_available_context": 3,
+    "correct_supported": 0,
+    "partially_correct_or_incomplete": 2,
+    "unsupported_or_wrong": 1
+  },
+  "mandatory": true,
+  "qmsum_deep_fix_status": "CLOSED_WITH_PERSISTENT_RESIDUAL_RISK",
+  "qmsum_quality_risk_eliminated": "NO",
+  "qmsum_semantic_correctness": "NOT_CLAIMED",
+  "required_wording": "QMSum runtime feasibility is measured, but QMSum semantic correctness is not claimed; T103D closed the deep-fix branch with persistent residual risk.",
+  "source_task": "T103D"
+}

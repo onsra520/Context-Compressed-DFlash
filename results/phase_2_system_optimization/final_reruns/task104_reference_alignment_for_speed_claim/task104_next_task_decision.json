@@ -1,0 +1,6 @@
+{
+  "decision": "PASS_WITH_CAVEAT",
+  "next_task": "T105 — Controlled Full Matrix / Benchmark-Scope Claim Closure",
+  "reason": "Reference alignment is complete; final speed ranking still requires synchronized controlled matrix evidence.",
+  "t104_unblocks": "T105 only, not final speed claims"
+}

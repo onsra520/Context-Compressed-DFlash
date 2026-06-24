@@ -1,0 +1,11 @@
+{
+  "blocked_claims": [
+    "CC-DFlash is finally faster than Baseline-AR.",
+    "CC-DFlash is finally faster than DFlash-R1.",
+    "The optimized path wins the full benchmark matrix.",
+    "QMSum semantic correctness is proven.",
+    "QMSum residual risk is eliminated.",
+    "Universal 8GB deployment readiness is proven."
+  ],
+  "reason": "Synchronized full-matrix evidence is not available, and T103D preserved QMSum residual semantic risk."
+}

@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv warn">Latest Updated: Task103D — QMSum deep-fix branch closed with residual risk</span>
+                <span class="sv warn">Latest Updated: Task104 — speed references aligned</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv warn">Current Next: T104 reference alignment with mandatory QMSum caveat</span>
+                <span class="sv warn">Current Next: T105 controlled matrix / benchmark-scope claim closure</span>
                 <span class="sv stop">Bounded GSM8K Light GPU speed evidence only</span>
                 <span class="sv stop">Deterministic GSM8K numeric proxy only</span>
                 <span class="sv stop">No Phase 2 Light GPU QMSum semantic claim</span>
@@ -459,7 +459,7 @@
                 <span class="sv stop">DFlash-R1 retained as historical reference</span>
             </div>
             <div class="update-bar">
-                Task103D closes the QMSum deep-fix branch with persistent residual risk after deterministic remediation, Baseline-AR mini-checking, evidence selection, and a fixed six-row human-review pass failed to eliminate QMSum semantic uncertainty. Human-review labels were <code>0</code> correct-supported, <code>2</code> partial, <code>1</code> unsupported/wrong, and <code>3</code> cannot-determine. T103B is deferred/reserved, not the default next task. Current next is T104 reference alignment with a mandatory QMSum residual-risk caveat.
+                Task104 aligns Phase 2 speed/runtime claims to valid references. Supported: light reduced <code>T_compress</code> versus large in the controlled GSM8K n30 CPU comparison; Light GPU reduced compressor overhead to tens of milliseconds in the local GSM8K n100 observation; QMSum Light GPU completed local n30 runtime feasibility. Blocked: final speed ranking versus Baseline-AR or DFlash-R1, full-matrix win, QMSum semantic correctness, residual-risk elimination, and universal 8GB readiness. Current next is T105 controlled matrix / benchmark-scope claim closure with the T103D QMSum caveat carried forward.
             </div>
         </header>
 
@@ -514,7 +514,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, Task103C-R executed fixed six-row human review, and Task103D closed the QMSum deep-fix branch with persistent residual risk. Current next is T104 reference alignment with a mandatory QMSum caveat; final report integration is deferred outside active Phase 2.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, and Task104 aligned speed/runtime claims to valid references. Current next is T105 controlled matrix / benchmark-scope claim closure; final report integration is deferred outside active Phase 2.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -545,11 +545,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T104 — Reference Alignment for Speed Claim</td>
+                            <td>T105 — Controlled Full Matrix / Benchmark-Scope Claim Closure</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task103D — QMSum Deep Fix Closure Decision</td>
+                            <td>Task104 — Reference Alignment for Speed Claim</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -573,7 +573,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task103D completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, Task103C-R executed fixed six-row human review, and Task103D closed the QMSum deep-fix branch with persistent residual risk. Current active Phase 2 focus is T104 speed/reference alignment with the QMSum caveat preserved.</td>
+                            <td>Task91 through Task104 completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, and Task104 aligned speed/runtime claims to valid references. Current active Phase 2 focus is T105 controlled full matrix / benchmark-scope claim closure with the QMSum caveat preserved.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1524,16 +1524,16 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T104</span></td>
+                            <td><span class="tnum done">T104</span></td>
                             <td>Reference Alignment for Speed Claim</td>
-                            <td>Align speed-reference wording before any near-DFlash or cross-condition speed claim. DFlash-R1 remains a reference condition, not a broken baseline. Task103D allows T104 to proceed only as speed/reference alignment with mandatory QMSum residual-risk caveat and no QMSum semantic-correctness claim.</td>
-                            <td class="warn">NEXT / QMSUM CAVEAT REQUIRED</td>
+                            <td>Aligned Phase 2 speed/runtime claims against valid reference classes after T103D. Comparator classes: T96 large CPU vs light CPU GSM8K n30 is a <code>controlled_comparison</code>; T100B Light GPU GSM8K n100 and T102 QMSum Light GPU n30 are <code>single_condition_observation</code>; older Baseline/DFlash matrix results are <code>historical_reference_only</code> unless settings match exactly; incompatible settings are <code>not_comparable</code>; final Baseline-AR/DFlash-R1/optimized CC-DFlash speed ranking <code>requires_t105_matrix</code>. Supported wording is limited to compressor-overhead reduction and local runtime feasibility. Final speed ranking, QMSum semantic correctness, residual-risk elimination, and universal 8GB readiness remain blocked. No benchmark, model inference, QMSum rerun, n100, full matrix, query-aware compression, keep-rate tuning, or LLM judge was run. <br><code>docs/reports/phase_2_system_optimization/104-reference-alignment-for-speed-claim-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task104_reference_alignment_for_speed_claim/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T105</span></td>
                             <td>Full Matrix / Benchmark-Scope Claim Closure</td>
-                            <td>Close which benchmark-scope claims are supported and which remain blocked. This does not automatically authorize a full matrix run.</td>
-                            <td class="info">PLANNED</td>
+                            <td>Close which benchmark-scope claims are supported and which remain blocked. T104 defines the minimum controlled matrix requirements: same dataset, same <code>n</code>, same <code>max_new_tokens</code>, same model/config, same hardware, same timing fields, same resume/no-overwrite policy, and at least Baseline-AR, DFlash-R1, and optimized CC-DFlash-R2 Light GPU. The QMSum residual-risk caveat from T103D must be carried even if runtime improves.</td>
+                            <td class="warn">NEXT / CONTROLLED MATRIX REQUIRED</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T106</span></td>
@@ -1801,6 +1801,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-24</div>
+                <div class="log-body">
+                    <strong>Task104 — Reference Alignment for Speed Claim — PASS_WITH_CAVEAT</strong><br>
+                    Aligned Phase 2 speed/runtime claims against valid comparator classes after Task103D. Supported claims are bounded to controlled GSM8K light-vs-large compressor-overhead reduction, local Light GPU compressor-overhead reduction in the GSM8K n100 observation, QMSum Light GPU n30 runtime feasibility, and benchmark/configuration-scoped speed wording. Blocked claims remain: final faster-than-Baseline-AR, final faster-than-DFlash-R1, optimized path wins the full matrix, QMSum semantic correctness, QMSum residual-risk elimination, and universal 8GB deployment readiness. T105 is now the next controlled full matrix / benchmark-scope claim closure step, not final claim completion. No benchmark, model inference, QMSum rerun, QMSum <code>n=100</code>, full matrix, DFlash-R1, Large CPU, GSM8K rerun, query-aware compression, keep-rate tuning, default switch, download, or LLM judge was run.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-24</div>
                 <div class="log-body">
