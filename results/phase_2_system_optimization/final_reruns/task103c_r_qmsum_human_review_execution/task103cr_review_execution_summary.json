@@ -1,18 +1,23 @@
 {
-  "decision": "WAITING_FOR_HUMAN_LABELS",
+  "decision": "HUMAN_REVIEW_EXECUTED",
   "human_label_input_path": "results/phase_2_system_optimization/final_reruns/task103c_r_qmsum_human_review_execution/task103cr_human_labels_input.csv",
   "human_labels_invented": false,
-  "human_labels_present": false,
-  "human_labels_validated": false,
+  "human_labels_present": true,
+  "human_labels_validated": true,
   "input_artifacts": {
     "claim_boundary": "results/phase_2_system_optimization/final_reruns/task103c_qmsum_semantic_review_protocol/task103c_claim_boundary.json",
     "review_packet": "results/phase_2_system_optimization/final_reruns/task103c_qmsum_semantic_review_protocol/task103c_review_packet.jsonl",
     "rubric": "results/phase_2_system_optimization/final_reruns/task103c_qmsum_semantic_review_protocol/task103c_review_rubric.json"
   },
-  "label_counts": null,
+  "label_counts": {
+    "cannot_determine_from_available_context": 3,
+    "correct_supported": 0,
+    "partially_correct_or_incomplete": 2,
+    "unsupported_or_wrong": 1
+  },
   "llm_judge_used": false,
   "prior_claim_status": "SEMANTIC_REVIEW_PROTOCOL_PREPARED",
-  "review_complete": false,
+  "review_complete": true,
   "review_sheet_rows": 6,
   "rubric_label_count": 4,
   "task": "T103C-R — QMSum Human Review Execution"

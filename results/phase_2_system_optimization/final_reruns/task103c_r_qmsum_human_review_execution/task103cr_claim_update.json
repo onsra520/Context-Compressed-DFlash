@@ -1,13 +1,18 @@
 {
   "allowed_wording": [
-    "A human review sheet was prepared from the T103C protocol.",
-    "The fixed six-row QMSum review workflow is ready for human labels."
+    "Six residual QMSum rows were reviewed under a fixed human-review rubric.",
+    "Human labels are bounded to the six-row T103C review packet."
   ],
   "blocked_wording": [
-    "Human review was performed.",
-    "QMSum semantic correctness is proven.",
-    "The full QMSum matrix is complete."
+    "Full QMSum semantic correctness is proven.",
+    "The full QMSum matrix is complete.",
+    "The six-row review proves universal QMSum quality."
   ],
-  "label_counts": null,
-  "status": "WAITING_FOR_HUMAN_LABELS"
+  "label_counts": {
+    "cannot_determine_from_available_context": 3,
+    "correct_supported": 0,
+    "partially_correct_or_incomplete": 2,
+    "unsupported_or_wrong": 1
+  },
+  "status": "HUMAN_REVIEW_EXECUTED"
 }

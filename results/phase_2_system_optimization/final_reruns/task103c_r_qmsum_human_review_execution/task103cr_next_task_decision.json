@@ -1,5 +1,5 @@
 {
-  "next_task": "WAITING_FOR_HUMAN_LABELS_OR_T103D",
-  "recommendation": "User fills review sheet, reruns this script, or chooses T103D deterministic-only closure.",
-  "requires_user_action": true
+  "next_task": "T103D — QMSum Deep Fix Closure Decision",
+  "recommendation": "Use validated human-label summary to close or bound the QMSum deep-fix branch.",
+  "requires_user_action": false
 }
