@@ -1,0 +1,527 @@
+{
+  "balanced_candidate_decision": {
+    "candidate": "T106B CC-DFlash-R2 Light GPU concise final-answer policy",
+    "candidate_policy_name": "gsm8k_concise_final_answer_v1",
+    "cap_limited_incomplete_count": 2,
+    "default_switch_authorized": false,
+    "reason": "Strict dropped or wrong numeric increased compared to T106B",
+    "selected_candidate": "T106B",
+    "strict_correct_count": 88,
+    "strict_wrong_numeric_count": 10
+  },
+  "claim_update": {
+    "allowed_claims": [
+      "T109 balances the GSM8K candidate after T106B/T107B.",
+      "It selects the best scoped GSM8K policy based on strict, cap-limited, wrong-numeric, and E2E metrics, without authorizing default switch."
+    ],
+    "best_gsm8k_candidate_policy": "gsm8k_concise_final_answer_v1",
+    "blocked_claims": [
+      "Quality is fully solved.",
+      "Optimized CC-DFlash becomes default.",
+      "QMSum semantic risk is resolved."
+    ],
+    "default_switch_claim": "blocked",
+    "qmsum_claim_change": "none"
+  },
+  "comparison_vs_t106b_t107b": {
+    "avg_e2e_time_s": {
+      "t106b_concise": 2.145689,
+      "t107b_refined": 1.910664,
+      "t109_balanced": 2.612394
+    },
+    "cap_limited_counts": {
+      "t106b_concise": 2,
+      "t107b_refined": 2,
+      "t109_balanced": 8
+    },
+    "strict_correct_counts": {
+      "t106b_concise": 88,
+      "t107b_refined": 85,
+      "t109_balanced": 82
+    },
+    "strict_wrong_numeric_counts": {
+      "t106b_concise": 10,
+      "t107b_refined": 13,
+      "t109_balanced": 10
+    },
+    "t106b_concise_artifact": "results/phase_2_system_optimization/final_reruns/task106b_gsm8k_cap_limited_fix/runs/cc_dflash_r2_light_gpu_gsm8k_seed42_n100_mnt256_concise_final_answer.jsonl",
+    "t107b_refined_artifact": "results/phase_2_system_optimization/final_reruns/task107b_gsm8k_policy_refinement_fix/runs/cc_dflash_r2_light_gpu_gsm8k_seed42_n100_mnt256_minimal_arithmetic_verify.jsonl",
+    "t109_balanced_artifact": "results/phase_2_system_optimization/final_reruns/task109_gsm8k_balanced_numeric_residual_repair/runs/cc_dflash_r2_light_gpu_gsm8k_seed42_n100_mnt256_numeric_detail_preserve.jsonl"
+  },
+  "condition_metrics": {
+    "t105a_baseline_ar_context": {
+      "answer_missing_count": 0,
+      "artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/baseline_ar_gsm8k_short_seed42_n100_mnt256.jsonl",
+      "avg_R_actual": null,
+      "avg_e2e_time_s": 4.641074,
+      "avg_generation_time_s": 4.641074,
+      "avg_output_tokens": 149.28,
+      "avg_t_compress_ms": null,
+      "avg_t_prefill_ms": 99.766419,
+      "avg_tau_mean": 0.0,
+      "avg_tokens_per_second": 32.103945,
+      "cap_limited_fixture_ids": [
+        "gsm8k_short_test_0011",
+        "gsm8k_short_test_0028",
+        "gsm8k_short_test_0031",
+        "gsm8k_short_test_0048",
+        "gsm8k_short_test_0078",
+        "gsm8k_short_test_0079",
+        "gsm8k_short_test_0082",
+        "gsm8k_short_test_0098"
+      ],
+      "cap_limited_incomplete_count": 8,
+      "cap_limited_incomplete_rate": 0.08,
+      "exact_containment_diagnostic_count": 87,
+      "failure_flags": {
+        "messages": [],
+        "oom_or_cuda_failure": false
+      },
+      "final_answer_marker_count": 92,
+      "final_answer_marker_rate": 0.92,
+      "format_or_extraction_sensitive_count": 0,
+      "label": "T105A Baseline-AR context",
+      "max_prefill_vram_reserved_gib": 2.894531,
+      "max_vram_reserved_gib": 2.894531,
+      "oom_or_cuda_failure": false,
+      "proxy_uncertain_count": 0,
+      "row_count": 100,
+      "strict_correct_count": 85,
+      "strict_correct_rate": 0.85,
+      "strict_wrong_numeric_count": 7,
+      "strict_wrong_numeric_fixture_ids": [
+        "gsm8k_short_test_0001",
+        "gsm8k_short_test_0024",
+        "gsm8k_short_test_0043",
+        "gsm8k_short_test_0045",
+        "gsm8k_short_test_0061",
+        "gsm8k_short_test_0076",
+        "gsm8k_short_test_0089"
+      ],
+      "strict_wrong_numeric_rate": 0.07
+    },
+    "t105a_dflash_r1_context": {
+      "answer_missing_count": 0,
+      "artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/dflash_r1_gsm8k_short_seed42_n100_mnt256.jsonl",
+      "avg_R_actual": null,
+      "avg_e2e_time_s": 2.650564,
+      "avg_generation_time_s": 2.650564,
+      "avg_output_tokens": 148.64,
+      "avg_t_compress_ms": null,
+      "avg_t_prefill_ms": 99.452333,
+      "avg_tau_mean": 5.343301,
+      "avg_tokens_per_second": 56.628995,
+      "cap_limited_fixture_ids": [
+        "gsm8k_short_test_0011",
+        "gsm8k_short_test_0028",
+        "gsm8k_short_test_0031",
+        "gsm8k_short_test_0048",
+        "gsm8k_short_test_0076",
+        "gsm8k_short_test_0078",
+        "gsm8k_short_test_0079",
+        "gsm8k_short_test_0082",
+        "gsm8k_short_test_0098"
+      ],
+      "cap_limited_incomplete_count": 9,
+      "cap_limited_incomplete_rate": 0.09,
+      "exact_containment_diagnostic_count": 87,
+      "failure_flags": {
+        "messages": [],
+        "oom_or_cuda_failure": false
+      },
+      "final_answer_marker_count": 91,
+      "final_answer_marker_rate": 0.91,
+      "format_or_extraction_sensitive_count": 0,
+      "label": "T105A DFlash-R1 context",
+      "max_prefill_vram_reserved_gib": 3.814453,
+      "max_vram_reserved_gib": 3.814453,
+      "oom_or_cuda_failure": false,
+      "proxy_uncertain_count": 0,
+      "row_count": 100,
+      "strict_correct_count": 84,
+      "strict_correct_rate": 0.84,
+      "strict_wrong_numeric_count": 7,
+      "strict_wrong_numeric_fixture_ids": [
+        "gsm8k_short_test_0001",
+        "gsm8k_short_test_0024",
+        "gsm8k_short_test_0043",
+        "gsm8k_short_test_0045",
+        "gsm8k_short_test_0061",
+        "gsm8k_short_test_0085",
+        "gsm8k_short_test_0089"
+      ],
+      "strict_wrong_numeric_rate": 0.07
+    },
+    "t105a_optimized_cc_dflash_r2_light_gpu": {
+      "answer_missing_count": 0,
+      "artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/cc_dflash_r2_light_gpu_gsm8k_short_seed42_n100_mnt256.jsonl",
+      "avg_R_actual": 2.0,
+      "avg_e2e_time_s": 2.896622,
+      "avg_generation_time_s": 2.879373,
+      "avg_output_tokens": 168.01,
+      "avg_t_compress_ms": 17.249677,
+      "avg_t_prefill_ms": 96.516575,
+      "avg_tau_mean": 5.630137,
+      "avg_tokens_per_second": 59.089889,
+      "cap_limited_fixture_ids": [
+        "gsm8k_short_test_0008",
+        "gsm8k_short_test_0028",
+        "gsm8k_short_test_0031",
+        "gsm8k_short_test_0035",
+        "gsm8k_short_test_0045",
+        "gsm8k_short_test_0048",
+        "gsm8k_short_test_0056",
+        "gsm8k_short_test_0066",
+        "gsm8k_short_test_0078",
+        "gsm8k_short_test_0082",
+        "gsm8k_short_test_0089",
+        "gsm8k_short_test_0092",
+        "gsm8k_short_test_0093",
+        "gsm8k_short_test_0098",
+        "gsm8k_short_test_0099"
+      ],
+      "cap_limited_incomplete_count": 15,
+      "cap_limited_incomplete_rate": 0.15,
+      "exact_containment_diagnostic_count": 83,
+      "failure_flags": {
+        "messages": [],
+        "oom_or_cuda_failure": false
+      },
+      "final_answer_marker_count": 85,
+      "final_answer_marker_rate": 0.85,
+      "format_or_extraction_sensitive_count": 0,
+      "label": "T105A CC-DFlash-R2 Light GPU optimized",
+      "max_prefill_vram_reserved_gib": 4.431641,
+      "max_vram_reserved_gib": 4.431641,
+      "oom_or_cuda_failure": false,
+      "proxy_uncertain_count": 0,
+      "row_count": 100,
+      "strict_correct_count": 79,
+      "strict_correct_rate": 0.79,
+      "strict_wrong_numeric_count": 6,
+      "strict_wrong_numeric_fixture_ids": [
+        "gsm8k_short_test_0001",
+        "gsm8k_short_test_0011",
+        "gsm8k_short_test_0057",
+        "gsm8k_short_test_0061",
+        "gsm8k_short_test_0070",
+        "gsm8k_short_test_0087"
+      ],
+      "strict_wrong_numeric_rate": 0.06
+    },
+    "t106b_concise_final_answer": {
+      "answer_missing_count": 0,
+      "artifact": "results/phase_2_system_optimization/final_reruns/task106b_gsm8k_cap_limited_fix/runs/cc_dflash_r2_light_gpu_gsm8k_seed42_n100_mnt256_concise_final_answer.jsonl",
+      "avg_R_actual": 2.0,
+      "avg_e2e_time_s": 2.145689,
+      "avg_generation_time_s": 2.128231,
+      "avg_output_tokens": 110.5,
+      "avg_t_compress_ms": 17.45762,
+      "avg_t_prefill_ms": 105.286102,
+      "avg_tau_mean": 5.148379,
+      "avg_tokens_per_second": 52.231247,
+      "cap_limited_fixture_ids": [
+        "gsm8k_short_test_0028",
+        "gsm8k_short_test_0078"
+      ],
+      "cap_limited_incomplete_count": 2,
+      "cap_limited_incomplete_rate": 0.02,
+      "exact_containment_diagnostic_count": 90,
+      "failure_flags": {
+        "messages": [],
+        "oom_or_cuda_failure": false
+      },
+      "final_answer_marker_count": 98,
+      "final_answer_marker_rate": 0.98,
+      "format_or_extraction_sensitive_count": 0,
+      "label": "T106B CC-DFlash-R2 Light GPU concise",
+      "max_prefill_vram_reserved_gib": 4.439453,
+      "max_vram_reserved_gib": 4.439453,
+      "oom_or_cuda_failure": false,
+      "proxy_uncertain_count": 0,
+      "row_count": 100,
+      "strict_correct_count": 88,
+      "strict_correct_rate": 0.88,
+      "strict_wrong_numeric_count": 10,
+      "strict_wrong_numeric_fixture_ids": [
+        "gsm8k_short_test_0001",
+        "gsm8k_short_test_0004",
+        "gsm8k_short_test_0020",
+        "gsm8k_short_test_0034",
+        "gsm8k_short_test_0043",
+        "gsm8k_short_test_0045",
+        "gsm8k_short_test_0061",
+        "gsm8k_short_test_0068",
+        "gsm8k_short_test_0089",
+        "gsm8k_short_test_0098"
+      ],
+      "strict_wrong_numeric_rate": 0.1
+    },
+    "t107b_minimal_arithmetic_verify": {
+      "answer_missing_count": 0,
+      "artifact": "results/phase_2_system_optimization/final_reruns/task107b_gsm8k_policy_refinement_fix/runs/cc_dflash_r2_light_gpu_gsm8k_seed42_n100_mnt256_minimal_arithmetic_verify.jsonl",
+      "avg_R_actual": 2.0,
+      "avg_e2e_time_s": 1.910664,
+      "avg_generation_time_s": 1.893568,
+      "avg_output_tokens": 102.61,
+      "avg_t_compress_ms": 17.095514,
+      "avg_t_prefill_ms": 107.076386,
+      "avg_tau_mean": 5.197043,
+      "avg_tokens_per_second": 53.47015,
+      "cap_limited_fixture_ids": [
+        "gsm8k_short_test_0028",
+        "gsm8k_short_test_0078"
+      ],
+      "cap_limited_incomplete_count": 2,
+      "cap_limited_incomplete_rate": 0.02,
+      "exact_containment_diagnostic_count": 86,
+      "failure_flags": {
+        "messages": [],
+        "oom_or_cuda_failure": false
+      },
+      "final_answer_marker_count": 98,
+      "final_answer_marker_rate": 0.98,
+      "format_or_extraction_sensitive_count": 0,
+      "label": "T107B CC-DFlash-R2 Light GPU minimal arithmetic verify",
+      "max_prefill_vram_reserved_gib": 4.431641,
+      "max_vram_reserved_gib": 4.431641,
+      "oom_or_cuda_failure": false,
+      "proxy_uncertain_count": 0,
+      "row_count": 100,
+      "strict_correct_count": 85,
+      "strict_correct_rate": 0.85,
+      "strict_wrong_numeric_count": 13,
+      "strict_wrong_numeric_fixture_ids": [
+        "gsm8k_short_test_0001",
+        "gsm8k_short_test_0011",
+        "gsm8k_short_test_0029",
+        "gsm8k_short_test_0034",
+        "gsm8k_short_test_0043",
+        "gsm8k_short_test_0045",
+        "gsm8k_short_test_0053",
+        "gsm8k_short_test_0057",
+        "gsm8k_short_test_0061",
+        "gsm8k_short_test_0068",
+        "gsm8k_short_test_0089",
+        "gsm8k_short_test_0094",
+        "gsm8k_short_test_0098"
+      ],
+      "strict_wrong_numeric_rate": 0.13
+    },
+    "t109_numeric_detail_preserve": {
+      "answer_missing_count": 0,
+      "artifact": "results/phase_2_system_optimization/final_reruns/task109_gsm8k_balanced_numeric_residual_repair/runs/cc_dflash_r2_light_gpu_gsm8k_seed42_n100_mnt256_numeric_detail_preserve.jsonl",
+      "avg_R_actual": 2.0,
+      "avg_e2e_time_s": 2.612394,
+      "avg_generation_time_s": 2.596404,
+      "avg_output_tokens": 159.36,
+      "avg_t_compress_ms": 15.990476,
+      "avg_t_prefill_ms": 112.809078,
+      "avg_tau_mean": 5.521877,
+      "avg_tokens_per_second": 61.674925,
+      "cap_limited_fixture_ids": [
+        "gsm8k_short_test_0020",
+        "gsm8k_short_test_0028",
+        "gsm8k_short_test_0031",
+        "gsm8k_short_test_0056",
+        "gsm8k_short_test_0062",
+        "gsm8k_short_test_0066",
+        "gsm8k_short_test_0078",
+        "gsm8k_short_test_0093"
+      ],
+      "cap_limited_incomplete_count": 8,
+      "cap_limited_incomplete_rate": 0.08,
+      "exact_containment_diagnostic_count": 85,
+      "failure_flags": {
+        "messages": [],
+        "oom_or_cuda_failure": false
+      },
+      "final_answer_marker_count": 92,
+      "final_answer_marker_rate": 0.92,
+      "format_or_extraction_sensitive_count": 0,
+      "label": "T109 CC-DFlash-R2 Light GPU numeric detail preserve",
+      "max_prefill_vram_reserved_gib": 4.554688,
+      "max_vram_reserved_gib": 4.554688,
+      "oom_or_cuda_failure": false,
+      "proxy_uncertain_count": 0,
+      "row_count": 100,
+      "strict_correct_count": 82,
+      "strict_correct_rate": 0.82,
+      "strict_wrong_numeric_count": 10,
+      "strict_wrong_numeric_fixture_ids": [
+        "gsm8k_short_test_0001",
+        "gsm8k_short_test_0004",
+        "gsm8k_short_test_0045",
+        "gsm8k_short_test_0053",
+        "gsm8k_short_test_0057",
+        "gsm8k_short_test_0061",
+        "gsm8k_short_test_0079",
+        "gsm8k_short_test_0087",
+        "gsm8k_short_test_0089",
+        "gsm8k_short_test_0098"
+      ],
+      "strict_wrong_numeric_rate": 0.1
+    }
+  },
+  "decision": "PASS_WITH_CAVEAT",
+  "expected_n": 100,
+  "metadata_audit": {
+    "errors": [],
+    "expected_row_count": 100,
+    "failure_flags": {
+      "messages": [],
+      "oom_or_cuda_failure": false
+    },
+    "policy_name": "gsm8k_numeric_detail_preserve_v1",
+    "policy_override_rows": 100,
+    "policy_preserved_rows": 100,
+    "policy_suffix": "Use only the numbers and conditions given in the problem. Keep the reasoning concise but include all necessary arithmetic steps. Do not skip units or constraints. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+    "row_count": 100,
+    "valid": true
+  },
+  "next_task_decision": {
+    "automatic_default_switch": false,
+    "automatic_full_matrix": false,
+    "next_task": "T110 \u2014 QMSum Semantic Validation / Judge Protocol",
+    "reason": "Proceeding to QMSum validation after closing GSM8K policy branch."
+  },
+  "policy": {
+    "policy_name": "gsm8k_numeric_detail_preserve_v1",
+    "policy_suffix": "Use only the numbers and conditions given in the problem. Keep the reasoning concise but include all necessary arithmetic steps. Do not skip units or constraints. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+    "scope": "GSM8K-only runtime override for optimized CC-DFlash-R2 Light GPU"
+  },
+  "policy_decision": {
+    "reason": "CC-only wrong-numeric rows present that may benefit from numeric-detail preservation",
+    "rerun_justified": true
+  },
+  "task": "T109",
+  "title": "GSM8K Balanced Numeric Residual Repair",
+  "wrong_numeric_audit": {
+    "cc_only_wrong_count": 5,
+    "new_in_t107b": [
+      "gsm8k_short_test_0011",
+      "gsm8k_short_test_0029",
+      "gsm8k_short_test_0053",
+      "gsm8k_short_test_0057",
+      "gsm8k_short_test_0094"
+    ],
+    "persistent_from_t105a": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0061"
+    ],
+    "persistent_in_t107b": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0034",
+      "gsm8k_short_test_0043",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0061",
+      "gsm8k_short_test_0068",
+      "gsm8k_short_test_0089",
+      "gsm8k_short_test_0098"
+    ],
+    "reference_shared_count": 5,
+    "resolved_by_t107b": [
+      "gsm8k_short_test_0004",
+      "gsm8k_short_test_0020"
+    ],
+    "row_attributions": [
+      {
+        "cause_category": "reference_also_wrong",
+        "fixture_id": "gsm8k_short_test_0001",
+        "in_baseline": true,
+        "in_dflash": true,
+        "was_cap_limited_t105a": false
+      },
+      {
+        "cause_category": "reference_also_wrong",
+        "fixture_id": "gsm8k_short_test_0061",
+        "in_baseline": true,
+        "in_dflash": true,
+        "was_cap_limited_t105a": false
+      },
+      {
+        "cause_category": "cc_only_wrong",
+        "fixture_id": "gsm8k_short_test_0034",
+        "in_baseline": false,
+        "in_dflash": false,
+        "was_cap_limited_t105a": false
+      },
+      {
+        "cause_category": "reference_also_wrong",
+        "fixture_id": "gsm8k_short_test_0045",
+        "in_baseline": true,
+        "in_dflash": true,
+        "was_cap_limited_t105a": true
+      },
+      {
+        "cause_category": "reference_also_wrong",
+        "fixture_id": "gsm8k_short_test_0043",
+        "in_baseline": true,
+        "in_dflash": true,
+        "was_cap_limited_t105a": false
+      },
+      {
+        "cause_category": "reference_also_wrong",
+        "fixture_id": "gsm8k_short_test_0089",
+        "in_baseline": true,
+        "in_dflash": true,
+        "was_cap_limited_t105a": true
+      },
+      {
+        "cause_category": "resolved_cap_but_wrong_number",
+        "fixture_id": "gsm8k_short_test_0098",
+        "in_baseline": false,
+        "in_dflash": false,
+        "was_cap_limited_t105a": true
+      },
+      {
+        "cause_category": "cc_only_wrong",
+        "fixture_id": "gsm8k_short_test_0068",
+        "in_baseline": false,
+        "in_dflash": false,
+        "was_cap_limited_t105a": false
+      },
+      {
+        "cause_category": "cc_only_wrong",
+        "fixture_id": "gsm8k_short_test_0004",
+        "in_baseline": false,
+        "in_dflash": false,
+        "was_cap_limited_t105a": false
+      },
+      {
+        "cause_category": "cc_only_wrong",
+        "fixture_id": "gsm8k_short_test_0020",
+        "in_baseline": false,
+        "in_dflash": false,
+        "was_cap_limited_t105a": false
+      }
+    ],
+    "shared_with_baseline_ar": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0043",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0061",
+      "gsm8k_short_test_0089"
+    ],
+    "shared_with_dflash_r1": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0043",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0061",
+      "gsm8k_short_test_0089"
+    ],
+    "t106b_wrong_numeric_count": 10,
+    "t106b_wrong_numeric_fixture_ids": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0004",
+      "gsm8k_short_test_0020",
+      "gsm8k_short_test_0034",
+      "gsm8k_short_test_0043",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0061",
+      "gsm8k_short_test_0068",
+      "gsm8k_short_test_0089",
+      "gsm8k_short_test_0098"
+    ]
+  }
+}

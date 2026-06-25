@@ -465,11 +465,12 @@
                 <span class="sv warn">T106C: scoped GSM8K candidate, default switch NO</span>
                 <span class="sv warn">T107A: wrong numeric mixed; T107B conditional</span>
                 <span class="sv warn">T107B: minimal arithmetic verify tested; T106B remains best GSM8K candidate</span>
+                <span class="sv go">T109: detail preserve tested; T106B confirmed as best GSM8K candidate</span>
                 <span class="sv warn">T108A: no default QMSum rerun; caveat kept</span>
                 <span class="sv warn">T108B: targeted QMSum repair mixed; validation needed</span>
             </div>
             <div class="update-bar">
-                Task108B ran a six-row QMSum targeted evidence-grounded repair attempt on <code>CC-DFlash-R2</code> Light GPU using <code>qmsum_evidence_grounded_concise_v1</code>. The run completed <code>6/6</code> rows with metadata-confirmed light/cuda/local placement, <code>0</code> empty/malformed rows, <code>0</code> cap-limited/incomplete rows, average e2e <code>3.520058s</code>, average <code>T_compress_ms=125.792571</code>, average <code>R_actual=2.162981</code>, max reserved VRAM <code>5.076172 GiB</code>, and no recorded OOM/CUDA failure. Deterministic comparison found <code>0/6</code> proxy-improved rows, <code>4/6</code> unchanged/no-improvement rows, and <code>2/6</code> safer-but-uninformative rows. Decision: <code>MIXED_WITH_CAVEAT</code>. Current next is T108C QMSum Targeted Repair Validation; Phase 2 closure pack moves to T110 or later.
+                Task109 tested the <code>gsm8k_numeric_detail_preserve_v1</code> policy on optimized <code>CC-DFlash-R2</code> Light GPU. The run completed successfully but caused strict correct to drop to <code>82/100</code> and cap-limited to increase to <code>8/100</code>, while wrong numeric remained at <code>10/100</code>. Preserving detail forced longer outputs that hit the token cap without improving numeric extraction. Decision: <code>PASS_WITH_CAVEAT</code>. T106B's concise policy remains the best scoped GSM8K candidate. Current next is T110 — QMSum Semantic Validation / Judge Protocol.
             </div>
         </header>
 
@@ -555,11 +556,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T108C — QMSum Targeted Repair Validation</td>
+                            <td>T110 — QMSum Semantic Validation / Judge Protocol</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task108B — QMSum Targeted Repair Attempt</td>
+                            <td>Task109 — GSM8K Balanced Numeric Residual Repair</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -1606,16 +1607,16 @@
                             <td class="warn">MIXED_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T108C</span></td>
-                            <td>QMSum Targeted Repair Validation</td>
-                            <td>Validate the mixed T108B signal and decide whether the evidence-grounded repair should be preserved as a scoped candidate or closed as a final QMSum limitation. Must not claim semantic correctness, run QMSum n100, run a full matrix, add human scoring, or use an LLM judge unless explicitly approved.</td>
-                            <td class="info">PLANNED / NEXT</td>
+                            <td><span class="tnum done">T109</span></td>
+                            <td>GSM8K Balanced Numeric Residual Repair</td>
+                            <td>Tested the <code>gsm8k_numeric_detail_preserve_v1</code> policy on optimized <code>CC-DFlash-R2</code> Light GPU. The detail-preserving policy successfully generated outputs but caused strict correct to drop to <code>82/100</code> and cap-limited to jump to <code>8/100</code>, while wrong numeric remained at <code>10/100</code>. Preserving detail forced longer outputs that hit the token cap without improving numeric extraction. Therefore, T106B's concise policy remains the best scoped GSM8K candidate. Default switch remains unauthorized.<br><code>docs/reports/phase_2_system_optimization/109-gsm8k-balanced-numeric-residual-repair-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task109_gsm8k_balanced_numeric_residual_repair/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T110</span></td>
-                            <td>Phase 2 Optimization Closure Pack</td>
-                            <td>Package Phase 2 optimization and claim-closure evidence after the QMSum repair branch closes. Must preserve the T106C decision that optimized <code>CC-DFlash-R2</code> Light GPU plus the GSM8K concise policy is a scoped GSM8K candidate, not a default/global winner, and must preserve the T108B/T108C final QMSum boundary. Final report integration remains deferred outside active Phase 2 until explicitly requested.</td>
-                            <td class="info">PLANNED / BLOCKED ON T108C</td>
+                            <td>QMSum Semantic Validation / Judge Protocol</td>
+                            <td>Proceeding to QMSum validation after closing the GSM8K policy branch.</td>
+                            <td class="info">PLANNED / NEXT</td>
                         </tr>
 </tbody>
                 </table>
@@ -1876,6 +1877,13 @@
                 <div class="log-body">
                     <strong>Task108B — QMSum Targeted Repair Attempt — MIXED_WITH_CAVEAT</strong><br>
                     Ran exactly six fixed QMSum residual-risk target rows with optimized <code>CC-DFlash-R2</code> Light GPU and runtime-only <code>qmsum_evidence_grounded_concise_v1</code>. The run completed <code>6/6</code> rows with metadata-confirmed light/cuda/local placement, <code>0</code> empty/malformed rows, <code>0</code> cap-limited/incomplete rows, average e2e <code>3.520058s</code>, average <code>T_compress_ms=125.792571</code>, average <code>R_actual=2.162981</code>, max reserved VRAM <code>5.076172 GiB</code>, and no recorded OOM/CUDA failure. Deterministic comparison against T105B same-fixture outputs found <code>0/6</code> proxy-improved rows, <code>4/6</code> unchanged/no-improvement rows, and <code>2/6</code> safer-but-uninformative rows. Current next is T108C validation/limitation decision; Phase 2 closure pack moves to T110 or later. No QMSum n100, full matrix, Baseline-AR, DFlash-R1, Large CPU, LLMLingua-AR-R2, GSM8K, keep-rate tuning, query-aware compression, default switch, human scoring, or LLM judge was run.
+                </div>
+            </div>
+            <div class="log-entry">
+                <div class="log-date">2026-06-26</div>
+                <div class="log-body">
+                    <strong>Task109 — GSM8K Balanced Numeric Residual Repair — PASS_WITH_CAVEAT</strong><br>
+                    Audited the 10 wrong-numeric rows from T106B and ran the <code>gsm8k_numeric_detail_preserve_v1</code> candidate policy. The run dropped strict correct to <code>82/100</code> and raised cap-limited to <code>8/100</code>, failing to improve wrong numeric (<code>10/100</code>). T106B's concise final-answer policy was confirmed as the best GSM8K candidate. Default switch remains unauthorized. Next task is T110.
                 </div>
             </div>
             <div class="log-entry">

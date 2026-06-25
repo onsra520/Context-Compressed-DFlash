@@ -1,0 +1,6 @@
+{
+  "automatic_default_switch": false,
+  "automatic_full_matrix": false,
+  "next_task": "T110 \u2014 QMSum Semantic Validation / Judge Protocol",
+  "reason": "Proceeding to QMSum validation after closing GSM8K policy branch."
+}
