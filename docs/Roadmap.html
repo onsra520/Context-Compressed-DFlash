@@ -472,9 +472,10 @@
                 <span class="sv warn">T110B: judge protocol smoke test PASS_WITH_CAVEAT; ready for calibration</span>
                 <span class="sv warn">T110C: judge calibration run completed; PASS_WITH_CAVEAT</span>
                 <span class="sv go">T110D: QMSum semantic claims finalized as limitations; PASS</span>
+                <span class="sv warn">T111: Final Phase 2 closure package; COMPLETE_WITH_CAVEAT</span>
             </div>
             <div class="update-bar">
-                Task110D interpreted the targeted QMSum judge labels. The judge pipeline works, but low alignment with prior human labels keeps QMSum semantic correctness unclaimed; QMSum is treated as a final limitation after repair and judge attempts. Decision: <code>PASS</code>. Current next is T111 — Final Phase 2 Closure Pack.
+                Task111 created the final Phase 2 closure package. Phase 2 closes with a scoped GSM8K optimized candidate, a local validation judge pipeline, and a final QMSum limitation boundary. The optimized path is not a production/default switch, and QMSum semantic correctness remains unclaimed. Decision: <code>COMPLETE_WITH_CAVEATS</code>.
             </div>
         </header>
 
@@ -560,11 +561,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T111 — Final Phase 2 Closure Pack</td>
+                            <td>Phase 3 Review / Next Steps (TBD)</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task110D — QMSum Judge Result Interpretation</td>
+                            <td>Task111 — Final Phase 2 Closure Pack</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -1641,10 +1642,10 @@
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T111</span></td>
+                            <td><span class="tnum done">T111</span></td>
                             <td>Final Phase 2 Closure Pack</td>
-                            <td>Finalize Phase 2 artifacts, verify all residual risks and semantic claims are properly fenced, and formally close the optimization gate.</td>
-                            <td class="info">PLANNED / NEXT</td>
+                            <td>Created the final Phase 2 closure package. Consolidated GSM8K candidate results, QMSum final limitation boundary, validation-model setup, and supported/blocked claims. Phase 2 formally closes with caveats; default pipeline switch is not authorized.<br><code>docs/reports/phase_2_system_optimization/111-final-phase-2-closure-pack-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task111_final_phase_2_closure_pack/</code></td>
+                            <td class="warn">COMPLETE_WITH_CAVEATS</td>
                         </tr>
 </tbody>
                 </table>
@@ -1900,6 +1901,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-26</div>
+                <div class="log-body">
+                    <strong>Task111 — Final Phase 2 Closure Pack — COMPLETE_WITH_CAVEATS</strong><br>
+                    Generated the final Phase 2 closure package. Consolidated the scoped GSM8K candidate (T106B), finalized the QMSum semantic limitation boundaries, and cataloged the local validation judge. The optimized compressor path remains out of production; default switch remains unauthorized.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-26</div>
                 <div class="log-body">

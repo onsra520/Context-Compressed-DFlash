@@ -1,0 +1,7 @@
+[
+  "Light GPU compressor path substantially reduces compression overhead compared with earlier CPU large-compressor path.",
+  "On GSM8K, T106B is the best scoped optimized candidate after T107B/T109 repair attempts.",
+  "On GSM8K, T106B improves strict/cap behavior over pre-fix optimized CC-DFlash in the scoped candidate setting.",
+  "Local Qwen3.5-9B GGUF judge pipeline is available and technically functional.",
+  "QMSum received repair and judge-validation attempts, but remains a semantic limitation."
+]

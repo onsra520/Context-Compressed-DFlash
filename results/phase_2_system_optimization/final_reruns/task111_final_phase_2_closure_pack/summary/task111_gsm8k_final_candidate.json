@@ -1,0 +1,13 @@
+{
+  "avg_e2e_s": 2.145689,
+  "avg_t_compress_ms": 17.45762,
+  "cap_limited": "2/100",
+  "default_switch": "blocked",
+  "final_answer_marker": "98/100",
+  "max_vram_gib": 4.439453,
+  "optimized_gsm8k_candidate": "T106B_gsm8k_concise_final_answer_v1",
+  "strict": "88/100",
+  "t107b_status": "not_adopted",
+  "t109_status": "not_adopted",
+  "wrong_numeric": "10/100"
+}

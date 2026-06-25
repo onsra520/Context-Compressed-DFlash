@@ -1,0 +1,11 @@
+{
+  "engine": "llama_cpp",
+  "model": "models/validation/Qwen3.5-9B-GGUF/Qwen3.5-9B-UD-Q4_K_XL.gguf",
+  "n_ctx": 8192,
+  "n_gpu_layers": -1,
+  "t110a_commit": "1749941",
+  "t110b_commit": "95253b5",
+  "t110c_commit": "23fe0e0",
+  "t110d_commit": "2bace9f",
+  "validation_model_status": "LOCAL_JUDGE_PIPELINE_AVAILABLE_BUT_AUXILIARY_ONLY"
+}
