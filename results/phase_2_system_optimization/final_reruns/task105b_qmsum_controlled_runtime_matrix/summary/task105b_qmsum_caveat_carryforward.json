@@ -1,0 +1,10 @@
+{
+  "carryforward_labels": [
+    "no QMSum semantic correctness proof",
+    "residual QMSum risk persists",
+    "runtime/reference alignment only"
+  ],
+  "semantic_correctness_claim": "blocked",
+  "source": "T103D/T104 carryforward",
+  "summary": "QMSum runtime feasibility is measured, but QMSum semantic correctness is not claimed; T103D closed the deep-fix branch with persistent residual risk."
+}

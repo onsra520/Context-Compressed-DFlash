@@ -1,0 +1,19 @@
+{
+  "conditions": [
+    "Baseline-AR",
+    "DFlash-R1",
+    "CC-DFlash-R2 Light GPU"
+  ],
+  "controlled_matrix_complete": true,
+  "dataset": "qmsum_meeting_qa_long",
+  "decision": "PASS_WITH_CAVEAT",
+  "expected_n": 30,
+  "max_new_tokens": 384,
+  "no_full_matrix": true,
+  "no_human_scoring": true,
+  "no_llm_judge": true,
+  "no_qmsum_n100": true,
+  "qmsum_semantic_correctness_claim": "blocked",
+  "seed": 42,
+  "task": "T105B"
+}
