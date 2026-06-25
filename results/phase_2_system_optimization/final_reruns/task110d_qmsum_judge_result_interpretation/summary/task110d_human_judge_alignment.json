@@ -1,0 +1,8 @@
+{
+  "alignment_count": 1,
+  "calibration_status": "LOW_ALIGNMENT",
+  "disagreement_count": 5,
+  "interpretation": "Judge is usable as auxiliary evidence only, not calibrated ground truth.",
+  "judge_status": "AUXILIARY_EVIDENCE_ONLY",
+  "total_compared": 6
+}

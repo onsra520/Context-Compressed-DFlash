@@ -1,0 +1,9 @@
+{
+  "human_calibration": "LOW_ALIGNMENT",
+  "interpretation": "T108B repair signal is mixed/insufficient. Judge says 2 improved, but human calibration is weak.",
+  "judge_improved": 2,
+  "judge_regressed": 0,
+  "judge_unchanged": 4,
+  "proxy_improved": 0,
+  "proxy_safer": 2
+}

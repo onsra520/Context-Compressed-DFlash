@@ -1,0 +1,6 @@
+[
+  "T110C technically validated the local judge pipeline.",
+  "Judge labels are auxiliary evidence because human-label alignment was low.",
+  "T108B showed limited judge-positive signal, but not enough to validate QMSum repair.",
+  "QMSum remains a final limitation after repair and judge attempts."
+]

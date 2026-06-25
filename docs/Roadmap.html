@@ -471,9 +471,10 @@
                 <span class="sv go">T110A: validation model setup and config wiring completed</span>
                 <span class="sv warn">T110B: judge protocol smoke test PASS_WITH_CAVEAT; ready for calibration</span>
                 <span class="sv warn">T110C: judge calibration run completed; PASS_WITH_CAVEAT</span>
+                <span class="sv go">T110D: QMSum semantic claims finalized as limitations; PASS</span>
             </div>
             <div class="update-bar">
-                Task110C ran the targeted local LLM judge (<code>Qwen3.5-9B-UD-Q4_K_XL.gguf</code>) on the six QMSum residual-risk rows, evaluating both T105B and T108B candidates. The run completed with 100% valid JSON parsing. It showed low alignment with human labels (1/6) and two proxy improvements for T108B over T105B under the judge schema. Judge labels are calibration evidence, not ground truth. QMSum semantic correctness remains unclaimed. Decision: <code>PASS_WITH_CAVEAT</code>. Current next is T110D — QMSum Judge Result Interpretation.
+                Task110D interpreted the targeted QMSum judge labels. The judge pipeline works, but low alignment with prior human labels keeps QMSum semantic correctness unclaimed; QMSum is treated as a final limitation after repair and judge attempts. Decision: <code>PASS</code>. Current next is T111 — Final Phase 2 Closure Pack.
             </div>
         </header>
 
@@ -559,11 +560,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T110D — QMSum Judge Result Interpretation</td>
+                            <td>T111 — Final Phase 2 Closure Pack</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task110C — QMSum Judge Calibration / Targeted Label Run</td>
+                            <td>Task110D — QMSum Judge Result Interpretation</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -1634,9 +1635,15 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T110D</span></td>
+                            <td><span class="tnum done">T110D</span></td>
                             <td>QMSum Judge Result Interpretation</td>
-                            <td>Interpret the targeted label divergences to determine the final QMSum limitation boundaries.</td>
+                            <td>Interpreted the targeted QMSum judge labels. Concluded that the low alignment with human labels (1/6) means the judge acts as auxiliary evidence only. T108B's 2 proxy judge improvements are insufficient to validate semantic repair. QMSum semantic correctness remains unclaimed and is recorded as a final limitation. Phase 2 closure remains deferred until T111.<br><code>docs/reports/phase_2_system_optimization/110d-qmsum-judge-result-interpretation-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task110d_qmsum_judge_result_interpretation/</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T111</span></td>
+                            <td>Final Phase 2 Closure Pack</td>
+                            <td>Finalize Phase 2 artifacts, verify all residual risks and semantic claims are properly fenced, and formally close the optimization gate.</td>
                             <td class="info">PLANNED / NEXT</td>
                         </tr>
 </tbody>
@@ -1893,6 +1900,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-26</div>
+                <div class="log-body">
+                    <strong>Task110D — QMSum Judge Result Interpretation — PASS</strong><br>
+                    Interpreted the targeted QMSum judge labels. The judge pipeline works, but low alignment with prior human labels (1/6) keeps QMSum semantic correctness unclaimed; QMSum is treated as a final limitation after repair and judge attempts. Current next is T111.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-26</div>
                 <div class="log-body">

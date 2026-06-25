@@ -1,0 +1,48 @@
+{
+  "blocked_claims": [
+    "QMSum semantic correctness is proven.",
+    "QMSum residual risk is eliminated.",
+    "T108B repaired QMSum.",
+    "Judge labels are ground truth.",
+    "CC-DFlash wins QMSum.",
+    "Default switch is authorized."
+  ],
+  "decision": "PASS",
+  "delta_interpretation": {
+    "human_calibration": "LOW_ALIGNMENT",
+    "interpretation": "T108B repair signal is mixed/insufficient. Judge says 2 improved, but human calibration is weak.",
+    "judge_improved": 2,
+    "judge_regressed": 0,
+    "judge_unchanged": 4,
+    "proxy_improved": 0,
+    "proxy_safer": 2
+  },
+  "human_judge_alignment": {
+    "alignment_count": 1,
+    "calibration_status": "LOW_ALIGNMENT",
+    "disagreement_count": 5,
+    "interpretation": "Judge is usable as auxiliary evidence only, not calibrated ground truth.",
+    "judge_status": "AUXILIARY_EVIDENCE_ONLY",
+    "total_compared": 6
+  },
+  "next_task_decision": {
+    "next_task": "T111 \u2014 Final Phase 2 Closure Pack",
+    "reason": "Interpretation complete. QMSum semantic claims are finalized as limitations. Ready for phase 2 closure."
+  },
+  "qmsum_semantic_boundary": {
+    "judge_status": "AUXILIARY_EVIDENCE_ONLY",
+    "qmsum_final_status": "FINAL_LIMITATION_AFTER_REPAIR_AND_JUDGE_ATTEMPT",
+    "qmsum_residual_risk": "REMAINS",
+    "qmsum_semantic_correctness": "NOT_CLAIMED",
+    "t108b_repair_status": "NOT_VALIDATED_AS_REPAIR"
+  },
+  "supported_claims": [
+    "T110C technically validated the local judge pipeline.",
+    "Judge labels are auxiliary evidence because human-label alignment was low.",
+    "T108B showed limited judge-positive signal, but not enough to validate QMSum repair.",
+    "QMSum remains a final limitation after repair and judge attempts."
+  ],
+  "task": "T110D",
+  "technical_success": true,
+  "title": "QMSum Judge Result Interpretation"
+}
