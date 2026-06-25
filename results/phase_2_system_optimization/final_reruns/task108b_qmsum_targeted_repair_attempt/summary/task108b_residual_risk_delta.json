@@ -1,0 +1,9 @@
+{
+  "note": "Deterministic proxy movement is not semantic correctness proof.",
+  "previous_status": "CLOSED_WITH_PERSISTENT_RESIDUAL_RISK",
+  "proxy_improved_count": 0,
+  "proxy_regressed_count": 0,
+  "repair_interpretation": "mixed_targeted_repair_signal",
+  "residual_risk_status": "NEEDS_TARGETED_VALIDATION",
+  "safer_but_uninformative_count": 2
+}

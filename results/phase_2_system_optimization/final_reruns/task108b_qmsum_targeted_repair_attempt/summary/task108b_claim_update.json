@@ -1,0 +1,16 @@
+{
+  "allowed_claims": [
+    "T108B attempted a targeted QMSum evidence-grounded repair.",
+    "The repair produced 0 deterministic proxy-improved rows out of 6.",
+    "QMSum semantic correctness still requires validation before being claimed."
+  ],
+  "blocked_claims": [
+    "QMSum semantic correctness is proven.",
+    "QMSum residual risk is eliminated.",
+    "CC-DFlash wins QMSum.",
+    "The repair generalizes to all QMSum rows.",
+    "Default switch is authorized.",
+    "Phase 2 is closed."
+  ],
+  "qmsum_claim_status": "TARGETED_REPAIR_ATTEMPT_REQUIRES_VALIDATION"
+}

@@ -1,0 +1,18 @@
+{
+  "before_artifact": "results/phase_2_system_optimization/final_reruns/task105b_qmsum_controlled_runtime_matrix/runs/cc_dflash_r2_light_gpu_qmsum_seed42_n30_mnt384.jsonl",
+  "decision": "MIXED_WITH_CAVEAT",
+  "interpretation": "mixed_targeted_repair_signal",
+  "no_default_switch": true,
+  "no_full_matrix": true,
+  "no_human_scoring": true,
+  "no_llm_judge": true,
+  "no_qmsum_n100": true,
+  "policy_name": "qmsum_evidence_grounded_concise_v1",
+  "policy_suffix": "Answer using only information supported by the meeting transcript. First identify the most relevant evidence in the transcript mentally, then give a concise answer in 1-3 sentences. If the transcript does not contain enough evidence, say that the transcript does not provide enough information. Do not invent details.",
+  "run_artifact": "results/phase_2_system_optimization/final_reruns/task108b_qmsum_targeted_repair_attempt/runs/cc_dflash_r2_light_gpu_qmsum_targeted_evidence_grounded.jsonl",
+  "t103d_prior_status": "CLOSED_WITH_PERSISTENT_RESIDUAL_RISK",
+  "target_dataset": "data/eval/qmsum_meeting_qa_target_rows_task102f.jsonl",
+  "target_rows": 6,
+  "task": "T108B",
+  "title": "QMSum Targeted Repair Attempt"
+}

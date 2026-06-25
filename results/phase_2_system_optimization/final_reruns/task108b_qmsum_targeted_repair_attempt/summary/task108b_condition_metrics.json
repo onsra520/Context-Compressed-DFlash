@@ -1,0 +1,12 @@
+{
+  "avg_R_actual": 2.162981,
+  "avg_e2e_time_s": 3.520058,
+  "avg_generation_time_s": 3.394266,
+  "avg_t_compress_ms": 125.792571,
+  "cap_limited_or_incomplete_count": 0,
+  "empty_or_malformed_count": 0,
+  "max_vram_reserved_gib": 5.076171875,
+  "oom_or_cuda_failure": false,
+  "refusal_or_insufficient_evidence_count": 2,
+  "row_count": 6
+}

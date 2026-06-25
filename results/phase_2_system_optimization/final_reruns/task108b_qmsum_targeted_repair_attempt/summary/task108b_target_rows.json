@@ -1,0 +1,33 @@
+{
+  "selection_reason": "Six T103D human-reviewed residual-risk rows from the frozen T102F target dataset.",
+  "target_dataset_audit": {
+    "errors": [],
+    "expected_fixture_ids": [
+      "qmsum_meeting_qa_test_0036",
+      "qmsum_meeting_qa_test_0070",
+      "qmsum_meeting_qa_test_0055",
+      "qmsum_meeting_qa_test_0078",
+      "qmsum_meeting_qa_test_0094",
+      "qmsum_meeting_qa_test_0001"
+    ],
+    "fixture_ids": [
+      "qmsum_meeting_qa_test_0036",
+      "qmsum_meeting_qa_test_0070",
+      "qmsum_meeting_qa_test_0055",
+      "qmsum_meeting_qa_test_0078",
+      "qmsum_meeting_qa_test_0094",
+      "qmsum_meeting_qa_test_0001"
+    ],
+    "path": "data/eval/qmsum_meeting_qa_target_rows_task102f.jsonl",
+    "row_count": 6,
+    "valid": true
+  },
+  "target_fixture_ids": [
+    "qmsum_meeting_qa_test_0036",
+    "qmsum_meeting_qa_test_0070",
+    "qmsum_meeting_qa_test_0055",
+    "qmsum_meeting_qa_test_0078",
+    "qmsum_meeting_qa_test_0094",
+    "qmsum_meeting_qa_test_0001"
+  ]
+}
