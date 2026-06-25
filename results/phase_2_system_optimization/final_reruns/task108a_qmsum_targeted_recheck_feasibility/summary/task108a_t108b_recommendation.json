@@ -1,0 +1,10 @@
+{
+  "allowed_scope": [
+    "Proceed to T109 closure packaging",
+    "Keep QMSum runtime/feasibility and residual-risk wording",
+    "Do not run another QMSum rerun by default"
+  ],
+  "reason": "No clear cap-limited, empty/malformed, or mechanical QMSum target remains, and the deep-fix branch status is CLOSED_WITH_PERSISTENT_RESIDUAL_RISK.",
+  "recommended_option": "NO_RERUN_KEEP_CAVEAT",
+  "t108b_justified": false
+}

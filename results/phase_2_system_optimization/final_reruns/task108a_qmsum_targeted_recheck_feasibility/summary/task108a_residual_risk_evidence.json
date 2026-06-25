@@ -1,0 +1,46 @@
+{
+  "evidence_items": [
+    {
+      "count_or_metric": "NOT_CLAIMED",
+      "evidence": "T103D closed the deep-fix branch with persistent residual risk and semantic correctness not claimed.",
+      "risk": "semantic_correctness_not_proven"
+    },
+    {
+      "count_or_metric": {
+        "cannot_determine_from_available_context": 3,
+        "correct_supported": 0,
+        "partially_correct_or_incomplete": 2,
+        "unsupported_or_wrong": 1
+      },
+      "evidence": "Fixed six-row human review found no fully correct/supported target rows.",
+      "risk": "human_review_did_not_clear_target_rows"
+    },
+    {
+      "count_or_metric": {
+        "Baseline-AR": 15,
+        "CC-DFlash-R2 Light GPU": 14,
+        "DFlash-R1": 15
+      },
+      "evidence": "T105B low-overlap rates were similar across Baseline-AR, DFlash-R1, and CC-DFlash-R2 Light GPU.",
+      "risk": "low_reference_overlap_is_not_unique_to_compression"
+    },
+    {
+      "count_or_metric": {
+        "cap_limited_or_incomplete": 0,
+        "empty_or_malformed": 0
+      },
+      "evidence": "T105B CC-DFlash-R2 Light GPU had 0 empty/malformed and 0 cap-limited/incomplete QMSum rows.",
+      "risk": "no_mechanical_output_shape_target"
+    },
+    {
+      "count_or_metric": {
+        "baseline_ar_avg_e2e_time_s": 3.770054,
+        "cc_light_gpu_avg_e2e_time_s": 5.23531,
+        "dflash_r1_avg_e2e_time_s": 5.188113
+      },
+      "evidence": "T105B CC-DFlash-R2 Light GPU completed QMSum but did not beat Baseline-AR or DFlash-R1 average e2e time.",
+      "risk": "qmsum_runtime_not_a_speed_win"
+    }
+  ],
+  "residual_risk_status": "PERSISTENT_AND_CAVEATED"
+}

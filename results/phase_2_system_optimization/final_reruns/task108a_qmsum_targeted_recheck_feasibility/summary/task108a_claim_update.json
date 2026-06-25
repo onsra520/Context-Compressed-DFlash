@@ -1,0 +1,18 @@
+{
+  "allowed_claims": [
+    "QMSum remains runtime/feasibility and residual-risk evidence.",
+    "T105B supports bounded QMSum output-completion/runtime observations for the controlled n30 matrix.",
+    "T103D supports preserving a mandatory QMSum residual-risk caveat after failed deep-fix closure.",
+    "T108A supports proceeding to closure packaging without a default QMSum rerun."
+  ],
+  "blocked_claims": [
+    "QMSum semantic correctness is proven.",
+    "QMSum residual risk is eliminated.",
+    "CC-DFlash wins QMSum runtime against Baseline-AR or DFlash-R1.",
+    "QMSum n100 or full rerun is authorized automatically.",
+    "Query-aware compression is ready or default.",
+    "A targeted T108B rerun is required by the current evidence.",
+    "The optimized Light GPU path is a default/global winner."
+  ],
+  "qmsum_claim_status": "RUNTIME_FEASIBILITY_WITH_PERSISTENT_RESIDUAL_RISK"
+}

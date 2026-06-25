@@ -1,0 +1,61 @@
+{
+  "candidates": [
+    {
+      "allowed_next_step": "Proceed to T109 closure packaging with mandatory QMSum caveat.",
+      "blocked_scope": "Does not claim QMSum semantic correctness or residual-risk elimination.",
+      "candidate": "NO_RERUN_KEEP_CAVEAT",
+      "evidence_basis": "Existing T103D/T105B evidence already supports the QMSum boundary: runtime coverage with persistent residual semantic risk.",
+      "feasibility": "SUPPORTED",
+      "recommendation": "PRIMARY"
+    },
+    {
+      "allowed_next_step": "Only run with explicit user approval and six-row/target-row bounds.",
+      "blocked_scope": "No n100, full matrix, Large CPU, DFlash-R1, LLMLingua-AR-R2, or default switch.",
+      "candidate": "SMALL_TARGETED_QMSUM_POLICY_RECHECK",
+      "evidence_basis": "A narrow T108B would only be justified by a clear mechanical failure target; prior QMSum targeted policy, evidence selection, Baseline-AR mini-check, and human review did not close risk.",
+      "feasibility": "WEAK_OR_NOT_JUSTIFIED",
+      "recommendation": "DO_NOT_RUN_BY_DEFAULT"
+    },
+    {
+      "allowed_next_step": "Can be used for wording refinement only.",
+      "blocked_scope": "Cannot convert QMSum to semantic-correctness proof.",
+      "candidate": "REFERENCE_OVERLAP_PROXY_REPAIR_ONLY",
+      "evidence_basis": "Proxy limitations are already documented and do not remove semantic uncertainty.",
+      "feasibility": "STATIC_OPTIONAL_ONLY",
+      "recommendation": "NOT_REQUIRED_FOR_CLOSURE"
+    },
+    {
+      "allowed_next_step": "Only with explicit human-review approval and frozen rubric.",
+      "blocked_scope": "No hidden human scoring inside automated analysis.",
+      "candidate": "HUMAN_REVIEW_EXPANSION",
+      "evidence_basis": "Human review exists for the fixed six rows; expanding it is a new review scope.",
+      "feasibility": "RESERVED_EXPLICIT_APPROVAL",
+      "recommendation": "OPTIONAL_ONLY"
+    },
+    {
+      "allowed_next_step": "Only if separately authorized as a judge task.",
+      "blocked_scope": "No LLM judge is used in T108A.",
+      "candidate": "LLM_JUDGE_REVIEW",
+      "evidence_basis": "LLM judge was explicitly out of scope for the QMSum closure branch.",
+      "feasibility": "RESERVED_EXPLICIT_APPROVAL",
+      "recommendation": "NOT_DEFAULT"
+    },
+    {
+      "allowed_next_step": "Reserve for future research after Phase 2 closure.",
+      "blocked_scope": "No query-aware compression tuning or default change.",
+      "candidate": "QUERY_AWARE_COMPRESSION_EXPERIMENT",
+      "evidence_basis": "Query-aware compression is a deeper algorithmic change, not a closure-pack requirement.",
+      "feasibility": "RESERVED_NOT_DEFAULT",
+      "recommendation": "DEFER"
+    },
+    {
+      "allowed_next_step": "None in T108A.",
+      "blocked_scope": "No QMSum n100, full matrix, or broad rerun authorization.",
+      "candidate": "QMSUM_FULL_RERUN_OR_N100",
+      "evidence_basis": "T108A is static feasibility only; QMSum full rerun/n100 is outside the current scope.",
+      "feasibility": "BLOCKED",
+      "recommendation": "DO_NOT_RUN"
+    }
+  ],
+  "matrix_status": "NO_DEFAULT_T108B"
+}
