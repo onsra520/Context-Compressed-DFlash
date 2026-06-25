@@ -1,0 +1,13 @@
+{
+  "claims": [
+    "Optimized CC-DFlash wins the full benchmark.",
+    "Optimized CC-DFlash is faster than all references.",
+    "Optimized CC-DFlash preserves quality while improving speed across datasets.",
+    "QMSum semantic correctness is proven.",
+    "QMSum residual risk is eliminated.",
+    "Universal 8GB deployment readiness is proven.",
+    "The optimized Light GPU path should become the default.",
+    "DFlash-R1 is broken or invalid."
+  ],
+  "scope": "Blocked for final report/demo language unless a future explicit task proves otherwise."
+}

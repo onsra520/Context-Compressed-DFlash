@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv warn">Latest Updated: Task105B — QMSum controlled runtime matrix</span>
+                <span class="sv warn">Latest Updated: Task105C — benchmark-scope claim closure</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv warn">Current Next: T105C Benchmark-scope claim closure</span>
+                <span class="sv warn">Current Next: T106 optimized default candidate decision</span>
                 <span class="sv stop">Bounded GSM8K Light GPU speed evidence only</span>
                 <span class="sv stop">Deterministic GSM8K numeric proxy only</span>
                 <span class="sv stop">No Phase 2 Light GPU QMSum semantic claim</span>
@@ -459,9 +459,10 @@
                 <span class="sv stop">DFlash-R1 retained as historical reference</span>
                 <span class="sv stop">No faster-than-DFlash-R1 claim from T105A</span>
                 <span class="sv stop">No faster-than-reference QMSum claim from T105B</span>
+                <span class="sv stop">T105C: candidate evidence only, not default winner</span>
             </div>
             <div class="update-bar">
-                Task105B completed the controlled QMSum <code>n=30</code>, <code>max_new_tokens=384</code> runtime matrix for <code>Baseline-AR</code>, <code>DFlash-R1</code>, and optimized <code>CC-DFlash-R2</code> Light GPU. All conditions completed <code>30/30</code> with no recorded OOM/CUDA failure and no empty/malformed or cap-limited outputs, but the optimized path did not beat either matched QMSum reference on average e2e time: <code>Baseline-AR=3.770054s</code>, <code>DFlash-R1=5.188113s</code>, <code>CC-DFlash-R2 Light GPU=5.235310s</code>. Current next is T105C benchmark-scope claim closure with the T103D/T104 QMSum residual-risk caveat carried forward.
+                Task105C closed the benchmark-scope claim language using T105A and T105B. Supported: compressor-overhead reduction, local feasibility, GSM8K faster-than-Baseline evidence, and matched QMSum runtime completion. Blocked: full benchmark win, faster-than-all-references, quality-preserved speed win, QMSum semantic correctness, residual-risk elimination, universal 8GB deployment readiness, default optimized switch, and any claim that <code>DFlash-R1</code> is broken. Current next is T106 optimized default candidate decision, with candidate-only/not-default-winner posture.
             </div>
         </header>
 
@@ -516,7 +517,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the controlled GSM8K speed matrix, and Task105B completed the controlled QMSum runtime matrix. Current next is T105C benchmark-scope claim closure; final report integration is deferred outside active Phase 2.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the controlled GSM8K speed matrix, Task105B completed the controlled QMSum runtime matrix, and Task105C closed benchmark-scope claim wording. Current next is T106 optimized default candidate decision; final report integration is deferred outside active Phase 2.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -547,11 +548,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T105C — Benchmark-Scope Claim Closure</td>
+                            <td>T106 — Optimized Default Candidate Decision</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task105B — QMSum Controlled Runtime Matrix</td>
+                            <td>Task105C — Benchmark-Scope Claim Closure</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -575,7 +576,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task105B completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the GSM8K controlled speed matrix, and Task105B completed the QMSum controlled runtime matrix. Current active Phase 2 focus is T105C benchmark-scope claim closure with the QMSum caveat preserved.</td>
+                            <td>Task91 through Task105C completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the GSM8K controlled speed matrix, Task105B completed the QMSum controlled runtime matrix, and Task105C closed benchmark-scope claim wording. Current active Phase 2 focus is T106 optimized default candidate decision with the QMSum caveat preserved.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1534,8 +1535,8 @@
                         <tr>
                             <td><span class="tnum planned">T105</span></td>
                             <td>Full Matrix / Benchmark-Scope Claim Closure</td>
-                            <td>Umbrella claim-closure track. T105A completed the controlled GSM8K matrix and showed that optimized <code>CC-DFlash-R2</code> Light GPU is faster than <code>Baseline-AR</code> but not faster than <code>DFlash-R1</code>, and that strict GSM8K proxy trails both references. T105B completed the controlled QMSum runtime matrix and showed that optimized <code>CC-DFlash-R2</code> Light GPU did not beat <code>Baseline-AR</code> or <code>DFlash-R1</code> on matched QMSum average e2e time while preserving the T103D/T104 QMSum semantic-risk caveat. T105C is the next benchmark-scope claim closure step.</td>
-                            <td class="warn">ACTIVE / T105C NEXT</td>
+                            <td>Umbrella claim-closure track. T105A completed the controlled GSM8K matrix and showed that optimized <code>CC-DFlash-R2</code> Light GPU is faster than <code>Baseline-AR</code> but not faster than <code>DFlash-R1</code>, and that strict GSM8K proxy trails both references. T105B completed the controlled QMSum runtime matrix and showed that optimized <code>CC-DFlash-R2</code> Light GPU did not beat <code>Baseline-AR</code> or <code>DFlash-R1</code> on matched QMSum average e2e time while preserving the T103D/T104 QMSum semantic-risk caveat. T105C closed benchmark-scope claims as candidate evidence only, not a default-winner or full-benchmark-win claim.</td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum done">T105A</span></td>
@@ -1550,16 +1551,16 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T105C</span></td>
+                            <td><span class="tnum done">T105C</span></td>
                             <td>Benchmark-Scope Claim Closure</td>
-                            <td>Planned closure step to combine Task105A GSM8K and Task105B QMSum matched-matrix evidence into final benchmark-scope claim wording while preserving blocked claims: no universal speedup, no QMSum semantic correctness, no residual-risk elimination, no deployment readiness, and no default GPU switch.</td>
-                            <td class="info">PLANNED / NEXT</td>
+                            <td>Closed benchmark-scope claim wording using Task105A and Task105B. Supported: compressor-overhead reduction, local feasibility, GSM8K faster-than-Baseline evidence, matched QMSum runtime completion, and condition-scoped final wording. Blocked: full benchmark win, faster-than-all-references, quality-preserved speed win, QMSum semantic correctness, residual-risk elimination, universal 8GB deployment readiness, default optimized switch, and <code>DFlash-R1</code> broken/invalid wording. T106 is unblocked only as an optimized-default candidate decision, not an automatic default switch. <br><code>docs/reports/phase_2_system_optimization/105c-benchmark-scope-claim-closure-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task105c_benchmark_scope_claim_closure/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T106</span></td>
                             <td>Optimized Default Candidate Decision</td>
-                            <td>Decide whether the Light GPU path can be treated as a candidate optimized default. GPU placement remains runtime/gated until this decision is supported.</td>
-                            <td class="info">PLANNED</td>
+                            <td>Decide whether the Light GPU path can be treated as a candidate optimized path, experimental path, or deferred default switch. Must preserve T105C boundaries: GSM8K faster-than-Baseline only, not faster-than-DFlash on GSM8K, not faster-than-any-reference on QMSum, QMSum semantic caveat, and no universal 8GB deployment readiness.</td>
+                            <td class="info">PLANNED / NEXT</td>
                         </tr>
                         <tr>
                             <td><span class="tnum planned">T107</span></td>
@@ -1821,6 +1822,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-25</div>
+                <div class="log-body">
+                    <strong>Task105C — Benchmark-Scope Claim Closure — PASS_WITH_CAVEAT</strong><br>
+                    Closed benchmark-scope claim wording using the completed T105A GSM8K matrix and T105B QMSum runtime matrix. Supported wording is limited to compressor-overhead reduction, local feasibility, GSM8K faster-than-Baseline evidence, matched QMSum runtime completion, and condition-scoped final claims. Blocked wording remains: optimized full-benchmark win, faster-than-all-references, quality-preserved speed win across datasets, QMSum semantic correctness, QMSum residual-risk elimination, universal 8GB deployment readiness, automatic default optimized switch, and <code>DFlash-R1</code> broken/invalid claims. T106 is now the next task, but only as an optimized default candidate decision with candidate-only/not-default-winner posture. No benchmark, model inference, QMSum rerun, QMSum <code>n=100</code>, GSM8K rerun, full matrix, Large CPU, LLMLingua-AR-R2, query-aware compression, keep-rate tuning, model/config default switch, download, human scoring, or LLM judge was run.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-25</div>
                 <div class="log-body">

@@ -1,0 +1,18 @@
+{
+  "likely_options": [
+    "Candidate path for specific Baseline-AR comparison",
+    "Experimental optimized path",
+    "Not default winner",
+    "Defer default switch"
+  ],
+  "must_not_switch_defaults_automatically": true,
+  "must_preserve": [
+    "GSM8K faster-than-Baseline only",
+    "not faster-than-DFlash on GSM8K",
+    "not faster-than-any-reference on QMSum",
+    "QMSum semantic caveat",
+    "no universal 8GB deployment readiness"
+  ],
+  "next_task": "T106 — Optimized Default Candidate Decision",
+  "recommended_t106_posture": "candidate_only_not_default_winner"
+}

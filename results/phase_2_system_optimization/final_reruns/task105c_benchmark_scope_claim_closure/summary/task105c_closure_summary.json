@@ -1,0 +1,13 @@
+{
+  "decision": "PASS_WITH_CAVEAT",
+  "no_benchmark_run": true,
+  "no_default_switch": true,
+  "no_full_matrix": true,
+  "no_model_inference": true,
+  "no_qmsum_n100": true,
+  "qmsum_caveat_mandatory": true,
+  "scope": "Static benchmark-scope claim closure only.",
+  "t105a_complete": true,
+  "t105b_complete": true,
+  "task": "T105C"
+}
