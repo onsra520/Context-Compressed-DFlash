@@ -643,6 +643,9 @@
             <div class="note go" style="margin-top:16px">
                 <strong>Task110A update:</strong> T110A adds local GGUF validation-model support using llama_cpp and configures the optimized light compressor on CUDA. It explicitly isolates the validation judge from target/draft generation. It does not run QMSum judge labels.
             </div>
+            <div class="note warn" style="margin-top:16px">
+                <strong>Task110B update:</strong> T110B smoke-tests the local Qwen3.5-9B GGUF judge through llama_cpp and validates strict JSON judge output. It does not claim QMSum semantic correctness.
+            </div>
         </section>
 
         <!-- ─────────────────────────────────────────── 1. ABSTRACT -->

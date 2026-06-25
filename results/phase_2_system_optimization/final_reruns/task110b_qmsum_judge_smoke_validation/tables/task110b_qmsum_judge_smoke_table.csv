@@ -1,0 +1,3 @@
+fixture_id,candidate_source,valid_json,json_repair_used,final_label
+qmsum_meeting_qa_test_0036,t108b,True,False,unsupported_or_wrong
+qmsum_meeting_qa_test_0070,t108b,True,False,unsupported_or_wrong

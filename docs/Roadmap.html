@@ -469,9 +469,10 @@
                 <span class="sv warn">T108A: no default QMSum rerun; caveat kept</span>
                 <span class="sv warn">T108B: targeted QMSum repair mixed; validation needed</span>
                 <span class="sv go">T110A: validation model setup and config wiring completed</span>
+                <span class="sv warn">T110B: judge protocol smoke test PASS_WITH_CAVEAT; ready for calibration</span>
             </div>
             <div class="update-bar">
-                Task110A added local GGUF validation-model support using <code>llama_cpp</code> and configured the optimized light compressor on CUDA. It explicitly isolated the validation judge from the target/draft generation models and verified configuration constraints. It did not run QMSum judge labels. Decision: <code>PASS</code>. Current next is T110B — QMSum Judge Protocol / Smoke Validation.
+                Task110B smoke-tested the local <code>Qwen3.5-9B-UD-Q4_K_XL.gguf</code> judge using <code>llama_cpp</code>. The model successfully loaded with <code>n_ctx=8192</code> and full GPU offloading, generating strictly formatted JSON evaluations for two targeted QMSum rows without out-of-memory errors or fallback parser repair. It confirmed pipeline feasibility but makes no claims on semantic correctness. Decision: <code>PASS_WITH_CAVEAT</code>. Current next is T110C — QMSum Judge Calibration / Targeted Label Run.
             </div>
         </header>
 
@@ -557,11 +558,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T110B — QMSum Judge Protocol / Smoke Validation</td>
+                            <td>T110C — QMSum Judge Calibration / Targeted Label Run</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task110A — Validation Model Setup and Config Wiring</td>
+                            <td>Task110B — QMSum Judge Protocol / Smoke Validation</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -1620,9 +1621,15 @@
                             <td class="go">PASS</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T110B</span></td>
+                            <td><span class="tnum done">T110B</span></td>
                             <td>QMSum Judge Protocol / Smoke Validation</td>
-                            <td>Proceed to test the judge prompt and format after setup is validated.</td>
+                            <td>Smoke-tested the local <code>Qwen3.5-9B-UD-Q4_K_XL.gguf</code> judge using <code>llama_cpp</code>. The model loaded successfully with <code>n_ctx=8192</code> and full GPU layers. It evaluated two targeted QMSum rows, successfully generating strict JSON outputs parsed without fallback repairs. Validation status: <code>SMOKE_READY</code>. No QMSum semantic claims are made. Default switch remains blocked.<br><code>docs/reports/phase_2_system_optimization/110b-qmsum-judge-smoke-validation-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task110b_qmsum_judge_smoke_validation/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T110C</span></td>
+                            <td>QMSum Judge Calibration / Targeted Label Run</td>
+                            <td>Proceed to evaluate the full set of QMSum target rows to resolve residual semantic risks.</td>
                             <td class="info">PLANNED / NEXT</td>
                         </tr>
 </tbody>
@@ -1879,6 +1886,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-26</div>
+                <div class="log-body">
+                    <strong>Task110B — QMSum Judge Protocol / Smoke Validation — PASS_WITH_CAVEAT</strong><br>
+                    Smoke-tested the local <code>Qwen3.5-9B-UD-Q4_K_XL.gguf</code> judge using <code>llama_cpp</code>. The model loaded successfully with <code>n_ctx=8192</code> and full GPU offloading, generating strictly formatted JSON evaluations for two targeted QMSum rows without OOM errors or fallback parser repair. It confirmed pipeline feasibility but makes no claims on semantic correctness. Current next is T110C.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-26</div>
                 <div class="log-body">
