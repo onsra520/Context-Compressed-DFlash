@@ -1,0 +1,43 @@
+{
+  "details": [
+    {
+      "delta": "unchanged",
+      "fixture_id": "qmsum_meeting_qa_test_0036",
+      "t105b_label": "unsupported_or_wrong",
+      "t108b_label": "unsupported_or_wrong"
+    },
+    {
+      "delta": "unchanged",
+      "fixture_id": "qmsum_meeting_qa_test_0070",
+      "t105b_label": "unsupported_or_wrong",
+      "t108b_label": "unsupported_or_wrong"
+    },
+    {
+      "delta": "improved",
+      "fixture_id": "qmsum_meeting_qa_test_0055",
+      "t105b_label": "unsupported_or_wrong",
+      "t108b_label": "correct_supported"
+    },
+    {
+      "delta": "improved",
+      "fixture_id": "qmsum_meeting_qa_test_0078",
+      "t105b_label": "unsupported_or_wrong",
+      "t108b_label": "correct_supported"
+    },
+    {
+      "delta": "unchanged",
+      "fixture_id": "qmsum_meeting_qa_test_0094",
+      "t105b_label": "unsupported_or_wrong",
+      "t108b_label": "unsupported_or_wrong"
+    },
+    {
+      "delta": "unchanged",
+      "fixture_id": "qmsum_meeting_qa_test_0001",
+      "t105b_label": "unsupported_or_wrong",
+      "t108b_label": "unsupported_or_wrong"
+    }
+  ],
+  "improved": 2,
+  "regressed": 0,
+  "unchanged": 4
+}

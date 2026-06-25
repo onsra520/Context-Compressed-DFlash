@@ -470,9 +470,10 @@
                 <span class="sv warn">T108B: targeted QMSum repair mixed; validation needed</span>
                 <span class="sv go">T110A: validation model setup and config wiring completed</span>
                 <span class="sv warn">T110B: judge protocol smoke test PASS_WITH_CAVEAT; ready for calibration</span>
+                <span class="sv warn">T110C: judge calibration run completed; PASS_WITH_CAVEAT</span>
             </div>
             <div class="update-bar">
-                Task110B smoke-tested the local <code>Qwen3.5-9B-UD-Q4_K_XL.gguf</code> judge using <code>llama_cpp</code>. The model successfully loaded with <code>n_ctx=8192</code> and full GPU offloading, generating strictly formatted JSON evaluations for two targeted QMSum rows without out-of-memory errors or fallback parser repair. It confirmed pipeline feasibility but makes no claims on semantic correctness. Decision: <code>PASS_WITH_CAVEAT</code>. Current next is T110C — QMSum Judge Calibration / Targeted Label Run.
+                Task110C ran the targeted local LLM judge (<code>Qwen3.5-9B-UD-Q4_K_XL.gguf</code>) on the six QMSum residual-risk rows, evaluating both T105B and T108B candidates. The run completed with 100% valid JSON parsing. It showed low alignment with human labels (1/6) and two proxy improvements for T108B over T105B under the judge schema. Judge labels are calibration evidence, not ground truth. QMSum semantic correctness remains unclaimed. Decision: <code>PASS_WITH_CAVEAT</code>. Current next is T110D — QMSum Judge Result Interpretation.
             </div>
         </header>
 
@@ -558,11 +559,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T110C — QMSum Judge Calibration / Targeted Label Run</td>
+                            <td>T110D — QMSum Judge Result Interpretation</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task110B — QMSum Judge Protocol / Smoke Validation</td>
+                            <td>Task110C — QMSum Judge Calibration / Targeted Label Run</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -1627,9 +1628,15 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T110C</span></td>
+                            <td><span class="tnum done">T110C</span></td>
                             <td>QMSum Judge Calibration / Targeted Label Run</td>
-                            <td>Proceed to evaluate the full set of QMSum target rows to resolve residual semantic risks.</td>
+                            <td>Ran the targeted local LLM judge on the six QMSum target rows to evaluate T105B and T108B outputs. Achieved 12/12 valid JSON parses. Judge vs. human label alignment was low (1/6). T108B showed 2 proxy improvements over T105B according to the judge. Status: <code>TARGETED_JUDGE_LABELS_READY</code>. Judge labels are calibration evidence, not ground truth.<br><code>docs/reports/phase_2_system_optimization/110c-qmsum-judge-calibration-label-run-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task110c_qmsum_judge_calibration_label_run/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T110D</span></td>
+                            <td>QMSum Judge Result Interpretation</td>
+                            <td>Interpret the targeted label divergences to determine the final QMSum limitation boundaries.</td>
                             <td class="info">PLANNED / NEXT</td>
                         </tr>
 </tbody>
@@ -1886,6 +1893,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-26</div>
+                <div class="log-body">
+                    <strong>Task110C — QMSum Judge Calibration / Targeted Label Run — PASS_WITH_CAVEAT</strong><br>
+                    Ran the targeted local LLM judge on the six QMSum target rows, evaluating T105B and T108B outputs. Completed with 100% valid JSON parsing (12/12). Human label alignment was 1/6. T108B showed 2 proxy improvements over T105B under the judge schema. Judge labels act as calibration evidence, not final ground truth. Current next is T110D.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-26</div>
                 <div class="log-body">

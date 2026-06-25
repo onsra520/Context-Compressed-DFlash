@@ -1,0 +1,43 @@
+{
+  "alignment_count": 1,
+  "details": [
+    {
+      "aligns": false,
+      "fixture_id": "qmsum_meeting_qa_test_0036",
+      "human_label": "partially_correct_or_incomplete",
+      "judge_label": "unsupported_or_wrong"
+    },
+    {
+      "aligns": false,
+      "fixture_id": "qmsum_meeting_qa_test_0070",
+      "human_label": "cannot_determine_from_available_context",
+      "judge_label": "unsupported_or_wrong"
+    },
+    {
+      "aligns": false,
+      "fixture_id": "qmsum_meeting_qa_test_0055",
+      "human_label": "cannot_determine_from_available_context",
+      "judge_label": "unsupported_or_wrong"
+    },
+    {
+      "aligns": true,
+      "fixture_id": "qmsum_meeting_qa_test_0078",
+      "human_label": "unsupported_or_wrong",
+      "judge_label": "unsupported_or_wrong"
+    },
+    {
+      "aligns": false,
+      "fixture_id": "qmsum_meeting_qa_test_0094",
+      "human_label": "cannot_determine_from_available_context",
+      "judge_label": "unsupported_or_wrong"
+    },
+    {
+      "aligns": false,
+      "fixture_id": "qmsum_meeting_qa_test_0001",
+      "human_label": "partially_correct_or_incomplete",
+      "judge_label": "unsupported_or_wrong"
+    }
+  ],
+  "disagreement_count": 5,
+  "total_compared": 6
+}

@@ -1,0 +1,13 @@
+fixture_id,candidate_source,valid_json,json_repair_used,final_label,evidence_support
+qmsum_meeting_qa_test_0036,t105b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0036,t108b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0070,t105b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0070,t108b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0055,t105b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0055,t108b,True,False,correct_supported,yes
+qmsum_meeting_qa_test_0078,t105b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0078,t108b,True,False,correct_supported,yes
+qmsum_meeting_qa_test_0094,t105b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0094,t108b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0001,t105b,True,False,unsupported_or_wrong,no
+qmsum_meeting_qa_test_0001,t108b,True,False,unsupported_or_wrong,partial

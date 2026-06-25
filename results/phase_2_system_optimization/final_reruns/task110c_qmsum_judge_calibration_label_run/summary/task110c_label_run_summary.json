@@ -1,0 +1,134 @@
+{
+  "claim_update": {
+    "allowed_claims": [
+      "T110C ran a targeted local LLM judge on the six QMSum target rows.",
+      "Judge labels are calibration evidence, not ground truth.",
+      "QMSum semantic correctness remains unclaimed until interpretation/calibration is completed."
+    ],
+    "blocked_claims": [
+      "QMSum semantic correctness is proven.",
+      "QMSum residual risk is eliminated.",
+      "T108B repaired QMSum.",
+      "Judge labels are final ground truth.",
+      "Full QMSum judging was completed.",
+      "Default switch is authorized."
+    ]
+  },
+  "decision": "PASS_WITH_CAVEAT",
+  "human_calibration_comparison": {
+    "alignment_count": 1,
+    "details": [
+      {
+        "aligns": false,
+        "fixture_id": "qmsum_meeting_qa_test_0036",
+        "human_label": "partially_correct_or_incomplete",
+        "judge_label": "unsupported_or_wrong"
+      },
+      {
+        "aligns": false,
+        "fixture_id": "qmsum_meeting_qa_test_0070",
+        "human_label": "cannot_determine_from_available_context",
+        "judge_label": "unsupported_or_wrong"
+      },
+      {
+        "aligns": false,
+        "fixture_id": "qmsum_meeting_qa_test_0055",
+        "human_label": "cannot_determine_from_available_context",
+        "judge_label": "unsupported_or_wrong"
+      },
+      {
+        "aligns": true,
+        "fixture_id": "qmsum_meeting_qa_test_0078",
+        "human_label": "unsupported_or_wrong",
+        "judge_label": "unsupported_or_wrong"
+      },
+      {
+        "aligns": false,
+        "fixture_id": "qmsum_meeting_qa_test_0094",
+        "human_label": "cannot_determine_from_available_context",
+        "judge_label": "unsupported_or_wrong"
+      },
+      {
+        "aligns": false,
+        "fixture_id": "qmsum_meeting_qa_test_0001",
+        "human_label": "partially_correct_or_incomplete",
+        "judge_label": "unsupported_or_wrong"
+      }
+    ],
+    "disagreement_count": 5,
+    "total_compared": 6
+  },
+  "json_parse_audit": {
+    "invalid_json_count": 0,
+    "json_repair_used_count": 0,
+    "total_judged": 12,
+    "valid_json_count": 12
+  },
+  "judge_label_counts": {
+    "t105b": {
+      "unsupported_or_wrong": 6
+    },
+    "t108b": {
+      "correct_supported": 2,
+      "unsupported_or_wrong": 4
+    }
+  },
+  "model_load_audit": {
+    "error": null,
+    "load_time_s": 1.429,
+    "n_ctx_used": 8192,
+    "n_gpu_layers_used": -1,
+    "status": "loaded"
+  },
+  "next_task_decision": {
+    "next_task": "T110D \u2014 QMSum Judge Result Interpretation",
+    "reason": "Validation status: TARGETED_JUDGE_LABELS_READY"
+  },
+  "runtime_s": 57.628,
+  "t105b_vs_t108b_judge_delta": {
+    "details": [
+      {
+        "delta": "unchanged",
+        "fixture_id": "qmsum_meeting_qa_test_0036",
+        "t105b_label": "unsupported_or_wrong",
+        "t108b_label": "unsupported_or_wrong"
+      },
+      {
+        "delta": "unchanged",
+        "fixture_id": "qmsum_meeting_qa_test_0070",
+        "t105b_label": "unsupported_or_wrong",
+        "t108b_label": "unsupported_or_wrong"
+      },
+      {
+        "delta": "improved",
+        "fixture_id": "qmsum_meeting_qa_test_0055",
+        "t105b_label": "unsupported_or_wrong",
+        "t108b_label": "correct_supported"
+      },
+      {
+        "delta": "improved",
+        "fixture_id": "qmsum_meeting_qa_test_0078",
+        "t105b_label": "unsupported_or_wrong",
+        "t108b_label": "correct_supported"
+      },
+      {
+        "delta": "unchanged",
+        "fixture_id": "qmsum_meeting_qa_test_0094",
+        "t105b_label": "unsupported_or_wrong",
+        "t108b_label": "unsupported_or_wrong"
+      },
+      {
+        "delta": "unchanged",
+        "fixture_id": "qmsum_meeting_qa_test_0001",
+        "t105b_label": "unsupported_or_wrong",
+        "t108b_label": "unsupported_or_wrong"
+      }
+    ],
+    "improved": 2,
+    "regressed": 0,
+    "unchanged": 4
+  },
+  "task": "T110C",
+  "title": "QMSum Judge Calibration / Targeted Label Run",
+  "validation_status": "TARGETED_JUDGE_LABELS_READY"
+}

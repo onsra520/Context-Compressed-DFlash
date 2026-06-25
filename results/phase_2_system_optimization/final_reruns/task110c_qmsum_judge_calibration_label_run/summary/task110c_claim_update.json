@@ -1,0 +1,15 @@
+{
+  "allowed_claims": [
+    "T110C ran a targeted local LLM judge on the six QMSum target rows.",
+    "Judge labels are calibration evidence, not ground truth.",
+    "QMSum semantic correctness remains unclaimed until interpretation/calibration is completed."
+  ],
+  "blocked_claims": [
+    "QMSum semantic correctness is proven.",
+    "QMSum residual risk is eliminated.",
+    "T108B repaired QMSum.",
+    "Judge labels are final ground truth.",
+    "Full QMSum judging was completed.",
+    "Default switch is authorized."
+  ]
+}
