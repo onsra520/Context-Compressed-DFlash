@@ -1,0 +1,32 @@
+{
+  "interpretation": "stable_repeated_cc_dflash_r2_light_gpu_pattern",
+  "note": "This checks whether the optimized GSM8K cap-limited pattern predates the T102/T103 QMSum branch.",
+  "shared_cap_limited_ids": [
+    "gsm8k_short_test_0008",
+    "gsm8k_short_test_0028",
+    "gsm8k_short_test_0031",
+    "gsm8k_short_test_0035",
+    "gsm8k_short_test_0045",
+    "gsm8k_short_test_0048",
+    "gsm8k_short_test_0056",
+    "gsm8k_short_test_0066",
+    "gsm8k_short_test_0078",
+    "gsm8k_short_test_0082",
+    "gsm8k_short_test_0089",
+    "gsm8k_short_test_0092",
+    "gsm8k_short_test_0093",
+    "gsm8k_short_test_0098",
+    "gsm8k_short_test_0099"
+  ],
+  "t100b_available": true,
+  "t100b_cap_limited_count": 15,
+  "t100b_only_cap_limited_ids": [],
+  "t100b_rows": 100,
+  "t100b_strict_correct_count": 79,
+  "t100b_strict_wrong_numeric_count": 6,
+  "t105a_cc_cap_limited_count": 15,
+  "t105a_cc_rows": 100,
+  "t105a_cc_strict_correct_count": 79,
+  "t105a_cc_strict_wrong_numeric_count": 6,
+  "t105a_only_cap_limited_ids": []
+}

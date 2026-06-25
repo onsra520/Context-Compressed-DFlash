@@ -1,0 +1,20 @@
+{
+  "overlap_class_counts": {
+    "cc_only": 9,
+    "shared_with_references": 6
+  },
+  "primary_attribution_counts": {
+    "shared_target_or_prompt_cap_behavior": 6,
+    "truncated_before_final_answer": 9
+  },
+  "row_count": 15,
+  "tag_counts": {
+    "cc_output_longer_than_references": 8,
+    "expected_numeric_present_without_marker": 3,
+    "final_answer_marker_missing": 15,
+    "shared_target_or_prompt_cap_behavior": 6,
+    "strict_wrong_numeric_also_detected": 15,
+    "truncated_before_final_answer": 15,
+    "verbose_or_long_reasoning_near_cap": 15
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "allowed_claims": [
+    "Task105A supports a bounded GSM8K speed advantage over Baseline-AR for optimized CC-DFlash-R2 Light GPU.",
+    "Task105A does not show optimized CC-DFlash-R2 Light GPU preserving the strict GSM8K proxy versus references.",
+    "T106A attributes the strict proxy gap primarily as a cap-limited/final-answer-marker audit target when supported by row evidence."
+  ],
+  "blocked_claims": [
+    "Optimized CC-DFlash-R2 Light GPU is the overall default winner.",
+    "GSM8K quality is preserved versus Baseline-AR or DFlash-R1.",
+    "The strict drop was caused by QMSum remediation or T103 changes.",
+    "Cap-limited rows should be counted as correct without a policy change.",
+    "A fix is validated by this static audit."
+  ],
+  "claim_status": "SCOPED_WITH_GSM8K_CAP_LIMITED_CAVEAT",
+  "required_language": "GSM8K optimized CC-DFlash-R2 Light GPU remains fast but carries a cap-limited strict-proxy caveat; T106A is attribution only, not a remediation."
+}
