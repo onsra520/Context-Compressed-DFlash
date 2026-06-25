@@ -1,0 +1,95 @@
+{
+  "analysis_only": true,
+  "attribution_tag_counts": {
+    "answer_changed_after_cap_fix": 3,
+    "arithmetic_error_in_reasoning": 9,
+    "compressed_context_missing_needed_detail": 10,
+    "compression_path_specific_wrong_numeric": 4,
+    "expected_answer_appears_but_final_wrong": 1,
+    "persistent_wrong_numeric": 2,
+    "policy_overcompressed_reasoning": 5,
+    "reference_also_wrong": 5,
+    "resolved_cap_but_wrong_number": 3,
+    "wrong_final_despite_correct_intermediate": 1
+  },
+  "decision": "PASS_WITH_CAVEAT",
+  "next_task": "T107B \u2014 Optional GSM8K Policy Refinement Fix",
+  "no_benchmark_run": true,
+  "no_model_inference": true,
+  "primary_attribution_counts": {
+    "compressed_context_missing_needed_detail": 2,
+    "expected_answer_appears_but_final_wrong": 1,
+    "policy_overcompressed_reasoning": 1,
+    "reference_also_wrong": 3,
+    "resolved_cap_but_wrong_number": 3
+  },
+  "t107b_recommended": true,
+  "task": "T107A",
+  "title": "GSM8K Wrong-Numeric Regression Audit",
+  "wrong_numeric_delta": 4,
+  "wrong_numeric_fixture_overlap": {
+    "before_wrong_numeric_count": 6,
+    "cc_only_wrong_after_t106b_count": 5,
+    "cc_only_wrong_after_t106b_ids": [
+      "gsm8k_short_test_0004",
+      "gsm8k_short_test_0020",
+      "gsm8k_short_test_0034",
+      "gsm8k_short_test_0068",
+      "gsm8k_short_test_0098"
+    ],
+    "fixed_wrong_from_t105a_count": 4,
+    "fixed_wrong_from_t105a_ids": [
+      "gsm8k_short_test_0011",
+      "gsm8k_short_test_0057",
+      "gsm8k_short_test_0070",
+      "gsm8k_short_test_0087"
+    ],
+    "fixed_wrong_numeric_count": 10,
+    "new_wrong_from_previously_cap_limited_count": 3,
+    "new_wrong_from_previously_cap_limited_ids": [
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0089",
+      "gsm8k_short_test_0098"
+    ],
+    "newly_wrong_after_t106b_count": 8,
+    "newly_wrong_after_t106b_ids": [
+      "gsm8k_short_test_0004",
+      "gsm8k_short_test_0020",
+      "gsm8k_short_test_0034",
+      "gsm8k_short_test_0043",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0068",
+      "gsm8k_short_test_0089",
+      "gsm8k_short_test_0098"
+    ],
+    "wrong_in_both_count": 2,
+    "wrong_in_both_ids": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0061"
+    ],
+    "wrong_shared_with_any_reference_count": 5,
+    "wrong_shared_with_any_reference_ids": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0043",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0061",
+      "gsm8k_short_test_0089"
+    ],
+    "wrong_shared_with_baseline_count": 5,
+    "wrong_shared_with_baseline_ids": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0043",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0061",
+      "gsm8k_short_test_0089"
+    ],
+    "wrong_shared_with_dflash_count": 5,
+    "wrong_shared_with_dflash_ids": [
+      "gsm8k_short_test_0001",
+      "gsm8k_short_test_0043",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0061",
+      "gsm8k_short_test_0089"
+    ]
+  }
+}

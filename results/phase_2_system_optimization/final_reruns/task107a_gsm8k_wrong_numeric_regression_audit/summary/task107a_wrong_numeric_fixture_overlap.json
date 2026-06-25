@@ -1,0 +1,65 @@
+{
+  "before_wrong_numeric_count": 6,
+  "cc_only_wrong_after_t106b_count": 5,
+  "cc_only_wrong_after_t106b_ids": [
+    "gsm8k_short_test_0004",
+    "gsm8k_short_test_0020",
+    "gsm8k_short_test_0034",
+    "gsm8k_short_test_0068",
+    "gsm8k_short_test_0098"
+  ],
+  "fixed_wrong_from_t105a_count": 4,
+  "fixed_wrong_from_t105a_ids": [
+    "gsm8k_short_test_0011",
+    "gsm8k_short_test_0057",
+    "gsm8k_short_test_0070",
+    "gsm8k_short_test_0087"
+  ],
+  "fixed_wrong_numeric_count": 10,
+  "new_wrong_from_previously_cap_limited_count": 3,
+  "new_wrong_from_previously_cap_limited_ids": [
+    "gsm8k_short_test_0045",
+    "gsm8k_short_test_0089",
+    "gsm8k_short_test_0098"
+  ],
+  "newly_wrong_after_t106b_count": 8,
+  "newly_wrong_after_t106b_ids": [
+    "gsm8k_short_test_0004",
+    "gsm8k_short_test_0020",
+    "gsm8k_short_test_0034",
+    "gsm8k_short_test_0043",
+    "gsm8k_short_test_0045",
+    "gsm8k_short_test_0068",
+    "gsm8k_short_test_0089",
+    "gsm8k_short_test_0098"
+  ],
+  "wrong_in_both_count": 2,
+  "wrong_in_both_ids": [
+    "gsm8k_short_test_0001",
+    "gsm8k_short_test_0061"
+  ],
+  "wrong_shared_with_any_reference_count": 5,
+  "wrong_shared_with_any_reference_ids": [
+    "gsm8k_short_test_0001",
+    "gsm8k_short_test_0043",
+    "gsm8k_short_test_0045",
+    "gsm8k_short_test_0061",
+    "gsm8k_short_test_0089"
+  ],
+  "wrong_shared_with_baseline_count": 5,
+  "wrong_shared_with_baseline_ids": [
+    "gsm8k_short_test_0001",
+    "gsm8k_short_test_0043",
+    "gsm8k_short_test_0045",
+    "gsm8k_short_test_0061",
+    "gsm8k_short_test_0089"
+  ],
+  "wrong_shared_with_dflash_count": 5,
+  "wrong_shared_with_dflash_ids": [
+    "gsm8k_short_test_0001",
+    "gsm8k_short_test_0043",
+    "gsm8k_short_test_0045",
+    "gsm8k_short_test_0061",
+    "gsm8k_short_test_0089"
+  ]
+}

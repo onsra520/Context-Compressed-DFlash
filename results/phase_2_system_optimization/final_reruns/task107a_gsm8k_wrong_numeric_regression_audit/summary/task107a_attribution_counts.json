@@ -1,0 +1,22 @@
+{
+  "attribution_tag_counts": {
+    "answer_changed_after_cap_fix": 3,
+    "arithmetic_error_in_reasoning": 9,
+    "compressed_context_missing_needed_detail": 10,
+    "compression_path_specific_wrong_numeric": 4,
+    "expected_answer_appears_but_final_wrong": 1,
+    "persistent_wrong_numeric": 2,
+    "policy_overcompressed_reasoning": 5,
+    "reference_also_wrong": 5,
+    "resolved_cap_but_wrong_number": 3,
+    "wrong_final_despite_correct_intermediate": 1
+  },
+  "primary_attribution_counts": {
+    "compressed_context_missing_needed_detail": 2,
+    "expected_answer_appears_but_final_wrong": 1,
+    "policy_overcompressed_reasoning": 1,
+    "reference_also_wrong": 3,
+    "resolved_cap_but_wrong_number": 3
+  },
+  "row_count": 10
+}

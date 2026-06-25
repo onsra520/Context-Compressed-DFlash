@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv warn">Latest Updated: Task106C — optimized default candidate decision</span>
+                <span class="sv warn">Latest Updated: Task107A — GSM8K wrong-numeric regression audit</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv warn">Current Next: T107 Phase 2 optimization closure pack</span>
+                <span class="sv warn">Current Next: T107B optional GSM8K policy refinement fix</span>
                 <span class="sv stop">Bounded GSM8K Light GPU speed evidence only</span>
                 <span class="sv stop">Deterministic GSM8K numeric proxy only</span>
                 <span class="sv stop">No Phase 2 Light GPU QMSum semantic claim</span>
@@ -463,9 +463,10 @@
                 <span class="sv stop">T106A: cap-limited attribution only, not a fix</span>
                 <span class="sv go">T106B: cap-limited 15/100 → 2/100, strict 79/100 → 88/100</span>
                 <span class="sv warn">T106C: scoped GSM8K candidate, default switch NO</span>
+                <span class="sv warn">T107A: wrong numeric mixed; T107B conditional</span>
             </div>
             <div class="update-bar">
-                Task106C decides that optimized <code>CC-DFlash-R2</code> Light GPU plus the T106B GSM8K concise final-answer policy is a scoped GSM8K candidate, not a global/default winner. T106B improved cap-limited behavior from <code>15/100</code> to <code>2/100</code> and strict proxy from <code>79/100</code> to <code>88/100</code>, but strict wrong numeric increased from <code>6/100</code> to <code>10/100</code>, Baseline-AR and DFlash-R1 were not rerun with the same concise policy, and QMSum semantic risk remains caveated. Current next is T107 Phase 2 optimization closure pack.
+                Task107A audits the wrong-numeric regression after the T106B GSM8K concise final-answer policy. Wrong numeric moved from <code>6/100</code> to <code>10/100</code>, with <code>8</code> newly wrong rows, <code>4</code> formerly wrong rows fixed, <code>3</code> new wrong rows coming from previously cap-limited rows, and <code>5/10</code> T106B wrong rows shared with at least one reference. The attribution is mixed, so T107B is recommended only as a small optional GSM8K policy refinement, not a default switch. Current next is T107B; QMSum targeted recheck/fix feasibility moves to T108A and Phase 2 closure pack moves to T109.
             </div>
         </header>
 
@@ -520,7 +521,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">ACTIVE / SKELETON_READY</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the controlled GSM8K speed matrix, Task105B completed the controlled QMSum runtime matrix, Task105C closed benchmark-scope claim wording, Task106A audited GSM8K cap-limited attribution, Task106B tested the optional GSM8K cap-limited fix, and Task106C decided the optimized path is a scoped GSM8K candidate rather than a default winner. Current next is T107 Phase 2 optimization closure pack; final report integration is deferred outside active Phase 2.</td>
+                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the controlled GSM8K speed matrix, Task105B completed the controlled QMSum runtime matrix, Task105C closed benchmark-scope claim wording, Task106A audited GSM8K cap-limited attribution, Task106B tested the optional GSM8K cap-limited fix, Task106C decided the optimized path is a scoped GSM8K candidate rather than a default winner, and Task107A audited the wrong-numeric regression. Current next is T107B optional GSM8K policy refinement fix; QMSum targeted recheck/fix feasibility moves to T108A and final Phase 2 closure pack moves to T109.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -551,11 +552,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T107 — Phase 2 Optimization Closure Pack</td>
+                            <td>T107B — Optional GSM8K Policy Refinement Fix</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task106C — Optimized Default Candidate Decision</td>
+                            <td>Task107A — GSM8K Wrong-Numeric Regression Audit</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -579,7 +580,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task106C completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the GSM8K controlled speed matrix, Task105B completed the QMSum controlled runtime matrix, Task105C closed benchmark-scope claim wording, Task106A audited GSM8K cap-limited rows, Task106B tested the optional final-answer/cap-limited fix, and Task106C decided the optimized path is a scoped GSM8K candidate with <code>default_switch=NO</code>. Current active Phase 2 focus is T107 closure packaging with the QMSum caveat and T105C/T106B/T106C claim boundaries preserved.</td>
+                            <td>Task91 through Task107A completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the GSM8K controlled speed matrix, Task105B completed the QMSum controlled runtime matrix, Task105C closed benchmark-scope claim wording, Task106A audited GSM8K cap-limited rows, Task106B tested the optional final-answer/cap-limited fix, Task106C decided the optimized path is a scoped GSM8K candidate with <code>default_switch=NO</code>, and Task107A audited the wrong-numeric regression. Current active Phase 2 focus is T107B optional GSM8K policy refinement, followed by T108A QMSum targeted recheck/fix feasibility and T109 closure packaging.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1578,10 +1579,28 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T107</span></td>
-                            <td>Phase 2 Optimization Closure Pack</td>
-                            <td>Package Phase 2 optimization and claim-closure evidence after T103 through T106. Must preserve the T106C decision that optimized <code>CC-DFlash-R2</code> Light GPU plus the GSM8K concise policy is a scoped GSM8K candidate, not a default/global winner. Final report integration remains deferred outside active Phase 2 until explicitly requested.</td>
+                            <td><span class="tnum done">T107A</span></td>
+                            <td>GSM8K Wrong-Numeric Regression Audit</td>
+                            <td>Audited the strict wrong-numeric increase after the T106B concise final-answer policy using existing T105A/T106B artifacts only. Wrong numeric changed from <code>6/100</code> to <code>10/100</code>; overlap showed <code>2</code> persistent wrong rows, <code>8</code> newly wrong rows, <code>4</code> formerly wrong rows fixed, <code>5/10</code> T106B wrong rows shared with at least one reference, <code>5/10</code> CC-only wrong rows, and <code>3</code> new wrong rows from previously cap-limited rows. Attribution is mixed: reference-shared arithmetic, resolved-cap-but-wrong-number, compressed-context/detail, expected-answer-present-but-final-wrong, and policy-overcompressed reasoning. <br><code>docs/reports/phase_2_system_optimization/107a-gsm8k-wrong-numeric-regression-audit-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task107a_gsm8k_wrong_numeric_regression_audit/</code></td>
+                            <td class="warn">PASS_WITH_CAVEAT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T107B</span></td>
+                            <td>Optional GSM8K Policy Refinement Fix</td>
+                            <td>Conditional small GSM8K-only policy refinement to test whether a softer concise policy with one arithmetic verification step can reduce wrong numeric without reintroducing cap/final-marker failures. Candidate policy: show only necessary arithmetic, verify once, and end with exactly one <code>Final answer: &lt;number&gt;</code> line. No default switch, QMSum rerun, full matrix, n1000/full dataset, LLM judge, or human scoring is authorized by T107A.</td>
                             <td class="info">PLANNED / NEXT</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T108A</span></td>
+                            <td>QMSum Targeted Recheck / Fix Feasibility</td>
+                            <td>After the GSM8K wrong-numeric branch, decide whether any QMSum targeted recheck or fix feasibility is needed while preserving the existing QMSum semantic-risk caveat.</td>
+                            <td class="info">PLANNED</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T109</span></td>
+                            <td>Phase 2 Optimization Closure Pack</td>
+                            <td>Package Phase 2 optimization and claim-closure evidence after the T107/T108 branches. Must preserve the T106C decision that optimized <code>CC-DFlash-R2</code> Light GPU plus the GSM8K concise policy is a scoped GSM8K candidate, not a default/global winner. Final report integration remains deferred outside active Phase 2 until explicitly requested.</td>
+                            <td class="info">PLANNED</td>
                         </tr>
 </tbody>
                 </table>
