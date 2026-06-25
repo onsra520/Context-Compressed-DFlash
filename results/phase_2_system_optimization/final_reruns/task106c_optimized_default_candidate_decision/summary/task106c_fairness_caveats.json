@@ -1,0 +1,9 @@
+{
+  "caveats": [
+    "T106B optimized rerun used a new policy not applied to Baseline-AR or DFlash-R1.",
+    "T106B is excellent candidate evidence, but not a complete reference-rerun matrix.",
+    "Wrong numeric increased from 6/100 to 10/100, so quality interpretation remains caveated.",
+    "QMSum was not rerun and remains caveated."
+  ],
+  "reference_policy_fairness_rerun_required": true
+}

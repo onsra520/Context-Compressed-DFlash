@@ -1,0 +1,7 @@
+claim_area,status,decision,rationale,required_caveat
+GSM8K optimized path,SCOPED_CANDIDATE,candidate_only,T106B reduced cap-limited rows from 15/100 to 2/100 and improved strict 79/100 to 88/100.,GSM8K-only optimized-condition evidence; no global/default switch.
+Global default switch,BLOCKED,default_switch_no,T105C explicitly blocks automatic default switching and T106B reran only the optimized condition.,No default switch is authorized.
+QMSum semantics,BLOCKED,qmsum_default_support_no,T105C preserves the mandatory QMSum semantic caveat; T106B did not rerun QMSum.,QMSum semantic correctness remains not claimed.
+Reference fairness,INCOMPLETE,reference_policy_fairness_needed_for_final_all_reference_win,Baseline-AR and DFlash-R1 were not rerun with the T106B concise final-answer policy.,T106B cannot prove a final all-reference speed/quality win.
+Wrong numeric regression,CAVEATED,quality_interpretation_caveated,Strict wrong numeric increased from 6/100 to 10/100.,Improved finalization does not prove quality is solved.
+T107 closure,UNBLOCKED_WITH_CAVEATS,proceed_to_phase2_closure_pack,The candidate/default boundary is explicit and can be packaged in T107.,"T107 should close as scoped candidate/experimental path, not default winner."

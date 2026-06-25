@@ -1,0 +1,20 @@
+{
+  "must_include": [
+    "optimized_path_status=SCOPED_GSM8K_CANDIDATE",
+    "default_switch=NO",
+    "qmsum_default_support=NO",
+    "needs_reference_policy_fairness_rerun_for_final_all_reference_win=YES",
+    "wrong_numeric_regression caveat"
+  ],
+  "must_not_claim": [
+    "Optimized CC-DFlash is the default winner.",
+    "Optimized CC-DFlash wins all references.",
+    "T106B proves final all-reference speed/quality win.",
+    "QMSum semantic correctness is proven.",
+    "QMSum residual risk is eliminated.",
+    "Universal 8GB deployment readiness is proven.",
+    "The concise GSM8K policy should be applied globally."
+  ],
+  "recommended_t107_posture": "close_phase2_as_scoped_candidate_not_default_winner",
+  "t107_unblocked": true
+}

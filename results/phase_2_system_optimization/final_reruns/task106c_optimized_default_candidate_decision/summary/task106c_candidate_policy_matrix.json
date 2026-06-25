@@ -1,0 +1,44 @@
+[
+  {
+    "claim_area": "GSM8K optimized path",
+    "decision": "candidate_only",
+    "rationale": "T106B reduced cap-limited rows from 15/100 to 2/100 and improved strict 79/100 to 88/100.",
+    "required_caveat": "GSM8K-only optimized-condition evidence; no global/default switch.",
+    "status": "SCOPED_CANDIDATE"
+  },
+  {
+    "claim_area": "Global default switch",
+    "decision": "default_switch_no",
+    "rationale": "T105C explicitly blocks automatic default switching and T106B reran only the optimized condition.",
+    "required_caveat": "No default switch is authorized.",
+    "status": "BLOCKED"
+  },
+  {
+    "claim_area": "QMSum semantics",
+    "decision": "qmsum_default_support_no",
+    "rationale": "T105C preserves the mandatory QMSum semantic caveat; T106B did not rerun QMSum.",
+    "required_caveat": "QMSum semantic correctness remains not claimed.",
+    "status": "BLOCKED"
+  },
+  {
+    "claim_area": "Reference fairness",
+    "decision": "reference_policy_fairness_needed_for_final_all_reference_win",
+    "rationale": "Baseline-AR and DFlash-R1 were not rerun with the T106B concise final-answer policy.",
+    "required_caveat": "T106B cannot prove a final all-reference speed/quality win.",
+    "status": "INCOMPLETE"
+  },
+  {
+    "claim_area": "Wrong numeric regression",
+    "decision": "quality_interpretation_caveated",
+    "rationale": "Strict wrong numeric increased from 6/100 to 10/100.",
+    "required_caveat": "Improved finalization does not prove quality is solved.",
+    "status": "CAVEATED"
+  },
+  {
+    "claim_area": "T107 closure",
+    "decision": "proceed_to_phase2_closure_pack",
+    "rationale": "The candidate/default boundary is explicit and can be packaged in T107.",
+    "required_caveat": "T107 should close as scoped candidate/experimental path, not default winner.",
+    "status": "UNBLOCKED_WITH_CAVEATS"
+  }
+]
