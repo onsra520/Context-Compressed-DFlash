@@ -1,0 +1,13 @@
+{
+  "errors": [],
+  "expected_row_count": 100,
+  "failure_flags": {
+    "messages": [],
+    "oom_or_cuda_failure": false
+  },
+  "policy_name": "gsm8k_concise_final_answer_v1",
+  "policy_override_rows": 100,
+  "policy_preserved_rows": 100,
+  "row_count": 100,
+  "valid": true
+}

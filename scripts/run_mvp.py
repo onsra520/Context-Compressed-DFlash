@@ -97,6 +97,8 @@ class PromptItem:
     protected_suffix: str | None = None
     qmsum_policy_suffix_override: bool = False
     qmsum_policy_name: str | None = None
+    gsm8k_policy_suffix_override: bool = False
+    gsm8k_policy_name: str | None = None
     metadata: dict = field(default_factory=dict)
 
 
@@ -196,6 +198,8 @@ def _prepare_cc_prompt(
     requested_keep_rate: float | None = None,
     qmsum_policy_suffix_override: bool = False,
     qmsum_policy_name: str | None = None,
+    gsm8k_policy_suffix_override: bool = False,
+    gsm8k_policy_name: str | None = None,
 ) -> tuple[str, dict]:
     merged_prompt, info = compressor.compress(context=context, question=question, keep_rate=keep_rate)
     original_prompt = _append_protected_suffix(
@@ -269,6 +273,16 @@ def _prepare_cc_prompt(
                 "qmsum_answer_policy_preserved": suffix_text in final_prompt,
                 "qmsum_output_policy_preview": _preview_text(suffix_text, limit=640),
                 "qmsum_policy_suffix_override": True,
+            }
+        )
+    if gsm8k_policy_suffix_override:
+        compression_info.update(
+            {
+                "gsm8k_answer_policy_enabled": True,
+                "gsm8k_answer_policy_type": gsm8k_policy_name or "custom_runtime_override",
+                "gsm8k_answer_policy_preserved": suffix_text in final_prompt,
+                "gsm8k_output_policy_preview": _preview_text(suffix_text, limit=640),
+                "gsm8k_policy_suffix_override": True,
             }
         )
     for field_name in (
@@ -368,6 +382,11 @@ def _metadata_from_dataset_row(row) -> dict:
 
 
 def _dataset_prompt_text(row, dataset_name: str, protected_suffix: str | None) -> str:
+    if dataset_name == "gsm8k_short" and protected_suffix:
+        return _append_protected_suffix(
+            f"{str(row.context or '').strip()}\n\nQuestion: {str(row.question or '').strip()}",
+            protected_suffix,
+        )
     if dataset_name == "qmsum_meeting_qa_long" and protected_suffix:
         return _append_protected_suffix(
             f"Meeting transcript:\n{str(row.context or '').strip()}\n\nQuestion: {str(row.question or '').strip()}",
@@ -386,6 +405,8 @@ def _select_prompt_items(
     seed: int = 42,
     qmsum_policy_suffix: str | None = None,
     qmsum_policy_name: str | None = None,
+    gsm8k_policy_suffix: str | None = None,
+    gsm8k_policy_name: str | None = None,
 ) -> list[PromptItem]:
     if prompt_source == "smoke":
         return [
@@ -405,7 +426,22 @@ def _select_prompt_items(
             )
             policy_suffix_override = False
             policy_name = None
+            gsm8k_policy_suffix_override = False
+            resolved_gsm8k_policy_name = None
             metadata = _metadata_from_dataset_row(row)
+            if dataset_name == "gsm8k_short" and gsm8k_policy_suffix is not None:
+                protected_suffix = gsm8k_policy_suffix
+                gsm8k_policy_suffix_override = True
+                resolved_gsm8k_policy_name = gsm8k_policy_name or "custom_runtime_override"
+                metadata.update(
+                    {
+                        "gsm8k_policy_suffix_override": True,
+                        "gsm8k_answer_policy_enabled": True,
+                        "gsm8k_answer_policy_type": resolved_gsm8k_policy_name,
+                        "gsm8k_answer_policy_preserved": True,
+                        "gsm8k_output_policy_preview": _preview_text(protected_suffix, limit=640),
+                    }
+                )
             if dataset_name == "qmsum_meeting_qa_long" and qmsum_policy_suffix is not None:
                 protected_suffix = qmsum_policy_suffix
                 policy_suffix_override = True
@@ -429,6 +465,8 @@ def _select_prompt_items(
                     protected_suffix=protected_suffix,
                     qmsum_policy_suffix_override=policy_suffix_override,
                     qmsum_policy_name=policy_name,
+                    gsm8k_policy_suffix_override=gsm8k_policy_suffix_override,
+                    gsm8k_policy_name=resolved_gsm8k_policy_name,
                     metadata=metadata,
                 )
             )
@@ -965,6 +1003,8 @@ def _run_benchmark_item(
             requested_keep_rate=requested_keep_rate,
             qmsum_policy_suffix_override=item.qmsum_policy_suffix_override,
             qmsum_policy_name=item.qmsum_policy_name,
+            gsm8k_policy_suffix_override=item.gsm8k_policy_suffix_override,
+            gsm8k_policy_name=item.gsm8k_policy_name,
         )
         if not compression_info["question_preserved"]:
             raise RuntimeError(f"protected question was not preserved for prompt {item.prompt_id}")
@@ -1004,7 +1044,7 @@ def _run_benchmark_item(
     return metric
 
 
-def main() -> None:
+def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Run DFlash/CC-LLM/Baseline-AR smoke benchmark")
     parser.add_argument("--config", default="config.yml")
     parser.add_argument("--condition", default="DFlash-R1")
@@ -1057,12 +1097,36 @@ def main() -> None:
         default=None,
         help="Metadata label for --qmsum-policy-suffix, e.g. qmsum_targeted_evidence_repair_v1.",
     )
-    args = parser.parse_args()
+    parser.add_argument(
+        "--gsm8k-policy-suffix",
+        default=None,
+        help="Runtime-only GSM8K answer-policy suffix override. Only applies with --dataset gsm8k_short and --condition CC-DFlash-R2.",
+    )
+    parser.add_argument(
+        "--gsm8k-policy-name",
+        default=None,
+        help="Metadata label for --gsm8k-policy-suffix, e.g. gsm8k_concise_final_answer_v1.",
+    )
+    return parser
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = _build_parser()
+    args = parser.parse_args(argv)
     if args.resume and args.overwrite:
         parser.error("--resume and --overwrite cannot be used together")
     if args.qmsum_policy_suffix is not None and args.dataset != "qmsum_meeting_qa_long":
         parser.error("--qmsum-policy-suffix is only valid with --dataset qmsum_meeting_qa_long")
+    if args.gsm8k_policy_suffix is not None:
+        if args.dataset != "gsm8k_short":
+            parser.error("--gsm8k-policy-suffix is only valid with --dataset gsm8k_short")
+        if args.condition != "CC-DFlash-R2":
+            parser.error("--gsm8k-policy-suffix is only valid with --condition CC-DFlash-R2")
+    return args
 
+
+def main() -> None:
+    args = parse_args()
     config = _read_config(args.config, max_new_tokens_override=args.max_new_tokens)
     from ccdf.config.loader import resolve_llmlingua_config
 
@@ -1093,6 +1157,8 @@ def main() -> None:
         seed=args.seed,
         qmsum_policy_suffix=args.qmsum_policy_suffix,
         qmsum_policy_name=args.qmsum_policy_name,
+        gsm8k_policy_suffix=args.gsm8k_policy_suffix,
+        gsm8k_policy_name=args.gsm8k_policy_name,
     )
     warmup_items = _select_prompt_items(
         prompt_source=args.prompt_source,
@@ -1103,6 +1169,8 @@ def main() -> None:
         seed=args.seed,
         qmsum_policy_suffix=args.qmsum_policy_suffix,
         qmsum_policy_name=args.qmsum_policy_name,
+        gsm8k_policy_suffix=args.gsm8k_policy_suffix,
+        gsm8k_policy_name=args.gsm8k_policy_name,
     ) if warmup_count else []
 
     if args.dry_run_prompts:
