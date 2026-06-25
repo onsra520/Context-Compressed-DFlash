@@ -1,0 +1,26 @@
+{
+  "new_ids": [
+    "gsm8k_short_test_0011",
+    "gsm8k_short_test_0029",
+    "gsm8k_short_test_0053",
+    "gsm8k_short_test_0057",
+    "gsm8k_short_test_0094"
+  ],
+  "persistent_ids": [
+    "gsm8k_short_test_0001",
+    "gsm8k_short_test_0034",
+    "gsm8k_short_test_0043",
+    "gsm8k_short_test_0045",
+    "gsm8k_short_test_0061",
+    "gsm8k_short_test_0068",
+    "gsm8k_short_test_0089",
+    "gsm8k_short_test_0098"
+  ],
+  "resolved_ids": [
+    "gsm8k_short_test_0004",
+    "gsm8k_short_test_0020"
+  ],
+  "t106b_wrong_numeric_count": 10,
+  "t107b_wrong_numeric_count": 13,
+  "wrong_numeric_delta_vs_t106b": 3
+}

@@ -1,0 +1,37 @@
+{
+  "baseline_ar_context_artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/baseline_ar_gsm8k_short_seed42_n100_mnt256.jsonl",
+  "best_gsm8k_candidate": {
+    "candidate": "T106B CC-DFlash-R2 Light GPU concise final-answer policy",
+    "candidate_policy_name": "gsm8k_concise_final_answer_v1",
+    "cap_limited_incomplete_count": 2,
+    "default_switch_authorized": false,
+    "strict_correct_count": 88,
+    "strict_wrong_numeric_count": 10
+  },
+  "cap_limited_counts": {
+    "baseline_ar_context": 8,
+    "dflash_r1_context": 9,
+    "t105a_optimized": 15,
+    "t106b_concise": 2,
+    "t107b_refined": 2
+  },
+  "dflash_r1_context_artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/dflash_r1_gsm8k_short_seed42_n100_mnt256.jsonl",
+  "policy_interpretation": "t106b_remains_better_gsm8k_candidate",
+  "strict_correct_counts": {
+    "baseline_ar_context": 85,
+    "dflash_r1_context": 84,
+    "t105a_optimized": 79,
+    "t106b_concise": 88,
+    "t107b_refined": 85
+  },
+  "strict_wrong_numeric_counts": {
+    "baseline_ar_context": 7,
+    "dflash_r1_context": 7,
+    "t105a_optimized": 6,
+    "t106b_concise": 10,
+    "t107b_refined": 13
+  },
+  "t105a_optimized_artifact": "results/phase_2_system_optimization/final_reruns/task105a_gsm8k_controlled_speed_matrix/runs/cc_dflash_r2_light_gpu_gsm8k_short_seed42_n100_mnt256.jsonl",
+  "t106b_concise_artifact": "results/phase_2_system_optimization/final_reruns/task106b_gsm8k_cap_limited_fix/runs/cc_dflash_r2_light_gpu_gsm8k_seed42_n100_mnt256_concise_final_answer.jsonl",
+  "t107b_refined_artifact": "results/phase_2_system_optimization/final_reruns/task107b_gsm8k_policy_refinement_fix/runs/cc_dflash_r2_light_gpu_gsm8k_seed42_n100_mnt256_minimal_arithmetic_verify.jsonl"
+}

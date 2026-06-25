@@ -1,0 +1,19 @@
+{
+  "allowed_claims": [
+    "T107B tested a narrow GSM8K-only arithmetic-verification policy for optimized CC-DFlash-R2 Light GPU.",
+    "The result may be compared to T106B only within the matched GSM8K n100 mnt256 optimized-condition setup.",
+    "The selected GSM8K candidate may be described by measured strict, cap-limited, wrong-numeric, and runtime deltas."
+  ],
+  "best_gsm8k_candidate_policy": "gsm8k_concise_final_answer_v1",
+  "blocked_claims": [
+    "Quality is fully solved.",
+    "Optimized CC-DFlash becomes default.",
+    "QMSum semantic risk is resolved.",
+    "The policy generalizes beyond GSM8K.",
+    "Full benchmark speed or quality closure is proven.",
+    "References have been policy-fairly rerun."
+  ],
+  "default_switch_claim": "blocked",
+  "interpretation": "t106b_remains_better_gsm8k_candidate",
+  "qmsum_claim_change": "none"
+}

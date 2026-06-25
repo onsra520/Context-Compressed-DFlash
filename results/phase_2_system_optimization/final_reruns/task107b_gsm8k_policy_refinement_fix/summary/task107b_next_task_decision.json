@@ -1,0 +1,6 @@
+{
+  "automatic_default_switch": false,
+  "automatic_full_matrix": false,
+  "next_task": "T108A \u2014 QMSum Targeted Recheck / Fix Feasibility",
+  "reason": "After the GSM8K wrong-numeric branch, QMSum targeted recheck/fix feasibility is the next active Phase 2 question."
+}

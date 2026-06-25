@@ -1,0 +1,13 @@
+metric,t105a_optimized,t106b_concise_final_answer,t107b_minimal_arithmetic_verify,delta_t107b_minus_t106b,t105a_baseline_ar_context,t105a_dflash_r1_context
+strict_correct_count,79,88,85,-3,85,84
+cap_limited_incomplete_count,15,2,2,0,8,9
+strict_wrong_numeric_count,6,10,13,3,7,7
+answer_missing_count,0,0,0,0,0,0
+final_answer_marker_count,85,98,98,0,92,91
+avg_e2e_time_s,2.896622,2.145689,1.910664,-0.235025,4.641074,2.650564
+avg_generation_time_s,2.879373,2.128231,1.893568,-0.234663,4.641074,2.650564
+avg_tokens_per_second,59.089889,52.231247,53.47015,1.238903,32.103945,56.628995
+avg_t_compress_ms,17.249677,17.45762,17.095514,-0.362106,,
+avg_R_actual,2.0,2.0,2.0,0.0,,
+avg_output_tokens,168.01,110.5,102.61,-7.89,149.28,148.64
+max_vram_reserved_gib,4.431641,4.439453,4.431641,-0.007812,2.894531,3.814453

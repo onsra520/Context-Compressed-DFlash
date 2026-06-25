@@ -1,0 +1,11 @@
+{
+  "cap_limited_delta_vs_t106b": 0,
+  "new_ids": [],
+  "persistent_ids": [
+    "gsm8k_short_test_0028",
+    "gsm8k_short_test_0078"
+  ],
+  "resolved_ids": [],
+  "t106b_cap_limited_count": 2,
+  "t107b_cap_limited_count": 2
+}
