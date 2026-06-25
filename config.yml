@@ -21,7 +21,7 @@ compression:
     light_llmlingua:
         model_name: microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
         compressor_path: models/llmlingua-2-bert-base-multilingual-cased-meetingbank
-        device_map: cpu
+        device_map: cuda
         local_files_only: true
         use_llmlingua2: true
         default_keep_rate: 0.5
@@ -34,3 +34,57 @@ benchmark:
     evaluation_datasets:
         gsm8k_short: data/eval/gsm8k_100.jsonl
         qmsum_meeting_qa_long: data/eval/qmsum_meeting_qa_100.jsonl
+
+validation_model:
+  enabled: false
+  purpose: qmsum_semantic_judge
+  engine: llama_cpp
+  repo_id: unsloth/Qwen3.5-9B-GGUF
+  filename: Qwen3.5-9B-UD-Q4_K_XL.gguf
+  model_path: models/validation/Qwen3.5-9B-GGUF/Qwen3.5-9B-UD-Q4_K_XL.gguf
+  quantization: UD-Q4_K_XL
+  local_files_only: true
+  runtime:
+    device: cuda:0
+    n_gpu_layers: -1
+    n_ctx: 8192
+    n_batch: 512
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 512
+    seed: 42
+  judge:
+    task: qmsum_semantic_validation
+    output_format: strict_json
+    labels:
+      - correct_supported
+      - partially_correct_or_incomplete
+      - unsupported_or_wrong
+      - cannot_determine_from_available_context
+    dimensions:
+      evidence_support:
+        - yes
+        - partial
+        - no
+        - cannot_determine
+      completeness:
+        - complete
+        - partial
+        - incomplete
+        - cannot_determine
+      reference_consistency:
+        - consistent
+        - partially_consistent
+        - inconsistent
+        - cannot_determine
+      hallucination:
+        - yes
+        - no
+        - unclear
+  calibration:
+    use_existing_human_labels: true
+    require_calibration_before_claim: true
+  safety:
+    judge_is_not_ground_truth: true
+    no_semantic_claim_without_labels: true
+    no_default_switch: true

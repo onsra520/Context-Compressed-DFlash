@@ -640,6 +640,9 @@
             <div class="note warn" style="margin-top:16px">
                 <strong>Task109 update:</strong> T109 tests a detail-preserving GSM8K policy to address remaining wrong-numeric rows. It fails to improve wrong numeric (10/100) while dropping strict correct to 82/100 and increasing cap-limited to 8/100 due to longer outputs. T106B's concise policy remains confirmed as the best scoped GSM8K candidate. Default switch remains unauthorized.
             </div>
+            <div class="note go" style="margin-top:16px">
+                <strong>Task110A update:</strong> T110A adds local GGUF validation-model support using llama_cpp and configures the optimized light compressor on CUDA. It explicitly isolates the validation judge from target/draft generation. It does not run QMSum judge labels.
+            </div>
         </section>
 
         <!-- ─────────────────────────────────────────── 1. ABSTRACT -->

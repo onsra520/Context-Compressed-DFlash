@@ -1,0 +1,10 @@
+{
+  "allowed_claims": [
+    "Local validation model infrastructure is configured using llama_cpp.",
+    "T110A setup isolates the judge model from target/draft generation."
+  ],
+  "blocked_claims": [
+    "QMSum is semantically validated.",
+    "Default switch is authorized."
+  ]
+}

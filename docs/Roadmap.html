@@ -468,9 +468,10 @@
                 <span class="sv go">T109: detail preserve tested; T106B confirmed as best GSM8K candidate</span>
                 <span class="sv warn">T108A: no default QMSum rerun; caveat kept</span>
                 <span class="sv warn">T108B: targeted QMSum repair mixed; validation needed</span>
+                <span class="sv go">T110A: validation model setup and config wiring completed</span>
             </div>
             <div class="update-bar">
-                Task109 tested the <code>gsm8k_numeric_detail_preserve_v1</code> policy on optimized <code>CC-DFlash-R2</code> Light GPU. The run completed successfully but caused strict correct to drop to <code>82/100</code> and cap-limited to increase to <code>8/100</code>, while wrong numeric remained at <code>10/100</code>. Preserving detail forced longer outputs that hit the token cap without improving numeric extraction. Decision: <code>PASS_WITH_CAVEAT</code>. T106B's concise policy remains the best scoped GSM8K candidate. Current next is T110 — QMSum Semantic Validation / Judge Protocol.
+                Task110A added local GGUF validation-model support using <code>llama_cpp</code> and configured the optimized light compressor on CUDA. It explicitly isolated the validation judge from the target/draft generation models and verified configuration constraints. It did not run QMSum judge labels. Decision: <code>PASS</code>. Current next is T110B — QMSum Judge Protocol / Smoke Validation.
             </div>
         </header>
 
@@ -556,11 +557,11 @@
                         </tr>
                         <tr>
                             <td><strong>Current Next</strong></td>
-                            <td>T110 — QMSum Semantic Validation / Judge Protocol</td>
+                            <td>T110B — QMSum Judge Protocol / Smoke Validation</td>
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task109 — GSM8K Balanced Numeric Residual Repair</td>
+                            <td>Task110A — Validation Model Setup and Config Wiring</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
@@ -1613,9 +1614,15 @@
                             <td class="warn">PASS_WITH_CAVEAT</td>
                         </tr>
                         <tr>
-                            <td><span class="tnum planned">T110</span></td>
-                            <td>QMSum Semantic Validation / Judge Protocol</td>
-                            <td>Proceeding to QMSum validation after closing the GSM8K policy branch.</td>
+                            <td><span class="tnum done">T110A</span></td>
+                            <td>Validation Model Setup and Config Wiring</td>
+                            <td>Prepared local QMSum validation-model support. Configured <code>llama_cpp</code> engine, updated <code>config.yml</code> with the validation block, wired the optimized light compressor to CUDA, and successfully downloaded the <code>Qwen3.5-9B-UD-Q4_K_XL.gguf</code> model locally. Verified that validation configuration is isolated from target/draft generation and default switch is blocked. No labels were run.<br><code>docs/reports/phase_2_system_optimization/110a-validation-model-setup-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task110a_validation_model_setup/</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum planned">T110B</span></td>
+                            <td>QMSum Judge Protocol / Smoke Validation</td>
+                            <td>Proceed to test the judge prompt and format after setup is validated.</td>
                             <td class="info">PLANNED / NEXT</td>
                         </tr>
 </tbody>
@@ -1872,6 +1879,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-06-26</div>
+                <div class="log-body">
+                    <strong>Task110A — Validation Model Setup and Config Wiring — PASS</strong><br>
+                    Added local GGUF validation-model support using <code>llama_cpp</code> and configured the optimized light compressor on CUDA. Downloaded <code>Qwen3.5-9B-UD-Q4_K_XL.gguf</code> locally and isolated the validation judge from target/draft generative models in <code>config.yml</code>. Confirmed configuration constraints and zero label execution. Current next is T110B.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-06-26</div>
                 <div class="log-body">
