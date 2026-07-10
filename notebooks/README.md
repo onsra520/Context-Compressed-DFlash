@@ -48,3 +48,7 @@ Notebook 2 defaults to `RESUME = True`, meaning it will continue from where it l
 
 ## Future Extension (T113A)
 These notebooks utilize the new canonical `DemoRunner` JSON contract (Task 112A). This identical interface will be leveraged by the future Three-Version Web Comparison UI (T113A).
+
+Run All always creates a fresh benchmark run.
+Existing result files do not skip execution.
+Notebook 03 uses the latest completed run and regenerates all charts.

@@ -3,13 +3,11 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import os
 
-def generate_charts_for_dataset(csv_path: str, dataset: str, output_dir: str):
+def generate_charts_for_dataset(csv_path: str, dataset: str):
     df = pd.read_csv(csv_path)
     if "schema_version" not in df.columns or df["schema_version"].iloc[0] != "cc_dflash_demo_v1":
         raise ValueError(f"Invalid schema version in {csv_path}")
         
-    out_dir = Path(output_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
     
     # We expect condition to be baseline_ar, dflash_r1, cc_dflash_r2
     # Ensure they are ordered correctly
@@ -37,8 +35,7 @@ def generate_charts_for_dataset(csv_path: str, dataset: str, output_dir: str):
         ax.set_ylabel(ylabel)
         ax.set_xticklabels(["Baseline-AR", "DFlash-R1", "CC-DFlash-R2"], rotation=0)
         plt.tight_layout()
-        plt.savefig(out_dir / filename)
-        plt.close()
+        yield filename, fig
         
     # Input token comparison
     if "compressed_input_tokens" in df.columns and "original_input_tokens" in df.columns:
@@ -50,8 +47,7 @@ def generate_charts_for_dataset(csv_path: str, dataset: str, output_dir: str):
         ax.set_ylabel("Tokens")
         ax.set_xticklabels(["Baseline-AR", "DFlash-R1", "CC-DFlash-R2"], rotation=0)
         plt.tight_layout()
-        plt.savefig(out_dir / "input_token_comparison.png")
-        plt.close()
+        yield "input_token_comparison.png", fig
         
     # Latency breakdown
     timing_cols = ["t_compress_ms", "t_prefill_ms", "t_generation_ms"]
@@ -64,8 +60,7 @@ def generate_charts_for_dataset(csv_path: str, dataset: str, output_dir: str):
         ax.set_ylabel("Latency (ms)")
         ax.set_xticklabels(["Baseline-AR", "DFlash-R1", "CC-DFlash-R2"], rotation=0)
         plt.tight_layout()
-        plt.savefig(out_dir / "latency_breakdown.png")
-        plt.close()
+        yield "latency_breakdown.png", fig
         
     # Dataset specific charts
     if dataset == "gsm8k":
@@ -80,8 +75,7 @@ def generate_charts_for_dataset(csv_path: str, dataset: str, output_dir: str):
             ax.set_ylabel("Accuracy (%)")
             ax.set_xticklabels(["Baseline-AR", "DFlash-R1", "CC-DFlash-R2"], rotation=0)
             plt.tight_layout()
-            plt.savefig(out_dir / "gsm8k_quality_comparison.png")
-            plt.close()
+            yield "gsm8k_quality_comparison.png", fig
             
         fig, ax = plt.subplots(figsize=(8, 5))
         invalid = df.groupby("condition")["ok"].apply(lambda x: (~x.fillna(True)).sum()).reindex(cond_order)
@@ -90,8 +84,7 @@ def generate_charts_for_dataset(csv_path: str, dataset: str, output_dir: str):
         ax.set_ylabel("Count")
         ax.set_xticklabels(["Baseline-AR", "DFlash-R1", "CC-DFlash-R2"], rotation=0)
         plt.tight_layout()
-        plt.savefig(out_dir / "gsm8k_cap_or_invalid_count.png")
-        plt.close()
+        yield "gsm8k_cap_or_invalid_count.png", fig
         
     elif dataset == "qmsum":
         if "t_e2e_ms" in df.columns:
@@ -102,8 +95,7 @@ def generate_charts_for_dataset(csv_path: str, dataset: str, output_dir: str):
             ax.set_ylabel("Total Runtime (s)")
             ax.set_xticklabels(["Baseline-AR", "DFlash-R1", "CC-DFlash-R2"], rotation=0)
             plt.tight_layout()
-            plt.savefig(out_dir / "qmsum_runtime_comparison.png")
-            plt.close()
+            yield "qmsum_runtime_comparison.png", fig
             
         if "original_input_tokens" in df.columns and "compressed_input_tokens" in df.columns:
             fig, ax = plt.subplots(figsize=(8, 5))
@@ -113,5 +105,4 @@ def generate_charts_for_dataset(csv_path: str, dataset: str, output_dir: str):
             ax.set_ylabel("Tokens Reduced")
             ax.set_xticklabels(["Baseline-AR", "DFlash-R1", "CC-DFlash-R2"], rotation=0)
             plt.tight_layout()
-            plt.savefig(out_dir / "qmsum_token_reduction.png")
-            plt.close()
+            yield "qmsum_token_reduction.png", fig

@@ -71,7 +71,7 @@ def test_notebook_generator_exists():
 def test_output_paths_resolve_to_root():
     nb2 = load_notebook(NB_DIR / "02_run_three_version_benchmark.ipynb")
     code2 = "".join([get_source(c) for c in nb2["cells"] if c["cell_type"] == "code"])
-    assert "OUTPUT_ROOT = \"results/charts/notebook_demo\"" in code2
+    assert "results/charts/notebook_demo" in code2
 
     nb3 = load_notebook(NB_DIR / "03_compare_benchmark_charts.ipynb")
     code3 = "".join([get_source(c) for c in nb3["cells"] if c["cell_type"] == "code"])
@@ -98,8 +98,9 @@ cc_dflash_demo_v1,123,dataset,gsm8k,test,1,cc_dflash_r2,CC-DFlash-R2,raw,prompt,
 """
     csv_file = tmp_path / "test.csv"
     csv_file.write_text(csv_content)
-    generate_charts_for_dataset(str(csv_file), "gsm8k", str(tmp_path))
-    assert (tmp_path / "average_e2e_latency.png").exists()
+    charts = list(generate_charts_for_dataset(str(csv_file), "gsm8k"))
+    assert len(charts) > 0
+    assert any("average_e2e_latency.png" == name for name, fig in charts)
 
 def test_qmsum_caveat():
     nb2 = load_notebook(NB_DIR / "02_run_three_version_benchmark.ipynb")
@@ -115,7 +116,20 @@ def test_no_fabricated_rows():
         # Ensure there's no hardcoded CSV data for benchmark values
         assert "cc_dflash_demo_v1,123," not in text
 
-def test_no_overwrite_by_default():
+
+
+def test_t112b_r2_requirements():
     nb2 = load_notebook(NB_DIR / "02_run_three_version_benchmark.ipynb")
-    code = "".join([get_source(c) for c in nb2["cells"] if c["cell_type"] == "code"])
-    assert "RESUME = True" in code
+    code2 = "".join([get_source(c) for c in nb2["cells"] if c["cell_type"] == "code"])
+    assert "RUN_REAL_MODELS =" not in code2
+    assert "RESUME = True" not in code2
+    assert 'strftime("%Y%m%dT%H%M%SZ")' in code2
+    assert "res.response.generated_text" in code2
+    assert "req.prompt" in code2
+    assert "out_jsonl" in code2 and "latest_run.json" in code2
+    
+    nb3 = load_notebook(NB_DIR / "03_compare_benchmark_charts.ipynb")
+    code3 = "".join([get_source(c) for c in nb3["cells"] if c["cell_type"] == "code"])
+    assert "latest_run.json" in code3
+    assert "display(figure)" in code3
+    assert "generate_charts_for_dataset" in code3
