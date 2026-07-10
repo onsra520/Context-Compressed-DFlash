@@ -840,8 +840,11 @@
             <p>
                 CC-DFlash inserts an extractive compression step before DFlash. The compressor runs on CPU
                 and produces natural-language output that shares the same vocabulary and tokenizer as the
-                Qwen3 target model. No architecture changes are made to DFlash itself.
             </p>
+
+            <div class="note info">
+                <strong>Demo Architecture:</strong> Notebooks and future UI workflows share a canonical <code>DemoRunner</code> contract that ensures identical execution semantics across Baseline, DFlash, and CC-DFlash conditions without diverging from the benchmark paths.
+            </div>
 
             <figure>
                 <svg class="pipeline-svg" viewBox="0 0 960 1040" role="img" aria-label="CC-DFlash pipeline">

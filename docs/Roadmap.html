@@ -473,6 +473,8 @@
                 <span class="sv warn">T110C: judge calibration run completed; PASS_WITH_CAVEAT</span>
                 <span class="sv go">T110D: QMSum semantic claims finalized as limitations; PASS</span>
                 <span class="sv warn">T111: Final Phase 2 closure package; COMPLETE_WITH_CAVEAT</span>
+                <span class="sv go">T112A: Shared Demo Runner and JSON Contract; PASS</span>
+                <span class="sv neu">T112B: Notebook Usage Demo; IN_PROGRESS</span>
             </div>
             <div class="update-bar">
                 Task111 created the final Phase 2 closure package. Phase 2 closes with a scoped GSM8K optimized candidate, a local validation judge pipeline, and a final QMSum limitation boundary. The optimized path is not a production/default switch, and QMSum semantic correctness remains unclaimed. Decision: <code>COMPLETE_WITH_CAVEATS</code>.
@@ -1669,7 +1671,18 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <tr>
+                            <td><span class="tnum done">T112A</span></td>
+                            <td>Shared Demo Runner</td>
+                            <td>Refactored existing benchmark execution paths into one reusable demo execution layer. Introduced canonical RunRequest schema and flattened output format. Execution semantics for three conditions strictly preserved. Tests passing. Decision: <code>PASS</code>.<br><code>docs/reports/demo/112a-shared-demo-runner-json-contract-report.md</code></td>
+                            <td class="go">PASS</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tnum active">T112B</span></td>
+                            <td>Notebook Usage Demo</td>
+                            <td>Create a clear three-notebook teaching/demo workflow that uses the shared runner completed in T112A to demonstrate dataset processing, condition generation, and charting.<br><code>demo/notebooks/</code></td>
+                            <td class="neu">IN_PROGRESS</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -1912,7 +1925,7 @@
                 <div class="log-date">2026-06-26</div>
                 <div class="log-body">
                     <strong>Task110D — QMSum Judge Result Interpretation — PASS</strong><br>
-                    Interpreted the targeted QMSum judge labels. The judge pipeline works, but low alignment with prior human labels (1/6) keeps QMSum semantic correctness unclaimed; QMSum is treated as a final limitation after repair and judge attempts. Current next is T111.
+                    Interpreted the targeted QMSum judge labels. The judge pipeline works, but low alignment with prior human labels (1/6) keeps QMSum semantic correctness unclaimed; QMSum is treated as a final limitation after repair and judge attempts. Current next is T112B.
                 </div>
             </div>
             <div class="log-entry">
