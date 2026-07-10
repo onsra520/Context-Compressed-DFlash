@@ -1,0 +1,18 @@
+{
+  "cols": 3,
+  "rows": 7,
+  "condition_columns": [
+    "Baseline-AR",
+    "DFlash-R1",
+    "CC-DFlash-R2 Light GPU"
+  ],
+  "metric_rows": [
+    "Input / compressed tokens",
+    "Compression ratio / compression latency",
+    "Prefill / generation latency",
+    "End-to-end latency",
+    "Generation / E2E throughput",
+    "Peak VRAM",
+    "Quality/status summary"
+  ]
+}

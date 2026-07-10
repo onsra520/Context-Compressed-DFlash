@@ -1,0 +1,11 @@
+{
+  "renamed": true,
+  "old_path": "notebooks/notebook_setup.py",
+  "new_path": "notebooks/utils.py",
+  "references_updated": [
+    "notebooks/01_fetch_and_process_datasets.ipynb",
+    "notebooks/02_run_three_version_benchmark.ipynb",
+    "notebooks/03_compare_benchmark_charts.ipynb",
+    "tests/test_task112b_notebook_usage_demo.py"
+  ]
+}

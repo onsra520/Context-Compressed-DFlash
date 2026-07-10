@@ -1,0 +1,4 @@
+notebook,status,notes
+01_fetch_and_process_datasets.ipynb,passed,Imports cleaned up and unconditionally calls fetch/process stages.
+02_run_three_version_benchmark.ipynb,passed,Individual execution cells per condition and clean final comparison.
+03_compare_benchmark_charts.ipynb,passed,Displays composite dashboard from latest_run.json.
