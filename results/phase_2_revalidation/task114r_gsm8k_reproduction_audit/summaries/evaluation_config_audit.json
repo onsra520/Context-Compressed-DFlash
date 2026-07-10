@@ -1,0 +1,29 @@
+{
+  "cap_hit_definition_difference": {
+    "t106b_report_cap_limited": "Task95B cap_limited_incomplete label requires cap/unfinished behavior without final-answer marker.",
+    "t114_cap_hit": "Boolean token cap: output_tokens >= max_new_tokens."
+  },
+  "numeric_extraction_difference": "T106B report counts come from Task95B calibration; T114 row fields use task114 regex preferring 'Final answer:' then last number.",
+  "t106b_counts_recomputed_with_task95b": {
+    "answer_missing": 0,
+    "cap_limited_incomplete": 2,
+    "format_or_extraction_sensitive": 0,
+    "strict_correct": 88,
+    "strict_wrong_numeric": 10
+  },
+  "t106b_evaluator": "Task95B calibrated GSM8K proxy via scripts.phase_2_system_optimization.analysis.task95b_quality_proxy_calibration",
+  "t114_counts_from_task114_fields": {
+    "cap_hit": 17,
+    "invalid": 1,
+    "strict_correct": 81,
+    "wrong_numeric": 18
+  },
+  "t114_counts_recomputed_with_task95b": {
+    "answer_missing": 0,
+    "cap_limited_incomplete": 15,
+    "format_or_extraction_sensitive": 0,
+    "strict_correct": 79,
+    "strict_wrong_numeric": 6
+  },
+  "t114_evaluator": "Task114 normalize_rows uses its own final-answer regex and cap_hit=output_tokens>=max_new_tokens, summary uses those booleans."
+}

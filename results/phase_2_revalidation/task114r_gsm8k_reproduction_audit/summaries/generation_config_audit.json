@@ -1,0 +1,72 @@
+{
+  "block_size": {
+    "t106b": [
+      "16"
+    ],
+    "t114": [
+      "16"
+    ]
+  },
+  "device": {
+    "t106b": [
+      "cuda:0"
+    ],
+    "t114": [
+      "cuda:0"
+    ]
+  },
+  "dflash_parameters": {
+    "block_size": [
+      "16"
+    ],
+    "draft_path": [
+      "models/Qwen3-4B-DFlash-b16"
+    ]
+  },
+  "draft_path": {
+    "t106b": [
+      "models/Qwen3-4B-DFlash-b16"
+    ],
+    "t114": [
+      "models/Qwen3-4B-DFlash-b16"
+    ]
+  },
+  "max_new_tokens": {
+    "t106b": [
+      "256"
+    ],
+    "t114": [
+      "256"
+    ]
+  },
+  "sampling": "run_mvp config temperature is 0.0; generation path is deterministic/greedy unless model backend changes",
+  "seed": {
+    "t106b": 42,
+    "t114": 42
+  },
+  "stop_eos_behavior": "No explicit stop string; cap-hit inferred from output_tokens >= max_new_tokens or quality calibrator cap label.",
+  "target_path": {
+    "t106b": [
+      "models/Qwen3-4B"
+    ],
+    "t114": [
+      "models/Qwen3-4B"
+    ]
+  },
+  "temperature": {
+    "t106b": [
+      "None"
+    ],
+    "t114": [
+      "None"
+    ]
+  },
+  "tokenizer_path": {
+    "t106b": [
+      "models/Qwen3-4B"
+    ],
+    "t114": [
+      "models/Qwen3-4B"
+    ]
+  }
+}

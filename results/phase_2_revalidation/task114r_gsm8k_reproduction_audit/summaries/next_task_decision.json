@@ -1,0 +1,7 @@
+{
+  "claim_update_allowed_now": false,
+  "decision": "ROOT_CAUSE_IDENTIFIED",
+  "full_matrix_rerun_allowed": false,
+  "next_task": "Task114S repaired GSM8K canonical revalidation",
+  "rerun_scope": "Do not rerun all six matrix cells initially; repair only GSM8K CC-DFlash-R2 Light GPU after controlled A/B confirms policy variable."
+}

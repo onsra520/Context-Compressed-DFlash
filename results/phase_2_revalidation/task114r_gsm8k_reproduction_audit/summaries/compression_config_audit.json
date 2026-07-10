@@ -1,0 +1,63 @@
+{
+  "avg_compressed_input_tokens": {
+    "t106b": 8.0,
+    "t114": 8.0
+  },
+  "avg_input_tokens_after_compression_chat_template": {
+    "t106b": 110.51,
+    "t114": 94.51
+  },
+  "avg_n_original_compressor_tokens": {
+    "t106b": 16.0,
+    "t114": 16.0
+  },
+  "avg_original_input_tokens_field": {
+    "t106b": 16.0,
+    "t114": 103.18
+  },
+  "avg_precompression_input_tokens_field": {
+    "t106b": null,
+    "t114": 103.18
+  },
+  "compressor_device_map_values": {
+    "t106b": [
+      "cuda"
+    ],
+    "t114": [
+      "cuda"
+    ]
+  },
+  "compressor_model_values": {
+    "t106b": [
+      "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+    ],
+    "t114": [
+      "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+    ]
+  },
+  "compressor_profile_values": {
+    "t106b": [
+      "light"
+    ],
+    "t114": [
+      "light"
+    ]
+  },
+  "explanation": "Both artifacts record compressor N_original=16 and N_compressed=8 on average. The T114 103->8 summary came from task114 normalization replacing original_input_tokens with precompression model chat-template tokens; T106B used compressor-token original_input_tokens. This is a metric semantic change, not evidence that the compressor compressed 103 model tokens to 8.",
+  "keep_rate_values": {
+    "t106b": [
+      "0.5"
+    ],
+    "t114": [
+      "0.5"
+    ]
+  },
+  "requested_device_map_values": {
+    "t106b": [
+      "cuda"
+    ],
+    "t114": [
+      "cuda"
+    ]
+  }
+}

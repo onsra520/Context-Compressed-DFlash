@@ -1,0 +1,183 @@
+{
+  "dataset": {
+    "dataset_path": "data/eval/gsm8k_100.jsonl",
+    "dataset_registry_path": "data/eval/gsm8k_100.jsonl",
+    "dataset_row_count": 100,
+    "extra_in_t106b": [],
+    "extra_in_t114": [],
+    "missing_from_t106b": [],
+    "missing_from_t114": [],
+    "reference_answer_mismatches": [],
+    "same_fixture_id_set": true,
+    "same_fixture_order": true,
+    "sample_source_question_hashes": {
+      "gsm8k_short_test_0001": "5dc76d774bd01a74954bc2acab35f65f9f600d1b6f58bff0a7ba4af83adec48c",
+      "gsm8k_short_test_0002": "b26cfbf53406dd4d3c827c592bd0925a246f647a04245d6dbe5fa7e9271777e4",
+      "gsm8k_short_test_0003": "971dabc5c71b6706fbcb9e063b691f12effce5e1ff53254b4123d7904ab52420",
+      "gsm8k_short_test_0004": "0dd0b319394d04552520865cfe1e3b296a3764828873df6f98d810841ff3e038",
+      "gsm8k_short_test_0005": "73dc5c4f78d5497304638113242612d9e7beef23ab500086a3bd47a2746fed5a",
+      "gsm8k_short_test_0006": "7a9da644d3e1e8b3680a5c6cd25acb11cb2573f5cd755841272f8113dde35453",
+      "gsm8k_short_test_0007": "46ce7073561764ace4b5738771fa594bc93ee562c5ac3f922ce4538d4715ca8f",
+      "gsm8k_short_test_0008": "5d6ed708fe4546615db9a393deb23d4c485926e7eff5d7bdc4e4ccdd0c03f25d",
+      "gsm8k_short_test_0009": "bca059699200fc8148bca3b76881f8e2e97ca421e2d061ece31fca839423ba6e",
+      "gsm8k_short_test_0010": "e2c3edfe6881860228f62cbb2dba4a9e84a6beebb1159c7206bb132725343a28"
+    },
+    "source_question_verification": "Run rows do not store the raw question text. The audit verifies question identity through the shared fixture_id/order in data/eval/gsm8k_100.jsonl and through reconstructed prompt hashes from the same source rows.",
+    "t106b_row_count": 100,
+    "t114_row_count": 100
+  },
+  "prompt": {
+    "all_reconstructed_prompts_differ": true,
+    "instruction_placement": {
+      "t106b": "runtime GSM8K policy suffix passed through --gsm8k-policy-suffix, appended before compression prompt construction and protected after compression",
+      "t114": "default eval-dataset GSM8K suffix only; task114 runner set a prompt_policy label but did not pass --gsm8k-policy-suffix"
+    },
+    "prompt_diff_count": 100,
+    "resolved_t106b_prompt_profile": "gsm8k_concise_final_answer_v1",
+    "resolved_t114_prompt_profile_label": "gsm8k_concise_final_answer_v1",
+    "sample_diffs": [
+      {
+        "fixture_id": "gsm8k_short_test_0001",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "94fe08e2a0cbcede186f327c22e24ffd75e713d616a49d35610454ff1256660b",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "9ad68c9456e2cabf9a86c79b24bc4d8dcfbb9f724c80eb35686177e900d534dc",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0002",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "0cc77b58fee2a7e5a54418896f7a0a6b0dde71f8084ac488bb593182d8d7b2da",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "e2a77573c3c99a06c6caa011d06ab1a5bb7b34aa0e53c23f561874dfcb927cc6",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0003",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "3551d18d5ec419dcac38d0112f1b158b6c417e489b0dbde6c96e11016b69f7c3",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "9fbf8587bc0aba1a993a13fbc413e5813714c8489ce0b3ed7cee6c6fbf5e310a",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0004",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "3a717cd3e628317ea75482f3549bc133edab3ef5c9196b59f6281b21d7f7a247",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "efb4f97ab4b99f8b5b712bf5742e1164c599214597c50fd834e49b934e9fb2f1",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0005",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "26bb873b12fce9e8bfe1d11cb96d146b46911a7ac246bf79d88ca16b202876ed",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "913dd53052d7a68db42fe7b6bc44f8c4f32e2de7a533d9b4f5b20916b867a9b3",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0006",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "f31a4a92a0903efa422c396af9d11a4643a02f2569253d58876afd47600fc496",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "996284780c5978046c59e9820c4da9a392af531d8f5b880a5f2cff5beb27b3ab",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0007",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "e5d5496c928584d598e35a17ee220344e769cf77335ba16ba07e276e9e2b0a03",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "83d36fdb453e9167d1bbd73a3819b651508f76c40a84f313a750613b18a796d7",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0008",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "ee678a12b7ba19101c216686a1f2ba43ec871552f2865145a7028ee013593c7c",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "f03c8f4565ee8fbda1c0d21bc977baf8e7784eadbaaa1cd0380755916e22e627",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0009",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "c22cd3fa7384fae120b958f161e3bc0574b25130ca305f5559efb3aa02df79ad",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "dea5889dd9c4e9ef3c39a5263a38b8396c5022f5934aafb07459096391eec473",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      },
+      {
+        "fixture_id": "gsm8k_short_test_0010",
+        "same_rendered_precompression_prompt": false,
+        "t106b_prompt_hash": "2b01e7ef5e53f72b34414d3c1823789a214bb423f367c8915e40ea2e490c2678",
+        "t106b_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+        "t114_precompression_prompt_hash": "4ac7a0255681d9ce4991967563dfe9605f7b1701f2a960c92657bdc6662c3791",
+        "t114_suffix": "End with exactly one line:\nFinal answer: <number>"
+      }
+    ],
+    "stored_precompression_hash_overlap_count": 0,
+    "stored_prompt_hash_overlap_count": 0,
+    "t106b_policy_override_rows": 100,
+    "t106b_policy_suffix": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+    "t114_default_suffix": "End with exactly one line:\nFinal answer: <number>",
+    "t114_policy_override_rows": 0
+  },
+  "root_cause": {
+    "authoritative_candidate": "T106B remains authoritative for the scoped GSM8K candidate because T114 did not reproduce its runtime policy override.",
+    "decision": "ROOT_CAUSE_IDENTIFIED",
+    "difference_category_counts": {
+      "prompt_difference": 100
+    },
+    "evidence": [
+      "T106B policy override rows: 100/100; T114 policy override rows: 0/100.",
+      "All reconstructed T106B and T114 precompression prompts differ.",
+      "Stored prompt hashes have no overlap.",
+      "Compressor model/profile/device/keep_rate and generation model/max_new_tokens match.",
+      "Dataset fixture set and order match."
+    ],
+    "metric_semantic_issue": "Both artifacts record compressor N_original=16 and N_compressed=8 on average. The T114 103->8 summary came from task114 normalization replacing original_input_tokens with precompression model chat-template tokens; T106B used compressor-token original_input_tokens. This is a metric semantic change, not evidence that the compressor compressed 103 model tokens to 8.",
+    "minimal_next_repair": "Run a repaired Task114 GSM8K CC-DFlash-R2 condition with --gsm8k-policy-suffix and --gsm8k-policy-name gsm8k_concise_final_answer_v1, then rebuild the canonical summary without changing Phase 2 claims until verified.",
+    "regressed_from_t106b_strict_to_t114_not_strict": [
+      "gsm8k_short_test_0008",
+      "gsm8k_short_test_0011",
+      "gsm8k_short_test_0031",
+      "gsm8k_short_test_0035",
+      "gsm8k_short_test_0048",
+      "gsm8k_short_test_0056",
+      "gsm8k_short_test_0057",
+      "gsm8k_short_test_0066",
+      "gsm8k_short_test_0070",
+      "gsm8k_short_test_0087",
+      "gsm8k_short_test_0093",
+      "gsm8k_short_test_0099"
+    ],
+    "root_cause": "T114 labeled GSM8K as gsm8k_concise_final_answer_v1 but did not pass T106B's runtime --gsm8k-policy-suffix override to run_mvp.",
+    "secondary_decision": "T114_CONFIG_REGRESSION",
+    "selected_ab_fixture_ids": [
+      "gsm8k_short_test_0008",
+      "gsm8k_short_test_0011",
+      "gsm8k_short_test_0031",
+      "gsm8k_short_test_0035",
+      "gsm8k_short_test_0048"
+    ],
+    "t114_new_cap_hits_vs_t106b": [
+      "gsm8k_short_test_0008",
+      "gsm8k_short_test_0031",
+      "gsm8k_short_test_0035",
+      "gsm8k_short_test_0045",
+      "gsm8k_short_test_0048",
+      "gsm8k_short_test_0056",
+      "gsm8k_short_test_0066",
+      "gsm8k_short_test_0082",
+      "gsm8k_short_test_0088",
+      "gsm8k_short_test_0089",
+      "gsm8k_short_test_0090",
+      "gsm8k_short_test_0092",
+      "gsm8k_short_test_0093",
+      "gsm8k_short_test_0098",
+      "gsm8k_short_test_0099"
+    ]
+  }
+}

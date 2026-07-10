@@ -1,0 +1,56 @@
+{
+  "authoritative_candidate": "T106B remains authoritative for the scoped GSM8K candidate because T114 did not reproduce its runtime policy override.",
+  "decision": "ROOT_CAUSE_IDENTIFIED",
+  "difference_category_counts": {
+    "prompt_difference": 100
+  },
+  "evidence": [
+    "T106B policy override rows: 100/100; T114 policy override rows: 0/100.",
+    "All reconstructed T106B and T114 precompression prompts differ.",
+    "Stored prompt hashes have no overlap.",
+    "Compressor model/profile/device/keep_rate and generation model/max_new_tokens match.",
+    "Dataset fixture set and order match."
+  ],
+  "metric_semantic_issue": "Both artifacts record compressor N_original=16 and N_compressed=8 on average. The T114 103->8 summary came from task114 normalization replacing original_input_tokens with precompression model chat-template tokens; T106B used compressor-token original_input_tokens. This is a metric semantic change, not evidence that the compressor compressed 103 model tokens to 8.",
+  "minimal_next_repair": "Run a repaired Task114 GSM8K CC-DFlash-R2 condition with --gsm8k-policy-suffix and --gsm8k-policy-name gsm8k_concise_final_answer_v1, then rebuild the canonical summary without changing Phase 2 claims until verified.",
+  "regressed_from_t106b_strict_to_t114_not_strict": [
+    "gsm8k_short_test_0008",
+    "gsm8k_short_test_0011",
+    "gsm8k_short_test_0031",
+    "gsm8k_short_test_0035",
+    "gsm8k_short_test_0048",
+    "gsm8k_short_test_0056",
+    "gsm8k_short_test_0057",
+    "gsm8k_short_test_0066",
+    "gsm8k_short_test_0070",
+    "gsm8k_short_test_0087",
+    "gsm8k_short_test_0093",
+    "gsm8k_short_test_0099"
+  ],
+  "root_cause": "T114 labeled GSM8K as gsm8k_concise_final_answer_v1 but did not pass T106B's runtime --gsm8k-policy-suffix override to run_mvp.",
+  "secondary_decision": "T114_CONFIG_REGRESSION",
+  "selected_ab_fixture_ids": [
+    "gsm8k_short_test_0008",
+    "gsm8k_short_test_0011",
+    "gsm8k_short_test_0031",
+    "gsm8k_short_test_0035",
+    "gsm8k_short_test_0048"
+  ],
+  "t114_new_cap_hits_vs_t106b": [
+    "gsm8k_short_test_0008",
+    "gsm8k_short_test_0031",
+    "gsm8k_short_test_0035",
+    "gsm8k_short_test_0045",
+    "gsm8k_short_test_0048",
+    "gsm8k_short_test_0056",
+    "gsm8k_short_test_0066",
+    "gsm8k_short_test_0082",
+    "gsm8k_short_test_0088",
+    "gsm8k_short_test_0089",
+    "gsm8k_short_test_0090",
+    "gsm8k_short_test_0092",
+    "gsm8k_short_test_0093",
+    "gsm8k_short_test_0098",
+    "gsm8k_short_test_0099"
+  ]
+}
