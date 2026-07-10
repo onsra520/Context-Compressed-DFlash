@@ -1,0 +1,52 @@
+{
+  "schema_version": "cc_dflash_demo_v1",
+  "run_id": "c537ef87-eef9-4b3e-b992-87c1d848d3d8",
+  "source": {
+    "type": "interactive",
+    "dataset": null,
+    "split": null,
+    "fixture_id": null
+  },
+  "request": {
+    "condition": "cc_dflash_r2",
+    "prompt_profile": "raw",
+    "prompt": "Explain speculative decoding in two concise sentences.",
+    "reference_answer": null,
+    "max_new_tokens": 64,
+    "seed": 42
+  },
+  "response": {
+    "generated_text": "Speculative decoding is a technique in machine learning where the model generates possible outputs and evaluates them simultaneously to make faster and more accurate predictions. It involves exploring multiple potential next words or tokens and selecting the most likely one based on the current context and estimated probabilities.",
+    "finish_reason": "completed",
+    "output_tokens": 52
+  },
+  "tokens": {
+    "original_input_tokens": 0,
+    "compressed_input_tokens": 0,
+    "compression_ratio": 1.0
+  },
+  "timing_ms": {
+    "compression": 0.02329399922018638,
+    "prefill": 92.21038699979545,
+    "generation": 2959.7762310004327,
+    "e2e": 3052.0099119994484
+  },
+  "throughput": {
+    "generation_tok_s": 17.568895734534465,
+    "e2e_tok_s": 17.03795252943117
+  },
+  "resources": {
+    "peak_vram_gib": 3.578141689300537,
+    "device": "cuda:0"
+  },
+  "quality": {
+    "evaluation_status": "not_evaluated",
+    "numeric_match": null,
+    "normalized_overlap": null
+  },
+  "status": {
+    "ok": true,
+    "error_type": null,
+    "error_message": null
+  }
+}

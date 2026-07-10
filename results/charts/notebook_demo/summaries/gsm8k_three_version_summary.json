@@ -1,0 +1,11 @@
+{
+  "dataset": "gsm8k",
+  "limit": 3,
+  "conditions_run": [
+    "baseline_ar",
+    "dflash_r1",
+    "cc_dflash_r2"
+  ],
+  "jsonl_path": "results/charts/notebook_demo/runs/gsm8k_three_version.jsonl",
+  "csv_path": "results/charts/notebook_demo/tables/gsm8k_three_version.csv"
+}
