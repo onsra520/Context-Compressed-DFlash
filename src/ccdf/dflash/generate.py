@@ -43,7 +43,7 @@ def dflash_generate(
     past_key_values_target = DynamicCache()
     past_key_values_draft = DynamicCache()
 
-    prefill_start = _cuda_time() if return_stats else None
+    generation_start = _cuda_time() if return_stats else None
     output = target(
         input_ids,
         position_ids=position_ids[:, :num_input_tokens],
@@ -57,10 +57,12 @@ def dflash_generate(
     output_ids[:, num_input_tokens : num_input_tokens + 1] = sample(output.logits, temperature)
     if block_size > 1:
         target_hidden = extract_context_feature(output.hidden_states, model.target_layer_ids)
-    time_to_first_token = _cuda_time() - prefill_start if return_stats else None
+    time_to_first_token = _cuda_time() - generation_start if return_stats else None
 
-    decode_start = _cuda_time() if return_stats else None
     acceptance_lengths = []
+    draft_prefill_time = None
+    draft_proposal_time = 0.0
+    target_verification_time = 0.0
     start = num_input_tokens
     draft_prefill = True
 
@@ -68,6 +70,7 @@ def dflash_generate(
         block_output_ids = output_ids[:, start : start + block_size].clone()
         block_position_ids = position_ids[:, start : start + block_size]
         if block_size > 1:
+            draft_started = _cuda_time() if return_stats else None
             noise_embedding = target.model.embed_tokens(block_output_ids)
             draft_logits = target.lm_head(
                 model(
@@ -83,10 +86,14 @@ def dflash_generate(
             )
             past_key_values_draft.crop(start)
             block_output_ids[:, 1:] = sample(draft_logits)
-            if draft_prefill and return_stats:
-                draft_prefill = False
-                decode_start = _cuda_time()
+            if return_stats:
+                draft_elapsed = _cuda_time() - draft_started
+                draft_proposal_time += draft_elapsed
+                if draft_prefill:
+                    draft_prefill_time = draft_elapsed
+            draft_prefill = False
 
+        verification_started = _cuda_time() if return_stats else None
         output = target(
             block_output_ids,
             position_ids=block_position_ids,
@@ -94,6 +101,8 @@ def dflash_generate(
             use_cache=True,
             output_hidden_states=block_size > 1,
         )
+        if return_stats:
+            target_verification_time += _cuda_time() - verification_started
 
         posterior = sample(output.logits, temperature)
         acceptance_length = (
@@ -130,14 +139,27 @@ def dflash_generate(
         return output_ids
 
     num_output_tokens = output_ids.shape[1] - num_input_tokens
-    total_decode_time = _cuda_time() - decode_start
+    total_generation_time = _cuda_time() - generation_start
+    verification_call_count = len(acceptance_lengths)
+    accepted_tokens = sum(acceptance_lengths)
     return SimpleNamespace(
         output_ids=output_ids,
         num_input_tokens=num_input_tokens,
         num_output_tokens=num_output_tokens,
         time_to_first_token=time_to_first_token,
-        time_per_output_token=total_decode_time / num_output_tokens,
+        time_per_output_token=total_generation_time / num_output_tokens,
         acceptance_lengths=acceptance_lengths,
+        target_prefill_time=time_to_first_token,
+        draft_prefill_time=draft_prefill_time,
+        draft_proposal_time=draft_proposal_time,
+        target_verification_time=target_verification_time,
+        verification_call_count=verification_call_count,
+        draft_tokens_proposed=verification_call_count * max(0, block_size - 1),
+        accepted_tokens=accepted_tokens,
+        rejection_or_rollback_count=sum(1 for length in acceptance_lengths if length < block_size),
+        rollback_tokens=sum(max(0, block_size - length) for length in acceptance_lengths),
+        cache_management_time=None,
+        synchronization_overhead_time=None,
     )
 
 

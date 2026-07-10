@@ -446,7 +446,7 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv warn">Latest Updated: Task114 — canonical Phase 2 revalidation</span>
+                <span class="sv warn">Latest Updated: T115 — source audit READY_AFTER_LOCALIZED_FIX</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
@@ -478,9 +478,10 @@
                 <span class="sv go">T112B-R2: Always-Run Notebook UX and Complete Outputs; COMPLETE</span>
                 <span class="sv go">T112B-R3: Notebook Cell Structure and Presentation Cleanup; COMPLETE</span>
                 <span class="sv warn">T114: source-runner revalidation PASS_WITH_LIMITATIONS</span>
+                <span class="sv warn">T115: source audit READY_AFTER_LOCALIZED_FIX; QMSum semantics still unclaimed</span>
             </div>
             <div class="update-bar">
-                Task114 reopened Phase 2 for a canonical source-runner revalidation over frozen GSM8K and QMSum. Six smoke gates passed, then all six full <code>n=100</code> run files completed. Task111 remains preserved as the historical closure package; Task114 does not authorize a production/default switch and does not claim QMSum semantic correctness.
+                T115 audited the canonical source path after T114H, repaired the detached-prefill timing contract, and recorded DFlash acceptance/verification counters from controlled samples. The source is READY_AFTER_LOCALIZED_FIX for a future deliberate refactor; no production/default switch or QMSum semantic correctness claim is authorized.
             </div>
         </header>
 
@@ -535,7 +536,7 @@
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
                             <td class="warn">REVALIDATED_WITH_LIMITATIONS</td>
-                            <td>Task91 through Task111 completed the lighter-compressor optimization and closure path with caveats. Task114 reopened Phase 2 for a canonical source-runner revalidation over frozen GSM8K and QMSum using <code>scripts/run_mvp.py</code> via <code>scripts/phase_2_revalidation/task114_canonical_matrix.py</code>. The six smoke gates passed, all six full <code>n=100</code> run files completed, and the final output is stored under <code>results/phase_2_revalidation/task114_canonical_matrix/</code>. Task111 remains preserved as the historical <code>COMPLETE_WITH_CAVEATS</code> closure package. Task114 reports timing, VRAM, GSM8K numeric proxy, and QMSum bounded lexical proxy only; it does not authorize a production/default switch and does not claim QMSum semantic correctness.</td>
+                            <td>Task91 through Task111 completed the lighter-compressor optimization and closure path with caveats. Task114 reopened Phase 2 for a canonical source-runner revalidation over frozen GSM8K and QMSum using <code>scripts/run_mvp.py</code> via <code>scripts/phase_2_revalidation/task114_canonical_matrix.py</code>. T115 then audited the live source and corrected detached-prefill timing while adding DFlash acceptance/verification metrics. The result is <code>READY_AFTER_LOCALIZED_FIX</code> for a future deliberate refactor; QMSum remains bounded lexical-proxy evidence only and no production/default switch is authorized.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -570,11 +571,11 @@
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task114 — Canonical Phase 2 Revalidation</td>
+                            <td>T115 — Canonical Source Audit and Optimization Readiness</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
-                            <td>Task114 canonical source-runner matrix completed frozen GSM8K and QMSum <code>n=100</code> runs for <code>Baseline-AR</code>, <code>DFlash-R1</code>, and <code>CC-DFlash-R2</code> Light GPU. GSM8K Light GPU trails both references on strict numeric proxy; QMSum remains bounded lexical-proxy evidence only.</td>
+                            <td>T115 preserved T114H GSM8K as authoritative, measured only controlled samples, and repaired the live timing contract. DFlash remains preferred on short GSM8K; QMSum is bounded lexical-proxy evidence only.</td>
                         </tr>
                         <tr>
                             <td><strong>Current cleanup evidence</strong></td>
@@ -1658,6 +1659,12 @@
                             <td>Reopened Phase 2 for a source-runner canonical matrix on frozen GSM8K and QMSum. Added <code>scripts/phase_2_revalidation/task114_canonical_matrix.py</code>, ran six <code>n=1</code> smoke gates, then completed six full <code>n=100</code> run files using <code>scripts/run_mvp.py</code>. Reports timing, compression, VRAM, GSM8K numeric proxy, and QMSum bounded lexical proxy only. No production/default switch is authorized, and QMSum semantic correctness remains unclaimed.<br><code>docs/reports/phase_2_revalidation/114-canonical-three-condition-two-dataset-revalidation-report.md</code><br><code>results/phase_2_revalidation/task114_canonical_matrix/</code></td>
                             <td class="warn">PASS_WITH_LIMITATIONS</td>
                         </tr>
+                        <tr>
+                            <td><span class="tnum done">T115</span></td>
+                            <td>Canonical Source Audit and Optimization Readiness</td>
+                            <td>Audited the live Baseline-AR, DFlash-R1, and CC-DFlash-R2 execution paths; compared T105B/T114 QMSum static contracts; ran controlled three-row QMSum and GSM8K checks; removed detached target-prefill benchmark work; and added DFlash acceptance/verification metrics. T114H GSM8K remains authoritative. QMSum semantic correctness remains unclaimed.<br><code>results/source_audit/task115/</code></td>
+                            <td class="warn">READY_AFTER_LOCALIZED_FIX</td>
+                        </tr>
 </tbody>
                 </table>
             </div>
@@ -1935,6 +1942,13 @@
         <!-- ─────────────────────────────────────────── UPDATE LOG -->
         <section>
             <h2>Update Log</h2>
+            <div class="log-entry">
+                <div class="log-date">2026-07-10</div>
+                <div class="log-body">
+                    <strong>T115 — Canonical Source Audit and Optimization Readiness — READY_AFTER_LOCALIZED_FIX</strong><br>
+                    Audited the live source after T114H, repaired detached-prefill timing, and ran controlled QMSum/GSM8K samples. GSM8K T114H remains authoritative; QMSum semantic correctness remains unclaimed. Artifacts: <code>results/source_audit/task115/</code>.
+                </div>
+            </div>
             <div class="log-entry">
                 <div class="log-date">2026-07-10</div>
                 <div class="log-body">

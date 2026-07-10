@@ -1,0 +1,14 @@
+{
+  "authoritative_results": {
+    "gsm8k": "T114H repaired 100-row runs",
+    "qmsum_quality": "no semantic correctness authority",
+    "qmsum_runtime": "T115 controlled samples for corrected timing, with T114 preserved as historical pre-fix timing evidence"
+  },
+  "decision": "READY_AFTER_LOCALIZED_FIX",
+  "localized_fix": "T115 removes detached target-prefill measurement from live benchmark execution and records DFlash timing/acceptance counters.",
+  "not_ready_for": [
+    "production default switch",
+    "QMSum semantic correctness claim",
+    "broad DFlash refactor"
+  ]
+}

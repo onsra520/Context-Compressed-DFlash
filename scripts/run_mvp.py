@@ -85,6 +85,7 @@ class PromptMetrics:
     t_prefill_mode: str = "not_measured"
     prefill_vram_allocated_gib: float | None = None
     prefill_vram_reserved_gib: float | None = None
+    generation_details: dict = field(default_factory=dict)
     compression_info: dict = field(default_factory=dict)
 
 
@@ -720,7 +721,6 @@ def _run_prompt(
     store_generated_text: bool = False,
 ) -> PromptMetrics:
     input_ids = _format_prompt(tokenizer, prompt).to(config.device)
-    prefill = _measure_target_prefill(target, input_ids, device=config.device)
     stop_token_ids = [tokenizer.eos_token_id] if tokenizer.eos_token_id is not None else None
 
     torch.cuda.synchronize()
@@ -757,7 +757,7 @@ def _run_prompt(
         f"prompt_id={prompt_id} input_tokens={int(result.num_input_tokens)} "
         f"output_tokens={output_tokens} generation_time_s={elapsed:.4f} "
         f"tok/s={tok_per_s:.2f} acceptance_lengths={acceptance_lengths} "
-        f"tau_mean={tau_mean:.2f} t_prefill_ms={prefill.elapsed_ms:.2f}"
+        f"tau_mean={tau_mean:.2f} t_prefill_ms=0.00(included_in_generation)"
     )
     return PromptMetrics(
         prompt_id=prompt_id,
@@ -769,10 +769,26 @@ def _run_prompt(
         acceptance_lengths=acceptance_lengths,
         tau_mean=tau_mean,
         vram_after=vram_after,
-        t_prefill_ms=prefill.elapsed_ms,
-        t_prefill_mode=prefill.mode,
-        prefill_vram_allocated_gib=prefill.vram_allocated_gib,
-        prefill_vram_reserved_gib=prefill.vram_reserved_gib,
+        t_prefill_ms=0.0,
+        t_prefill_mode="included_in_generation",
+        generation_details={
+            "target_prefill_ms": result.target_prefill_time * 1000.0,
+            "draft_prefill_ms": None if result.draft_prefill_time is None else result.draft_prefill_time * 1000.0,
+            "draft_proposal_ms": result.draft_proposal_time * 1000.0,
+            "target_verification_ms": result.target_verification_time * 1000.0,
+            "verification_call_count": result.verification_call_count,
+            "draft_tokens_proposed": result.draft_tokens_proposed,
+            "accepted_tokens": result.accepted_tokens,
+            "accepted_tokens_per_verification": (
+                result.accepted_tokens / result.verification_call_count
+                if result.verification_call_count
+                else 0.0
+            ),
+            "rejection_or_rollback_count": result.rejection_or_rollback_count,
+            "rollback_tokens": result.rollback_tokens,
+            "cache_management_ms": result.cache_management_time,
+            "synchronization_overhead_ms": result.synchronization_overhead_time,
+        },
         compression_info=row_info,
     )
 
@@ -788,7 +804,6 @@ def _run_ar_prompt(
     store_generated_text: bool = False,
 ) -> PromptMetrics:
     input_ids = _format_prompt(tokenizer, prompt).to(config.device)
-    prefill = _measure_target_prefill(target, input_ids, device=config.device)
     generate_kwargs = {
         "input_ids": input_ids,
         "attention_mask": torch.ones_like(input_ids),
@@ -825,7 +840,7 @@ def _run_ar_prompt(
         f"prompt_id={prompt_id} input_tokens={input_tokens} "
         f"output_tokens={output_tokens} generation_time_s={elapsed:.4f} "
         f"tok/s={tok_per_s:.2f} acceptance_lengths=[] tau_mean=0.00 "
-        f"t_prefill_ms={prefill.elapsed_ms:.2f}"
+        "t_prefill_ms=0.00(included_in_generation)"
     )
     return PromptMetrics(
         prompt_id=prompt_id,
@@ -837,10 +852,22 @@ def _run_ar_prompt(
         acceptance_lengths=[],
         tau_mean=0.0,
         vram_after=vram_after,
-        t_prefill_ms=prefill.elapsed_ms,
-        t_prefill_mode=prefill.mode,
-        prefill_vram_allocated_gib=prefill.vram_allocated_gib,
-        prefill_vram_reserved_gib=prefill.vram_reserved_gib,
+        t_prefill_ms=0.0,
+        t_prefill_mode="included_in_generation",
+        generation_details={
+            "target_prefill_ms": None,
+            "draft_prefill_ms": None,
+            "draft_proposal_ms": None,
+            "target_verification_ms": None,
+            "verification_call_count": 0,
+            "draft_tokens_proposed": 0,
+            "accepted_tokens": 0,
+            "accepted_tokens_per_verification": None,
+            "rejection_or_rollback_count": 0,
+            "rollback_tokens": 0,
+            "cache_management_ms": None,
+            "synchronization_overhead_ms": None,
+        },
         compression_info=row_info,
     )
 
@@ -941,6 +968,7 @@ def _metric_to_row(
         "vram_reserved_gib": metric.vram_after.reserved_gib,
     }
     row.update(metric.compression_info)
+    row.update(metric.generation_details)
     row["t_compress_ms"] = float(row.get("t_compress_ms") or 0.0)
     row["t_e2e_ms"] = row["t_compress_ms"] + row["t_prefill_ms"] + row["t_generation_ms"]
     row["e2e_time_s"] = row["t_e2e_ms"] / 1000.0

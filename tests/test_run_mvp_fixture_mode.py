@@ -377,6 +377,39 @@ def test_write_jsonl_marks_baseline_ar_as_target_only(tmp_path: Path):
     assert row["prefill_vram_reserved_gib"] is None
 
 
+def test_metric_row_keeps_dflash_timing_breakdown_without_extra_prefill():
+    metric = _fake_metric(1)
+    metric.generation_details = {
+        "target_prefill_ms": 120.0,
+        "draft_prefill_ms": 8.0,
+        "draft_proposal_ms": 42.0,
+        "target_verification_ms": 310.0,
+        "verification_call_count": 4,
+        "draft_tokens_proposed": 60,
+        "accepted_tokens": 10,
+        "accepted_tokens_per_verification": 2.5,
+        "rejection_or_rollback_count": 3,
+        "rollback_tokens": 50,
+        "cache_management_ms": None,
+        "synchronization_overhead_ms": None,
+    }
+    metric.t_prefill_ms = 0.0
+    metric.t_prefill_mode = "included_in_generation"
+
+    row = _metric_to_row(
+        metric,
+        condition="DFlash-R1",
+        backend_warning="sdpa",
+        config=_fake_config(),
+    )
+
+    assert row["t_e2e_ms"] == row["t_generation_ms"]
+    assert row["t_prefill_mode"] == "included_in_generation"
+    assert row["target_prefill_ms"] == 120.0
+    assert row["verification_call_count"] == 4
+    assert row["rollback_tokens"] == 50
+
+
 def test_metric_to_row_adds_protocol_metadata_and_keeps_legacy_fields(tmp_path: Path):
     metric = _fake_metric(
         2,
