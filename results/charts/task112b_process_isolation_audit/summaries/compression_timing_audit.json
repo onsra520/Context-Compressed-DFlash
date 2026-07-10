@@ -1,0 +1,6 @@
+{
+  "model_load_time_excluded_from_compress": true,
+  "warmup_excluded_from_compress": true,
+  "t_compress_ms": 54.65747800008103,
+  "t_model_load_ms": 6546.7766229994595
+}

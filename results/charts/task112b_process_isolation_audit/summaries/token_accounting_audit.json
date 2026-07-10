@@ -1,0 +1,15 @@
+{
+  "baseline": {
+    "original": 103,
+    "compressed": null
+  },
+  "dflash": {
+    "original": 103,
+    "compressed": null
+  },
+  "cc_dflash": {
+    "original": 103,
+    "compressed": 94
+  },
+  "fair_comparison_verified": true
+}

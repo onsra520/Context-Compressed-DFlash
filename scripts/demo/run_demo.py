@@ -3,7 +3,11 @@ from __future__ import annotations
 import argparse
 import sys
 import json
+import time
 from pathlib import Path
+
+# Record startup time as early as possible
+STARTUP_TIME = time.perf_counter() * 1000.0
 
 # Add project root to path
 ROOT = Path(__file__).resolve().parents[2]
@@ -27,7 +31,10 @@ def parse_args():
     # run-prompt
     p_run = subparsers.add_parser("run-prompt")
     p_run.add_argument("--condition", required=True, choices=list(CONDITIONS.keys()))
-    p_run.add_argument("--prompt", required=True)
+    p_run.add_argument("--prompt", required=False)
+    p_run.add_argument("--request-json", type=str, default=None)
+    p_run.add_argument("--fresh-process", action="store_true")
+    p_run.add_argument("--warm-up", action="store_true")
     p_run.add_argument("--prompt-profile", default="raw")
     p_run.add_argument("--max-new-tokens", type=int, default=64)
     p_run.add_argument("--seed", type=int, default=42)
@@ -75,20 +82,53 @@ def main():
         class ConfigDict(dict):
             pass
         config = ConfigDict(config)
+        config["dry_run"] = args.dry_run
     
     config.dry_run = args.dry_run
     
     runner = DemoRunner(config)
     
     if args.command == "run-prompt":
-        req = interactive_to_request(
-            prompt=args.prompt,
-            condition=args.condition,
-            prompt_profile=args.prompt_profile,
-            max_new_tokens=args.max_new_tokens,
-            seed=args.seed
-        )
+        if not args.request_json and not args.prompt:
+            print("Error: Either --prompt or --request-json must be provided.", file=sys.stderr)
+            sys.exit(1)
+            
+        if args.request_json:
+            with open(args.request_json, "r", encoding="utf-8") as f:
+                req_data = json.load(f)
+            # Reconstruct RunRequest from JSON data:
+            req = RunRequest(
+                source_type=req_data.get("source_type", "interactive"),
+                condition=args.condition or req_data.get("condition"),
+                prompt=req_data.get("prompt"),
+                prompt_profile=req_data.get("prompt_profile", "raw"),
+                schema_version=req_data.get("schema_version", "cc_dflash_demo_v1"),
+                dataset=req_data.get("dataset"),
+                split=req_data.get("split"),
+                fixture_id=req_data.get("fixture_id"),
+                reference_answer=req_data.get("reference_answer"),
+                max_new_tokens=req_data.get("max_new_tokens", 128),
+                seed=req_data.get("seed", 42),
+                generation_options=req_data.get("generation_options", {}),
+                metadata=req_data.get("metadata", {}),
+            )
+        else:
+            req = interactive_to_request(
+                prompt=args.prompt,
+                condition=args.condition,
+                prompt_profile=args.prompt_profile,
+                max_new_tokens=args.max_new_tokens,
+                seed=args.seed
+            )
+            
+        if args.warm_up:
+            req.metadata["warm_up"] = True
+            
         res = runner.run(req)
+        
+        # Set startup time in the response timing
+        res["timing_ms"]["t_process_startup_ms"] = float(time.perf_counter() * 1000.0 - STARTUP_TIME)
+        
         write_json(res, Path(args.output), overwrite=args.overwrite)
         
     elif args.command == "compare-prompt":

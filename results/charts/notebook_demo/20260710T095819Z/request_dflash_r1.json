@@ -1,0 +1,18 @@
+{
+  "source_type": "dataset",
+  "condition": "dflash_r1",
+  "prompt": "Short-context numeric QA. Solve the math word problem and preserve the original question.\n\nQuestion: The girls are trying to raise money for a carnival. Kim raises $320 more than Alexandra, who raises $430, and Maryam raises $400 more than Sarah, who raises $300. How much money, in dollars, did they all raise in total?",
+  "prompt_profile": "gsm8k_concise_final_answer_v1",
+  "schema_version": "cc_dflash_demo_v1",
+  "dataset": "gsm8k",
+  "split": "test",
+  "fixture_id": "gsm8k_short_test_0001",
+  "reference_answer": "2280",
+  "max_new_tokens": 128,
+  "seed": 42,
+  "generation_options": {},
+  "metadata": {
+    "context": "Short-context numeric QA. Solve the math word problem and preserve the original question.",
+    "question": "Question: The girls are trying to raise money for a carnival. Kim raises $320 more than Alexandra, who raises $430, and Maryam raises $400 more than Sarah, who raises $300. How much money, in dollars, did they all raise in total?"
+  }
+}

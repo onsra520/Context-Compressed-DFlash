@@ -1,0 +1,16 @@
+{
+  "run_id": "20260710T095819Z",
+  "dataset": "gsm8k",
+  "timestamp": "20260710T095819Z",
+  "schema_version": "cc_dflash_demo_v1",
+  "execution_settings": {
+    "limit": 1,
+    "seed": 42,
+    "max_new_tokens": 128
+  },
+  "paths": {
+    "results_jsonl": "results/charts/notebook_demo/20260710T095819Z/results.jsonl",
+    "comparison_csv": "results/charts/notebook_demo/20260710T095819Z/comparison.csv",
+    "summary_json": "results/charts/notebook_demo/20260710T095819Z/summary.json"
+  }
+}
