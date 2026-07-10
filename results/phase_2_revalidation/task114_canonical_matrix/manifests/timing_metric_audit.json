@@ -1,0 +1,5 @@
+{
+  "model_load_and_warmup_excluded": true,
+  "rows_are_not_warmup": true,
+  "t_e2e_ms_formula": "t_compress_ms + t_prefill_ms + t_generation_ms"
+}

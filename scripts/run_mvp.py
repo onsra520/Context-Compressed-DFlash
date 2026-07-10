@@ -921,6 +921,7 @@ def _metric_to_row(
         "input_tokens": metric.input_tokens,
         "output_tokens": metric.output_tokens,
         "generation_time_s": metric.generation_time_s,
+        "t_generation_ms": metric.generation_time_s * 1000.0,
         "tok_per_sec": metric.tok_per_s,
         "tokens_per_second": metric.tok_per_s,
         "acceptance_lengths": metric.acceptance_lengths,
@@ -940,8 +941,20 @@ def _metric_to_row(
         "vram_reserved_gib": metric.vram_after.reserved_gib,
     }
     row.update(metric.compression_info)
+    row["t_compress_ms"] = float(row.get("t_compress_ms") or 0.0)
+    row["t_e2e_ms"] = row["t_compress_ms"] + row["t_prefill_ms"] + row["t_generation_ms"]
+    row["e2e_time_s"] = row["t_e2e_ms"] / 1000.0
+    row["cap_hit"] = row["output_tokens"] >= row["max_new_tokens"]
+    row["finish_reason"] = "length_cap" if row["cap_hit"] else "eos_or_stop"
+    row["peak_allocated_gib"] = row["vram_allocated_gib"]
+    row["peak_reserved_gib"] = row["vram_reserved_gib"]
     if condition == "Baseline-AR":
         row.update({"compression": "none", "keep_rate": 1.0})
+    if condition in {"Baseline-AR", "DFlash-R1"}:
+        row.setdefault("compression", "none")
+        row.setdefault("keep_rate", 1.0)
+        row.setdefault("precompression_input_tokens", row["input_tokens"])
+        row.setdefault("precompression_prompt_hash", row["prompt_hash"])
     if row.get("draft_used") is False:
         row["draft_path"] = None
     return row
@@ -989,7 +1002,11 @@ def _run_benchmark_item(
     store_generated_text: bool,
 ) -> PromptMetrics:
     prompt_for_generation = item.text
-    compression_info = None
+    original_input_tokens = int(_format_prompt(tokenizer, item.text).shape[-1])
+    compression_info = {
+        "precompression_prompt_hash": _prompt_hash(item.text),
+        "precompression_input_tokens": original_input_tokens,
+    }
     if compressor is not None:
         compression_context = item.context if item.context is not None else CC_SMOKE_CONTEXT
         compression_question = item.question if item.question is not None else item.text
@@ -1005,6 +1022,12 @@ def _run_benchmark_item(
             qmsum_policy_name=item.qmsum_policy_name,
             gsm8k_policy_suffix_override=item.gsm8k_policy_suffix_override,
             gsm8k_policy_name=item.gsm8k_policy_name,
+        )
+        compression_info.update(
+            {
+                "precompression_prompt_hash": _prompt_hash(item.text),
+                "precompression_input_tokens": original_input_tokens,
+            }
         )
         if not compression_info["question_preserved"]:
             raise RuntimeError(f"protected question was not preserved for prompt {item.prompt_id}")

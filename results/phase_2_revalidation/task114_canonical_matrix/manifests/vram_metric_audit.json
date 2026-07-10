@@ -1,0 +1,7 @@
+{
+  "allocated_and_reserved_are_separate": true,
+  "fields": [
+    "peak_allocated_gib",
+    "peak_reserved_gib"
+  ]
+}

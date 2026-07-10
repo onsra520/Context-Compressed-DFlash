@@ -1,0 +1,49 @@
+{
+  "conditions": {
+    "baseline_ar": {
+      "display_name": "Baseline-AR",
+      "output_name": "baseline_ar.jsonl",
+      "runner_condition": "Baseline-AR"
+    },
+    "cc_dflash_r2_light_gpu": {
+      "compressor_device_map": "cuda",
+      "compressor_profile": "light",
+      "display_name": "CC-DFlash-R2 Light GPU",
+      "output_name": "cc_dflash_r2_light_gpu.jsonl",
+      "runner_condition": "CC-DFlash-R2"
+    },
+    "dflash_r1": {
+      "display_name": "DFlash-R1",
+      "output_name": "dflash_r1.jsonl",
+      "runner_condition": "DFlash-R1"
+    }
+  },
+  "datasets": {
+    "gsm8k": {
+      "max_new_tokens": 256,
+      "path": "data/eval/gsm8k_100.jsonl",
+      "prompt_policy": "gsm8k_concise_final_answer_v1",
+      "runner_name": "gsm8k_short"
+    },
+    "qmsum": {
+      "max_new_tokens": 384,
+      "path": "data/eval/qmsum_meeting_qa_100.jsonl",
+      "prompt_policy": "qmsum_t105b_compatible_evidence_focused_v1",
+      "runner_name": "qmsum_meeting_qa_long"
+    }
+  },
+  "models": {
+    "draft_paths": [
+      "models/Qwen3-4B-DFlash-b16"
+    ],
+    "target_paths": [
+      "models/Qwen3-4B"
+    ],
+    "tokenizer_paths": [
+      "models/Qwen3-4B"
+    ]
+  },
+  "runner": "scripts/phase_2_revalidation/task114_canonical_matrix.py",
+  "source_runner": "scripts/run_mvp.py",
+  "task_id": "T114"
+}

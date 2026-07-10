@@ -446,11 +446,11 @@
             </p>
             <div class="status-row">
                 <span class="sv go">Current Phase: Phase 2 — Lighter Compressor Optimization</span>
-                <span class="sv warn">Latest Updated: Task108B — QMSum targeted repair attempt</span>
+                <span class="sv warn">Latest Updated: Task114 — canonical Phase 2 revalidation</span>
                 <span class="sv warn">Task99 remains PARTIAL historical record</span>
                 <span class="sv go">Task99-R: PASS_WITH_CAVEAT</span>
                 <span class="sv warn">Task95C remains PARTIAL historical record</span>
-                <span class="sv warn">Current Next: T108C QMSum targeted repair validation</span>
+                <span class="sv warn">Current Next: Phase 3 Review / Next Steps (TBD)</span>
                 <span class="sv stop">Bounded GSM8K Light GPU speed evidence only</span>
                 <span class="sv stop">Deterministic GSM8K numeric proxy only</span>
                 <span class="sv stop">No Phase 2 Light GPU QMSum semantic claim</span>
@@ -477,9 +477,10 @@
                 <span class="sv go">T112B: Notebook Usage Demo; COMPLETE</span>
                 <span class="sv go">T112B-R2: Always-Run Notebook UX and Complete Outputs; COMPLETE</span>
                 <span class="sv go">T112B-R3: Notebook Cell Structure and Presentation Cleanup; COMPLETE</span>
+                <span class="sv warn">T114: source-runner revalidation PASS_WITH_LIMITATIONS</span>
             </div>
             <div class="update-bar">
-                Task111 created the final Phase 2 closure package. Phase 2 closes with a scoped GSM8K optimized candidate, a local validation judge pipeline, and a final QMSum limitation boundary. The optimized path is not a production/default switch, and QMSum semantic correctness remains unclaimed. Decision: <code>COMPLETE_WITH_CAVEATS</code>.
+                Task114 reopened Phase 2 for a canonical source-runner revalidation over frozen GSM8K and QMSum. Six smoke gates passed, then all six full <code>n=100</code> run files completed. Task111 remains preserved as the historical closure package; Task114 does not authorize a production/default switch and does not claim QMSum semantic correctness.
             </div>
         </header>
 
@@ -533,8 +534,8 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2 — Lighter Compressor Optimization Gate</strong></td>
-                            <td class="warn">ACTIVE / QMSUM_REPAIR_BRANCH</td>
-                            <td>Task91 completed feasibility setup, Task91B completed Linux/Kubuntu GPU readiness and DFlash path validation, Task92 completed local model/compressor config loading hardening, Task92B cleaned the active docs plus standardized the Phase 2 result skeleton, Task93 integrated the light compressor with a tiny runner smoke, Task94 completed the bounded <code>n=10</code> large-vs-light comparison, Task95A audited the failure rows, Task95B calibrated the quality proxy, Task95C preserved the static PARTIAL/GPU-blocked record, Task95C-R completed the bounded mnt256 resume, Task95D confirmed the bounded mnt256 behavior on seed43, Task96 confirmed the bounded behavior at <code>n=30</code>, Task97 packaged the controlled evidence plus updated the future plan/UI, Task99 added runtime-only GPU-placement override support plus bounded feasibility packaging but remained blocked before smoke execution, Task99-R resumed the bounded runtime GPU placement after CUDA recovery, Task100A packaged the supported evidence and T100B plan, Task100B completed the single bounded Light GPU <code>n=100</code> scale-up, Task100C analyzed optimization gaps and claim risks, Task101 finalized the allowed/blocked claim boundary, Task102 completed bounded QMSum Light GPU <code>n=3</code> smoke plus <code>n=30</code> feasibility, Task102B completed deterministic QMSum proxy/risk analysis, Task102C triaged the proxy-uncertain rows, Task102D improved the deterministic proxy explanation, Task102E confirmed residual QMSum hard-risk/unresolved rows, Task102F selected target-row remediation, Task102G completed the gated six-row target remediation rerun, Task102H reassessed the rerun, Task102I completed the six-row Baseline-AR mini-check, Task103A tested deterministic evidence selection before answer, Task103C prepared the semantic/human-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the controlled GSM8K speed matrix, Task105B completed the controlled QMSum runtime matrix, Task105C closed benchmark-scope claim wording, Task106A audited GSM8K cap-limited attribution, Task106B tested the optional GSM8K cap-limited fix, Task106C decided the optimized path is a scoped GSM8K candidate rather than a default winner, Task107A audited the wrong-numeric regression, Task107B tested the optional GSM8K minimal-arithmetic policy but kept T106B as the better scoped GSM8K candidate, Task108A found no default QMSum targeted rerun was justified, and Task108B completed a mixed six-row evidence-grounded repair attempt. Current next is T108C QMSum Targeted Repair Validation; Phase 2 closure pack moves to T110 or later.</td>
+                            <td class="warn">REVALIDATED_WITH_LIMITATIONS</td>
+                            <td>Task91 through Task111 completed the lighter-compressor optimization and closure path with caveats. Task114 reopened Phase 2 for a canonical source-runner revalidation over frozen GSM8K and QMSum using <code>scripts/run_mvp.py</code> via <code>scripts/phase_2_revalidation/task114_canonical_matrix.py</code>. The six smoke gates passed, all six full <code>n=100</code> run files completed, and the final output is stored under <code>results/phase_2_revalidation/task114_canonical_matrix/</code>. Task111 remains preserved as the historical <code>COMPLETE_WITH_CAVEATS</code> closure package. Task114 reports timing, VRAM, GSM8K numeric proxy, and QMSum bounded lexical proxy only; it does not authorize a production/default switch and does not claim QMSum semantic correctness.</td>
                         </tr>
                         <tr>
                             <td><strong>Claim / Deployment Boundary Gate</strong></td>
@@ -569,11 +570,11 @@
                         </tr>
                         <tr>
                             <td><strong>Latest Completed</strong></td>
-                            <td>Task111 — Final Phase 2 Closure Pack</td>
+                            <td>Task114 — Canonical Phase 2 Revalidation</td>
                         </tr>
                         <tr>
                             <td><strong>Current metric evidence</strong></td>
-                            <td>Task105A controlled GSM8K <code>n=100</code> matrix completed for <code>Baseline-AR</code>, <code>DFlash-R1</code>, and optimized <code>CC-DFlash-R2</code> Light GPU. Light GPU beat Baseline-AR on e2e but not DFlash-R1, and strict proxy trailed both references.</td>
+                            <td>Task114 canonical source-runner matrix completed frozen GSM8K and QMSum <code>n=100</code> runs for <code>Baseline-AR</code>, <code>DFlash-R1</code>, and <code>CC-DFlash-R2</code> Light GPU. GSM8K Light GPU trails both references on strict numeric proxy; QMSum remains bounded lexical-proxy evidence only.</td>
                         </tr>
                         <tr>
                             <td><strong>Current cleanup evidence</strong></td>
@@ -585,7 +586,7 @@
                         </tr>
                         <tr>
                             <td><strong>QMSum evidence</strong></td>
-                            <td>Task103D closes the QMSum deep-fix branch with persistent residual risk. Fixed six-row human review found <code>0</code> correct-supported, <code>2</code> partial, <code>1</code> unsupported/wrong, and <code>3</code> cannot-determine labels. QMSum remains not semantic correctness proof.</td>
+                            <td>Task114 reports QMSum bounded lexical proxy only: Baseline-AR recall/precision <code>0.222768/0.139920</code>, DFlash-R1 <code>0.226467/0.142479</code>, and CC-DFlash-R2 Light GPU <code>0.213530/0.129606</code>. QMSum remains not semantic correctness proof.</td>
                         </tr>
                         <tr>
                             <td><strong>Wikipedia branch</strong></td>
@@ -593,7 +594,7 @@
                         </tr>
                         <tr>
                             <td><strong>Phase 2</strong></td>
-                            <td>Task91 through Task108B completed or were preserved as historical records. Task99 remains a historical <code>PARTIAL / GPU BLOCKED</code> record, Task99-R completed bounded CUDA resume, Task100B completed GSM8K Light GPU <code>n=100</code>, Task102 completed QMSum Light GPU <code>n=30</code> feasibility, Task102B closed QMSum as benchmark-scoped proxy/risk evidence with caveats, Task102C upgraded that to triaged-risk wording, Task102D improved the deterministic proxy caveat, Task102E confirmed residual failures/unresolved rows, Task102F selected target-row remediation, Task102G completed the six-row rerun, Task102H found remediation failed to close residual risk, Task102I checked Baseline-AR on the same six rows, Task103A tested evidence selection before answer, Task103C prepared the semantic-review protocol, Task103C-R executed fixed six-row human review, Task103D closed the QMSum deep-fix branch with persistent residual risk, Task104 aligned speed/runtime claims to valid references, Task105A completed the GSM8K controlled speed matrix, Task105B completed the QMSum controlled runtime matrix, Task105C closed benchmark-scope claim wording, Task106A audited GSM8K cap-limited rows, Task106B tested the optional final-answer/cap-limited fix, Task106C decided the optimized path is a scoped GSM8K candidate with <code>default_switch=NO</code>, Task107A audited the wrong-numeric regression, Task107B found the softer minimal-arithmetic policy is not better than T106B, Task108A found no justified default QMSum targeted rerun/fix, and Task108B produced a mixed six-row QMSum targeted repair signal. Current active Phase 2 focus is T108C validation/limitation decision before closure packaging.</td>
+                            <td>Task91 through Task111 completed the lighter-compressor optimization and closure path, with Task111 preserved as historical <code>COMPLETE_WITH_CAVEATS</code>. Task114 reopened Phase 2 for source-runner revalidation and completed the frozen GSM8K/QMSum two-dataset, three-condition matrix. The result is <code>PASS_WITH_LIMITATIONS</code>: no production/default switch is authorized, and QMSum semantic correctness remains unclaimed.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1651,6 +1652,12 @@
                             <td>Created the final Phase 2 closure package. Consolidated GSM8K candidate results, QMSum final limitation boundary, validation-model setup, and supported/blocked claims. Phase 2 formally closes with caveats; default pipeline switch is not authorized.<br><code>docs/reports/phase_2_system_optimization/111-final-phase-2-closure-pack-report.md</code><br><code>results/phase_2_system_optimization/final_reruns/task111_final_phase_2_closure_pack/</code></td>
                             <td class="warn">COMPLETE_WITH_CAVEATS</td>
                         </tr>
+                        <tr>
+                            <td><span class="tnum done">T114</span></td>
+                            <td>Canonical Phase 2 Revalidation</td>
+                            <td>Reopened Phase 2 for a source-runner canonical matrix on frozen GSM8K and QMSum. Added <code>scripts/phase_2_revalidation/task114_canonical_matrix.py</code>, ran six <code>n=1</code> smoke gates, then completed six full <code>n=100</code> run files using <code>scripts/run_mvp.py</code>. Reports timing, compression, VRAM, GSM8K numeric proxy, and QMSum bounded lexical proxy only. No production/default switch is authorized, and QMSum semantic correctness remains unclaimed.<br><code>docs/reports/phase_2_revalidation/114-canonical-three-condition-two-dataset-revalidation-report.md</code><br><code>results/phase_2_revalidation/task114_canonical_matrix/</code></td>
+                            <td class="warn">PASS_WITH_LIMITATIONS</td>
+                        </tr>
 </tbody>
                 </table>
             </div>
@@ -1929,6 +1936,13 @@
         <section>
             <h2>Update Log</h2>
             <div class="log-entry">
+                <div class="log-date">2026-07-10</div>
+                <div class="log-body">
+                    <strong>Task114 — Canonical Phase 2 Revalidation — PASS_WITH_LIMITATIONS</strong><br>
+                    Reopened Phase 2 for a source-runner canonical matrix over frozen GSM8K and QMSum. Six smoke gates passed and all six full <code>n=100</code> run files completed under <code>results/phase_2_revalidation/task114_canonical_matrix/</code>. Task111 remains preserved as historical closure-with-caveats; Task114 does not authorize a production/default switch and does not claim QMSum semantic correctness.
+                </div>
+            </div>
+            <div class="log-entry">
                 <div class="log-date">2026-06-26</div>
                 <div class="log-body">
                     <strong>Task111 — Final Phase 2 Closure Pack — COMPLETE_WITH_CAVEATS</strong><br>
@@ -1967,7 +1981,7 @@
                 <div class="log-date">2026-06-26</div>
                 <div class="log-body">
                     <strong>Task108B — QMSum Targeted Repair Attempt — MIXED_WITH_CAVEAT</strong><br>
-                    Ran exactly six fixed QMSum residual-risk target rows with optimized <code>CC-DFlash-R2</code> Light GPU and runtime-only <code>qmsum_evidence_grounded_concise_v1</code>. The run completed <code>6/6</code> rows with metadata-confirmed light/cuda/local placement, <code>0</code> empty/malformed rows, <code>0</code> cap-limited/incomplete rows, average e2e <code>3.520058s</code>, average <code>T_compress_ms=125.792571</code>, average <code>R_actual=2.162981</code>, max reserved VRAM <code>5.076172 GiB</code>, and no recorded OOM/CUDA failure. Deterministic comparison against T105B same-fixture outputs found <code>0/6</code> proxy-improved rows, <code>4/6</code> unchanged/no-improvement rows, and <code>2/6</code> safer-but-uninformative rows. Current next is T108C validation/limitation decision; Phase 2 closure pack moves to T110 or later. No QMSum n100, full matrix, Baseline-AR, DFlash-R1, Large CPU, LLMLingua-AR-R2, GSM8K, keep-rate tuning, query-aware compression, default switch, human scoring, or LLM judge was run.
+                    Ran exactly six fixed QMSum residual-risk target rows with optimized <code>CC-DFlash-R2</code> Light GPU and runtime-only <code>qmsum_evidence_grounded_concise_v1</code>. The run completed <code>6/6</code> rows with metadata-confirmed light/cuda/local placement, <code>0</code> empty/malformed rows, <code>0</code> cap-limited/incomplete rows, average e2e <code>3.520058s</code>, average <code>T_compress_ms=125.792571</code>, average <code>R_actual=2.162981</code>, max reserved VRAM <code>5.076172 GiB</code>, and no recorded OOM/CUDA failure. Deterministic comparison against T105B same-fixture outputs found <code>0/6</code> proxy-improved rows, <code>4/6</code> unchanged/no-improvement rows, and <code>2/6</code> safer-but-uninformative rows. At the time this routed to T108C/T110 follow-up; later Task111 and Task114 supersede that live-next pointer. No QMSum n100, full matrix, Baseline-AR, DFlash-R1, Large CPU, LLMLingua-AR-R2, GSM8K, keep-rate tuning, query-aware compression, default switch, human scoring, or LLM judge was run.
                 </div>
             </div>
             <div class="log-entry">
