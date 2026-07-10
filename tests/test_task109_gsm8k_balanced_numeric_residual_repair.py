@@ -102,18 +102,22 @@ def test_runtime_gsm8k_policy_override_accepts_numeric_detail_policy(tmp_path: P
     assert item.gsm8k_policy_name == POLICY_NAME
 
 
-def test_cli_rejects_gsm8k_policy_for_non_cc_dflash_condition() -> None:
-    with pytest.raises(SystemExit):
-        run_mvp.parse_args(
-            [
-                "--condition",
-                "Baseline-AR",
-                "--dataset",
-                "gsm8k_short",
-                "--gsm8k-policy-suffix",
-                POLICY_SUFFIX,
-            ]
-        )
+def test_cli_accepts_gsm8k_policy_for_non_cc_dflash_condition() -> None:
+    args = run_mvp.parse_args(
+        [
+            "--condition",
+            "Baseline-AR",
+            "--dataset",
+            "gsm8k_short",
+            "--gsm8k-policy-suffix",
+            POLICY_SUFFIX,
+            "--gsm8k-policy-name",
+            POLICY_NAME,
+        ]
+    )
+
+    assert args.gsm8k_policy_suffix == POLICY_SUFFIX
+    assert args.gsm8k_policy_name == POLICY_NAME
 
 
 def test_analyzer_selects_t109_when_quality_improves(tmp_path: Path) -> None:

@@ -1123,7 +1123,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--gsm8k-policy-suffix",
         default=None,
-        help="Runtime-only GSM8K answer-policy suffix override. Only applies with --dataset gsm8k_short and --condition CC-DFlash-R2.",
+        help="Runtime-only GSM8K answer-policy suffix override. Only applies with --dataset gsm8k_short.",
     )
     parser.add_argument(
         "--gsm8k-policy-name",
@@ -1143,8 +1143,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     if args.gsm8k_policy_suffix is not None:
         if args.dataset != "gsm8k_short":
             parser.error("--gsm8k-policy-suffix is only valid with --dataset gsm8k_short")
-        if args.condition != "CC-DFlash-R2":
-            parser.error("--gsm8k-policy-suffix is only valid with --condition CC-DFlash-R2")
     return args
 
 

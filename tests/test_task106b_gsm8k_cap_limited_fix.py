@@ -134,6 +134,24 @@ def test_cli_rejects_gsm8k_policy_for_non_gsm8k_dataset() -> None:
         )
 
 
+def test_cli_accepts_gsm8k_policy_for_uncompressed_gsm8k_condition() -> None:
+    args = run_mvp.parse_args(
+        [
+            "--condition",
+            "Baseline-AR",
+            "--dataset",
+            "gsm8k_short",
+            "--gsm8k-policy-suffix",
+            POLICY_SUFFIX,
+            "--gsm8k-policy-name",
+            POLICY_NAME,
+        ]
+    )
+
+    assert args.gsm8k_policy_suffix == POLICY_SUFFIX
+    assert args.gsm8k_policy_name == POLICY_NAME
+
+
 def test_analyzer_writes_outputs_and_detects_cap_limited_improvement(tmp_path: Path) -> None:
     before = tmp_path / "before.jsonl"
     after = tmp_path / "after.jsonl"

@@ -20,7 +20,11 @@
     "qmsum_avg_reference_recall": 0.222768,
     "qmsum_invalid_output_count": 0,
     "qmsum_semantic_correctness_claimed": false,
+    "resolved_prompt_policy": "qmsum_t105b_compatible_evidence_focused_v1",
+    "resolved_prompt_policy_hash": "d48a7aa2188c3483087f4e4989f7a9b353a39f7445d2bbba8d341c860b502b2e",
     "row_count": 100,
+    "row_policy_hash_unique_count": 1,
+    "run_path": "results/phase_2_revalidation/task114_canonical_matrix/runs/qmsum/baseline_ar.jsonl",
     "success_count": 100
   },
   {
@@ -44,7 +48,11 @@
     "qmsum_avg_reference_recall": 0.226467,
     "qmsum_invalid_output_count": 0,
     "qmsum_semantic_correctness_claimed": false,
+    "resolved_prompt_policy": "qmsum_t105b_compatible_evidence_focused_v1",
+    "resolved_prompt_policy_hash": "d48a7aa2188c3483087f4e4989f7a9b353a39f7445d2bbba8d341c860b502b2e",
     "row_count": 100,
+    "row_policy_hash_unique_count": 1,
+    "run_path": "results/phase_2_revalidation/task114_canonical_matrix/runs/qmsum/dflash_r1.jsonl",
     "success_count": 100
   },
   {
@@ -68,7 +76,11 @@
     "qmsum_avg_reference_recall": 0.21353,
     "qmsum_invalid_output_count": 0,
     "qmsum_semantic_correctness_claimed": false,
+    "resolved_prompt_policy": "qmsum_t105b_compatible_evidence_focused_v1",
+    "resolved_prompt_policy_hash": "d48a7aa2188c3483087f4e4989f7a9b353a39f7445d2bbba8d341c860b502b2e",
     "row_count": 100,
+    "row_policy_hash_unique_count": 1,
+    "run_path": "results/phase_2_revalidation/task114_canonical_matrix/runs/qmsum/cc_dflash_r2_light_gpu.jsonl",
     "success_count": 100
   }
 ]

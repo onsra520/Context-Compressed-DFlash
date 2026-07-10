@@ -43,6 +43,18 @@
       "models/Qwen3-4B"
     ]
   },
+  "prompt_policies": {
+    "gsm8k": {
+      "name": "gsm8k_concise_final_answer_v1",
+      "text": "Keep the solution concise. End with exactly one line in the format: Final answer: <number>. Do not continue after the final answer.",
+      "text_hash": "2e923742f34e646aa0e2bc22c39e31ab75e3ce33358fb75f1e32440c4266a873"
+    },
+    "qmsum": {
+      "name": "qmsum_t105b_compatible_evidence_focused_v1",
+      "text": "Answer only the question using the meeting context.\nFirst focus on the exact evidence in the context that answers the question.\nInclude the concrete names, numbers, organizations, decisions, reasons, constraints, and supporting details that are needed for the answer.\nDo not answer from the general topic of the meeting.\nDo not replace specific evidence with broad summaries.\nDo not say the information is missing or not discussed unless the meeting context clearly lacks the answer.\nDo not repeat the full meeting context.\nUse 3-7 concise sentences.",
+      "text_hash": "d48a7aa2188c3483087f4e4989f7a9b353a39f7445d2bbba8d341c860b502b2e"
+    }
+  },
   "runner": "scripts/phase_2_revalidation/task114_canonical_matrix.py",
   "source_runner": "scripts/run_mvp.py",
   "task_id": "T114"
