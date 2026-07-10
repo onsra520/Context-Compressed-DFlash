@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-NB_DIR = ROOT / "demo/notebooks"
+NB_DIR = ROOT / "notebooks"
 
 def load_notebook(path):
     with open(path, "r", encoding="utf-8") as f:

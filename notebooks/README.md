@@ -6,7 +6,7 @@ This folder contains a three-notebook teaching and demonstration workflow for th
 Ensure you are running the notebooks from the repository root using the project's virtual environment:
 ```bash
 source .venv/bin/activate
-jupyter notebook demo/notebooks/
+jupyter notebook notebooks/
 ```
 
 ## Notebook Order
