@@ -25,13 +25,14 @@ def test_notebooks_are_valid_json():
 def test_titles_and_config_vars():
     nb1 = load_notebook(NB_DIR / "01_fetch_and_process_datasets.ipynb")
     code_content_1 = "".join([get_source(c) for c in nb1["cells"] if c["cell_type"] == "code"])
-    assert "ALLOW_NETWORK_FETCH =" in code_content_1
-    assert "REFRESH_EXISTING =" in code_content_1
+    assert "ALLOW_NETWORK_FETCH =" not in code_content_1, "No ALLOW_NETWORK_FETCH=False gate allowed"
     
     nb2 = load_notebook(NB_DIR / "02_run_three_version_benchmark.ipynb")
     code_content_2 = "".join([get_source(c) for c in nb2["cells"] if c["cell_type"] == "code"])
     assert "DATASET =" in code_content_2
-    assert "RUN_REAL_MODELS =" in code_content_2
+    assert "RUN_REAL_MODELS = False" not in code_content_2, "No RUN_REAL_MODELS=False gate allowed"
+    assert "CCDF_NOTEBOOK_TEST_MODE" in code_content_2, "Test mode override should exist"
+
 
 def test_no_hardcoded_paths():
     for nb_name in ["01_fetch_and_process_datasets.ipynb", 
@@ -57,6 +58,24 @@ def test_nb2_writes_to_notebook_demo():
     nb2 = load_notebook(NB_DIR / "02_run_three_version_benchmark.ipynb")
     code = "".join([get_source(c) for c in nb2["cells"] if c["cell_type"] == "code"])
     assert "results/charts/notebook_demo" in code
+
+def test_nb3_no_generation_models():
+    nb3 = load_notebook(NB_DIR / "03_compare_benchmark_charts.ipynb")
+    code = "".join([get_source(c) for c in nb3["cells"] if c["cell_type"] == "code"])
+    assert "AutoModelForCausalLM" not in code
+    assert "GENERATE_CHARTS = True" not in code
+
+def test_notebook_generator_exists():
+    assert (ROOT / "notebooks" / "notebook_setup.py").exists()
+
+def test_output_paths_resolve_to_root():
+    nb2 = load_notebook(NB_DIR / "02_run_three_version_benchmark.ipynb")
+    code2 = "".join([get_source(c) for c in nb2["cells"] if c["cell_type"] == "code"])
+    assert "OUTPUT_ROOT = \"results/charts/notebook_demo\"" in code2
+
+    nb3 = load_notebook(NB_DIR / "03_compare_benchmark_charts.ipynb")
+    code3 = "".join([get_source(c) for c in nb3["cells"] if c["cell_type"] == "code"])
+    assert "results/charts/notebook_demo" in code3
 
 def test_nb3_no_models_loaded():
     nb3 = load_notebook(NB_DIR / "03_compare_benchmark_charts.ipynb")
