@@ -1,0 +1,90 @@
+{
+    "config_version": "rec-t02b2.reconstruction.v1",
+    "models":
+        {
+            "target":
+                {
+                    "id": "unsloth/Qwen3-4B-bnb-4bit",
+                    "path": "models/target/unsloth--Qwen3-4B-bnb-4bit",
+                    "revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a",
+                    "tokenizer": "target",
+                    "quantization": "bitsandbytes-nf4-bfloat16",
+                },
+            "drafter":
+                {
+                    "id": "z-lab/Qwen3-4B-DFlash-b16",
+                    "path": "models/drafter/z-lab--Qwen3-4B-DFlash-b16",
+                    "revision": "b74e3a329c4d963783143b1e970d95b002be72bd",
+                    "block_size": 16,
+                },
+            "compression":
+                {
+                    "id": "microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+                    "path": "models/llmlingua-2-bert-base-multilingual-cased-meetingbank",
+                    "device": "cpu",
+                },
+        },
+    "runtime":
+        {
+            "offline_local_only": true,
+            "device": "auto",
+            "attention_backend": "transformers-qwen3-local",
+            "enable_thinking": false,
+            "temperature": 0.0,
+            "stop_token_ids": [151645],
+        },
+    "datasets":
+        {
+            "gsm8k":
+                {
+                    "manifest": "data/manifests/gsm8k/eval_n10.json",
+                    "policy":
+                        {
+                            "id": "rec-t04a.structured-gsm8k.v1",
+                            "text": "End with exactly one line: Final answer: <number>",
+                        },
+                    "subsets":
+                        {
+                            "n10": "data/eval/gsm8k/gsm8k_n10.jsonl",
+                            "n30": "data/eval/gsm8k/gsm8k_n30.jsonl",
+                            "n100": "data/eval/gsm8k/gsm8k_n100.jsonl",
+                        },
+                    "max_new_tokens": 256,
+                },
+            "qmsum":
+                {
+                    "manifest": "data/manifests/qmsum/eval_n10.json",
+                    "policy":
+                        {
+                            "id": "rec-t04a.structured-qmsum.v1",
+                            "text": "Answer using only the meeting transcript. A concise answer is enough.",
+                        },
+                    "subsets":
+                        {
+                            "n10": "data/eval/qmsum/qmsum_n10.jsonl",
+                            "n30": "data/eval/qmsum/qmsum_n30.jsonl",
+                            "n100": "data/eval/qmsum/qmsum_n100.jsonl",
+                        },
+                    "max_new_tokens": 384,
+                },
+        },
+    "benchmark":
+        {
+            "measurement_mode": "benchmark",
+            "process_isolation": true,
+            "warmup": { "enabled": true, "rows": 0 },
+        },
+    "evaluators":
+        {
+            "gsm8k": "rec-t02b.gsm8k-evaluator.v1",
+            "qmsum": "rec-t02b.qmsum-proxy.v1",
+        },
+    "compression":
+        {
+            "keep_rate": 0.5,
+            "min_context_tokens": 16,
+            "chunk_max_words": 180,
+            "short_context_bypass": true,
+        },
+    "artifacts": { "root": "results" },
+}

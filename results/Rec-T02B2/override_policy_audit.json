@@ -1,0 +1,1 @@
+{"canonical_aggregation_rejects_noncanonical":true,"immutable_fields":["models","tokenizer","dataset_manifest","prompt_policy","evaluators","block_size"],"small_max_new_tokens_smoke_only":true}

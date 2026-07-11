@@ -1,0 +1,67 @@
+"""Resolve canonical configuration for every execution surface."""
+
+from __future__ import annotations
+
+from copy import deepcopy
+from pathlib import Path
+from typing import Any
+
+from ccdf.artifacts.writer import write_json
+from ccdf.config.loader import load_config
+from ccdf.config.schemas import ResolvedConfig
+from ccdf.config.validation import IMMUTABLE_OVERRIDE_FIELDS
+from ccdf.datasets.hashing import hash_file, hash_json
+
+
+def resolve_config(
+    *, dataset: str, subset: str = "n10", condition_id: str = "baseline-ar", execution_mode: str = "benchmark",
+    overrides: dict[str, Any] | None = None, config_path: Path | None = None,
+) -> ResolvedConfig:
+    source = load_config(config_path) if config_path else load_config()
+    if dataset not in source["datasets"]:
+        raise ValueError(f"unsupported dataset: {dataset}")
+    if condition_id not in {"baseline-ar", "dflash-r1", "cc-dflash-r2"}:
+        raise ValueError(f"unsupported condition: {condition_id}")
+    if execution_mode not in {"benchmark", "profiling", "smoke"}:
+        raise ValueError(f"invalid execution mode: {execution_mode}")
+    overrides = overrides or {}
+    forbidden = IMMUTABLE_OVERRIDE_FIELDS.intersection(overrides)
+    if forbidden:
+        raise ValueError(f"immutable override rejected: {sorted(forbidden)}")
+    section = source["datasets"][dataset]
+    max_new_tokens = section["max_new_tokens"]
+    if "max_new_tokens" in overrides:
+        requested = int(overrides["max_new_tokens"])
+        if execution_mode != "smoke" or requested >= max_new_tokens:
+            raise ValueError("max_new_tokens override is allowed only for smaller smoke-mode runs")
+        max_new_tokens = requested
+    fixture_path = Path(section["subsets"][subset])
+    data = {
+        "config_version": source["config_version"], "dataset": dataset, "subset": subset,
+        "condition_id": condition_id, "execution_mode": execution_mode,
+        "canonical": execution_mode == "benchmark" and not overrides,
+        "overrides": deepcopy(overrides), "models": deepcopy(source["models"]),
+        "runtime": deepcopy(source["runtime"]), "benchmark": deepcopy(source["benchmark"]),
+        "compression": deepcopy(source["compression"]), "artifacts": deepcopy(source["artifacts"]),
+        "evaluator_identity": source["evaluators"][dataset], "prompt_policy": deepcopy(section["policy"]),
+        "dataset_manifest": section["manifest"], "dataset_manifest_hash": hash_file(fixture_path),
+        "fixture_path": str(fixture_path), "max_new_tokens": max_new_tokens,
+    }
+    data["condition"] = {
+        "condition_id": condition_id,
+        "target_model_lock_id": f"target:{source['models']['target']['revision']}",
+        "draft_model_lock_id": f"drafter:{source['models']['drafter']['revision']}" if condition_id != "baseline-ar" else None,
+        "compressor_model_lock_id": f"llmlingua2:{source['models']['compression']['path']}" if condition_id == "cc-dflash-r2" else None,
+        "tokenizer_source": source["models"]["target"]["tokenizer"], "generation_mode": "autoregressive" if condition_id == "baseline-ar" else "dflash",
+        "max_new_tokens": max_new_tokens, "temperature": source["runtime"]["temperature"],
+        "block_size": source["models"]["drafter"]["block_size"] if condition_id != "baseline-ar" else None,
+        "enable_thinking": source["runtime"]["enable_thinking"], "stop_token_ids": source["runtime"]["stop_token_ids"],
+        "attention_backend": source["runtime"]["attention_backend"], "quantization_mode": source["models"]["target"]["quantization"],
+        "dataset_manifest_hash": data["dataset_manifest_hash"], "prompt_policy_id": section["policy"]["id"],
+    }
+    return ResolvedConfig(data=data, sha256=hash_json(data))
+
+
+def write_resolved_config(output_dir: Path, resolved: ResolvedConfig) -> None:
+    write_json(output_dir / "resolved_config.json", resolved.data)
+    (output_dir / "resolved_config.sha256").write_text(resolved.sha256 + "\n", encoding="utf-8")

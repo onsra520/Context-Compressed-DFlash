@@ -46,7 +46,7 @@ class LLMLinguaCompressor(CompressorBase):
             result.backend_metadata["bypass_reason"] = "below_min_context_tokens"
             return result
 
-        chunks = chunk_context(context)
+        chunks = chunk_context(context, max_words=config.chunk_max_words)
         start = time.perf_counter()
         compressed_chunks: list[str] = []
         for chunk in chunks:

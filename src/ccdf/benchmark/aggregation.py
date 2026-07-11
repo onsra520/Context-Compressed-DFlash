@@ -19,6 +19,8 @@ def aggregate_run_artifact(
         resolved_config_hash=resolved_config_hash,
     )
     rows = read_jsonl(path)
+    if any(not row.get("canonical", True) for row in rows):
+        raise ValueError("canonical aggregation rejects smoke/noncanonical rows")
     for row in rows:
         validate_dflash_invariants(row)
     by_condition: dict[str, list[dict[str, Any]]] = defaultdict(list)

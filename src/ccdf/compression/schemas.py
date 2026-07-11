@@ -12,6 +12,7 @@ class CompressionConfig:
     compression_profile: str = "llmlingua2-meetingbank"
     keep_rate: float = 0.5
     min_context_tokens: int = 32
+    chunk_max_words: int = 180
     backend: str = "llmlingua"
     device_map: str = "cpu"
 

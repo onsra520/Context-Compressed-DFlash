@@ -13,13 +13,13 @@ from pathlib import Path
 from typing import Any
 
 from ccdf.artifacts.writer import write_json, write_jsonl_atomic
-from ccdf.benchmark.execution import resolved_condition
-from ccdf.datasets.hashing import hash_file, hash_json, hash_text
+from ccdf.config import resolve_config
+from ccdf.datasets.hashing import hash_json, hash_text
 from ccdf.datasets.io import read_jsonl
 from ccdf.evaluation import gsm8k, qmsum
 from ccdf.inference.baseline_ar import generate_baseline
 from ccdf.inference.dflash_runtime import generate_dflash_r1
-from ccdf.inference.model_registry import DRAFTER_PATH, TARGET_PATH, model_lock
+from ccdf.inference.model_registry import DRAFTER_PATH, TARGET_PATH
 from ccdf.inference.schemas import GenerationConfig, GenerationResult
 from ccdf.inference.target_loader import load_target_model, load_target_tokenizer
 from ccdf.dflash.loader import load_drafter_model
@@ -55,11 +55,12 @@ def _row(
     model_init_ms: float,
     dataset_manifest_hash: str,
     source_commit: str,
+    resolved_config_hash: str,
+    canonical: bool,
 ) -> dict[str, Any]:
     cap_hit = result.stop_reason == "max_new_tokens"
     quality = _quality(dataset, result.generated_text, fixture["reference_answer"], cap_hit)
     prompt_parts = fixture["prompt_parts"]
-    resolved_config_hash = hash_json(condition)
     verification_calls = result.verification_calls
     tokens_advanced = sum(result.acceptance_lengths)
     accepted_draft_tokens = tokens_advanced - verification_calls if verification_calls else 0
@@ -73,6 +74,7 @@ def _row(
         "condition": condition,
         "source_commit": source_commit,
         "resolved_config_hash": resolved_config_hash,
+        "canonical": canonical,
         "prompt_policy_id": condition["prompt_policy_id"],
         "structured_prompt_parts_hash": hash_json(prompt_parts),
         "precompression_prompt_hash": hash_text(fixture["prompt"]),
@@ -125,7 +127,7 @@ def run_condition(
     dataset: str,
     condition_id: str,
     output: Path,
-    max_new_tokens: int,
+    max_new_tokens: int | None,
     run_id: str,
 ) -> dict[str, Any]:
     import gc
@@ -133,16 +135,16 @@ def run_condition(
 
     fixture_path = _fixture_path(dataset)
     fixtures = read_jsonl(fixture_path)[:10]
-    dataset_manifest_hash = hash_file(fixture_path)
-    source_commit = _git_commit()
-    condition = resolved_condition(condition_id, dataset_manifest_hash)
-    condition["max_new_tokens"] = max_new_tokens
-    condition["attention_backend"] = "transformers-qwen3-local"
-    condition["target_model_lock_id"] = f"target:{model_lock()['target']['revision']}"
-    condition["draft_model_lock_id"] = (
-        f"drafter:{model_lock()['drafter']['revision']}" if condition_id == "dflash-r1" else None
+    resolved = resolve_config(
+        dataset=dataset,
+        condition_id=condition_id,
+        execution_mode="smoke" if max_new_tokens is not None else "benchmark",
+        overrides={"max_new_tokens": max_new_tokens} if max_new_tokens is not None else None,
     )
-    config = GenerationConfig(max_new_tokens=max_new_tokens, temperature=0.0)
+    dataset_manifest_hash = resolved.data["dataset_manifest_hash"]
+    source_commit = _git_commit()
+    condition = resolved.data["condition"]
+    config = GenerationConfig(max_new_tokens=resolved.data["max_new_tokens"], temperature=resolved.data["runtime"]["temperature"])
 
     start = time.perf_counter()
     tokenizer = load_target_tokenizer(TARGET_PATH)
@@ -170,6 +172,8 @@ def run_condition(
             model_init_ms=model_init_ms,
             dataset_manifest_hash=dataset_manifest_hash,
             source_commit=source_commit,
+            resolved_config_hash=resolved.sha256,
+            canonical=resolved.canonical,
         )
         validate_dflash_invariants(row)
         rows.append(row)
@@ -239,12 +243,18 @@ def _summaries(run_files: dict[tuple[str, str], Path]) -> tuple[list[dict[str, A
     return summary_rows, quality, performance
 
 
-def run_matrix(output_dir: Path, *, max_new_tokens: int) -> dict[str, Any]:
+def run_matrix(output_dir: Path, *, max_new_tokens: int | None = None) -> dict[str, Any]:
     output_dir.mkdir(parents=True, exist_ok=True)
     runs_dir = output_dir / "runs"
     logs_dir = output_dir / "logs"
     runs_dir.mkdir(exist_ok=True)
     logs_dir.mkdir(exist_ok=True)
+    configs = {
+        f"{dataset}:{condition}": resolve_config(dataset=dataset, condition_id=condition).data
+        for dataset in ["gsm8k", "qmsum"] for condition in ["baseline-ar", "dflash-r1"]
+    }
+    write_json(output_dir / "resolved_config.json", configs)
+    (output_dir / "resolved_config.sha256").write_text(hash_json(configs) + "\n", encoding="utf-8")
     run_id = f"rec-t03b-{int(time.time())}"
     run_files = {
         ("gsm8k", "baseline-ar"): runs_dir / "gsm8k_baseline_ar.jsonl",
@@ -267,8 +277,6 @@ def run_matrix(output_dir: Path, *, max_new_tokens: int) -> dict[str, Any]:
             condition,
             "--output",
             str(path),
-            "--max-new-tokens",
-            str(max_new_tokens),
             "--run-id",
             run_id,
         ]
@@ -324,7 +332,7 @@ def decide_gate(
     quality: dict[str, Any],
     performance: dict[str, Any],
     process_records: list[dict[str, Any]],
-    max_new_tokens: int,
+    max_new_tokens: int | None,
 ) -> dict[str, Any]:
     rows_total = sum(row["rows"] for row in summary_rows)
     all_processes_ok = all(record["returncode"] == 0 for record in process_records)
@@ -341,7 +349,7 @@ def decide_gate(
         "gate_decision": gate,
         "rows_total": rows_total,
         "process_isolation": process_records,
-        "max_new_tokens": max_new_tokens,
+        "max_new_tokens": max_new_tokens if max_new_tokens is not None else {"gsm8k": 256, "qmsum": 384},
         "quality_boundary": {
             "qmsum_semantic_correctness": "NOT_CLAIMED",
             "cap_hits_are_reported_not_hidden": True,
@@ -359,12 +367,12 @@ def main() -> int:
     sub = parser.add_subparsers(dest="command", required=True)
     matrix = sub.add_parser("matrix")
     matrix.add_argument("--output-dir", default="results/Rec-T03B")
-    matrix.add_argument("--max-new-tokens", type=int, default=8)
+    matrix.add_argument("--max-new-tokens", type=int)
     condition = sub.add_parser("condition")
     condition.add_argument("--dataset", required=True, choices=["gsm8k", "qmsum"])
     condition.add_argument("--condition", required=True, choices=["baseline-ar", "dflash-r1"])
     condition.add_argument("--output", required=True)
-    condition.add_argument("--max-new-tokens", type=int, required=True)
+    condition.add_argument("--max-new-tokens", type=int)
     condition.add_argument("--run-id", required=True)
     args = parser.parse_args()
     if args.command == "matrix":

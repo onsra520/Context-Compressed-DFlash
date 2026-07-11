@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Context-Compressed Decoding Flash reconstruction runtime."
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
-dependencies = []
+dependencies = ["PyYAML>=6.0"]
 
 [project.scripts]
 ccdf = "ccdf.cli:main"

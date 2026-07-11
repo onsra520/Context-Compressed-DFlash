@@ -9,9 +9,9 @@ from pathlib import Path
 from typing import Any
 
 from ccdf.artifacts.writer import write_json
-from ccdf.datasets.hashing import canonical_json, hash_json, hash_text
+from ccdf.datasets.hashing import canonical_json, hash_text
 from ccdf.datasets.io import read_jsonl
-from ccdf.benchmark.execution import resolved_condition
+from ccdf.config import resolve_config, write_resolved_config
 from ccdf.runtime import execute_request
 
 
@@ -22,11 +22,12 @@ def _find_fixture(dataset: str, fixture_id: str) -> dict[str, Any]:
             continue
         for row in read_jsonl(path):
             if row["fixture_id"] == fixture_id:
+                row["_subset"] = subset
                 return row
     raise ValueError(f"fixture not found: {dataset}/{fixture_id}")
 
 
-def _build_prompt(args: argparse.Namespace) -> tuple[str, str, str | None, str, str]:
+def _build_prompt(args: argparse.Namespace) -> tuple[str, str, str | None, str, str, str]:
     if args.dataset and args.fixture_id:
         fixture = _find_fixture(args.dataset, args.fixture_id)
         return (
@@ -35,9 +36,10 @@ def _build_prompt(args: argparse.Namespace) -> tuple[str, str, str | None, str, 
             fixture["reference_answer"],
             fixture["fixture_id"],
             fixture["content_hash"],
+            fixture["_subset"],
         )
     if args.prompt:
-        return args.prompt, "ad_hoc", None, "ad_hoc_prompt", hash_text(args.prompt)
+        return args.prompt, "gsm8k", None, "ad_hoc_prompt", hash_text(args.prompt), "n10"
     if args.context_file and args.question:
         context = Path(args.context_file).read_text(encoding="utf-8")
         prompt = (
@@ -47,13 +49,19 @@ def _build_prompt(args: argparse.Namespace) -> tuple[str, str, str | None, str, 
             f"{args.question}\n\n"
             "Answer using only the meeting transcript. A concise answer is enough."
         )
-        return prompt, "ad_hoc_qmsum", None, "ad_hoc_context_question", hash_text(prompt)
+        return prompt, "qmsum", None, "ad_hoc_context_question", hash_text(prompt), "n10"
     raise ValueError("provide --prompt, or --context-file with --question, or --dataset with --fixture-id")
 
 
 def run_command(args: argparse.Namespace) -> int:
     measurement_mode = "profiling" if args.profile else "benchmark"
-    prompt, dataset, reference, fixture_id, fixture_hash = _build_prompt(args)
+    prompt, dataset, reference, fixture_id, fixture_hash, subset = _build_prompt(args)
+    resolved = resolve_config(
+        dataset=dataset,
+        subset=subset,
+        condition_id=args.condition,
+        execution_mode="profiling" if args.profile else "benchmark",
+    )
     result = execute_request(
         condition_id=args.condition,
         dataset=dataset,
@@ -61,7 +69,7 @@ def run_command(args: argparse.Namespace) -> int:
         reference_answer=reference,
         measurement_mode=measurement_mode,
     )
-    condition = resolved_condition(args.condition, "ad-hoc" if dataset.startswith("ad_hoc") else fixture_hash)
+    condition = resolved.data["condition"]
     payload = {
         "cli_contract_version": "rec-t02b1.cli.v1",
         "condition": condition,
@@ -70,12 +78,13 @@ def run_command(args: argparse.Namespace) -> int:
         "fixture_content_hash": fixture_hash,
         "measurement_mode": measurement_mode,
         "prompt_hash": hash_text(prompt),
-        "resolved_config_hash": hash_json(condition),
+        "resolved_config_hash": resolved.sha256,
         **result,
     }
     if args.save:
         out_dir = Path("results/Rec-T02B1")
         out_dir.mkdir(parents=True, exist_ok=True)
+        write_resolved_config(out_dir, resolved)
         save_path = out_dir / f"{args.condition}_{dataset}_{fixture_id}_{measurement_mode}.json"
         write_json(save_path, payload)
         payload["saved_path"] = str(save_path)
