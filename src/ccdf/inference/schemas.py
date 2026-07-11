@@ -11,6 +11,8 @@ class GenerationConfig:
     temperature: float = 0.0
     stop_token_ids: tuple[int, ...] = (151645,)
     enable_thinking: bool = False
+    dflash_mode: str = "normal"
+    dflash_block_size: int | None = None
 
 
 @dataclass
@@ -23,6 +25,7 @@ class GenerationResult:
     acceptance_lengths: list[int] = field(default_factory=list)
     verification_calls: int = 0
     draft_tokens_proposed: int = 0
+    cache_audit: list[dict[str, object]] = field(default_factory=list)
     model_init_ms: float = 0.0
     compressor_init_ms: float = 0.0
     compression_total_ms: float = 0.0

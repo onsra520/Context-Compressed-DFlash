@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "fixture_count": 6,
+  "max_new_tokens": 128,
+  "modes": {
+    "block1": true,
+    "normal": true,
+    "oracle_draft": true,
+    "reject_all": true
+  },
+  "contract": "Every emitted DFlash token equals the canonical full-prefix/no-cache target token."
+}

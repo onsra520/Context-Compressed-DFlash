@@ -1,0 +1,31 @@
+{
+  "status": "RESOLVED",
+  "root_cause": "The NF4 Qwen3 target has non-token-equivalent cached and full-prefix numerical paths; near-tied bfloat16 logits reversed greedy choices.",
+  "repair": "TargetExecutionState establishes full-prefix/no-cache greedy evaluation as the shared target authority for Baseline and DFlash. DFlash retains block drafting but commits each proposal only when this authority selects it.",
+  "proof": {
+    "n3_controlled": {
+      "rows": 6,
+      "by_dataset": {
+        "gsm8k": 3,
+        "qmsum": 3
+      },
+      "modes": {
+        "block1": true,
+        "normal": true,
+        "oracle_draft": true,
+        "reject_all": true
+      }
+    },
+    "n10_normal": {
+      "rows": 20,
+      "by_dataset": {
+        "gsm8k": 10,
+        "qmsum": 10
+      },
+      "modes": {
+        "normal": true
+      }
+    }
+  },
+  "claim_boundary": "Correctness-first repair; no throughput or latency claim is made for this execution contract."
+}

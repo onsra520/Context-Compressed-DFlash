@@ -1,0 +1,59 @@
+{
+  "task": "Rec-T06A1",
+  "fixtures": {
+    "gsm8k": {
+      "path": "data/eval/gsm8k/gsm8k_n10.jsonl",
+      "sha256": "45d50bac9cd425b509bdcda119c5b7ce295e1acac655ffec1eb0ca3ab21240b7",
+      "fixture_ids": [
+        "gsm8k_test_000000_12c0b583",
+        "gsm8k_test_000001_183930a6",
+        "gsm8k_test_000002_838a7b6e"
+      ],
+      "prompt_parts_present": [
+        true,
+        true,
+        true
+      ]
+    },
+    "qmsum": {
+      "path": "data/eval/qmsum/qmsum_n10.jsonl",
+      "sha256": "429a8aac613a9def9e81761d510df68a2c38d6e8fb097b8ffb1b2cfb11160152",
+      "fixture_ids": [
+        "qmsum_test_meeting0000_specific_00_24bd89de",
+        "qmsum_test_meeting0000_specific_01_1b6f4c97",
+        "qmsum_test_meeting0000_specific_02_86570dc2"
+      ],
+      "prompt_parts_present": [
+        true,
+        true,
+        true
+      ]
+    }
+  },
+  "models": {
+    "target": {
+      "model_id": "unsloth/Qwen3-4B-bnb-4bit",
+      "revision": "cad0bedfdd862093a12af478cb974ab2addd0e0a",
+      "path": "models/target/unsloth--Qwen3-4B-bnb-4bit",
+      "quantization": "bitsandbytes-nf4-bfloat16"
+    },
+    "drafter": {
+      "model_id": "z-lab/Qwen3-4B-DFlash-b16",
+      "revision": "b74e3a329c4d963783143b1e970d95b002be72bd",
+      "path": "models/drafter/z-lab--Qwen3-4B-DFlash-b16",
+      "block_size": "16"
+    }
+  },
+  "runtime": {
+    "temperature": 0.0,
+    "max_new_tokens": 128,
+    "stop_token_ids": [
+      151645
+    ],
+    "attention_backend": "sdpa"
+  },
+  "source": {
+    "config": "configs/reconstruction.yml",
+    "config_sha256": "9057b54231951bdad8c5d887d4b2dd6622abc8fc4431626e4247d6ac0b39c1d9"
+  }
+}

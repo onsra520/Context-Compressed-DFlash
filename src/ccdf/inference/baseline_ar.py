@@ -5,11 +5,10 @@ from __future__ import annotations
 import time
 
 import torch
-from transformers import DynamicCache
 
-from ccdf.dflash.utils import sample
 from ccdf.inference.generation_common import decode_new_text, stop_reason, synchronize_if_cuda, tokenize_prompt
 from ccdf.inference.schemas import GenerationConfig, GenerationResult
+from ccdf.inference.target_execution import TargetExecutionState
 
 
 @torch.inference_mode()
@@ -18,36 +17,21 @@ def generate_baseline(model, tokenizer, prompt: str, config: GenerationConfig) -
     request_start = time.perf_counter()
     synchronize_if_cuda(model.device)
     prefill_start = time.perf_counter()
-    past_key_values = DynamicCache()
-    position_ids = torch.arange(input_ids.shape[1], device=model.device).unsqueeze(0)
-    output = model(
-        input_ids,
-        position_ids=position_ids,
-        past_key_values=past_key_values,
-        use_cache=True,
-        logits_to_keep=1,
-    )
-    next_token = sample(output.logits, config.temperature)[:, -1:]
+    state = TargetExecutionState(model, input_ids, config.temperature)
+    next_token = state.next_token()
     synchronize_if_cuda(model.device)
     target_prefill_ms = (time.perf_counter() - prefill_start) * 1000
 
-    generated = [int(next_token[0, 0].item())]
-    current = next_token
+    generated = [next_token]
+    state.commit(next_token)
     synchronize_if_cuda(model.device)
     decode_start = time.perf_counter()
     while len(generated) < config.max_new_tokens:
         if generated[-1] in config.stop_token_ids:
             break
-        pos = torch.tensor([[input_ids.shape[1] + len(generated) - 1]], device=model.device)
-        output = model(
-            current,
-            position_ids=pos,
-            past_key_values=past_key_values,
-            use_cache=True,
-            logits_to_keep=1,
-        )
-        current = sample(output.logits, config.temperature)[:, -1:]
-        generated.append(int(current[0, 0].item()))
+        next_token = state.next_token()
+        generated.append(next_token)
+        state.commit(next_token)
     generated_ids = torch.tensor([generated], device=model.device, dtype=torch.long)
     output_ids = torch.cat([input_ids, generated_ids], dim=1)
     synchronize_if_cuda(model.device)

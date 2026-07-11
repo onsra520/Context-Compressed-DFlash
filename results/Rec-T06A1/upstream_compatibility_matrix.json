@@ -1,0 +1,7 @@
+{
+  "official_target_upstream": "NOT_RUN: official BF16 target plus drafter cannot fit the available GPU.",
+  "quantized_target_upstream": "SOURCE_EQUIVALENT: local reconstructed proposal path derives from the pinned upstream spec_generate; cached target semantics were intentionally not retained because they fail the target oracle.",
+  "official_target_local": "NOT_RUN: same hardware limitation.",
+  "quantized_target_local": "PASS: shared full-prefix target authority, n3 controlled modes and n10 normal parity.",
+  "decision": "NF4 is supported only under the repaired full-prefix target contract; no claim is made for DynamicCache token equivalence."
+}
