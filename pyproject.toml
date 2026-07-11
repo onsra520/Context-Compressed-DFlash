@@ -1,41 +1,20 @@
 [project]
 name = "ccdf"
 version = "0.1.0"
-description = "Context-Compressed Decoding Flash: long-context acceleration via input-side context compression before DFlash."
+description = "Context-Compressed Decoding Flash reconstruction runtime."
 readme = "README.md"
-requires-python =  ">=3.10,<3.13"
-authors = [
-  { name = "onsra520" }
-]
-license = { text = "MIT" }
-
-dependencies = [
-  "torch",
-  "transformers",
-  "accelerate",
-  "datasets",
-  "sentencepiece",
-  "protobuf",
-  "numpy",
-  "pandas",
-  "tqdm",
-  "scikit-learn",
-  "llmlingua",
-  "einops",
-  "safetensors",
-  "pyyaml",
-]
+requires-python = ">=3.10,<3.13"
+dependencies = []
 
 [project.optional-dependencies]
-dev = [
-  "pytest",
-  "ruff",
-  "black",
-  "mypy",
-]
+dev = ["pytest", "ruff", "black"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
 
 [tool.ruff]
 line-length = 100
@@ -43,7 +22,3 @@ target-version = "py310"
 
 [tool.black]
 line-length = 100
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"]
