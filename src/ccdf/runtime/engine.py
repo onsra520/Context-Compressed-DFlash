@@ -27,6 +27,8 @@ class RuntimeEngine:
     """Load one resolved condition and execute all requests through one pipeline."""
 
     def __init__(self, resolved: Any) -> None:
+        import resource
+
         self.resolved = resolved
         data = resolved.data
         models = data["models"]
@@ -64,6 +66,7 @@ class RuntimeEngine:
 
         self.compressor = None
         self.compressor_init_ms = 0.0
+        self.process_rss_before_compressor_bytes = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) * 1024
         # GSM8K is explicitly short-context bypassed. Avoid loading a CPU model
         # that cannot be used by the canonical condition.
         need_compressor = (
@@ -79,6 +82,7 @@ class RuntimeEngine:
                 device_map=models["compression"]["device"],
             )
             self.compressor_init_ms = (time.perf_counter() - started) * 1000
+        self.process_rss_after_compressor_bytes = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) * 1024
         self.model_init_ms = (
             self.target_model_init_ms + self.drafter_model_init_ms + self.compressor_init_ms
         )
@@ -323,6 +327,7 @@ class RuntimeEngine:
                 "compressor_init_ms": self.compressor_init_ms,
                 "model_init_ms": self.model_init_ms,
                 "prompt_render_ms": prompt_render_ms,
+                "prompt_prepare_ms": prompt_render_ms,
                 "compression_total_ms": result.compression_total_ms,
                 "target_prefill_ms": result.target_prefill_ms,
                 "draft_prefill_ms": result.draft_prefill_ms,
@@ -330,6 +335,9 @@ class RuntimeEngine:
                 "generation_request_e2e_ms": result.generation_request_e2e_ms,
                 "warm_request_e2e_ms": result.warm_request_e2e_ms,
                 "request_e2e_ms": result.request_e2e_ms,
+                # Generation timing begins after prompt preparation and, by
+                # contract, excludes optional context compression.
+                "cold_start_e2e_ms": self.model_init_ms + result.warm_request_e2e_ms,
             },
             "vram": {
                 "peak_allocated_bytes": allocated,
@@ -343,6 +351,24 @@ class RuntimeEngine:
                 if condition_id == "dflash-r1"
                 else "quantized target + drafter + CPU compressor"
             ),
+            "resource": {
+                "peak_cuda_allocated_bytes": allocated,
+                "peak_cuda_reserved_bytes": reserved,
+                "target_only_gpu_bytes": None,
+                "drafter_incremental_gpu_bytes": None,
+                "compressor_gpu_bytes": 0 if condition_id == "cc-dflash-r2" else None,
+                "process_rss_before_compressor_bytes": self.process_rss_before_compressor_bytes,
+                "process_rss_after_compressor_bytes": self.process_rss_after_compressor_bytes,
+                "cpu_compressor_memory_delta_bytes": max(0, self.process_rss_after_compressor_bytes - self.process_rss_before_compressor_bytes),
+                "model_composition": (
+                    "target-only GPU"
+                    if condition_id == "baseline-ar"
+                    else "target plus drafter GPU"
+                    if condition_id == "dflash-r1"
+                    else "target plus drafter GPU; CPU compressor"
+                ),
+                "unsupported_fields": ["target_only_gpu_bytes", "drafter_incremental_gpu_bytes"],
+            },
             "dflash": dflash,
             "compression": {
                 "applied": bool(compression and not compression.bypassed),

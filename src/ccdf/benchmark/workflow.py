@@ -9,7 +9,9 @@ from __future__ import annotations
 import csv
 import json
 import os
+import platform
 import subprocess
+import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -30,11 +32,14 @@ def _git_state(root: Path) -> dict[str, Any]:
         )
         return proc.stdout.strip() if proc.returncode == 0 else "unavailable"
 
-    status = run("status", "--short")
+    tracked_diff = run("diff", "--binary", "--", "src", "configs", "tests", "scripts", "docs", "pyproject.toml")
+    untracked = run("ls-files", "--others", "--exclude-standard")
+    relevant_untracked = [line for line in untracked.splitlines() if line.startswith(("src/", "configs/", "tests/", "scripts/", "docs/"))]
     return {
         "source_commit": run("rev-parse", "HEAD"),
-        "dirty": bool(status and status != "unavailable"),
-        "status_short": status,
+        "dirty": bool(tracked_diff or relevant_untracked),
+        "tracked_diff_sha256": hash_text(tracked_diff),
+        "relevant_untracked_source_config_inventory_sha256": hash_json(relevant_untracked),
     }
 
 
@@ -64,8 +69,8 @@ def _row(
         "source_commit": git_state["source_commit"],
         "source_dirty": git_state["dirty"],
         "resolved_config_hash": resolved.sha256,
-        "canonical": False,
-        "canonical_reason": "Rec-T06A3 validation; process-isolated provenance deferred to Rec-T06B",
+        "canonical": True,
+        "canonical_reason": "Rec-T06B process-isolated RuntimeEngine worker",
         "prompt_policy_id": resolved.data["prompt_policy"]["id"],
         "structured_prompt_parts_hash": hash_json(fixture["prompt_parts"]),
         "precompression_prompt_hash": hash_text(result["precompression_prompt"]),
@@ -92,6 +97,7 @@ def _row(
         **timing,
         "peak_allocated_bytes": result["vram"]["peak_allocated_bytes"],
         "peak_reserved_bytes": result["vram"]["peak_reserved_bytes"],
+        "resource": result.get("resource", {}),
         "measurement_scope": result["vram"]["measurement_scope"],
         "measurement_mode": result["measurement_mode"],
         **dflash,
@@ -129,44 +135,24 @@ def run_benchmark(
     if limit is not None:
         fixtures = fixtures[:limit]
     git_state = _git_state(Path(first.data["path_context"]["worktree_root"]))
+    if execution_mode == "benchmark" and git_state["dirty"]:
+        raise ValueError("canonical benchmark requires clean tracked source/config state")
     config_bundle: dict[str, Any] = {}
     run_id = f"{task_id.lower()}-{int(time.time())}"
 
+    worker_manifests: dict[str, dict[str, Any]] = {}
     for condition_id in conditions:
-        resolved = resolve_config(
-            dataset=dataset,
-            subset=subset,
-            condition_id=condition_id,
-            execution_mode=execution_mode,
-        )
+        resolved = resolve_config(dataset=dataset, subset=subset, condition_id=condition_id, execution_mode=execution_mode)
         config_bundle[condition_id] = resolved.data
-        engine = RuntimeEngine(resolved)
-        rows: list[dict[str, Any]] = []
-        try:
-            for fixture in fixtures:
-                result = engine.execute(
-                    RuntimeRequest(
-                        resolved=resolved,
-                        prompt_parts=PromptParts(**fixture["prompt_parts"]),
-                        reference_answer=fixture["reference_answer"],
-                        measurement_mode=execution_mode,
-                    )
-                )
-                rows.append(
-                    _row(
-                        task_id=task_id,
-                        run_id=run_id,
-                        resolved=resolved,
-                        fixture=fixture,
-                        result=result,
-                        git_state=git_state,
-                    )
-                )
-        finally:
-            engine.close()
-        write_jsonl_atomic(
-            output_dir / "runs" / f"{condition_id.replace('-', '_')}.jsonl", rows
-        )
+        run_path = output_dir / "runs" / f"{condition_id.replace('-', '_')}.jsonl"
+        command = [sys.executable, "-m", "ccdf.benchmark.worker", "--dataset", dataset, "--subset", subset, "--condition", condition_id, "--output", str(run_path), "--task-id", task_id]
+        if limit is not None:
+            command.extend(["--limit", str(limit)])
+        proc = subprocess.run(command, cwd=str(first.data["path_context"]["worktree_root"]), text=True, capture_output=True)
+        worker_path = run_path.with_suffix(".worker.json")
+        if proc.returncode:
+            raise RuntimeError(f"worker failed for {condition_id}: {proc.stderr.strip()}")
+        worker_manifests[condition_id] = json.loads(worker_path.read_text(encoding="utf-8"))
 
     write_json(output_dir / "resolved_config.json", config_bundle)
     (output_dir / "resolved_config.sha256").write_text(
@@ -186,9 +172,16 @@ def run_benchmark(
         "fixture_file_hash": first.data["fixture_file_hash"],
         "conditions": conditions,
         "runtime": "ccdf.runtime.engine.RuntimeEngine",
-        "canonical": False,
+        "canonical": True,
         "git_state": git_state,
         "run_file_hashes": run_hashes,
+        "ordered_fixture_ids_sha256": hash_json([row["fixture_id"] for row in fixtures]),
+        "canonical_config_file_sha256": hash_file(Path(first.data["config_path"])),
+        "resolved_condition_config_sha256": {key: value["condition"].get("condition_id") and hash_json(value) for key, value in config_bundle.items()},
+        "prompt_policy_sha256": hash_json(first.data["prompt_policy"]),
+        "evaluator_implementation_config_sha256": hash_text(first.data["evaluator_identity"]),
+        "environment": {"python": sys.version, "platform": platform.platform()},
+        "worker_manifests": worker_manifests,
     }
     write_json(output_dir / "benchmark_manifest.json", manifest)
     return manifest
@@ -204,6 +197,9 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         rows.extend(read_jsonl(path))
     if actual_hashes != manifest.get("run_file_hashes"):
         raise ValueError("run-file hashes do not match benchmark manifest")
+    expected_names = {f"{condition.replace('-', '_')}.jsonl" for condition in manifest["conditions"]}
+    if set(actual_hashes) != expected_names:
+        raise ValueError("missing, extra, or stale expected-condition run artifact")
 
     summary: list[dict[str, Any]] = []
     failures: list[dict[str, Any]] = []
@@ -211,6 +207,8 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         selected = [row for row in rows if row["condition"]["condition_id"] == condition]
         if not selected:
             raise ValueError(f"missing rows for condition: {condition}")
+        if any(row["condition"]["condition_id"] != condition for row in selected):
+            raise ValueError("mixed condition rows in run artifact")
         strict = sum(row["quality"].get("label") == "strict_correct" for row in selected)
         target_calls = sum(int(row.get("total_target_forward_calls", 0)) for row in selected)
         output_tokens = sum(int(row["output_tokens"]) for row in selected)
@@ -225,7 +223,20 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
                 "gsm8k_strict_correct": strict if manifest["dataset"] == "gsm8k" else None,
                 "mean_generation_e2e_ms": sum(row["generation_request_e2e_ms"] for row in selected) / len(selected),
                 "mean_warm_e2e_ms": sum(row["warm_request_e2e_ms"] for row in selected) / len(selected),
+                "mean_cold_start_e2e_ms": sum(row["cold_start_e2e_ms"] for row in selected) / len(selected),
+                "mean_compression_total_ms": sum(row["compression_total_ms"] for row in selected) / len(selected),
+                "mean_target_prefill_ms": sum(row["target_prefill_ms"] for row in selected) / len(selected),
+                "mean_decode_total_ms": sum(row["decode_total_ms"] for row in selected) / len(selected),
+                "generation_tok_s": output_tokens / max(sum(row["generation_request_e2e_ms"] for row in selected) / 1000, 1e-9),
+                "warm_request_tok_s": output_tokens / max(sum(row["warm_request_e2e_ms"] for row in selected) / 1000, 1e-9),
+                "peak_cuda_allocated_bytes": max(row["peak_allocated_bytes"] for row in selected),
+                "peak_cuda_reserved_bytes": max(row["peak_reserved_bytes"] for row in selected),
+                "cpu_compressor_memory_delta_bytes": max(int(row.get("resource", {}).get("cpu_compressor_memory_delta_bytes", 0)) for row in selected),
                 "global_target_forwards_per_output_token": target_calls / output_tokens if output_tokens else 0.0,
+                "effective_tau": sum(float(row.get("effective_tau", 0)) for row in selected) / len(selected),
+                "draft_acceptance_rate": sum(float(row.get("draft_acceptance_rate", 0)) for row in selected) / len(selected),
+                "rollback_tokens": sum(int(row.get("rollback_tokens", 0)) for row in selected),
+                "model_composition": selected[0].get("resource", {}).get("model_composition", "unsupported"),
                 "semantic_correctness": "NOT_CLAIMED" if manifest["dataset"] == "qmsum" else "numeric",
             }
         )
@@ -245,17 +256,24 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         "conditions": summary,
     }
     write_json(run_dir / "quality_summary.json", quality)
+    write_json(run_dir / "performance_summary.json", {"dataset": manifest["dataset"], "conditions": summary, "comparison_latency": "warm_request_e2e_ms includes compression"})
+    write_json(run_dir / "resource_summary.json", {"dataset": manifest["dataset"], "conditions": [{"condition": item["condition"], "peak_cuda_allocated_bytes": item["peak_cuda_allocated_bytes"], "peak_cuda_reserved_bytes": item["peak_cuda_reserved_bytes"], "cpu_compressor_memory_delta_bytes": item["cpu_compressor_memory_delta_bytes"], "model_composition": item["model_composition"]} for item in summary]})
+    write_json(run_dir / "dflash_summary.json", {"conditions": [{"condition": item["condition"], "target_forwards_per_emitted_token": item["global_target_forwards_per_output_token"], "effective_tau": item["effective_tau"], "draft_acceptance_rate": item["draft_acceptance_rate"], "rollback_tokens": item["rollback_tokens"]} for item in summary]})
+    write_json(run_dir / "compression_summary.json", {"conditions": [{"condition": item["condition"], "compression_total_ms": item["mean_compression_total_ms"]} for item in summary]})
     write_jsonl_atomic(run_dir / "failure_samples.jsonl", failures)
+    with (run_dir / "summary.csv").open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(summary[0]))
+        writer.writeheader()
+        writer.writerows(summary)
     evaluation_manifest = {
         "source_benchmark_manifest": str(manifest_path),
         "source_benchmark_manifest_hash": hash_file(manifest_path),
         "run_file_hashes": actual_hashes,
         "models_loaded": False,
         "evaluator": "stored runtime quality fields",
+        "produced_summary_hashes": {},
     }
+    produced = ["summary.csv", "quality_summary.json", "performance_summary.json", "resource_summary.json", "dflash_summary.json", "compression_summary.json", "failure_samples.jsonl"]
+    evaluation_manifest["produced_summary_hashes"] = {name: hash_file(run_dir / name) for name in produced}
     write_json(run_dir / "evaluation_manifest.json", evaluation_manifest)
-    with (run_dir / "summary.csv").open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(summary[0]))
-        writer.writeheader()
-        writer.writerows(summary)
     return {"rows": len(rows), "conditions": summary}

@@ -1,4 +1,4 @@
-"""Rec-T04B n=30 three-condition benchmark runner."""
+"""Legacy noncanonical Rec-T04B runner; cannot create Rec-T06B artifacts."""
 
 from __future__ import annotations
 
