@@ -1,9 +1,23 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
+
+import pytest
 from pathlib import Path
+
+from ccdf.paths import find_shared_root, find_worktree_root
+
+WORKTREE_ROOT = find_worktree_root()
+SHARED_ROOT = find_shared_root(WORKTREE_ROOT)
+TARGET_ROOT = SHARED_ROOT / "models/target/unsloth--Qwen3-4B-bnb-4bit"
+DATA_ROOT = WORKTREE_ROOT / "data/eval/gsm8k/gsm8k_n10.jsonl"
+pytestmark = pytest.mark.skipif(
+    not TARGET_ROOT.is_dir() or not DATA_ROOT.is_file(),
+    reason="real CLI integration requires local checkpoints and frozen data",
+)
 
 
 def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
@@ -12,11 +26,13 @@ def run_cli(*args: str) -> subprocess.CompletedProcess[str]:
         check=False,
         text=True,
         capture_output=True,
+        cwd=WORKTREE_ROOT,
+        env={**os.environ, "PYTHONPATH": str(WORKTREE_ROOT / "src")},
     )
 
 
 def first_fixture(dataset: str) -> str:
-    path = Path("data/eval") / dataset / f"{dataset}_n10.jsonl"
+    path = WORKTREE_ROOT / "data/eval" / dataset / f"{dataset}_n10.jsonl"
     return json.loads(path.read_text(encoding="utf-8").splitlines()[0])["fixture_id"]
 
 
@@ -67,7 +83,7 @@ def test_fixture_profile_json_mode() -> None:
     assert result.returncode == 0
     assert payload["fixture_id"] == fixture_id
     assert payload["measurement_mode"] == "profiling"
-    assert payload["quality"]["evaluator_version"] == "rec-t02b.gsm8k-evaluator.v1"
+    assert payload["quality"]["evaluator_version"] == "rec-t06a3.gsm8k-evaluator.v2"
 
 
 def test_context_file_question(tmp_path: Path) -> None:

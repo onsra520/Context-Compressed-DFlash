@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import inspect
 
+import importlib.util
+
+import pytest
 import torch
 
 from ccdf.dflash.attention import validate_attention_contract
@@ -10,6 +13,18 @@ from ccdf.dflash.model import EXPECTED_CONTRACT
 from ccdf.dflash.utils import acceptance_prefix_length, build_target_layer_ids, metric_counters, sample
 from ccdf.inference.model_registry import DRAFTER_PATH, TARGET_PATH
 from ccdf.inference.target_loader import load_target_config, load_target_tokenizer
+from ccdf.config import resolve_config
+from ccdf.paths import find_shared_root, find_worktree_root
+
+WORKTREE_ROOT = find_worktree_root()
+SHARED_ROOT = find_shared_root(WORKTREE_ROOT)
+RUNTIME_AVAILABLE = importlib.util.find_spec("transformers") is not None
+TARGET_LOCAL = SHARED_ROOT / "models/target/unsloth--Qwen3-4B-bnb-4bit"
+DRAFTER_LOCAL = SHARED_ROOT / "models/drafter/z-lab--Qwen3-4B-DFlash-b16"
+requires_models = pytest.mark.skipif(
+    not RUNTIME_AVAILABLE or not TARGET_LOCAL.is_dir() or not DRAFTER_LOCAL.is_dir(),
+    reason="local model contract test requires Transformers and both checkpoints",
+)
 
 
 def test_target_layer_ids_match_locked_drafter() -> None:
@@ -35,16 +50,18 @@ def test_metric_counters() -> None:
     assert counters["rollback_tokens"] == 4
 
 
+@requires_models
 def test_local_configs_are_compatible() -> None:
-    target_config = load_target_config(TARGET_PATH)
-    drafter_config = load_drafter_config(DRAFTER_PATH)
+    target_config = load_target_config(TARGET_LOCAL)
+    drafter_config = load_drafter_config(DRAFTER_LOCAL)
     audit = audit_model_contract(target_config, drafter_config)
     assert audit["pass"] is True
     assert validate_attention_contract(drafter_config)["is_full_attention_only"] is True
 
 
+@requires_models
 def test_target_tokenizer_local_only() -> None:
-    tokenizer = load_target_tokenizer(TARGET_PATH)
+    tokenizer = load_target_tokenizer(TARGET_LOCAL)
     assert tokenizer.eos_token_id == 151645
 
 

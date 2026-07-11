@@ -12,6 +12,7 @@ from ccdf.benchmark.runner import run_synthetic_benchmark
 from ccdf.benchmark.schemas import validate_row
 from ccdf.evaluation import gsm8k, qmsum
 from ccdf.metrics.dflash import aggregate_tau, validate_dflash_invariants
+from ccdf.paths import find_worktree_root
 
 
 def _row(mode: str = "benchmark") -> dict:
@@ -99,6 +100,10 @@ def test_summary_rejects_stale_artifact(tmp_path: Path) -> None:
         )
 
 
+@pytest.mark.skipif(
+    not (find_worktree_root() / "data/eval/gsm8k/gsm8k_n10.jsonl").is_file(),
+    reason="synthetic runner samples frozen fixtures",
+)
 def test_synthetic_runner_outputs_summary(tmp_path: Path) -> None:
     summary = run_synthetic_benchmark(tmp_path)
     assert summary["process_isolation"]["pass"] is True
@@ -112,3 +117,13 @@ def test_synthetic_runner_outputs_summary(tmp_path: Path) -> None:
         resolved_config_hash={row["resolved_config_hash"] for row in gsm_rows},
     )
     assert aggregate["row_count"] == 2
+
+
+
+def test_smoke_mode_is_valid_nonprofiling_mode() -> None:
+    smoke = _row("smoke")
+    validate_row(smoke)
+
+    smoke["draft_proposal_ms"] = 1.0
+    with pytest.raises(ValueError, match="profiling fields"):
+        validate_row(smoke)

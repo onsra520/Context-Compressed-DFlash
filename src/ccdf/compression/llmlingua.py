@@ -5,8 +5,6 @@ from __future__ import annotations
 import time
 from pathlib import Path
 
-from transformers import AutoTokenizer
-
 from ccdf.compression.base import CompressorBase
 from ccdf.compression.chunking import chunk_context
 from ccdf.compression.schemas import CompressionConfig, CompressionResult
@@ -17,6 +15,7 @@ LOCAL_LLMLINGUA_MODEL = Path("models/llmlingua-2-bert-base-multilingual-cased-me
 class LLMLinguaCompressor(CompressorBase):
     def __init__(self, model_path: Path = LOCAL_LLMLINGUA_MODEL, *, device_map: str = "cpu") -> None:
         from llmlingua import PromptCompressor
+        from transformers import AutoTokenizer
 
         self.model_path = model_path
         self.device_map = device_map
@@ -29,7 +28,17 @@ class LLMLinguaCompressor(CompressorBase):
         self.tokenizer_id = f"llmlingua2:{model_path}"
 
     def _count(self, text: str) -> int:
-        return len(self.tokenizer.encode(text, add_special_tokens=False))
+        # Counting may intentionally inspect a sequence longer than the
+        # compressor model window. Compression itself operates on bounded
+        # chunks, so suppress the tokenizer's model-length warning here.
+        return len(
+            self.tokenizer.encode(
+                text,
+                add_special_tokens=False,
+                truncation=False,
+                verbose=False,
+            )
+        )
 
     def compress(
         self, *, context: str, question: str, config: CompressionConfig

@@ -114,11 +114,14 @@ def validate_row(row: dict[str, Any]) -> None:
         raise ValueError(f"row missing required fields: {missing}")
     validate_condition(row["condition"])
     mode = row["measurement_mode"]
-    if mode not in {"benchmark", "profiling"}:
+    if mode not in {"benchmark", "profiling", "smoke"}:
         raise ValueError(f"invalid measurement_mode: {mode}")
     profiling_present = PROFILING_ONLY_FIELDS.intersection(row)
-    if mode == "benchmark" and profiling_present:
-        raise ValueError(f"profiling fields present in benchmark mode: {sorted(profiling_present)}")
+    if mode in {"benchmark", "smoke"} and profiling_present:
+        raise ValueError(
+            f"profiling fields present in {mode} mode: "
+            f"{sorted(profiling_present)}"
+        )
     if row["condition"]["tokenizer_source"] != row["quality"]["tokenizer_source"]:
         raise ValueError("tokenizer scope mixed between condition and evaluator")
     if row["dataset_manifest_hash"] != row["condition"]["dataset_manifest_hash"]:
