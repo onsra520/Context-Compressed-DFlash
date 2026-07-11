@@ -9,12 +9,13 @@ from ccdf.runtime import execute_request
 
 
 def resolved_condition(condition_id: str, dataset_manifest_hash: str) -> dict[str, Any]:
-    is_dflash = condition_id == "dflash-r1"
+    is_dflash = condition_id in {"dflash-r1", "cc-dflash-r2"}
+    is_cc = condition_id == "cc-dflash-r2"
     return {
         "condition_id": condition_id,
         "target_model_lock_id": "target:qwen3-4b-bnb-4bit@cad0bed",
         "draft_model_lock_id": "drafter:qwen3-4b-dflash-b16@b74e3a" if is_dflash else None,
-        "compressor_model_lock_id": None,
+        "compressor_model_lock_id": "llmlingua2:meetingbank-local" if is_cc else None,
         "tokenizer_source": "target",
         "generation_mode": "dflash" if is_dflash else "autoregressive",
         "max_new_tokens": 64,

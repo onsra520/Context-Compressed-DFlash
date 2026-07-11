@@ -1,0 +1,1 @@
+{"condition": "dflash-r1", "dataset": "gsm8k", "output": "results/Rec-T04B/runs/gsm8k_dflash_r1.jsonl", "rows": 30}

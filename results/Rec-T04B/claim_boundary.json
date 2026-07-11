@@ -1,0 +1,1 @@
+{"gsm8k":{"bypass_count":30,"decision":"Short-context compression is not worthwhile; bypass is preferred."},"qmsum":{"benefit_rule":"compression_total_ms < prefill_saved_ms + decode_saved_ms required for runtime benefit","mean_full_prompt_reduction_pct":52.85740410493993,"semantic_correctness":"NOT_CLAIMED"}}
