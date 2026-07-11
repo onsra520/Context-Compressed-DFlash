@@ -1,8 +1,0 @@
-decision,value
-final_role,"Diagnostic long-context benchmark for latency, compression overhead, prefill behavior, compression ratio, and lexical proxy quality; not final semantic correctness benchmark"
-quality_status,"Lexical/normalized-text proxy only; compressed QMSum answer quality remains unstable"
-speed_status,"Useful for preliminary long-context latency/prefill/compression-overhead analysis; no final speedup claim"
-n100_decision,"Not justified now"
-mnt512_decision,"Not needed"
-suffix_tuning_decision,"Do not continue suffix tuning indefinitely; Task 75 or Task 77 may remain diagnostic candidates but neither is final"
-next_task,"Task 80 cross-dataset final result packaging"

@@ -1,5 +1,0 @@
-{
-  "caveat_required": true,
-  "next_task": "T102I — QMSum Residual Risk Stop-or-Judge Decision",
-  "reason": "Targeted remediation did not close enough residual risk; choose between accepting caveat, semantic review, or stopping QMSum quality expansion."
-}

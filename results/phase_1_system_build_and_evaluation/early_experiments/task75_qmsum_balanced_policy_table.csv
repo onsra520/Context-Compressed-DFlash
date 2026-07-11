@@ -1,7 +1,0 @@
-condition,stage,rows,hit_cap_count,avg_output_tokens,avg_answer_token_overlap,normalized_containment_count,empty_output_count,repetition_count,malformed_output_count,avg_e2e_latency_s,e2e_tok_per_sec_weighted,avg_t_compress_ms,avg_compression_ratio,qmsum_answer_policy_preservation_rate
-CC-DFlash-R2,original,30,21,345.333333,0.357483,0,0,0,0,19.055571,18.122434,5928.327985,2.06692,0.0
-CC-DFlash-R2,terse,30,0,48.666667,0.228499,0,0,0,0,7.575937,6.423848,5226.330992,2.06692,0.0
-CC-DFlash-R2,balanced,30,0,92.5,0.259867,0,0,0,0,9.48438,9.752877,5296.272178,2.06692,1.0
-LLMLingua-AR-R2,original,30,22,348.533333,0.358644,0,0,0,0,26.378387,13.212837,5576.03614,2.06692,0.0
-LLMLingua-AR-R2,terse,30,0,48.5,0.227541,0,0,0,0,8.04008,6.032278,5158.255578,2.06692,0.0
-LLMLingua-AR-R2,balanced,30,0,91.0,0.261336,0,0,0,0,10.4756,8.686853,5255.843074,2.06692,1.0

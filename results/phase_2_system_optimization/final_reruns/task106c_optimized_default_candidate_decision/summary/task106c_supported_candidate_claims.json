@@ -1,9 +1,0 @@
-{
-  "claim_status": "SCOPED_GSM8K_CANDIDATE",
-  "claims": [
-    "T106B shows the optimized CC-DFlash-R2 Light GPU GSM8K policy can reduce cap-limited failures and improve strict proxy in the optimized condition.",
-    "The optimized path is a scoped GSM8K candidate with strong cap/finalization improvement evidence.",
-    "The candidate remains benchmark-scoped and does not resolve QMSum semantic risk.",
-    "No default switch is authorized."
-  ]
-}

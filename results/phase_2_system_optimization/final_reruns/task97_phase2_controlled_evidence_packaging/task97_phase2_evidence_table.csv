@@ -1,8 +1,0 @@
-task,status,sample,setting,large_strict_proxy,light_strict_proxy,large_cap_limited,light_cap_limited,large_t_compress_ms,light_t_compress_ms,large_e2e_s,light_e2e_s,large_r_actual,light_r_actual,key_takeaway
-T93,PASS_WITH_CAVEAT,"n=3 smoke, seed42",CC-DFlash-R2 / gsm8k_short / mnt128-equivalent smoke,,,,,1326.83,426.76,,,2.67,2.0,Integration passed and light reduced compression time in smoke only.
-T94,PASS_WITH_CAVEAT,"n=10, seed42",CC-DFlash-R2 / gsm8k_short / max_new_tokens=128,6/10,2/10,,,1190.11,406.39,3.1,2.46,2.67,2.0,Light was faster but looked worse under the bounded mnt128 numeric proxy.
-T95B,PASS,calibration of T94 rows,deterministic proxy calibration / mnt128,5/10,2/10,5/10,7/10,,,,,,,Proxy uncertainty did not explain the gap; output-cap pressure became the triage target.
-T95C,PARTIAL,static audit only,GPU blocked before bounded mnt256 rerun,5/10,2/10,5/10,7/10,,,,,,,"Static cap evidence justified mnt256, but the run stayed PARTIAL because CUDA was unavailable."
-T95C-R,PASS_WITH_CAVEAT,"n=10, seed42",CC-DFlash-R2 / gsm8k_short / max_new_tokens=256,8/10,8/10,1/10,1/10,1272.62,412.97,3.78,3.09,2.67,2.0,mnt256 repaired the bounded strict-proxy gap on seed42.
-T95D,PASS_WITH_CAVEAT,"n=10, seed43",CC-DFlash-R2 / gsm8k_short / max_new_tokens=256,7/10,8/10,3/10,2/10,1159.84,362.78,4.2,3.41,2.67,2.0,Independent seed43 confirmation held with 0/10 fixture overlap against seed42.
-T96,PASS_WITH_CAVEAT,"n=30, seed42",CC-DFlash-R2 / gsm8k_short / max_new_tokens=256,22/30,22/30,5/30,5/30,1201.58,363.46,3.97,3.23,2.67,2.0,"At n=30, light matched large on calibrated strict proxy and remained lower in t_compress_ms and e2e time."

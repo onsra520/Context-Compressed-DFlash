@@ -1,7 +1,0 @@
-{
-  "compressor_segment_compression": "compare original_input_tokens to compressed_input_tokens using compressor metrics only",
-  "full_prompt_compression": "compare precompression_input_tokens to final input_tokens using the target tokenizer only",
-  "removed": "detached diagnostic target prefill from measured execution",
-  "t_e2e_ms": "t_compress_ms + t_generation_ms; generation includes target prefill for every condition",
-  "vram": "allocated and reserved are distinct post-prompt snapshots; model load is excluded"
-}

@@ -1,4 +1,0 @@
-metric,value,interpretation
-human_alignment,1/6,"Judge is usable as auxiliary evidence only, not calibrated ground truth."
-judge_delta_improved,2,"T108B repair signal is mixed/insufficient. Judge says 2 improved, but human calibration is weak."
-qmsum_semantic_correctness,NOT_CLAIMED,FINAL_LIMITATION_AFTER_REPAIR_AND_JUDGE_ATTEMPT

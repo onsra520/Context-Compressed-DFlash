@@ -1,9 +1,0 @@
-{
-  "default_switch": "NO",
-  "optimized_gsm8k_candidate": "T106B_gsm8k_concise_final_answer_v1",
-  "phase_2_status": "COMPLETE_WITH_CAVEATS",
-  "production_ready": "NO",
-  "qmsum_final_status": "FINAL_LIMITATION_AFTER_REPAIR_AND_JUDGE_ATTEMPT",
-  "qmsum_semantic_correctness": "NOT_CLAIMED",
-  "validation_model_status": "LOCAL_JUDGE_PIPELINE_AVAILABLE_BUT_AUXILIARY_ONLY"
-}

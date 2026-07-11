@@ -1,8 +1,0 @@
-{
-  "decision": "PROCEED_TO_T104_WITH_MANDATORY_QMSUM_CAVEAT",
-  "mandatory_qmsum_caveat": true,
-  "next_task": "T104 — Reference Alignment for Speed Claim",
-  "reason": "The QMSum deep-fix branch has enough evidence to close with persistent residual risk; additional deep fixes are not the default next step.",
-  "t103b_default_next": "NO",
-  "t103b_status": "DEFERRED_RESERVED_NOT_DEFAULT"
-}

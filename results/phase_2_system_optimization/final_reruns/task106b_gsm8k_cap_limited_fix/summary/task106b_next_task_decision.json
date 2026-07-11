@@ -1,5 +1,0 @@
-{
-  "automatic_default_switch": false,
-  "next_task": "T106C \u2014 Optimized Default Candidate Decision",
-  "reason": "T106B is an optional narrow fix test; default-candidate language must be decided separately."
-}

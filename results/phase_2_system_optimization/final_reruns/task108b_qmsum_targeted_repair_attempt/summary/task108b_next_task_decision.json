@@ -1,5 +1,0 @@
-{
-  "next_task": "T108C — QMSum Targeted Repair Validation",
-  "next_task_mode": "targeted_repair_validation",
-  "reason": "Targeted repair produced enough deterministic movement or mixed signal to require validation before closure."
-}

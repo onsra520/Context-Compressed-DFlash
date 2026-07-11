@@ -1,7 +1,0 @@
-{
-  "task_id": "T112B-R4",
-  "dataset": "gsm8k",
-  "timestamp": "2026-07-10T09:59:56Z",
-  "decision": "PASS",
-  "comments": "Audit of process isolation, VRAM, compression metrics, prompt/token accounting, and cap-hit complete."
-}

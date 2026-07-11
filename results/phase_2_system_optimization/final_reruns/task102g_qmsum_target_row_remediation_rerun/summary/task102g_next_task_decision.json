@@ -1,6 +1,0 @@
-{
-  "blocked": [],
-  "decision": "PROCEED_TO_T102H",
-  "next_task": "T102H — QMSum Remediation Reassessment",
-  "reason": "Target-row rerun completed 6/6 with correct light/cuda/policy metadata and needs before/after deterministic quality reassessment."
-}

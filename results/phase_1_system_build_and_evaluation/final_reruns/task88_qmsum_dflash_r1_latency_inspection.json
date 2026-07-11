@@ -1,5 +1,0 @@
-{
-  "conclusion": "outlier_based_slowdown",
-  "details": "Found 0 outliers out of 30 rows based on >2x median latency or <50% tok/s.",
-  "rows": []
-}

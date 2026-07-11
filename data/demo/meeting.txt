@@ -1,0 +1,3 @@
+Alice proposed moving the product launch from Monday to Thursday because the payment system still needed testing.
+Bob agreed and assigned the final payment test to Carol.
+The team decided to launch on Thursday.

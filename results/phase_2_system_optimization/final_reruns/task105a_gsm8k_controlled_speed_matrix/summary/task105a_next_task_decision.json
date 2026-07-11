@@ -1,6 +1,0 @@
-{
-  "next_task": "T105B \u2014 QMSum Controlled Runtime Matrix",
-  "no_automatic_full_matrix": true,
-  "qmsum_caveat_carryforward": true,
-  "reason": "T105A completed all three controlled GSM8K n100 matrix conditions."
-}

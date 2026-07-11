@@ -1,6 +1,0 @@
-{
-  "metric_definition_used": "PyTorch cuda.memory_allocated and cuda.memory_reserved",
-  "allocated_reserved_distinction_verified": true,
-  "allocated_vram_gib": 5.686404705047607,
-  "reserved_vram_gib": 5.736328125
-}

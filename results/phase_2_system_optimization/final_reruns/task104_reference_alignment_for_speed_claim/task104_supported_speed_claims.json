@@ -1,9 +1,0 @@
-{
-  "claim_scope": "bounded runtime/reference alignment only",
-  "supported_claims": [
-    "Light compressor reduced T_compress versus the large compressor in the controlled GSM8K n30 comparison.",
-    "Light GPU placement reduced compressor overhead to tens of milliseconds in the local optimized GSM8K n100 run.",
-    "QMSum Light GPU completed the n30 long-context runtime feasibility run.",
-    "Speed claims remain benchmark-scoped and configuration-scoped."
-  ]
-}

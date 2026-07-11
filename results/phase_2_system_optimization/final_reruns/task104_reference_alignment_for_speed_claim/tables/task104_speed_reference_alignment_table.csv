@@ -1,8 +1,0 @@
-comparison_id,comparison_class,dataset,n,max_new_tokens,reference_scope,valid_claim,caveat
-t96_large_cpu_vs_light_cpu_gsm8k_n30,controlled_comparison,gsm8k_short,30,256,"same condition, dataset, seed, n, max_new_tokens; compressor profile differs",Light reduced compression overhead while matching deterministic GSM8K numeric proxy in this controlled n30 comparison.,
-t99r_light_gpu_gsm8k_n10,single_condition_observation,gsm8k_short,10,256,"bounded Light GPU placement feasibility, not full matrix",Light GPU placement feasibility was observed in a small gated GSM8K run.,
-t100b_light_gpu_gsm8k_n100,single_condition_observation,gsm8k_short,100,256,one optimized Light GPU condition only; no synchronized Baseline-AR or DFlash-R1,Light GPU placement reduced compressor overhead to tens of milliseconds in the local optimized GSM8K n100 run.,
-t102_qmsum_light_gpu_n30,single_condition_observation,qmsum_meeting_qa_long,30,384,one long-context Light GPU feasibility condition with mandatory semantic-risk caveat,QMSum Light GPU completed the n30 long-context runtime feasibility run.,QMSum semantic correctness is not claimed.
-older_baseline_dflash_matrix,historical_reference_only,,,,older Baseline-AR/DFlash matrix evidence is useful for context only unless settings match exactly,"DFlash-R1 and older Baseline-AR matrix results are historical references, not synchronized T104 comparators.",
-baseline_or_dflash_with_different_settings,not_comparable,,,,"different dataset, n, max_new_tokens, model/config, hardware, or timing fields",Do not use incompatible settings as apples-to-apples speed evidence.,
-final_speed_ranking,requires_t105_matrix,,,,final Baseline-AR/DFlash-R1/optimized CC-DFlash speed ranking,A final speed ranking needs the controlled T105 matrix.,

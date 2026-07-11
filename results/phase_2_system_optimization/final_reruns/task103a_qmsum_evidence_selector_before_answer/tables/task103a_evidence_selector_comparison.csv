@@ -1,7 +1,0 @@
-fixture_id,baseline_evidence_category,cc_evidence_category,best_previous_reference_overlap,baseline_full_reference_overlap,baseline_evidence_reference_overlap,baseline_evidence_selected_evidence_overlap,cc_remediated_reference_overlap,cc_evidence_reference_overlap,cc_evidence_selected_evidence_overlap,baseline_evidence_generic_flag,cc_evidence_generic_flag
-qmsum_meeting_qa_test_0036,unchanged,improved,0.2,0.2,0.25,0.470588,0.15,0.25,0.384615,False,False
-qmsum_meeting_qa_test_0070,worsened,worsened,0.111111,0.111111,0.055556,0.542857,0.111111,0.055556,0.707317,False,False
-qmsum_meeting_qa_test_0055,unchanged,unchanged,0.076923,0.076923,0.076923,0.157895,0.076923,0.076923,0.192308,False,True
-qmsum_meeting_qa_test_0078,unchanged,unchanged,0.107143,0.107143,0.071429,0.434783,0.107143,0.071429,0.2,True,True
-qmsum_meeting_qa_test_0094,worsened,unchanged,0.136364,0.136364,0.136364,0.44186,0.136364,0.181818,0.581395,True,False
-qmsum_meeting_qa_test_0001,unchanged,worsened,0.22449,0.122449,0.102041,0.44,0.22449,0.102041,0.451613,False,False

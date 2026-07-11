@@ -1,6 +1,0 @@
-{
-  "audit_type": "process_isolation",
-  "verified": true,
-  "method": "Each condition runs in a fresh Python subprocess using run_demo.py run-prompt",
-  "isolation_boundary": "Process exit, releasing all CUDA and CPU state"
-}

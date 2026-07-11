@@ -1,36 +1,0 @@
-=== run CC-DFlash-R2 n=1 smoke ===
-CC-DFlash-R2 smoke benchmark
-Compression: LLMLingua keep_rate=0.5 profile=large
-Target model path: models/Qwen3-4B
-Draft model path: models/Qwen3-4B-DFlash-b16
-Tokenizer path: models/Qwen3-4B
-Device: cuda:0
-Block size: 16
-Max new tokens: 32
-Prompt source: smoke
-Prompt count: 1
-Warmup prompts: 0
-Output path: results/setup_validation/20260620_140633_cc_dflash_r2_n1.jsonl
-Resume enabled: True
-Resumed from rows: 0
-Output write mode: write_new_resume
-Backend warning: flash_attn not installed; using torch.sdpa fallback.
-VRAM before load: allocated=0.00GiB reserved=0.00GiB free=6.07GiB total=7.62GiB
-Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:02<00:04,  2.30s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:04<00:02,  2.21s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:04<00:00,  1.50s/it]
-`torch_dtype` is deprecated! Use `dtype` instead!
-VRAM after target load: allocated=2.48GiB reserved=2.65GiB free=3.44GiB total=7.62GiB
-VRAM after draft load: allocated=3.49GiB reserved=3.54GiB free=2.55GiB total=7.62GiB
-Starting prompt_id=1 condition=CC-DFlash-R2 benchmark_prompt_index=1/1 compression_active=True draft_speculative=True output_path=results/setup_validation/20260620_140633_cc_dflash_r2_n1.jsonl resume_enabled=True resumed_from_rows=0
-VRAM after prompt 1: allocated=3.50GiB reserved=3.65GiB free=2.10GiB total=7.62GiB
-prompt_id=1 input_tokens=47 output_tokens=2 generation_time_s=0.2150 tok/s=9.30 acceptance_lengths=[1] tau_mean=1.00 t_prefill_ms=242.33
-Finished prompt_id=1 benchmark_prompt_index=1 output_tokens=2 tok/s=9.30
-Wrote row 1/1 to results/setup_validation/20260620_140633_cc_dflash_r2_n1.jsonl
-Summary:
-measured rows: 1
-average tok/s: 9.30
-average tau_mean: 1.00
-average t_compress_ms: 1293.24
-average R_actual: 2.21
-max VRAM allocated: 3.50GiB
-max VRAM reserved: 3.65GiB
-Final status: PASS

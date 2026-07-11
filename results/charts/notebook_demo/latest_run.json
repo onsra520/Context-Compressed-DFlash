@@ -1,9 +1,0 @@
-{
-  "run_id": "20260710T095819Z",
-  "dataset": "gsm8k",
-  "run_dir": "results/charts/notebook_demo/20260710T095819Z",
-  "table_dir": "results/charts/notebook_demo/20260710T095819Z",
-  "summary_dir": "results/charts/notebook_demo/20260710T095819Z",
-  "figure_dir": "results/charts/notebook_demo/20260710T095819Z/charts",
-  "completed": true
-}

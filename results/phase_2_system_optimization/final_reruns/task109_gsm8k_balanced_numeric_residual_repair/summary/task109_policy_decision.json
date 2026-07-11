@@ -1,4 +1,0 @@
-{
-  "reason": "CC-only wrong-numeric rows present that may benefit from numeric-detail preservation",
-  "rerun_justified": true
-}

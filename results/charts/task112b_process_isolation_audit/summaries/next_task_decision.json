@@ -1,4 +1,0 @@
-{
-  "decision": "PASS",
-  "reasoning": "Audits on process isolation, VRAM, and timing/token accounting verify correct implementation and fair comparison."
-}

@@ -1,7 +1,0 @@
-{
-  "candidate_policy": "Show only the necessary arithmetic. Verify the calculation once. End with exactly one line: Final answer: <number>. Do not continue after the final answer.",
-  "next_task": "T107B \u2014 Optional GSM8K Policy Refinement Fix",
-  "reason": "wrong_numeric_rows_are_mixed_but_policy_or_cap_fix_related",
-  "recommended_fix_type": "soft_concise_policy_with_minimal_arithmetic_verification",
-  "t107b_recommended": true
-}

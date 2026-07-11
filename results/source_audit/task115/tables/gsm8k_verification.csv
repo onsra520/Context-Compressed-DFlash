@@ -1,4 +1,0 @@
-condition,rows,strict_numeric_correct,cap_hits,policy_hashes,avg_precompression_rendered_prompt_tokens,avg_final_target_prompt_tokens,avg_compressor_segment_original_tokens,avg_compressor_segment_compressed_tokens
-Baseline-AR,3,3,0,1,113.0,113.0,113.0,
-DFlash-R1,3,3,0,1,113.0,113.0,113.0,
-CC-DFlash-R2,3,2,0,1,113.0,104.666667,113.0,8.0

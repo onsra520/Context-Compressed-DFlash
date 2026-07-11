@@ -1,7 +1,0 @@
-{
-  "default_switch_authorized": false,
-  "next_task": "T107 \u2014 Phase 2 Optimization Closure Pack",
-  "reason": "T106C decides the optimized path is a scoped GSM8K candidate, not a default winner; T107 can package Phase 2 closure with these boundaries.",
-  "requires_manual_caveat_review": false,
-  "status": "PLANNED / NEXT"
-}

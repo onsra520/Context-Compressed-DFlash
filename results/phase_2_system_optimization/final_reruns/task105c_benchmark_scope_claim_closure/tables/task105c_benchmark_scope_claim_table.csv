@@ -1,4 +1,0 @@
-dataset,claim_area,status,allowed,blocked
-GSM8K,speed_quality,bounded_faster_than_baseline_only,"In the controlled GSM8K n100 matrix, optimized CC-DFlash-R2 Light GPU was faster than Baseline-AR on average e2e time but slower than DFlash-R1.","Do not claim faster-than-DFlash-R1, all-reference speed win, or quality-preserved speed win for GSM8K."
-QMSum,runtime_semantic_caveat,runtime_feasibility_only,"In the controlled QMSum n30 runtime matrix, optimized CC-DFlash-R2 Light GPU completed all rows but did not beat Baseline-AR or DFlash-R1 on average e2e time.","Do not claim QMSum speed win, semantic correctness, or residual-risk elimination."
-Cross-dataset,benchmark_scope,candidate_evidence_only,Final claims remain benchmark-scoped and condition-scoped.,"Do not claim full-benchmark win, quality-preserved win, or default switch."

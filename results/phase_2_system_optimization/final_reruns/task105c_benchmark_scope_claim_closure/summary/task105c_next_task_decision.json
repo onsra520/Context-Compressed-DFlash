@@ -1,6 +1,0 @@
-{
-  "default_switch_authorized": false,
-  "extra_benchmark_authorized": false,
-  "next_task": "T106 — Optimized Default Candidate Decision",
-  "reason": "T105A and T105B closure artifacts are complete."
-}

@@ -1,8 +1,0 @@
-component,class,problem,evidence,expected_benefit,risk,validation,priority
-measurement,correctness fix,Detached prefill duplicated target work and inflated e2e,T115 live path,fair e2e scope,low,controlled QMSum/GSM8K,P0
-DFlash acceptance,low-risk performance optimization,Long-context acceptance is low versus block size 16,controlled accepted tokens per verification,reduce target verification calls,medium,matched QMSum sweep,P1
-timing instrumentation,measurement fix,cache/synchronization cost is not separable,null metric fields,actionable profiles,low,event-based microprofile,P1
-prompt tokenization,low-risk performance optimization,precompression accounting and generation render tokenize the same prompt,run_mvp _run_benchmark_item,small CPU reduction,low,prompt-hash/token equivalence,P2
-model lifecycle,architectural refactor opportunity,each condition is isolated and reloads models,run_mvp main,batch throughput only,medium,process-isolation-aware benchmark,P2
-raw duplicate,architectural refactor opportunity,unused model_raw duplicates DFlash semantics,live import points to ccdf.dflash.generate,avoid future drift,medium,import and behavior tests,P2
-QMSum full rerun,do not attempt,no validated algorithmic repair yet,controlled A/B,none,high,requires a proven fix first,defer
