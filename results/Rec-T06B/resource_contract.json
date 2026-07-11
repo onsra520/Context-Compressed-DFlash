@@ -1,0 +1,1 @@
+{"required":["peak_cuda_allocated_bytes","peak_cuda_reserved_bytes","model_composition","cpu_compressor_memory_delta_bytes","target forwards"],"unsupported_policy":"null plus unsupported_fields","version":"rec-t06b.resource.v1"}
