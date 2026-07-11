@@ -1,0 +1,1 @@
+{"audit_version":"rec-t02b.process-isolation.v1","pass":true,"policy":"one subprocess per condition; no process reuse for canonical benchmark mode","records":[{"condition_id":"baseline-ar","pid":84344},{"condition_id":"dflash-r1","pid":84345}]}
