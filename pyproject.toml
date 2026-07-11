@@ -6,6 +6,9 @@ readme = "README.md"
 requires-python = ">=3.10,<3.13"
 dependencies = []
 
+[project.scripts]
+ccdf = "ccdf.cli:main"
+
 [project.optional-dependencies]
 dev = ["pytest", "ruff", "black"]
 

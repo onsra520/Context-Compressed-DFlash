@@ -1,0 +1,7 @@
+Condition: baseline-ar
+Answer: Final answer: 9
+Input tokens: 7
+Output tokens: 3
+Request latency: 165.0 ms
+Generation tok/s: 18.18
+Stop reason: eos

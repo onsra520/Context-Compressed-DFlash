@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from ccdf.datasets.hashing import hash_json, hash_text
-from ccdf.evaluation import gsm8k, qmsum
+from ccdf.runtime import execute_request
 
 
 def resolved_condition(condition_id: str, dataset_manifest_hash: str) -> dict[str, Any]:
@@ -41,18 +41,21 @@ def synthetic_row(
     measurement_mode: str = "benchmark",
 ) -> dict[str, Any]:
     condition = resolved_condition(condition_id, dataset_manifest_hash)
-    if dataset == "gsm8k":
-        generated = f"Final answer: {reference_answer}"
-        quality = gsm8k.evaluate(generated, reference_answer)
-    else:
-        generated = reference_answer[:160]
-        quality = qmsum.evaluate(generated, reference_answer)
-    is_dflash = condition_id == "dflash-r1"
-    acceptance_lengths = [4, 3, 5] if is_dflash else []
+    request = execute_request(
+        condition_id=condition_id,
+        dataset=dataset,
+        prompt=f"synthetic prompt for {fixture_id}",
+        reference_answer=reference_answer,
+        measurement_mode=measurement_mode,
+    )
+    timing = request["timing"]
+    vram = request["vram"]
+    dflash = request["dflash"]
+    acceptance_lengths = dflash["acceptance_lengths"]
     verification_calls = len(acceptance_lengths)
     tokens_advanced = sum(acceptance_lengths)
-    accepted_draft_tokens = tokens_advanced - verification_calls if is_dflash else 0
-    draft_tokens_proposed = accepted_draft_tokens + (2 if is_dflash else 0)
+    accepted_draft_tokens = tokens_advanced - verification_calls if verification_calls else 0
+    draft_tokens_proposed = dflash["draft_tokens_proposed"]
     row = {
         "run_id": run_id,
         "task_id": "Rec-T02B",
@@ -69,24 +72,24 @@ def synthetic_row(
         "final_prompt_hash": hash_text(f"{dataset}:{fixture_id}:final"),
         "input_tokens_precompression": 32 if dataset == "gsm8k" else 512,
         "input_tokens_final": 32 if dataset == "gsm8k" else 512,
-        "generated_text": generated,
-        "generated_text_hash": hash_text(generated),
-        "output_token_ids_hash": hash_text("synthetic-token-ids:" + generated),
-        "output_tokens": 6 if dataset == "gsm8k" else 34,
-        "stop_reason": "eos",
-        "cap_hit": False,
-        "success": True,
-        "error": None,
-        "model_init_ms": 100.0,
-        "compressor_init_ms": 0.0,
-        "compression_total_ms": 0.0,
-        "target_prefill_ms": 20.0 if dataset == "gsm8k" else 90.0,
-        "draft_prefill_ms": 8.0 if is_dflash else 0.0,
-        "decode_total_ms": 30.0 if is_dflash else 45.0,
-        "request_e2e_ms": 150.0 if is_dflash else 165.0,
-        "peak_allocated_bytes": 1_000_000,
-        "peak_reserved_bytes": 2_000_000,
-        "measurement_scope": "process",
+        "generated_text": request["generated_text"],
+        "generated_text_hash": hash_text(request["generated_text"]),
+        "output_token_ids_hash": hash_text("synthetic-token-ids:" + request["generated_text"]),
+        "output_tokens": request["output_tokens"],
+        "stop_reason": request["stop_reason"],
+        "cap_hit": request["cap_hit"],
+        "success": request["success"],
+        "error": request["error"],
+        "model_init_ms": timing["model_init_ms"],
+        "compressor_init_ms": timing["compressor_init_ms"],
+        "compression_total_ms": timing["compression_total_ms"],
+        "target_prefill_ms": timing["target_prefill_ms"],
+        "draft_prefill_ms": timing["draft_prefill_ms"],
+        "decode_total_ms": timing["decode_total_ms"],
+        "request_e2e_ms": timing["request_e2e_ms"],
+        "peak_allocated_bytes": vram["peak_allocated_bytes"],
+        "peak_reserved_bytes": vram["peak_reserved_bytes"],
+        "measurement_scope": vram["measurement_scope"],
         "measurement_mode": measurement_mode,
         "verification_calls": verification_calls,
         "acceptance_lengths": acceptance_lengths,
@@ -99,7 +102,7 @@ def synthetic_row(
         if draft_tokens_proposed
         else 0.0,
         "rollback_tokens": draft_tokens_proposed - accepted_draft_tokens,
-        "quality": quality,
+        "quality": request["quality"],
     }
     if measurement_mode == "profiling":
         row.update(
