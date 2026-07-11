@@ -1,4 +1,4 @@
-"""Rec-T03B n=10 Baseline-AR/DFlash benchmark runner."""
+"""Legacy noncanonical Rec-T03B runner; cannot create Rec-T06B artifacts."""
 
 from __future__ import annotations
 
@@ -130,6 +130,8 @@ def run_condition(
     max_new_tokens: int | None,
     run_id: str,
 ) -> dict[str, Any]:
+    if "Rec-T06B" in str(output):
+        raise ValueError("legacy Rec-T03B runner cannot create Rec-T06B canonical artifacts")
     import gc
     import torch
 
