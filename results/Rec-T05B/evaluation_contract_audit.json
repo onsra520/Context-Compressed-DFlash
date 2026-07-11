@@ -1,0 +1,1 @@
+{"loads_models":false,"reads_existing_jsonl":true,"gsm8k_evaluator":"rec-t02b.gsm8k-evaluator.v1","qmsum_evaluator":"rec-t02b.qmsum-proxy.v1","qmsum_semantic_correctness":"NOT_CLAIMED"}

@@ -12,6 +12,7 @@ from ccdf.artifacts.writer import write_json
 from ccdf.datasets.hashing import canonical_json, hash_text
 from ccdf.datasets.io import read_jsonl
 from ccdf.config import resolve_config, write_resolved_config
+from ccdf.benchmark.workflow import evaluate_run_dir, run_benchmark
 from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime import RuntimeRequest, execute_request
 
@@ -125,10 +126,27 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--profile", action="store_true")
     run.add_argument("--save", action="store_true")
     run.add_argument("--format", choices=["text", "json"], default="text")
+    benchmark = sub.add_parser("benchmark")
+    benchmark.add_argument("--dataset", required=True, choices=["gsm8k", "qmsum"])
+    benchmark.add_argument("--subset", required=True, choices=["n10", "n30", "n100"])
+    benchmark.add_argument("--conditions", required=True)
+    benchmark.add_argument("--output", required=True)
+    benchmark.add_argument("--evaluate", action="store_true")
+    evaluate = sub.add_parser("evaluate")
+    evaluate.add_argument("--run-dir", required=True)
     args = parser.parse_args(argv)
     try:
         if args.command == "run":
             return run_command(args)
+        if args.command == "benchmark":
+            result = run_benchmark(dataset=args.dataset, subset=args.subset, conditions=args.conditions.split(","), output_dir=Path(args.output))
+            if args.evaluate:
+                result["evaluation"] = evaluate_run_dir(Path(args.output))
+            print(canonical_json(result))
+            return 0
+        if args.command == "evaluate":
+            print(canonical_json(evaluate_run_dir(Path(args.run_dir))))
+            return 0
     except Exception as exc:
         print(f"ccdf: {exc}", file=sys.stderr)
         return 2
