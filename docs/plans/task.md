@@ -1369,3 +1369,42 @@ Phạm vi `Rec-T02A → Rec-T04B` hoàn tất khi:
 - result artifacts đúng folder;
 - report không overclaim;
 - source mới không phụ thuộc runtime import từ archive.
+
+---
+
+# Rec-T06A3 — NF4 Structural Correctness and Efficient DFlash Production Repair
+
+## Approved direction
+
+```text
+RETAIN_NF4_AND_USE_STRUCTURAL_PLUS_EMPIRICAL_CORRECTNESS
+```
+
+- Cached Baseline-AR remains the comparison target.
+- DFlash-R1 uses one target verification forward per proposed block.
+- CC-DFlash-R2 uses the same DFlash-R1 executor after optional compression.
+- Exact cached-AR token equivalence is `NOT_CLAIMED`.
+- Structural target-verification correctness is required and audited.
+- Quality preservation is evaluated empirically on coupled GSM8K/QMSum gates.
+- Quantization is never described as lossless.
+
+## Worktree convention
+
+```text
+.worktrees/rec-<id>-ongoing
+.worktrees/rec-<id>-closed
+```
+
+Checkpoints remain under the primary repository's `models/` directory and are
+resolved by `@shared/models/...`; they must not be copied into linked
+worktrees.
+
+## A3 gate
+
+1. Source/unit checks.
+2. Coupled n3: all three conditions on GSM8K and QMSum.
+3. Coupled n10: Baseline-AR versus DFlash-R1 on both datasets.
+4. No n30 and no merge before independent result-pack audit.
+
+Rec-T06B/C/D remain responsible for canonical process isolation, final timing
+and provenance, compare UX, optimization, and n30.

@@ -1,4 +1,4 @@
-"""Structured requests and results for the unified real runtime."""
+"""Structured requests for the unified real runtime."""
 
 from __future__ import annotations
 
@@ -19,3 +19,5 @@ class RuntimeRequest:
     def __post_init__(self) -> None:
         if (self.prompt is None) == (self.prompt_parts is None):
             raise ValueError("provide exactly one of prompt or prompt_parts")
+        if self.measurement_mode not in {"benchmark", "profiling", "smoke"}:
+            raise ValueError("invalid measurement_mode")

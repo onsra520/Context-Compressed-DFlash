@@ -11,6 +11,14 @@ from ccdf.benchmark.execution import synthetic_row
 from ccdf.artifacts.writer import write_jsonl_atomic
 from ccdf.config import resolve_config
 from ccdf.config.loader import load_config
+from ccdf.paths import find_worktree_root
+
+
+WORKTREE_ROOT = find_worktree_root()
+pytestmark = pytest.mark.skipif(
+    not (WORKTREE_ROOT / "data/eval/gsm8k/gsm8k_n10.jsonl").is_file(),
+    reason="resolved-config identity tests require frozen fixtures and manifests",
+)
 
 
 def test_valid_config_and_stable_resolution() -> None:

@@ -13,9 +13,14 @@ from ccdf.datasets.io import read_jsonl
 from ccdf.datasets.pipeline import build_all, run_reproducibility_audit
 from ccdf.datasets.source_lock import build_source_lock, validate_source_lock
 from ccdf.datasets.validation import subset_members
+from ccdf.paths import find_shared_root, find_worktree_root
 
 
-ARCHIVE_ROOT = Path(".archives/20260711-043859/project")
+ARCHIVE_ROOT = find_shared_root(find_worktree_root()) / ".archives/20260711-043859/project"
+pytestmark = pytest.mark.skipif(
+    not (ARCHIVE_ROOT / "data/raw/gsm8k_source.jsonl").is_file(),
+    reason="archived dataset source is available only in the primary repository",
+)
 
 
 def test_stable_ids_repeat_across_builds(tmp_path: Path) -> None:

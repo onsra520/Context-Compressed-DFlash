@@ -9,19 +9,19 @@ from pathlib import Path
 from typing import Any
 
 from ccdf.artifacts.writer import write_json
+from ccdf.benchmark.workflow import evaluate_run_dir, run_benchmark
+from ccdf.config import resolve_config, write_resolved_config
 from ccdf.datasets.hashing import canonical_json, hash_text
 from ccdf.datasets.io import read_jsonl
-from ccdf.config import resolve_config, write_resolved_config
-from ccdf.benchmark.workflow import evaluate_run_dir, run_benchmark
+from ccdf.paths import find_shared_root, find_worktree_root, logical_path_metadata
 from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime import RuntimeRequest, execute_request
 
 
 def _find_fixture(dataset: str, fixture_id: str) -> dict[str, Any]:
     for subset in ["n10", "n30", "n100"]:
-        path = Path("data/eval") / dataset / f"{dataset}_{subset}.jsonl"
-        if not path.exists():
-            continue
+        resolved = resolve_config(dataset=dataset, subset=subset, condition_id="baseline-ar")
+        path = Path(resolved.data["fixture_path"])
         for row in read_jsonl(path):
             if row["fixture_id"] == fixture_id:
                 row["_subset"] = subset
@@ -29,7 +29,7 @@ def _find_fixture(dataset: str, fixture_id: str) -> dict[str, Any]:
     raise ValueError(f"fixture not found: {dataset}/{fixture_id}")
 
 
-def _build_prompt(args: argparse.Namespace) -> tuple[str | None, PromptParts | None, str, str | None, str, str, str]:
+def _build_prompt(args: argparse.Namespace):
     if args.dataset and args.fixture_id:
         fixture = _find_fixture(args.dataset, args.fixture_id)
         return (
@@ -57,25 +57,30 @@ def run_command(args: argparse.Namespace) -> int:
         dataset=dataset,
         subset=subset,
         condition_id=args.condition,
-        execution_mode="profiling" if args.profile else "benchmark",
+        execution_mode=measurement_mode,
     )
-    if prompt_parts is not None and not prompt_parts.instruction:
-        prompt_parts = PromptParts(context=prompt_parts.context, question=prompt_parts.question, instruction=resolved.data["prompt_policy"]["text"])
-    result = execute_request(RuntimeRequest(resolved=resolved, prompt=prompt, prompt_parts=prompt_parts, reference_answer=reference, measurement_mode=measurement_mode))
-    condition = resolved.data["condition"]
+    result = execute_request(
+        RuntimeRequest(
+            resolved=resolved,
+            prompt=prompt,
+            prompt_parts=prompt_parts,
+            reference_answer=reference,
+            measurement_mode=measurement_mode,
+        )
+    )
     payload = {
-        "cli_contract_version": "rec-t02b1.cli.v1",
-        "condition": condition,
+        "cli_contract_version": "rec-t06a3.cli.v2",
+        "condition": resolved.data["condition"],
         "dataset": dataset,
         "fixture_id": fixture_id,
         "fixture_content_hash": fixture_hash,
         "measurement_mode": measurement_mode,
-        "prompt_hash": hash_text(result["final_prompt"]),
+        "prompt_hash": result["prompt"]["input_ids_hash"],
         "resolved_config_hash": resolved.sha256,
         **result,
     }
     if args.save:
-        out_dir = Path("results/Rec-T02B1")
+        out_dir = Path(resolved.data["artifacts"]["root"]) / "Rec-T06A3" / "cli"
         out_dir.mkdir(parents=True, exist_ok=True)
         write_resolved_config(out_dir, resolved)
         save_path = out_dir / f"{args.condition}_{dataset}_{fixture_id}_{measurement_mode}.json"
@@ -83,39 +88,48 @@ def run_command(args: argparse.Namespace) -> int:
         payload["saved_path"] = str(save_path)
     if args.format == "json":
         print(canonical_json(payload))
-    else:
-        timing = payload["timing"]
-        tok_s = payload["output_tokens"] / (timing["request_e2e_ms"] / 1000.0)
-        print(f"Condition: {args.condition}")
-        print(f"Answer: {payload['generated_text']}")
-        print(f"Input tokens: {payload['input_tokens']}")
-        print(f"Output tokens: {payload['output_tokens']}")
-        print(f"Total latency: {timing['request_e2e_ms']:.1f} ms")
-        print(f"Target prefill: {timing['target_prefill_ms']:.1f} ms")
-        print(f"Generation: {timing['decode_total_ms']:.1f} ms")
-        print(f"Generation tok/s: {tok_s:.2f}")
-        print(f"Stop reason: {payload['stop_reason']}")
-        print(f"Cap hit: {payload['cap_hit']}")
-        print(f"Peak allocated GPU memory: {payload['vram']['peak_allocated_bytes'] / 2**20:.1f} MiB")
-        print(f"Peak reserved GPU memory: {payload['vram']['peak_reserved_bytes'] / 2**20:.1f} MiB")
-        if args.condition != "baseline-ar":
-            dflash = payload["dflash"]
-            print(f"Verification calls: {dflash['verification_calls']}")
-            print(f"Accepted draft tokens: {dflash['accepted_draft_tokens']}")
-            print(f"Draft tokens proposed: {dflash['draft_tokens_proposed']}")
-            print(f"Rollback tokens: {dflash['rollback_tokens']}")
-        if args.condition == "cc-dflash-r2":
-            compression = payload["compression"]
-            print(f"Compression bypassed: {compression['bypassed']}")
-            print(f"Compression bypass reason: {compression['bypass_reason']}")
-        if args.profile:
-            print("Measurement mode: profiling")
+        return 0
+
+    timing = payload["timing"]
+    generation_tok_s = payload["output_tokens"] / max(timing["decode_total_ms"] / 1000.0, 1e-9)
+    print(f"Condition: {args.condition}")
+    print(f"Answer: {payload['generated_text']}")
+    if payload.get("validated_answer") is not None:
+        print(f"Validated answer: {payload['validated_answer']}")
+    print(f"Input tokens: {payload['input_tokens']}")
+    print(f"Output tokens: {payload['output_tokens']}")
+    print(f"Warm end-to-end: {timing['warm_request_e2e_ms']:.1f} ms")
+    print(f"Generation-only request: {timing['generation_request_e2e_ms']:.1f} ms")
+    print(f"Compression: {timing['compression_total_ms']:.1f} ms")
+    print(f"Target prefill: {timing['target_prefill_ms']:.1f} ms")
+    print(f"Decode: {timing['decode_total_ms']:.1f} ms")
+    print(f"Generation tok/s: {generation_tok_s:.2f}")
+    print(f"Stop reason: {payload['stop_reason']}")
+    print(f"Cap hit: {payload['cap_hit']}")
+    print(f"Repetition detected: {payload['repetition_detected']}")
+    print(f"Instruction echo: {payload['instruction_echo_detected']}")
+    print(f"Peak allocated GPU memory: {payload['vram']['peak_allocated_bytes'] / 2**30:.2f} GiB")
+    print(f"Resource composition: {payload['resource_composition']}")
+    if args.condition != "baseline-ar":
+        dflash = payload["dflash"]
+        print(f"Target block verifications: {dflash['target_block_verification_calls']}")
+        print(f"Total target forwards: {dflash['total_target_forward_calls']}")
+        print(f"Draft forwards: {dflash['draft_forward_calls']}")
+        print(f"Effective tau: {dflash['effective_tau']:.3f}")
+        print(f"Draft acceptance rate: {dflash['draft_acceptance_rate']:.3f}")
+        print("Exact cached-AR token equivalence: NOT_CLAIMED")
+    if args.condition == "cc-dflash-r2":
+        compression = payload["compression"]
+        print(f"Compression bypassed: {compression['bypassed']}")
+        print(f"Compression bypass reason: {compression['bypass_reason']}")
+        print(f"Full prompt reduction: {compression['token_scope']['full_prompt_reduction_pct']:.2f}%")
     return 0
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="ccdf")
     sub = parser.add_subparsers(dest="command", required=True)
+
     run = sub.add_parser("run")
     run.add_argument("--condition", required=True, choices=["baseline-ar", "dflash-r1", "cc-dflash-r2"])
     run.add_argument("--prompt")
@@ -126,26 +140,42 @@ def main(argv: list[str] | None = None) -> int:
     run.add_argument("--profile", action="store_true")
     run.add_argument("--save", action="store_true")
     run.add_argument("--format", choices=["text", "json"], default="text")
+
     benchmark = sub.add_parser("benchmark")
     benchmark.add_argument("--dataset", required=True, choices=["gsm8k", "qmsum"])
     benchmark.add_argument("--subset", required=True, choices=["n10", "n30", "n100"])
     benchmark.add_argument("--conditions", required=True)
     benchmark.add_argument("--output", required=True)
+    benchmark.add_argument("--limit", type=int)
     benchmark.add_argument("--evaluate", action="store_true")
+
     evaluate = sub.add_parser("evaluate")
     evaluate.add_argument("--run-dir", required=True)
+
+    sub.add_parser("paths")
     args = parser.parse_args(argv)
     try:
         if args.command == "run":
             return run_command(args)
         if args.command == "benchmark":
-            result = run_benchmark(dataset=args.dataset, subset=args.subset, conditions=args.conditions.split(","), output_dir=Path(args.output))
+            result = run_benchmark(
+                dataset=args.dataset,
+                subset=args.subset,
+                conditions=args.conditions.split(","),
+                output_dir=Path(args.output),
+                limit=args.limit,
+                execution_mode="smoke" if args.limit else "benchmark",
+            )
             if args.evaluate:
                 result["evaluation"] = evaluate_run_dir(Path(args.output))
             print(canonical_json(result))
             return 0
         if args.command == "evaluate":
             print(canonical_json(evaluate_run_dir(Path(args.run_dir))))
+            return 0
+        if args.command == "paths":
+            worktree = find_worktree_root()
+            print(canonical_json(logical_path_metadata(worktree, find_shared_root(worktree))))
             return 0
     except Exception as exc:
         print(f"ccdf: {exc}", file=sys.stderr)
