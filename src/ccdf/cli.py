@@ -12,7 +12,8 @@ from ccdf.artifacts.writer import write_json
 from ccdf.datasets.hashing import canonical_json, hash_text
 from ccdf.datasets.io import read_jsonl
 from ccdf.config import resolve_config, write_resolved_config
-from ccdf.runtime import execute_request
+from ccdf.prompts.schemas import PromptParts
+from ccdf.runtime import RuntimeRequest, execute_request
 
 
 def _find_fixture(dataset: str, fixture_id: str) -> dict[str, Any]:
@@ -27,11 +28,12 @@ def _find_fixture(dataset: str, fixture_id: str) -> dict[str, Any]:
     raise ValueError(f"fixture not found: {dataset}/{fixture_id}")
 
 
-def _build_prompt(args: argparse.Namespace) -> tuple[str, str, str | None, str, str, str]:
+def _build_prompt(args: argparse.Namespace) -> tuple[str | None, PromptParts | None, str, str | None, str, str, str]:
     if args.dataset and args.fixture_id:
         fixture = _find_fixture(args.dataset, args.fixture_id)
         return (
-            fixture["prompt"],
+            None,
+            PromptParts(**fixture["prompt_parts"]),
             fixture["dataset"],
             fixture["reference_answer"],
             fixture["fixture_id"],
@@ -39,36 +41,26 @@ def _build_prompt(args: argparse.Namespace) -> tuple[str, str, str | None, str, 
             fixture["_subset"],
         )
     if args.prompt:
-        return args.prompt, "gsm8k", None, "ad_hoc_prompt", hash_text(args.prompt), "n10"
+        return args.prompt, None, "gsm8k", None, "ad_hoc_prompt", hash_text(args.prompt), "n10"
     if args.context_file and args.question:
         context = Path(args.context_file).read_text(encoding="utf-8")
-        prompt = (
-            "Meeting transcript:\n"
-            f"{context}\n\n"
-            "Question:\n"
-            f"{args.question}\n\n"
-            "Answer using only the meeting transcript. A concise answer is enough."
-        )
-        return prompt, "qmsum", None, "ad_hoc_context_question", hash_text(prompt), "n10"
+        parts = PromptParts(context=context, question=args.question, instruction="")
+        return None, parts, "qmsum", None, "ad_hoc_context_question", hash_text(context + args.question), "n10"
     raise ValueError("provide --prompt, or --context-file with --question, or --dataset with --fixture-id")
 
 
 def run_command(args: argparse.Namespace) -> int:
     measurement_mode = "profiling" if args.profile else "benchmark"
-    prompt, dataset, reference, fixture_id, fixture_hash, subset = _build_prompt(args)
+    prompt, prompt_parts, dataset, reference, fixture_id, fixture_hash, subset = _build_prompt(args)
     resolved = resolve_config(
         dataset=dataset,
         subset=subset,
         condition_id=args.condition,
         execution_mode="profiling" if args.profile else "benchmark",
     )
-    result = execute_request(
-        condition_id=args.condition,
-        dataset=dataset,
-        prompt=prompt,
-        reference_answer=reference,
-        measurement_mode=measurement_mode,
-    )
+    if prompt_parts is not None and not prompt_parts.instruction:
+        prompt_parts = PromptParts(context=prompt_parts.context, question=prompt_parts.question, instruction=resolved.data["prompt_policy"]["text"])
+    result = execute_request(RuntimeRequest(resolved=resolved, prompt=prompt, prompt_parts=prompt_parts, reference_answer=reference, measurement_mode=measurement_mode))
     condition = resolved.data["condition"]
     payload = {
         "cli_contract_version": "rec-t02b1.cli.v1",
@@ -77,7 +69,7 @@ def run_command(args: argparse.Namespace) -> int:
         "fixture_id": fixture_id,
         "fixture_content_hash": fixture_hash,
         "measurement_mode": measurement_mode,
-        "prompt_hash": hash_text(prompt),
+        "prompt_hash": hash_text(result["final_prompt"]),
         "resolved_config_hash": resolved.sha256,
         **result,
     }
@@ -95,11 +87,26 @@ def run_command(args: argparse.Namespace) -> int:
         tok_s = payload["output_tokens"] / (timing["request_e2e_ms"] / 1000.0)
         print(f"Condition: {args.condition}")
         print(f"Answer: {payload['generated_text']}")
-        print(f"Input tokens: {len(prompt.split())}")
+        print(f"Input tokens: {payload['input_tokens']}")
         print(f"Output tokens: {payload['output_tokens']}")
-        print(f"Request latency: {timing['request_e2e_ms']:.1f} ms")
+        print(f"Total latency: {timing['request_e2e_ms']:.1f} ms")
+        print(f"Target prefill: {timing['target_prefill_ms']:.1f} ms")
+        print(f"Generation: {timing['decode_total_ms']:.1f} ms")
         print(f"Generation tok/s: {tok_s:.2f}")
         print(f"Stop reason: {payload['stop_reason']}")
+        print(f"Cap hit: {payload['cap_hit']}")
+        print(f"Peak allocated GPU memory: {payload['vram']['peak_allocated_bytes'] / 2**20:.1f} MiB")
+        print(f"Peak reserved GPU memory: {payload['vram']['peak_reserved_bytes'] / 2**20:.1f} MiB")
+        if args.condition != "baseline-ar":
+            dflash = payload["dflash"]
+            print(f"Verification calls: {dflash['verification_calls']}")
+            print(f"Accepted draft tokens: {dflash['accepted_draft_tokens']}")
+            print(f"Draft tokens proposed: {dflash['draft_tokens_proposed']}")
+            print(f"Rollback tokens: {dflash['rollback_tokens']}")
+        if args.condition == "cc-dflash-r2":
+            compression = payload["compression"]
+            print(f"Compression bypassed: {compression['bypassed']}")
+            print(f"Compression bypass reason: {compression['bypass_reason']}")
         if args.profile:
             print("Measurement mode: profiling")
     return 0
