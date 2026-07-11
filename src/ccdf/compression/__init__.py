@@ -1,13 +1,6 @@
-from __future__ import annotations
+"""Compression architecture reconstructed for Rec-T04A."""
 
-from .base import CompressorBase
-from .passthrough import PassthroughCompressor
-from .segmentation import SegmentedPrompt, merge, segment_gsm8k
+from ccdf.compression.passthrough import PassthroughCompressor
+from ccdf.compression.llmlingua import LLMLinguaCompressor
 
-__all__ = [
-    "CompressorBase",
-    "PassthroughCompressor",
-    "SegmentedPrompt",
-    "merge",
-    "segment_gsm8k",
-]
+__all__ = ["PassthroughCompressor", "LLMLinguaCompressor"]

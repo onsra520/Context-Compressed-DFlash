@@ -1,0 +1,1 @@
+{"compressor_returns_full_prompt":false,"concate_question":false,"contract_version":"rec-t04a.compression.v1","llmlingua_model_path":"models/llmlingua-2-bert-base-multilingual-cased-meetingbank","only_context_compressed":true,"prompt_parts":["context","question","instruction","system"],"question_conditioning_only":true,"token_scopes":["compressor_segment","full_target_prompt"]}

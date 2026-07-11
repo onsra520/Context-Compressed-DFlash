@@ -1,0 +1,4 @@
+fixture,backend,question_occurrence,instruction_occurrence,meeting_marker_preserved,question_marker_preserved,only_context_changed,bypassed
+gsm8k_fixture,passthrough_short_context,1,1,True,True,True,True
+qmsum_short,llmlingua,1,1,True,True,True,False
+qmsum_long,llmlingua,1,1,True,True,True,False

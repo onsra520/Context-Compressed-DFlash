@@ -1,0 +1,1 @@
+{"chunks":[{"chunk_count":1,"deterministic":true,"fixture":"gsm8k_fixture","max_chunk_words":3},{"chunk_count":9,"deterministic":true,"fixture":"qmsum_short","max_chunk_words":180},{"chunk_count":9,"deterministic":true,"fixture":"qmsum_long","max_chunk_words":180}],"pass":true}
