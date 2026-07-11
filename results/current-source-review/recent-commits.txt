@@ -1,0 +1,12 @@
+676715b fix: restore dflash target token parity
+63f13dd Rec-T06A record DFlash parity blocker
+be8ea15 chore: project reconstruction
+5c15925 Rec-T05C canonical runtime regression audit
+ff52a2e Rec-T05B unified benchmark evaluation workflow
+a6cee54 Rec-T05A unified real runtime CLI
+01566cd Rec-T04B-R1 canonical CC-DFlash audit
+5cacf50 Rec-T03B-R1 canonical runtime audit
+1052b42 Rec-T02B2 canonical configuration resolution
+a70040e Rec-T04B n30 CC-DFlash audit
+b2019dd Rec-T04A compression architecture reconstruction
+f8aed88 Rec-T03B n10 runtime audit

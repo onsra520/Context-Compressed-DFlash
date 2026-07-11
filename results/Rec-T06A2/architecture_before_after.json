@@ -1,0 +1,5 @@
+{
+  "rec_t06a1": "Full-prefix/no-cache target oracle for both Baseline and DFlash; exact but production-invalid.",
+  "rec_t06a2_experiment": "Cached Baseline plus one target forward per draft block; production-valid accounting but QMSum token divergence.",
+  "decision": "Do not ship the experiment as an exact-parity NF4 DFlash implementation."
+}

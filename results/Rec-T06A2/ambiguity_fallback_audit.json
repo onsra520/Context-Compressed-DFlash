@@ -1,0 +1,1 @@
+{"status":"NOT_APPLIED","reason":"A bounded margin threshold was not established before the efficient verifier already failed the mandatory exact-parity gate. Applying the oracle would not be a production-valid repair without that evidence."}

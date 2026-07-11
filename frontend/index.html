@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="CC-DFlash - Trình bày giải pháp nén ngữ cảnh trước D-Flash và đánh giá hiệu năng." />
+    <title>CC-DFlash — Trình bày và Mô phỏng</title>
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/theme.css" />
+    <link rel="stylesheet" href="./styles/layout.css" />
+    <link rel="stylesheet" href="./styles/components.css" />
+    <link rel="stylesheet" href="./styles/purikura.css" />
+    <link rel="stylesheet" href="./styles/architecture-graph.css" />
+    <link rel="stylesheet" href="./styles/benchmark.css" />
+</head>
+<body>
+    <nav class="nav" aria-label="Điều hướng chính">
+        <a class="nav-brand" href="#hero">CC-DFlash</a>
+        <a href="#architecture">Kiến trúc</a>
+        <a href="#comparison">So sánh</a>
+        <a href="#metrics">Chỉ số</a>
+        <a href="#evidence">Kết quả</a>
+        <a href="#conclusion">Kết luận</a>
+    </nav>
+
+    <main>
+        <section class="hero" id="hero">
+            <!-- Background Layer / Decorative Layer -->
+            <div aria-hidden="true" class="puri-layer hero-decor">
+                <span class="hero-word-compress">COMPRESS</span>
+                <span class="hero-word-verify">VERIFY</span>
+                <span class="hero-word-draft">DRAFT</span>
+                
+                <span class="hero-doodle-1">context ↓</span>
+                <span class="hero-doodle-2">draft → verify</span>
+                <span class="hero-doodle-3">★ HIỆU QUẢ PHỤ THUỘC NGỮ CẢNH ★</span>
+                
+                <span class="hero-sparkle-1">✦</span>
+                <span class="hero-sparkle-2">♡</span>
+                <span class="hero-sparkle-3">✧</span>
+            </div>
+
+            <!-- Layout container -->
+            <div class="hero-layout">
+                <!-- A. Main Identity Cluster (Left) -->
+                <div class="hero-identity">
+                    <h1 class="hero-title">
+                        <span class="title-line-1">CONTEXT-COMPRESSED</span>
+                        <span class="title-line-2">DFLASH</span>
+                    </h1>
+                    
+                    <div class="abbrev-wrapper">
+                        <span class="info-sticker abbreviation-sticker">CC-DFlash</span>
+                    </div>
+
+                    <div class="hero-desc-wrapper">
+                        <div class="hero-desc">
+                            <p>CC-DFlash nén phần <span class="hl-cyan">context dài</span> trước prefill, đồng thời giữ nguyên <span class="hl-lime">câu hỏi và các chỉ dẫn quan trọng</span> ngoài vùng nén.</p>
+                            <p>Trên prompt đã rút gọn, <span class="hl-cyan">D-Flash</span> draft và kiểm chứng token; hệ thống đo riêng chi phí compression, generation và <span class="hl-yellow">độ trễ đầu cuối</span>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B. Architecture Collage (Right) -->
+                <div class="hero-collage">
+                    <div class="card-wrapper wrapper-yellow">
+                        <div class="collage-card card-yellow">
+                            <div class="card-header">
+                                <h3 class="card-title">QUESTION SAFEGUARD</h3>
+                                <div class="card-num">01</div>
+                            </div>
+                            <p class="card-text">
+                                Tách câu hỏi và các chỉ dẫn trả lời quan trọng khỏi phần ngữ cảnh có thể nén. Những thành phần này được giữ nguyên và ghép lại sau bước compression, giúp tránh làm sai ý hỏi, mất ràng buộc đầu ra hoặc làm hỏng question.
+                            </p>
+                            <div class="card-micro">QUESTION + OUTPUT RULES · GIỮ NGUYÊN</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-wrapper wrapper-cyan">
+                        <div class="collage-card card-cyan">
+                            <div class="card-header">
+                                <h3 class="card-title">NÉN NGỮ CẢNH ĐẦU VÀO</h3>
+                                <div class="card-num">02</div>
+                            </div>
+                            <p class="card-text">
+                                LLMLingua-2 chỉ xử lý phần context được phép nén, giữ lại nội dung liên quan và loại bớt token dư thừa. Prompt sau nén có kích thước nhỏ hơn, giảm lượng đầu vào cần xử lý trong bước prefill của mô hình đích.
+                            </p>
+                            <div class="card-micro">CONTEXT ONLY · FEWER INPUT TOKENS</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-wrapper wrapper-purple">
+                        <div class="collage-card card-purple">
+                            <div class="card-header">
+                                <h3 class="card-title">D-FLASH SINH & KIỂM CHỨNG</h3>
+                                <div class="card-num">03</div>
+                            </div>
+                            <p class="card-text">
+                                Trên prompt đã rút gọn, draft model đề xuất một block token trong mỗi bước. Mô hình đích kiểm chứng các token ứng viên, chấp nhận phần phù hợp và tiếp tục sinh từ vị trí chưa được chấp nhận.
+                            </p>
+                            <div class="card-micro">DRAFT BLOCK · TARGET VERIFY</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C. Compact Pipeline (Bottom) -->
+                <div class="hero-pipeline-wrapper">
+                    <div class="hero-pipeline" aria-label="Luồng CC-DFlash tổng quan">
+                        <div class="hero-pipeline__label">LƯU ĐỒ PIPELINE TỔNG QUAN</div>
+                        <div class="hero-pipeline__flow">
+                            <div class="pipeline-step step-original">
+                                <span class="step-label">NGỮ CẢNH GỐC</span>
+                            </div>
+                            <div class="pipeline-arrow">➔</div>
+                            <div class="pipeline-step step-compress">
+                                <span class="step-label">NÉN NGỮ CẢNH</span>
+                            </div>
+                            <div class="pipeline-arrow">➔</div>
+                            <div class="pipeline-step step-dflash">
+                                <span class="step-label">D-FLASH</span>
+                            </div>
+                            <div class="pipeline-arrow">➔</div>
+                            <div class="pipeline-step step-answer">
+                                <span class="step-label">CÂU TRẢ LỜI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Information Stickers -->
+            <div class="hero-stickers-container">
+                <span class="info-sticker spec-sticker-1">GIẢM TOKEN ĐẦU VÀO</span>
+                <span class="info-sticker spec-sticker-2">ĐÁNH GIÁ HAI BỘ DỮ LIỆU</span>
+                <span class="info-sticker spec-sticker-3">CÂU HỎI ĐƯỢC BẢO VỆ</span>
+                <span class="info-sticker spec-sticker-4">DRAFT → VERIFY</span>
+                <span class="info-sticker spec-sticker-5">ĐỘ TRỄ ĐẦU CUỐI</span>
+                <span class="info-sticker spec-sticker-6">PREFILL ↓</span>
+                <span class="info-sticker spec-sticker-7">CONTEXT ONLY</span>
+                <span class="info-sticker spec-sticker-8">TARGET CHECK</span>
+                <span class="deco-sticker deco-sticker-1">SAFE!</span>
+                <span class="deco-sticker deco-sticker-2">COMPRESS!</span>
+                <span class="deco-sticker deco-sticker-3">✓ QUESTION</span>
+            </div>
+        </section>
+
+        <section class="section section-architecture" id="architecture">
+            <div class="architecture-intro">
+                <header class="arc-header architecture-heading">
+                    <span class="sticker arc-sticker arc-sticker-lossy">LOSSY COMPRESSION</span>
+                    <span class="sticker arc-sticker arc-sticker-shorter">SHORTER PREFILL</span>
+                    
+                    <div class="section-no">01</div>
+                    <div class="arc-header-content">
+                        <h2 class="section-title">KIẾN TRÚC CC-DFLASH</h2>
+                        <p class="section-sub">
+                            Context được nén trước bước prefill, trong khi câu hỏi và các chỉ dẫn quan trọng được giữ nguyên. D-Flash sau đó draft và kiểm chứng token trên prompt đã rút gọn bằng cùng mô hình đích.
+                        </p>
+                    </div>
+                </header>
+
+                <div class="claim-boundary-card structured-claim">
+                    <span class="sticker arc-sticker arc-sticker-speculative">SPECULATIVE DECODE</span>
+                    <div class="claim-label">CLAIM BOUNDARY</div>
+                    <p>Input compression là lossy.</p>
+                    <p>Speculative decoding chỉ giữ kết quả theo target trên context đã nén.</p>
+                    <p>Toàn bộ pipeline không được gọi là lossless.</p>
+                </div>
+                <span class="sticker arc-sticker arc-sticker-target">TARGET VERIFICATION</span>
+            </div>
+
+            <div class="arc-native">
+                <div class="app">
+                    <div class="layout">
+                        <div class="graph-wrap">
+                            <div class="graph-title arc-graph-header">
+                                <div class="arc-graph-title-content">
+                                    <h3>ARCHITECTURE WALKTHROUGH</h3>
+                                    <p>Chạy từng bước để mô phỏng cách CC-DFlash xử lý một prompt.</p>
+                                </div>
+                                <div class="arc-controls">
+                                    <button id="prevBtn" type="button">← PREV</button>
+                                    <button id="nextBtn" type="button">NEXT →</button>
+                                    <button id="resetBtn" type="button">RESET</button>
+                                </div>
+                            </div>
+
+                            <div class="graph-viewport" id="graphViewport" tabindex="0" aria-label="Sơ đồ kiến trúc CC-DFlash">
+                                <div class="graph" id="graph">
+                                    <div class="graph-scene" id="graphScene">
+                                        <svg class="edges" viewBox="0 0 1560 850" aria-hidden="true">
+                                            <defs>
+                                                <!-- Markers for each color -->
+                                                <marker id="arrow-gray" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="#6f7478" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
+                                                <marker id="arrow-yellow" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--yellow)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
+                                                <marker id="arrow-hot" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--hot)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
+                                                <marker id="arrow-green" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--green)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
+                                                <marker id="arrow-orange" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--orange)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
+                                                <marker id="arrow-cyan" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--cyan)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
+                                                <marker id="arrow-purple" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--purple)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
+                                                <marker id="arrow-blue" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--blue)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
+                                            </defs>
+                                            
+                                            <!-- Edge Groups -->
+                                            <g class="edge" id="eInputSplit" data-edge-id="eInputSplit" style="--edge-active-color: var(--yellow);">
+                                                <path class="edge-base" d="M 320 610 H 340"></path>
+                                                <path class="edge-active" d="M 320 610 H 340" marker-end="url(#arrow-yellow)"></path>
+                                            </g>
+                                            
+                                            <g class="edge" id="eSplitCompress" data-edge-id="eSplitCompress" style="--edge-active-color: var(--hot);">
+                                                <path class="edge-base edge-solid no-marker" d="M 620 610 H 630"></path>
+                                                <path class="edge-active edge-solid no-marker" d="M 620 610 H 630"></path>
+                                                <path class="edge-base" d="M 630 610 V 470 H 640"></path>
+                                                <path class="edge-active" d="M 630 610 V 470 H 640" marker-end="url(#arrow-hot)"></path>
+                                            </g>
+
+                                            <g class="edge" id="eSplitProtect" data-edge-id="eSplitProtect" style="--edge-active-color: var(--green);">
+                                                <path class="edge-base edge-solid no-marker" d="M 620 610 H 630"></path>
+                                                <path class="edge-active edge-solid no-marker" d="M 620 610 H 630"></path>
+                                                <path class="edge-base" d="M 630 610 V 750 H 640"></path>
+                                                <path class="edge-active" d="M 630 610 V 750 H 640" marker-end="url(#arrow-green)"></path>
+                                            </g>
+
+                                            <g class="edge" id="eCompressMerge" data-edge-id="eCompressMerge" style="--edge-active-color: var(--purple);">
+                                                <path class="edge-base no-marker" d="M 920 470 H 930 V 610"></path>
+                                                <path class="edge-active no-marker" d="M 920 470 H 930 V 610"></path>
+                                                <path class="edge-base edge-solid" d="M 930 610 H 940"></path>
+                                                <path class="edge-active edge-solid" d="M 930 610 H 940" marker-end="url(#arrow-purple)"></path>
+                                            </g>
+
+                                            <g class="edge" id="eProtectMerge" data-edge-id="eProtectMerge" style="--edge-active-color: var(--purple);">
+                                                <path class="edge-base no-marker" d="M 920 750 H 930 V 610"></path>
+                                                <path class="edge-active no-marker" d="M 920 750 H 930 V 610"></path>
+                                                <path class="edge-base edge-solid" d="M 930 610 H 940"></path>
+                                                <path class="edge-active edge-solid" d="M 930 610 H 940" marker-end="url(#arrow-purple)"></path>
+                                            </g>
+
+                                            <g class="edge" id="eMergePrefill" data-edge-id="eMergePrefill" style="--edge-active-color: var(--orange);">
+                                                <path class="edge-base" d="M 1220 610 H 1240"></path>
+                                                <path class="edge-active" d="M 1220 610 H 1240" marker-end="url(#arrow-orange)"></path>
+                                            </g>
+
+                                            <g class="edge" id="ePrefillDraft" data-edge-id="ePrefillDraft" style="--edge-active-color: var(--cyan);">
+                                                <path class="edge-base" d="M 1380 520 V 360 H 180 V 280"></path>
+                                                <path class="edge-active" d="M 1380 520 V 360 H 180 V 280" marker-end="url(#arrow-cyan)"></path>
+                                            </g>
+
+                                            <g class="edge" id="eDraftVerify" data-edge-id="eDraftVerify" style="--edge-active-color: var(--purple);">
+                                                <path class="edge-base" d="M 320 190 H 340"></path>
+                                                <path class="edge-active" d="M 320 190 H 340" marker-end="url(#arrow-purple)"></path>
+                                            </g>
+
+                                            <g class="edge" id="eVerifyBuffer" data-edge-id="eVerifyBuffer" style="--edge-active-color: var(--blue);">
+                                                <path class="edge-base" d="M 620 190 H 640"></path>
+                                                <path class="edge-active" d="M 620 190 H 640" marker-end="url(#arrow-blue)"></path>
+                                            </g>
+
+                                            <g class="edge" id="eBufferFinal" data-edge-id="eBufferFinal" style="--edge-active-color: var(--blue);">
+                                                <path class="edge-base" d="M 920 190 H 940"></path>
+                                                <path class="edge-active" d="M 920 190 H 940" marker-end="url(#arrow-blue)"></path>
+                                            </g>
+
+                                            <g class="edge" id="eBufferLoop" data-edge-id="eBufferLoop" style="--edge-active-color: var(--orange);">
+                                                <path class="edge-base" d="M 780 100 V 20 H 180 V 100"></path>
+                                                <path class="edge-active loop-edge" d="M 780 100 V 20 H 180 V 100" marker-end="url(#arrow-orange)"></path>
+                                            </g>
+                                        </svg>
+
+                                        <div class="stage-label stage-label--input">INPUT PREPARATION</div>
+                                        <div class="stage-label stage-label--decode">DFLASH GENERATION</div>
+
+                                        <!-- Nodes -->
+                                        <article class="node node-yellow" id="nInput">
+                                            <div class="n-top"><div class="icon">P</div><h4>Original Prompt</h4></div>
+                                            <p>Long context + protected question.</p>
+                                        </article>
+
+                                        <article class="node node-cyan" id="nSplit">
+                                            <div class="n-top"><div class="icon">S</div><h4>Prompt Segmenter</h4></div>
+                                            <p>Separates compressible context from the question.</p>
+                                        </article>
+
+                                        <article class="node node-hot" id="nCompress">
+                                            <div class="n-top"><div class="icon">C</div><h4>LLMLingua-2</h4></div>
+                                            <p>Extractive context compression on CPU.</p>
+                                        </article>
+
+                                        <article class="node node-green" id="nProtect">
+                                            <div class="n-top"><div class="icon">Q</div><h4>Protected Question</h4></div>
+                                            <p>Question and answer instruction stay unchanged.</p>
+                                        </article>
+
+                                        <article class="node node-purple" id="nMerge">
+                                            <div class="n-top"><div class="icon">+</div><h4>Final Prompt</h4></div>
+                                            <p>Compressed context + protected question.</p>
+                                        </article>
+
+                                        <article class="node node-orange" id="nPrefill">
+                                            <div class="n-top"><div class="icon">T</div><h4>Target Prefill</h4></div>
+                                            <p>Quantized target processes fewer input tokens.</p>
+                                        </article>
+
+                                        <article class="node node-cyan" id="nDraft">
+                                            <div class="n-top"><div class="icon">D</div><h4>DFlash Draft</h4></div>
+                                            <p>Draft model proposes a block of candidate tokens.</p>
+                                        </article>
+
+                                        <article class="node node-purple" id="nVerify">
+                                            <div class="n-top"><div class="icon">V</div><h4>Target Verify</h4></div>
+                                            <p>Target accepts a prefix and rejects the first mismatch.</p>
+                                        </article>
+
+                                        <article class="node node-blue" id="nBuffer">
+                                            <div class="n-top"><div class="icon">B</div><h4>Output Buffer</h4></div>
+                                            <p>Accumulates accepted tokens until complete.</p>
+                                        </article>
+                                        
+                                        <article class="node node-blue" id="nFinal">
+                                            <div class="n-top"><div class="icon">✓</div><h4>Final Output</h4></div>
+                                            <p>Terminal output of the generation.</p>
+                                        </article>
+
+                                        <div class="cycle-label" id="cycleLabel">Stage: idle</div>
+                                        <div class="flow-token" id="packet">prompt</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <aside class="side">
+                            <div class="panel">
+                                <h3>Status <span class="cycle-chip" id="cycleChip">Idle</span></h3>
+                                <p class="step-title" id="stepTitle">Ready</p>
+                                <p class="step-desc" id="stepDesc">Bấm Run, Auto Play hoặc Next để bắt đầu.</p>
+                                <div class="progress"><div class="bar" id="bar"></div></div>
+                            </div>
+
+                            <div class="panel">
+                                <h3>Live Data</h3>
+                                <div class="kv">
+                                    <div class="kv-row">
+                                        <div class="kv-label">Context</div>
+                                        <div class="context" id="contextBox">1,240 input tokens</div>
+                                    </div>
+                                    <div class="kv-row">
+                                        <div class="kv-label">Payload</div>
+                                        <div class="tokens" id="payloadBox"><span class="tok">—</span></div>
+                                    </div>
+                                    <div class="kv-row">
+                                        <div class="kv-label">Result</div>
+                                        <div class="tokens" id="resultBox"><span class="tok">—</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel">
+                                <h3>Trace Log</h3>
+                                <div class="log" id="logBox" aria-live="polite">
+                                    <div>CC-DFlash simulation initialized.</div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-comparison" id="comparison">
+            <div aria-hidden="true" class="puri-layer">
+                <span class="puri-word puri-word--a puri-word--hot">COMPARE</span>
+                <span class="puri-word puri-word--b puri-word--yellow">3 PATHS</span>
+                <span class="puri-sticker puri-sticker--orange puri-s1">BASELINE AR</span>
+                <span class="puri-sticker puri-sticker--cyan puri-s2">D-FLASH</span>
+                <span class="puri-sticker puri-sticker--lime puri-s3">CC-DFLASH</span>
+                <span class="puri-doodle puri-doodle--black puri-d1">same prompt!</span>
+                <span class="puri-sparkle puri-sparkle--purple puri-x1">♡</span>
+            </div>
+
+            <header class="section-header">
+                <div class="section-no">02</div>
+                <div>
+                    <h2 class="section-title">So sánh ba kiến trúc</h2>
+                    <p class="section-sub">
+                        Nhập một prompt bất kỳ. Frontend sẽ mô phỏng cùng prompt qua Baseline-AR, D-Flash và
+                        CC-DFlash bằng công thức mock xác định theo độ dài input.
+                    </p>
+                    <div class="stickers-row">
+                        <span class="sticker s-orange">Same target</span>
+                        <span class="sticker s-yellow">Same prompt</span>
+                        <span class="sticker s-cyan">Separated metrics</span>
+                        <span class="sticker s-green">Deterministic mock</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="comparison-shell">
+                <aside class="controls comparison-controls">
+                    <h3>Comparison Console</h3>
+                    <label for="demoPreset">Demo preset</label>
+                    <select id="demoPreset" class="select-control">
+                        <option value="gsm8k">GSM8K · short numeric prompt</option>
+                        <option value="qmsum">QMSum · long meeting context</option>
+                        <option value="custom">Custom prompt</option>
+                    </select>
+
+                    <label for="comparePrompt">Prompt / context</label>
+                    <textarea class="prompt" id="comparePrompt"></textarea>
+
+                    <div class="input-stats" id="inputStats">
+                        <span>Words: 0</span>
+                        <span>Estimated tokens: 0</span>
+                        <span>Workload: —</span>
+                    </div>
+
+                    <button class="btn btn-start" id="compareStart" type="button">▶ Run Three-Way Comparison</button>
+                    <button class="btn btn-reset" id="compareReset" type="button">↻ Reset</button>
+
+                    <div class="rules">
+                        ✓ one prompt, three architecture paths<br />
+                        ✓ metrics are deterministic, never random<br />
+                        ✓ short and long contexts behave differently<br />
+                        ✓ benchmark evidence remains separate from simulation
+                    </div>
+                </aside>
+
+                <div class="comparison-main">
+                    <section class="stepper">
+                        <h3>Simulation Pipeline</h3>
+                        <div class="steps steps--comparison" id="compareSteps">
+                            <div class="step">1. Analyze input</div>
+                            <div class="step">2. Baseline-AR</div>
+                            <div class="step">3. D-Flash</div>
+                            <div class="step">4. CC-DFlash</div>
+                            <div class="step">5. Compare</div>
+                        </div>
+                    </section>
+
+                    <div class="architecture-cards">
+                        <article class="result-card architecture-card" id="baselineCard">
+                            <div class="card-head baseline-ar-head">
+                                <div>
+                                    <span class="card-kicker">NO COMPRESSION · AR DECODE</span>
+                                    <h3>Baseline-AR</h3>
+                                </div>
+                                <span class="status" id="baselineStatus">IDLE</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="progress-wrap" id="baselineProgress"><div class="progress-fill" id="baselineFill"></div></div>
+                                <div class="path-diagram"><span>Full input</span><b>→</b><span>Target AR</span><b>→</b><span>Output</span></div>
+                                <div class="response" id="baselineResponse">Waiting for comparison...</div>
+                                <div class="metrics" id="baselineMetrics"></div>
+                            </div>
+                        </article>
+
+                        <article class="result-card architecture-card" id="dflashCard">
+                            <div class="card-head dflash-head">
+                                <div>
+                                    <span class="card-kicker">NO COMPRESSION · SPECULATIVE DECODE</span>
+                                    <h3>D-Flash</h3>
+                                </div>
+                                <span class="status" id="dflashStatus">IDLE</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="progress-wrap" id="dflashProgress"><div class="progress-fill" id="dflashFill"></div></div>
+                                <div class="path-diagram"><span>Full input</span><b>→</b><span>Draft + Verify</span><b>→</b><span>Output</span></div>
+                                <div class="response" id="dflashResponse">Waiting for comparison...</div>
+                                <div class="metrics" id="dflashMetrics"></div>
+                            </div>
+                        </article>
+
+                        <article class="result-card architecture-card" id="ccCard">
+                            <div class="card-head cc-head">
+                                <div>
+                                    <span class="card-kicker">CONTEXT COMPRESSION · SPECULATIVE DECODE</span>
+                                    <h3>CC-DFlash</h3>
+                                </div>
+                                <span class="status" id="ccStatus">IDLE</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="progress-wrap" id="ccProgress"><div class="progress-fill" id="ccFill"></div></div>
+                                <div class="path-diagram"><span>Compress</span><b>→</b><span>Draft + Verify</span><b>→</b><span>Output</span></div>
+                                <div class="response" id="ccResponse">Waiting for comparison...</div>
+                                <div class="metrics" id="ccMetrics"></div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <section class="compare comparison-summary" id="comparisonSummary" aria-live="polite">
+                        <h3>Workload Interpretation</h3>
+                        <div id="comparisonSummaryBody"></div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <section class="section section-metrics" id="metrics">
+            <div aria-hidden="true" class="puri-layer">
+                <span class="puri-word puri-word--a puri-word--lime">METRICS</span>
+                <span class="puri-word puri-word--b puri-word--cyan">E2E</span>
+                <span class="puri-sticker puri-sticker--lime puri-s1">TOKENS</span>
+                <span class="puri-sticker puri-sticker--cyan puri-s2">PREFILL</span>
+                <span class="puri-sticker puri-sticker--orange puri-s3">OVERHEAD</span>
+                <span class="puri-doodle puri-doodle--black puri-d1">generation ≠ e2e</span>
+                <span class="puri-sparkle puri-sparkle--yellow puri-x1">★</span>
+            </div>
+
+            <header class="section-header">
+                <div class="section-no">03</div>
+                <div>
+                    <h2 class="section-title">Các chỉ số cần đọc cùng nhau</h2>
+                    <p class="section-sub">
+                        CC-DFlash không thể được đánh giá chỉ bằng tok/s. Compression overhead, prefill và
+                        generation phải được cộng lại trong end-to-end latency.
+                    </p>
+                </div>
+            </header>
+
+            <div class="metric-defs" id="metricDefs"></div>
+        </section>
+
+        <section class="section section-evidence" id="evidence">
+            <div aria-hidden="true" class="puri-layer">
+                <span class="puri-word puri-word--a puri-word--purple">RESULTS</span>
+                <span class="puri-word puri-word--b puri-word--yellow">EVIDENCE</span>
+                <span class="puri-sticker puri-sticker--hot puri-s1">GSM8K</span>
+                <span class="puri-sticker puri-sticker--cyan puri-s2">QMSUM</span>
+                <span class="puri-sticker puri-sticker--lime puri-s3">N=30</span>
+                <span class="puri-doodle puri-doodle--purple puri-d1">quality + latency</span>
+                <span class="puri-sparkle puri-sparkle--cyan puri-x1">✧</span>
+            </div>
+
+            <header class="section-header">
+                <div class="section-no">04</div>
+                <div>
+                    <h2 class="section-title">Kết quả tổng hợp</h2>
+                    <p class="section-sub">
+                        GSM8K cung cấp bằng chứng chất lượng numeric ngắn hạn. QMSum cung cấp chẩn đoán long-context
+                        về input reduction, latency và lexical overlap — không phải semantic correctness.
+                    </p>
+                </div>
+            </header>
+
+            <div class="evidence-grid">
+                <article class="evidence-card evidence-card--gsm">
+                    <div class="evidence-head">
+                        <span class="sticker s-hot">GSM8K · n=30</span>
+                        <h3>Numeric answer match</h3>
+                    </div>
+                    <div class="score-list">
+                        <div class="score-row"><span>Baseline-AR</span><b>25 / 30</b><div class="score-bar"><i style="--score:83.33%"></i></div></div>
+                        <div class="score-row"><span>D-Flash</span><b>24 / 30</b><div class="score-bar"><i style="--score:80%"></i></div></div>
+                        <div class="score-row"><span>CC-DFlash</span><b>24 / 30</b><div class="score-bar"><i style="--score:80%"></i></div></div>
+                    </div>
+                    <p class="evidence-note">CC-DFlash duy trì chất lượng numeric gần target ceiling trong thiết lập GSM8K đã đánh giá.</p>
+                </article>
+
+                <article class="evidence-card evidence-card--qmsum">
+                    <div class="evidence-head">
+                        <span class="sticker s-cyan">QMSum · n=30</span>
+                        <h3>Normalized lexical overlap</h3>
+                    </div>
+                    <div class="score-list">
+                        <div class="score-row"><span>Baseline-AR</span><b>0.2330</b><div class="score-bar"><i style="--score:93.2%"></i></div></div>
+                        <div class="score-row"><span>D-Flash</span><b>0.2337</b><div class="score-bar"><i style="--score:93.5%"></i></div></div>
+                        <div class="score-row"><span>CC-DFlash</span><b>0.2153</b><div class="score-bar"><i style="--score:86.1%"></i></div></div>
+                    </div>
+                    <p class="evidence-note">Chỉ số này được dùng như diagnostic proxy cho long-context, không thay thế đánh giá semantic.</p>
+                </article>
+
+                <article class="evidence-card evidence-card--takeaway">
+                    <div class="evidence-head">
+                        <span class="sticker s-green">Final interpretation</span>
+                        <h3>Workload-dependent benefit</h3>
+                    </div>
+                    <ul class="takeaway-list">
+                        <li>CC-DFlash giảm số input token trước target prefill.</li>
+                        <li>D-Flash cải thiện generation path so với autoregressive decoding.</li>
+                        <li>Compression overhead quyết định lợi ích end-to-end.</li>
+                        <li>Short context có thể chưa đủ để bù chi phí compression.</li>
+                        <li>Long context có tiềm năng hưởng lợi khi prefill saving lớn hơn overhead.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-conclusion" id="conclusion">
+            <div aria-hidden="true" class="puri-layer">
+                <span class="puri-word puri-word--a puri-word--cyan">CONCLUSION</span>
+                <span class="puri-word puri-word--b puri-word--hot">CC-DFLASH</span>
+                <span class="puri-sticker puri-sticker--lime puri-s1">LESS INPUT</span>
+                <span class="puri-sticker puri-sticker--purple puri-s2">SAME TARGET</span>
+                <span class="puri-sticker puri-sticker--orange puri-s3">E2E MATTERS</span>
+                <span class="puri-doodle puri-doodle--black puri-d1">context → compress → decode</span>
+                <span class="puri-sparkle puri-sparkle--yellow puri-x1">★</span>
+            </div>
+
+            <header class="section-header">
+                <div class="section-no">05</div>
+                <div>
+                    <h2 class="section-title">Kết luận</h2>
+                    <p class="section-sub">Một pipeline tích hợp hoàn chỉnh, với giới hạn claim được xác định rõ.</p>
+                </div>
+            </header>
+
+            <div class="conclusion-board">
+                <div class="conclusion-main">
+                    <p>
+                        <strong>CC-DFlash chứng minh được một pipeline tích hợp khả thi:</strong>
+                        nén context trước DFlash, giảm input token và duy trì chất lượng numeric gần các baseline
+                        trong thiết lập GSM8K đã đánh giá.
+                    </p>
+                    <p>
+                        Kết quả cũng cho thấy lợi ích generation không tự động chuyển thành lợi ích end-to-end,
+                        vì chi phí compression vẫn là yếu tố quyết định và phụ thuộc độ dài workload.
+                    </p>
+                </div>
+
+                <div class="claim-boundaries">
+                    <h3>Final claim boundary</h3>
+                    <div class="boundary-grid">
+                        <span>No universal speedup claim</span>
+                        <span>No QMSum semantic-correctness claim</span>
+                        <span>No deployment-readiness claim</span>
+                        <span>No confirmed 8 GB deployment claim</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div><b>CC-DFlash</b><br />Context-Compressed DFlash</div>
+        <div>Final Presentation · Architecture Demo · Cross-Dataset Evidence</div>
+    </footer>
+
+    <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>

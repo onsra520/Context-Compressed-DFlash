@@ -25,6 +25,7 @@ dist/
 .eggs/
 pip-wheel-metadata/
 wheels/
+node_modules/
 
 # ============================================================
 # Test / coverage / lint cache

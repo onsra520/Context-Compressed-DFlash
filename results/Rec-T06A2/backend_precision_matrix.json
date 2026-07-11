@@ -1,0 +1,6 @@
+{
+  "sdpa_bfloat16_nf4": "FAIL: QMSum efficient block verifier diverged at token 16.",
+  "eager": "FAIL: the archived one-forward-per-block verifier diverged on the same QMSum fixture at token 56.",
+  "higher_precision": "NOT_RUN: unavailable with the locked NF4 target and available hardware.",
+  "decision": "No backend fallback was silently adopted."
+}
