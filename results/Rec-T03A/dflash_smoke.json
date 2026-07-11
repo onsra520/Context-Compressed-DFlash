@@ -1,0 +1,1 @@
+{"acceptance_lengths":[3],"accepted_draft_tokens":2,"draft_tokens_proposed":15,"drafter_device":"cuda:0","elapsed_ms":989.5870519976597,"generated_text":" 4","output_token_count":2,"pass":true,"prompt":"What is 2+2? Answer:","rollback_tokens":13,"stop_reason":"max_new_tokens","target_device":"cuda:0","tau_tokens_advanced_per_verification":3.0,"verification_calls":1}

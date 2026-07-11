@@ -1,0 +1,1 @@
+{"acceptance_lengths":[3],"counters":{"accepted_draft_tokens":2,"rollback_tokens":13,"tau_tokens_advanced_per_verification":3.0,"verification_calls":1},"pass":true,"unit_tests":"tests/test_rec_t03a_runtime_contract.py"}
