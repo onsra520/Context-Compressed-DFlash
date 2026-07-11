@@ -60,7 +60,15 @@ def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit
         "run_file_sha256": hash_file(output),
         "rows": len(rows),
         "resource": rows[-1].get("resource", {}) if rows else {},
-        "timing": rows[-1].get("timing", {}) if rows else {},
+        "timing": {
+            key: rows[-1].get(key)
+            for key in (
+                "prompt_prepare_ms", "compression_total_ms", "target_prefill_ms",
+                "draft_prefill_ms", "decode_total_ms", "generation_request_e2e_ms",
+                "warm_request_e2e_ms", "target_model_init_ms", "drafter_model_init_ms",
+                "compressor_init_ms", "cold_start_e2e_ms",
+            )
+        } if rows else {},
     }
     write_json(output.with_suffix(".worker.json"), manifest)
     return manifest
