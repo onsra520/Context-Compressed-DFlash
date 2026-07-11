@@ -1,0 +1,3 @@
+condition,rows,success,cap_hits,gsm8k_strict_correct,mean_e2e_ms,semantic_correctness
+baseline-ar,10,10,10,2,7887.042193598609,numeric_proxy_only
+dflash-r1,10,10,10,0,6578.830613601167,numeric_proxy_only

@@ -1,11 +1,11 @@
-"""Synthetic execution for contract validation."""
+"""Explicit synthetic-only benchmark helper retained for Rec-T02B contract tests."""
 
 from __future__ import annotations
 
 from typing import Any
 
 from ccdf.datasets.hashing import hash_json, hash_text
-from ccdf.runtime import execute_request
+from ccdf.evaluation import gsm8k, qmsum
 
 
 def resolved_condition(condition_id: str, dataset_manifest_hash: str) -> dict[str, Any]:
@@ -42,13 +42,18 @@ def synthetic_row(
     measurement_mode: str = "benchmark",
 ) -> dict[str, Any]:
     condition = resolved_condition(condition_id, dataset_manifest_hash)
-    request = execute_request(
-        condition_id=condition_id,
-        dataset=dataset,
-        prompt=f"synthetic prompt for {fixture_id}",
-        reference_answer=reference_answer,
-        measurement_mode=measurement_mode,
-    )
+    generated = f"Final answer: {reference_answer}" if dataset == "gsm8k" else reference_answer[:160]
+    is_dflash = condition_id in {"dflash-r1", "cc-dflash-r2"}
+    request = {
+        "generated_text": generated,
+        "output_tokens": max(1, len(generated.split())),
+        "stop_reason": "eos", "cap_hit": False, "success": True, "error": None,
+        "timing": {"model_init_ms": 0.0, "compressor_init_ms": 0.0, "compression_total_ms": 0.0, "target_prefill_ms": 0.0, "draft_prefill_ms": 0.0, "decode_total_ms": 0.0, "request_e2e_ms": 0.0},
+        "vram": {"peak_allocated_bytes": 0, "peak_reserved_bytes": 0, "measurement_scope": "synthetic"},
+        "dflash": {"verification_calls": 3 if is_dflash else 0, "acceptance_lengths": [4, 3, 5] if is_dflash else [], "draft_tokens_proposed": 11 if is_dflash else 0},
+        "quality": gsm8k.evaluate(generated, reference_answer) if dataset == "gsm8k" else qmsum.evaluate(generated, reference_answer),
+        "measurement_mode": measurement_mode,
+    }
     timing = request["timing"]
     vram = request["vram"]
     dflash = request["dflash"]

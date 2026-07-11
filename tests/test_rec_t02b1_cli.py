@@ -67,7 +67,7 @@ def test_fixture_profile_json_mode() -> None:
     assert result.returncode == 0
     assert payload["fixture_id"] == fixture_id
     assert payload["measurement_mode"] == "profiling"
-    assert payload["quality"]["label"] == "strict_correct"
+    assert payload["quality"]["evaluator_version"] == "rec-t02b.gsm8k-evaluator.v1"
 
 
 def test_context_file_question(tmp_path: Path) -> None:

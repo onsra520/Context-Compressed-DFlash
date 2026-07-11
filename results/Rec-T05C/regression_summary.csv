@@ -1,0 +1,6 @@
+dataset,condition,rows,success,cap_hits,mean_e2e_ms,peak_allocated_bytes,dflash_invariants
+gsm8k,baseline-ar,10,10,10,7887.042193598609,2739100672,True
+gsm8k,dflash-r1,10,10,10,6578.830613601167,3872284160,True
+qmsum,baseline-ar,10,10,10,12439.165666698682,3113095168,True
+qmsum,cc-dflash-r2,10,10,10,8826.389194300282,4181054464,True
+qmsum,dflash-r1,10,10,10,8933.003633299813,4545732608,True

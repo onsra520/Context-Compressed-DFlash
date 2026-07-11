@@ -16,6 +16,7 @@ from ccdf.inference.dflash_runtime import generate_dflash_r1
 from ccdf.inference.schemas import GenerationConfig
 from ccdf.inference.target_loader import load_target_model, load_target_tokenizer
 from ccdf.dflash.loader import load_drafter_model
+from ccdf.evaluation import gsm8k, qmsum
 from ccdf.metrics.dflash import validate_dflash_invariants
 from ccdf.prompts.renderer import render_prompt
 from ccdf.prompts.schemas import PromptParts
@@ -127,6 +128,11 @@ class RuntimeEngine:
                 "tau_tokens_advanced_per_verification": sum(dflash["acceptance_lengths"]) / verification_calls if verification_calls else 0.0,
                 "draft_acceptance_rate": dflash["accepted_draft_tokens"] / dflash["draft_tokens_proposed"] if dflash["draft_tokens_proposed"] else 0.0,
             })
+        quality = None
+        if request.reference_answer is not None:
+            quality = gsm8k.evaluate(result.generated_text, request.reference_answer, cap_hit=result.stop_reason == "max_new_tokens") if data["dataset"] == "gsm8k" else qmsum.evaluate(result.generated_text, request.reference_answer, cap_hit=result.stop_reason == "max_new_tokens")
+        else:
+            quality = {"evaluator_version": "not_evaluated", "label": "not_evaluated", "tokenizer_source": "target"}
         return {
             "generated_text": result.generated_text,
             "output_token_ids": result.output_token_ids,
@@ -143,4 +149,5 @@ class RuntimeEngine:
             "final_prompt": prompt,
             "precompression_prompt": pre_prompt,
             "measurement_mode": request.measurement_mode,
+            "quality": quality,
         }
