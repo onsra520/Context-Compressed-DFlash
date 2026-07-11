@@ -52,10 +52,10 @@ export function initArchitectureGraph() {
 
     function fitGraph() {
         const viewportRect = graphViewport.getBoundingClientRect();
-        const sceneWidth = 1560;
-        const sceneHeight = 850;
+        const sceneWidth = 2200;
+        const sceneHeight = 1000;
         const fitScale = Math.min(viewportRect.width / sceneWidth, viewportRect.height / sceneHeight);
-        scale = Math.min(1.8, Math.max(0.55, fitScale));
+        scale = Math.min(1.8, Math.max(0.3, fitScale));
         translateX = (viewportRect.width - sceneWidth * scale) / 2;
         translateY = (viewportRect.height - sceneHeight * scale) / 2;
         applyTransform();
@@ -291,4 +291,5 @@ export function initArchitectureGraph() {
 
     window.addEventListener('resize', fitGraph);
     resetGraph();
+    fitGraph();
 }

@@ -188,7 +188,7 @@
                             <div class="graph-viewport" id="graphViewport" tabindex="0" aria-label="Sơ đồ kiến trúc CC-DFlash">
                                 <div class="graph" id="graph">
                                     <div class="graph-scene" id="graphScene">
-                                        <svg class="edges" viewBox="0 0 1560 850" aria-hidden="true">
+                                        <svg class="edges" viewBox="0 0 2200 1000" aria-hidden="true">
                                             <defs>
                                                 <!-- Markers for each color -->
                                                 <marker id="arrow-gray" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="#6f7478" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
@@ -200,69 +200,104 @@
                                                 <marker id="arrow-purple" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--purple)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
                                                 <marker id="arrow-blue" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--blue)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
                                             </defs>
-                                            
-                                            <!-- Edge Groups -->
+
+                                            <!-- ═══════════════════════════════════════ -->
+                                            <!-- INPUT PREPARATION ROW edges            -->
+                                            <!-- Node coords: width=300, cy=680         -->
+                                            <!-- nInput:   left=40   right=340  cy=680  -->
+                                            <!-- nSplit:   left=480  right=780  cy=680  -->
+                                            <!-- nCompress:left=920  right=1220 cy=520  -->
+                                            <!-- nProtect: left=920  right=1220 cy=840  -->
+                                            <!-- nMerge:   left=1360 right=1660 cy=680  -->
+                                            <!-- nPrefill: left=1800 right=2100 cy=680  -->
+                                            <!-- ═══════════════════════════════════════ -->
+
+                                            <!-- eInputSplit: nInput right(340,680) → nSplit left(480,680) -->
                                             <g class="edge" id="eInputSplit" data-edge-id="eInputSplit" style="--edge-active-color: var(--yellow);">
-                                                <path class="edge-base" d="M 320 610 H 340"></path>
-                                                <path class="edge-active" d="M 320 610 H 340" marker-end="url(#arrow-yellow)"></path>
+                                                <path class="edge-base" d="M 340 680 H 480"></path>
+                                                <path class="edge-active" d="M 340 680 H 480" marker-end="url(#arrow-yellow)"></path>
                                             </g>
-                                            
+
+                                            <!-- eSplitCompress: nSplit right(780,680) → fork(830,680) → up → nCompress left(920,520) -->
                                             <g class="edge" id="eSplitCompress" data-edge-id="eSplitCompress" style="--edge-active-color: var(--hot);">
-                                                <path class="edge-base edge-solid no-marker" d="M 620 610 H 630"></path>
-                                                <path class="edge-active edge-solid no-marker" d="M 620 610 H 630"></path>
-                                                <path class="edge-base" d="M 630 610 V 470 H 640"></path>
-                                                <path class="edge-active" d="M 630 610 V 470 H 640" marker-end="url(#arrow-hot)"></path>
+                                                <path class="edge-base edge-solid no-marker" d="M 780 680 H 830"></path>
+                                                <path class="edge-active edge-solid no-marker" d="M 780 680 H 830"></path>
+                                                <path class="edge-base" d="M 830 680 V 520 H 920"></path>
+                                                <path class="edge-active" d="M 830 680 V 520 H 920" marker-end="url(#arrow-hot)"></path>
                                             </g>
 
+                                            <!-- eSplitProtect: nSplit right(780,680) → fork(830,680) → down → nProtect left(920,840) -->
                                             <g class="edge" id="eSplitProtect" data-edge-id="eSplitProtect" style="--edge-active-color: var(--green);">
-                                                <path class="edge-base edge-solid no-marker" d="M 620 610 H 630"></path>
-                                                <path class="edge-active edge-solid no-marker" d="M 620 610 H 630"></path>
-                                                <path class="edge-base" d="M 630 610 V 750 H 640"></path>
-                                                <path class="edge-active" d="M 630 610 V 750 H 640" marker-end="url(#arrow-green)"></path>
+                                                <path class="edge-base edge-solid no-marker" d="M 780 680 H 830"></path>
+                                                <path class="edge-active edge-solid no-marker" d="M 780 680 H 830"></path>
+                                                <path class="edge-base" d="M 830 680 V 840 H 920"></path>
+                                                <path class="edge-active" d="M 830 680 V 840 H 920" marker-end="url(#arrow-green)"></path>
                                             </g>
 
-                                            <g class="edge" id="eCompressMerge" data-edge-id="eCompressMerge" style="--edge-active-color: var(--purple);">
-                                                <path class="edge-base no-marker" d="M 920 470 H 930 V 610"></path>
-                                                <path class="edge-active no-marker" d="M 920 470 H 930 V 610"></path>
-                                                <path class="edge-base edge-solid" d="M 930 610 H 940"></path>
-                                                <path class="edge-active edge-solid" d="M 930 610 H 940" marker-end="url(#arrow-purple)"></path>
+                                            <!-- eCompressMerge: nCompress right(1220,520) → join(1290,520) → down → nMerge left(1360,680) -->
+                                            <g class="edge" id="eCompressMerge" data-edge-id="eCompressMerge" style="--edge-active-color: var(--hot);">
+                                                <path class="edge-base no-marker" d="M 1220 520 H 1290 V 680"></path>
+                                                <path class="edge-active no-marker" d="M 1220 520 H 1290 V 680"></path>
+                                                <path class="edge-base edge-solid" d="M 1290 680 H 1360"></path>
+                                                <path class="edge-active edge-solid" d="M 1290 680 H 1360" marker-end="url(#arrow-hot)"></path>
                                             </g>
 
-                                            <g class="edge" id="eProtectMerge" data-edge-id="eProtectMerge" style="--edge-active-color: var(--purple);">
-                                                <path class="edge-base no-marker" d="M 920 750 H 930 V 610"></path>
-                                                <path class="edge-active no-marker" d="M 920 750 H 930 V 610"></path>
-                                                <path class="edge-base edge-solid" d="M 930 610 H 940"></path>
-                                                <path class="edge-active edge-solid" d="M 930 610 H 940" marker-end="url(#arrow-purple)"></path>
+                                            <!-- eProtectMerge: nProtect right(1220,840) → join(1290,840) → up → nMerge left(1360,680) -->
+                                            <g class="edge" id="eProtectMerge" data-edge-id="eProtectMerge" style="--edge-active-color: var(--green);">
+                                                <path class="edge-base no-marker" d="M 1220 840 H 1290 V 680"></path>
+                                                <path class="edge-active no-marker" d="M 1220 840 H 1290 V 680"></path>
+                                                <path class="edge-base edge-solid" d="M 1290 680 H 1360"></path>
+                                                <path class="edge-active edge-solid" d="M 1290 680 H 1360" marker-end="url(#arrow-green)"></path>
                                             </g>
 
+                                            <!-- eMergePrefill: nMerge right(1660,680) → nPrefill left(1800,680) -->
                                             <g class="edge" id="eMergePrefill" data-edge-id="eMergePrefill" style="--edge-active-color: var(--orange);">
-                                                <path class="edge-base" d="M 1220 610 H 1240"></path>
-                                                <path class="edge-active" d="M 1220 610 H 1240" marker-end="url(#arrow-orange)"></path>
+                                                <path class="edge-base" d="M 1660 680 H 1800"></path>
+                                                <path class="edge-active" d="M 1660 680 H 1800" marker-end="url(#arrow-orange)"></path>
                                             </g>
 
+                                            <!-- ══════════════════════════════════════════════════════ -->
+                                            <!-- ePrefillDraft: STRAIGHT VERTICAL ↑                    -->
+                                            <!-- nPrefill top-center (1950, 590) → nDraft bottom (1950,280) -->
+                                            <!-- nDraft: left=1800 top=100 bottom=280 center-x=1950    -->
+                                            <!-- ══════════════════════════════════════════════════════ -->
                                             <g class="edge" id="ePrefillDraft" data-edge-id="ePrefillDraft" style="--edge-active-color: var(--cyan);">
-                                                <path class="edge-base" d="M 1380 520 V 360 H 180 V 280"></path>
-                                                <path class="edge-active" d="M 1380 520 V 360 H 180 V 280" marker-end="url(#arrow-cyan)"></path>
+                                                <path class="edge-base" d="M 1950 590 V 284"></path>
+                                                <path class="edge-active" d="M 1950 590 V 284" marker-end="url(#arrow-cyan)"></path>
                                             </g>
 
+                                            <!-- ═══════════════════════════════════════════════════ -->
+                                            <!-- DFLASH GENERATION ROW edges (REVERSED L→R order)  -->
+                                            <!-- Flow: DFlash Draft → Target Verify → Buffer → Final -->
+                                            <!-- Arrows go LEFTWARD (orient=auto handles rotation)   -->
+                                            <!-- nFinal:  left=480  right=780  cy=190               -->
+                                            <!-- nBuffer: left=920  right=1220 cy=190               -->
+                                            <!-- nVerify: left=1360 right=1660 cy=190               -->
+                                            <!-- nDraft:  left=1800 right=2100 cy=190               -->
+                                            <!-- ═══════════════════════════════════════════════════ -->
+
+                                            <!-- eDraftVerify: nDraft left(1800,190) → nVerify right(1660,190) ← -->
                                             <g class="edge" id="eDraftVerify" data-edge-id="eDraftVerify" style="--edge-active-color: var(--purple);">
-                                                <path class="edge-base" d="M 320 190 H 340"></path>
-                                                <path class="edge-active" d="M 320 190 H 340" marker-end="url(#arrow-purple)"></path>
+                                                <path class="edge-base" d="M 1800 190 H 1660"></path>
+                                                <path class="edge-active" d="M 1800 190 H 1660" marker-end="url(#arrow-purple)"></path>
                                             </g>
 
+                                            <!-- eVerifyBuffer: nVerify left(1360,190) → nBuffer right(1220,190) ← -->
                                             <g class="edge" id="eVerifyBuffer" data-edge-id="eVerifyBuffer" style="--edge-active-color: var(--blue);">
-                                                <path class="edge-base" d="M 620 190 H 640"></path>
-                                                <path class="edge-active" d="M 620 190 H 640" marker-end="url(#arrow-blue)"></path>
+                                                <path class="edge-base" d="M 1360 190 H 1220"></path>
+                                                <path class="edge-active" d="M 1360 190 H 1220" marker-end="url(#arrow-blue)"></path>
                                             </g>
 
+                                            <!-- eBufferFinal: nBuffer left(920,190) → nFinal right(780,190) ← -->
                                             <g class="edge" id="eBufferFinal" data-edge-id="eBufferFinal" style="--edge-active-color: var(--blue);">
-                                                <path class="edge-base" d="M 920 190 H 940"></path>
-                                                <path class="edge-active" d="M 920 190 H 940" marker-end="url(#arrow-blue)"></path>
+                                                <path class="edge-base" d="M 920 190 H 780"></path>
+                                                <path class="edge-active" d="M 920 190 H 780" marker-end="url(#arrow-blue)"></path>
                                             </g>
 
+                                            <!-- eBufferLoop: nBuffer top-center(1070,100) → up → RIGHT → nDraft top(1950,100) → down -->
                                             <g class="edge" id="eBufferLoop" data-edge-id="eBufferLoop" style="--edge-active-color: var(--orange);">
-                                                <path class="edge-base" d="M 780 100 V 20 H 180 V 100"></path>
-                                                <path class="edge-active loop-edge" d="M 780 100 V 20 H 180 V 100" marker-end="url(#arrow-orange)"></path>
+                                                <path class="edge-base" d="M 1070 100 V 50 H 1950 V 104"></path>
+                                                <path class="edge-active loop-edge" d="M 1070 100 V 50 H 1950 V 104" marker-end="url(#arrow-orange)"></path>
                                             </g>
                                         </svg>
 
