@@ -54,3 +54,10 @@ def test_runtime_modules_do_not_import_archives() -> None:
 
     assert ".archives" not in inspect.getsource(generate)
     assert ".archives" not in inspect.getsource(baseline)
+
+
+def test_generation_result_has_benchmark_timing_fields() -> None:
+    from ccdf.inference.schemas import GenerationResult
+
+    fields = set(GenerationResult.__dataclass_fields__)
+    assert {"target_prefill_ms", "decode_total_ms", "request_e2e_ms"}.issubset(fields)

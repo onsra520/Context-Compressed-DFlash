@@ -1,0 +1,1 @@
+{"condition": "baseline-ar", "dataset": "gsm8k", "dataset_manifest_hash": "45d50bac9cd425b509bdcda119c5b7ce295e1acac655ffec1eb0ca3ab21240b7", "model_init_ms": 3350.5360609997297, "output": "results/Rec-T03B/runs/gsm8k_baseline_ar.jsonl", "rows": 10, "source_commit": "5601265da18b321b454ea5e42ffdf77caf9519be"}

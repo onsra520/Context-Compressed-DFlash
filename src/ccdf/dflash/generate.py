@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import time
+
 import torch
 from transformers import DynamicCache
 
 from ccdf.dflash.utils import extract_context_feature, sample
-from ccdf.inference.generation_common import decode_new_text, stop_reason, tokenize_prompt
+from ccdf.inference.generation_common import decode_new_text, stop_reason, synchronize_if_cuda, tokenize_prompt
 from ccdf.inference.schemas import GenerationConfig, GenerationResult
 
 
@@ -15,6 +17,7 @@ def generate_dflash(target, drafter, tokenizer, prompt: str, config: GenerationC
     drafter.eval()
     target.eval()
     input_ids = tokenize_prompt(tokenizer, prompt, target.device)
+    request_start = time.perf_counter()
     num_input_tokens = input_ids.shape[1]
     max_length = num_input_tokens + config.max_new_tokens
     block_size = drafter.block_size
@@ -28,6 +31,8 @@ def generate_dflash(target, drafter, tokenizer, prompt: str, config: GenerationC
     past_key_values_target = DynamicCache()
     past_key_values_draft = DynamicCache()
 
+    synchronize_if_cuda(target.device)
+    prefill_start = time.perf_counter()
     output = target(
         input_ids,
         position_ids=position_ids[:, :num_input_tokens],
@@ -36,6 +41,8 @@ def generate_dflash(target, drafter, tokenizer, prompt: str, config: GenerationC
         logits_to_keep=1,
         output_hidden_states=True,
     )
+    synchronize_if_cuda(target.device)
+    target_prefill_ms = (time.perf_counter() - prefill_start) * 1000
     output_ids[:, :num_input_tokens] = input_ids
     output_ids[:, num_input_tokens : num_input_tokens + 1] = sample(output.logits, config.temperature)
     target_hidden = extract_context_feature(output.hidden_states, drafter.target_layer_ids)
@@ -43,6 +50,8 @@ def generate_dflash(target, drafter, tokenizer, prompt: str, config: GenerationC
     acceptance_lengths: list[int] = []
     draft_tokens_proposed = 0
     start = num_input_tokens
+    synchronize_if_cuda(target.device)
+    decode_start = time.perf_counter()
     while start < max_length:
         block_output_ids = output_ids[:, start : start + block_size].clone()
         block_position_ids = position_ids[:, start : start + block_size]
@@ -84,6 +93,8 @@ def generate_dflash(target, drafter, tokenizer, prompt: str, config: GenerationC
         generated_slice = output_ids[0, num_input_tokens:start]
         if any(stop_id in generated_slice for stop_id in config.stop_token_ids):
             break
+    synchronize_if_cuda(target.device)
+    decode_total_ms = (time.perf_counter() - decode_start) * 1000
 
     output_ids = output_ids[:, :max_length]
     output_ids = output_ids[:, output_ids[0] != drafter.mask_token_id]
@@ -94,6 +105,7 @@ def generate_dflash(target, drafter, tokenizer, prompt: str, config: GenerationC
             output_ids = output_ids[:, : num_input_tokens + stop_indices[0] + 1]
 
     ids = output_ids[0].detach().cpu().tolist()
+    request_e2e_ms = (time.perf_counter() - request_start) * 1000
     return GenerationResult(
         generated_text=decode_new_text(tokenizer, output_ids, num_input_tokens),
         output_token_ids=ids,
@@ -103,4 +115,7 @@ def generate_dflash(target, drafter, tokenizer, prompt: str, config: GenerationC
         acceptance_lengths=acceptance_lengths,
         verification_calls=len(acceptance_lengths),
         draft_tokens_proposed=draft_tokens_proposed,
+        target_prefill_ms=target_prefill_ms,
+        decode_total_ms=decode_total_ms,
+        request_e2e_ms=request_e2e_ms,
     )

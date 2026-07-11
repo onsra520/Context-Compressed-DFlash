@@ -5,6 +5,13 @@ from __future__ import annotations
 from ccdf.inference.schemas import GenerationConfig
 
 
+def synchronize_if_cuda(device) -> None:
+    if getattr(device, "type", None) == "cuda":
+        import torch
+
+        torch.cuda.synchronize(device)
+
+
 def tokenize_prompt(tokenizer, prompt: str, device):
     return tokenizer(prompt, return_tensors="pt").input_ids.to(device)
 

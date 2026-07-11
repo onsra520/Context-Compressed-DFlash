@@ -23,6 +23,13 @@ class GenerationResult:
     acceptance_lengths: list[int] = field(default_factory=list)
     verification_calls: int = 0
     draft_tokens_proposed: int = 0
+    model_init_ms: float = 0.0
+    compressor_init_ms: float = 0.0
+    compression_total_ms: float = 0.0
+    target_prefill_ms: float = 0.0
+    draft_prefill_ms: float = 0.0
+    decode_total_ms: float = 0.0
+    request_e2e_ms: float = 0.0
 
     @property
     def accepted_draft_tokens(self) -> int:
