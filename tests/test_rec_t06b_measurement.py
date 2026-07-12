@@ -87,6 +87,8 @@ def test_evaluator_checks_worker_and_source_identity() -> None:
     source = Path("src/ccdf/benchmark/workflow.py").read_text(encoding="utf-8")
     assert "worker git/source state" in Path("src/ccdf/benchmark/worker.py").read_text(encoding="utf-8")
     assert "source_tracked_diff_sha256" in source
+    assert "worker source-state mismatch" in source
+    assert "legacy fields absent; retained noncanonical" in source
     assert "missing or extra worker manifest artifact" in source
     assert "condition_configs/{condition}" in source
 

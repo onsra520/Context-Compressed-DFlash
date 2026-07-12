@@ -236,12 +236,18 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
     # its current implementation is recorded in evaluation_manifest.json below
     # rather than rejecting an otherwise intact raw artifact after an evaluator
     # hotfix.
+    legacy_source_binding = False
     for condition in manifest["conditions"]:
         worker_path = run_dir / "runs" / f"{condition.replace('-', '_')}.worker.json"
         if not worker_path.is_file() or hash_file(worker_path) != manifest.get("worker_manifest_hashes", {}).get(condition):
             raise ValueError("worker manifest hash mismatch")
         worker = json.loads(worker_path.read_text(encoding="utf-8"))
-        if worker.get("task_id") != manifest["task_id"] or worker.get("execution_mode") != manifest["execution_mode"] or worker.get("canonical") != manifest.get("canonical") or worker.get("canonical_reason") != manifest.get("canonical_reason") or worker.get("git_state") != manifest.get("git_state"):
+        worker_state = worker.get("git_state")
+        if worker_state is None and not manifest.get("canonical"):
+            legacy_source_binding = True
+        elif worker_state != manifest.get("git_state"):
+            raise ValueError("worker source-state mismatch")
+        if worker.get("task_id") != manifest["task_id"] or worker.get("execution_mode") != manifest["execution_mode"] or worker.get("canonical") != manifest.get("canonical") or worker.get("canonical_reason") != manifest.get("canonical_reason"):
             raise ValueError("worker task or mode mismatch")
         if worker.get("resolved_config_sha256") != manifest.get("resolved_condition_config_sha256", {}).get(condition):
             raise ValueError("worker condition config mismatch")
@@ -259,7 +265,12 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         for row in file_rows:
             if row.get("condition", {}).get("condition_id") != expected_condition:
                 raise ValueError("condition file/row binding mismatch")
-            if row.get("task_id") != manifest["task_id"] or row.get("measurement_mode") != manifest["execution_mode"] or row.get("canonical") != manifest.get("canonical") or row.get("canonical_reason") != manifest.get("canonical_reason") or row.get("source_commit") != manifest["git_state"]["source_commit"] or row.get("source_dirty") != manifest["git_state"]["dirty"] or row.get("source_tracked_diff_sha256") != manifest["git_state"]["tracked_diff_sha256"] or row.get("source_untracked_inventory_sha256") != manifest["git_state"]["relevant_untracked_source_config_inventory_sha256"]:
+            legacy_row_binding = row.get("source_tracked_diff_sha256") is None and row.get("source_untracked_inventory_sha256") is None and not manifest.get("canonical")
+            if legacy_row_binding:
+                legacy_source_binding = True
+            elif row.get("source_tracked_diff_sha256") != manifest["git_state"]["tracked_diff_sha256"] or row.get("source_untracked_inventory_sha256") != manifest["git_state"]["relevant_untracked_source_config_inventory_sha256"]:
+                raise ValueError("row source-state mismatch")
+            if row.get("task_id") != manifest["task_id"] or row.get("measurement_mode") != manifest["execution_mode"] or row.get("canonical") != manifest.get("canonical") or row.get("canonical_reason") != manifest.get("canonical_reason") or row.get("source_commit") != manifest["git_state"]["source_commit"] or row.get("source_dirty") != manifest["git_state"]["dirty"]:
                 raise ValueError("row task or measurement identity mismatch")
             if row.get("resolved_config_hash") != manifest.get("resolved_condition_config_sha256", {}).get(expected_condition):
                 raise ValueError("row resolved config hash mismatch")
@@ -389,6 +400,7 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         "models_loaded": False,
         "runtime_engine_instantiated": False,
         "evaluator": "quality recomputed from raw output and stored reference answers",
+        "source_binding": "legacy fields absent; retained noncanonical" if legacy_source_binding else "parent-bound worker and row source state verified",
         "consumed_input_hashes": {"benchmark_manifest.json": hash_file(manifest_path), "resolved_config.json": hash_file(resolved_path), "resolved_config.sha256": hash_file(resolved_hash_path), "fixture_file": hash_file(fixture_path), "dataset_manifest": hash_file(manifest_path_input), **{f"condition_configs/{condition}": hash_json(bundle[condition]) for condition in manifest["conditions"]}, **{f"runs/{name}": digest for name, digest in actual_hashes.items()}, **{f"runs/{condition.replace('-', '_')}.worker.json": hash_file(run_dir / "runs" / f"{condition.replace('-', '_')}.worker.json") for condition in manifest["conditions"]}},
         "produced_summary_hashes": {},
     }
