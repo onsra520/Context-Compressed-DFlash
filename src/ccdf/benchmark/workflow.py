@@ -163,7 +163,7 @@ def run_benchmark(
 
     write_json(output_dir / "resolved_config.json", config_bundle)
     (output_dir / "resolved_config.sha256").write_text(
-        hash_json(config_bundle) + "\n", encoding="utf-8"
+        hash_file(output_dir / "resolved_config.json") + "\n", encoding="utf-8"
     )
     run_hashes = {
         path.name: hash_file(path) for path in sorted((output_dir / "runs").glob("*.jsonl"))
