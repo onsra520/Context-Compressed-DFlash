@@ -49,7 +49,7 @@
 .graph-viewport {
     position: relative;
     width: 100%;
-    height: 690px;
+    height: clamp(680px, 86dvh, 1200px);
     overflow: hidden;
     background-color: #fffdf2;
     background-image:
@@ -93,23 +93,45 @@
     height: 1000px;
     overflow: visible;
     pointer-events: none;
-    z-index: 3;
+    z-index: 5;
+}
+
+/* Outer outline — 8px DASHED black (MUST be dashed, or solid outline makes line look solid) */
+.edge-outline {
+    fill: none;
+    stroke: #111;
+    stroke-width: 8px;
+    stroke-dasharray: 14 10;
+    stroke-dashoffset: 0;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+    vector-effect: non-scaling-stroke;
+    marker-end: none;
+    pointer-events: none;
+}
+
+/* Internal-only edges are slightly thinner */
+.edge-internal .edge-outline {
+    stroke-width: 7px;
+    stroke-dasharray: 12 9;
 }
 
 .edge-base {
     fill: none;
-    stroke: #6f7478;
+    stroke: #74787c;
     stroke-width: 4px;
-    stroke-dasharray: 10 8;
+    stroke-dasharray: 14 10;
+    stroke-dashoffset: 0;
     stroke-linecap: square;
     stroke-linejoin: miter;
     vector-effect: non-scaling-stroke;
     marker-end: url(#arrow-gray);
-    opacity: 0.9;
 }
 
-.edge-solid {
-    stroke-dasharray: none !important;
+.edge-internal .edge-base {
+    stroke-width: 3px;
+    stroke-dasharray: 12 9;
+    marker-end: url(#arrow-gray);
 }
 
 .no-marker {
@@ -119,8 +141,9 @@
 .edge-active {
     opacity: 0;
     fill: none;
-    stroke-width: 5px;
-    stroke-dasharray: 13 7;
+    stroke-width: 6px;
+    stroke-dasharray: 14 10;
+    stroke-dashoffset: 0;
     stroke-linecap: square;
     stroke-linejoin: miter;
     vector-effect: non-scaling-stroke;
@@ -128,15 +151,19 @@
     stroke: var(--edge-active-color);
 }
 
+.edge-internal .edge-active {
+    stroke-width: 5px;
+    stroke-dasharray: 12 9;
+}
+
 .edge.is-active .edge-active {
     opacity: 1;
-    animation: architecture-edge-flow 0.65s linear infinite;
-    filter: drop-shadow(0 0 2px var(--edge-active-color));
+    animation: architecture-edge-flow 0.7s linear infinite;
 }
 
 @keyframes architecture-edge-flow {
-    from { stroke-dashoffset: 20; }
-    to { stroke-dashoffset: 0; }
+    from { stroke-dashoffset: 24; }
+    to   { stroke-dashoffset: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -145,20 +172,7 @@
     }
 }
 
-.stage-label {
-    position: absolute;
-    border: 3px solid var(--black);
-    box-shadow: 4px 4px 0 var(--black);
-    padding: 7px 12px;
-    font-family: var(--display);
-    font-size: 16px;
-    letter-spacing: .04em;
-    background: var(--paper);
-    z-index: 2;
-}
 
-.stage-label--input { left: 40px; top: 565px; background: var(--yellow); transform: rotate(-2deg); }
-.stage-label--decode { left: 480px; top: 40px; background: var(--cyan); transform: rotate(2deg); }
 
 .node {
     position: absolute;
@@ -167,7 +181,7 @@
     border: 4px solid var(--black);
     box-shadow: 8px 8px 0 var(--black);
     padding: 20px 20px 30px 20px;
-    z-index: 4;
+    z-index: 12;
     transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, opacity .18s ease;
 }
 
@@ -367,7 +381,7 @@
 }
 
 @media (max-width: 1180px) {
-    .graph-viewport { height: 650px; }
+    .graph-viewport { height: clamp(600px, 80dvh, 900px); }
 }
 
 @media (max-width: 760px) {
@@ -375,7 +389,7 @@
     .graph-toolbar { align-items: stretch; width: 100%; }
     .arc-controls,
     .zoom-tools { justify-content: flex-start; }
-    .graph-viewport { height: 560px; }
+    .graph-viewport { height: clamp(500px, 75dvh, 800px); }
 }
 
 /* Architecture Header & Decor */
@@ -495,3 +509,247 @@
     transform: rotate(-2deg);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   STAGE GROUP CONTAINERS
+   Layer order: containers (z-index 1) → edges SVG (z-index 3)
+   → nodes (z-index 4) → labels (z-index 5)
+   ═══════════════════════════════════════════════════════════════ */
+
+.stage-group {
+    position: absolute;
+    box-sizing: border-box;
+    border: 3px dashed #111;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    border-radius: 2px;
+}
+
+/* Label positioned as sibling (outside .stage-group) so it renders
+   at z-index 5, above nodes (z-index 4) and SVG (z-index 3) */
+.stage-group-label {
+    position: absolute;
+    padding: 7px 14px;
+    border: 3px solid #111;
+    box-shadow: 4px 4px 0 #111;
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    z-index: 10;
+}
+
+/* ══════════════════════════════════════════════════
+   CONTAINER PORT MARKERS (SVG, inside .edges layer)
+   ══════════════════════════════════════════════════ */
+.port {
+    fill: var(--paper);
+    stroke: #111;
+    stroke-width: 3px;
+}
+.port-active {
+    fill: var(--edge-active-color, #74787c);
+    stroke: #111;
+    stroke-width: 3px;
+}
+
+/* ── 1. CONTEXT COMPRESSION ─────────────────────────────────── */
+/* Wraps: nSplit, nCompress, nProtect (NOT nInput, nMerge, nPrefill) */
+/* nSplit: left=480 top=590 right=780 cy=680                     */
+/* nCompress: left=920 top=430 right=1220 cy=520                 */
+/* nProtect: left=920 top=750 right=1220 cy=840                  */
+/* Bounds: left=436, top=366, right=1264, bottom=966             */
+#groupCompression {
+    left:   436px;
+    top:    366px;
+    width:  828px;
+    height: 600px;
+    background: rgba(0, 210, 170, 0.17);
+    box-shadow: 8px 8px 0 #111;
+}
+
+#groupCompressionLabel {
+    left:  458px;     /* groupCompression.left + 22 */
+    top:   360px;     /* groupCompression.top  - 6  */
+    background: #c8ff44;  /* lime-yellow */
+    transform: rotate(-1.5deg);
+}
+
+/* ── 2. D-FLASH GENERATION LOOP ─────────────────────────────── */
+/* Wraps: nBuffer, nVerify, nDraft (NOT nFinal, NOT nPrefill)     */
+/* Includes loop arc at y=50. nFinal (left=480) OUTSIDE at left.  */
+/* nPrefill (left=1800 top=590) OUTSIDE below container bottom.   */
+/* Bounds: left=876, top=20, right=2144, bottom=326              */
+#groupDFlash {
+    left:   876px;
+    top:    20px;
+    width:  1268px;
+    height: 306px;
+    background: rgba(0, 200, 255, 0.16);
+    box-shadow: 8px 8px 0 #111;
+}
+
+#groupDFlashLabel {
+    left:  800px;     
+    top:   40px;      
+    background: var(--cyan);
+    transform-origin: left center;
+    transform: rotate(-20deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GRAPH INSPECTOR UI
+   ═══════════════════════════════════════════════════════════════ */
+.graph-inspector {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+    pointer-events: auto;
+}
+
+.insp-card {
+    background: var(--paper, #fffff8);
+    border: 3px solid #111;
+    box-shadow: 5px 5px 0 #111;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.insp-card--describe {
+    height: 140px;
+}
+
+.insp-card--live {
+    height: 260px;
+}
+
+/* NODE DESCRIBE CARD */
+.insp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.insp-title, .insp-live-title {
+    font-size: 13px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+.insp-step, .insp-metric {
+    font-size: 11px;
+    font-weight: 900;
+    background: var(--cyan);
+    border: 2px solid #111;
+    padding: 2px 6px;
+    white-space: nowrap;
+}
+
+.insp-node-title {
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1;
+    margin: 6px 0 8px 0;
+    text-transform: uppercase;
+    color: var(--black);
+}
+
+.insp-desc {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* LIVE DATA CARD */
+.insp-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.insp-label {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+
+.insp-box {
+    background: #fff;
+    border: 2px solid #111;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.35;
+    border-left-width: 6px;
+    
+    /* Display preview constraints */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 52px;
+}
+
+.insp-box--input { border-left-color: var(--yellow); }
+.insp-box--output { border-left-color: var(--lime); }
+
+.insp-operation-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    margin: 4px 0;
+}
+
+.insp-arrow {
+    font-size: 14px;
+    font-weight: 900;
+}
+
+.insp-operation {
+    font-size: 11px;
+    font-weight: 900;
+    background: #111;
+    color: var(--paper);
+    padding: 3px 8px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .graph-inspector {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+@media (max-height: 800px) {
+    .insp-card { padding: 12px; }
+    .insp-card--describe { height: 130px; }
+    .insp-card--live { height: 240px; }
+    .insp-desc { -webkit-line-clamp: 2; }
+}

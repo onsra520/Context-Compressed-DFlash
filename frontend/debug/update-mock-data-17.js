@@ -1,4 +1,6 @@
-export const architectureSteps = [
+const fs = require('fs');
+
+const mockDataContent = `export const architectureSteps = [
   {
     id: "original-prompt",
     node: "nInput",
@@ -242,15 +244,15 @@ export const architectureSteps = [
 export const demoPresets = {
     gsm8k: {
         label: 'GSM8K · short numeric prompt',
-        prompt: `Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\n\nReturn the result on the final line using: Final answer: <number>`
+        prompt: \`Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\\n\\nReturn the result on the final line using: Final answer: <number>\`
     },
     qmsum: {
         label: 'QMSum · long meeting context',
-        prompt: `Meeting transcript:\n\nAlice: We need to decide how the mobile release should handle offline synchronization. The current build retries every ten seconds, but this causes duplicate uploads when the connection is unstable.\n\nBob: The backend team can add idempotency keys, although that will not land before the next release candidate. For the short term, the client could queue changes locally and retry only after the network state has been stable for thirty seconds.\n\nCarla: Product wants the release this Friday. We can accept a limited offline mode if the interface clearly shows which records are pending. We should not silently discard edits.\n\nAlice: Then the proposal is to keep local changes, display a pending badge, wait for a stable connection, and retry. Duplicate protection will be added on the server in the following sprint.\n\nBob: I agree, but analytics events should not be queued with business records. They can be dropped if the app is closed.\n\nCarla: Please document that distinction in the release notes and create a follow-up ticket for server-side idempotency.\n\nQuestion: What decision did the team make about offline synchronization for the upcoming release, and what work was deferred?`
+        prompt: \`Meeting transcript:\\n\\nAlice: We need to decide how the mobile release should handle offline synchronization. The current build retries every ten seconds, but this causes duplicate uploads when the connection is unstable.\\n\\nBob: The backend team can add idempotency keys, although that will not land before the next release candidate. For the short term, the client could queue changes locally and retry only after the network state has been stable for thirty seconds.\\n\\nCarla: Product wants the release this Friday. We can accept a limited offline mode if the interface clearly shows which records are pending. We should not silently discard edits.\\n\\nAlice: Then the proposal is to keep local changes, display a pending badge, wait for a stable connection, and retry. Duplicate protection will be added on the server in the following sprint.\\n\\nBob: I agree, but analytics events should not be queued with business records. They can be dropped if the app is closed.\\n\\nCarla: Please document that distinction in the release notes and create a follow-up ticket for server-side idempotency.\\n\\nQuestion: What decision did the team make about offline synchronization for the upcoming release, and what work was deferred?\`
     },
     custom: {
         label: 'Custom prompt',
-        prompt: 'Tối thứ Bảy tôi mời 8 người ăn tối. Có 2 người ăn chay, 1 người dị ứng đậu phộng và 1 người không ăn cay. Nhà có 2 vùng nấu, 1 nồi và 1 chảo; mọi người thích món Việt, dễ chia phần và chuẩn bị nhanh.\n\nHãy đề xuất thực đơn 3 món, tổng chi phí không quá 1.500.000đ. Bắt đầu lúc 18:30, xong trước 21:00. Trả lời đúng 4 gạch đầu dòng và không dùng đậu phộng.'
+        prompt: 'Tối thứ Bảy tôi mời 8 người ăn tối. Có 2 người ăn chay, 1 người dị ứng đậu phộng và 1 người không ăn cay. Nhà có 2 vùng nấu, 1 nồi và 1 chảo; mọi người thích món Việt, dễ chia phần và chuẩn bị nhanh.\\n\\nHãy đề xuất thực đơn 3 món, tổng chi phí không quá 1.500.000đ. Bắt đầu lúc 18:30, xong trước 21:00. Trả lời đúng 4 gạch đầu dòng và không dùng đậu phộng.'
     }
 };
 
@@ -268,3 +270,6 @@ export const metricDefs = [
     ['Lexical overlap proxy', 'QMSum uses normalized overlap as diagnostic evidence, not semantic correctness.'],
     ['Workload class', 'Short, medium, or long context. Compression becomes more useful as prefill savings can offset its overhead.']
 ];
+`;
+fs.writeFileSync('mocks/mock-data.js', mockDataContent);
+console.log('Updated mock-data.js');

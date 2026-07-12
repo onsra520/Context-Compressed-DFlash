@@ -11,16 +11,53 @@
     <link rel="stylesheet" href="./styles/components.css" />
     <link rel="stylesheet" href="./styles/purikura.css" />
     <link rel="stylesheet" href="./styles/architecture-graph.css" />
+    <link rel="stylesheet" href="./styles/scroll-minimap.css" />
     <link rel="stylesheet" href="./styles/benchmark.css" />
 </head>
 <body>
-    <nav class="nav" aria-label="Điều hướng chính">
-        <a class="nav-brand" href="#hero">CC-DFlash</a>
-        <a href="#architecture">Kiến trúc</a>
-        <a href="#comparison">So sánh</a>
-        <a href="#metrics">Chỉ số</a>
-        <a href="#evidence">Kết quả</a>
-        <a href="#conclusion">Kết luận</a>
+    <nav class="scroll-minimap" aria-label="Section Minimap" id="minimap">
+        <button class="minimap-marker" data-target="hero" aria-label="01 Tổng quan">
+            <div class="minimap-preview">
+                <span class="preview-num">01</span>
+                <div class="preview-title">TỔNG QUAN</div>
+                <div class="preview-desc">Giới thiệu Context-Compressed DFlash và pipeline tổng thể.</div>
+            </div>
+        </button>
+        <button class="minimap-marker" data-target="architecture" aria-label="02 Kiến trúc">
+            <div class="minimap-preview">
+                <span class="preview-num">02</span>
+                <div class="preview-title">KIẾN TRÚC</div>
+                <div class="preview-desc">Theo dõi context compression, target prefill và vòng draft–verify.</div>
+            </div>
+        </button>
+        <button class="minimap-marker" data-target="comparison" aria-label="03 So sánh">
+            <div class="minimap-preview">
+                <span class="preview-num">03</span>
+                <div class="preview-title">SO SÁNH</div>
+                <div class="preview-desc">So sánh Baseline AR, D-Flash và CC-DFlash trên cùng prompt.</div>
+            </div>
+        </button>
+        <button class="minimap-marker" data-target="metrics" aria-label="04 Chỉ số">
+            <div class="minimap-preview">
+                <span class="preview-num">04</span>
+                <div class="preview-title">CHỈ SỐ</div>
+                <div class="preview-desc">Quan sát token đầu vào, chất lượng và hiệu năng generation.</div>
+            </div>
+        </button>
+        <button class="minimap-marker" data-target="evidence" aria-label="05 Kết quả">
+            <div class="minimap-preview">
+                <span class="preview-num">05</span>
+                <div class="preview-title">KẾT QUẢ</div>
+                <div class="preview-desc">Tổng hợp kết quả trên GSM8K và QMSum.</div>
+            </div>
+        </button>
+        <button class="minimap-marker" data-target="conclusion" aria-label="06 Kết luận">
+            <div class="minimap-preview">
+                <span class="preview-num">06</span>
+                <div class="preview-title">KẾT LUẬN</div>
+                <div class="preview-desc">Điều kiện để CC-DFlash mang lại lợi ích toàn pipeline.</div>
+            </div>
+        </button>
     </nav>
 
     <main>
@@ -186,8 +223,49 @@
                             </div>
 
                             <div class="graph-viewport" id="graphViewport" tabindex="0" aria-label="Sơ đồ kiến trúc CC-DFlash">
+                                
+                                <aside class="graph-inspector" aria-label="Dynamic Walkthrough Inspector">
+                                    <div class="insp-card insp-card--describe">
+                                        <div class="insp-header">
+                                            <span class="insp-title">NODE HIỆN TẠI</span>
+                                            <span class="insp-step" id="stepIndicator">STEP 00 / 16</span>
+                                        </div>
+                                        <h3 class="insp-node-title" id="stepTitle">ORIGINAL PROMPT</h3>
+                                        <p class="insp-desc" id="stepDesc">Nhận yêu cầu ban đầu gồm context, câu hỏi và các ràng buộc cần được giữ nguyên.</p>
+                                    </div>
+
+                                    <div class="insp-card insp-card--live">
+                                        <div class="insp-header">
+                                            <span class="insp-live-title">PROMPT TRACE</span>
+                                            <span class="insp-metric" id="prompt-trace-metric">184 TOKENS</span>
+                                        </div>
+                                        <div class="insp-flow">
+                                            <div class="insp-label">VÀO</div>
+                                            <div class="insp-box insp-box--input" id="prompt-trace-input">Bữa tối cho 8 người, gồm yêu cầu ăn uống, ngân sách và thời gian.</div>
+                                            
+                                            <div class="insp-operation-wrap">
+                                                <span class="insp-arrow">↓</span>
+                                                <span class="insp-operation" id="prompt-trace-operation">NHẬN PROMPT</span>
+                                            </div>
+                                            
+                                            <div class="insp-label">RA</div>
+                                            <div class="insp-box insp-box--output" id="prompt-trace-output">184 tokens · context + question + output rules</div>
+                                        </div>
+                                    </div>
+                                </aside>
+
                                 <div class="graph" id="graph">
                                     <div class="graph-scene" id="graphScene">
+
+                                        <!-- CONTAINERS -->
+                                        <div class="stage-group" id="groupCompression"></div>
+                                        <div class="stage-group-label" id="groupCompressionLabel">CONTEXT COMPRESSION</div>
+                                        
+                                        <div class="stage-group" id="groupDFlash"></div>
+
+                                        <div class="stage-group-label" id="groupDFlashLabel">D-FLASH GENERATION LOOP</div>
+
+                                        
                                         <svg class="edges" viewBox="0 0 2200 1000" aria-hidden="true">
                                             <defs>
                                                 <!-- Markers for each color -->
@@ -201,108 +279,70 @@
                                                 <marker id="arrow-blue" viewBox="0 0 18 16" refX="17" refY="8" markerWidth="18" markerHeight="16" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path d="M 1 1 L 17 8 L 1 15 Z" fill="var(--blue)" stroke="#111" stroke-width="1.5px" stroke-linejoin="miter"></path></marker>
                                             </defs>
 
-                                            <!-- ═══════════════════════════════════════ -->
-                                            <!-- INPUT PREPARATION ROW edges            -->
-                                            <!-- Node coords: width=300, cy=680         -->
-                                            <!-- nInput:   left=40   right=340  cy=680  -->
-                                            <!-- nSplit:   left=480  right=780  cy=680  -->
-                                            <!-- nCompress:left=920  right=1220 cy=520  -->
-                                            <!-- nProtect: left=920  right=1220 cy=840  -->
-                                            <!-- nMerge:   left=1360 right=1660 cy=680  -->
-                                            <!-- nPrefill: left=1800 right=2100 cy=680  -->
-                                            <!-- ═══════════════════════════════════════ -->
-
-                                            <!-- eInputSplit: nInput right(340,680) → nSplit left(480,680) -->
-                                            <g class="edge" id="eInputSplit" data-edge-id="eInputSplit" style="--edge-active-color: var(--yellow);">
-                                                <path class="edge-base" d="M 340 680 H 480"></path>
-                                                <path class="edge-active" d="M 340 680 H 480" marker-end="url(#arrow-yellow)"></path>
+                                            <!-- EXTERNAL EDGES -->
+                                            <g class="architecture-edge edge" id="original-to-context-compression" data-edge-id="original-to-context-compression" style="--edge-active-color: var(--yellow);">
+                                                <path class="edge-outline" d="M 340 680 H 436"></path>
+                                                <path class="edge-base" d="M 340 680 H 436"></path>
+                                                <path class="edge-active" d="M 340 680 H 436" marker-end="url(#arrow-yellow)"></path>
                                             </g>
 
-                                            <!-- eSplitCompress: nSplit right(780,680) → fork(830,680) → up → nCompress left(920,520) -->
-                                            <g class="edge" id="eSplitCompress" data-edge-id="eSplitCompress" style="--edge-active-color: var(--hot);">
-                                                <path class="edge-base edge-solid no-marker" d="M 780 680 H 830"></path>
-                                                <path class="edge-active edge-solid no-marker" d="M 780 680 H 830"></path>
-                                                <path class="edge-base" d="M 830 680 V 520 H 920"></path>
-                                                <path class="edge-active" d="M 830 680 V 520 H 920" marker-end="url(#arrow-hot)"></path>
+                                            <g class="architecture-edge edge" id="context-compression-to-prompt-compression" data-edge-id="context-compression-to-prompt-compression" style="--edge-active-color: var(--hot);">
+                                                <path class="edge-outline" d="M 1264 680 H 1360"></path>
+                                                <path class="edge-base" d="M 1264 680 H 1360"></path>
+                                                <path class="edge-active" d="M 1264 680 H 1360" marker-end="url(#arrow-hot)"></path>
                                             </g>
 
-                                            <!-- eSplitProtect: nSplit right(780,680) → fork(830,680) → down → nProtect left(920,840) -->
-                                            <g class="edge" id="eSplitProtect" data-edge-id="eSplitProtect" style="--edge-active-color: var(--green);">
-                                                <path class="edge-base edge-solid no-marker" d="M 780 680 H 830"></path>
-                                                <path class="edge-active edge-solid no-marker" d="M 780 680 H 830"></path>
-                                                <path class="edge-base" d="M 830 680 V 840 H 920"></path>
-                                                <path class="edge-active" d="M 830 680 V 840 H 920" marker-end="url(#arrow-green)"></path>
-                                            </g>
-
-                                            <!-- eCompressMerge: nCompress right(1220,520) → join(1290,520) → down → nMerge left(1360,680) -->
-                                            <g class="edge" id="eCompressMerge" data-edge-id="eCompressMerge" style="--edge-active-color: var(--hot);">
-                                                <path class="edge-base no-marker" d="M 1220 520 H 1290 V 680"></path>
-                                                <path class="edge-active no-marker" d="M 1220 520 H 1290 V 680"></path>
-                                                <path class="edge-base edge-solid" d="M 1290 680 H 1360"></path>
-                                                <path class="edge-active edge-solid" d="M 1290 680 H 1360" marker-end="url(#arrow-hot)"></path>
-                                            </g>
-
-                                            <!-- eProtectMerge: nProtect right(1220,840) → join(1290,840) → up → nMerge left(1360,680) -->
-                                            <g class="edge" id="eProtectMerge" data-edge-id="eProtectMerge" style="--edge-active-color: var(--green);">
-                                                <path class="edge-base no-marker" d="M 1220 840 H 1290 V 680"></path>
-                                                <path class="edge-active no-marker" d="M 1220 840 H 1290 V 680"></path>
-                                                <path class="edge-base edge-solid" d="M 1290 680 H 1360"></path>
-                                                <path class="edge-active edge-solid" d="M 1290 680 H 1360" marker-end="url(#arrow-green)"></path>
-                                            </g>
-
-                                            <!-- eMergePrefill: nMerge right(1660,680) → nPrefill left(1800,680) -->
-                                            <g class="edge" id="eMergePrefill" data-edge-id="eMergePrefill" style="--edge-active-color: var(--orange);">
+                                            <g class="architecture-edge edge" id="prompt-compression-to-target-prefill" data-edge-id="prompt-compression-to-target-prefill" style="--edge-active-color: var(--purple);">
+                                                <path class="edge-outline" d="M 1660 680 H 1800"></path>
                                                 <path class="edge-base" d="M 1660 680 H 1800"></path>
-                                                <path class="edge-active" d="M 1660 680 H 1800" marker-end="url(#arrow-orange)"></path>
+                                                <path class="edge-active" d="M 1660 680 H 1800" marker-end="url(#arrow-purple)"></path>
                                             </g>
 
-                                            <!-- ══════════════════════════════════════════════════════ -->
-                                            <!-- ePrefillDraft: STRAIGHT VERTICAL ↑                    -->
-                                            <!-- nPrefill top-center (1950, 590) → nDraft bottom (1950,280) -->
-                                            <!-- nDraft: left=1800 top=100 bottom=280 center-x=1950    -->
-                                            <!-- ══════════════════════════════════════════════════════ -->
-                                            <g class="edge" id="ePrefillDraft" data-edge-id="ePrefillDraft" style="--edge-active-color: var(--cyan);">
-                                                <path class="edge-base" d="M 1950 590 V 284"></path>
-                                                <path class="edge-active" d="M 1950 590 V 284" marker-end="url(#arrow-cyan)"></path>
+                                            <g class="architecture-edge edge" id="target-prefill-to-dflash-container" data-edge-id="target-prefill-to-dflash-container" style="--edge-active-color: var(--cyan);">
+                                                <path class="edge-outline" d="M 1950 590 V 326"></path>
+                                                <path class="edge-base" d="M 1950 590 V 326"></path>
+                                                <path class="edge-active" d="M 1950 590 V 326" marker-end="url(#arrow-cyan)"></path>
                                             </g>
 
-                                            <!-- ═══════════════════════════════════════════════════ -->
-                                            <!-- DFLASH GENERATION ROW edges (REVERSED L→R order)  -->
-                                            <!-- Flow: DFlash Draft → Target Verify → Buffer → Final -->
-                                            <!-- Arrows go LEFTWARD (orient=auto handles rotation)   -->
-                                            <!-- nFinal:  left=480  right=780  cy=190               -->
-                                            <!-- nBuffer: left=920  right=1220 cy=190               -->
-                                            <!-- nVerify: left=1360 right=1660 cy=190               -->
-                                            <!-- nDraft:  left=1800 right=2100 cy=190               -->
-                                            <!-- ═══════════════════════════════════════════════════ -->
+                                            <g class="architecture-edge edge" id="dflash-container-to-final-output" data-edge-id="dflash-container-to-final-output" style="--edge-active-color: var(--blue);">
+                                                <path class="edge-outline" d="M 876 190 H 780"></path>
+                                                <path class="edge-base" d="M 876 190 H 780"></path>
+                                                <path class="edge-active" d="M 876 190 H 780" marker-end="url(#arrow-blue)"></path>
+                                            </g>
 
-                                            <!-- eDraftVerify: nDraft left(1800,190) → nVerify right(1660,190) ← -->
-                                            <g class="edge" id="eDraftVerify" data-edge-id="eDraftVerify" style="--edge-active-color: var(--purple);">
+                                            <!-- INTERNAL EDGES (Context Compression) -->
+                                            <g class="architecture-edge edge edge-internal" id="segmenter-to-llmlingua" data-edge-id="segmenter-to-llmlingua" style="--edge-active-color: var(--hot);">
+                                                <path class="edge-outline" d="M 780 680 H 830 V 520 H 920"></path>
+                                                <path class="edge-base" d="M 780 680 H 830 V 520 H 920"></path>
+                                                <path class="edge-active" d="M 780 680 H 830 V 520 H 920" marker-end="url(#arrow-hot)"></path>
+                                            </g>
+
+                                            <g class="architecture-edge edge edge-internal" id="segmenter-to-protected-question" data-edge-id="segmenter-to-protected-question" style="--edge-active-color: var(--green);">
+                                                <path class="edge-outline" d="M 780 680 H 830 V 840 H 920"></path>
+                                                <path class="edge-base" d="M 780 680 H 830 V 840 H 920"></path>
+                                                <path class="edge-active" d="M 780 680 H 830 V 840 H 920" marker-end="url(#arrow-green)"></path>
+                                            </g>
+
+                                            <!-- INTERNAL EDGES (D-Flash Generation Loop) -->
+                                            <g class="architecture-edge edge edge-internal" id="draft-to-verify" data-edge-id="draft-to-verify" style="--edge-active-color: var(--cyan);">
+                                                <path class="edge-outline" d="M 1800 190 H 1660"></path>
                                                 <path class="edge-base" d="M 1800 190 H 1660"></path>
-                                                <path class="edge-active" d="M 1800 190 H 1660" marker-end="url(#arrow-purple)"></path>
+                                                <path class="edge-active" d="M 1800 190 H 1660" marker-end="url(#arrow-cyan)"></path>
                                             </g>
 
-                                            <!-- eVerifyBuffer: nVerify left(1360,190) → nBuffer right(1220,190) ← -->
-                                            <g class="edge" id="eVerifyBuffer" data-edge-id="eVerifyBuffer" style="--edge-active-color: var(--blue);">
+                                            <g class="architecture-edge edge edge-internal" id="verify-to-output-buffer" data-edge-id="verify-to-output-buffer" style="--edge-active-color: var(--purple);">
+                                                <path class="edge-outline" d="M 1360 190 H 1220"></path>
                                                 <path class="edge-base" d="M 1360 190 H 1220"></path>
-                                                <path class="edge-active" d="M 1360 190 H 1220" marker-end="url(#arrow-blue)"></path>
+                                                <path class="edge-active" d="M 1360 190 H 1220" marker-end="url(#arrow-purple)"></path>
                                             </g>
 
-                                            <!-- eBufferFinal: nBuffer left(920,190) → nFinal right(780,190) ← -->
-                                            <g class="edge" id="eBufferFinal" data-edge-id="eBufferFinal" style="--edge-active-color: var(--blue);">
-                                                <path class="edge-base" d="M 920 190 H 780"></path>
-                                                <path class="edge-active" d="M 920 190 H 780" marker-end="url(#arrow-blue)"></path>
-                                            </g>
-
-                                            <!-- eBufferLoop: nBuffer top-center(1070,100) → up → RIGHT → nDraft top(1950,100) → down -->
-                                            <g class="edge" id="eBufferLoop" data-edge-id="eBufferLoop" style="--edge-active-color: var(--orange);">
+                                            <g class="architecture-edge edge edge-internal" id="output-buffer-to-draft-loop" data-edge-id="output-buffer-to-draft-loop" style="--edge-active-color: var(--orange);">
+                                                <path class="edge-outline" d="M 1070 100 V 50 H 1950 V 104"></path>
                                                 <path class="edge-base" d="M 1070 100 V 50 H 1950 V 104"></path>
                                                 <path class="edge-active loop-edge" d="M 1070 100 V 50 H 1950 V 104" marker-end="url(#arrow-orange)"></path>
                                             </g>
                                         </svg>
 
-                                        <div class="stage-label stage-label--input">INPUT PREPARATION</div>
-                                        <div class="stage-label stage-label--decode">DFLASH GENERATION</div>
 
                                         <!-- Nodes -->
                                         <article class="node node-yellow" id="nInput">
@@ -326,7 +366,7 @@
                                         </article>
 
                                         <article class="node node-purple" id="nMerge">
-                                            <div class="n-top"><div class="icon">+</div><h4>Final Prompt</h4></div>
+                                            <div class="n-top"><div class="icon">+</div><h4>Prompt Compression</h4></div>
                                             <p>Compressed context + protected question.</p>
                                         </article>
 
@@ -355,14 +395,14 @@
                                             <p>Terminal output of the generation.</p>
                                         </article>
 
-                                        <div class="cycle-label" id="cycleLabel">Stage: idle</div>
                                         <div class="flow-token" id="packet">prompt</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <aside class="side">
+                        <div class="legacy-compatibility-container" aria-hidden="true" style="display: none; pointer-events: none;">
+                            <aside class="side">
                             <div class="panel">
                                 <h3>Status <span class="cycle-chip" id="cycleChip">Idle</span></h3>
                                 <p class="step-title" id="stepTitle">Ready</p>
@@ -394,7 +434,8 @@
                                     <div>CC-DFlash simulation initialized.</div>
                                 </div>
                             </div>
-                        </aside>
+                            </aside>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -669,5 +710,7 @@
     </footer>
 
     <script type="module" src="./scripts/main.js"></script>
+    <script type="module" src="./scripts/architecture-graph.js"></script>
+    <script src="./scripts/scroll-minimap.js"></script>
 </body>
 </html>

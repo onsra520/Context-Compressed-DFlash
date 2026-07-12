@@ -6,12 +6,22 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 68px;
+    scroll-padding-top: 12px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
 }
 
 body {
     font-family: var(--body);
-    overflow-x: hidden;
+    overflow-x: clip;
+    overflow-y: auto;
     font-size: 17px;
     line-height: 1.48;
 }
@@ -31,49 +41,6 @@ select:focus-visible,
     outline-offset: 3px;
 }
 
-.nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 0 4vw;
-    overflow-x: auto;
-    scrollbar-width: none;
-}
-
-.nav::-webkit-scrollbar { display: none; }
-
-.nav a {
-    color: #eee;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-family: var(--mono);
-    font-weight: 700;
-    font-size: 12px;
-    padding: 18px 13px;
-    white-space: nowrap;
-    border-left: 1px solid transparent;
-    border-right: 1px solid transparent;
-}
-
-.nav a:hover,
-.nav a.active {
-    background: rgba(255, 255, 255, .1);
-    color: var(--yellow);
-}
-
-.nav-brand {
-    font-family: var(--display) !important;
-    color: var(--cyan) !important;
-    font-size: 19px !important;
-    letter-spacing: .02em;
-    padding-left: 0 !important;
-    padding-right: 22px !important;
-    margin-right: 10px;
-    border-right: 2px solid rgba(255, 255, 255, .25) !important;
-}
 
 h1,
 h2,
@@ -168,5 +135,5 @@ footer b {
     body { font-size: 16px; }
     .hero-title { letter-spacing: -2px; }
     .section-title { font-size: 42px; letter-spacing: -1px; }
-    .nav { padding: 0 12px; }
+
 }

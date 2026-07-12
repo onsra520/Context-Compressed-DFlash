@@ -18,13 +18,12 @@ export function initArchitectureGraph() {
     const packet = document.getElementById('packet');
     const stepTitle = document.getElementById('stepTitle');
     const stepDesc = document.getElementById('stepDesc');
-    const cycleChip = document.getElementById('cycleChip');
-    const cycleLabel = document.getElementById('cycleLabel');
-    const contextBox = document.getElementById('contextBox');
-    const payloadBox = document.getElementById('payloadBox');
-    const resultBox = document.getElementById('resultBox');
+    const stepIndicator = document.getElementById('stepIndicator');
+    const traceMetric = document.getElementById('prompt-trace-metric');
+    const traceInput = document.getElementById('prompt-trace-input');
+    const traceOperation = document.getElementById('prompt-trace-operation');
+    const traceOutput = document.getElementById('prompt-trace-output');
     const logBox = document.getElementById('logBox');
-    const bar = document.getElementById('bar');
     const zoomLevel = document.getElementById('zoomLevel');
 
     const runBtn = document.getElementById('runBtn');
@@ -54,9 +53,11 @@ export function initArchitectureGraph() {
         const viewportRect = graphViewport.getBoundingClientRect();
         const sceneWidth = 2200;
         const sceneHeight = 1000;
-        const fitScale = Math.min(viewportRect.width / sceneWidth, viewportRect.height / sceneHeight);
+        const safeLeft = viewportRect.width > 900 ? 345 : 0;
+        const availableWidth = viewportRect.width - safeLeft;
+        const fitScale = Math.min(availableWidth / sceneWidth, viewportRect.height / sceneHeight);
         scale = Math.min(1.8, Math.max(0.3, fitScale));
-        translateX = (viewportRect.width - sceneWidth * scale) / 2;
+        translateX = safeLeft + (availableWidth - sceneWidth * scale) / 2;
         translateY = (viewportRect.height - sceneHeight * scale) / 2;
         applyTransform();
     }
@@ -77,19 +78,7 @@ export function initArchitectureGraph() {
         }
     }
 
-    const activeEdgesByStep = {
-        0: [],
-        1: ['eInputSplit'],
-        2: ['eSplitCompress'],
-        3: ['eSplitProtect'],
-        4: ['eCompressMerge', 'eProtectMerge'],
-        5: ['eMergePrefill'],
-        6: ['ePrefillDraft'],
-        7: ['eDraftVerify'],
-        8: ['eVerifyBuffer', 'eBufferLoop'],
-        9: ['eBufferFinal']
-    };
-
+    
     function clearHighlights() {
         nodes.forEach((node) => node.classList.remove('active', 'completed'));
         edges.forEach((edge) => edge.classList.remove('is-active'));
@@ -114,24 +103,37 @@ export function initArchitectureGraph() {
 
         document.getElementById(step.node)?.classList.add('active');
         
-        const activeEdges = activeEdgesByStep[index] || [];
+        const activeEdges = step.activeEdge ? [step.activeEdge] : [];
         activeEdges.forEach(edgeId => {
             document.getElementById(edgeId)?.classList.add('is-active');
         });
 
-        stepTitle.textContent = step.title;
-        stepDesc.textContent = step.description;
-        cycleChip.textContent = step.stage;
-        cycleLabel.textContent = `Stage: ${step.stage.toLowerCase()}`;
-        contextBox.textContent = step.context;
-        payloadBox.innerHTML = tokensMarkup(step.payload);
-        resultBox.innerHTML = tokensMarkup(step.result, 'result');
-        bar.style.width = `${((index + 1) / architectureSteps.length) * 100}%`;
-        updatePacket(step.node, step.packet, index === 0);
-        if (log) addLog(step.log);
+        if (stepTitle) stepTitle.textContent = step.title;
+        if (stepDesc) stepDesc.textContent = step.description;
+        
+        if (stepIndicator) {
+            const stepNumStr = index.toString().padStart(2, '0');
+            stepIndicator.textContent = `STEP ${stepNumStr} / ${architectureSteps.length - 1}`;
+        }
 
-        prevBtn.disabled = index === 0;
-        nextBtn.disabled = index === architectureSteps.length - 1;
+        if (step.trace) {
+            if (traceMetric) traceMetric.textContent = step.trace.metric;
+            if (traceInput) traceInput.innerHTML = step.trace.input.replace(/\n/g, '<br>');
+            if (traceOperation) traceOperation.textContent = step.trace.operation;
+            if (traceOutput) traceOutput.innerHTML = step.trace.output.replace(/\n/g, '<br>');
+        }
+
+        const accentVar = step.accent ? `var(--${step.accent})` : 'var(--cyan)';
+        if (traceMetric) traceMetric.style.background = accentVar;
+        if (stepIndicator) stepIndicator.style.background = accentVar;
+        if (traceInput) traceInput.style.borderLeftColor = accentVar;
+        if (traceOutput) traceOutput.style.borderLeftColor = accentVar;
+        if (traceOperation) {
+            traceOperation.style.color = accentVar;
+        }
+
+        if (prevBtn) prevBtn.disabled = index === 0;
+        if (nextBtn) nextBtn.disabled = index === architectureSteps.length - 1;
     }
 
     function cancelPlayback() {
@@ -147,20 +149,10 @@ export function initArchitectureGraph() {
 
     function resetGraph() {
         cancelPlayback();
-        currentStep = -1;
+        currentStep = 0;
         clearHighlights();
         packet.classList.remove('visible');
-        stepTitle.textContent = 'Ready';
-        stepDesc.textContent = 'Bấm Next để bắt đầu.';
-        cycleChip.textContent = 'Idle';
-        cycleLabel.textContent = 'Stage: idle';
-        contextBox.textContent = '1,240 input tokens';
-        payloadBox.innerHTML = '<span class="tok">—</span>';
-        resultBox.innerHTML = '<span class="tok">—</span>';
-        logBox.innerHTML = '<div>CC-DFlash simulation initialized.</div>';
-        bar.style.width = '0%';
-        if (prevBtn) prevBtn.disabled = true;
-        if (nextBtn) nextBtn.disabled = false;
+        renderStep(0, { log: false });
         fitGraph();
     }
 

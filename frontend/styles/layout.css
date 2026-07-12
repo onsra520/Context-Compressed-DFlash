@@ -62,17 +62,17 @@
 }
 
 .title-line-1 {
-    font-size: clamp(4.6rem, 5.8vw, 5.6rem) !important;
+    font-size: clamp(4.6rem, 5.8vw, 6.0rem) !important;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     font-weight: 900;
-    transform: rotate(-1deg) scaleX(0.9);
+    transform: rotate(-1deg) scaleX(0.9) translateX(-180px);
     display: block;
     white-space: nowrap;
     width: max-content;
     max-width: none;
     overflow: visible;
     transform-origin: left center;
-    line-height: 0.88;
+    line-height: 1.5;
     margin-bottom: 5px;
     letter-spacing: -1.5px;
 }
@@ -741,10 +741,8 @@
 }
 
 .arc-native .layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 330px;
-    gap: 22px;
-    align-items: start;
+    display: block;
+    width: 100%;
 }
 
 .comparison-shell {

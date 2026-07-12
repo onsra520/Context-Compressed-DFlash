@@ -29,10 +29,6 @@ body {
     color: var(--black);
 }
 
-.nav {
-    background: var(--black);
-    border-bottom: 5px solid var(--hot);
-}
 
 .s-hot { background: var(--hot); color: white; }
 .s-cyan { background: var(--cyan); }
