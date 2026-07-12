@@ -16,7 +16,7 @@ GSM8K short contexts may bypass compression. In that case the compressor is not 
 
 ## Verified Rec-T06D / Rec-T07 results
 
-The preserved n=100 QMSum evidence shows GPU compression reducing mean LLMLingua compression time from 2858.357 ms to 154.037 ms (18.56x) and CC-DFlash compression from 2810.884 ms to 164.710 ms (17.07x). The long-context GPU rows retain 52.066% mean full-prompt reduction and the recorded CPU-row reference proxy metrics. GPU compression increases process VRAM; see [the combined analysis](results/Rec-T07/combined_report.md) and [comparison table](results/Rec-T07/combined_summary.csv).
+The preserved Rec-T06D CPU evidence and final synchronized Rec-T07 GPU rerun show QMSum GPU compression reducing mean LLMLingua compression time from 2858.357 ms to 177.925 ms (16.06x) and CC-DFlash compression from 2810.884 ms to 177.467 ms (15.84x). The long-context GPU rows retain 52.066% mean full-prompt reduction and 100/100 observed output and compressed-input hash matches with their CPU counterpart; QMSum semantic correctness remains `NOT_CLAIMED`. GPU compression increases process VRAM; see [the final synchronized report](results/Rec-T07-Final/final_report.md) and [comparison table](results/Rec-T07-Final/final_cpu_gpu_summary.csv). The older unsynchronized analysis remains preserved in [Rec-T07](results/Rec-T07/combined_report.md).
 
 These are benchmark observations, not universal performance guarantees. QMSum semantic correctness is **NOT_CLAIMED**; its evaluator reports lexical/reference proxy metrics only. Exact cached-AR token equivalence and lossless quantization are not claimed.
 
@@ -97,7 +97,7 @@ python -m ccdf evaluate --run-dir /tmp/ccdf-gsm8k-n10
 
 A benchmark output directory contains `benchmark_manifest.json`, `resolved_config.json` and its hash, one condition JSONL plus worker manifest per condition, `evaluation_manifest.json`, `performance_summary.json`, `resource_summary.json`, `compression_summary.json`, quality summaries, failure samples, and CSV summaries. Parent/worker hashes bind source/configuration/fixture order and evaluation inputs.
 
-`results/Rec-T06D` and `results/Rec-T07` are preserved n=100 evidence. The Rec-T07 hotfix audit and combined analysis live beside those artifacts.
+`results/Rec-T06D` and `results/Rec-T07` are preserved n=100 evidence. `results/Rec-T07-Final` contains the synchronized n=3 validation, the final n=100 GPU-only rerun, audit, comparison, and freeze evidence.
 
 ## Testing and reproducibility
 
