@@ -359,6 +359,8 @@ class RuntimeEngine:
                 if condition_id == "baseline-ar"
                 else "quantized target + drafter"
                 if condition_id == "dflash-r1"
+                else "quantized target + drafter; compressor bypassed and not loaded"
+                if compression is not None and compression.bypassed and self.compressor is None
                 else "quantized target + drafter + CPU compressor"
             ),
             "resource": {
@@ -366,7 +368,7 @@ class RuntimeEngine:
                 "peak_cuda_reserved_bytes": reserved,
                 "target_only_gpu_bytes": None,
                 "drafter_incremental_gpu_bytes": None,
-                "compressor_gpu_bytes": 0 if condition_id == "cc-dflash-r2" else None,
+                "compressor_gpu_bytes": 0 if condition_id == "cc-dflash-r2" and self.compressor is not None else None,
                 "process_rss_before_compressor_bytes": self.process_rss_before_compressor_bytes,
                 "process_rss_after_compressor_bytes": self.process_rss_after_compressor_bytes,
                 "process_peak_rss_bytes": self.process_peak_rss_bytes,
@@ -376,6 +378,8 @@ class RuntimeEngine:
                     if condition_id == "baseline-ar"
                     else "target plus drafter GPU"
                     if condition_id == "dflash-r1"
+                    else "target plus drafter; compressor bypassed and not loaded"
+                    if compression is not None and compression.bypassed and self.compressor is None
                     else "target plus drafter GPU; CPU compressor"
                 ),
                 "unsupported_fields": ["target_only_gpu_bytes", "drafter_incremental_gpu_bytes"],

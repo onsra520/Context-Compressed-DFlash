@@ -23,7 +23,7 @@ from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime import RuntimeEngine, RuntimeRequest
 
 
-def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit: int | None, task_id: str, execution_mode: str, expected_config_hash: str | None = None, expected_fixture_ids_hash: str | None = None) -> dict:
+def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit: int | None, task_id: str, execution_mode: str, canonical: bool, canonical_reason: str, expected_config_hash: str | None = None, expected_fixture_ids_hash: str | None = None) -> dict:
     resolved = resolve_config(dataset=dataset, subset=subset, condition_id=condition, execution_mode=execution_mode)
     if expected_config_hash is not None and resolved.sha256 != expected_config_hash:
         raise ValueError("worker resolved config hash does not match parent")
@@ -46,7 +46,7 @@ def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit
                 reference_answer=fixture["reference_answer"],
                 measurement_mode=execution_mode,
             ))
-            rows.append(_row(task_id=task_id, run_id=run_id, resolved=resolved, fixture=fixture, result=result, git_state=state))
+            rows.append(_row(task_id=task_id, run_id=run_id, resolved=resolved, fixture=fixture, result=result, git_state=state, canonical=canonical, canonical_reason=canonical_reason))
     finally:
         engine.close()
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -56,7 +56,8 @@ def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit
         "condition_id": condition,
         "task_id": task_id,
         "execution_mode": execution_mode,
-        "canonical": bool(resolved.canonical and not resolved.data.get("overrides") and not limit and task_id == "Rec-T06B1"),
+        "canonical": canonical,
+        "canonical_reason": canonical_reason,
         "pid": os.getpid(),
         "exit_status": 0,
         "python": sys.version,
@@ -91,10 +92,12 @@ def main() -> int:
     parser.add_argument("--limit", type=int)
     parser.add_argument("--task-id", required=True)
     parser.add_argument("--execution-mode", required=True, choices=["benchmark", "profiling", "smoke"])
+    parser.add_argument("--canonical", required=True, choices=["true", "false"])
+    parser.add_argument("--canonical-reason", required=True)
     parser.add_argument("--expected-config-hash")
     parser.add_argument("--expected-fixture-ids-hash")
     args = parser.parse_args()
-    run_worker(dataset=args.dataset, subset=args.subset, condition=args.condition, output=Path(args.output), limit=args.limit, task_id=args.task_id, execution_mode=args.execution_mode, expected_config_hash=args.expected_config_hash, expected_fixture_ids_hash=args.expected_fixture_ids_hash)
+    run_worker(dataset=args.dataset, subset=args.subset, condition=args.condition, output=Path(args.output), limit=args.limit, task_id=args.task_id, execution_mode=args.execution_mode, canonical=args.canonical == "true", canonical_reason=args.canonical_reason, expected_config_hash=args.expected_config_hash, expected_fixture_ids_hash=args.expected_fixture_ids_hash)
     return 0
 
 
