@@ -362,135 +362,215 @@ body:before {
     bottom: 120px
 }
 
-#lowtier .puri-word--a {
-    left: 1vw;
-    top: 90px
-}
-
-.section#lowtier .puri-word--b {
-    right: -2vw;
-    bottom: 30px
-}
-
-.section#lowtier .puri-s1 {
-    right: 4vw;
-    top: 165px
-}
-
-.section#lowtier .puri-s2 {
-    left: 28vw;
-    top: 145px
-}
-
-.section#lowtier .puri-s3 {
-    right: 28vw;
-    bottom: 60px
-}
-
-.section#lowtier .puri-d1 {
-    left: 5vw;
-    bottom: 110px
-}
-
-.section#lowtier .puri-x1 {
-    right: 7vw;
-    bottom: 180px
-}
-
-#full .puri-word--a {
-    right: 1vw;
-    top: 90px
-}
-
-.section#full .puri-word--b {
-    left: 2vw;
-    bottom: 36px
-}
-
-.section#full .puri-s1 {
-    left: 4vw;
-    top: 160px
-}
-
-.section#full .puri-s2 {
-    right: 22vw;
-    top: 145px
-}
-
-.section#full .puri-s3 {
-    right: 5vw;
-    bottom: 72px
-}
-
-.section#full .puri-d1 {
-    left: 42vw;
-    bottom: 92px
-}
-
-.section#full .puri-x1 {
-    right: 8vw;
-    bottom: 180px
-}
-
 #metrics .puri-word--a {
-    left: 2vw;
-    top: 80px
+    left: 45vw;
+    top: 90px;
+    transform: rotate(5deg);
 }
-
 .section#metrics .puri-word--b {
-    right: 0;
-    bottom: 20px
+    right: 15vw;
+    bottom: 90px;
+    transform: rotate(-8deg);
 }
-
 .section#metrics .puri-s1 {
-    right: 8vw;
-    top: 130px
+    left: calc(25vw + 40px);
+    top: 210px;
+    transform: rotate(-15deg);
 }
-
 .section#metrics .puri-s2 {
-    left: 42vw;
-    bottom: 44px
+    right: 35vw;
+    top: 180px;
+    transform: rotate(10deg);
 }
-
+.section#metrics .puri-s3 {
+    left: 35vw;
+    bottom: 120px;
+    transform: rotate(18deg);
+}
 .section#metrics .puri-d1 {
-    left: 5vw;
-    bottom: 80px
+    right: 40vw;
+    bottom: 150px;
+    transform: rotate(-12deg);
 }
-
 .section#metrics .puri-x1 {
-    right: 5vw;
-    bottom: 120px
+    left: 55vw;
+    top: 250px;
+    transform: rotate(35deg);
 }
 
-#notes .puri-word--a {
-    right: 4vw;
-    top: 80px
+#evidence .puri-word--a {
+    right: 25vw;
+    top: 110px;
+    transform: rotate(-6deg);
+}
+.section#evidence .puri-word--b {
+    left: 30vw;
+    bottom: 110px;
+    transform: rotate(14deg);
+}
+.section#evidence .puri-s1 {
+    left: 15vw;
+    top: 250px;
+    transform: rotate(-10deg);
+}
+.section#evidence .puri-s2 {
+    right: 20vw;
+    top: 180px;
+    transform: rotate(8deg);
+}
+.section#evidence .puri-s3 {
+    left: 45vw;
+    bottom: 180px;
+    transform: rotate(-18deg);
+}
+.section#evidence .puri-s4 {
+    left: 35vw;
+    top: 60px;
+    transform: rotate(11deg);
+}
+.section#evidence .puri-s5 {
+    right: 35vw;
+    bottom: 220px;
+    transform: rotate(-12deg);
+}
+.section#evidence .puri-s6 {
+    right: 15vw;
+    bottom: 120px;
+    transform: rotate(6deg);
+}
+.section#evidence .puri-d1 {
+    left: 40vw;
+    top: 300px;
+    transform: rotate(12deg);
+}
+.section#evidence .puri-x1 {
+    right: 45vw;
+    bottom: 280px;
+    transform: rotate(-45deg);
 }
 
-.section#notes .puri-word--b {
-    left: 1vw;
-    bottom: 20px
+#conclusion .puri-word--a {
+    left: 35vw;
+    top: 140px;
+    transform: rotate(7deg);
 }
-
-.section#notes .puri-s1 {
+.section#conclusion .puri-word--b {
+    right: 30vw;
+    bottom: 140px;
+    transform: rotate(-5deg);
+}
+.section#conclusion .puri-s1 {
+    right: calc(20vw - 40px);
+    top: 280px;
+    transform: rotate(-14deg);
+}
+.section#conclusion .puri-s2 {
     left: 25vw;
-    top: 145px
+    top: 200px;
+    transform: rotate(11deg);
+}
+.section#conclusion .puri-s3 {
+    left: 40vw;
+    bottom: 180px;
+    transform: rotate(-22deg);
+}
+.section#conclusion .puri-s4 {
+    left: 20vw;
+    bottom: 120px;
+    transform: rotate(8deg);
+}
+.section#conclusion .puri-s5 {
+    right: 35vw;
+    top: 320px;
+    transform: rotate(-12deg);
+}
+.section#conclusion .puri-s6 {
+    left: 55vw;
+    bottom: 250px;
+    transform: rotate(15deg);
+}
+.section#conclusion .puri-s7 {
+    right: 18vw;
+    bottom: 160px;
+    transform: rotate(-9deg);
+}
+.section#conclusion .puri-d1 {
+    right: 42vw;
+    top: 350px;
+    transform: rotate(9deg);
+}
+.section#conclusion .puri-x1 {
+    left: 48vw;
+    bottom: 300px;
+    transform: rotate(60deg);
 }
 
-.section#notes .puri-s2 {
-    right: 9vw;
-    bottom: 52px
+#comparison .puri-word--a {
+    left: 18vw;
+    top: 150px;
+    transform: rotate(-4deg);
 }
 
-.section#notes .puri-d1 {
-    left: 6vw;
-    bottom: 120px
+.section#comparison .puri-word--b {
+    right: 15vw;
+    bottom: 200px;
+    transform: rotate(6deg);
 }
 
-.section#notes .puri-x1 {
-    right: 5vw;
-    top: 180px
+.section#comparison .puri-s1 {
+    left: 28vw;
+    top: 220px;
+    transform: rotate(12deg);
 }
+
+.section#comparison .puri-s2 {
+    left: 55vw;
+    top: 170px;
+    transform: rotate(-10deg);
+}
+
+.section#comparison .puri-s3 {
+    right: 32vw;
+    bottom: 220px;
+    transform: rotate(15deg);
+}
+
+.section#comparison .puri-s4 {
+    left: 45vw;
+    bottom: 280px;
+    transform: rotate(-8deg);
+}
+
+.section#comparison .puri-s5 {
+    left: 38vw;
+    bottom: 130px;
+    transform: rotate(18deg);
+}
+
+.section#comparison .puri-s6 {
+    right: 20vw;
+    top: 300px;
+    transform: rotate(-15deg);
+}
+
+.section#comparison .puri-s7 {
+    right: 40vw;
+    top: 260px;
+    transform: rotate(7deg);
+}
+
+.section#comparison .puri-d1 {
+    left: 50vw;
+    top: 350px;
+    transform: rotate(-22deg);
+}
+
+.section#comparison .puri-x1 {
+    left: 35vw;
+    top: 380px;
+    transform: rotate(45deg);
+}
+
 
 @media(max-width:900px) {
     .puri-word {
