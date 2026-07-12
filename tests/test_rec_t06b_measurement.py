@@ -62,6 +62,14 @@ def test_trusted_condition_matrix_is_exact_and_unique() -> None:
     assert TRUSTED_CONDITIONS == ("baseline-ar", "dflash-r1", "llmlingua-ar-r2", "cc-dflash-r2")
 
 
+def test_llmlingua_ar_is_autoregressive_without_dflash_accounting() -> None:
+    resolved = __import__("ccdf.config", fromlist=["resolve_config"]).resolve_config(
+        dataset="gsm8k", subset="n100", condition_id="llmlingua-ar-r2"
+    )
+    assert resolved.data["condition"]["generation_mode"] == "autoregressive"
+    assert resolved.data["condition"]["draft_model_lock_id"] is None
+
+
 @pytest.mark.parametrize(
     "conditions",
     [

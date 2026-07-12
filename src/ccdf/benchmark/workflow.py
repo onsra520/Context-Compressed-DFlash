@@ -133,7 +133,7 @@ def _row(
         "compression": result["compression"],
         "claim_boundary": result["claim_boundary"],
     }
-    if resolved.data["condition_id"] != "baseline-ar":
+    if resolved.data["condition_id"] in {"dflash-r1", "cc-dflash-r2"}:
         validate_dflash_invariants(row)
     return row
 
