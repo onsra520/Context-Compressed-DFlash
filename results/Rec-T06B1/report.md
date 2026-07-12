@@ -9,8 +9,19 @@ so the same benchmark path supports future trusted task IDs including
 Evaluation recomputes quality from raw generated text and stored references;
 it never loads models or instantiates `RuntimeEngine`. Artifacts validate row
 condition-file binding, fixture order, worker/config/task/mode identity,
-canonical reason/value, and every declared hash. DFlash metrics are globally
-weighted from raw totals.
+canonical reason/value, exact unique trusted condition matrix, LF-only CSV,
+and every declared hash. The evaluator inventory includes fixture and dataset
+manifests, resolved-config file/hash, per-condition configs, run files,
+workers, evaluator dependencies, and produced summaries. DFlash metrics are
+globally weighted from raw totals, including correction and bonus tokens.
+
+The existing n3 evidence predates the new parent/worker source-state fields.
+It remains explicitly noncanonical and is accepted only through the legacy
+noncanonical path; any source-state mismatch (or missing field in a canonical
+artifact) is rejected. New benchmark workers are parent-bound to commit,
+dirty flag, tracked diff hash, and relevant untracked source/config inventory.
+GSM8K quality reports strict-correct, wrong-numeric, no-final-answer, invalid,
+and empty-output counts recomputed from stored raw outputs.
 
 GSM8K CC-DFlash is accurately reported as `target + drafter; compressor
 bypassed and not loaded`. QMSum CC-DFlash loads the CPU compressor, records a
