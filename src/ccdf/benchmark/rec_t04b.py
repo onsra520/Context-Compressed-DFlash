@@ -22,6 +22,7 @@ from ccdf.datasets.hashing import hash_json, hash_text
 from ccdf.datasets.io import read_jsonl
 from ccdf.evaluation import gsm8k, qmsum
 from ccdf.inference.baseline_ar import generate_baseline
+from ccdf.benchmark.legacy import legacy_canonical_status
 from ccdf.inference.dflash_runtime import generate_dflash_r1
 from ccdf.inference.model_registry import DRAFTER_PATH, TARGET_PATH
 from ccdf.inference.schemas import GenerationConfig, GenerationResult
@@ -253,7 +254,7 @@ def run_condition(
             dataset_manifest_hash=dataset_manifest_hash,
             source_commit=source_commit,
             resolved_config_hash=resolved.sha256,
-            canonical=resolved.canonical,
+            canonical=legacy_canonical_status(task_id="Rec-T04B", requested_canonical=resolved.canonical)[0],
         )
         validate_dflash_invariants(row)
         rows.append(row)

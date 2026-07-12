@@ -20,6 +20,7 @@ from ccdf.artifacts.writer import write_json, write_jsonl_atomic
 from ccdf.config import resolve_config
 from ccdf.datasets.hashing import hash_file, hash_json, hash_text
 from ccdf.datasets.io import read_jsonl
+from ccdf.evaluation import gsm8k, qmsum
 from ccdf.metrics.dflash import validate_dflash_invariants
 from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime import RuntimeEngine, RuntimeRequest
@@ -69,8 +70,9 @@ def _row(
         "source_commit": git_state["source_commit"],
         "source_dirty": git_state["dirty"],
         "resolved_config_hash": resolved.sha256,
-        "canonical": True,
-        "canonical_reason": "Rec-T06B process-isolated RuntimeEngine worker",
+        "task_id": task_id,
+        "canonical": bool(resolved.canonical and not git_state["dirty"] and task_id == "Rec-T06B1" and resolved.data["condition_id"] == resolved.data["condition"]["condition_id"]),
+        "canonical_reason": "clean benchmark identity and parent/worker contract match" if resolved.canonical and not git_state["dirty"] and task_id == "Rec-T06B1" else "validation run: not all canonical requirements satisfied",
         "prompt_policy_id": resolved.data["prompt_policy"]["id"],
         "structured_prompt_parts_hash": hash_json(fixture["prompt_parts"]),
         "precompression_prompt_hash": hash_text(result["precompression_prompt"]),
@@ -81,6 +83,7 @@ def _row(
         "generated_text": result["generated_text"],
         "raw_generated_text": result["raw_generated_text"],
         "validated_answer": result["validated_answer"],
+        "reference_answer": fixture["reference_answer"],
         "generated_text_hash": hash_text(result["generated_text"]),
         "output_token_ids_hash": hash_json(result["output_token_ids"]),
         "generated_token_ids_hash": hash_json(result["generated_token_ids"]),
@@ -118,7 +121,7 @@ def run_benchmark(
     output_dir: Path,
     limit: int | None = None,
     execution_mode: str = "benchmark",
-    task_id: str = "Rec-T06A3",
+    task_id: str = "Rec-T06B1",
 ) -> dict[str, Any]:
     if output_dir.exists() and any(output_dir.iterdir()):
         raise FileExistsError(f"output directory is not empty: {output_dir}")
@@ -135,8 +138,7 @@ def run_benchmark(
     if limit is not None:
         fixtures = fixtures[:limit]
     git_state = _git_state(Path(first.data["path_context"]["worktree_root"]))
-    if execution_mode == "benchmark" and git_state["dirty"]:
-        raise ValueError("canonical benchmark requires clean tracked source/config state")
+    canonical_parent = bool(execution_mode == "benchmark" and not git_state["dirty"] and task_id == "Rec-T06B1" and not limit)
     config_bundle: dict[str, Any] = {}
     run_id = f"{task_id.lower()}-{int(time.time())}"
 
@@ -145,7 +147,9 @@ def run_benchmark(
         resolved = resolve_config(dataset=dataset, subset=subset, condition_id=condition_id, execution_mode=execution_mode)
         config_bundle[condition_id] = resolved.data
         run_path = output_dir / "runs" / f"{condition_id.replace('-', '_')}.jsonl"
-        command = [sys.executable, "-m", "ccdf.benchmark.worker", "--dataset", dataset, "--subset", subset, "--condition", condition_id, "--output", str(run_path), "--task-id", task_id]
+        condition_config_hash = resolved.sha256
+        fixture_ids_hash = hash_json([row["fixture_id"] for row in fixtures])
+        command = [sys.executable, "-m", "ccdf.benchmark.worker", "--dataset", dataset, "--subset", subset, "--condition", condition_id, "--output", str(run_path), "--task-id", task_id, "--execution-mode", execution_mode, "--expected-config-hash", condition_config_hash, "--expected-fixture-ids-hash", fixture_ids_hash]
         if limit is not None:
             command.extend(["--limit", str(limit)])
         proc = subprocess.run(command, cwd=str(first.data["path_context"]["worktree_root"]), text=True, capture_output=True)
@@ -153,6 +157,9 @@ def run_benchmark(
         if proc.returncode:
             raise RuntimeError(f"worker failed for {condition_id}: {proc.stderr.strip()}")
         worker_manifests[condition_id] = json.loads(worker_path.read_text(encoding="utf-8"))
+        worker = worker_manifests[condition_id]
+        if worker.get("task_id") != task_id or worker.get("execution_mode") != execution_mode or worker.get("resolved_config_sha256") != condition_config_hash:
+            raise ValueError(f"worker identity mismatch for {condition_id}")
 
     write_json(output_dir / "resolved_config.json", config_bundle)
     (output_dir / "resolved_config.sha256").write_text(
@@ -163,6 +170,7 @@ def run_benchmark(
     }
     manifest = {
         "task_id": task_id,
+        "execution_mode": execution_mode,
         "dataset": dataset,
         "subset": subset,
         "row_limit": limit,
@@ -172,16 +180,18 @@ def run_benchmark(
         "fixture_file_hash": first.data["fixture_file_hash"],
         "conditions": conditions,
         "runtime": "ccdf.runtime.engine.RuntimeEngine",
-        "canonical": True,
+        "canonical": canonical_parent and all(worker.get("canonical") for worker in worker_manifests.values()),
         "git_state": git_state,
         "run_file_hashes": run_hashes,
+        "resolved_config_file_sha256": hash_file(output_dir / "resolved_config.json"),
         "ordered_fixture_ids_sha256": hash_json([row["fixture_id"] for row in fixtures]),
         "canonical_config_file_sha256": hash_file(Path(first.data["config_path"])),
         "resolved_condition_config_sha256": {key: value["condition"].get("condition_id") and hash_json(value) for key, value in config_bundle.items()},
         "prompt_policy_sha256": hash_json(first.data["prompt_policy"]),
-        "evaluator_implementation_config_sha256": hash_text(first.data["evaluator_identity"]),
+        "evaluator_implementation_config_sha256": hash_file(Path(first.data["path_context"]["worktree_root"]) / "src" / "ccdf" / "evaluation" / f"{dataset}.py"),
         "environment": {"python": sys.version, "platform": platform.platform()},
         "worker_manifests": worker_manifests,
+        "worker_manifest_hashes": {condition: hash_file(output_dir / "runs" / f"{condition.replace('-', '_')}.worker.json") for condition in conditions},
     }
     write_json(output_dir / "benchmark_manifest.json", manifest)
     return manifest
@@ -190,11 +200,47 @@ def run_benchmark(
 def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
     manifest_path = run_dir / "benchmark_manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if manifest.get("task_id") != "Rec-T06B1":
+        raise ValueError("unexpected task identity")
+    if manifest.get("execution_mode") not in {"benchmark", "smoke", "profiling"}:
+        raise ValueError("missing execution mode")
+    resolved_path = run_dir / "resolved_config.json"
+    resolved_hash_path = run_dir / "resolved_config.sha256"
+    if not resolved_path.is_file() or hash_file(resolved_path) != manifest.get("resolved_config_file_sha256"):
+        raise ValueError("resolved config hash mismatch")
+    if resolved_hash_path.read_text(encoding="utf-8").strip() != hash_file(resolved_path):
+        raise ValueError("resolved_config.sha256 mismatch")
+    bundle = json.loads(resolved_path.read_text(encoding="utf-8"))
+    if manifest.get("resolved_condition_config_sha256") != {condition: hash_json(bundle[condition]) for condition in manifest["conditions"]}:
+        raise ValueError("condition config hash mismatch")
+    fixture_path = Path(bundle[manifest["conditions"][0]]["fixture_path"])
+    if not fixture_path.is_file() or hash_file(fixture_path) != manifest.get("fixture_file_hash"):
+        raise ValueError("fixture path/hash mismatch")
+    manifest_path_input = Path(manifest["dataset_manifest_path"])
+    if not manifest_path_input.is_file() or hash_file(manifest_path_input) != manifest.get("dataset_manifest_hash"):
+        raise ValueError("dataset manifest path/hash mismatch")
+    evaluator_path = Path(bundle[manifest["conditions"][0]]["path_context"]["worktree_root"]) / "src" / "ccdf" / "evaluation" / f"{manifest['dataset']}.py"
+    if manifest.get("evaluator_implementation_config_sha256") != hash_file(evaluator_path):
+        raise ValueError("evaluator implementation hash mismatch")
+    for condition in manifest["conditions"]:
+        worker_path = run_dir / "runs" / f"{condition.replace('-', '_')}.worker.json"
+        if not worker_path.is_file() or hash_file(worker_path) != manifest.get("worker_manifest_hashes", {}).get(condition):
+            raise ValueError("worker manifest hash mismatch")
+        worker = json.loads(worker_path.read_text(encoding="utf-8"))
+        if worker.get("task_id") != manifest["task_id"] or worker.get("execution_mode") != manifest["execution_mode"]:
+            raise ValueError("worker task or mode mismatch")
+        if worker.get("resolved_config_sha256") != manifest.get("resolved_condition_config_sha256", {}).get(condition):
+            raise ValueError("worker condition config mismatch")
     rows: list[dict[str, Any]] = []
     actual_hashes: dict[str, str] = {}
     for path in sorted((run_dir / "runs").glob("*.jsonl")):
         actual_hashes[path.name] = hash_file(path)
         rows.extend(read_jsonl(path))
+        for row in rows[-len(read_jsonl(path)):]:
+            if row.get("task_id") != manifest["task_id"] or row.get("measurement_mode") != manifest["execution_mode"]:
+                raise ValueError("row task or measurement identity mismatch")
+    if [row["fixture_id"] for row in rows[: len(manifest["fixture_ids"])] ] and manifest.get("ordered_fixture_ids_sha256") != hash_json(manifest["fixture_ids"]):
+        raise ValueError("fixture order hash mismatch")
     if actual_hashes != manifest.get("run_file_hashes"):
         raise ValueError("run-file hashes do not match benchmark manifest")
     expected_names = {f"{condition.replace('-', '_')}.jsonl" for condition in manifest["conditions"]}
@@ -209,7 +255,15 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
             raise ValueError(f"missing rows for condition: {condition}")
         if any(row["condition"]["condition_id"] != condition for row in selected):
             raise ValueError("mixed condition rows in run artifact")
-        strict = sum(row["quality"].get("label") == "strict_correct" for row in selected)
+        recomputed = []
+        for row in selected:
+            if manifest["dataset"] == "gsm8k":
+                quality = gsm8k.evaluate(row["raw_generated_text"], row["reference_answer"], cap_hit=row["cap_hit"], repetition_detected=row["repetition_detected"])
+            else:
+                health = row.get("output_health", {})
+                quality = qmsum.evaluate(row["raw_generated_text"], row["reference_answer"], cap_hit=row["cap_hit"], repetition_detected=row["repetition_detected"], instruction_echo_detected=row["instruction_echo_detected"], answer_prefix_count=int(health.get("answer_prefix_count", 0)), repeated_ngram_ratio=float(health.get("repeated_ngram_ratio", 0.0)))
+            recomputed.append(quality)
+        strict = sum(item.get("label") == "strict_correct" for item in recomputed)
         target_calls = sum(int(row.get("total_target_forward_calls", 0)) for row in selected)
         output_tokens = sum(int(row["output_tokens"]) for row in selected)
         summary.append(
@@ -238,6 +292,10 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
                 "rollback_tokens": sum(int(row.get("rollback_tokens", 0)) for row in selected),
                 "model_composition": selected[0].get("resource", {}).get("model_composition", "unsupported"),
                 "semantic_correctness": "NOT_CLAIMED" if manifest["dataset"] == "qmsum" else "numeric",
+                "reference_recall": sum(float(item.get("reference_recall", 0.0)) for item in recomputed) / len(recomputed) if manifest["dataset"] == "qmsum" else None,
+                "reference_precision": sum(float(item.get("reference_precision", 0.0)) for item in recomputed) / len(recomputed) if manifest["dataset"] == "qmsum" else None,
+                "invalid_outputs": sum(bool(item.get("invalid")) for item in recomputed),
+                "empty_outputs": sum(bool(item.get("empty")) for item in recomputed),
             }
         )
         failures.extend(
@@ -255,6 +313,8 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         "semantic_correctness": "NOT_CLAIMED" if manifest["dataset"] == "qmsum" else "numeric",
         "conditions": summary,
     }
+    if manifest.get("canonical") and (manifest.get("execution_mode") != "benchmark" or manifest.get("row_limit") is not None or manifest.get("git_state", {}).get("dirty") or any(not row.get("canonical") for row in rows)):
+        raise ValueError("canonical artifact does not satisfy canonical requirements")
     write_json(run_dir / "quality_summary.json", quality)
     write_json(run_dir / "performance_summary.json", {"dataset": manifest["dataset"], "conditions": summary, "comparison_latency": "warm_request_e2e_ms includes compression"})
     write_json(run_dir / "resource_summary.json", {"dataset": manifest["dataset"], "conditions": [{"condition": item["condition"], "peak_cuda_allocated_bytes": item["peak_cuda_allocated_bytes"], "peak_cuda_reserved_bytes": item["peak_cuda_reserved_bytes"], "cpu_compressor_memory_delta_bytes": item["cpu_compressor_memory_delta_bytes"], "model_composition": item["model_composition"]} for item in summary]})

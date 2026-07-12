@@ -42,6 +42,7 @@ ROW_REQUIRED_FIELDS = [
     "input_tokens_precompression",
     "input_tokens_final",
     "generated_text",
+    "reference_answer",
     "generated_text_hash",
     "output_token_ids_hash",
     "output_tokens",

@@ -68,6 +68,7 @@ def synthetic_row(
         "dataset": dataset,
         "dataset_manifest_hash": dataset_manifest_hash,
         "fixture_id": fixture_id,
+        "reference_answer": reference_answer,
         "fixture_content_hash": fixture_content_hash,
         "condition": condition,
         "source_commit": "synthetic-rec-t02b",

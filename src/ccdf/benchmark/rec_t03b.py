@@ -24,6 +24,7 @@ from ccdf.inference.schemas import GenerationConfig, GenerationResult
 from ccdf.inference.target_loader import load_target_model, load_target_tokenizer
 from ccdf.dflash.loader import load_drafter_model
 from ccdf.metrics.dflash import aggregate_tau, validate_dflash_invariants
+from ccdf.benchmark.legacy import legacy_canonical_status
 
 
 def _git_commit() -> str:
@@ -130,8 +131,6 @@ def run_condition(
     max_new_tokens: int | None,
     run_id: str,
 ) -> dict[str, Any]:
-    if "Rec-T06B" in str(output):
-        raise ValueError("legacy Rec-T03B runner cannot create Rec-T06B canonical artifacts")
     import gc
     import torch
 
@@ -175,7 +174,7 @@ def run_condition(
             dataset_manifest_hash=dataset_manifest_hash,
             source_commit=source_commit,
             resolved_config_hash=resolved.sha256,
-            canonical=resolved.canonical,
+            canonical=legacy_canonical_status(task_id="Rec-T03B", requested_canonical=resolved.canonical)[0],
         )
         validate_dflash_invariants(row)
         rows.append(row)

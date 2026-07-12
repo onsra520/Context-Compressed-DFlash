@@ -23,11 +23,16 @@ from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime import RuntimeEngine, RuntimeRequest
 
 
-def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit: int | None, task_id: str) -> dict:
-    resolved = resolve_config(dataset=dataset, subset=subset, condition_id=condition, execution_mode="benchmark")
+def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit: int | None, task_id: str, execution_mode: str, expected_config_hash: str | None = None, expected_fixture_ids_hash: str | None = None) -> dict:
+    resolved = resolve_config(dataset=dataset, subset=subset, condition_id=condition, execution_mode=execution_mode)
+    if expected_config_hash is not None and resolved.sha256 != expected_config_hash:
+        raise ValueError("worker resolved config hash does not match parent")
     fixtures = read_jsonl(Path(resolved.data["fixture_path"]))
     if limit is not None:
         fixtures = fixtures[:limit]
+    fixture_ids_hash = hash_json([row["fixture_id"] for row in fixtures])
+    if expected_fixture_ids_hash is not None and fixture_ids_hash != expected_fixture_ids_hash:
+        raise ValueError("worker fixture order does not match parent")
     started = time.perf_counter()
     engine = RuntimeEngine(resolved)
     rows = []
@@ -39,7 +44,7 @@ def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit
                 resolved=resolved,
                 prompt_parts=PromptParts(**fixture["prompt_parts"]),
                 reference_answer=fixture["reference_answer"],
-                measurement_mode="benchmark",
+                measurement_mode=execution_mode,
             ))
             rows.append(_row(task_id=task_id, run_id=run_id, resolved=resolved, fixture=fixture, result=result, git_state=state))
     finally:
@@ -49,6 +54,9 @@ def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit
     manifest = {
         "worker_version": "rec-t06b.worker.v1",
         "condition_id": condition,
+        "task_id": task_id,
+        "execution_mode": execution_mode,
+        "canonical": bool(resolved.canonical and not resolved.data.get("overrides") and not limit and task_id == "Rec-T06B1"),
         "pid": os.getpid(),
         "exit_status": 0,
         "python": sys.version,
@@ -81,9 +89,12 @@ def main() -> int:
     parser.add_argument("--condition", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--limit", type=int)
-    parser.add_argument("--task-id", default="Rec-T06B")
+    parser.add_argument("--task-id", required=True)
+    parser.add_argument("--execution-mode", required=True, choices=["benchmark", "profiling", "smoke"])
+    parser.add_argument("--expected-config-hash")
+    parser.add_argument("--expected-fixture-ids-hash")
     args = parser.parse_args()
-    run_worker(dataset=args.dataset, subset=args.subset, condition=args.condition, output=Path(args.output), limit=args.limit, task_id=args.task_id)
+    run_worker(dataset=args.dataset, subset=args.subset, condition=args.condition, output=Path(args.output), limit=args.limit, task_id=args.task_id, execution_mode=args.execution_mode, expected_config_hash=args.expected_config_hash, expected_fixture_ids_hash=args.expected_fixture_ids_hash)
     return 0
 
 

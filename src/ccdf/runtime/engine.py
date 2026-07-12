@@ -23,6 +23,15 @@ from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime.schemas import RuntimeRequest
 
 
+def _current_rss_bytes() -> int | None:
+    """Read current resident bytes; ru_maxrss is peak, not current RSS."""
+    try:
+        resident_pages = int(Path("/proc/self/statm").read_text().split()[1])
+        return resident_pages * __import__("os").sysconf("SC_PAGE_SIZE")
+    except (OSError, IndexError, ValueError):
+        return None
+
+
 class RuntimeEngine:
     """Load one resolved condition and execute all requests through one pipeline."""
 
@@ -66,7 +75,7 @@ class RuntimeEngine:
 
         self.compressor = None
         self.compressor_init_ms = 0.0
-        self.process_rss_before_compressor_bytes = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) * 1024
+        self.process_rss_before_compressor_bytes = _current_rss_bytes()
         # GSM8K is explicitly short-context bypassed. Avoid loading a CPU model
         # that cannot be used by the canonical condition.
         need_compressor = (
@@ -82,7 +91,8 @@ class RuntimeEngine:
                 device_map=models["compression"]["device"],
             )
             self.compressor_init_ms = (time.perf_counter() - started) * 1000
-        self.process_rss_after_compressor_bytes = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) * 1024
+        self.process_rss_after_compressor_bytes = _current_rss_bytes()
+        self.process_peak_rss_bytes = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) * 1024
         self.model_init_ms = (
             self.target_model_init_ms + self.drafter_model_init_ms + self.compressor_init_ms
         )
@@ -359,7 +369,8 @@ class RuntimeEngine:
                 "compressor_gpu_bytes": 0 if condition_id == "cc-dflash-r2" else None,
                 "process_rss_before_compressor_bytes": self.process_rss_before_compressor_bytes,
                 "process_rss_after_compressor_bytes": self.process_rss_after_compressor_bytes,
-                "cpu_compressor_memory_delta_bytes": max(0, self.process_rss_after_compressor_bytes - self.process_rss_before_compressor_bytes),
+                "process_peak_rss_bytes": self.process_peak_rss_bytes,
+                "cpu_compressor_memory_delta_bytes": (self.process_rss_after_compressor_bytes - self.process_rss_before_compressor_bytes) if self.process_rss_before_compressor_bytes is not None and self.process_rss_after_compressor_bytes is not None else None,
                 "model_composition": (
                     "target-only GPU"
                     if condition_id == "baseline-ar"
