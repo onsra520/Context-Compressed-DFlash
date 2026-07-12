@@ -1,32 +1,24 @@
-# Rec-T07 source audit
+# Rec-T07 full source audit
 
-## Fixed high-severity findings
+Result: **PASS_WITH_ENVIRONMENT_LIMITATION**. This is a full-repository review of runtime ownership, CUDA fallback, cleanup, benchmark/evaluator integrity, task/path drift, CLI/packaging, resources, tests, and documentation. It does not alter preserved Rec-T06D or Rec-T07 n=100 evidence.
 
-- GPU compressor conditions previously lacked explicit condition identities and
-  could not prove CUDA parameter placement. Rec-T07 adds GPU-only condition
-  IDs, resolves their compressor device to `cuda`, and rejects unverified CUDA
-  placement.
-- GPU compressor resource composition was previously labeled as CPU for
-  `*-gpu` conditions. Runtime artifacts now expose GPU composition, device,
-  and CUDA verification.
-- LLMLingua-AR was previously vulnerable to DFlash invariant routing; it is
-  kept on cached autoregressive decoding without a drafter.
+## Fixed critical/high issues
+
+- CUDA compressor verification now inventories every discoverable backend parameter and buffer. A CUDA request fails for an empty inventory, a CPU tensor, or mixed/offloaded placement. It records unique devices, total/CUDA parameter and buffer counts, byte counts, and `resident`/`staged` mode.
+- The runtime now measures CUDA allocated and reserved deltas around compressor construction. If CUDA telemetry is unavailable, it emits `null` and names the unsupported field; it never writes a fabricated zero.
+- Composition derives from actual residency. GSM8K short-context GPU conditions explicitly say `compressor bypassed and not loaded`; QMSum GPU variants say GPU compressor only when one was loaded.
+- The audit exposed an offline environment dependency: LLMLingua may need a locally cached tiktoken encoding. The README makes it a prerequisite and does not suggest network download during runtime.
 
 ## Audit outcomes
 
-- Runtime ownership is per-worker-process; `RuntimeEngine.close()` releases
-  target, drafter, compressor, tokenizer, and CUDA cache.
-- CPU/GPU compression paths are explicit and short-context bypass remains
-  explicit for GSM8K.
-- Parent/worker/row provenance, exact task matrices, stale-artifact rejection,
-  evaluator-only summaries, and hash inventories are enforced by workflow.
-- The current CLI exposes canonical benchmark/evaluate/path commands through
-  `ccdf.cli`; packaging uses the `ccdf` console entry point.
-- Legacy `rec_t03b` / `rec_t04b` runners remain diagnostic/legacy code and are
-  not used by canonical Rec-T06D or Rec-T07 paths.
+- `RuntimeEngine.close()` drops target, drafter, compressor, tokenizer, then garbage-collects and releases CUDA cache/IPC. Canonical workers are process isolated.
+- Parent/worker hashes, fixture order, condition matrices, source state, evaluator manifests, and stale-artifact checks protect benchmark/evaluator integrity.
+- QMSum reports lexical/reference proxy metrics only. Semantic correctness is **NOT_CLAIMED**.
+- CLI and package entry point are `ccdf` / `python -m ccdf`: `run`, `benchmark`, `evaluate`, and `paths`. Legacy Rec-T03/Rec-T04 runners are explicitly noncanonical diagnostic code.
+- Current RSS, peak RSS, peak CUDA allocated/reserved, model composition, and unsupported attributions have distinct meanings and are no longer conflated.
 
-## Lower-severity follow-up
+## Lower-severity findings
 
-- GPU compressor parameter-byte accounting is represented as verified device
-  placement and peak process CUDA allocation, not a claimed isolated model-byte
-  delta; this avoids inventing an unsupported attribution.
+- Target-only and drafter-incremental VRAM cannot be truthfully isolated under a shared CUDA allocator; fields remain null with metadata.
+- This root checkout’s `.venv` currently reports no visible CUDA device, so the real GPU probe was not possible. No n=3 or n=100 benchmark was rerun; focused device-placement tests cover resident and rejected-fallback paths.
+- Historical Rec-T03/Rec-T04 task labels remain in clearly marked noncanonical modules; they are not active Rec-T06D/Rec-T07 paths.

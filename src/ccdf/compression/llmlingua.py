@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import time
 from pathlib import Path
+from typing import Any
 
 from ccdf.compression.base import CompressorBase
 from ccdf.compression.chunking import chunk_context
@@ -25,24 +26,67 @@ class LLMLinguaCompressor(CompressorBase):
             device_map=device_map,
             use_llmlingua2=True,
         )
+        self.device_audit = self._audit_devices()
         self.cuda_verified = self._verify_cuda() if device_map == "cuda" else False
         if device_map == "cuda" and not self.cuda_verified:
-            raise RuntimeError("LLMLingua compressor did not place parameters on CUDA")
+            raise RuntimeError(
+                "LLMLingua compressor did not place every parameter and buffer on CUDA: "
+                f"{self.device_audit}"
+            )
         self.tokenizer_id = f"llmlingua2:{model_path}"
 
+    def _tensor_owners(self) -> list[tuple[str, Any]]:
+        """Return distinct backend objects that may own model tensors."""
+        owners: list[tuple[str, Any]] = []
+        seen: set[int] = set()
+        for name in ("model", "compressor", "llm"):
+            candidate = getattr(self.backend, name, None)
+            if candidate is not None and id(candidate) not in seen:
+                owners.append((name, candidate))
+                seen.add(id(candidate))
+        return owners
+
+    def _audit_devices(self) -> dict[str, Any]:
+        """Count *all* compressor tensors, so ``device_map`` cannot silently fall back."""
+        tensors = []
+        for owner_name, owner in self._tensor_owners():
+            parameters = getattr(owner, "parameters", None)
+            buffers = getattr(owner, "buffers", None)
+            if callable(parameters):
+                tensors.extend(("parameter", owner_name, tensor) for tensor in parameters())
+            if callable(buffers):
+                tensors.extend(("buffer", owner_name, tensor) for tensor in buffers())
+        parameter_tensors = [tensor for kind, _, tensor in tensors if kind == "parameter"]
+        buffer_tensors = [tensor for kind, _, tensor in tensors if kind == "buffer"]
+        devices = sorted({str(tensor.device) for _, _, tensor in tensors})
+        cuda_parameters = [tensor for tensor in parameter_tensors if tensor.device.type == "cuda"]
+        cuda_buffers = [tensor for tensor in buffer_tensors if tensor.device.type == "cuda"]
+        all_cuda = bool(tensors) and all(tensor.device.type == "cuda" for _, _, tensor in tensors)
+        return {
+            "unique_devices": devices,
+            "total_parameters": len(parameter_tensors),
+            "cuda_parameters": len(cuda_parameters),
+            "total_buffers": len(buffer_tensors),
+            "cuda_buffers": len(cuda_buffers),
+            "total_parameter_bytes": sum(tensor.numel() * tensor.element_size() for tensor in parameter_tensors),
+            "cuda_parameter_bytes": sum(tensor.numel() * tensor.element_size() for tensor in cuda_parameters),
+            "total_buffer_bytes": sum(tensor.numel() * tensor.element_size() for tensor in buffer_tensors),
+            "cuda_buffer_bytes": sum(tensor.numel() * tensor.element_size() for tensor in cuda_buffers),
+            "all_tensors_cuda": all_cuda,
+            "execution_mode": "resident" if all_cuda else "staged",
+        }
+
     def _verify_cuda(self) -> bool:
-        """Reject device-map fallback by inspecting the backend model parameters."""
+        """Reject CPU/offload fallback across every backend parameter and buffer."""
         import torch
 
-        candidates = ("model", "compressor", "llm", "tokenizer")
-        for name in candidates:
-            candidate = getattr(self.backend, name, None)
-            parameters = getattr(candidate, "parameters", None)
-            if callable(parameters):
-                first = next(iter(parameters()), None)
-                if first is not None:
-                    return bool(torch.cuda.is_available() and first.device.type == "cuda")
-        return False
+        audit = self.device_audit
+        return bool(
+            torch.cuda.is_available()
+            and audit["all_tensors_cuda"]
+            and audit["total_parameters"] == audit["cuda_parameters"]
+            and audit["total_buffers"] == audit["cuda_buffers"]
+        )
 
     def _count(self, text: str) -> int:
         # Counting may intentionally inspect a sequence longer than the
@@ -108,6 +152,10 @@ class LLMLinguaCompressor(CompressorBase):
                 "concate_question": False,
                 "compressor_device": self.device_map,
                 "compressor_cuda_verified": self.cuda_verified,
+                "device_audit": self.device_audit,
+                "execution_mode": self.device_audit["execution_mode"],
+                "transfer_to_device_ms": 0.0,
+                "offload_ms": 0.0,
             },
             bypassed=False,
         )

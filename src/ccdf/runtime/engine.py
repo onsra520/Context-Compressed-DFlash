@@ -32,6 +32,28 @@ def _current_rss_bytes() -> int | None:
         return None
 
 
+def _resource_composition(condition_id: str, compressor_bypassed_not_loaded: bool) -> tuple[str, str]:
+    """Describe the models actually resident for a result row."""
+    if condition_id == "baseline-ar":
+        return "quantized target", "target-only GPU"
+    if condition_id == "dflash-r1":
+        return "quantized target + drafter", "target plus drafter GPU"
+    if compressor_bypassed_not_loaded:
+        if condition_id.startswith("cc-dflash"):
+            return (
+                "quantized target + drafter; compressor bypassed and not loaded",
+                "target plus drafter; compressor bypassed and not loaded",
+            )
+        return "quantized target; compressor bypassed and not loaded", "target; compressor bypassed and not loaded"
+    if condition_id == "llmlingua-ar-r2-gpu":
+        return "quantized target + GPU compressor", "target GPU; GPU compressor"
+    if condition_id == "llmlingua-ar-r2":
+        return "quantized target + CPU compressor", "target GPU; CPU compressor"
+    if condition_id == "cc-dflash-r2-gpu":
+        return "quantized target + drafter + GPU compressor", "target plus drafter GPU; GPU compressor"
+    return "quantized target + drafter + CPU compressor", "target plus drafter GPU; CPU compressor"
+
+
 class RuntimeEngine:
     """Load one resolved condition and execute all requests through one pipeline."""
 
@@ -75,6 +97,8 @@ class RuntimeEngine:
 
         self.compressor = None
         self.compressor_init_ms = 0.0
+        self.compressor_cuda_allocated_delta_bytes: int | None = None
+        self.compressor_cuda_reserved_delta_bytes: int | None = None
         self.process_rss_before_compressor_bytes = _current_rss_bytes()
         # GSM8K is explicitly short-context bypassed. Avoid loading a CPU model
         # that cannot be used by the canonical condition.
@@ -85,6 +109,10 @@ class RuntimeEngine:
         if need_compressor:
             from ccdf.compression.llmlingua import LLMLinguaCompressor
 
+            import torch
+
+            cuda_before = int(torch.cuda.memory_allocated()) if torch.cuda.is_available() else None
+            reserved_before = int(torch.cuda.memory_reserved()) if torch.cuda.is_available() else None
             started = time.perf_counter()
             self.compressor = LLMLinguaCompressor(
                 model_path=Path(models["compression"]["path"]),
@@ -93,6 +121,10 @@ class RuntimeEngine:
             if models["compression"]["device"] == "cuda" and not self.compressor.cuda_verified:
                 raise RuntimeError("GPU compressor requested but CUDA parameter placement was not verified")
             self.compressor_init_ms = (time.perf_counter() - started) * 1000
+            if cuda_before is not None and reserved_before is not None:
+                torch.cuda.synchronize()
+                self.compressor_cuda_allocated_delta_bytes = int(torch.cuda.memory_allocated()) - cuda_before
+                self.compressor_cuda_reserved_delta_bytes = int(torch.cuda.memory_reserved()) - reserved_before
         self.process_rss_after_compressor_bytes = _current_rss_bytes()
         self.process_peak_rss_bytes = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) * 1024
         self.model_init_ms = (
@@ -316,6 +348,12 @@ class RuntimeEngine:
             "final_input_ids_hash": final_encoded.input_ids_hash,
             "exact_chat_template_scope": True,
         }
+        compressor_bypassed_not_loaded = bool(
+            compression is not None and compression.bypassed and self.compressor is None
+        )
+        resource_composition, model_composition = _resource_composition(
+            condition_id, compressor_bypassed_not_loaded
+        )
         return {
             "generated_text": result.generated_text,
             "raw_generated_text": result.raw_generated_text,
@@ -357,51 +395,28 @@ class RuntimeEngine:
                 "peak_reserved_bytes": reserved,
                 "measurement_scope": "generation request after optional compression",
             },
-            "resource_composition": (
-                "quantized target"
-                if condition_id == "baseline-ar"
-                else "quantized target + drafter"
-                if condition_id == "dflash-r1"
-                else "quantized target; compressor bypassed and not loaded"
-                if condition_id == "llmlingua-ar-r2" and compression is not None and compression.bypassed and self.compressor is None
-                else "quantized target + GPU compressor"
-                if condition_id == "llmlingua-ar-r2-gpu"
-                else "quantized target + CPU compressor"
-                if condition_id == "llmlingua-ar-r2"
-                else "quantized target + drafter; compressor bypassed and not loaded"
-                if compression is not None and compression.bypassed and self.compressor is None
-                else "quantized target + drafter + CPU compressor"
-            ),
+            "resource_composition": resource_composition,
             "resource": {
                 "peak_cuda_allocated_bytes": allocated,
                 "peak_cuda_reserved_bytes": reserved,
                 "target_only_gpu_bytes": None,
                 "drafter_incremental_gpu_bytes": None,
-                "compressor_gpu_bytes": 0 if self.compressor is not None and is_gpu_compressor else None,
+                "compressor_gpu_bytes": self.compressor_cuda_allocated_delta_bytes if self.compressor is not None and is_gpu_compressor else None,
+                "compressor_gpu_reserved_delta_bytes": self.compressor_cuda_reserved_delta_bytes if self.compressor is not None and is_gpu_compressor else None,
                 "compressor_device": data["models"]["compression"]["device"] if self.compressor is not None else None,
                 "compressor_cuda_verified": bool(getattr(self.compressor, "cuda_verified", False)) if self.compressor is not None else False,
+                "compressor_device_audit": getattr(self.compressor, "device_audit", None) if self.compressor is not None else None,
+                "compressor_execution_mode": getattr(self.compressor, "device_audit", {}).get("execution_mode") if self.compressor is not None else None,
+                "compressor_transfer_to_device_ms": 0.0 if self.compressor is not None else None,
+                "compressor_offload_ms": 0.0 if self.compressor is not None else None,
                 "process_rss_before_compressor_bytes": self.process_rss_before_compressor_bytes,
                 "process_rss_after_compressor_bytes": self.process_rss_after_compressor_bytes,
                 "process_peak_rss_bytes": self.process_peak_rss_bytes,
                 "cpu_compressor_memory_delta_bytes": (self.process_rss_after_compressor_bytes - self.process_rss_before_compressor_bytes) if self.process_rss_before_compressor_bytes is not None and self.process_rss_after_compressor_bytes is not None else None,
-                "model_composition": (
-                    "target-only GPU"
-                    if condition_id == "baseline-ar"
-                    else "target plus drafter GPU"
-                    if condition_id == "dflash-r1"
-                    else "target; compressor bypassed and not loaded"
-                    if condition_id == "llmlingua-ar-r2" and compression is not None and compression.bypassed and self.compressor is None
-                    else "target GPU; GPU compressor"
-                    if condition_id == "llmlingua-ar-r2-gpu"
-                    else "target GPU; CPU compressor"
-                    if condition_id == "llmlingua-ar-r2"
-                    else "target plus drafter; compressor bypassed and not loaded"
-                    if compression is not None and compression.bypassed and self.compressor is None
-                    else "target plus drafter GPU; GPU compressor"
-                    if condition_id == "cc-dflash-r2-gpu"
-                    else "target plus drafter GPU; CPU compressor"
+                "model_composition": model_composition,
+                "unsupported_fields": ["target_only_gpu_bytes", "drafter_incremental_gpu_bytes"] + (
+                    [] if self.compressor_cuda_allocated_delta_bytes is not None or self.compressor is None or not is_gpu_compressor else ["compressor_gpu_bytes"]
                 ),
-                "unsupported_fields": ["target_only_gpu_bytes", "drafter_incremental_gpu_bytes"],
             },
             "dflash": dflash,
             "compression": {
