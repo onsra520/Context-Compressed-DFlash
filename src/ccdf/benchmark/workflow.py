@@ -347,8 +347,8 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
                 "semantic_correctness": "NOT_CLAIMED" if manifest["dataset"] == "qmsum" else "numeric",
                 "reference_recall": sum(float(item.get("reference_recall", 0.0)) for item in recomputed) / len(recomputed) if manifest["dataset"] == "qmsum" else None,
                 "reference_precision": sum(float(item.get("reference_precision", 0.0)) for item in recomputed) / len(recomputed) if manifest["dataset"] == "qmsum" else None,
-                "invalid_outputs": sum(bool(item.get("invalid")) for item in recomputed),
-                "empty_outputs": sum(bool(item.get("empty")) for item in recomputed),
+                "invalid_outputs": sum(item.get("label") == "invalid" for item in recomputed),
+                "empty_outputs": sum(not str(row["raw_generated_text"]).strip() for row in selected),
             }
         )
         for row, recomputed_quality in zip(selected, recomputed):

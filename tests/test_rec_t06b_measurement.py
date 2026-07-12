@@ -129,6 +129,37 @@ def test_gsm8k_counts_are_recomputed_from_raw_output(tmp_path: Path) -> None:
     assert baseline["empty_outputs"] == 0
 
 
+@pytest.mark.parametrize(
+    ("raw_output", "reference_answer", "expected"),
+    [
+        ("Final answer: 999999", None, {"gsm8k_strict_correct": 2, "gsm8k_wrong_numeric": 1, "gsm8k_no_final_answer": 0, "invalid_outputs": 0, "empty_outputs": 0}),
+        ("there is no compliant final line", None, {"gsm8k_strict_correct": 2, "gsm8k_wrong_numeric": 0, "gsm8k_no_final_answer": 1, "invalid_outputs": 0, "empty_outputs": 0}),
+        ("   ", None, {"gsm8k_strict_correct": 2, "gsm8k_wrong_numeric": 0, "gsm8k_no_final_answer": 1, "invalid_outputs": 0, "empty_outputs": 1}),
+        ("Final answer: 999999", "not-a-number", {"gsm8k_strict_correct": 2, "gsm8k_wrong_numeric": 0, "gsm8k_no_final_answer": 0, "invalid_outputs": 1, "empty_outputs": 0}),
+    ],
+    ids=("wrong-numeric", "no-final-answer", "empty", "invalid"),
+)
+def test_gsm8k_summary_counts_follow_recomputed_labels(
+    tmp_path: Path, raw_output: str, reference_answer: str | None, expected: dict[str, int]
+) -> None:
+    run_dir = _copy_b1_gsm_artifact(tmp_path)
+    run_path = run_dir / "runs" / "baseline_ar.jsonl"
+    rows = [json.loads(line) for line in run_path.read_text(encoding="utf-8").splitlines()]
+    rows[0]["raw_generated_text"] = raw_output
+    rows[0]["generated_text"] = raw_output
+    rows[0]["generated_text_hash"] = hash_text(raw_output)
+    if reference_answer is not None:
+        rows[0]["reference_answer"] = reference_answer
+    write_jsonl_atomic(run_path, rows)
+    manifest_path = run_dir / "benchmark_manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["run_file_hashes"][run_path.name] = hash_file(run_path)
+    write_json(manifest_path, manifest)
+    evaluate_run_dir(run_dir)
+    baseline = json.loads((run_dir / "quality_summary.json").read_text(encoding="utf-8"))["conditions"][0]
+    assert {key: baseline[key] for key in expected} == expected
+
+
 def test_evaluation_inventory_is_complete_and_csv_hash_is_lf_stable(tmp_path: Path) -> None:
     run_dir = _copy_b1_gsm_artifact(tmp_path)
     evaluate_run_dir(run_dir)
