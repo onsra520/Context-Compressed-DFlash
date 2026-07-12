@@ -1,0 +1,1 @@
+{"critical_high_fixed":["explicit GPU conditions and CUDA placement rejection","GPU resource composition labels","LLMLingua-AR non-DFlash routing"],"lower_severity":["isolated compressor parameter-byte attribution is not claimed"],"canonical_paths":["ccdf.benchmark.workflow","ccdf.benchmark.worker","ccdf.runtime.engine","ccdf.cli"]}
