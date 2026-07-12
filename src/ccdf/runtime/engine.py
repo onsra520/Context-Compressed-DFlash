@@ -170,6 +170,7 @@ class RuntimeEngine:
             raise ValueError("RuntimeRequest resolved config does not match RuntimeEngine")
         data = self.resolved.data
         condition_id = data["condition_id"]
+        is_gpu_compressor = condition_id.endswith("-gpu")
         warm_start = time.perf_counter()
 
         parts = self._parts(request)
@@ -363,6 +364,8 @@ class RuntimeEngine:
                 if condition_id == "dflash-r1"
                 else "quantized target; compressor bypassed and not loaded"
                 if condition_id == "llmlingua-ar-r2" and compression is not None and compression.bypassed and self.compressor is None
+                else "quantized target + GPU compressor"
+                if condition_id == "llmlingua-ar-r2-gpu"
                 else "quantized target + CPU compressor"
                 if condition_id == "llmlingua-ar-r2"
                 else "quantized target + drafter; compressor bypassed and not loaded"
@@ -374,7 +377,9 @@ class RuntimeEngine:
                 "peak_cuda_reserved_bytes": reserved,
                 "target_only_gpu_bytes": None,
                 "drafter_incremental_gpu_bytes": None,
-                "compressor_gpu_bytes": 0 if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2"} and self.compressor is not None else None,
+                "compressor_gpu_bytes": 0 if self.compressor is not None and is_gpu_compressor else None,
+                "compressor_device": data["models"]["compression"]["device"] if self.compressor is not None else None,
+                "compressor_cuda_verified": bool(getattr(self.compressor, "cuda_verified", False)) if self.compressor is not None else False,
                 "process_rss_before_compressor_bytes": self.process_rss_before_compressor_bytes,
                 "process_rss_after_compressor_bytes": self.process_rss_after_compressor_bytes,
                 "process_peak_rss_bytes": self.process_peak_rss_bytes,
@@ -386,10 +391,14 @@ class RuntimeEngine:
                     if condition_id == "dflash-r1"
                     else "target; compressor bypassed and not loaded"
                     if condition_id == "llmlingua-ar-r2" and compression is not None and compression.bypassed and self.compressor is None
+                    else "target GPU; GPU compressor"
+                    if condition_id == "llmlingua-ar-r2-gpu"
                     else "target GPU; CPU compressor"
                     if condition_id == "llmlingua-ar-r2"
                     else "target plus drafter; compressor bypassed and not loaded"
                     if compression is not None and compression.bypassed and self.compressor is None
+                    else "target plus drafter GPU; GPU compressor"
+                    if condition_id == "cc-dflash-r2-gpu"
                     else "target plus drafter GPU; CPU compressor"
                 ),
                 "unsupported_fields": ["target_only_gpu_bytes", "drafter_incremental_gpu_bytes"],
