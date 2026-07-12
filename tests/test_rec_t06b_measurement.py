@@ -70,6 +70,17 @@ def test_llmlingua_ar_is_autoregressive_without_dflash_accounting() -> None:
     assert resolved.data["condition"]["draft_model_lock_id"] is None
 
 
+def test_gpu_conditions_force_cuda_compressor_and_task_matrix() -> None:
+    from ccdf.benchmark.workflow import REC_T07_GPU_CONDITIONS, _trusted_conditions
+
+    assert _trusted_conditions("Rec-T07") == REC_T07_GPU_CONDITIONS
+    for condition in REC_T07_GPU_CONDITIONS:
+        resolved = __import__("ccdf.config", fromlist=["resolve_config"]).resolve_config(
+            dataset="qmsum", subset="n100", condition_id=condition
+        )
+        assert resolved.data["models"]["compression"]["device"] == "cuda"
+
+
 @pytest.mark.parametrize(
     "conditions",
     [

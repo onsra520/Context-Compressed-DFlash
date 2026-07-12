@@ -25,7 +25,24 @@ class LLMLinguaCompressor(CompressorBase):
             device_map=device_map,
             use_llmlingua2=True,
         )
+        self.cuda_verified = self._verify_cuda() if device_map == "cuda" else False
+        if device_map == "cuda" and not self.cuda_verified:
+            raise RuntimeError("LLMLingua compressor did not place parameters on CUDA")
         self.tokenizer_id = f"llmlingua2:{model_path}"
+
+    def _verify_cuda(self) -> bool:
+        """Reject device-map fallback by inspecting the backend model parameters."""
+        import torch
+
+        candidates = ("model", "compressor", "llm", "tokenizer")
+        for name in candidates:
+            candidate = getattr(self.backend, name, None)
+            parameters = getattr(candidate, "parameters", None)
+            if callable(parameters):
+                first = next(iter(parameters()), None)
+                if first is not None:
+                    return bool(torch.cuda.is_available() and first.device.type == "cuda")
+        return False
 
     def _count(self, text: str) -> int:
         # Counting may intentionally inspect a sequence longer than the
@@ -89,6 +106,8 @@ class LLMLinguaCompressor(CompressorBase):
                 "model_path": str(self.model_path),
                 "question_conditioning": True,
                 "concate_question": False,
+                "compressor_device": self.device_map,
+                "compressor_cuda_verified": self.cuda_verified,
             },
             bypassed=False,
         )

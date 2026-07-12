@@ -71,7 +71,7 @@ def resolve_config(
     source = load_config(config_path)
     if dataset not in source["datasets"]:
         raise ValueError(f"unsupported dataset: {dataset}")
-    if condition_id not in {"baseline-ar", "dflash-r1", "llmlingua-ar-r2", "cc-dflash-r2"}:
+    if condition_id not in {"baseline-ar", "dflash-r1", "llmlingua-ar-r2", "cc-dflash-r2", "llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu"}:
         raise ValueError(f"unsupported condition: {condition_id}")
     if execution_mode not in {"benchmark", "profiling", "smoke"}:
         raise ValueError(f"invalid execution mode: {execution_mode}")
@@ -98,6 +98,10 @@ def resolve_config(
     artifacts_root = expand_logical_path(
         source["artifacts"]["root"], worktree_root=worktree, shared_root=shared
     )
+    models = _resolve_model_paths(source, worktree, shared)
+    gpu_compressor = condition_id.endswith("-gpu")
+    if gpu_compressor:
+        models["compression"]["device"] = "cuda"
     data = {
         "config_version": source["config_version"],
         "config_path": source["_config_path"],
@@ -108,7 +112,7 @@ def resolve_config(
         "execution_mode": execution_mode,
         "canonical": execution_mode == "benchmark" and not overrides,
         "overrides": deepcopy(overrides),
-        "models": _resolve_model_paths(source, worktree, shared),
+        "models": models,
         "runtime": deepcopy(source["runtime"]),
         "prompts": deepcopy(source["prompts"]),
         "output_contracts": deepcopy(source["output_contracts"]),
@@ -125,20 +129,20 @@ def resolve_config(
         "target_model_lock_id": f"target:{source['models']['target']['revision']}",
         "draft_model_lock_id": (
             f"drafter:{source['models']['drafter']['revision']}"
-            if condition_id in {"dflash-r1", "cc-dflash-r2"}
+            if condition_id in {"dflash-r1", "cc-dflash-r2", "cc-dflash-r2-gpu"}
             else None
         ),
         "compressor_model_lock_id": (
             f"llmlingua2:{source['models']['compression']['id']}"
-            if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2"}
+            if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2", "llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu"}
             else None
         ),
         "tokenizer_source": source["models"]["target"]["tokenizer"],
-        "generation_mode": "autoregressive" if condition_id in {"baseline-ar", "llmlingua-ar-r2"} else "dflash",
+        "generation_mode": "autoregressive" if condition_id in {"baseline-ar", "llmlingua-ar-r2", "llmlingua-ar-r2-gpu"} else "dflash",
         "max_new_tokens": max_new_tokens,
         "temperature": source["runtime"]["temperature"],
         "block_size": (
-            source["models"]["drafter"]["block_size"] if condition_id in {"dflash-r1", "cc-dflash-r2"} else None
+            source["models"]["drafter"]["block_size"] if condition_id in {"dflash-r1", "cc-dflash-r2", "cc-dflash-r2-gpu"} else None
         ),
         "enable_thinking": source["runtime"]["enable_thinking"],
         "stop_token_ids": source["runtime"]["stop_token_ids"],

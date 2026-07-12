@@ -32,9 +32,12 @@ TRUSTED_CONDITIONS = (
     "cc-dflash-r2",
 )
 LEGACY_REC_T06B1_CONDITIONS = ("baseline-ar", "dflash-r1", "cc-dflash-r2")
+REC_T07_GPU_CONDITIONS = ("llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu")
 
 
 def _trusted_conditions(task_id: str) -> tuple[str, ...]:
+    if task_id == "Rec-T07":
+        return REC_T07_GPU_CONDITIONS
     return TRUSTED_CONDITIONS if task_id == "Rec-T06D" else LEGACY_REC_T06B1_CONDITIONS
 
 
@@ -133,7 +136,7 @@ def _row(
         "compression": result["compression"],
         "claim_boundary": result["claim_boundary"],
     }
-    if resolved.data["condition_id"] in {"dflash-r1", "cc-dflash-r2"}:
+    if resolved.data["condition_id"] in {"dflash-r1", "cc-dflash-r2", "cc-dflash-r2-gpu"}:
         validate_dflash_invariants(row)
     return row
 

@@ -42,9 +42,9 @@ class RuntimeEngine:
         data = resolved.data
         models = data["models"]
         required_models = ["target"]
-        if data["condition_id"] in {"dflash-r1", "cc-dflash-r2"}:
+        if data["condition_id"] in {"dflash-r1", "cc-dflash-r2", "cc-dflash-r2-gpu"}:
             required_models.append("drafter")
-        if data["condition_id"] in {"llmlingua-ar-r2", "cc-dflash-r2"} and data["dataset"] != "gsm8k":
+        if data["condition_id"] in {"llmlingua-ar-r2", "cc-dflash-r2", "llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu"} and data["dataset"] != "gsm8k":
             required_models.append("compression")
         for name in required_models:
             model_path = Path(models[name]["path"])
@@ -66,7 +66,7 @@ class RuntimeEngine:
 
         self.drafter = None
         self.drafter_model_init_ms = 0.0
-        if data["condition_id"] in {"dflash-r1", "cc-dflash-r2"}:
+        if data["condition_id"] in {"dflash-r1", "cc-dflash-r2", "cc-dflash-r2-gpu"}:
             started = time.perf_counter()
             self.drafter = load_drafter_model(
                 Path(models["drafter"]["path"]), device_map=data["runtime"]["device"]
@@ -79,7 +79,7 @@ class RuntimeEngine:
         # GSM8K is explicitly short-context bypassed. Avoid loading a CPU model
         # that cannot be used by the canonical condition.
         need_compressor = (
-            data["condition_id"] in {"llmlingua-ar-r2", "cc-dflash-r2"}
+            data["condition_id"] in {"llmlingua-ar-r2", "cc-dflash-r2", "llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu"}
             and not (data["dataset"] == "gsm8k" and data["compression"].get("short_context_bypass"))
         )
         if need_compressor:
@@ -90,6 +90,8 @@ class RuntimeEngine:
                 model_path=Path(models["compression"]["path"]),
                 device_map=models["compression"]["device"],
             )
+            if models["compression"]["device"] == "cuda" and not self.compressor.cuda_verified:
+                raise RuntimeError("GPU compressor requested but CUDA parameter placement was not verified")
             self.compressor_init_ms = (time.perf_counter() - started) * 1000
         self.process_rss_after_compressor_bytes = _current_rss_bytes()
         self.process_peak_rss_bytes = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss) * 1024
@@ -188,7 +190,7 @@ class RuntimeEngine:
         bypass_reason = None
         final_parts = parts
         final_encoded = pre_encoded
-        if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2"}:
+        if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2", "llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu"}:
             compression = self._compress(parts)
             bypass_reason = compression.backend_metadata.get("bypass_reason") if compression.bypassed else None
             final_parts = replace(parts, context=compression.compressed_context)
@@ -223,7 +225,7 @@ class RuntimeEngine:
             output_contract_settings=data["output_contracts"],
             dflash_block_size=(data["condition"].get("block_size") or None),
         )
-        if condition_id in {"baseline-ar", "llmlingua-ar-r2"}:
+        if condition_id in {"baseline-ar", "llmlingua-ar-r2", "llmlingua-ar-r2-gpu"}:
             result = generate_baseline(self.target, self.tokenizer, final_encoded.input_ids, generation)
         else:
             result = generate_dflash_r1(
@@ -271,7 +273,7 @@ class RuntimeEngine:
             "structural_audit": result.structural_audit,
             "exact_cached_ar_token_equivalence": "NOT_CLAIMED",
         }
-        if condition_id in {"dflash-r1", "cc-dflash-r2"}:
+        if condition_id in {"dflash-r1", "cc-dflash-r2", "cc-dflash-r2-gpu"}:
             validate_dflash_invariants({**dflash, "output_tokens": result.output_token_count})
 
         health = result.output_health
