@@ -18,7 +18,7 @@ from typing import Any
 
 from ccdf.artifacts.writer import write_json, write_jsonl_atomic
 from ccdf.config import resolve_config
-from ccdf.datasets.hashing import hash_file, hash_json, hash_text
+from ccdf.datasets.hashing import canonical_json, hash_file, hash_json, hash_text
 from ccdf.datasets.io import read_jsonl
 from ccdf.evaluation import gsm8k, qmsum
 from ccdf.metrics.dflash import validate_dflash_invariants
@@ -26,6 +26,15 @@ from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime import RuntimeEngine, RuntimeRequest
 
 TRUSTED_CONDITIONS = {"baseline-ar", "dflash-r1", "cc-dflash-r2"}
+
+
+def _write_failure_samples(path: Path, failures: list[dict[str, Any]]) -> None:
+    """Write evaluator diagnostic records without applying the run-row schema."""
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with tmp.open("w", encoding="utf-8", newline="\n") as handle:
+        for failure in failures:
+            handle.write(canonical_json(failure) + "\n")
+    os.replace(tmp, path)
 
 
 def _git_state(root: Path) -> dict[str, Any]:
@@ -236,16 +245,14 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
     # its current implementation is recorded in evaluation_manifest.json below
     # rather than rejecting an otherwise intact raw artifact after an evaluator
     # hotfix.
-    legacy_source_binding = False
     for condition in manifest["conditions"]:
         worker_path = run_dir / "runs" / f"{condition.replace('-', '_')}.worker.json"
         if not worker_path.is_file() or hash_file(worker_path) != manifest.get("worker_manifest_hashes", {}).get(condition):
             raise ValueError("worker manifest hash mismatch")
         worker = json.loads(worker_path.read_text(encoding="utf-8"))
-        worker_state = worker.get("git_state")
-        if worker_state is None and not manifest.get("canonical"):
-            legacy_source_binding = True
-        elif worker_state != manifest.get("git_state"):
+        if manifest.get("worker_manifests", {}).get(condition) != worker:
+            raise ValueError("worker manifest snapshot mismatch")
+        if worker.get("git_state") != manifest.get("git_state"):
             raise ValueError("worker source-state mismatch")
         if worker.get("task_id") != manifest["task_id"] or worker.get("execution_mode") != manifest["execution_mode"] or worker.get("canonical") != manifest.get("canonical") or worker.get("canonical_reason") != manifest.get("canonical_reason"):
             raise ValueError("worker task or mode mismatch")
@@ -265,10 +272,7 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         for row in file_rows:
             if row.get("condition", {}).get("condition_id") != expected_condition:
                 raise ValueError("condition file/row binding mismatch")
-            legacy_row_binding = row.get("source_tracked_diff_sha256") is None and row.get("source_untracked_inventory_sha256") is None and not manifest.get("canonical")
-            if legacy_row_binding:
-                legacy_source_binding = True
-            elif row.get("source_tracked_diff_sha256") != manifest["git_state"]["tracked_diff_sha256"] or row.get("source_untracked_inventory_sha256") != manifest["git_state"]["relevant_untracked_source_config_inventory_sha256"]:
+            if row.get("source_tracked_diff_sha256") != manifest["git_state"]["tracked_diff_sha256"] or row.get("source_untracked_inventory_sha256") != manifest["git_state"]["relevant_untracked_source_config_inventory_sha256"]:
                 raise ValueError("row source-state mismatch")
             if row.get("task_id") != manifest["task_id"] or row.get("measurement_mode") != manifest["execution_mode"] or row.get("canonical") != manifest.get("canonical") or row.get("canonical_reason") != manifest.get("canonical_reason") or row.get("source_commit") != manifest["git_state"]["source_commit"] or row.get("source_dirty") != manifest["git_state"]["dirty"]:
                 raise ValueError("row task or measurement identity mismatch")
@@ -388,7 +392,7 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
     write_json(run_dir / "resource_summary.json", {"dataset": manifest["dataset"], "conditions": [{"condition": item["condition"], "peak_cuda_allocated_bytes": item["peak_cuda_allocated_bytes"], "peak_cuda_reserved_bytes": item["peak_cuda_reserved_bytes"], "cpu_compressor_memory_delta_bytes": item["cpu_compressor_memory_delta_bytes"], "model_composition": item["model_composition"], "unsupported_resource_fields": sorted({field for row in rows if row["condition"]["condition_id"] == item["condition"] for field in row.get("resource", {}).get("unsupported_fields", [])}), "current_rss_before_compressor_bytes": max([row.get("resource", {}).get("process_rss_before_compressor_bytes") or 0 for row in rows if row["condition"]["condition_id"] == item["condition"]], default=0), "current_rss_after_compressor_bytes": max([row.get("resource", {}).get("process_rss_after_compressor_bytes") or 0 for row in rows if row["condition"]["condition_id"] == item["condition"]], default=0), "process_peak_rss_bytes": max([row.get("resource", {}).get("process_peak_rss_bytes") or 0 for row in rows if row["condition"]["condition_id"] == item["condition"]], default=0)} for item in summary]})
     write_json(run_dir / "dflash_summary.json", {"conditions": [{"condition": item["condition"], "target_forwards_per_emitted_token": item["global_target_forwards_per_output_token"], "effective_tau": item["effective_tau"], "draft_acceptance_rate": item["draft_acceptance_rate"], "rollback_tokens": item["rollback_tokens"], "correction_tokens": item["correction_tokens"], "bonus_target_tokens": item["bonus_target_tokens"]} for item in summary]})
     write_json(run_dir / "compression_summary.json", {"conditions": [{"condition": item["condition"], "mean_precompression_prompt_tokens": item["mean_input_tokens_precompression"], "mean_final_prompt_tokens": item["mean_input_tokens_final"], "full_prompt_reduction_tokens": item["full_prompt_reduction_tokens"], "full_prompt_reduction_pct": item["full_prompt_reduction_pct"], "mean_compression_total_ms": item["mean_compression_total_ms"], "mean_target_prefill_ms": item["mean_target_prefill_ms"], "prefill_saving_vs_dflash_ms": by_condition.get("dflash-r1", {}).get("mean_target_prefill_ms", 0) - item["mean_target_prefill_ms"], "warm_e2e_delta_vs_baseline_ms": item["warm_e2e_delta_vs_baseline_ms"], "warm_e2e_delta_vs_dflash_ms": item["warm_e2e_delta_vs_dflash_ms"], "compression_bypass_count": item["compression_bypass_count"], "compression_bypass_reasons": item["compression_bypass_reasons"]} for item in summary]})
-    write_jsonl_atomic(run_dir / "failure_samples.jsonl", failures)
+    _write_failure_samples(run_dir / "failure_samples.jsonl", failures)
     with (run_dir / "summary.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(summary[0]), lineterminator="\n")
         writer.writeheader()
@@ -400,7 +404,7 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         "models_loaded": False,
         "runtime_engine_instantiated": False,
         "evaluator": "quality recomputed from raw output and stored reference answers",
-        "source_binding": "legacy fields absent; retained noncanonical" if legacy_source_binding else "parent-bound worker and row source state verified",
+        "source_binding": "parent-bound worker and row source state verified",
         "consumed_input_hashes": {"benchmark_manifest.json": hash_file(manifest_path), "resolved_config.json": hash_file(resolved_path), "resolved_config.sha256": hash_file(resolved_hash_path), "fixture_file": hash_file(fixture_path), "dataset_manifest": hash_file(manifest_path_input), **{f"condition_configs/{condition}": hash_json(bundle[condition]) for condition in manifest["conditions"]}, **{f"runs/{name}": digest for name, digest in actual_hashes.items()}, **{f"runs/{condition.replace('-', '_')}.worker.json": hash_file(run_dir / "runs" / f"{condition.replace('-', '_')}.worker.json") for condition in manifest["conditions"]}},
         "produced_summary_hashes": {},
     }

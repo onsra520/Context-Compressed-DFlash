@@ -1,4 +1,5 @@
 import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -8,6 +9,8 @@ from ccdf.benchmark.workflow import evaluate_run_dir, run_benchmark
 from ccdf.benchmark.workflow import _row
 from ccdf.runtime.engine import _current_rss_bytes
 from ccdf.datasets.hashing import hash_file
+from ccdf.datasets.hashing import hash_text
+from ccdf.artifacts.writer import write_json, write_jsonl_atomic
 from ccdf.benchmark.workflow import TRUSTED_CONDITIONS
 
 
@@ -83,12 +86,74 @@ def test_summary_csv_contract_uses_lf_line_endings() -> None:
     assert 'lineterminator="\\n"' in source
 
 
+def _copy_b1_gsm_artifact(tmp_path: Path) -> Path:
+    destination = tmp_path / "gsm8k_n3"
+    shutil.copytree(Path("results/Rec-T06B1/gsm8k_n3"), destination)
+    return destination
+
+
+def test_evaluator_rejects_parent_worker_source_state_mismatch(tmp_path: Path) -> None:
+    run_dir = _copy_b1_gsm_artifact(tmp_path)
+    worker_path = run_dir / "runs" / "baseline_ar.worker.json"
+    worker = json.loads(worker_path.read_text(encoding="utf-8"))
+    worker["git_state"]["source_commit"] = "mismatch"
+    write_json(worker_path, worker)
+    manifest_path = run_dir / "benchmark_manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["worker_manifests"]["baseline-ar"] = worker
+    manifest["worker_manifest_hashes"]["baseline-ar"] = hash_file(worker_path)
+    with manifest_path.open("w", encoding="utf-8") as handle:
+        json.dump(manifest, handle, sort_keys=True, separators=(",", ":"))
+        handle.write("\n")
+    with pytest.raises(ValueError, match="worker source-state mismatch"):
+        evaluate_run_dir(run_dir)
+
+
+def test_gsm8k_counts_are_recomputed_from_raw_output(tmp_path: Path) -> None:
+    run_dir = _copy_b1_gsm_artifact(tmp_path)
+    run_path = run_dir / "runs" / "baseline_ar.jsonl"
+    rows = [json.loads(line) for line in run_path.read_text(encoding="utf-8").splitlines()]
+    rows[0]["raw_generated_text"] = "Final answer: 999999"
+    rows[0]["generated_text"] = "Final answer: 999999"
+    rows[0]["generated_text_hash"] = hash_text(rows[0]["generated_text"])
+    write_jsonl_atomic(run_path, rows)
+    manifest_path = run_dir / "benchmark_manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["run_file_hashes"][run_path.name] = hash_file(run_path)
+    write_json(manifest_path, manifest)
+    evaluate_run_dir(run_dir)
+    baseline = json.loads((run_dir / "quality_summary.json").read_text(encoding="utf-8"))["conditions"][0]
+    assert baseline["gsm8k_strict_correct"] == 2
+    assert baseline["gsm8k_wrong_numeric"] == 1
+    assert baseline["invalid_outputs"] == 0
+    assert baseline["empty_outputs"] == 0
+
+
+def test_evaluation_inventory_is_complete_and_csv_hash_is_lf_stable(tmp_path: Path) -> None:
+    run_dir = _copy_b1_gsm_artifact(tmp_path)
+    evaluate_run_dir(run_dir)
+    evaluation = json.loads((run_dir / "evaluation_manifest.json").read_text(encoding="utf-8"))
+    inventory = evaluation["consumed_input_hashes"]
+    for key in ("fixture_file", "dataset_manifest", "resolved_config.sha256", "runs/baseline_ar.worker.json", "runs/dflash_r1.jsonl", "condition_configs/cc-dflash-r2", "evaluator_dependencies/benchmark/workflow.py"):
+        assert key in inventory
+    summary = run_dir / "summary.csv"
+    assert b"\r\n" not in summary.read_bytes()
+    assert evaluation["produced_summary_hashes"]["summary.csv"] == hash_file(summary)
+
+
+def test_evaluator_rejects_extra_worker_artifact(tmp_path: Path) -> None:
+    run_dir = _copy_b1_gsm_artifact(tmp_path)
+    write_json(run_dir / "runs" / "undeclared.worker.json", {"not": "declared"})
+    with pytest.raises(ValueError, match="missing or extra worker manifest artifact"):
+        evaluate_run_dir(run_dir)
+
+
 def test_evaluator_checks_worker_and_source_identity() -> None:
     source = Path("src/ccdf/benchmark/workflow.py").read_text(encoding="utf-8")
     assert "worker git/source state" in Path("src/ccdf/benchmark/worker.py").read_text(encoding="utf-8")
     assert "source_tracked_diff_sha256" in source
     assert "worker source-state mismatch" in source
-    assert "legacy fields absent; retained noncanonical" in source
+    assert 'worker.get("git_state") != manifest.get("git_state")' in source
     assert "missing or extra worker manifest artifact" in source
     assert "condition_configs/{condition}" in source
 

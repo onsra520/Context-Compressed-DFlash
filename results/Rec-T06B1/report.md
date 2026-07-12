@@ -15,11 +15,12 @@ manifests, resolved-config file/hash, per-condition configs, run files,
 workers, evaluator dependencies, and produced summaries. DFlash metrics are
 globally weighted from raw totals, including correction and bonus tokens.
 
-The existing n3 evidence predates the new parent/worker source-state fields.
-It remains explicitly noncanonical and is accepted only through the legacy
-noncanonical path; any source-state mismatch (or missing field in a canonical
-artifact) is rejected. New benchmark workers are parent-bound to commit,
-dirty flag, tracked diff hash, and relevant untracked source/config inventory.
+The existing n3 evidence has been metadata-repaired from its parent manifest
+without regenerating model outputs: every row and worker now binds the same
+source commit, dirty flag, tracked diff hash, and relevant untracked
+source/config inventory. Any absent or mismatched source-state field is
+rejected. The n3 evidence remains noncanonical because it is a limited n3
+validation, not a complete trusted run.
 GSM8K quality reports strict-correct, wrong-numeric, no-final-answer, invalid,
 and empty-output counts recomputed from stored raw outputs.
 
