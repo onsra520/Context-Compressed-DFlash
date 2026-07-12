@@ -148,7 +148,7 @@ def run_benchmark(
     worker_manifests: dict[str, dict[str, Any]] = {}
     for condition_id in conditions:
         resolved = resolve_config(dataset=dataset, subset=subset, condition_id=condition_id, execution_mode=execution_mode)
-        config_bundle[condition_id] = {**resolved.data, "benchmark_identity": {"task_id": task_id, "execution_mode": execution_mode, "canonical": canonical_parent, "canonical_reason": canonical_reason}}
+        config_bundle[condition_id] = {**resolved.data, "benchmark_identity": {"task_id": task_id, "execution_mode": execution_mode, "canonical": canonical_parent, "canonical_reason": canonical_reason, "worker_resolved_config_sha256": resolved.sha256}}
         run_path = output_dir / "runs" / f"{condition_id.replace('-', '_')}.jsonl"
         condition_config_hash = resolved.sha256
         fixture_ids_hash = hash_json([row["fixture_id"] for row in fixtures])
@@ -190,7 +190,7 @@ def run_benchmark(
         "resolved_config_file_sha256": hash_file(output_dir / "resolved_config.json"),
         "ordered_fixture_ids_sha256": hash_json([row["fixture_id"] for row in fixtures]),
         "canonical_config_file_sha256": hash_file(Path(first.data["config_path"])),
-        "resolved_condition_config_sha256": {key: value["condition"].get("condition_id") and hash_json(value) for key, value in config_bundle.items()},
+        "resolved_condition_config_sha256": {key: value["benchmark_identity"]["worker_resolved_config_sha256"] for key, value in config_bundle.items()},
         "prompt_policy_sha256": hash_json(first.data["prompt_policy"]),
         "evaluator_implementation_config_sha256": hash_file(Path(first.data["path_context"]["worktree_root"]) / "src" / "ccdf" / "evaluation" / f"{dataset}.py"),
         "environment": {"python": sys.version, "platform": platform.platform()},
@@ -215,7 +215,7 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
     if resolved_hash_path.read_text(encoding="utf-8").strip() != hash_file(resolved_path):
         raise ValueError("resolved_config.sha256 mismatch")
     bundle = json.loads(resolved_path.read_text(encoding="utf-8"))
-    if manifest.get("resolved_condition_config_sha256") != {condition: hash_json(bundle[condition]) for condition in manifest["conditions"]}:
+    if manifest.get("resolved_condition_config_sha256") != {condition: bundle[condition].get("benchmark_identity", {}).get("worker_resolved_config_sha256") for condition in manifest["conditions"]}:
         raise ValueError("condition config hash mismatch")
     fixture_path = Path(bundle[manifest["conditions"][0]]["fixture_path"])
     if not fixture_path.is_file() or hash_file(fixture_path) != manifest.get("fixture_file_hash"):
