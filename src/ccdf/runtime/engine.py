@@ -190,11 +190,23 @@ class RuntimeEngine:
             return result
         if self.compressor is None:
             raise RuntimeError("compression required but compressor was not loaded")
+        # CUDA launches are asynchronous.  This timing is a compressor-only
+        # measurement, so fence both sides rather than attributing queued work
+        # to the following generation call.
+        import torch
+
+        gpu_timed = bool(getattr(self.compressor, "cuda_verified", False))
+        if gpu_timed:
+            torch.cuda.synchronize()
         started = time.perf_counter()
         result = self.compressor.compress(
             context=parts.context, question=parts.question, config=config
         )
+        if gpu_timed:
+            torch.cuda.synchronize()
         result.compression_total_ms = (time.perf_counter() - started) * 1000
+        result.backend_metadata["timing_synchronized"] = gpu_timed
+        result.backend_metadata["timing_scope"] = "compressor request only"
         return result
 
     def execute(self, request: RuntimeRequest) -> dict[str, Any]:
@@ -203,6 +215,16 @@ class RuntimeEngine:
         data = self.resolved.data
         condition_id = data["condition_id"]
         is_gpu_compressor = condition_id.endswith("-gpu")
+
+        import torch
+
+        # The request-wide peak must include optional compression.  Reset it
+        # before *any* request work and fence before the warm E2E stopwatch so
+        # queued work from a prior request cannot leak into this measurement.
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+            torch.cuda.reset_peak_memory_stats()
+            torch.cuda.synchronize()
         warm_start = time.perf_counter()
 
         parts = self._parts(request)
@@ -243,11 +265,6 @@ class RuntimeEngine:
         else:
             final_prompt_audit = pre_prompt_audit
 
-        import torch
-
-        if torch.cuda.is_available():
-            torch.cuda.reset_peak_memory_stats()
-            torch.cuda.synchronize()
         generation = GenerationConfig(
             max_new_tokens=data["max_new_tokens"],
             temperature=data["runtime"]["temperature"],
@@ -272,13 +289,16 @@ class RuntimeEngine:
         result.prompt_render_ms = prompt_render_ms
         if compression is not None:
             result.compression_total_ms = compression.compression_total_ms
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
         result.warm_request_e2e_ms = (time.perf_counter() - warm_start) * 1000
 
         allocated = reserved = 0
         if torch.cuda.is_available():
-            torch.cuda.synchronize()
             allocated = int(torch.cuda.max_memory_allocated())
             reserved = int(torch.cuda.max_memory_reserved())
+
+        process_current_rss_bytes = _current_rss_bytes()
 
         dflash = {
             "target_seed_tokens": result.target_seed_tokens,
@@ -393,7 +413,7 @@ class RuntimeEngine:
             "vram": {
                 "peak_allocated_bytes": allocated,
                 "peak_reserved_bytes": reserved,
-                "measurement_scope": "generation request after optional compression",
+                "measurement_scope": "full request including prompt preparation, optional compression, and generation",
             },
             "resource_composition": resource_composition,
             "resource": {
@@ -407,10 +427,14 @@ class RuntimeEngine:
                 "compressor_cuda_verified": bool(getattr(self.compressor, "cuda_verified", False)) if self.compressor is not None else False,
                 "compressor_device_audit": getattr(self.compressor, "device_audit", None) if self.compressor is not None else None,
                 "compressor_execution_mode": getattr(self.compressor, "device_audit", {}).get("execution_mode") if self.compressor is not None else None,
-                "compressor_transfer_to_device_ms": 0.0 if self.compressor is not None else None,
-                "compressor_offload_ms": 0.0 if self.compressor is not None else None,
+                "compressor_initialization_and_device_placement_ms": getattr(self.compressor, "device_audit", {}).get("initialization_and_device_placement_ms") if self.compressor is not None else None,
+                "compressor_transfer_to_device_ms": getattr(self.compressor, "device_audit", {}).get("transfer_to_device_ms") if self.compressor is not None else None,
+                "compressor_offload_ms": getattr(self.compressor, "device_audit", {}).get("offload_ms") if self.compressor is not None else None,
+                "compressor_transfer_measurement_scope": getattr(self.compressor, "device_audit", {}).get("transfer_measurement_scope") if self.compressor is not None else None,
+                "compressor_resource_scope": "CUDA-resident compressor lifetime; initial placement included in compressor initialization" if self.compressor is not None else "compressor not loaded",
                 "process_rss_before_compressor_bytes": self.process_rss_before_compressor_bytes,
                 "process_rss_after_compressor_bytes": self.process_rss_after_compressor_bytes,
+                "process_current_rss_bytes": process_current_rss_bytes,
                 "process_peak_rss_bytes": self.process_peak_rss_bytes,
                 "cpu_compressor_memory_delta_bytes": (self.process_rss_after_compressor_bytes - self.process_rss_before_compressor_bytes) if self.process_rss_before_compressor_bytes is not None and self.process_rss_after_compressor_bytes is not None else None,
                 "model_composition": model_composition,

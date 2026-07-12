@@ -20,12 +20,20 @@ class LLMLinguaCompressor(CompressorBase):
 
         self.model_path = model_path
         self.device_map = device_map
+        if device_map == "cuda":
+            self._require_cuda_device()
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+        # PromptCompressor performs model construction and its requested
+        # device placement in one opaque constructor call.  Time that complete
+        # operation faithfully; it must not be reported as a per-request
+        # transfer for the resident execution mode.
+        backend_started = time.perf_counter()
         self.backend = PromptCompressor(
             model_name=str(model_path),
             device_map=device_map,
             use_llmlingua2=True,
         )
+        self.backend_init_and_device_placement_ms = (time.perf_counter() - backend_started) * 1000
         self.device_audit = self._audit_devices()
         self.cuda_verified = self._verify_cuda() if device_map == "cuda" else False
         if device_map == "cuda" and not self.cuda_verified:
@@ -34,6 +42,19 @@ class LLMLinguaCompressor(CompressorBase):
                 f"{self.device_audit}"
             )
         self.tokenizer_id = f"llmlingua2:{model_path}"
+
+    @staticmethod
+    def _require_cuda_device() -> None:
+        """Fail before backend construction when a GPU condition has no GPU.
+
+        PromptCompressor initializes auxiliary tokenizers before it exposes
+        tensor placement.  Checking CUDA first avoids both a misleading
+        download attempt and any possibility of a CPU-backed GPU condition.
+        """
+        import torch
+
+        if not torch.cuda.is_available() or torch.cuda.device_count() < 1:
+            raise RuntimeError("CUDA compressor requested but no CUDA device is available")
 
     def _tensor_owners(self) -> list[tuple[str, Any]]:
         """Return distinct backend objects that may own model tensors."""
@@ -74,6 +95,15 @@ class LLMLinguaCompressor(CompressorBase):
             "cuda_buffer_bytes": sum(tensor.numel() * tensor.element_size() for tensor in cuda_buffers),
             "all_tensors_cuda": all_cuda,
             "execution_mode": "resident" if all_cuda else "staged",
+            # A resident GPU compressor transfers during construction and is
+            # never transferred or offloaded per request. PromptCompressor
+            # does not expose a separate transfer event, so preserve the
+            # inclusive constructor/device-placement measurement alongside
+            # the truthful per-request values.
+            "initialization_and_device_placement_ms": self.backend_init_and_device_placement_ms,
+            "transfer_to_device_ms": 0.0 if all_cuda else None,
+            "offload_ms": 0.0 if all_cuda else None,
+            "transfer_measurement_scope": "per request; initial device placement is included in initialization_and_device_placement_ms",
         }
 
     def _verify_cuda(self) -> bool:
@@ -154,8 +184,10 @@ class LLMLinguaCompressor(CompressorBase):
                 "compressor_cuda_verified": self.cuda_verified,
                 "device_audit": self.device_audit,
                 "execution_mode": self.device_audit["execution_mode"],
-                "transfer_to_device_ms": 0.0,
-                "offload_ms": 0.0,
+                "initialization_and_device_placement_ms": self.device_audit["initialization_and_device_placement_ms"],
+                "transfer_to_device_ms": self.device_audit["transfer_to_device_ms"],
+                "offload_ms": self.device_audit["offload_ms"],
+                "transfer_measurement_scope": self.device_audit["transfer_measurement_scope"],
             },
             bypassed=False,
         )
