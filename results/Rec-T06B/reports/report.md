@@ -40,3 +40,12 @@ For QMSum n3, CC-DFlash warm E2E was 5742.79 ms while generation-only E2E was
 warm comparison includes compression.
 
 No n30, Rec-T06C, Rec-T06D, archive changes, or push occurred.
+
+## Rec-T06B1 hotfix
+
+Rec-T06B1 repairs parent/worker identity propagation, derives canonical status
+from execution mode plus clean-source/config and matching identity checks,
+recomputes evaluation from stored raw output and reference answers, verifies
+all manifest/config/worker/run/summary hashes, measures current RSS through
+`/proc/self/statm`, and quarantines legacy runners through an explicit API
+boundary. Limited n3 validation is intentionally noncanonical.
