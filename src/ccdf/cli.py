@@ -148,6 +148,8 @@ def main(argv: list[str] | None = None) -> int:
     benchmark.add_argument("--output", required=True)
     benchmark.add_argument("--limit", type=int)
     benchmark.add_argument("--evaluate", action="store_true")
+    benchmark.add_argument("--task-id", default="Rec-T06B1")
+    benchmark.add_argument("--execution-mode", choices=["benchmark", "profiling", "smoke"], default="benchmark")
 
     evaluate = sub.add_parser("evaluate")
     evaluate.add_argument("--run-dir", required=True)
@@ -164,7 +166,8 @@ def main(argv: list[str] | None = None) -> int:
                 conditions=args.conditions.split(","),
                 output_dir=Path(args.output),
                 limit=args.limit,
-                execution_mode="smoke" if args.limit else "benchmark",
+                execution_mode=args.execution_mode,
+                task_id=args.task_id,
             )
             if args.evaluate:
                 result["evaluation"] = evaluate_run_dir(Path(args.output))
