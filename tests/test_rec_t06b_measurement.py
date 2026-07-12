@@ -59,8 +59,7 @@ def test_worker_requires_explicit_identity() -> None:
 
 
 def test_trusted_condition_matrix_is_exact_and_unique() -> None:
-    assert TRUSTED_CONDITIONS == {"baseline-ar", "dflash-r1", "cc-dflash-r2"}
-    assert len(TRUSTED_CONDITIONS) == 3
+    assert TRUSTED_CONDITIONS == ("baseline-ar", "dflash-r1", "llmlingua-ar-r2", "cc-dflash-r2")
 
 
 @pytest.mark.parametrize(
@@ -72,7 +71,7 @@ def test_trusted_condition_matrix_is_exact_and_unique() -> None:
     ],
 )
 def test_parent_rejects_nonexact_trusted_condition_matrix(tmp_path: Path, conditions: list[str]) -> None:
-    with pytest.raises(ValueError, match="exact unique trusted condition set"):
+    with pytest.raises(ValueError, match="exact ordered unique trusted condition matrix"):
         run_benchmark(
             dataset="gsm8k",
             subset="ad_hoc_prompt",

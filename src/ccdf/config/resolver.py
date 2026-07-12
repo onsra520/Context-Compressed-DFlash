@@ -71,7 +71,7 @@ def resolve_config(
     source = load_config(config_path)
     if dataset not in source["datasets"]:
         raise ValueError(f"unsupported dataset: {dataset}")
-    if condition_id not in {"baseline-ar", "dflash-r1", "cc-dflash-r2"}:
+    if condition_id not in {"baseline-ar", "dflash-r1", "llmlingua-ar-r2", "cc-dflash-r2"}:
         raise ValueError(f"unsupported condition: {condition_id}")
     if execution_mode not in {"benchmark", "profiling", "smoke"}:
         raise ValueError(f"invalid execution mode: {execution_mode}")
@@ -125,20 +125,20 @@ def resolve_config(
         "target_model_lock_id": f"target:{source['models']['target']['revision']}",
         "draft_model_lock_id": (
             f"drafter:{source['models']['drafter']['revision']}"
-            if condition_id != "baseline-ar"
+            if condition_id in {"dflash-r1", "cc-dflash-r2"}
             else None
         ),
         "compressor_model_lock_id": (
             f"llmlingua2:{source['models']['compression']['id']}"
-            if condition_id == "cc-dflash-r2"
+            if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2"}
             else None
         ),
         "tokenizer_source": source["models"]["target"]["tokenizer"],
-        "generation_mode": "autoregressive" if condition_id == "baseline-ar" else "dflash",
+        "generation_mode": "autoregressive" if condition_id in {"baseline-ar", "llmlingua-ar-r2"} else "dflash",
         "max_new_tokens": max_new_tokens,
         "temperature": source["runtime"]["temperature"],
         "block_size": (
-            source["models"]["drafter"]["block_size"] if condition_id != "baseline-ar" else None
+            source["models"]["drafter"]["block_size"] if condition_id in {"dflash-r1", "cc-dflash-r2"} else None
         ),
         "enable_thinking": source["runtime"]["enable_thinking"],
         "stop_token_ids": source["runtime"]["stop_token_ids"],

@@ -25,7 +25,17 @@ from ccdf.metrics.dflash import validate_dflash_invariants
 from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime import RuntimeEngine, RuntimeRequest
 
-TRUSTED_CONDITIONS = {"baseline-ar", "dflash-r1", "cc-dflash-r2"}
+TRUSTED_CONDITIONS = (
+    "baseline-ar",
+    "dflash-r1",
+    "llmlingua-ar-r2",
+    "cc-dflash-r2",
+)
+LEGACY_REC_T06B1_CONDITIONS = ("baseline-ar", "dflash-r1", "cc-dflash-r2")
+
+
+def _trusted_conditions(task_id: str) -> tuple[str, ...]:
+    return TRUSTED_CONDITIONS if task_id == "Rec-T06D" else LEGACY_REC_T06B1_CONDITIONS
 
 
 def _write_failure_samples(path: Path, failures: list[dict[str, Any]]) -> None:
@@ -138,8 +148,9 @@ def run_benchmark(
     execution_mode: str = "benchmark",
     task_id: str = "Rec-T06B1",
 ) -> dict[str, Any]:
-    if len(conditions) != len(set(conditions)) or set(conditions) != TRUSTED_CONDITIONS:
-        raise ValueError("canonical benchmark requires the exact unique trusted condition set")
+    expected_conditions = _trusted_conditions(task_id)
+    if conditions != list(expected_conditions):
+        raise ValueError("canonical benchmark requires the exact ordered unique trusted condition matrix")
     if output_dir.exists() and any(output_dir.iterdir()):
         raise FileExistsError(f"output directory is not empty: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -155,7 +166,7 @@ def run_benchmark(
     if limit is not None:
         fixtures = fixtures[:limit]
     git_state = _git_state(Path(first.data["path_context"]["worktree_root"]))
-    canonical_parent = bool(execution_mode == "benchmark" and not git_state["dirty"] and limit is None and set(conditions) == TRUSTED_CONDITIONS)
+    canonical_parent = bool(execution_mode == "benchmark" and not git_state["dirty"] and limit is None and conditions == list(expected_conditions))
     canonical_reason = "clean complete benchmark run" if canonical_parent else "noncanonical validation: limited, dirty, incomplete, or non-benchmark execution"
     config_bundle: dict[str, Any] = {}
     run_id = f"{task_id.lower()}-{int(time.time())}"
@@ -223,7 +234,7 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
         raise ValueError("missing task identity")
     if manifest.get("execution_mode") not in {"benchmark", "smoke", "profiling"}:
         raise ValueError("missing execution mode")
-    if len(manifest.get("conditions", [])) != len(set(manifest.get("conditions", []))) or set(manifest.get("conditions", [])) != TRUSTED_CONDITIONS:
+    if manifest.get("conditions") != list(_trusted_conditions(manifest["task_id"])):
         raise ValueError("invalid trusted condition matrix")
     resolved_path = run_dir / "resolved_config.json"
     resolved_hash_path = run_dir / "resolved_config.sha256"
@@ -375,9 +386,11 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
     by_condition = {item["condition"]: item for item in summary}
     baseline_warm = by_condition.get("baseline-ar", {}).get("mean_warm_e2e_ms")
     dflash_warm = by_condition.get("dflash-r1", {}).get("mean_warm_e2e_ms")
+    llmlingua_ar_warm = by_condition.get("llmlingua-ar-r2", {}).get("mean_warm_e2e_ms")
     for item in summary:
         item["warm_e2e_delta_vs_baseline_ms"] = item["mean_warm_e2e_ms"] - baseline_warm if baseline_warm is not None else None
         item["warm_e2e_delta_vs_dflash_ms"] = item["mean_warm_e2e_ms"] - dflash_warm if dflash_warm is not None else None
+        item["warm_e2e_delta_vs_llmlingua_ar_ms"] = item["mean_warm_e2e_ms"] - llmlingua_ar_warm if llmlingua_ar_warm is not None else None
         selected = [row for row in rows if row["condition"]["condition_id"] == item["condition"]]
         item["mean_input_tokens_precompression"] = sum(row["input_tokens_precompression"] for row in selected) / len(selected)
         item["mean_input_tokens_final"] = sum(row["input_tokens_final"] for row in selected) / len(selected)
@@ -391,7 +404,7 @@ def evaluate_run_dir(run_dir: Path) -> dict[str, Any]:
     write_json(run_dir / "performance_summary.json", {"dataset": manifest["dataset"], "conditions": summary, "comparison_latency": "warm_request_e2e_ms includes compression"})
     write_json(run_dir / "resource_summary.json", {"dataset": manifest["dataset"], "conditions": [{"condition": item["condition"], "peak_cuda_allocated_bytes": item["peak_cuda_allocated_bytes"], "peak_cuda_reserved_bytes": item["peak_cuda_reserved_bytes"], "cpu_compressor_memory_delta_bytes": item["cpu_compressor_memory_delta_bytes"], "model_composition": item["model_composition"], "unsupported_resource_fields": sorted({field for row in rows if row["condition"]["condition_id"] == item["condition"] for field in row.get("resource", {}).get("unsupported_fields", [])}), "current_rss_before_compressor_bytes": max([row.get("resource", {}).get("process_rss_before_compressor_bytes") or 0 for row in rows if row["condition"]["condition_id"] == item["condition"]], default=0), "current_rss_after_compressor_bytes": max([row.get("resource", {}).get("process_rss_after_compressor_bytes") or 0 for row in rows if row["condition"]["condition_id"] == item["condition"]], default=0), "process_peak_rss_bytes": max([row.get("resource", {}).get("process_peak_rss_bytes") or 0 for row in rows if row["condition"]["condition_id"] == item["condition"]], default=0)} for item in summary]})
     write_json(run_dir / "dflash_summary.json", {"conditions": [{"condition": item["condition"], "target_forwards_per_emitted_token": item["global_target_forwards_per_output_token"], "effective_tau": item["effective_tau"], "draft_acceptance_rate": item["draft_acceptance_rate"], "rollback_tokens": item["rollback_tokens"], "correction_tokens": item["correction_tokens"], "bonus_target_tokens": item["bonus_target_tokens"]} for item in summary]})
-    write_json(run_dir / "compression_summary.json", {"conditions": [{"condition": item["condition"], "mean_precompression_prompt_tokens": item["mean_input_tokens_precompression"], "mean_final_prompt_tokens": item["mean_input_tokens_final"], "full_prompt_reduction_tokens": item["full_prompt_reduction_tokens"], "full_prompt_reduction_pct": item["full_prompt_reduction_pct"], "mean_compression_total_ms": item["mean_compression_total_ms"], "mean_target_prefill_ms": item["mean_target_prefill_ms"], "prefill_saving_vs_dflash_ms": by_condition.get("dflash-r1", {}).get("mean_target_prefill_ms", 0) - item["mean_target_prefill_ms"], "warm_e2e_delta_vs_baseline_ms": item["warm_e2e_delta_vs_baseline_ms"], "warm_e2e_delta_vs_dflash_ms": item["warm_e2e_delta_vs_dflash_ms"], "compression_bypass_count": item["compression_bypass_count"], "compression_bypass_reasons": item["compression_bypass_reasons"]} for item in summary]})
+    write_json(run_dir / "compression_summary.json", {"conditions": [{"condition": item["condition"], "mean_precompression_prompt_tokens": item["mean_input_tokens_precompression"], "mean_final_prompt_tokens": item["mean_input_tokens_final"], "full_prompt_reduction_tokens": item["full_prompt_reduction_tokens"], "full_prompt_reduction_pct": item["full_prompt_reduction_pct"], "mean_compression_total_ms": item["mean_compression_total_ms"], "mean_target_prefill_ms": item["mean_target_prefill_ms"], "prefill_saving_vs_dflash_ms": by_condition.get("dflash-r1", {}).get("mean_target_prefill_ms", 0) - item["mean_target_prefill_ms"], "warm_e2e_delta_vs_baseline_ms": item["warm_e2e_delta_vs_baseline_ms"], "warm_e2e_delta_vs_dflash_ms": item["warm_e2e_delta_vs_dflash_ms"], "warm_e2e_delta_vs_llmlingua_ar_ms": item["warm_e2e_delta_vs_llmlingua_ar_ms"], "compression_bypass_count": item["compression_bypass_count"], "compression_bypass_reasons": item["compression_bypass_reasons"]} for item in summary]})
     _write_failure_samples(run_dir / "failure_samples.jsonl", failures)
     with (run_dir / "summary.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(summary[0]), lineterminator="\n")

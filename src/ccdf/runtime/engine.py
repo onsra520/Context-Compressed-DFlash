@@ -42,9 +42,9 @@ class RuntimeEngine:
         data = resolved.data
         models = data["models"]
         required_models = ["target"]
-        if data["condition_id"] != "baseline-ar":
+        if data["condition_id"] in {"dflash-r1", "cc-dflash-r2"}:
             required_models.append("drafter")
-        if data["condition_id"] == "cc-dflash-r2" and data["dataset"] != "gsm8k":
+        if data["condition_id"] in {"llmlingua-ar-r2", "cc-dflash-r2"} and data["dataset"] != "gsm8k":
             required_models.append("compression")
         for name in required_models:
             model_path = Path(models[name]["path"])
@@ -66,7 +66,7 @@ class RuntimeEngine:
 
         self.drafter = None
         self.drafter_model_init_ms = 0.0
-        if data["condition_id"] != "baseline-ar":
+        if data["condition_id"] in {"dflash-r1", "cc-dflash-r2"}:
             started = time.perf_counter()
             self.drafter = load_drafter_model(
                 Path(models["drafter"]["path"]), device_map=data["runtime"]["device"]
@@ -79,7 +79,7 @@ class RuntimeEngine:
         # GSM8K is explicitly short-context bypassed. Avoid loading a CPU model
         # that cannot be used by the canonical condition.
         need_compressor = (
-            data["condition_id"] == "cc-dflash-r2"
+            data["condition_id"] in {"llmlingua-ar-r2", "cc-dflash-r2"}
             and not (data["dataset"] == "gsm8k" and data["compression"].get("short_context_bypass"))
         )
         if need_compressor:
@@ -188,7 +188,7 @@ class RuntimeEngine:
         bypass_reason = None
         final_parts = parts
         final_encoded = pre_encoded
-        if condition_id == "cc-dflash-r2":
+        if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2"}:
             compression = self._compress(parts)
             bypass_reason = compression.backend_metadata.get("bypass_reason") if compression.bypassed else None
             final_parts = replace(parts, context=compression.compressed_context)
@@ -223,7 +223,7 @@ class RuntimeEngine:
             output_contract_settings=data["output_contracts"],
             dflash_block_size=(data["condition"].get("block_size") or None),
         )
-        if condition_id == "baseline-ar":
+        if condition_id in {"baseline-ar", "llmlingua-ar-r2"}:
             result = generate_baseline(self.target, self.tokenizer, final_encoded.input_ids, generation)
         else:
             result = generate_dflash_r1(
@@ -271,7 +271,7 @@ class RuntimeEngine:
             "structural_audit": result.structural_audit,
             "exact_cached_ar_token_equivalence": "NOT_CLAIMED",
         }
-        if condition_id != "baseline-ar":
+        if condition_id in {"dflash-r1", "cc-dflash-r2"}:
             validate_dflash_invariants({**dflash, "output_tokens": result.output_token_count})
 
         health = result.output_health
@@ -359,6 +359,10 @@ class RuntimeEngine:
                 if condition_id == "baseline-ar"
                 else "quantized target + drafter"
                 if condition_id == "dflash-r1"
+                else "quantized target; compressor bypassed and not loaded"
+                if condition_id == "llmlingua-ar-r2" and compression is not None and compression.bypassed and self.compressor is None
+                else "quantized target + CPU compressor"
+                if condition_id == "llmlingua-ar-r2"
                 else "quantized target + drafter; compressor bypassed and not loaded"
                 if compression is not None and compression.bypassed and self.compressor is None
                 else "quantized target + drafter + CPU compressor"
@@ -368,7 +372,7 @@ class RuntimeEngine:
                 "peak_cuda_reserved_bytes": reserved,
                 "target_only_gpu_bytes": None,
                 "drafter_incremental_gpu_bytes": None,
-                "compressor_gpu_bytes": 0 if condition_id == "cc-dflash-r2" and self.compressor is not None else None,
+                "compressor_gpu_bytes": 0 if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2"} and self.compressor is not None else None,
                 "process_rss_before_compressor_bytes": self.process_rss_before_compressor_bytes,
                 "process_rss_after_compressor_bytes": self.process_rss_after_compressor_bytes,
                 "process_peak_rss_bytes": self.process_peak_rss_bytes,
@@ -378,6 +382,10 @@ class RuntimeEngine:
                     if condition_id == "baseline-ar"
                     else "target plus drafter GPU"
                     if condition_id == "dflash-r1"
+                    else "target; compressor bypassed and not loaded"
+                    if condition_id == "llmlingua-ar-r2" and compression is not None and compression.bypassed and self.compressor is None
+                    else "target GPU; CPU compressor"
+                    if condition_id == "llmlingua-ar-r2"
                     else "target plus drafter; compressor bypassed and not loaded"
                     if compression is not None and compression.bypassed and self.compressor is None
                     else "target plus drafter GPU; CPU compressor"

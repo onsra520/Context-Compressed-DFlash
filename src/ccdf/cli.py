@@ -131,7 +131,7 @@ def main(argv: list[str] | None = None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
 
     run = sub.add_parser("run")
-    run.add_argument("--condition", required=True, choices=["baseline-ar", "dflash-r1", "cc-dflash-r2"])
+    run.add_argument("--condition", required=True, choices=["baseline-ar", "dflash-r1", "llmlingua-ar-r2", "cc-dflash-r2"])
     run.add_argument("--prompt")
     run.add_argument("--context-file")
     run.add_argument("--question")
