@@ -4,10 +4,11 @@ from pathlib import Path
 import pytest
 
 from ccdf.benchmark.timing import timing_contract
-from ccdf.benchmark.workflow import evaluate_run_dir
+from ccdf.benchmark.workflow import evaluate_run_dir, run_benchmark
 from ccdf.benchmark.workflow import _row
 from ccdf.runtime.engine import _current_rss_bytes
 from ccdf.datasets.hashing import hash_file
+from ccdf.benchmark.workflow import TRUSTED_CONDITIONS
 
 
 def test_timing_v2_defines_compression_inclusive_warm_identity() -> None:
@@ -52,3 +53,47 @@ def test_worker_requires_explicit_identity() -> None:
     signature = inspect.signature(worker.run_worker)
     assert signature.parameters["task_id"].default is inspect.Parameter.empty
     assert signature.parameters["execution_mode"].default is inspect.Parameter.empty
+
+
+def test_trusted_condition_matrix_is_exact_and_unique() -> None:
+    assert TRUSTED_CONDITIONS == {"baseline-ar", "dflash-r1", "cc-dflash-r2"}
+    assert len(TRUSTED_CONDITIONS) == 3
+
+
+@pytest.mark.parametrize(
+    "conditions",
+    [
+        ["baseline-ar", "dflash-r1", "dflash-r1"],
+        ["baseline-ar", "dflash-r1"],
+        ["baseline-ar", "dflash-r1", "cc-dflash-r2", "unexpected"],
+    ],
+)
+def test_parent_rejects_nonexact_trusted_condition_matrix(tmp_path: Path, conditions: list[str]) -> None:
+    with pytest.raises(ValueError, match="exact unique trusted condition set"):
+        run_benchmark(
+            dataset="gsm8k",
+            subset="ad_hoc_prompt",
+            conditions=conditions,
+            output_dir=tmp_path / "would-not-be-created",
+        )
+
+
+def test_summary_csv_contract_uses_lf_line_endings() -> None:
+    source = Path("src/ccdf/benchmark/workflow.py").read_text(encoding="utf-8")
+    assert 'lineterminator="\\n"' in source
+
+
+def test_evaluator_checks_worker_and_source_identity() -> None:
+    source = Path("src/ccdf/benchmark/workflow.py").read_text(encoding="utf-8")
+    assert "worker git/source state" in Path("src/ccdf/benchmark/worker.py").read_text(encoding="utf-8")
+    assert "source_tracked_diff_sha256" in source
+    assert "missing or extra worker manifest artifact" in source
+    assert "condition_configs/{condition}" in source
+
+
+def test_gsm8k_quality_and_dflash_summaries_expose_recomputed_audit_counts() -> None:
+    source = Path("src/ccdf/benchmark/workflow.py").read_text(encoding="utf-8")
+    for field in ("gsm8k_strict_correct", "gsm8k_wrong_numeric", "gsm8k_no_final_answer", "invalid_outputs", "empty_outputs"):
+        assert field in source
+    assert '"correction_tokens": item["correction_tokens"]' in source
+    assert '"bonus_target_tokens": item["bonus_target_tokens"]' in source

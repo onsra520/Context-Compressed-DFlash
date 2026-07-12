@@ -23,7 +23,7 @@ from ccdf.prompts.schemas import PromptParts
 from ccdf.runtime import RuntimeEngine, RuntimeRequest
 
 
-def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit: int | None, task_id: str, execution_mode: str, canonical: bool, canonical_reason: str, expected_config_hash: str | None = None, expected_fixture_ids_hash: str | None = None) -> dict:
+def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit: int | None, task_id: str, execution_mode: str, canonical: bool, canonical_reason: str, expected_config_hash: str | None = None, expected_fixture_ids_hash: str | None = None, expected_git_state: dict | None = None) -> dict:
     resolved = resolve_config(dataset=dataset, subset=subset, condition_id=condition, execution_mode=execution_mode)
     if expected_config_hash is not None and resolved.sha256 != expected_config_hash:
         raise ValueError("worker resolved config hash does not match parent")
@@ -38,6 +38,8 @@ def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit
     rows = []
     try:
         state = _git_state(Path(resolved.data["path_context"]["worktree_root"]))
+        if expected_git_state is not None and state != expected_git_state:
+            raise ValueError("worker git/source state does not match parent")
         run_id = f"{task_id.lower()}-{os.getpid()}-{int(time.time())}"
         for fixture in fixtures:
             result = engine.execute(RuntimeRequest(
@@ -58,6 +60,7 @@ def run_worker(*, dataset: str, subset: str, condition: str, output: Path, limit
         "execution_mode": execution_mode,
         "canonical": canonical,
         "canonical_reason": canonical_reason,
+        "git_state": state,
         "pid": os.getpid(),
         "exit_status": 0,
         "python": sys.version,
@@ -96,8 +99,13 @@ def main() -> int:
     parser.add_argument("--canonical-reason", required=True)
     parser.add_argument("--expected-config-hash")
     parser.add_argument("--expected-fixture-ids-hash")
+    parser.add_argument("--expected-source-commit")
+    parser.add_argument("--expected-source-dirty")
+    parser.add_argument("--expected-tracked-diff-hash")
+    parser.add_argument("--expected-untracked-inventory-hash")
     args = parser.parse_args()
-    run_worker(dataset=args.dataset, subset=args.subset, condition=args.condition, output=Path(args.output), limit=args.limit, task_id=args.task_id, execution_mode=args.execution_mode, canonical=args.canonical == "true", canonical_reason=args.canonical_reason, expected_config_hash=args.expected_config_hash, expected_fixture_ids_hash=args.expected_fixture_ids_hash)
+    expected_state = None if args.expected_source_commit is None else {"source_commit": args.expected_source_commit, "dirty": args.expected_source_dirty == "true", "tracked_diff_sha256": args.expected_tracked_diff_hash, "relevant_untracked_source_config_inventory_sha256": args.expected_untracked_inventory_hash}
+    run_worker(dataset=args.dataset, subset=args.subset, condition=args.condition, output=Path(args.output), limit=args.limit, task_id=args.task_id, execution_mode=args.execution_mode, canonical=args.canonical == "true", canonical_reason=args.canonical_reason, expected_config_hash=args.expected_config_hash, expected_fixture_ids_hash=args.expected_fixture_ids_hash, expected_git_state=expected_state)
     return 0
 
 
