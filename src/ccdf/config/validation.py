@@ -48,7 +48,7 @@ def validate_config(data: dict[str, Any]) -> None:
         raise ValueError("worktree statuses must be ongoing and closed")
 
     locks = model_lock()
-    for name in ("target", "drafter"):
+    for name in ("baseline", "target", "drafter"):
         configured = _require_mapping(data["models"], name)
         locked = locks[name]
         if configured.get("id") != locked["model_id"]:
@@ -62,6 +62,8 @@ def validate_config(data: dict[str, Any]) -> None:
     if not str(compression_model.get("path", "")).startswith(("@shared/", "/")):
         raise ValueError("compression model path must be shared-root or absolute")
 
+    if data["models"]["baseline"].get("tokenizer") != "baseline":
+        raise ValueError("baseline tokenizer identity must be baseline")
     if data["models"]["target"].get("tokenizer") != "target":
         raise ValueError("tokenizer identity must be target")
     if int(data["models"]["drafter"].get("block_size", 0)) != 16:

@@ -405,8 +405,8 @@
                             <aside class="side">
                             <div class="panel">
                                 <h3>Status <span class="cycle-chip" id="cycleChip">Idle</span></h3>
-                                <p class="step-title" id="stepTitle">Ready</p>
-                                <p class="step-desc" id="stepDesc">Bấm Run, Auto Play hoặc Next để bắt đầu.</p>
+                                <p class="step-title" id="legacyStepTitle">Ready</p>
+                                <p class="step-desc" id="legacyStepDesc">Bấm Run, Auto Play hoặc Next để bắt đầu.</p>
                                 <div class="progress"><div class="bar" id="bar"></div></div>
                             </div>
 
@@ -463,8 +463,8 @@
                 <div>
                     <h2 class="section-title">So sánh ba kiến trúc</h2>
                     <p class="section-sub">
-                        Nhập một prompt bất kỳ. Frontend sẽ mô phỏng cùng prompt qua Baseline-AR, D-Flash và
-                        CC-DFlash bằng công thức mock xác định theo độ dài input.
+                        Nhập một prompt bất kỳ. Backend sẽ thực thi cùng prompt qua Baseline-AR, D-Flash và
+                        CC-DFlash bằng mô hình thực tế và trả về kết quả thực.
                     </p>
                 </div>
             </header>
@@ -482,6 +482,12 @@
                     <label for="comparePrompt">Prompt / context</label>
                     <textarea class="prompt" id="comparePrompt"></textarea>
 
+                    <label for="compressionDevice">Compression device (CC-DFlash only)</label>
+                    <select id="compressionDevice" class="select-control">
+                        <option value="cpu">CPU</option>
+                        <option value="cuda">CUDA</option>
+                    </select>
+
                     <div class="input-stats" id="inputStats">
                         <span>Words: 0</span>
                         <span>Estimated tokens: 0</span>
@@ -492,10 +498,10 @@
                     <button class="btn btn-reset" id="compareReset" type="button">↻ Reset</button>
 
                     <div class="rules">
-                        ✓ one prompt, three architecture paths<br />
-                        ✓ metrics are deterministic, never random<br />
-                        ✓ short and long contexts behave differently<br />
-                        ✓ benchmark evidence remains separate from simulation
+                        ✓ one prompt, three real model executions<br />
+                        ✓ metrics from real timing, not formulas<br />
+                        ✓ compression bypassed automatically on short context<br />
+                        ✓ benchmark artifacts remain separate
                     </div>
                 </aside>
 
@@ -711,6 +717,6 @@
 
     <script type="module" src="./scripts/main.js"></script>
     <script type="module" src="./scripts/architecture-graph.js"></script>
-    <script src="./scripts/scroll-minimap.js"></script>
+    <script type="module" src="./scripts/scroll-minimap.js"></script>
 </body>
 </html>

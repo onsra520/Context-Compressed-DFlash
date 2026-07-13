@@ -35,7 +35,7 @@ def _current_rss_bytes() -> int | None:
 def _resource_composition(condition_id: str, compressor_bypassed_not_loaded: bool) -> tuple[str, str]:
     """Describe the models actually resident for a result row."""
     if condition_id == "baseline-ar":
-        return "quantized target", "target-only GPU"
+        return "quantized baseline", "baseline-only GPU"
     if condition_id == "dflash-r1":
         return "quantized target + drafter", "target plus drafter GPU"
     if compressor_bypassed_not_loaded:
@@ -63,7 +63,8 @@ class RuntimeEngine:
         self.resolved = resolved
         data = resolved.data
         models = data["models"]
-        required_models = ["target"]
+        is_baseline = data["condition_id"] == "baseline-ar"
+        required_models = ["baseline" if is_baseline else "target"]
         if data["condition_id"] in {"dflash-r1", "cc-dflash-r2", "cc-dflash-r2-gpu"}:
             required_models.append("drafter")
         if data["condition_id"] in {"llmlingua-ar-r2", "cc-dflash-r2", "llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu"} and data["dataset"] != "gsm8k":
@@ -77,12 +78,13 @@ class RuntimeEngine:
                 )
 
         started = time.perf_counter()
-        self.tokenizer = load_target_tokenizer(Path(models["target"]["path"]))
+        generation_model_name = "baseline" if is_baseline else "target"
+        self.tokenizer = load_target_tokenizer(Path(models[generation_model_name]["path"]))
         tokenizer_ms = (time.perf_counter() - started) * 1000
 
         started = time.perf_counter()
         self.target = load_target_model(
-            Path(models["target"]["path"]), device_map=data["runtime"]["device"]
+            Path(models[generation_model_name]["path"]), device_map=data["runtime"]["device"]
         )
         self.target_model_init_ms = (time.perf_counter() - started) * 1000 + tokenizer_ms
 
@@ -105,6 +107,7 @@ class RuntimeEngine:
         need_compressor = (
             data["condition_id"] in {"llmlingua-ar-r2", "cc-dflash-r2", "llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu"}
             and not (data["dataset"] == "gsm8k" and data["compression"].get("short_context_bypass"))
+            and not data.get("demo_bypass_compressor_load")
         )
         if need_compressor:
             from ccdf.compression.llmlingua import LLMLinguaCompressor

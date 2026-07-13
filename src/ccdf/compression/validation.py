@@ -22,11 +22,17 @@ def prompt_invariants(
     )
     original_prompt = render_prompt(original, dataset)
     final_prompt = render_prompt(compressed, dataset)
-    context_marker = "Meeting transcript:\n" if dataset == "qmsum" else "Problem:\n"
+    if dataset == "gsm8k":
+        context_marker = "Problem:\n"
+    elif dataset == "qmsum":
+        context_marker = "Meeting transcript:\n"
+    else:
+        context_marker = "Context:\n" if original.context or compressed_context else ""
+
     return {
         "question_occurrence": final_prompt.count(original.question),
         "instruction_occurrence": final_prompt.count(original.instruction),
-        "context_marker_preserved": context_marker in final_prompt,
+        "context_marker_preserved": context_marker in final_prompt if context_marker else True,
         "meeting_marker_preserved": ("Meeting transcript:\n" in final_prompt) if dataset == "qmsum" else True,
         "question_marker_preserved": ("\n\nQuestion:\n" in final_prompt) if dataset == "qmsum" else True,
         "only_context_changed": final_prompt.replace(compressed_context, original.context, 1)

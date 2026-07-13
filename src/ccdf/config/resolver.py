@@ -126,7 +126,16 @@ def resolve_config(
     }
     data["condition"] = {
         "condition_id": condition_id,
-        "target_model_lock_id": f"target:{source['models']['target']['revision']}",
+        "target_model_lock_id": (
+            f"baseline:{source['models']['baseline']['revision']}"
+            if condition_id == "baseline-ar"
+            else f"target:{source['models']['target']['revision']}"
+        ),
+        "baseline_model_lock_id": (
+            f"baseline:{source['models']['baseline']['revision']}"
+            if condition_id == "baseline-ar"
+            else None
+        ),
         "draft_model_lock_id": (
             f"drafter:{source['models']['drafter']['revision']}"
             if condition_id in {"dflash-r1", "cc-dflash-r2", "cc-dflash-r2-gpu"}
@@ -137,7 +146,11 @@ def resolve_config(
             if condition_id in {"llmlingua-ar-r2", "cc-dflash-r2", "llmlingua-ar-r2-gpu", "cc-dflash-r2-gpu"}
             else None
         ),
-        "tokenizer_source": source["models"]["target"]["tokenizer"],
+        "tokenizer_source": (
+            source["models"]["baseline"]["tokenizer"]
+            if condition_id == "baseline-ar"
+            else source["models"]["target"]["tokenizer"]
+        ),
         "generation_mode": "autoregressive" if condition_id in {"baseline-ar", "llmlingua-ar-r2", "llmlingua-ar-r2-gpu"} else "dflash",
         "max_new_tokens": max_new_tokens,
         "temperature": source["runtime"]["temperature"],
@@ -147,7 +160,11 @@ def resolve_config(
         "enable_thinking": source["runtime"]["enable_thinking"],
         "stop_token_ids": source["runtime"]["stop_token_ids"],
         "attention_backend": source["runtime"]["attention_backend"],
-        "quantization_mode": source["models"]["target"]["quantization"],
+        "quantization_mode": (
+            source["models"]["baseline"]["quantization"]
+            if condition_id == "baseline-ar"
+            else source["models"]["target"]["quantization"]
+        ),
         "dataset_manifest_hash": data["dataset_manifest_hash"],
         "fixture_file_hash": data["fixture_file_hash"],
         "prompt_policy_id": section["policy"]["id"],

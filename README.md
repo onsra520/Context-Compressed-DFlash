@@ -60,6 +60,24 @@ python -m ccdf run --condition baseline-ar --prompt 'What is 2 + 2?'
 python -m ccdf run --condition baseline-ar --prompt 'What is 2 + 2?' --format json
 ```
 
+To run the full three-way comparison interactive UI:
+
+1. Start the FastAPI backend server on `127.0.0.1:8000` (disabling internet access as required for offline execution):
+
+```bash
+. .venv/bin/activate
+PYTHONPATH="$PWD/src:$PWD" TRANSFORMERS_OFFLINE=1 HF_HUB_OFFLINE=1 python -m uvicorn frontend.api.app:app --host 127.0.0.1 --port 8000
+```
+
+1. Start the Vite frontend development server in a new terminal:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Open the provided local URL (e.g. `http://localhost:5173`) in your browser.
+
 The last two commands load the local target model. A context/question demo uses the QMSum prompt shape:
 
 ```bash

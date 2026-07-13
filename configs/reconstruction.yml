@@ -1,118 +1,124 @@
 config_version: rec-t06a3.reconstruction.v2
 
 paths:
-  worktree_root: auto
-  shared_root: auto
-  worktree_layout: .worktrees/rec-<id>-<status>
-  allowed_worktree_statuses: [ongoing, closed]
+    worktree_root: auto
+    shared_root: auto
+    worktree_layout: .worktrees/rec-<id>-<status>
+    allowed_worktree_statuses: [ongoing, closed]
 
 models:
-  target:
-    id: unsloth/Qwen3-4B-bnb-4bit
-    path: '@shared/models/target/unsloth--Qwen3-4B-bnb-4bit'
-    revision: cad0bedfdd862093a12af478cb974ab2addd0e0a
-    tokenizer: target
-    quantization: bitsandbytes-nf4-bfloat16
-  drafter:
-    id: z-lab/Qwen3-4B-DFlash-b16
-    path: '@shared/models/drafter/z-lab--Qwen3-4B-DFlash-b16'
-    revision: b74e3a329c4d963783143b1e970d95b002be72bd
-    block_size: 16
-  compression:
-    id: microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
-    path: '@shared/models/llmlingua-2-bert-base-multilingual-cased-meetingbank'
-    device: cpu
+    baseline:
+        id: unsloth/Qwen3-8B-bnb-4bit
+        path: "@shared/models/target/unsloth--Qwen3-8B-bnb-4bit"
+        revision: 1deaf68f694c40dbce295da300851729d759b21a
+        tokenizer: baseline
+        quantization: bitsandbytes-nf4-bfloat16
+    target:
+        id: unsloth/Qwen3-4B-bnb-4bit
+        path: "@shared/models/target/unsloth--Qwen3-4B-bnb-4bit"
+        revision: cad0bedfdd862093a12af478cb974ab2addd0e0a
+        tokenizer: target
+        quantization: bitsandbytes-nf4-bfloat16
+    drafter:
+        id: z-lab/Qwen3-4B-DFlash-b16
+        path: "@shared/models/drafter/z-lab--Qwen3-4B-DFlash-b16"
+        revision: b74e3a329c4d963783143b1e970d95b002be72bd
+        block_size: 16
+    compression:
+        id: microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
+        path: "@shared/models/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+        device: cpu
 
 runtime:
-  offline_local_only: true
-  device: auto
-  attention_backend: transformers-qwen3-local
-  enable_thinking: false
-  temperature: 0.0
-  stop_token_ids: [151645]
-  claim_boundary:
-    exact_cached_ar_token_equivalence: NOT_CLAIMED
-    target_verified_block_decoding: REQUIRED_AND_AUDITED
-    efficient_one_target_forward_per_block: REQUIRED
-    quality_preservation_vs_baseline: EMPIRICALLY_EVALUATED
-    quantization_lossless: NEVER_CLAIMED
-    upstream_equivalence: NOT_CLAIMED
+    offline_local_only: true
+    device: auto
+    attention_backend: transformers-qwen3-local
+    enable_thinking: false
+    temperature: 0.0
+    stop_token_ids: [151645]
+    claim_boundary:
+        exact_cached_ar_token_equivalence: NOT_CLAIMED
+        target_verified_block_decoding: REQUIRED_AND_AUDITED
+        efficient_one_target_forward_per_block: REQUIRED
+        quality_preservation_vs_baseline: EMPIRICALLY_EVALUATED
+        quantization_lossless: NEVER_CLAIMED
+        upstream_equivalence: NOT_CLAIMED
 
 prompts:
-  system: You are a careful assistant. Follow the user request exactly.
-  gsm8k:
-    instruction: >-
-      Compute the answer concisely in plain text. Use at most 80 words and
-      include only the essential arithmetic. Omit headings, numbered steps,
-      restating the problem, and displayed equations. End with exactly one
-      separate line in the form "Final answer: <number>", then stop immediately.
-  qmsum:
-    instruction: >-
-      Answer using only the meeting transcript. Give one concise answer and
-      stop. Do not repeat the question, policy, or an "Answer:" prefix.
+    system: You are a careful assistant. Follow the user request exactly.
+    gsm8k:
+        instruction: >-
+            Compute the answer concisely in plain text. Use at most 80 words and
+            include only the essential arithmetic. Omit headings, numbered steps,
+            restating the problem, and displayed equations. End with exactly one
+            separate line in the form "Final answer: <number>", then stop immediately.
+    qmsum:
+        instruction: >-
+            Answer using only the meeting transcript. Give one concise answer and
+            stop. Do not repeat the question, policy, or an "Answer:" prefix.
 
 output_contracts:
-  repetition_min_tokens: 48
-  repeated_ngram_size: 4
-  repeated_ngram_ratio: 0.45
-  instruction_echo_limit: 0
+    repetition_min_tokens: 48
+    repeated_ngram_size: 4
+    repeated_ngram_ratio: 0.45
+    instruction_echo_limit: 0
 
 # Each subset owns both the fixture file and its manifest. Paths stay inside
 # the active worktree; only model checkpoints are shared with the primary root.
 datasets:
-  gsm8k:
-    policy:
-      id: rec-t06a3.structured-gsm8k.v3
-      text: >-
-        Compute the answer concisely in plain text. Use at most 80 words and
-        include only the essential arithmetic. Omit headings, numbered steps,
-        restating the problem, and displayed equations. End with exactly one
-        separate line in the form "Final answer: <number>", then stop immediately.
-    subsets:
-      n10:
-        fixture: '@shared/data/eval/gsm8k/gsm8k_n10.jsonl'
-        manifest: '@shared/data/manifests/gsm8k/eval_n10.json'
-      n30:
-        fixture: '@shared/data/eval/gsm8k/gsm8k_n30.jsonl'
-        manifest: '@shared/data/manifests/gsm8k/eval_n30.json'
-      n100:
-        fixture: '@shared/data/eval/gsm8k/gsm8k_n100.jsonl'
-        manifest: '@shared/data/manifests/gsm8k/eval_n100.json'
-    max_new_tokens: 256
-  qmsum:
-    policy:
-      id: rec-t06a3.structured-qmsum.v2
-      text: >-
-        Answer using only the meeting transcript. Give one concise answer and
-        stop. Do not repeat the question, policy, or an "Answer:" prefix.
-    subsets:
-      n10:
-        fixture: '@shared/data/eval/qmsum/qmsum_n10.jsonl'
-        manifest: '@shared/data/manifests/qmsum/eval_n10.json'
-      n30:
-        fixture: '@shared/data/eval/qmsum/qmsum_n30.jsonl'
-        manifest: '@shared/data/manifests/qmsum/eval_n30.json'
-      n100:
-        fixture: '@shared/data/eval/qmsum/qmsum_n100.jsonl'
-        manifest: '@shared/data/manifests/qmsum/eval_n100.json'
-    max_new_tokens: 384
+    gsm8k:
+        policy:
+            id: rec-t06a3.structured-gsm8k.v3
+            text: >-
+                Compute the answer concisely in plain text. Use at most 80 words and
+                include only the essential arithmetic. Omit headings, numbered steps,
+                restating the problem, and displayed equations. End with exactly one
+                separate line in the form "Final answer: <number>", then stop immediately.
+        subsets:
+            n10:
+                fixture: "@shared/data/eval/gsm8k/gsm8k_n10.jsonl"
+                manifest: "@shared/data/manifests/gsm8k/eval_n10.json"
+            n30:
+                fixture: "@shared/data/eval/gsm8k/gsm8k_n30.jsonl"
+                manifest: "@shared/data/manifests/gsm8k/eval_n30.json"
+            n100:
+                fixture: "@shared/data/eval/gsm8k/gsm8k_n100.jsonl"
+                manifest: "@shared/data/manifests/gsm8k/eval_n100.json"
+        max_new_tokens: 256
+    qmsum:
+        policy:
+            id: rec-t06a3.structured-qmsum.v2
+            text: >-
+                Answer using only the meeting transcript. Give one concise answer and
+                stop. Do not repeat the question, policy, or an "Answer:" prefix.
+        subsets:
+            n10:
+                fixture: "@shared/data/eval/qmsum/qmsum_n10.jsonl"
+                manifest: "@shared/data/manifests/qmsum/eval_n10.json"
+            n30:
+                fixture: "@shared/data/eval/qmsum/qmsum_n30.jsonl"
+                manifest: "@shared/data/manifests/qmsum/eval_n30.json"
+            n100:
+                fixture: "@shared/data/eval/qmsum/qmsum_n100.jsonl"
+                manifest: "@shared/data/manifests/qmsum/eval_n100.json"
+        max_new_tokens: 384
 
 benchmark:
-  measurement_mode: benchmark
-  process_isolation: true
-  warmup:
-    enabled: true
-    rows: 0
+    measurement_mode: benchmark
+    process_isolation: true
+    warmup:
+        enabled: true
+        rows: 0
 
 evaluators:
-  gsm8k: rec-t06a3.gsm8k-evaluator.v2
-  qmsum: rec-t06a3.qmsum-proxy.v2
+    gsm8k: rec-t06a3.gsm8k-evaluator.v2
+    qmsum: rec-t06a3.qmsum-proxy.v2
 
 compression:
-  keep_rate: 0.5
-  min_context_tokens: 16
-  chunk_max_words: 180
-  short_context_bypass: true
+    keep_rate: 0.5
+    min_context_tokens: 16
+    chunk_max_words: 180
+    short_context_bypass: true
 
 artifacts:
-  root: '@worktree/results'
+    root: "@worktree/results"
