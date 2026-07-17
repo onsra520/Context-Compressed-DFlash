@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccdf"
+version = "0.1.0"
+description = "Standalone D-Flash optimization and validation runtime for an 8 GB consumer GPU."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "PyYAML>=6.0",
+  "torch>=2.5",
+  "transformers>=4.57,<4.58",
+  "accelerate>=1.2",
+  "safetensors>=0.4",
+  "huggingface-hub>=0.30",
+]
+
+[project.optional-dependencies]
+awq = ["autoawq>=0.2.9"]
+profile = ["psutil>=6.0"]
+dev = ["pytest>=8", "ruff>=0.9", "black>=24"]
+
+[project.scripts]
+ccdf-rec2 = "ccdf.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.black]
+line-length = 110
