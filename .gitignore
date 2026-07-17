@@ -20,4 +20,5 @@ docs/reviews/*
 !docs/reviews/history/
 !docs/reviews/history/.gitkeep
 docs/audit/
-scripts/
+.worktrees/
+*test*

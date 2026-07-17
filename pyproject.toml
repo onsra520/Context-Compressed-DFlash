@@ -15,6 +15,7 @@ dependencies = [
   "accelerate>=1.2",
   "safetensors>=0.4",
   "huggingface-hub>=0.30",
+  "llmlingua>=0.2.2",
 ]
 
 [project.optional-dependencies]

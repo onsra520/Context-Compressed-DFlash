@@ -13,7 +13,7 @@ paths:
     dflash_target_model: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-AWQ"
     dflash_target_fallback_model: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-bnb-4bit"
     dflash_drafter_model: "${PROJECT_ROOT}/models/dflash/drafter/Qwen3-4B-DFlash-b16"
-    compressor_model: "${PROJECT_ROOT}/models/compressor/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+    compressor_model: "${PROJECT_ROOT}/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank"
     data_root: "${PROJECT_ROOT}/data"
     artifacts_root: "${PROJECT_ROOT}/docs/artifacts"
     benchmark_inputs: "${PROJECT_ROOT}/data/benchmark"
@@ -53,10 +53,10 @@ models:
             trust_remote_code: true
 
     compressor:
-        model_id: microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
-        local_path: "${PROJECT_ROOT}/models/compressor/llmlingua-2-bert-base-multilingual-cased-meetingbank"
+        model_id: microsoft/llmlingua-2-xlm-roberta-large-meetingbank
+        local_path: "${PROJECT_ROOT}/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank"
         device: cuda:0
-        reserved_budget_gib: 2.0
+        reserved_budget_gib: 2.25
         load_in_rec2: false
 
 runtime:
@@ -76,7 +76,7 @@ runtime:
 
 memory:
     dflash_peak_reserved_limit_gib: 6.0
-    compressor_reserved_budget_gib: 2.0
+    compressor_reserved_budget_gib: 2.25
     enforce_after_model_load: true
     enforce_after_generation: true
     baseline_peak_reserved_limit_gib: null
