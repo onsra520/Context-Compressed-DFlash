@@ -1,0 +1,72 @@
+[
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_01",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_02",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_03",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_04",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_05",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_06",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_07",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_08",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_09",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  },
+  {
+    "instruction_sha256": "c279c3dc7e0ea5156ccda848eba3e0e85b49ad708299dc2ab78748294b8571ac",
+    "pass": true,
+    "prompt_id": "rec3_mock_10",
+    "protected_fields_byte_exact": true,
+    "question_sha256": "c7cc615073ad4cbe3bec63e73d89f18d027f7cc11f5c24268aec43d699d3dd14"
+  }
+]

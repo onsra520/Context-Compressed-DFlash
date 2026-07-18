@@ -1,0 +1,24 @@
+# tracked changed
+config.yml
+pyproject.toml
+src/ccdf/benchmark.py
+src/ccdf/compression/llmlingua.py
+src/ccdf/config.py
+src/ccdf/models/loaders.py
+src/ccdf/runtime/engine.py
+src/ccdf/schemas.py
+src/ccdf/validation/environment.py
+
+# untracked (excluding ignored files)
+src/ccdf/rec3/__init__.py
+src/ccdf/rec3/__main__.py
+src/ccdf/rec3/metrics.py
+src/ccdf/rec3/orchestrator.py
+
+# ignored validation files included explicitly
+tests/run_rec3_four_condition_protocol.py
+tests/build_rec3_four_condition_review_pack.py
+tests/test_rec3_protocol_helpers.py
+tests/test_compression_protocol.py
+tests/test_dflash_integration.py
+tests/test_metrics.py

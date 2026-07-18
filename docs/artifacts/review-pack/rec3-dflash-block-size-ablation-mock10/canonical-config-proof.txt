@@ -1,0 +1,9 @@
+claim=Canonical config was not changed by the block-size ablation.
+# config-diff
+$ git diff -- config.yml
+exit=0
+
+# config-status
+$ git status --short -- config.yml
+exit=0
+

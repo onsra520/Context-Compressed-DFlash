@@ -1,0 +1,19 @@
+ M .gitignore
+ M config.yml
+ M pyproject.toml
+?? data/eval/gsm8k/gsm8k_n10.jsonl
+?? data/eval/qmsum/qmsum_n10.jsonl
+?? data/manifests/dataset_manifest.json
+?? data/manifests/source_fetch.json
+?? data/processed/gsm8k/gsm8k_processed.jsonl
+?? data/processed/qmsum/qmsum_processed.jsonl
+?? data/raw/gsm8k/gsm8k_test.jsonl
+?? data/raw/qmsum/qmsum_test.jsonl
+?? scripts/create_example_dataset.py
+?? scripts/prepare_models.py
+?? src/ccdf/compression/__init__.py
+?? src/ccdf/compression/llmlingua.py
+?? src/ccdf/compression/schemas.py
+?? src/ccdf/data/__init__.py
+?? src/ccdf/data/__main__.py
+?? src/ccdf/data/pipeline.py

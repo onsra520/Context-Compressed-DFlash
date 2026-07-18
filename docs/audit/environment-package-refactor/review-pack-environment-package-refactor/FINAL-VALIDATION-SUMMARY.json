@@ -1,0 +1,17 @@
+{
+  "autoawq_compatibility_risk_recorded": true,
+  "caller_environment_captured_before_resolution": true,
+  "checkpoint_completeness_pass": true,
+  "command_gates_pass": true,
+  "dflash_core_implementation_unchanged": true,
+  "effective_runtime_sdpa_gate_pass": true,
+  "environment_and_device_audit_pass": true,
+  "exact_environment_lock_pass": true,
+  "import_origin_audit_pass": true,
+  "memory_config_validation_pass": true,
+  "mock10_comparison_pass": true,
+  "model_cache_cleanup_pass": true,
+  "package_refactor_pass": true,
+  "pass": true,
+  "pre_post_checkpoint_hashes_pass": true
+}

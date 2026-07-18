@@ -1,0 +1,47 @@
+{
+  "configured": {
+    "compressor_budget_gib": 2.25,
+    "compressor_residency_mode": "staged",
+    "device_capacity_gib": 8.0,
+    "dflash_limit_gib": 6.0,
+    "generation_residency_mode": "staged"
+  },
+  "gates": {
+    "compressor_closed_before_generation_load": true,
+    "configured_staged_residency": true,
+    "runtime_does_not_add_compressor_budget_to_dflash_limit": true,
+    "runtime_reports_no_stage_overlap": true,
+    "simultaneous_config_warns_when_combined_budget_exceeds_capacity": true,
+    "staged_config_does_not_warn_about_combined_budget": true
+  },
+  "lifecycle_indices": {
+    "compressor_closed": 2,
+    "first_generation_before_load": 3
+  },
+  "pass": true,
+  "runtime_memory_gate": {
+    "compressor_and_generation_overlap": false,
+    "compressor_budget_added_to_dflash_limit": false,
+    "conditions": {
+      "cc-dflash-r2": {
+        "pass": true,
+        "peak_reserved_bytes": 4812963840
+      },
+      "dflash-r1": {
+        "pass": true,
+        "peak_reserved_bytes": 5807013888
+      }
+    },
+    "pass": true,
+    "peak_reserved_limit_bytes": 6442450944,
+    "peak_reserved_limit_gib": 6.0,
+    "residency": {
+      "compressor_stage": "staged",
+      "generation_stage": "staged"
+    }
+  },
+  "simultaneous_validation_warnings": [
+    "simultaneous compressor plus D-Flash residency exceeds configured device capacity"
+  ],
+  "staged_validation_warnings": []
+}

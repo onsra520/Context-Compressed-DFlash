@@ -1,0 +1,57 @@
+[
+  {
+    "event": "workflow_start",
+    "memory": {
+      "allocated_bytes": 0,
+      "cuda_available": true,
+      "label": "workflow_start",
+      "max_allocated_bytes": 0,
+      "max_reserved_bytes": 0,
+      "reserved_bytes": 0
+    }
+  },
+  {
+    "event": "before_compressor_load",
+    "memory": {
+      "allocated_bytes": 0,
+      "cuda_available": true,
+      "label": "before_compressor_load",
+      "max_allocated_bytes": 0,
+      "max_reserved_bytes": 0,
+      "reserved_bytes": 0
+    }
+  },
+  {
+    "event": "after_compressor_load",
+    "memory": {
+      "allocated_bytes": 2235790848,
+      "cuda_available": true,
+      "label": "after_compressor_load",
+      "max_allocated_bytes": 2235790848,
+      "max_reserved_bytes": 2246049792,
+      "reserved_bytes": 2246049792
+    }
+  },
+  {
+    "event": "after_compressor_close",
+    "memory": {
+      "allocated_bytes": 8519680,
+      "cuda_available": true,
+      "label": "after_compressor_close",
+      "max_allocated_bytes": 2268432384,
+      "max_reserved_bytes": 2292187136,
+      "reserved_bytes": 20971520
+    }
+  },
+  {
+    "event": "workflow_complete",
+    "memory": {
+      "allocated_bytes": 8519680,
+      "cuda_available": true,
+      "label": "workflow_complete",
+      "max_allocated_bytes": 2268432384,
+      "max_reserved_bytes": 2292187136,
+      "reserved_bytes": 20971520
+    }
+  }
+]

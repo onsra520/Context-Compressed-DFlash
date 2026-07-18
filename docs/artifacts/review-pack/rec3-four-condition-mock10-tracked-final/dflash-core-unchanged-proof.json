@@ -1,0 +1,49 @@
+{
+  "base_commit_sha": "b18b283fb8fe82363180157263c8d2ca8446e770",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        "src/ccdf/dflash"
+      ],
+      "duration_seconds": 0.00361233099920355,
+      "exit_code": 0,
+      "label": "dflash-core-status",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--numstat",
+        "b18b283fb8fe82363180157263c8d2ca8446e770",
+        "--",
+        "src/ccdf/dflash"
+      ],
+      "duration_seconds": 0.0034768679997796426,
+      "exit_code": 0,
+      "label": "dflash-core-numstat",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "git",
+        "ls-files",
+        "--others",
+        "--exclude-standard",
+        "src/ccdf/dflash"
+      ],
+      "duration_seconds": 0.004308350000428618,
+      "exit_code": 0,
+      "label": "dflash-core-untracked",
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "pass": true
+}

@@ -1,0 +1,35 @@
+{
+  "environment_variables": {
+    "CONDA_PREFIX": null,
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+    "HF_HUB_OFFLINE": "1",
+    "PATH": "/data/Projects/CCDF-Rework/.venv/bin:/home/quyseggs/.codex/packages/standalone/releases/0.144.5-x86_64-unknown-linux-musl/codex-path:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/.codex/tmp/arg0/codex-arg0a6qlDf:/home/quyseggs/.codex/packages/standalone/releases/0.144.5-x86_64-unknown-linux-musl/codex-path:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/quyseggs/.config/Code/User/globalStorage/github.copilot-chat/copilotCli:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/data/pnpm-home:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/miniforge3/bin:/home/quyseggs/miniforge3/condabin:/home/quyseggs/.cargo/bin:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/quyseggs/.vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts",
+    "PROJECT_ROOT": "/data/Projects/CCDF-Rework",
+    "PYTHONHASHSEED": "42",
+    "PYTHONPATH": null,
+    "TORCH_DISABLE_NATIVE_JIT": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "TRITON_CACHE_DIR": "/tmp/ccdf-rework-triton-cache",
+    "VIRTUAL_ENV": "/data/Projects/CCDF-Rework/.venv"
+  },
+  "explicit_execution_interpreter": "/data/Projects/CCDF-Rework/.venv/bin/python",
+  "import_paths": {
+    "awq": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py",
+    "ccdf": "/data/Projects/CCDF-Rework/src/ccdf/__init__.py",
+    "llmlingua": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/llmlingua/__init__.py",
+    "torch": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/__init__.py",
+    "transformers": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/transformers/__init__.py"
+  },
+  "resolution_policy": "subprocesses use the explicit project .venv interpreter and a copied environment; caller_environment_raw is preserved separately",
+  "sys_executable": "/data/Projects/CCDF-Rework/.venv/bin/python",
+  "sys_path": [
+    "/data/Projects/CCDF-Rework",
+    "/usr/lib/python312.zip",
+    "/usr/lib/python3.12",
+    "/usr/lib/python3.12/lib-dynload",
+    "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages",
+    "/data/Projects/CCDF-Rework/src"
+  ],
+  "sys_prefix": "/data/Projects/CCDF-Rework/.venv",
+  "which_python": "/data/Projects/CCDF-Rework/.venv/bin/python"
+}

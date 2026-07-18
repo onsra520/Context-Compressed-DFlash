@@ -1,0 +1,34 @@
+{
+  "baseline-ar": {
+    "p50_compression_latency_ms": 0.0,
+    "p50_decode_latency_ms": 54.9031975001526,
+    "p50_decode_tok_s": -1.227805363088315,
+    "p50_generation_latency_ms": 110.7920064996506,
+    "p50_prefill_latency_ms": 53.98340100009591,
+    "p50_stage_sum_warm_e2e_ms": 110.73161450076441
+  },
+  "cc-dflash-r2": {
+    "p50_compression_latency_ms": 11.491345999274927,
+    "p50_decode_latency_ms": -10.95993249964522,
+    "p50_decode_tok_s": 3.94965287332937,
+    "p50_generation_latency_ms": 2.0000925005660974,
+    "p50_prefill_latency_ms": 6.738803999724041,
+    "p50_stage_sum_warm_e2e_ms": 9.47864199997639
+  },
+  "dflash-r1": {
+    "p50_compression_latency_ms": 0.0,
+    "p50_decode_latency_ms": -13.3956979989307,
+    "p50_decode_tok_s": 1.8386658971203786,
+    "p50_generation_latency_ms": -64.41320099975201,
+    "p50_prefill_latency_ms": -42.90205950019299,
+    "p50_stage_sum_warm_e2e_ms": -65.94075300017721
+  },
+  "llmlingua-ar-r2": {
+    "p50_compression_latency_ms": 11.491345999274927,
+    "p50_decode_latency_ms": -14.043369498722313,
+    "p50_decode_tok_s": 0.07531305556149448,
+    "p50_generation_latency_ms": -5.793553499643167,
+    "p50_prefill_latency_ms": -4.825438999432663,
+    "p50_stage_sum_warm_e2e_ms": 1.8465170005583786
+  }
+}

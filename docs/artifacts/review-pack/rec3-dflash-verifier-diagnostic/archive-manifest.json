@@ -1,0 +1,159 @@
+{
+  "base_commit_sha": "b18b283fb8fe82363180157263c8d2ca8446e770",
+  "manifest_version": "ccdf.rec3-dflash-verifier-diagnostic-review-pack.v1",
+  "members": {
+    ".gitignore": {
+      "bytes": 364,
+      "sha256": "8e18804026588937d8975fc9523cc05792bac9daf10a73d8da880724c467d368"
+    },
+    "config.yml": {
+      "bytes": 8120,
+      "sha256": "fe4ad68b1ef01e8aaa93432f2f3001c17c82b63f6cc969ad1684451fe94574ce"
+    },
+    "docs/artifacts/rec3-dflash-verifier-diagnostic/BLOCKER.md": {
+      "bytes": 1133,
+      "sha256": "9cff5ec9ed05e7a360c700a13690abc246aed8127fb2262d286e94aa659df6b2"
+    },
+    "docs/artifacts/rec3-dflash-verifier-diagnostic/diagnostic.json": {
+      "bytes": 573348,
+      "sha256": "3d047ac00c89453e764034b2e94626de0d4749174bb6ecd7fc5948d82369bd75"
+    },
+    "docs/artifacts/rec3-dflash-verifier-diagnostic/raw_divergence_logits.pt": {
+      "bytes": 6689840,
+      "sha256": "031d4976ee0da8d1c3d5535bd20097a95d4b11e6be7190da14487582e6a3bcb7"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/raw_runs.json": {
+      "bytes": 1303038,
+      "sha256": "9092eea4a8b5060410ebe33888b0fd3b0e4a0f644254fd6021ddc0882f86915a"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/rec3_mock_02_divergence.json": {
+      "bytes": 588950,
+      "sha256": "92a8d21e064382a229a62c3c87258884b88fdcce5037960991c4bd7b395f9997"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/summary.json": {
+      "bytes": 6015,
+      "sha256": "73cc08f949fe5064bce92a26880a91b0502728b7937b0b8d4061625d677b4948"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/base-commit.txt": {
+      "bytes": 41,
+      "sha256": "5191c7d65a06f62bb1690faf7a99f6ea02fc095e14d3174f83a1a81fbc46a702"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/changed-files.txt": {
+      "bytes": 996,
+      "sha256": "b589ca81e38b6d67fc087d96fd9fa4600ea89e3b249a3f2af06977ccffeef64a"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/commands.json": {
+      "bytes": 10457,
+      "sha256": "95369110c31e83270cc346e4ab224f01cec9f2eaa383264e24f39cbded9f6550"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/dflash-core-diff-proof.txt": {
+      "bytes": 514,
+      "sha256": "34dc4942ca47d5fa252021cf70401bdc07a2e335e09808d2b6abbb2f0385deb6"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/environment.json": {
+      "bytes": 475,
+      "sha256": "3052bb7f60f8591f19471748be7aec679bf68ba2487509c1c7571010f5810385"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/git-diff.patch": {
+      "bytes": 1040,
+      "sha256": "7a099798e3da1a41b2f3d9fd3ae41025b1d45881b3615a10e10e6b76ed6f46fb"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/git-status.txt": {
+      "bytes": 37,
+      "sha256": "05f92e49ac1711a8b370fdbe052052f0bb2fa74eddc3c1de51743e36823bc39f"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/pack-members.txt": {
+      "bytes": 1835,
+      "sha256": "53332d6ad4da52bcbf848d9fff31bc405369c2c70e36598f77230ade3534b639"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/test-results.txt": {
+      "bytes": 9133,
+      "sha256": "ebe24d504c9d1d14fe3470cbd7c42f1a3bf854bd69817f60a90fb3800cbbd58f"
+    },
+    "docs/artifacts/review-pack/rec3-dflash-verifier-diagnostic/validation-summary.json": {
+      "bytes": 8334,
+      "sha256": "c38a48883db82d28108df86b06800bce2d9d0d9c9e3b8d469348103563331ca2"
+    },
+    "pyproject.toml": {
+      "bytes": 846,
+      "sha256": "11b8d4689bb4c491d42c18d8fc271941f3dffdcb9a38464e40eb192c8e1d6790"
+    },
+    "src/ccdf/config.py": {
+      "bytes": 5832,
+      "sha256": "f8e28f170d7def1eebc928340b4da295c6912db645cf6fd225ffe6be1098469b"
+    },
+    "src/ccdf/determinism.py": {
+      "bytes": 2969,
+      "sha256": "c0fcf9a67383e8a1d2264da1aa13f303977fdac9276fc25fcbf9c41e0b67b1e9"
+    },
+    "src/ccdf/device.py": {
+      "bytes": 4708,
+      "sha256": "18f0e1372094384717ffb53245c8415dbc067f2a3e7faee73b62bbbd7c8ce5b7"
+    },
+    "src/ccdf/dflash/acceptance.py": {
+      "bytes": 2606,
+      "sha256": "1aa113b7d1fa34a51fed7f8d4069553bc723774168ee9851d79a660e7178613d"
+    },
+    "src/ccdf/dflash/generate.py": {
+      "bytes": 11114,
+      "sha256": "0642765ab2d781ab466b82542dc09edd8e1a4edfc947c92fa42fa7b2a9b9be01"
+    },
+    "src/ccdf/dflash/policy.py": {
+      "bytes": 2231,
+      "sha256": "ae6b9debf17598839e4a2f2fcc82c50057aff81a536c9fff068681d67f62fb59"
+    },
+    "src/ccdf/dflash/verifier.py": {
+      "bytes": 4933,
+      "sha256": "80a8b49d72203346d5efa2725c191b5fdc0390ba3678f43495dda3c13ef19e92"
+    },
+    "src/ccdf/inference/baseline.py": {
+      "bytes": 3805,
+      "sha256": "4d4104b6633dfde9c5c3b15cc8384a76d33cd80134a991ed68dc50eeaadfb4a1"
+    },
+    "src/ccdf/inference/sampling.py": {
+      "bytes": 444,
+      "sha256": "7a2d4e524a68ff1afec34ec097655ae5e1abcfadc08d0fdd588746e317a00785"
+    },
+    "src/ccdf/models/loaders.py": {
+      "bytes": 11127,
+      "sha256": "dc02ac5a20ff6fa29566179378d8c5eaefca002bb09201a8c80016a45558be3c"
+    },
+    "src/ccdf/runtime/engine.py": {
+      "bytes": 7915,
+      "sha256": "0ef6e44750e314e5a5e4cde3921196f8f3efaa3262e335dfe28d9f512ce48e0b"
+    },
+    "src/ccdf/schemas.py": {
+      "bytes": 4575,
+      "sha256": "b60c28e35f8dd4f3f056db62087727ccb42f52145a80226d702ac609502804fc"
+    },
+    "tests/build_rec3_dflash_verifier_review_pack.py": {
+      "bytes": 14195,
+      "sha256": "d96bf6e822243f943a0bfc15f32eb778eec518e7dfec0b9535ec1eda044d584e"
+    },
+    "tests/run_rec3_dflash_verifier_diagnostic.py": {
+      "bytes": 30367,
+      "sha256": "fbf679d278bada4d7a1482807445fe9673d82161aeb7d2dfcd8c2792c48192f2"
+    },
+    "tests/run_rec3_four_condition_protocol.py": {
+      "bytes": 35422,
+      "sha256": "289def03d1e3642e2801d785bbd2925f83c072aa5a75e707210213ff7a2e04e1"
+    },
+    "tests/run_rec3_mock02_divergence.py": {
+      "bytes": 14385,
+      "sha256": "c004c7f7b9cbf84a5051a1211ba7b2dd9acdca5f3394618b5806ce4dbd051ce7"
+    },
+    "tests/test_dflash_integration.py": {
+      "bytes": 4531,
+      "sha256": "2c50e7af2bc06043e18cda2437674d2b6bfcc77fdb5c9c71197661ab8e12d627"
+    },
+    "tests/test_metrics.py": {
+      "bytes": 717,
+      "sha256": "f91ec4a03959ed2986689cb67ed802f7280d9d7878a38fe62fa517af769cf5e5"
+    },
+    "tests/test_rec3_protocol_helpers.py": {
+      "bytes": 1244,
+      "sha256": "1558d41031dae6b54cbb88a1bc02edeb962a737c84a229a147eebf2fc19bf025"
+    }
+  },
+  "self_entry_policy": "archive-manifest.json is omitted from its own hash map"
+}

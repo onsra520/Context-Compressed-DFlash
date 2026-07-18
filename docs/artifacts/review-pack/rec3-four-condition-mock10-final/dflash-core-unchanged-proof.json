@@ -1,0 +1,50 @@
+{
+  "base_commit_sha": "b18b283fb8fe82363180157263c8d2ca8446e770",
+  "claim": "No D-Flash core change is included in this final validation.",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        "src/ccdf/dflash"
+      ],
+      "duration_seconds": 0.0030434869995588087,
+      "exit_code": 0,
+      "label": "dflash-core-status",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--numstat",
+        "b18b283fb8fe82363180157263c8d2ca8446e770",
+        "--",
+        "src/ccdf/dflash"
+      ],
+      "duration_seconds": 0.0017979049998757546,
+      "exit_code": 0,
+      "label": "dflash-core-numstat",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "git",
+        "ls-files",
+        "--others",
+        "--exclude-standard",
+        "src/ccdf/dflash"
+      ],
+      "duration_seconds": 0.0013859509999747388,
+      "exit_code": 0,
+      "label": "dflash-core-untracked",
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "pass": true
+}

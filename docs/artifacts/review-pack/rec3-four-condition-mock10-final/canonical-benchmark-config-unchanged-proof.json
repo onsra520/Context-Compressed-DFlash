@@ -1,0 +1,34 @@
+{
+  "base_commit_sha": "b18b283fb8fe82363180157263c8d2ca8446e770",
+  "claim": "REC-3 uses a validation-only block-8 override; canonical config remains unchanged.",
+  "commands": [
+    {
+      "command": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        "config.yml"
+      ],
+      "duration_seconds": 0.001617903999886039,
+      "exit_code": 0,
+      "label": "canonical-config-status",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--",
+        "config.yml"
+      ],
+      "duration_seconds": 0.0016921540000112145,
+      "exit_code": 0,
+      "label": "canonical-config-diff",
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "pass": true
+}

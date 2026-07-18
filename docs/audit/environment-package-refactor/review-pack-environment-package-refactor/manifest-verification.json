@@ -1,0 +1,377 @@
+{
+  "pass": true,
+  "verified": {
+    "FINAL-VALIDATION-SUMMARY.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "autoawq-compatibility-risk.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "base-commit.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "caller_environment_raw.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "changed-files.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "checkpoint-manifest.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "commands.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "commands.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "config-memory-validation.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "device-residency-and-local-only-audit.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "dflash-core-unchanged-proof.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "effective-runtime-sdpa-state.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment-audit.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment-lock-metadata.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment-lock.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "execution_environment_resolved.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "git-diff.patch": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "git-status.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "import-origin-audit.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10-comparison.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/post-refactor/FINAL_REPORT.md": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/post-refactor/gate_matrix.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/post-refactor/mock_fixtures.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/post-refactor/pair_parity.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/post-refactor/protected_field_hashes.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/post-refactor/raw_runs.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/post-refactor/resolved_config_snapshot.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/post-refactor/summary.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/pre-refactor/FINAL_REPORT.md": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/pre-refactor/gate_matrix.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/pre-refactor/mock_fixtures.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/pre-refactor/pair_parity.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/pre-refactor/protected_field_hashes.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/pre-refactor/raw_runs.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/pre-refactor/resolved_config_snapshot.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "mock10/pre-refactor/summary.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "model-cache-audit.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "moved-files-map.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "pack-members.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "package-refactor-gates.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "pre-post-checkpoint-hash-comparison.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "pre-post-output-token-hash-comparison.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "pre-post-prompt-hash-comparison.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "process-default-sdpa-state.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source-phase-name-scan.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "resolved-config-snapshot.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "timing-deltas.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source-files.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/.gitignore": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/README.md": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/config.yml": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/pyproject.toml": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/__main__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/benchmark/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/benchmark/aggregation.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/benchmark/metrics.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/benchmark/runner.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/cli.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/compression/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/compression/llmlingua.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/compression/schemas.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/config.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/data/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/data/__main__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/data/pipeline.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/dflash/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/dflash/acceptance.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/dflash/generate.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/dflash/policy.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/dflash/verifier.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/errors.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/inference/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/inference/baseline.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/inference/sampling.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/inference/stopping.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/models/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/models/loaders.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/protocols/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/protocols/conditions.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/protocols/orchestrator.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/runtime/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/runtime/determinism.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/runtime/device.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/runtime/engine.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/schemas.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/validation/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/validation/environment.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/src/ccdf/validation/quality.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/tests/build_environment_package_refactor_review_pack.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tracked-source/tests/conftest.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tree-after.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "tree-before.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    }
+  }
+}

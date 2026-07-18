@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/data/Projects/CCDF-Rework/.venv/bin/python",
+    "-m",
+    "pip",
+    "freeze",
+    "--all"
+  ],
+  "package_upgrade_or_downgrade_commands": [],
+  "pass": true,
+  "policy": "captured from the working .venv without package mutation",
+  "sha256": "47986f2c56e0dab463fe669ddd2a1196534c3d84b73da923f78d84f0cc23c51a",
+  "source_interpreter": "/data/Projects/CCDF-Rework/.venv/bin/python"
+}

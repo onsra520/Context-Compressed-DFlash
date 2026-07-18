@@ -1,0 +1,30 @@
+diff --git a/src/ccdf/compression/llmlingua.py b/src/ccdf/compression/llmlingua.py
+index 57a4269..a896a92 100644
+--- a/src/ccdf/compression/llmlingua.py
++++ b/src/ccdf/compression/llmlingua.py
+@@ -2,6 +2,7 @@
+ 
+ from __future__ import annotations
+ 
++import gc
+ import time
+ from dataclasses import dataclass
+ from pathlib import Path
+@@ -178,3 +179,17 @@ class LLMLinguaCompressor:
+             submitted_word_count=sum(len(chunk.split()) for chunk in chunks),
+             device_audit=self.device_audit,
+         )
++
++    def close(self) -> None:
++        """Release the CUDA-resident LLMLingua backend between protocol stages.
++
++        The compressor is intentionally loaded separately from generation models so
++        validation and benchmark callers can keep the single-GPU lifecycle explicit.
++        """
++        self.backend = None
++        self.tokenizer = None
++        gc.collect()
++        if torch.cuda.is_available():
++            synchronize()
++            torch.cuda.empty_cache()
++            torch.cuda.ipc_collect()

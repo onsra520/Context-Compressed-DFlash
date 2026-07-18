@@ -1,0 +1,9 @@
+{
+  "four-condition definitions": "src/ccdf/protocols/conditions.py",
+  "four-condition orchestration": "src/ccdf/protocols/orchestrator.py",
+  "metric aggregation": "src/ccdf/benchmark/aggregation.py",
+  "src/ccdf/benchmark.py": "src/ccdf/benchmark/runner.py",
+  "src/ccdf/determinism.py": "src/ccdf/runtime/determinism.py",
+  "src/ccdf/device.py": "src/ccdf/runtime/device.py",
+  "src/ccdf/rec3/metrics.py": "src/ccdf/benchmark/metrics.py"
+}

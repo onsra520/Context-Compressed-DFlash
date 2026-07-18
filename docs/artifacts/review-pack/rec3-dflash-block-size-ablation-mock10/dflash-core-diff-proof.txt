@@ -1,0 +1,19 @@
+base_commit_sha=b18b283fb8fe82363180157263c8d2ca8446e770
+claim=No D-Flash core patch was applied.
+
+# dflash-status
+$ git status --short -- src/ccdf/dflash
+exit=0
+
+# dflash-diff-numstat
+$ git diff --numstat b18b283fb8fe82363180157263c8d2ca8446e770 -- src/ccdf/dflash
+exit=0
+
+# dflash-untracked
+$ git ls-files --others --exclude-standard src/ccdf/dflash
+exit=0
+
+# dflash-diff-check
+$ git diff --check b18b283fb8fe82363180157263c8d2ca8446e770 -- src/ccdf/dflash
+exit=0
+

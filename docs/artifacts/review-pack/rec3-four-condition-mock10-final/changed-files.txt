@@ -1,0 +1,16 @@
+# tracked changed
+src/ccdf/compression/llmlingua.py
+
+# untracked (excluding ignored files)
+
+
+# ignored validation files included explicitly
+tests/run_rec3_four_condition_protocol.py
+tests/build_rec3_four_condition_review_pack.py
+tests/run_rec3_dflash_block_size_ablation.py
+tests/run_rec3_dflash_verifier_diagnostic.py
+tests/run_rec3_mock02_divergence.py
+tests/test_rec3_protocol_helpers.py
+tests/test_compression_protocol.py
+tests/test_dflash_integration.py
+tests/test_metrics.py

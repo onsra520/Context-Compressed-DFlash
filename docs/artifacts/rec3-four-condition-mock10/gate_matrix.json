@@ -1,0 +1,43 @@
+{
+  "active_profile": "rec3",
+  "hard_gates": {
+    "compressor_cuda_resident": true,
+    "condition_success": true,
+    "configured_verification_block_observed": true,
+    "dflash_peak_reserved_vram": true,
+    "exact_field_quality": true,
+    "metric_validity": true,
+    "no_oom": true,
+    "pair_generated_token_parity": true,
+    "protected_question_instruction_and_evidence": true,
+    "warmups": true
+  },
+  "memory_gate": {
+    "compressor_and_generation_overlap": false,
+    "compressor_budget_added_to_dflash_limit": false,
+    "conditions": {
+      "cc-dflash-r2": {
+        "pass": true,
+        "peak_reserved_bytes": 4812963840
+      },
+      "dflash-r1": {
+        "pass": true,
+        "peak_reserved_bytes": 5807013888
+      }
+    },
+    "pass": true,
+    "peak_reserved_limit_bytes": 6442450944,
+    "peak_reserved_limit_gib": 6.0,
+    "residency": {
+      "compressor_stage": "staged",
+      "generation_stage": "staged"
+    }
+  },
+  "overall_pass": true,
+  "source_config_sha256": "d8a2e9bf98bf22f7d80c866b0e37fd1009fad948fe6123f97473b1157a6eb3c2",
+  "strict_format": {
+    "compliance": "36/40",
+    "hard_gate": false,
+    "separate_from_exact_field_quality": true
+  }
+}

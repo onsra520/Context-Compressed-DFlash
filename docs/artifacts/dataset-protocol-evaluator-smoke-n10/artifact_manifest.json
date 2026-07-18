@@ -1,0 +1,130 @@
+{
+  "files": [
+    {
+      "bytes": 9180,
+      "path": "cohort_manifest.json",
+      "sha256": "aee2446361d8e4e2a90a118989ceaaba2ede1f8db90f578174d97a1a4a985c84"
+    },
+    {
+      "bytes": 1557,
+      "path": "compression_stage.json",
+      "sha256": "5dccff1ef0310a6675a5cf68c76dd99e38a51e9543af2eb4b4af37d209a096b6"
+    },
+    {
+      "bytes": 2463,
+      "path": "condition_summaries.json",
+      "sha256": "58e13ee17d1e63cffa86f1fff9d25ebf14368ac561f131d8eae80a2ffbdac36e"
+    },
+    {
+      "bytes": 3518,
+      "path": "condition_worker_attempts.json",
+      "sha256": "6258ad997bdd6506cd3797ca2f69bb979e878557ceefd704c3522db55a9a165e"
+    },
+    {
+      "bytes": 3622,
+      "path": "environment.json",
+      "sha256": "88e777128a354ef3f45d7b035b19246d83be22c6248c3245bbeeeb7f304ab4ef"
+    },
+    {
+      "bytes": 1370,
+      "path": "evaluator_lock.json",
+      "sha256": "ee4d1392f4a4b26825e9d2d5d25abc825b2b1855a8720b429352ae1655a916d0"
+    },
+    {
+      "bytes": 1974,
+      "path": "gate_matrix.json",
+      "sha256": "8ab5dc0c21922ea35d5b0e800918dd341a27cb2a0df2e9654de678699b33133f"
+    },
+    {
+      "bytes": 1363,
+      "path": "lifecycle.json",
+      "sha256": "b896441e1aaa382b9d594de6d1ff68a2e896b980178d43cb76ad7162b7928707"
+    },
+    {
+      "bytes": 30753,
+      "path": "pair_parity.json",
+      "sha256": "3f738c075606c52c089afdd461b907414ee42f4a91dfb534f4287dbbaabb78cb"
+    },
+    {
+      "bytes": 17467165,
+      "path": "per_sample_results.jsonl",
+      "sha256": "1b6bdf855e91825ecb4d3070fbc854af3de9011022007d8889d025253a7140fc"
+    },
+    {
+      "bytes": 496028,
+      "path": "prepared_input_manifest.jsonl",
+      "sha256": "ff657ccf889583e0ffd3885a61896775bc46657895b58658c6c48f962d2ab391"
+    },
+    {
+      "bytes": 133194,
+      "path": "qmsum_chunk_maps.jsonl",
+      "sha256": "8e4f9abb7f96ee81620a4c178f05ad6eb9adaf1640a704dbaa21165cadb7f788"
+    },
+    {
+      "bytes": 115391,
+      "path": "qmsum_generation_chunk_maps.jsonl",
+      "sha256": "341a1bb1b2fe6df021ec6188980c887b7de8adbf29077127da6f75c3a532b069"
+    },
+    {
+      "bytes": 263294,
+      "path": "raw_runs/gsm8k/baseline-ar.jsonl",
+      "sha256": "35b428741de68b55c7199691986a78537e02b46e2ddada86628e86393397aa34"
+    },
+    {
+      "bytes": 597198,
+      "path": "raw_runs/gsm8k/cc-dflash-r2.jsonl",
+      "sha256": "50660408f3c4a754b9b10fc9d64a6d6e149a4e904fafa18ad1763480a26089c6"
+    },
+    {
+      "bytes": 592753,
+      "path": "raw_runs/gsm8k/dflash-r1.jsonl",
+      "sha256": "af1a78db2b936c3d8074184097a3a90b63565fba9127e6ce49e1f1beaa8eee17"
+    },
+    {
+      "bytes": 267806,
+      "path": "raw_runs/gsm8k/llmlingua-ar-r2.jsonl",
+      "sha256": "39d912f323b54cf5ace1ee688c415546051c4f7cfdc7d416f84212fb79332fcc"
+    },
+    {
+      "bytes": 4251851,
+      "path": "raw_runs/qmsum/baseline-ar.jsonl",
+      "sha256": "efde6b9d052784141490bf67d410e1b75fa96649f18f08cc1b17283a339a6649"
+    },
+    {
+      "bytes": 3536200,
+      "path": "raw_runs/qmsum/cc-dflash-r2.jsonl",
+      "sha256": "0fb490ab69ebaf6f3669daa23224a3d70fa6e3928b48bc4220583946e8709f02"
+    },
+    {
+      "bytes": 5403541,
+      "path": "raw_runs/qmsum/dflash-r1.jsonl",
+      "sha256": "3bb220593b3b209785d3258647f656b9a85735c952d224aa71fe2f11a7cec003"
+    },
+    {
+      "bytes": 2554522,
+      "path": "raw_runs/qmsum/llmlingua-ar-r2.jsonl",
+      "sha256": "40c9cac718e683f759f1fc64e470a542030a7186aec28102dc10c3d3bc7a018d"
+    },
+    {
+      "bytes": 26161,
+      "path": "resolved_config.json",
+      "sha256": "4d912de08e289445c04f72adcb9508c777e3e1cd9ad8a06ffa264094d3f8ea4b"
+    },
+    {
+      "bytes": 111712,
+      "path": "sdpa_evidence.json",
+      "sha256": "660a48cadc786f083a5715e1390785e1a7d6af8c16c15a35c9268412e960a842"
+    },
+    {
+      "bytes": 851,
+      "path": "source_hashes.json",
+      "sha256": "4120b6a1b865634e82bfa9d321659357109d9e029dbbdd808653ea5361df6254"
+    },
+    {
+      "bytes": 4339,
+      "path": "summary.json",
+      "sha256": "099212759ec401dc276071b7205023b028e6079b4594e1ab25312e81852f160d"
+    }
+  ],
+  "manifest_version": "dataset-smoke-artifacts.v1"
+}

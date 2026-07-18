@@ -1,0 +1,739 @@
+diff --git a/config.yml b/config.yml
+index a742a78..8085592 100644
+--- a/config.yml
++++ b/config.yml
+@@ -28,6 +28,7 @@ models:
+         tokenizer_path: "${PROJECT_ROOT}/models/baseline/Qwen3-4B-AWQ"
+         allow_cpu_offload: false
+         device_map: cuda:0
++        trust_remote_code: true
+ 
+     dflash:
+         target:
+@@ -42,6 +43,7 @@ models:
+             tokenizer_path: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-AWQ"
+             allow_cpu_offload: false
+             device_map: cuda:0
++            trust_remote_code: true
+ 
+         drafter:
+             model_id: local-dflash-drafter
+@@ -146,3 +148,74 @@ prompts:
+     gsm8k_instruction: >-
+         Compute using concise essential calculations. End with exactly one separate line in the form
+         "Final answer: <result>" and then stop.
++
++protocol_profiles:
++    active: rec3
++    profiles:
++        rec3:
++            description: "REC-3 four-condition mock10 validation profile"
++            dataset: rec3_mock
++            artifact_directory: "${PROJECT_ROOT}/docs/artifacts/rec3-four-condition-mock10"
++            review_archive: "${PROJECT_ROOT}/docs/reviews/review-pack-rec3-protocol-four-conditions-mock10-final.tar.gz"
++            config_overrides:
++                prompts:
++                    system: "You are an information extraction assistant. Return only the requested output format."
++                runtime:
++                    max_new_tokens: 32
++                    temperature: 0.0
++                optimization:
++                    block_policy:
++                        mode: fixed
++                        fixed_block_size: 8
++            compression:
++                keep_rate: 0.5
++                min_context_tokens: 1
++                chunk_max_words: 180
++            prompt_contract:
++                question: "According to the FINAL APPROVED FACT, who is the owner, what is the approval code, and what exact quantity was approved?"
++                output_instruction: "Return exactly: Owner: <name>; Approval code: <code>; Quantity: <integer>"
++                strict_output_pattern: '^Owner: (?P<owner>[^;\r\n]+); Approval code: (?P<approval_code>[^;\r\n]+); Quantity: (?P<quantity>[0-9]+)$'
++                tolerant_field_pattern: 'Owner:\s*(?P<owner>[^;\r\n]+);\s*Approval code:\s*(?P<approval_code>[^;\r\n]+);\s*Quantity:\s*(?P<quantity>[0-9]+)'
++                distractor_template: "Meeting turn {turn}: unapproved proposal says owner Candidate-{candidate}, code ZX-{fixture_index}{turn_padded}, quantity {distractor_quantity}; this is a distractor."
++                evidence_template: "FINAL APPROVED FACT: the approved owner is {owner}; the approval code is {approval_code}; the exact approved quantity is {quantity}."
++            conditions:
++                - name: baseline-ar
++                  runtime_condition: baseline
++                  prompt_kind: original
++                - name: dflash-r1
++                  runtime_condition: dflash
++                  prompt_kind: original
++                - name: llmlingua-ar-r2
++                  runtime_condition: baseline
++                  prompt_kind: compressed
++                  reduction_reference_condition: baseline-ar
++                - name: cc-dflash-r2
++                  runtime_condition: dflash
++                  prompt_kind: compressed
++                  reduction_reference_condition: dflash-r1
++            parity_pairs:
++                - name: original_baseline_ar_vs_dflash_r1
++                  left: baseline-ar
++                  right: dflash-r1
++                - name: compressed_llmlingua_ar_r2_vs_cc_dflash_r2
++                  left: llmlingua-ar-r2
++                  right: cc-dflash-r2
++            hard_gates:
++                condition_success_rate: 1.0
++                pair_generated_token_parity_rate: 1.0
++                exact_field_quality_rate: 1.0
++                protected_input_rate: 1.0
++                metric_validity_rate: 1.0
++                max_oom_events: 0
++                dflash_peak_reserved_vram_gib: 6.0
++            fixtures:
++                - {turns: 16, evidence_position_fraction: 0.15, owner: Asha, approval_code: AP-701, quantity: '41'}
++                - {turns: 16, evidence_position_fraction: 0.15, owner: Binh, approval_code: AP-702, quantity: '58'}
++                - {turns: 20, evidence_position_fraction: 0.30, owner: Chen, approval_code: AP-703, quantity: '73'}
++                - {turns: 24, evidence_position_fraction: 0.45, owner: Dara, approval_code: AP-704, quantity: '89'}
++                - {turns: 28, evidence_position_fraction: 0.60, owner: Elena, approval_code: AP-705, quantity: '104'}
++                - {turns: 32, evidence_position_fraction: 0.75, owner: Farid, approval_code: AP-706, quantity: '126'}
++                - {turns: 30, evidence_position_fraction: 0.90, owner: Gia, approval_code: AP-707, quantity: '147'}
++                - {turns: 30, evidence_position_fraction: 1.00, owner: Hana, approval_code: AP-708, quantity: '168'}
++                - {turns: 18, evidence_position_fraction: 0.50, owner: Ivo, approval_code: AP-709, quantity: '193'}
++                - {turns: 32, evidence_position_fraction: 0.70, owner: Juno, approval_code: AP-710, quantity: '215'}
+diff --git a/pyproject.toml b/pyproject.toml
+index 5f733ba..62f44a7 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -25,6 +25,7 @@ dev = ["pytest>=8", "ruff>=0.9", "black>=24"]
+ 
+ [project.scripts]
+ ccdf-rec2 = "ccdf.cli:main"
++ccdf-rec3 = "ccdf.rec3.__main__:main"
+ 
+ [tool.setuptools.packages.find]
+ where = ["src"]
+diff --git a/src/ccdf/benchmark.py b/src/ccdf/benchmark.py
+index 9b9a918..5bc0274 100644
+--- a/src/ccdf/benchmark.py
++++ b/src/ccdf/benchmark.py
+@@ -39,8 +39,8 @@ def run_benchmark(
+     target_profile: str = "primary",
+ ) -> dict[str, Any]:
+     inputs = read_jsonl(input_path)
+-    repetitions = int(config.get("benchmark.repetitions", 1))
+-    warmups = int(config.get("benchmark.warmup_requests", 0))
++    repetitions = int(config.require("benchmark.repetitions"))
++    warmups = int(config.require("benchmark.warmup_requests"))
+     all_rows: list[dict[str, Any]] = []
+     summaries: list[dict[str, Any]] = []
+     for condition in conditions:
+diff --git a/src/ccdf/compression/llmlingua.py b/src/ccdf/compression/llmlingua.py
+index 57a4269..87ce25c 100644
+--- a/src/ccdf/compression/llmlingua.py
++++ b/src/ccdf/compression/llmlingua.py
+@@ -2,6 +2,7 @@
+ 
+ from __future__ import annotations
+ 
++import gc
+ import time
+ from dataclasses import dataclass
+ from pathlib import Path
+@@ -33,18 +34,29 @@ class ContextOnlyProtocol:
+ class LLMLinguaCompressor:
+     """A resident CUDA LLMLingua-2 backend with no CPU/disk offload path."""
+ 
+-    def __init__(self, model_path: str | Path, *, reserved_vram_budget_gib: float) -> None:
++    def __init__(
++        self,
++        model_path: str | Path,
++        *,
++        device: str,
++        local_files_only: bool,
++        reserved_vram_budget_gib: float,
++    ) -> None:
+         self.model_path = Path(model_path).resolve()
+         if not self.model_path.is_dir():
+             raise FileNotFoundError(self.model_path)
+         if not torch.cuda.is_available() or torch.cuda.device_count() < 1:
+             raise RuntimeError("CUDA compressor requested but no CUDA device is available")
++        if not device.startswith("cuda"):
++            raise ValueError(f"compressor device must be configured as CUDA: {device}")
+         if reserved_vram_budget_gib <= 0:
+             raise ValueError("reserved_vram_budget_gib must be positive")
+         self.reserved_vram_budget_bytes = int(reserved_vram_budget_gib * GIB)
+         from llmlingua import PromptCompressor
+ 
+-        model_config = AutoConfig.from_pretrained(self.model_path, local_files_only=True)
++        model_config = AutoConfig.from_pretrained(
++            self.model_path, local_files_only=local_files_only
++        )
+         architectures = list(getattr(model_config, "architectures", None) or [])
+         if model_config.model_type != "xlm-roberta" or not any(
+             name.endswith("ForTokenClassification") for name in architectures
+@@ -58,15 +70,18 @@ class LLMLinguaCompressor:
+             "architectures": architectures,
+             "compression_algorithm": "llmlingua2_token_classification",
+             "heuristic_or_truncation_fallback": False,
+-            "local_files_only": True,
++            "configured_device": device,
++            "local_files_only": local_files_only,
+         }
+-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_path, local_files_only=True)
++        self.tokenizer = AutoTokenizer.from_pretrained(
++            self.model_path, local_files_only=local_files_only
++        )
+         synchronize()
+         torch.cuda.reset_peak_memory_stats()
+         synchronize()
+         started = time.perf_counter()
+         self.backend = PromptCompressor(
+-            model_name=str(self.model_path), device_map="cuda", use_llmlingua2=True
++            model_name=str(self.model_path), device_map=device, use_llmlingua2=True
+         )
+         self.backend_compress_prompt_calls = 0
+         synchronize()
+@@ -178,3 +193,17 @@ class LLMLinguaCompressor:
+             submitted_word_count=sum(len(chunk.split()) for chunk in chunks),
+             device_audit=self.device_audit,
+         )
++
++    def close(self) -> None:
++        """Release the CUDA-resident LLMLingua backend between protocol stages.
++
++        The compressor is intentionally loaded separately from generation models so
++        validation and benchmark callers can keep the single-GPU lifecycle explicit.
++        """
++        self.backend = None
++        self.tokenizer = None
++        gc.collect()
++        if torch.cuda.is_available():
++            synchronize()
++            torch.cuda.empty_cache()
++            torch.cuda.ipc_collect()
+diff --git a/src/ccdf/config.py b/src/ccdf/config.py
+index 152bda8..0106f80 100644
+--- a/src/ccdf/config.py
++++ b/src/ccdf/config.py
+@@ -2,9 +2,12 @@
+ 
+ from __future__ import annotations
+ 
++import copy
++import hashlib
+ import os
+ from dataclasses import dataclass
+ from pathlib import Path
++import re
+ from typing import Any, Mapping
+ 
+ import yaml
+@@ -32,6 +35,48 @@ def _require(mapping: Mapping[str, Any], dotted: str) -> Any:
+     return current
+ 
+ 
++def _merge_existing(base: dict[str, Any], overrides: Mapping[str, Any], prefix: str = "") -> None:
++    """Apply profile overrides while rejecting misspelled or newly invented keys."""
++    for key, value in overrides.items():
++        dotted = f"{prefix}.{key}" if prefix else str(key)
++        if key not in base:
++            raise ConfigurationError(f"profile override targets unknown config key: {dotted}")
++        if isinstance(value, Mapping):
++            if not isinstance(base[key], dict):
++                raise ConfigurationError(f"profile override type mismatch at: {dotted}")
++            _merge_existing(base[key], value, dotted)
++        else:
++            base[key] = copy.deepcopy(value)
++
++
++@dataclass(frozen=True)
++class ResolvedProtocolProfile:
++    """A named protocol profile and its fully resolved runtime configuration."""
++
++    name: str
++    settings: dict[str, Any]
++    config: "Rec2Config"
++    source_config_sha256: str
++
++    def require(self, dotted: str) -> Any:
++        return _require(self.settings, dotted)
++
++    def path_for(self, dotted: str) -> Path:
++        value = self.require(dotted)
++        if not isinstance(value, str):
++            raise ConfigurationError(f"profile key is not a path string: {dotted}")
++        return Path(value).resolve()
++
++    def snapshot(self) -> dict[str, Any]:
++        return {
++            "active_profile": self.name,
++            "source_config_path": str(self.config.path),
++            "source_config_sha256": self.source_config_sha256,
++            "profile_settings": copy.deepcopy(self.settings),
++            "resolved_config": copy.deepcopy(self.config.data),
++        }
++
++
+ @dataclass(frozen=True)
+ class Rec2Config:
+     path: Path
+@@ -73,7 +118,36 @@ class Rec2Config:
+             raise ConfigurationError(f"unknown target profile: {target_profile}")
+         return target
+ 
+-    def validate(self, require_model_files: bool = False) -> list[str]:
++    def resolve_active_protocol_profile(self) -> ResolvedProtocolProfile:
++        active = self.require("protocol_profiles.active")
++        if not isinstance(active, str) or not active:
++            raise ConfigurationError("protocol_profiles.active must be a non-empty string")
++        profiles = self.require("protocol_profiles.profiles")
++        if not isinstance(profiles, Mapping) or active not in profiles:
++            raise ConfigurationError(f"active protocol profile is not defined: {active}")
++        settings = profiles[active]
++        if not isinstance(settings, Mapping):
++            raise ConfigurationError(f"protocol profile must be a mapping: {active}")
++        overrides = _require(settings, "config_overrides")
++        if not isinstance(overrides, Mapping):
++            raise ConfigurationError("protocol profile config_overrides must be a mapping")
++        resolved_data = copy.deepcopy(self.data)
++        _merge_existing(resolved_data, overrides)
++        resolved = Rec2Config(path=self.path, root=self.root, data=resolved_data)
++        resolved.validate(require_model_files=False, require_canonical_block=False)
++        return ResolvedProtocolProfile(
++            name=active,
++            settings=copy.deepcopy(dict(settings)),
++            config=resolved,
++            source_config_sha256=hashlib.sha256(self.path.read_bytes()).hexdigest(),
++        )
++
++    def validate(
++        self,
++        require_model_files: bool = False,
++        *,
++        require_canonical_block: bool = True,
++    ) -> list[str]:
+         required = [
+             "paths.project_root",
+             "paths.baseline_model",
+@@ -82,14 +156,53 @@ class Rec2Config:
+             "paths.compressor_model",
+             "models.baseline.model_id",
+             "models.baseline.local_path",
++            "models.baseline.tokenizer_path",
++            "models.baseline.device_map",
++            "models.baseline.trust_remote_code",
+             "models.dflash.target.model_id",
+             "models.dflash.target.local_path",
++            "models.dflash.target.tokenizer_path",
++            "models.dflash.target.device_map",
++            "models.dflash.target.trust_remote_code",
+             "models.dflash.drafter.model_id",
+             "models.dflash.drafter.local_path",
++            "models.dflash.drafter.device_map",
++            "models.dflash.drafter.trust_remote_code",
++            "models.compressor.local_path",
++            "models.compressor.device",
+             "memory.dflash_peak_reserved_limit_gib",
++            "memory.compressor_reserved_budget_gib",
++            "memory.enforce_after_model_load",
++            "memory.enforce_after_generation",
+             "runtime.attention_backend",
+             "runtime.sdpa_kernel",
+             "runtime.awq_split_k_iters",
++            "runtime.device",
++            "runtime.local_files_only",
++            "runtime.temperature",
++            "runtime.max_new_tokens",
++            "runtime.stop_token_ids",
++            "runtime.enable_thinking",
++            "runtime.deterministic",
++            "runtime.seed",
++            "runtime.allow_tf32",
++            "runtime.matmul_precision",
++            "optimization.gpu_resident_acceptance",
++            "optimization.output_contract_mode",
++            "optimization.full_structural_audit",
++            "optimization.compact_structural_audit",
++            "optimization.profile_components",
++            "optimization.block_policy.mode",
++            "optimization.block_policy.fixed_block_size",
++            "optimization.block_policy.allow_subblock_shapes",
++            "validation.require_cuda",
++            "validation.require_single_gpu",
++            "validation.require_full_gpu_placement",
++            "benchmark.repetitions",
++            "benchmark.warmup_requests",
++            "prompts.system",
++            "protocol_profiles.active",
++            "protocol_profiles.profiles",
+         ]
+         for key in required:
+             self.require(key)
+@@ -112,6 +225,23 @@ class Rec2Config:
+             raise ConfigurationError("allowed block sizes must be unique and sorted")
+         if any(int(size) < 2 or int(size) > checkpoint for size in allowed):
+             raise ConfigurationError("allowed block sizes must be in [2, checkpoint_block_size]")
++        fixed_block = int(self.require("optimization.block_policy.fixed_block_size"))
++        if fixed_block not in allowed:
++            raise ConfigurationError("fixed block size must be listed in allowed block sizes")
++        if require_canonical_block and fixed_block != checkpoint:
++            raise ConfigurationError(
++                "canonical fixed block size must match the D-Flash checkpoint block size"
++            )
++        configured_devices = {
++            str(self.require("runtime.device")),
++            str(self.require("models.baseline.device_map")),
++            str(self.require("models.dflash.target.device_map")),
++            str(self.require("models.dflash.drafter.device_map")),
++            str(self.require("models.compressor.device")),
++        }
++        if any(not value.startswith("cuda") for value in configured_devices):
++            raise ConfigurationError(f"all configured runtime devices must be CUDA: {configured_devices}")
++        self._validate_protocol_profiles(allowed)
+         if require_model_files:
+             for key in (
+                 "models.baseline.local_path",
+@@ -123,6 +253,95 @@ class Rec2Config:
+                     raise ConfigurationError(f"model path does not exist: {path}")
+         return warnings
+ 
++    def _validate_protocol_profiles(self, allowed_blocks: list[Any]) -> None:
++        profiles = self.require("protocol_profiles.profiles")
++        active = self.require("protocol_profiles.active")
++        if not isinstance(profiles, Mapping) or not profiles:
++            raise ConfigurationError("protocol_profiles.profiles must be a non-empty mapping")
++        if not isinstance(active, str) or active not in profiles:
++            raise ConfigurationError(f"active protocol profile is not defined: {active}")
++        profile = profiles[active]
++        if not isinstance(profile, Mapping):
++            raise ConfigurationError("active protocol profile must be a mapping")
++        required = (
++            "artifact_directory", "review_archive", "dataset", "config_overrides",
++            "compression.keep_rate", "compression.min_context_tokens",
++            "compression.chunk_max_words", "prompt_contract.question",
++            "prompt_contract.output_instruction", "prompt_contract.strict_output_pattern",
++            "prompt_contract.tolerant_field_pattern", "prompt_contract.distractor_template",
++            "prompt_contract.evidence_template", "conditions", "parity_pairs",
++            "hard_gates.condition_success_rate",
++            "hard_gates.pair_generated_token_parity_rate",
++            "hard_gates.exact_field_quality_rate", "hard_gates.protected_input_rate",
++            "hard_gates.metric_validity_rate", "hard_gates.max_oom_events",
++            "hard_gates.dflash_peak_reserved_vram_gib", "fixtures",
++        )
++        for key in required:
++            _require(profile, key)
++        for pattern_key in ("strict_output_pattern", "tolerant_field_pattern"):
++            try:
++                re.compile(str(_require(profile, f"prompt_contract.{pattern_key}")))
++            except re.error as exc:
++                raise ConfigurationError(f"invalid {pattern_key}: {exc}") from exc
++        conditions = _require(profile, "conditions")
++        if not isinstance(conditions, list) or not conditions:
++            raise ConfigurationError("protocol profile conditions must be a non-empty list")
++        condition_names: list[str] = []
++        for condition in conditions:
++            if not isinstance(condition, Mapping):
++                raise ConfigurationError("each protocol condition must be a mapping")
++            name = str(_require(condition, "name"))
++            runtime_condition = str(_require(condition, "runtime_condition"))
++            prompt_kind = str(_require(condition, "prompt_kind"))
++            if runtime_condition not in {"baseline", "dflash"}:
++                raise ConfigurationError(f"invalid runtime condition for {name}: {runtime_condition}")
++            if prompt_kind not in {"original", "compressed"}:
++                raise ConfigurationError(f"invalid prompt kind for {name}: {prompt_kind}")
++            if prompt_kind == "compressed":
++                _require(condition, "reduction_reference_condition")
++            condition_names.append(name)
++        if len(condition_names) != len(set(condition_names)):
++            raise ConfigurationError("protocol condition names must be unique")
++        pairs = _require(profile, "parity_pairs")
++        if not isinstance(pairs, list) or not pairs:
++            raise ConfigurationError("protocol parity_pairs must be a non-empty list")
++        for pair in pairs:
++            for side in ("left", "right"):
++                if str(_require(pair, side)) not in condition_names:
++                    raise ConfigurationError(f"parity pair references unknown condition: {pair}")
++        fixtures = _require(profile, "fixtures")
++        if not isinstance(fixtures, list) or not fixtures:
++            raise ConfigurationError("protocol fixtures must be a non-empty list")
++        for fixture in fixtures:
++            for key in (
++                "turns", "evidence_position_fraction", "owner", "approval_code", "quantity"
++            ):
++                _require(fixture, key)
++        for rate_key in (
++            "condition_success_rate", "pair_generated_token_parity_rate",
++            "exact_field_quality_rate", "protected_input_rate", "metric_validity_rate",
++        ):
++            rate = float(_require(profile, f"hard_gates.{rate_key}"))
++            if not 0 < rate <= 1:
++                raise ConfigurationError(f"protocol hard-gate rate must be in (0, 1]: {rate_key}")
++        if int(_require(profile, "hard_gates.max_oom_events")) < 0:
++            raise ConfigurationError("max_oom_events must be non-negative")
++        memory_limit = float(_require(profile, "hard_gates.dflash_peak_reserved_vram_gib"))
++        if memory_limit <= 0:
++            raise ConfigurationError("D-Flash profile memory gate must be positive")
++        overrides = _require(profile, "config_overrides")
++        if not isinstance(overrides, Mapping):
++            raise ConfigurationError("config_overrides must be a mapping")
++        resolved = copy.deepcopy(self.data)
++        _merge_existing(resolved, overrides)
++        profile_block = int(_require(resolved, "optimization.block_policy.fixed_block_size"))
++        if profile_block not in [int(value) for value in allowed_blocks]:
++            raise ConfigurationError("protocol profile block size must be allowed by canonical config")
++        if float(_require(resolved, "memory.dflash_peak_reserved_limit_gib")) > memory_limit:
++            raise ConfigurationError(
++                "resolved runtime memory limit cannot exceed the protocol hard gate"
++            )
++
+ 
+ def load_config(path: str | Path = "config.yml") -> Rec2Config:
+     config_path = Path(path).expanduser().resolve()
+diff --git a/src/ccdf/models/loaders.py b/src/ccdf/models/loaders.py
+index 108cfc7..78e365f 100644
+--- a/src/ccdf/models/loaders.py
++++ b/src/ccdf/models/loaders.py
+@@ -71,7 +71,14 @@ def _prepare_triton_build_headers() -> bool:
+     return False
+ 
+ 
+-def _load_pretrained(cls: Any, *, path: Path, profile: dict[str, Any], attention_backend: str) -> Any:
++def _load_pretrained(
++    cls: Any,
++    *,
++    path: Path,
++    profile: dict[str, Any],
++    attention_backend: str,
++    local_files_only: bool,
++) -> Any:
+     workarounds = {
+         "awq_profile": False,
+         "activation_alias_applied": False,
+@@ -88,16 +95,16 @@ def _load_pretrained(cls: Any, *, path: Path, profile: dict[str, Any], attention
+         workarounds["awq_profile"] = True
+         workarounds["triton_header_override_applied"] = _prepare_triton_build_headers()
+         workarounds["activation_alias_applied"] = _prepare_awq_compatibility()
+-    configured_device_map = profile.get("device_map", "cuda:0")
++    configured_device_map = profile["device_map"]
+     if isinstance(configured_device_map, str) and configured_device_map.startswith("cuda"):
+         index = int(configured_device_map.split(":", 1)[1]) if ":" in configured_device_map else 0
+         configured_device_map = {"": index}
+     kwargs: dict[str, Any] = {
+-        "local_files_only": True,
++        "local_files_only": local_files_only,
+         "device_map": configured_device_map,
+-        "dtype": _dtype(profile.get("dtype", "bfloat16")),
++        "dtype": _dtype(profile["dtype"]),
+     }
+-    if profile.get("trust_remote_code"):
++    if bool(profile["trust_remote_code"]):
+         kwargs["trust_remote_code"] = True
+     if attention_backend and attention_backend != "auto":
+         kwargs["attn_implementation"] = attention_backend
+@@ -123,7 +130,9 @@ def _load_pretrained(cls: Any, *, path: Path, profile: dict[str, Any], attention
+     return model
+ 
+ 
+-def load_tokenizer(path: str | Path):
++def load_tokenizer(
++    path: str | Path, *, local_files_only: bool, trust_remote_code: bool
++):
+     from transformers import AutoTokenizer
+ 
+     model_path = Path(path).resolve()
+@@ -131,8 +140,8 @@ def load_tokenizer(path: str | Path):
+         raise FileNotFoundError(f"tokenizer path not found: {model_path}")
+     tokenizer = AutoTokenizer.from_pretrained(
+         model_path,
+-        local_files_only=True,
+-        trust_remote_code=True,
++        local_files_only=local_files_only,
++        trust_remote_code=trust_remote_code,
+     )
+     if tokenizer.pad_token_id is None and tokenizer.eos_token_id is not None:
+         tokenizer.pad_token_id = tokenizer.eos_token_id
+@@ -145,8 +154,8 @@ def load_baseline(config: Rec2Config):
+     profile = config.model_profile("baseline")
+     _prepare_awq_compatibility()
+     awq_kernel = _prepare_awq_deterministic_kernel(
+-        bool(config.get("runtime.deterministic", True)),
+-        int(config.get("runtime.awq_split_k_iters", 1)),
++        bool(config.require("runtime.deterministic")),
++        int(config.require("runtime.awq_split_k_iters")),
+     )
+     path = Path(profile["local_path"]).resolve()
+     if not path.exists():
+@@ -155,12 +164,17 @@ def load_baseline(config: Rec2Config):
+         AutoModelForCausalLM,
+         path=path,
+         profile=profile,
+-        attention_backend=str(config.get("runtime.attention_backend", "sdpa")),
++        attention_backend=str(config.require("runtime.attention_backend")),
++        local_files_only=bool(config.require("runtime.local_files_only")),
+     )
+     model.eval()
+-    if config.get("validation.require_full_gpu_placement", True):
++    if bool(config.require("validation.require_full_gpu_placement")):
+         assert_cuda_only(model, label="baseline")
+-    tokenizer = load_tokenizer(profile.get("tokenizer_path", path))
++    tokenizer = load_tokenizer(
++        profile["tokenizer_path"],
++        local_files_only=bool(config.require("runtime.local_files_only")),
++        trust_remote_code=bool(profile["trust_remote_code"]),
++    )
+     return model, tokenizer, {
+         "role": "baseline",
+         "model_id": profile["model_id"],
+@@ -179,8 +193,8 @@ def load_dflash_models(config: Rec2Config, target_profile: str = "primary"):
+     target_cfg = config.model_profile("dflash", target_profile=target_profile)
+     _prepare_awq_compatibility()
+     awq_kernel = _prepare_awq_deterministic_kernel(
+-        bool(config.get("runtime.deterministic", True)),
+-        int(config.get("runtime.awq_split_k_iters", 1)),
++        bool(config.require("runtime.deterministic")),
++        int(config.require("runtime.awq_split_k_iters")),
+     )
+     drafter_cfg = dict(config.require("models.dflash.drafter"))
+     target_path = Path(target_cfg["local_path"]).resolve()
+@@ -188,15 +202,32 @@ def load_dflash_models(config: Rec2Config, target_profile: str = "primary"):
+     for label, path in (("target", target_path), ("drafter", drafter_path)):
+         if not path.exists():
+             raise FileNotFoundError(f"{label} model path not found: {path}")
+-    backend = str(config.get("runtime.attention_backend", "sdpa"))
+-    target = _load_pretrained(AutoModelForCausalLM, path=target_path, profile=target_cfg, attention_backend=backend)
+-    drafter = _load_pretrained(AutoModel, path=drafter_path, profile=drafter_cfg, attention_backend=backend)
++    backend = str(config.require("runtime.attention_backend"))
++    local_files_only = bool(config.require("runtime.local_files_only"))
++    target = _load_pretrained(
++        AutoModelForCausalLM,
++        path=target_path,
++        profile=target_cfg,
++        attention_backend=backend,
++        local_files_only=local_files_only,
++    )
++    drafter = _load_pretrained(
++        AutoModel,
++        path=drafter_path,
++        profile=drafter_cfg,
++        attention_backend=backend,
++        local_files_only=local_files_only,
++    )
+     target.eval()
+     drafter.eval()
+-    if config.get("validation.require_full_gpu_placement", True):
++    if bool(config.require("validation.require_full_gpu_placement")):
+         assert_cuda_only(target, label="D-Flash target")
+         assert_cuda_only(drafter, label="D-Flash drafter")
+-    tokenizer = load_tokenizer(target_cfg.get("tokenizer_path", target_path))
++    tokenizer = load_tokenizer(
++        target_cfg["tokenizer_path"],
++        local_files_only=local_files_only,
++        trust_remote_code=bool(target_cfg["trust_remote_code"]),
++    )
+     contract = validate_dflash_contract(target, drafter, config)
+     return target, drafter, tokenizer, {
+         "role": "dflash",
+diff --git a/src/ccdf/runtime/engine.py b/src/ccdf/runtime/engine.py
+index bdef242..d616c34 100644
+--- a/src/ccdf/runtime/engine.py
++++ b/src/ccdf/runtime/engine.py
+@@ -38,10 +38,10 @@ class RuntimeEngine:
+     def _configure_determinism(self) -> dict[str, Any]:
+         return configure_determinism(
+             seed=self.seed,
+-            deterministic=bool(self.config.get("runtime.deterministic", True)),
+-            allow_tf32=bool(self.config.get("runtime.allow_tf32", False)),
+-            matmul_precision=str(self.config.get("runtime.matmul_precision", "high")),
+-            sdpa_kernel=str(self.config.get("runtime.sdpa_kernel", "math")),
++            deterministic=bool(self.config.require("runtime.deterministic")),
++            allow_tf32=bool(self.config.require("runtime.allow_tf32")),
++            matmul_precision=str(self.config.require("runtime.matmul_precision")),
++            sdpa_kernel=str(self.config.require("runtime.sdpa_kernel")),
+         )
+ 
+     @classmethod
+@@ -84,7 +84,7 @@ class RuntimeEngine:
+                 fullgraph=bool(compile_cfg["fullgraph"]),
+                 dynamic=bool(compile_cfg["dynamic"]),
+             )
+-        if self.config.get("memory.enforce_after_model_load", True):
++        if bool(self.config.require("memory.enforce_after_model_load")):
+             reset_peak_memory()
+             synchronize()
+             stats = collect_memory(
+@@ -93,7 +93,7 @@ class RuntimeEngine:
+             enforce_memory_gate(stats, label="D-Flash model load")
+ 
+     def encode_prompt(self, prompt: str, *, system: str | None = None) -> torch.Tensor:
+-        system_text = system or str(self.config.get("prompts.system", ""))
++        system_text = str(self.config.require("prompts.system")) if system is None else system
+         messages = []
+         if system_text:
+             messages.append({"role": "system", "content": system_text})
+@@ -105,7 +105,7 @@ class RuntimeEngine:
+         }
+         chat_template = getattr(self.tokenizer, "chat_template", "") or ""
+         if "enable_thinking" in chat_template:
+-            kwargs["enable_thinking"] = bool(self.config.get("runtime.enable_thinking", False))
++            kwargs["enable_thinking"] = bool(self.config.require("runtime.enable_thinking"))
+         try:
+             encoded = self.tokenizer.apply_chat_template(messages, **kwargs)
+         except TypeError:
+@@ -137,7 +137,7 @@ class RuntimeEngine:
+             dataset=dataset,
+             block_size=int(self.config.require("optimization.block_policy.fixed_block_size")),
+             output_contract_mode=str(
+-                self.config.get("optimization.output_contract_mode", "finalize_only")
++                self.config.require("optimization.output_contract_mode")
+             ),
+         )
+         if self.condition == "baseline":
+@@ -160,17 +160,17 @@ class RuntimeEngine:
+                 block_policy=policy,
+                 memory_limit_gib=float(self.config.require("memory.dflash_peak_reserved_limit_gib")),
+                 full_structural_audit=bool(
+-                    self.config.get("optimization.full_structural_audit", False)
++                    self.config.require("optimization.full_structural_audit")
+                 ),
+                 compact_structural_audit=bool(
+-                    self.config.get("optimization.compact_structural_audit", True)
++                    self.config.require("optimization.compact_structural_audit")
+                 ),
+-                profile_components=bool(self.config.get("optimization.profile_components", False)),
++                profile_components=bool(self.config.require("optimization.profile_components")),
+                 gpu_resident_acceptance=bool(
+-                    self.config.get("optimization.gpu_resident_acceptance", True)
++                    self.config.require("optimization.gpu_resident_acceptance")
+                 ),
+                 allow_subblock_shapes=bool(
+-                    self.config.get("optimization.block_policy.allow_subblock_shapes", True)
++                    self.config.require("optimization.block_policy.allow_subblock_shapes")
+                 ),
+             )
+         synchronize()
+diff --git a/src/ccdf/schemas.py b/src/ccdf/schemas.py
+index 4f187be..947ad8b 100644
+--- a/src/ccdf/schemas.py
++++ b/src/ccdf/schemas.py
+@@ -11,9 +11,9 @@ class GenerationSettings:
+     max_new_tokens: int
+     temperature: float
+     stop_token_ids: tuple[int, ...]
++    block_size: int
++    output_contract_mode: str
+     dataset: str = "general"
+-    block_size: int = 16
+-    output_contract_mode: str = "finalize_only"
+ 
+ 
+ @dataclass
+diff --git a/src/ccdf/validation/environment.py b/src/ccdf/validation/environment.py
+index b45e77f..5d3b291 100644
+--- a/src/ccdf/validation/environment.py
++++ b/src/ccdf/validation/environment.py
+@@ -25,10 +25,10 @@ def _package_version(*names: str) -> str | None:
+ 
+ 
+ def validate_environment(config: Rec2Config) -> dict[str, Any]:
+-    require_cuda = bool(config.get("validation.require_cuda", True))
++    require_cuda = bool(config.require("validation.require_cuda"))
+     if require_cuda and not torch.cuda.is_available():
+         raise RuntimeError("CUDA is required by config but is not available")
+-    if bool(config.get("validation.require_single_gpu", True)) and torch.cuda.device_count() != 1:
++    if bool(config.require("validation.require_single_gpu")) and torch.cuda.device_count() != 1:
+         raise RuntimeError(f"expected exactly one visible GPU, found {torch.cuda.device_count()}")
+     paths = {
+         "baseline": Path(config.require("models.baseline.local_path")),

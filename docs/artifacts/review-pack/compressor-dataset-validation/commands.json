@@ -1,0 +1,67 @@
+{
+  "validation_commands": [
+    {
+      "label": "compressor-validation",
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/python",
+        "tests/run_compressor_validation.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"device_audit\": {\"all_tensors_cuda\": true, \"buffer_bytes\": 8224, \"buffer_tensor_count\": 2, \"cpu_offload\": false, \"devices\": [\"cuda:0\"], \"execution_mode\": \"resident\", \"parameter_bytes\": 2235781128, \"parameter_tensor_count\": 391, \"total_parameters_numel\": 558945282}, \"measurement\": {\"cuda_synchronize\": true, \"repetitions_per_prompt\": 5, \"warmups_per_prompt\": 1}, \"mock_prompt_count\": 10, \"mock_prompt_pass_count\": 10, \"model_contract\": {\"architectures\": [\"XLMRobertaForTokenClassification\"], \"backend_class\": \"PromptCompressor\", \"compression_algorithm\": \"llmlingua2_token_classification\", \"heuristic_or_truncation_fallback\": false, \"local_files_only\": true, \"model_type\": \"xlm-roberta\"}, \"pass\": true}\n",
+      "stderr": "`torch_dtype` is deprecated! Use `dtype` instead!\n",
+      "duration_seconds": 31.84039980000034
+    },
+    {
+      "label": "dataset-validation",
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/python",
+        "tests/run_dataset_validation.py"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"dataset_checks\": {\"gsm8k\": {\"processed_hash_match\": true, \"raw_hash_match\": true, \"row_ids_match\": true, \"sample_count\": 10, \"sample_hash_match\": true}, \"qmsum\": {\"processed_hash_match\": true, \"raw_hash_match\": true, \"row_ids_match\": true, \"sample_count\": 10, \"sample_hash_match\": true}}, \"manifest_byte_match\": true, \"pass\": true}\n",
+      "stderr": "",
+      "duration_seconds": 2.1513978889997816
+    }
+  ],
+  "final_commands": [
+    {
+      "label": "compileall",
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "src",
+        "scripts",
+        "tests"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "duration_seconds": 0.027000463000149466
+    },
+    {
+      "label": "pytest",
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stdout": "........................................................                 [100%]\n56 passed in 2.67s\n",
+      "stderr": "",
+      "duration_seconds": 3.742091488999904
+    },
+    {
+      "label": "git-diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "duration_seconds": 0.0031798939999134745
+    }
+  ]
+}

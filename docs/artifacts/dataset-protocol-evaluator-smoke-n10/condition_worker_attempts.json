@@ -1,0 +1,107 @@
+[
+  {
+    "attempt": 1,
+    "checkpoint_rows_after_attempt": 20,
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "ccdf.benchmark.dataset_smoke",
+      "--config",
+      "/data/Projects/CCDF-Rework/config.yml",
+      "--condition-worker",
+      "baseline-ar",
+      "--prepared-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/prepared.jsonl",
+      "--rows-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/baseline-ar.jsonl"
+    ],
+    "condition": "baseline-ar",
+    "duration_seconds": 333.63427444299987,
+    "exit_code": 0,
+    "max_attempts": 5
+  },
+  {
+    "attempt": 1,
+    "checkpoint_rows_after_attempt": 20,
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "ccdf.benchmark.dataset_smoke",
+      "--config",
+      "/data/Projects/CCDF-Rework/config.yml",
+      "--condition-worker",
+      "dflash-r1",
+      "--prepared-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/prepared.jsonl",
+      "--rows-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/dflash-r1.jsonl"
+    ],
+    "condition": "dflash-r1",
+    "duration_seconds": 244.64795021700002,
+    "exit_code": 0,
+    "max_attempts": 5
+  },
+  {
+    "attempt": 1,
+    "checkpoint_rows_after_attempt": 7,
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "ccdf.benchmark.dataset_smoke",
+      "--config",
+      "/data/Projects/CCDF-Rework/config.yml",
+      "--condition-worker",
+      "llmlingua-ar-r2",
+      "--prepared-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/prepared.jsonl",
+      "--rows-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/llmlingua-ar-r2.jsonl"
+    ],
+    "condition": "llmlingua-ar-r2",
+    "duration_seconds": 48.81330693500013,
+    "exit_code": -11,
+    "max_attempts": 5
+  },
+  {
+    "attempt": 2,
+    "checkpoint_rows_after_attempt": 20,
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "ccdf.benchmark.dataset_smoke",
+      "--config",
+      "/data/Projects/CCDF-Rework/config.yml",
+      "--condition-worker",
+      "llmlingua-ar-r2",
+      "--prepared-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/prepared.jsonl",
+      "--rows-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/llmlingua-ar-r2.jsonl"
+    ],
+    "condition": "llmlingua-ar-r2",
+    "duration_seconds": 216.3431595760003,
+    "exit_code": 0,
+    "max_attempts": 5
+  },
+  {
+    "attempt": 1,
+    "checkpoint_rows_after_attempt": 20,
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "ccdf.benchmark.dataset_smoke",
+      "--config",
+      "/data/Projects/CCDF-Rework/config.yml",
+      "--condition-worker",
+      "cc-dflash-r2",
+      "--prepared-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/prepared.jsonl",
+      "--rows-path",
+      "/data/Projects/CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10/.working/cc-dflash-r2.jsonl"
+    ],
+    "condition": "cc-dflash-r2",
+    "duration_seconds": 174.87712010899986,
+    "exit_code": 0,
+    "max_attempts": 5
+  }
+]

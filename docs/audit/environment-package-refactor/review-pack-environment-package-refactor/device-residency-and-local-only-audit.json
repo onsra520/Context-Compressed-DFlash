@@ -1,0 +1,121 @@
+{
+  "compressor_device_audit": {
+    "all_tensors_cuda": true,
+    "buffer_bytes": 8224,
+    "buffer_tensor_count": 2,
+    "cpu_offload": false,
+    "devices": [
+      "cuda:0"
+    ],
+    "execution_mode": "resident",
+    "parameter_bytes": 2235781128,
+    "parameter_tensor_count": 391,
+    "total_parameters_numel": 558945282
+  },
+  "effective_runtime_sdpa_state": {
+    "attention_states": [
+      {
+        "attn_implementation": "sdpa",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "mem_efficient_sdp_enabled": false
+      }
+    ],
+    "determinism_states": [
+      {
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      }
+    ],
+    "hard_gate": {
+      "flash": false,
+      "math": true,
+      "memory_efficient": false,
+      "tf32": false
+    }
+  },
+  "gates": {
+    "all_inference_inputs_cuda": true,
+    "all_model_parameters_and_buffers_cuda": true,
+    "compressor_parameters_and_buffers_cuda": true,
+    "effective_runtime_sdpa_math_only": true,
+    "effective_runtime_tf32_disabled": true,
+    "local_files_only_all_loads": true,
+    "python_executable_is_project_venv": true,
+    "python_prefix_is_project_venv": true,
+    "resolved_execution_has_no_external_or_conda_site_packages": true
+  },
+  "pass": true,
+  "unique_inference_tensor_audits": [
+    {
+      "cpu_or_disk_offload": false,
+      "generated_intermediate_device_policy": "all inference tensors are allocated from input_ids.device or model.device",
+      "input_ids_cuda": true,
+      "input_ids_device": "cuda:0"
+    }
+  ],
+  "unique_model_audits": [
+    {
+      "all_tensors_cuda": true,
+      "buffer_bytes": 1887621376,
+      "buffer_tensor_count": 757,
+      "cpu_or_disk_offload": false,
+      "devices": [
+        "cuda:0"
+      ],
+      "execution_mode": "resident",
+      "hf_device_map": {
+        "": 0
+      },
+      "label": "baseline",
+      "parameter_bytes": 778304512,
+      "parameter_tensor_count": 146
+    },
+    {
+      "all_tensors_cuda": true,
+      "buffer_bytes": 1887621376,
+      "buffer_tensor_count": 757,
+      "cpu_or_disk_offload": false,
+      "devices": [
+        "cuda:0"
+      ],
+      "execution_mode": "resident",
+      "hf_device_map": {
+        "": 0
+      },
+      "label": "D-Flash target",
+      "parameter_bytes": 778304512,
+      "parameter_tensor_count": 146
+    },
+    {
+      "all_tensors_cuda": true,
+      "buffer_bytes": 256,
+      "buffer_tensor_count": 1,
+      "cpu_or_disk_offload": false,
+      "devices": [
+        "cuda:0"
+      ],
+      "execution_mode": "resident",
+      "hf_device_map": {
+        "": 0
+      },
+      "label": "D-Flash drafter",
+      "parameter_bytes": 1074854400,
+      "parameter_tensor_count": 58
+    }
+  ]
+}

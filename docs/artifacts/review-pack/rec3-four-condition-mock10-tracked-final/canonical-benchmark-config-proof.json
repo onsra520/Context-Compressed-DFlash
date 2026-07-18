@@ -1,0 +1,25 @@
+{
+  "base_commit_sha": "b18b283fb8fe82363180157263c8d2ca8446e770",
+  "canonical_fixed_block_size": 16,
+  "canonical_sections": [
+    "models",
+    "runtime",
+    "memory",
+    "optimization",
+    "benchmark",
+    "validation",
+    "prompts"
+  ],
+  "checkpoint_block_size": 16,
+  "new_profile_is_outside_canonical_sections": true,
+  "pass": true,
+  "section_checks": {
+    "benchmark": true,
+    "memory": true,
+    "models": true,
+    "optimization": true,
+    "prompts": true,
+    "runtime": true,
+    "validation": true
+  }
+}

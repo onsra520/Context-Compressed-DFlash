@@ -1,0 +1,202 @@
+{
+  "base_commit_sha": "b18b283fb8fe82363180157263c8d2ca8446e770",
+  "block_16_status": "historical diagnostic only; not used by this final run",
+  "manifest_version": "ccdf.rec3-four-condition-mock10-final.v1",
+  "members": {
+    ".gitignore": {
+      "bytes": 364,
+      "sha256": "8e18804026588937d8975fc9523cc05792bac9daf10a73d8da880724c467d368"
+    },
+    "config.yml": {
+      "bytes": 8120,
+      "sha256": "fe4ad68b1ef01e8aaa93432f2f3001c17c82b63f6cc969ad1684451fe94574ce"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/FINAL_REPORT.md": {
+      "bytes": 3234,
+      "sha256": "37525ae7264cd1ee82910d501f2ab2d3456cc51565ce69437e0693764d7b9629"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/final_config_snapshot.json": {
+      "bytes": 9638,
+      "sha256": "bd9f769d133b1709338035b444eda892cbe7438a856aa4f8d024c5c58d5bfb70"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/gate_matrix.json": {
+      "bytes": 540,
+      "sha256": "fc5f3799cdb3056781b851a4570d4d84e445c03aa86440753cc5894ea4c5c6e2"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/mock_fixtures.json": {
+      "bytes": 33413,
+      "sha256": "597da15c7f10bb0b3030f26544306b4673fe90ed21a457f047fac8399ed24578"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/pair_parity.json": {
+      "bytes": 10258,
+      "sha256": "29607693324541a95bbd9978208879313931d81cb054728e7795864110537ecd"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/protected_field_hashes.json": {
+      "bytes": 2853,
+      "sha256": "43597cf07761dc3aad4efffae84173dd4e8e7401d26f260f0b1b503d5110e4d4"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/raw_runs.json": {
+      "bytes": 1315293,
+      "sha256": "4c5134ba9f543717711eccf01e1b3172a8e7a24fb588276a60b33ba7719220da"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/summary.json": {
+      "bytes": 8787,
+      "sha256": "5e46359a4cf47a112abdd5608e44623dd95e7998ecfae8a79fd3a3f67a3ddd3e"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/base-commit.txt": {
+      "bytes": 41,
+      "sha256": "5191c7d65a06f62bb1690faf7a99f6ea02fc095e14d3174f83a1a81fbc46a702"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/canonical-benchmark-config-unchanged-proof.json": {
+      "bytes": 737,
+      "sha256": "89d4f34dec183ed74621e446b61ba570ebd01dd0ef2f33f47da170b9dbd25146"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/changed-files.txt": {
+      "bytes": 481,
+      "sha256": "cfaefc5f6439ca0ae6f1ec6381686325f6fce5210771107f8f4b913dd34cbaf6"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/checkpoint-manifest.json": {
+      "bytes": 5025,
+      "sha256": "262f68eba443382f00bdb680d7eabc4c345f5911f8a55599a3931fe4064c4bde"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/commands.json": {
+      "bytes": 10572,
+      "sha256": "ea62312ffdd0ca78aadfad83d508c8d35110bc4ae02790b05f523bdbe9616387"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/dflash-core-unchanged-proof.json": {
+      "bytes": 1094,
+      "sha256": "97af2d6f42b03cdd1daa4f9a57d7fec268d071262fde447e51c4fc1381381607"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/environment.json": {
+      "bytes": 762,
+      "sha256": "2c2ab7be2a38070f30d0187f00ca6c7bfda99669a5305c7d46dbb3f8b56b3851"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/git-diff.patch": {
+      "bytes": 1040,
+      "sha256": "7a099798e3da1a41b2f3d9fd3ae41025b1d45881b3615a10e10e6b76ed6f46fb"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/git-evidence.json": {
+      "bytes": 3629,
+      "sha256": "9ac643db1776a79e70d15f857bfe3455ef01f3723ca033850e1e81a45214c189"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/git-status.txt": {
+      "bytes": 37,
+      "sha256": "05f92e49ac1711a8b370fdbe052052f0bb2fa74eddc3c1de51743e36823bc39f"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/pack-members.txt": {
+      "bytes": 2413,
+      "sha256": "d1784d8846ece633847540f92c82910f5e333355fc77df9d08550ba3554783a4"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/test-results.txt": {
+      "bytes": 9661,
+      "sha256": "71f554de333ca187106a45f385c75550e08744c62260d309d457a914e4023ca1"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-final/validation-summary.json": {
+      "bytes": 10061,
+      "sha256": "be192ff8b8dab61fb98232dab4e6e7e20eea799311c07971ccd6da7d2fd93e70"
+    },
+    "pyproject.toml": {
+      "bytes": 846,
+      "sha256": "11b8d4689bb4c491d42c18d8fc271941f3dffdcb9a38464e40eb192c8e1d6790"
+    },
+    "src/ccdf/compression/__init__.py": {
+      "bytes": 291,
+      "sha256": "c46cf3c0f8484ac1a82ee28b9976d0ba533c01bd36de7f550ddc1186f7aee2cd"
+    },
+    "src/ccdf/compression/llmlingua.py": {
+      "bytes": 9428,
+      "sha256": "06cb7ab16e5d6c9132bb9dea9d2390aed971377cd3f66f7f963a574d28837fca"
+    },
+    "src/ccdf/compression/schemas.py": {
+      "bytes": 1082,
+      "sha256": "b7edc73a6cec9bffd6026bbc50edb3039a3caae0a3d1522c03ae3785bda3b3e2"
+    },
+    "src/ccdf/config.py": {
+      "bytes": 5832,
+      "sha256": "f8e28f170d7def1eebc928340b4da295c6912db645cf6fd225ffe6be1098469b"
+    },
+    "src/ccdf/determinism.py": {
+      "bytes": 2969,
+      "sha256": "c0fcf9a67383e8a1d2264da1aa13f303977fdac9276fc25fcbf9c41e0b67b1e9"
+    },
+    "src/ccdf/device.py": {
+      "bytes": 4708,
+      "sha256": "18f0e1372094384717ffb53245c8415dbc067f2a3e7faee73b62bbbd7c8ce5b7"
+    },
+    "src/ccdf/dflash/acceptance.py": {
+      "bytes": 2606,
+      "sha256": "1aa113b7d1fa34a51fed7f8d4069553bc723774168ee9851d79a660e7178613d"
+    },
+    "src/ccdf/dflash/generate.py": {
+      "bytes": 11114,
+      "sha256": "0642765ab2d781ab466b82542dc09edd8e1a4edfc947c92fa42fa7b2a9b9be01"
+    },
+    "src/ccdf/dflash/policy.py": {
+      "bytes": 2231,
+      "sha256": "ae6b9debf17598839e4a2f2fcc82c50057aff81a536c9fff068681d67f62fb59"
+    },
+    "src/ccdf/dflash/verifier.py": {
+      "bytes": 4933,
+      "sha256": "80a8b49d72203346d5efa2725c191b5fdc0390ba3678f43495dda3c13ef19e92"
+    },
+    "src/ccdf/inference/baseline.py": {
+      "bytes": 3805,
+      "sha256": "4d4104b6633dfde9c5c3b15cc8384a76d33cd80134a991ed68dc50eeaadfb4a1"
+    },
+    "src/ccdf/inference/sampling.py": {
+      "bytes": 444,
+      "sha256": "7a2d4e524a68ff1afec34ec097655ae5e1abcfadc08d0fdd588746e317a00785"
+    },
+    "src/ccdf/models/loaders.py": {
+      "bytes": 11127,
+      "sha256": "dc02ac5a20ff6fa29566179378d8c5eaefca002bb09201a8c80016a45558be3c"
+    },
+    "src/ccdf/runtime/engine.py": {
+      "bytes": 7915,
+      "sha256": "0ef6e44750e314e5a5e4cde3921196f8f3efaa3262e335dfe28d9f512ce48e0b"
+    },
+    "src/ccdf/schemas.py": {
+      "bytes": 4575,
+      "sha256": "b60c28e35f8dd4f3f056db62087727ccb42f52145a80226d702ac609502804fc"
+    },
+    "tests/build_rec3_four_condition_review_pack.py": {
+      "bytes": 21984,
+      "sha256": "4d3cc101b8508e1cdc7ba9a71605a67fc1a0b806955d7484fd1324ab2bf6730c"
+    },
+    "tests/run_rec3_dflash_block_size_ablation.py": {
+      "bytes": 18920,
+      "sha256": "70e4e0cdd53c67cd3bc62c8c273308fabefda35ab238d7af744fdc91b90c605c"
+    },
+    "tests/run_rec3_dflash_verifier_diagnostic.py": {
+      "bytes": 30367,
+      "sha256": "fbf679d278bada4d7a1482807445fe9673d82161aeb7d2dfcd8c2792c48192f2"
+    },
+    "tests/run_rec3_four_condition_protocol.py": {
+      "bytes": 47405,
+      "sha256": "ec024fa9bfbf6c7ace8a20dd6376cf7987bb8a51c9f2e8161d71c171becc627b"
+    },
+    "tests/run_rec3_mock02_divergence.py": {
+      "bytes": 14385,
+      "sha256": "c004c7f7b9cbf84a5051a1211ba7b2dd9acdca5f3394618b5806ce4dbd051ce7"
+    },
+    "tests/test_compression_protocol.py": {
+      "bytes": 639,
+      "sha256": "e79722c1821a968d4385ca89641bbcbb2a5f285fd6569b798c2a5dc634de0034"
+    },
+    "tests/test_dflash_integration.py": {
+      "bytes": 4531,
+      "sha256": "2c50e7af2bc06043e18cda2437674d2b6bfcc77fdb5c9c71197661ab8e12d627"
+    },
+    "tests/test_metrics.py": {
+      "bytes": 717,
+      "sha256": "f91ec4a03959ed2986689cb67ed802f7280d9d7878a38fe62fa517af769cf5e5"
+    },
+    "tests/test_rec3_protocol_helpers.py": {
+      "bytes": 1884,
+      "sha256": "d4d411273569ce1f6fa79ef87eb06a83fb161d261df794b54babc0c256252056"
+    }
+  },
+  "self_entry_policy": "archive-manifest.json is omitted from its own hash map to avoid recursive self-hashing",
+  "summary_sha256": "5e46359a4cf47a112abdd5608e44623dd95e7998ecfae8a79fd3a3f67a3ddd3e",
+  "verification_block_size": 8
+}

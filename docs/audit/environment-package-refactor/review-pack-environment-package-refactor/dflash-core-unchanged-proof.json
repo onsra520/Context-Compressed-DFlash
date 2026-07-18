@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "exact_sha256_equal": true,
+      "implementation_body_unchanged": true,
+      "import_normalized_ast_sha256_after": "21ec8babeca3897693e497722bc7f3ace247fafe745899c827e0267cdb9ab839",
+      "import_normalized_ast_sha256_before": "21ec8babeca3897693e497722bc7f3ace247fafe745899c827e0267cdb9ab839",
+      "path": "src/ccdf/dflash/__init__.py"
+    },
+    {
+      "exact_sha256_equal": true,
+      "implementation_body_unchanged": true,
+      "import_normalized_ast_sha256_after": "eab8072ca6f263fa304695d3b610bc12427cfe72b370494942ed4099503f8831",
+      "import_normalized_ast_sha256_before": "eab8072ca6f263fa304695d3b610bc12427cfe72b370494942ed4099503f8831",
+      "path": "src/ccdf/dflash/acceptance.py"
+    },
+    {
+      "exact_sha256_equal": false,
+      "implementation_body_unchanged": true,
+      "import_normalized_ast_sha256_after": "ab0384e64c14793593e219b98fbcb386d6831a11be7daa93ad336f4bc05bf51a",
+      "import_normalized_ast_sha256_before": "ab0384e64c14793593e219b98fbcb386d6831a11be7daa93ad336f4bc05bf51a",
+      "path": "src/ccdf/dflash/generate.py"
+    },
+    {
+      "exact_sha256_equal": true,
+      "implementation_body_unchanged": true,
+      "import_normalized_ast_sha256_after": "9db76db359fe60b12aa820d5e101c62ac04aba406ba9f4f6cabad81460976fbb",
+      "import_normalized_ast_sha256_before": "9db76db359fe60b12aa820d5e101c62ac04aba406ba9f4f6cabad81460976fbb",
+      "path": "src/ccdf/dflash/policy.py"
+    },
+    {
+      "exact_sha256_equal": true,
+      "implementation_body_unchanged": true,
+      "import_normalized_ast_sha256_after": "1295401a9f3b0a43a4e11c1dd57b780a7be604ef6d817066cce38bca17dd36e6",
+      "import_normalized_ast_sha256_before": "1295401a9f3b0a43a4e11c1dd57b780a7be604ef6d817066cce38bca17dd36e6",
+      "path": "src/ccdf/dflash/verifier.py"
+    }
+  ],
+  "git_diff": {
+    "command": [
+      "git",
+      "diff",
+      "HEAD",
+      "--",
+      "src/ccdf/dflash"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.004026550999697065,
+    "exit_code": 0,
+    "label": "dflash-core-diff",
+    "stderr": "",
+    "stdout": "diff --git a/src/ccdf/dflash/generate.py b/src/ccdf/dflash/generate.py\nindex 0aa39f1..63d5d2a 100644\n--- a/src/ccdf/dflash/generate.py\n+++ b/src/ccdf/dflash/generate.py\n@@ -8,7 +8,14 @@ from typing import Any\n import torch\n from transformers import DynamicCache\n \n-from ..device import EventSpan, collect_memory, current_memory_state, enforce_memory_gate, reset_peak_memory, synchronize\n+from ..runtime.device import (\n+    EventSpan,\n+    collect_memory,\n+    current_memory_state,\n+    enforce_memory_gate,\n+    reset_peak_memory,\n+    synchronize,\n+)\n from ..inference.sampling import sample\n from ..inference.stopping import BlockStopController\n from ..schemas import DFlashStats, GenerationOutput, GenerationSettings, TimingBreakdown\n"
+  },
+  "pass": true,
+  "proof_scope": "AST after removing module import statements; the device-module relocation is the only permitted D-Flash package change"
+}

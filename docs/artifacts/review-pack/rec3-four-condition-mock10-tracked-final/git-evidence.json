@@ -1,0 +1,129 @@
+[
+  {
+    "command": [
+      "git",
+      "status",
+      "--short",
+      "--untracked-files=all"
+    ],
+    "duration_seconds": 0.0029221310005596024,
+    "exit_code": 0,
+    "label": "git-status",
+    "stderr": "",
+    "stdout": " M config.yml\n M pyproject.toml\n M src/ccdf/benchmark.py\n M src/ccdf/compression/llmlingua.py\n M src/ccdf/config.py\n M src/ccdf/models/loaders.py\n M src/ccdf/runtime/engine.py\n M src/ccdf/schemas.py\n M src/ccdf/validation/environment.py\n?? src/ccdf/rec3/__init__.py\n?? src/ccdf/rec3/__main__.py\n?? src/ccdf/rec3/metrics.py\n?? src/ccdf/rec3/orchestrator.py\n"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--name-status",
+      "b18b283fb8fe82363180157263c8d2ca8446e770"
+    ],
+    "duration_seconds": 0.0034508850003476255,
+    "exit_code": 0,
+    "label": "git-diff-name-status",
+    "stderr": "",
+    "stdout": "M\tconfig.yml\nM\tpyproject.toml\nM\tsrc/ccdf/benchmark.py\nM\tsrc/ccdf/compression/llmlingua.py\nM\tsrc/ccdf/config.py\nM\tsrc/ccdf/models/loaders.py\nM\tsrc/ccdf/runtime/engine.py\nM\tsrc/ccdf/schemas.py\nM\tsrc/ccdf/validation/environment.py\n"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--name-status",
+      "b18b283fb8fe82363180157263c8d2ca8446e770"
+    ],
+    "duration_seconds": 0.0033737160001692246,
+    "exit_code": 0,
+    "label": "git-diff-cached-name-status",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "ls-files",
+      "--others",
+      "--exclude-standard"
+    ],
+    "duration_seconds": 0.003178159000526648,
+    "exit_code": 0,
+    "label": "git-untracked",
+    "stderr": "",
+    "stdout": "src/ccdf/rec3/__init__.py\nsrc/ccdf/rec3/__main__.py\nsrc/ccdf/rec3/metrics.py\nsrc/ccdf/rec3/orchestrator.py\n"
+  },
+  {
+    "command": [
+      "git",
+      "check-ignore",
+      "-v",
+      "tests/run_rec3_four_condition_protocol.py",
+      "tests/build_rec3_four_condition_review_pack.py",
+      "tests/test_rec3_protocol_helpers.py",
+      "tests/test_compression_protocol.py",
+      "tests/test_dflash_integration.py",
+      "tests/test_metrics.py"
+    ],
+    "duration_seconds": 0.0026032290006696712,
+    "exit_code": 0,
+    "label": "git-ignored-validation-files",
+    "stderr": "",
+    "stdout": ".gitignore:24:*test*\ttests/run_rec3_four_condition_protocol.py\n.gitignore:24:*test*\ttests/build_rec3_four_condition_review_pack.py\n.gitignore:24:*test*\ttests/test_rec3_protocol_helpers.py\n.gitignore:24:*test*\ttests/test_compression_protocol.py\n.gitignore:24:*test*\ttests/test_dflash_integration.py\n.gitignore:24:*test*\ttests/test_metrics.py\n"
+  },
+  {
+    "command": [
+      "git",
+      "status",
+      "--short",
+      "--",
+      "src/ccdf/dflash"
+    ],
+    "duration_seconds": 0.00361233099920355,
+    "exit_code": 0,
+    "label": "dflash-core-status",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--numstat",
+      "b18b283fb8fe82363180157263c8d2ca8446e770",
+      "--",
+      "src/ccdf/dflash"
+    ],
+    "duration_seconds": 0.0034768679997796426,
+    "exit_code": 0,
+    "label": "dflash-core-numstat",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "ls-files",
+      "--others",
+      "--exclude-standard",
+      "src/ccdf/dflash"
+    ],
+    "duration_seconds": 0.004308350000428618,
+    "exit_code": 0,
+    "label": "dflash-core-untracked",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--",
+      "config.yml"
+    ],
+    "duration_seconds": 0.013259854999887466,
+    "exit_code": 0,
+    "label": "canonical-config-diff",
+    "stderr": "",
+    "stdout": "diff --git a/config.yml b/config.yml\nindex a742a78..8085592 100644\n--- a/config.yml\n+++ b/config.yml\n@@ -28,6 +28,7 @@ models:\n         tokenizer_path: \"${PROJECT_ROOT}/models/baseline/Qwen3-4B-AWQ\"\n         allow_cpu_offload: false\n         device_map: cuda:0\n+        trust_remote_code: true\n \n     dflash:\n         target:\n@@ -42,6 +43,7 @@ models:\n             tokenizer_path: \"${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-AWQ\"\n             allow_cpu_offload: false\n             device_map: cuda:0\n+            trust_remote_code: true\n \n         drafter:\n             model_id: local-dflash-drafter\n@@ -146,3 +148,74 @@ prompts:\n     gsm8k_instruction: >-\n         Compute using concise essential calculations. End with exactly one separate line in the form\n         \"Final answer: <result>\" and then stop.\n+\n+protocol_profiles:\n+    active: rec3\n+    profiles:\n+        rec3:\n+            description: \"REC-3 four-condition mock10 validation profile\"\n+            dataset: rec3_mock\n+            artifact_directory: \"${PROJECT_ROOT}/docs/artifacts/rec3-four-condition-mock10\"\n+            review_archive: \"${PROJECT_ROOT}/docs/reviews/review-pack-rec3-protocol-four-conditions-mock10-final.tar.gz\"\n+            config_overrides:\n+                prompts:\n+                    system: \"You are an information extraction assistant. Return only the requested output format.\"\n+                runtime:\n+                    max_new_tokens: 32\n+                    temperature: 0.0\n+                optimization:\n+                    block_policy:\n+                        mode: fixed\n+                        fixed_block_size: 8\n+            compression:\n+                keep_rate: 0.5\n+                min_context_tokens: 1\n+                chunk_max_words: 180\n+            prompt_contract:\n+                question: \"According to the FINAL APPROVED FACT, who is the owner, what is the approval code, and what exact quantity was approved?\"\n+                output_instruction: \"Return exactly: Owner: <name>; Approval code: <code>; Quantity: <integer>\"\n+                strict_output_pattern: '^Owner: (?P<owner>[^;\\r\\n]+); Approval code: (?P<approval_code>[^;\\r\\n]+); Quantity: (?P<quantity>[0-9]+)$'\n+                tolerant_field_pattern: 'Owner:\\s*(?P<owner>[^;\\r\\n]+);\\s*Approval code:\\s*(?P<approval_code>[^;\\r\\n]+);\\s*Quantity:\\s*(?P<quantity>[0-9]+)'\n+                distractor_template: \"Meeting turn {turn}: unapproved proposal says owner Candidate-{candidate}, code ZX-{fixture_index}{turn_padded}, quantity {distractor_quantity}; this is a distractor.\"\n+                evidence_template: \"FINAL APPROVED FACT: the approved owner is {owner}; the approval code is {approval_code}; the exact approved quantity is {quantity}.\"\n+            conditions:\n+                - name: baseline-ar\n+                  runtime_condition: baseline\n+                  prompt_kind: original\n+                - name: dflash-r1\n+                  runtime_condition: dflash\n+                  prompt_kind: original\n+                - name: llmlingua-ar-r2\n+                  runtime_condition: baseline\n+                  prompt_kind: compressed\n+                  reduction_reference_condition: baseline-ar\n+                - name: cc-dflash-r2\n+                  runtime_condition: dflash\n+                  prompt_kind: compressed\n+                  reduction_reference_condition: dflash-r1\n+            parity_pairs:\n+                - name: original_baseline_ar_vs_dflash_r1\n+                  left: baseline-ar\n+                  right: dflash-r1\n+                - name: compressed_llmlingua_ar_r2_vs_cc_dflash_r2\n+                  left: llmlingua-ar-r2\n+                  right: cc-dflash-r2\n+            hard_gates:\n+                condition_success_rate: 1.0\n+                pair_generated_token_parity_rate: 1.0\n+                exact_field_quality_rate: 1.0\n+                protected_input_rate: 1.0\n+                metric_validity_rate: 1.0\n+                max_oom_events: 0\n+                dflash_peak_reserved_vram_gib: 6.0\n+            fixtures:\n+                - {turns: 16, evidence_position_fraction: 0.15, owner: Asha, approval_code: AP-701, quantity: '41'}\n+                - {turns: 16, evidence_position_fraction: 0.15, owner: Binh, approval_code: AP-702, quantity: '58'}\n+                - {turns: 20, evidence_position_fraction: 0.30, owner: Chen, approval_code: AP-703, quantity: '73'}\n+                - {turns: 24, evidence_position_fraction: 0.45, owner: Dara, approval_code: AP-704, quantity: '89'}\n+                - {turns: 28, evidence_position_fraction: 0.60, owner: Elena, approval_code: AP-705, quantity: '104'}\n+                - {turns: 32, evidence_position_fraction: 0.75, owner: Farid, approval_code: AP-706, quantity: '126'}\n+                - {turns: 30, evidence_position_fraction: 0.90, owner: Gia, approval_code: AP-707, quantity: '147'}\n+                - {turns: 30, evidence_position_fraction: 1.00, owner: Hana, approval_code: AP-708, quantity: '168'}\n+                - {turns: 18, evidence_position_fraction: 0.50, owner: Ivo, approval_code: AP-709, quantity: '193'}\n+                - {turns: 32, evidence_position_fraction: 0.70, owner: Juno, approval_code: AP-710, quantity: '215'}\n"
+  }
+]

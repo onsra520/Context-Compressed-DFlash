@@ -1,0 +1,7 @@
+{
+  "cache_ignore_rule_present": true,
+  "checkpoints_complete_before_cleanup": true,
+  "download_cache_directories_after_cleanup": [],
+  "download_caches_removed": true,
+  "weights_and_tokenizers_preserved": true
+}

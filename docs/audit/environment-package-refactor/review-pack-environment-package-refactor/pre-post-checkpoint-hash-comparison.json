@@ -1,0 +1,152 @@
+{
+  "files": [
+    {
+      "bytes_equal": true,
+      "filename": "config.json",
+      "model": "baseline",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "generation_config.json",
+      "model": "baseline",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "merges.txt",
+      "model": "baseline",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "model.safetensors",
+      "model": "baseline",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "tokenizer.json",
+      "model": "baseline",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "tokenizer_config.json",
+      "model": "baseline",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "vocab.json",
+      "model": "baseline",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "config.json",
+      "model": "compressor",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "model.safetensors",
+      "model": "compressor",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "special_tokens_map.json",
+      "model": "compressor",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "tokenizer.json",
+      "model": "compressor",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "tokenizer_config.json",
+      "model": "compressor",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "config.json",
+      "model": "dflash_drafter",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "model.safetensors",
+      "model": "dflash_drafter",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "config.json",
+      "model": "dflash_target",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "generation_config.json",
+      "model": "dflash_target",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "merges.txt",
+      "model": "dflash_target",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "model.safetensors",
+      "model": "dflash_target",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "tokenizer.json",
+      "model": "dflash_target",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "tokenizer_config.json",
+      "model": "dflash_target",
+      "present": true,
+      "sha256_equal": true
+    },
+    {
+      "bytes_equal": true,
+      "filename": "vocab.json",
+      "model": "dflash_target",
+      "present": true,
+      "sha256_equal": true
+    }
+  ],
+  "pass": true
+}

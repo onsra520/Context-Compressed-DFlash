@@ -1,0 +1,139 @@
+{
+  "base_commit_sha": "b18b283fb8fe82363180157263c8d2ca8446e770",
+  "manifest_version": "ccdf.rec3-four-condition-review-pack.v2",
+  "members": {
+    ".gitignore": {
+      "bytes": 364,
+      "sha256": "8e18804026588937d8975fc9523cc05792bac9daf10a73d8da880724c467d368"
+    },
+    "config.yml": {
+      "bytes": 8120,
+      "sha256": "fe4ad68b1ef01e8aaa93432f2f3001c17c82b63f6cc969ad1684451fe94574ce"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/BLOCKER.md": {
+      "bytes": 1348,
+      "sha256": "a1337dda0a105ccc48b674e4a175d759540d7e431bd7ae1522aefed083f10a46"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/mock_fixtures.json": {
+      "bytes": 33413,
+      "sha256": "597da15c7f10bb0b3030f26544306b4673fe90ed21a457f047fac8399ed24578"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/raw_runs.json": {
+      "bytes": 1303040,
+      "sha256": "ad578f8ec230b2ee52eb149830e3104c9150e5e3659a8b850a9a2c6dcfbce44a"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/rec3_mock_02_divergence.json": {
+      "bytes": 588950,
+      "sha256": "92a8d21e064382a229a62c3c87258884b88fdcce5037960991c4bd7b395f9997"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/summary.json": {
+      "bytes": 6014,
+      "sha256": "e43c3441cea67ec8460d540c43261fa37c679afa520b8c3b533f162e9c5d4928"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/base-commit.txt": {
+      "bytes": 41,
+      "sha256": "5191c7d65a06f62bb1690faf7a99f6ea02fc095e14d3174f83a1a81fbc46a702"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/changed-files.txt": {
+      "bytes": 884,
+      "sha256": "b0de8c7d82e34d04828d4021f34fc191ce27ee9844d72a9701dee0f885275561"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/checkpoint-manifest.json": {
+      "bytes": 5043,
+      "sha256": "937cd5d4ce08ab8f0294aaf5e50512a01e052415c7278bd0c4c10265d9e4699a"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/commands.json": {
+      "bytes": 10290,
+      "sha256": "d091e144cf6bacebd5eece37b79f0c1708331c06ada2f1f428c4881c6a7fe932"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/dflash-core-diff-proof.txt": {
+      "bytes": 535,
+      "sha256": "b780d067ff2ea0dfcc0db719dca0118b1bc05b77b2afc212d5e9c2e5a6cde6e4"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/git-diff.patch": {
+      "bytes": 1040,
+      "sha256": "7a099798e3da1a41b2f3d9fd3ae41025b1d45881b3615a10e10e6b76ed6f46fb"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/git-status.txt": {
+      "bytes": 37,
+      "sha256": "05f92e49ac1711a8b370fdbe052052f0bb2fa74eddc3c1de51743e36823bc39f"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/pack-members.txt": {
+      "bytes": 1612,
+      "sha256": "39c5b77e4d9e872cdd33fd1f1d29530bbb39e3ed964ba0db7409967d54e0ac9f"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/test-results.txt": {
+      "bytes": 9002,
+      "sha256": "be5058ee00abcc84c254f7a6d08b1beb900813efb609e5f51b4218e47211de19"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10/validation-summary.json": {
+      "bytes": 6657,
+      "sha256": "45f63dd7a84de4c2fc686fa59b114b98865ba30b767f51e72e2f0d37af6e7237"
+    },
+    "pyproject.toml": {
+      "bytes": 846,
+      "sha256": "11b8d4689bb4c491d42c18d8fc271941f3dffdcb9a38464e40eb192c8e1d6790"
+    },
+    "src/ccdf/compression/__init__.py": {
+      "bytes": 291,
+      "sha256": "c46cf3c0f8484ac1a82ee28b9976d0ba533c01bd36de7f550ddc1186f7aee2cd"
+    },
+    "src/ccdf/compression/llmlingua.py": {
+      "bytes": 9428,
+      "sha256": "06cb7ab16e5d6c9132bb9dea9d2390aed971377cd3f66f7f963a574d28837fca"
+    },
+    "src/ccdf/compression/schemas.py": {
+      "bytes": 1082,
+      "sha256": "b7edc73a6cec9bffd6026bbc50edb3039a3caae0a3d1522c03ae3785bda3b3e2"
+    },
+    "src/ccdf/device.py": {
+      "bytes": 4708,
+      "sha256": "18f0e1372094384717ffb53245c8415dbc067f2a3e7faee73b62bbbd7c8ce5b7"
+    },
+    "src/ccdf/dflash/generate.py": {
+      "bytes": 11114,
+      "sha256": "0642765ab2d781ab466b82542dc09edd8e1a4edfc947c92fa42fa7b2a9b9be01"
+    },
+    "src/ccdf/inference/baseline.py": {
+      "bytes": 3805,
+      "sha256": "4d4104b6633dfde9c5c3b15cc8384a76d33cd80134a991ed68dc50eeaadfb4a1"
+    },
+    "src/ccdf/runtime/engine.py": {
+      "bytes": 7915,
+      "sha256": "0ef6e44750e314e5a5e4cde3921196f8f3efaa3262e335dfe28d9f512ce48e0b"
+    },
+    "src/ccdf/schemas.py": {
+      "bytes": 4575,
+      "sha256": "b60c28e35f8dd4f3f056db62087727ccb42f52145a80226d702ac609502804fc"
+    },
+    "tests/build_rec3_four_condition_review_pack.py": {
+      "bytes": 12572,
+      "sha256": "b7968b1cdb8c1e87a47dae9068369266b79d91a70299db93dc4c528e87e9b27a"
+    },
+    "tests/run_rec3_four_condition_protocol.py": {
+      "bytes": 35422,
+      "sha256": "289def03d1e3642e2801d785bbd2925f83c072aa5a75e707210213ff7a2e04e1"
+    },
+    "tests/run_rec3_mock02_divergence.py": {
+      "bytes": 14385,
+      "sha256": "c004c7f7b9cbf84a5051a1211ba7b2dd9acdca5f3394618b5806ce4dbd051ce7"
+    },
+    "tests/test_compression_protocol.py": {
+      "bytes": 639,
+      "sha256": "e79722c1821a968d4385ca89641bbcbb2a5f285fd6569b798c2a5dc634de0034"
+    },
+    "tests/test_dflash_integration.py": {
+      "bytes": 4531,
+      "sha256": "2c50e7af2bc06043e18cda2437674d2b6bfcc77fdb5c9c71197661ab8e12d627"
+    },
+    "tests/test_metrics.py": {
+      "bytes": 717,
+      "sha256": "f91ec4a03959ed2986689cb67ed802f7280d9d7878a38fe62fa517af769cf5e5"
+    },
+    "tests/test_rec3_protocol_helpers.py": {
+      "bytes": 1244,
+      "sha256": "1558d41031dae6b54cbb88a1bc02edeb962a737c84a229a147eebf2fc19bf025"
+    }
+  },
+  "self_entry_policy": "archive-manifest.json is omitted from its own hash map to avoid recursive hashing"
+}

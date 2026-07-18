@@ -1,0 +1,44 @@
+{
+  "audit_builder_explicit_interpreter": {
+    "note": "the builder was explicitly launched with .venv/bin/python; this does not reclassify the inherited caller shell",
+    "sys_executable": "/data/Projects/CCDF-Rework/.venv/bin/python",
+    "sys_prefix": "/data/Projects/CCDF-Rework/.venv"
+  },
+  "caller_python_probe": {
+    "command": [
+      "/home/quyseggs/miniforge3/bin/python",
+      "-c",
+      "capture sys.executable, sys.prefix, and sys.path"
+    ],
+    "exit_code": 0,
+    "pass": true,
+    "resolved": {
+      "sys_executable": "/home/quyseggs/miniforge3/bin/python",
+      "sys_path": [
+        "",
+        "/home/quyseggs/miniforge3/lib/python313.zip",
+        "/home/quyseggs/miniforge3/lib/python3.13",
+        "/home/quyseggs/miniforge3/lib/python3.13/lib-dynload",
+        "/home/quyseggs/miniforge3/lib/python3.13/site-packages"
+      ],
+      "sys_prefix": "/home/quyseggs/miniforge3"
+    },
+    "stderr": "",
+    "stdout": "{\"sys_executable\": \"/home/quyseggs/miniforge3/bin/python\", \"sys_prefix\": \"/home/quyseggs/miniforge3\", \"sys_path\": [\"\", \"/home/quyseggs/miniforge3/lib/python313.zip\", \"/home/quyseggs/miniforge3/lib/python3.13\", \"/home/quyseggs/miniforge3/lib/python3.13/lib-dynload\", \"/home/quyseggs/miniforge3/lib/python3.13/site-packages\"]}\n"
+  },
+  "capture_order": "captured before execution-environment resolution",
+  "environment_variables": {
+    "CONDA_PREFIX": "/home/quyseggs/miniforge3",
+    "CUBLAS_WORKSPACE_CONFIG": null,
+    "HF_HUB_OFFLINE": null,
+    "PATH": "/home/quyseggs/.codex/packages/standalone/releases/0.144.5-x86_64-unknown-linux-musl/codex-path:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/.codex/tmp/arg0/codex-arg0a6qlDf:/home/quyseggs/.codex/packages/standalone/releases/0.144.5-x86_64-unknown-linux-musl/codex-path:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/quyseggs/.config/Code/User/globalStorage/github.copilot-chat/copilotCli:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/data/pnpm-home:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/miniforge3/bin:/home/quyseggs/miniforge3/condabin:/home/quyseggs/.cargo/bin:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/quyseggs/.vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts",
+    "PROJECT_ROOT": null,
+    "PYTHONHASHSEED": null,
+    "PYTHONPATH": null,
+    "TORCH_DISABLE_NATIVE_JIT": null,
+    "TRANSFORMERS_OFFLINE": null,
+    "TRITON_CACHE_DIR": null,
+    "VIRTUAL_ENV": null
+  },
+  "which_python": "/home/quyseggs/miniforge3/bin/python"
+}

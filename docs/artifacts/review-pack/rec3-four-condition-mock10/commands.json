@@ -1,0 +1,63 @@
+[
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "tests/run_rec3_four_condition_protocol.py"
+    ],
+    "duration_seconds": 63.27417272999992,
+    "exit_code": 1,
+    "label": "rec3-four-condition-protocol",
+    "stderr": "`torch_dtype` is deprecated! Use `dtype` instead!\n/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: \nI have left this message as the final dev message to help you transition.\n\nImportant Notice:\n- AutoAWQ is officially deprecated and will no longer be maintained.\n- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.\n- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.\n\nAlternative:\n- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor\n\nFor further inquiries, feel free to reach out:\n- X: https://x.com/casper_hansen_\n- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/\n\n  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)\n/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.\n  warnings.warn(\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\nREC-3 protocol has failing quality or validity gates\n",
+    "stdout": "{\"condition_success\": \"40/40\", \"conditions\": {\"baseline-ar\": {\"cap_hit_count\": 0, \"exact_field_quality\": 10, \"format_compliance\": 10, \"max_full_request_peak_reserved_bytes\": 4609540096, \"mean_chat_template_input_tokens\": 991.2, \"mean_context_reduction_rate_compressor_tokenizer\": 0.47527211733789465, \"mean_dflash_tau_unweighted\": null, \"mean_draft_acceptance_rate_unweighted\": null, \"mean_output_tokens\": 20.4, \"mean_total_input_token_reduction_qwen_tokenizer\": null, \"p50_compression_latency_ms\": 0.0, \"p50_decode_latency_ms\": 873.341377000088, \"p50_decode_tok_s\": 21.777543658432943, \"p50_generation_latency_ms\": 1623.8867215001846, \"p50_prefill_latency_ms\": 750.5036649999965, \"p50_stage_sum_warm_e2e_ms\": 1626.5838395001992, \"successful_requests\": 10, \"weighted_dflash\": null}, \"cc-dflash-r2\": {\"cap_hit_count\": 0, \"exact_field_quality\": 9, \"format_compliance\": 8, \"max_full_request_peak_reserved_bytes\": 4789895168, \"mean_chat_template_input_tokens\": 634, \"mean_context_reduction_rate_compressor_tokenizer\": 0.47527211733789465, \"mean_dflash_tau_unweighted\": 6.075, \"mean_draft_acceptance_rate_unweighted\": 0.36693123814615397, \"mean_output_tokens\": 20.7, \"mean_total_input_token_reduction_qwen_tokenizer\": 0.35915027868994004, \"p50_compression_latency_ms\": 148.04359450045013, \"p50_decode_latency_ms\": 193.08738700010508, \"p50_decode_tok_s\": 103.14546095029806, \"p50_generation_latency_ms\": 661.9410225002866, \"p50_prefill_latency_ms\": 483.2423769998968, \"p50_stage_sum_warm_e2e_ms\": 812.716102000195, \"successful_requests\": 10, \"weighted_dflash\": {\"counters\": {\"accepted_draft_tokens\": 174, \"draft_tokens_proposed\": 483, \"emitted_tokens\": 197, \"output_tokens\": 207, \"target_prefill_calls\": 10, \"target_single_token_calls\": 0, \"target_verification_calls\": 33}, \"formula_scope\": \"counter totals across measured rows for cc-dflash-r2; excludes warmups\", \"measured_rows\": 10, \"target_forwards_per_output_token\": 0.20772946859903382, \"weighted_draft_acceptance_rate\": 0.36024844720496896, \"weighted_tau\": 5.96969696969697}}, \"dflash-r1\": {\"cap_hit_count\": 0, \"exact_field_quality\": 10, \"format_compliance\": 10, \"max_full_request_peak_reserved_bytes\": 5781848064, \"mean_chat_template_input_tokens\": 991.2, \"mean_context_reduction_rate_compressor_tokenizer\": 0.47527211733789465, \"mean_dflash_tau_unweighted\": 7.416666666666667, \"mean_draft_acceptance_rate_unweighted\": 0.4657716701902748, \"mean_output_tokens\": 20.4, \"mean_total_input_token_reduction_qwen_tokenizer\": null, \"p50_compression_latency_ms\": 0.0, \"p50_decode_latency_ms\": 189.0440409997609, \"p50_decode_tok_s\": 103.17535140437204, \"p50_generation_latency_ms\": 918.0343325006106, \"p50_prefill_latency_ms\": 756.1445934998119, \"p50_stage_sum_warm_e2e_ms\": 922.3140779999994, \"successful_requests\": 10, \"weighted_dflash\": {\"counters\": {\"accepted_draft_tokens\": 179, \"draft_tokens_proposed\": 393, \"emitted_tokens\": 194, \"output_tokens\": 204, \"target_prefill_calls\": 10, \"target_single_token_calls\": 0, \"target_verification_calls\": 27}, \"formula_scope\": \"counter totals across measured rows for dflash-r1; excludes warmups\", \"measured_rows\": 10, \"target_forwards_per_output_token\": 0.18137254901960784, \"weighted_draft_acceptance_rate\": 0.455470737913486, \"weighted_tau\": 7.185185185185185}}, \"llmlingua-ar-r2\": {\"cap_hit_count\": 0, \"exact_field_quality\": 10, \"format_compliance\": 8, \"max_full_request_peak_reserved_bytes\": 3605004288, \"mean_chat_template_input_tokens\": 634, \"mean_context_reduction_rate_compressor_tokenizer\": 0.47527211733789465, \"mean_dflash_tau_unweighted\": null, \"mean_draft_acceptance_rate_unweighted\": null, \"mean_output_tokens\": 20.6, \"mean_total_input_token_reduction_qwen_tokenizer\": 0.35915027868994004, \"p50_compression_latency_ms\": 148.04359450045013, \"p50_decode_latency_ms\": 822.9751264998413, \"p50_decode_tok_s\": 23.70970358280927, \"p50_generation_latency_ms\": 1279.0299504995346, \"p50_prefill_latency_ms\": 478.09436299985464, \"p50_stage_sum_warm_e2e_ms\": 1428.7578445005238, \"successful_requests\": 10, \"weighted_dflash\": null}}, \"global_dflash\": {\"counters\": {\"accepted_draft_tokens\": 353, \"draft_tokens_proposed\": 876, \"emitted_tokens\": 391, \"output_tokens\": 411, \"target_prefill_calls\": 20, \"target_single_token_calls\": 0, \"target_verification_calls\": 60}, \"formula_scope\": \"counter totals across measured rows for dflash-r1, cc-dflash-r2; excludes warmups\", \"measured_rows\": 20, \"target_forwards_per_output_token\": 0.19464720194647203, \"weighted_draft_acceptance_rate\": 0.4029680365296804, \"weighted_tau\": 6.516666666666667}, \"input_protocol_protected_and_evidence\": \"10/10\", \"metric_validity\": {\"checked_rows\": 40, \"pass\": true, \"valid_rows\": 40}, \"metric_validity_pass\": true, \"output_exact_field_quality\": \"39/40\", \"output_format_compliance\": \"36/40\", \"overall_pass\": false, \"pair_token_parity\": \"19/20\", \"protocol_pass\": false, \"quality_pass\": false, \"workload\": {\"lifecycle_amortized_ms_per_measured_request\": 1501.0479708500043, \"measured_request_count\": 40, \"scope\": \"compressor load/compress/unload plus four engine lifecycles, each with one warmup and ten measured requests\", \"workload_wall_clock_ms\": 60041.91883400017}}\n"
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "tests/run_rec3_mock02_divergence.py"
+    ],
+    "duration_seconds": 28.71435738799937,
+    "exit_code": 0,
+    "label": "rec3-mock02-divergence",
+    "stderr": "`torch_dtype` is deprecated! Use `dtype` instead!\n/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: \nI have left this message as the final dev message to help you transition.\n\nImportant Notice:\n- AutoAWQ is officially deprecated and will no longer be maintained.\n- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.\n- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.\n\nAlternative:\n- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor\n\nFor further inquiries, feel free to reach out:\n- X: https://x.com/casper_hansen_\n- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/\n\n  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)\n/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.\n  warnings.warn(\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n",
+    "stdout": "{\"output\": \"/data/Projects/CCDF-Rework/docs/artifacts/rec3-four-condition-mock10/rec3_mock_02_divergence.json\", \"root_cause\": {\"cache_progression_pass\": true, \"classification\": \"dflash_core_target_verification_cache_numerical_path\", \"core_patch_applied\": false, \"dataset_smoke_blocked\": true, \"divergent_pairs\": 10, \"first_divergence_indices\": [2], \"full_structural_audit_pass\": true, \"greedy_vs_dflash_verifier_mismatch_count\": 10, \"identical_chat_template_inputs\": true, \"order_invariant\": true, \"pair_count\": 10}}\n"
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "src",
+      "scripts",
+      "tests"
+    ],
+    "duration_seconds": 0.03974597500018717,
+    "exit_code": 0,
+    "label": "compileall",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/pytest",
+      "-q"
+    ],
+    "duration_seconds": 3.5482667099995524,
+    "exit_code": 0,
+    "label": "pytest",
+    "stderr": "",
+    "stdout": "..........................................................               [100%]\n58 passed in 2.64s\n"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "duration_seconds": 0.0022073780000937404,
+    "exit_code": 0,
+    "label": "git-diff-check",
+    "stderr": "",
+    "stdout": ""
+  }
+]

@@ -1,0 +1,133 @@
+{
+  "cohort": {
+    "current_version": "REC-3-real-sources-seeded-v1",
+    "datasets": {
+      "gsm8k": {
+        "legacy_raw_sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+        "rec3_raw_sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+        "same_raw_as_legacy_cohort": true
+      },
+      "qmsum": {
+        "legacy_raw_sha256": "190970104acfe27c25cb935f6b09e5254ad894bbe761798a8baea8ccc7522365",
+        "rec3_raw_sha256": "6bcd428211260ad2efae3af76cbaf6a7f5ae4bb5e1e59c45a4b8e89539cb9208",
+        "same_raw_as_legacy_cohort": false
+      }
+    },
+    "reason": "QMSum upstream test JSONL differs from the archived REC-T02A raw cohort; REC-3 pins the current upstream revision and hash.",
+    "status": "REC-3-versioned"
+  },
+  "comparison_mode": "programmatic old/new execution on identical raw rows",
+  "legacy_source_hashes": {
+    "gsm8k.py": "f77760fae2aa01494991e8065698c12a0dfda2dd90e5052808585b1b30fb49d8",
+    "qmsum.py": "ddcc8bcbf32d8b8b897fcf08e0918fa5cfbd5234f50a4bf51c90f6cfab1cd39b",
+    "schemas.py": "a2978ac330c90f7eff548b79d1dfe12bb8c66513cf8eb8df50448306a107b1a5",
+    "validation.py": "98c6e17ff36314892e73d40bdacfc912e310b7aa8a7d1f919ec89905b56adb9d"
+  },
+  "legacy_source_root": "/data/Projects/CCDF-Rework/.worktrees/source-main/src/ccdf/datasets",
+  "preprocessing": {
+    "gsm8k": {
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/python",
+        "/data/Projects/CCDF-Rework/tests/legacy_preprocess_adapter.py",
+        "--dataset",
+        "gsm8k",
+        "--raw",
+        "/data/Projects/CCDF-Rework/data/raw/gsm8k/gsm8k_test.jsonl",
+        "--revision",
+        "3101c7d5072418e28b9008a6636bde82a006892c",
+        "--output",
+        "/tmp/ccdf-legacy-preprocess-m45nqssc/gsm8k.jsonl"
+      ],
+      "first_mismatch_indices": [],
+      "full_fixture_match": true,
+      "legacy_output_sha256": "1912759a00cfa63fc5ecf875ecd239d36a3eb158b3c00958b77e5385a8a22034",
+      "legacy_prefix_sample_ids": [
+        "gsm8k_test_000000_12c0b583",
+        "gsm8k_test_000001_183930a6",
+        "gsm8k_test_000002_838a7b6e",
+        "gsm8k_test_000003_a6e8be50",
+        "gsm8k_test_000004_2382a957",
+        "gsm8k_test_000005_b54db050",
+        "gsm8k_test_000006_f8601ce7",
+        "gsm8k_test_000007_ebe5532d",
+        "gsm8k_test_000008_a18e44a5",
+        "gsm8k_test_000009_1e39b726"
+      ],
+      "legacy_stdout": "{\"dataset\": \"gsm8k\", \"raw_rows\": 1319, \"processed_rows\": 1319}\n",
+      "mismatch_count": 0,
+      "new_output_sha256": "1912759a00cfa63fc5ecf875ecd239d36a3eb158b3c00958b77e5385a8a22034",
+      "new_row_count": 1319,
+      "old_row_count": 1319,
+      "rec3_seeded_sample_ids": [
+        "gsm8k_test_000784_b798a8a1",
+        "gsm8k_test_000807_6c6be7c4",
+        "gsm8k_test_000446_2ac326d8",
+        "gsm8k_test_000629_d92a73a6",
+        "gsm8k_test_000307_a61bf379",
+        "gsm8k_test_000051_88792752",
+        "gsm8k_test_000664_d9692bba",
+        "gsm8k_test_000104_0c54db10",
+        "gsm8k_test_000766_bf7481e7",
+        "gsm8k_test_000733_ea5ad0d0"
+      ],
+      "row_count_match": true,
+      "sampling_exact_match": false,
+      "schema_match": true
+    },
+    "qmsum": {
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/python",
+        "/data/Projects/CCDF-Rework/tests/legacy_preprocess_adapter.py",
+        "--dataset",
+        "qmsum",
+        "--raw",
+        "/data/Projects/CCDF-Rework/data/raw/qmsum/qmsum_test.jsonl",
+        "--revision",
+        "83d7768c1f2b4dfeb091385d3dc7e239b8e5bb7e",
+        "--output",
+        "/tmp/ccdf-legacy-preprocess-m45nqssc/qmsum.jsonl"
+      ],
+      "first_mismatch_indices": [],
+      "full_fixture_match": true,
+      "legacy_output_sha256": "45a3bc6bad3fc0019268bee10d96258910d5ac9118ad58989054bc5c5acfd7b1",
+      "legacy_prefix_sample_ids": [
+        "qmsum_test_meeting0000_specific_00_24bd89de",
+        "qmsum_test_meeting0000_specific_01_1b6f4c97",
+        "qmsum_test_meeting0000_specific_02_86570dc2",
+        "qmsum_test_meeting0000_specific_03_65958b7c",
+        "qmsum_test_meeting0000_specific_04_d876a539",
+        "qmsum_test_meeting0000_specific_05_4b169ecb",
+        "qmsum_test_meeting0000_specific_06_8cdb8b6e",
+        "qmsum_test_meeting0000_specific_07_370640be",
+        "qmsum_test_meeting0000_specific_08_8242aef6",
+        "qmsum_test_meeting0000_specific_09_8d3ad62d"
+      ],
+      "legacy_stdout": "{\"dataset\": \"qmsum\", \"raw_rows\": 35, \"processed_rows\": 244}\n",
+      "mismatch_count": 0,
+      "new_output_sha256": "45a3bc6bad3fc0019268bee10d96258910d5ac9118ad58989054bc5c5acfd7b1",
+      "new_row_count": 244,
+      "old_row_count": 244,
+      "rec3_seeded_sample_ids": [
+        "qmsum_test_meeting0029_specific_04_c6920538",
+        "qmsum_test_meeting0018_specific_00_79756c44",
+        "qmsum_test_meeting0033_specific_02_24b2697d",
+        "qmsum_test_meeting0001_specific_02_a5bedb8b",
+        "qmsum_test_meeting0013_specific_01_6809badc",
+        "qmsum_test_meeting0015_specific_05_005ad578",
+        "qmsum_test_meeting0003_specific_01_d12053b5",
+        "qmsum_test_meeting0000_specific_05_4b169ecb",
+        "qmsum_test_meeting0025_specific_02_1f317049",
+        "qmsum_test_meeting0013_specific_09_b7d3d4f4"
+      ],
+      "row_count_match": true,
+      "sampling_exact_match": false,
+      "schema_match": true
+    }
+  },
+  "sampling": {
+    "deterministic_rerun_manifest_byte_match": true,
+    "legacy_strategy": "source-order prefix",
+    "rec3_strategy": "sha256(seed:fixture_id)_ascending",
+    "versioned_difference": true
+  }
+}

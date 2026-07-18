@@ -1,0 +1,185 @@
+{
+  "caller_environment_raw": {
+    "audit_builder_explicit_interpreter": {
+      "note": "the builder was explicitly launched with .venv/bin/python; this does not reclassify the inherited caller shell",
+      "sys_executable": "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "sys_prefix": "/data/Projects/CCDF-Rework/.venv"
+    },
+    "caller_python_probe": {
+      "command": [
+        "/home/quyseggs/miniforge3/bin/python",
+        "-c",
+        "capture sys.executable, sys.prefix, and sys.path"
+      ],
+      "exit_code": 0,
+      "pass": true,
+      "resolved": {
+        "sys_executable": "/home/quyseggs/miniforge3/bin/python",
+        "sys_path": [
+          "",
+          "/home/quyseggs/miniforge3/lib/python313.zip",
+          "/home/quyseggs/miniforge3/lib/python3.13",
+          "/home/quyseggs/miniforge3/lib/python3.13/lib-dynload",
+          "/home/quyseggs/miniforge3/lib/python3.13/site-packages"
+        ],
+        "sys_prefix": "/home/quyseggs/miniforge3"
+      },
+      "stderr": "",
+      "stdout": "{\"sys_executable\": \"/home/quyseggs/miniforge3/bin/python\", \"sys_prefix\": \"/home/quyseggs/miniforge3\", \"sys_path\": [\"\", \"/home/quyseggs/miniforge3/lib/python313.zip\", \"/home/quyseggs/miniforge3/lib/python3.13\", \"/home/quyseggs/miniforge3/lib/python3.13/lib-dynload\", \"/home/quyseggs/miniforge3/lib/python3.13/site-packages\"]}\n"
+    },
+    "capture_order": "captured before execution-environment resolution",
+    "environment_variables": {
+      "CONDA_PREFIX": "/home/quyseggs/miniforge3",
+      "CUBLAS_WORKSPACE_CONFIG": null,
+      "HF_HUB_OFFLINE": null,
+      "PATH": "/home/quyseggs/.codex/packages/standalone/releases/0.144.5-x86_64-unknown-linux-musl/codex-path:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/.codex/tmp/arg0/codex-arg0a6qlDf:/home/quyseggs/.codex/packages/standalone/releases/0.144.5-x86_64-unknown-linux-musl/codex-path:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/quyseggs/.config/Code/User/globalStorage/github.copilot-chat/copilotCli:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/data/pnpm-home:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/miniforge3/bin:/home/quyseggs/miniforge3/condabin:/home/quyseggs/.cargo/bin:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/quyseggs/.vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts",
+      "PROJECT_ROOT": null,
+      "PYTHONHASHSEED": null,
+      "PYTHONPATH": null,
+      "TORCH_DISABLE_NATIVE_JIT": null,
+      "TRANSFORMERS_OFFLINE": null,
+      "TRITON_CACHE_DIR": null,
+      "VIRTUAL_ENV": null
+    },
+    "which_python": "/home/quyseggs/miniforge3/bin/python"
+  },
+  "execution_environment_resolved": {
+    "environment_variables": {
+      "CONDA_PREFIX": null,
+      "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+      "HF_HUB_OFFLINE": "1",
+      "PATH": "/data/Projects/CCDF-Rework/.venv/bin:/home/quyseggs/.codex/packages/standalone/releases/0.144.5-x86_64-unknown-linux-musl/codex-path:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/.codex/tmp/arg0/codex-arg0a6qlDf:/home/quyseggs/.codex/packages/standalone/releases/0.144.5-x86_64-unknown-linux-musl/codex-path:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/quyseggs/.config/Code/User/globalStorage/github.copilot-chat/copilotCli:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/data/pnpm-home:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/home/quyseggs/miniforge3/bin:/home/quyseggs/miniforge3/condabin:/home/quyseggs/.cargo/bin:/home/quyseggs/.local/bin:/home/quyseggs/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/quyseggs/.vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts",
+      "PROJECT_ROOT": "/data/Projects/CCDF-Rework",
+      "PYTHONHASHSEED": "42",
+      "PYTHONPATH": null,
+      "TORCH_DISABLE_NATIVE_JIT": "1",
+      "TRANSFORMERS_OFFLINE": "1",
+      "TRITON_CACHE_DIR": "/tmp/ccdf-rework-triton-cache",
+      "VIRTUAL_ENV": "/data/Projects/CCDF-Rework/.venv"
+    },
+    "explicit_execution_interpreter": "/data/Projects/CCDF-Rework/.venv/bin/python",
+    "import_paths": {
+      "awq": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py",
+      "ccdf": "/data/Projects/CCDF-Rework/src/ccdf/__init__.py",
+      "llmlingua": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/llmlingua/__init__.py",
+      "torch": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/__init__.py",
+      "transformers": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/transformers/__init__.py"
+    },
+    "resolution_policy": "subprocesses use the explicit project .venv interpreter and a copied environment; caller_environment_raw is preserved separately",
+    "sys_executable": "/data/Projects/CCDF-Rework/.venv/bin/python",
+    "sys_path": [
+      "/data/Projects/CCDF-Rework",
+      "/usr/lib/python312.zip",
+      "/usr/lib/python3.12",
+      "/usr/lib/python3.12/lib-dynload",
+      "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages",
+      "/data/Projects/CCDF-Rework/src"
+    ],
+    "sys_prefix": "/data/Projects/CCDF-Rework/.venv",
+    "which_python": "/data/Projects/CCDF-Rework/.venv/bin/python"
+  },
+  "import_origin_audit": {
+    "gates": {
+      "ccdf_from_project_editable_source": true,
+      "no_external_site_packages_on_execution_sys_path": true,
+      "third_party_imports_from_project_venv": true
+    },
+    "interpretation": "ccdf resolves to the editable project source; all installed third-party modules resolve inside the project .venv",
+    "origins": {
+      "awq": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py",
+      "ccdf": "/data/Projects/CCDF-Rework/src/ccdf/__init__.py",
+      "llmlingua": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/llmlingua/__init__.py",
+      "torch": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/__init__.py",
+      "transformers": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/transformers/__init__.py"
+    },
+    "pass": true
+  },
+  "runtime_preflight": {
+    "awq_runtime_available": true,
+    "compatibility_risks": [
+      {
+        "batch_gate": false,
+        "component": "AutoAWQ",
+        "risk": "installed package emits an upstream deprecation warning"
+      }
+    ],
+    "compute_capability": [
+      8,
+      9
+    ],
+    "conda_prefix": null,
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "device_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "external_site_packages": [],
+    "import_paths": {
+      "awq": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py",
+      "ccdf": "/data/Projects/CCDF-Rework/src/ccdf/__init__.py",
+      "llmlingua": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/llmlingua/__init__.py",
+      "torch": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/__init__.py",
+      "transformers": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/transformers/__init__.py"
+    },
+    "local_only": {
+      "config_local_files_only": true,
+      "hf_hub_offline": "1",
+      "transformers_offline": "1"
+    },
+    "package_versions": {
+      "accelerate": "1.14.0",
+      "awq": "0.2.9",
+      "huggingface_hub": "0.36.2",
+      "llmlingua": "0.2.2",
+      "safetensors": "0.8.0",
+      "torch": "2.13.0",
+      "transformers": "4.57.6",
+      "triton": "3.7.1"
+    },
+    "paths": {
+      "baseline": {
+        "exists": true,
+        "path": "/data/Projects/CCDF-Rework/models/baseline/Qwen3-4B-AWQ"
+      },
+      "compressor": {
+        "exists": true,
+        "path": "/data/Projects/CCDF-Rework/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank"
+      },
+      "drafter": {
+        "exists": true,
+        "path": "/data/Projects/CCDF-Rework/models/dflash/drafter/Qwen3-4B-DFlash-b16"
+      },
+      "target": {
+        "exists": true,
+        "path": "/data/Projects/CCDF-Rework/models/dflash/target/Qwen3-4B-AWQ"
+      }
+    },
+    "process_default_sdpa_state": {
+      "configured_attention_backend": "sdpa",
+      "configured_kernel": "math",
+      "cudnn_tf32_enabled": true,
+      "flash_enabled": true,
+      "math_enabled": true,
+      "matmul_tf32_enabled": false,
+      "memory_efficient_enabled": true
+    },
+    "python": "3.12.13",
+    "pythonpath": null,
+    "sys_executable": "/data/Projects/CCDF-Rework/.venv/bin/python",
+    "sys_executable_is_project_venv": true,
+    "sys_path": [
+      "/data/Projects/CCDF-Rework",
+      "/usr/lib/python312.zip",
+      "/usr/lib/python3.12",
+      "/usr/lib/python3.12/lib-dynload",
+      "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages",
+      "/data/Projects/CCDF-Rework/src"
+    ],
+    "sys_prefix": "/data/Projects/CCDF-Rework/.venv",
+    "sys_prefix_is_project_venv": true,
+    "torch": "2.13.0+cu130",
+    "total_vram_bytes": 8184201216,
+    "venv_expected_path": "/data/Projects/CCDF-Rework/.venv",
+    "virtual_env": "/data/Projects/CCDF-Rework/.venv",
+    "visible_gpu_count": 1,
+    "which_python": "/data/Projects/CCDF-Rework/.venv/bin/python"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "batch_gate": false,
+  "compatibility_risk": "upstream package emits a deprecation warning",
+  "component": "AutoAWQ",
+  "deprecation_warning_observed": true,
+  "mock10_exit_code": 0,
+  "pass": true,
+  "warning_did_not_fail_batch": true
+}

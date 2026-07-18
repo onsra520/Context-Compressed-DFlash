@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "gates": {
+    "compressor_validation_pass": true,
+    "compressor_mock_pass": "10/10",
+    "dataset_validation_pass": true,
+    "dataset_manifest_byte_match": true,
+    "dataset_fetch_drift_rejected": true,
+    "old_new_preprocessing_match": true,
+    "compressor_reserved_budget_pass": true,
+    "fresh_compressor_validation_pass": true,
+    "fresh_dataset_validation_pass": true,
+    "compileall_pass": true,
+    "pytest_pass": true,
+    "git_diff_check_pass": true
+  }
+}

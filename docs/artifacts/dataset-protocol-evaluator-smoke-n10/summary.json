@@ -1,0 +1,141 @@
+{
+  "condition_workers": {
+    "all_conditions_completed": true,
+    "attempts": 5,
+    "nonzero_exits": 1,
+    "retries": 1
+  },
+  "conditions": {
+    "baseline-ar": {
+      "cap_hits": 9,
+      "error_events": 0,
+      "oom_events": 0,
+      "p50_decode_ms": 7299.569759999713,
+      "p50_decode_tok_s": 22.714468117791462,
+      "p50_generation_ms": 10429.748375499912,
+      "p50_prefill_ms": 3135.3313545002948,
+      "p50_stage_sum_e2e_ms": 10440.98564199976,
+      "p50_synchronized_request_ms": 10524.985726999603,
+      "peak_allocated_vram_bytes": 4548281856,
+      "peak_reserved_vram_bytes": 4645191680,
+      "runs": 20,
+      "successful_runs": 20,
+      "total_output_tokens": 3493
+    },
+    "cc-dflash-r2": {
+      "cap_hits": 5,
+      "dflash": {
+        "p50_acceptance_rate": 0.12458117066652963,
+        "p50_effective_tau": 2.7525252525252526,
+        "p50_target_forwards_per_output_token": 0.3744279176201373
+      },
+      "error_events": 0,
+      "oom_events": 0,
+      "p50_decode_ms": 3463.762260499834,
+      "p50_decode_tok_s": 47.00482217133779,
+      "p50_generation_ms": 4969.753374500215,
+      "p50_prefill_ms": 1507.2103070001504,
+      "p50_stage_sum_e2e_ms": 5331.582743499894,
+      "p50_synchronized_request_ms": 5014.969256999848,
+      "peak_allocated_vram_bytes": 5994086400,
+      "peak_reserved_vram_bytes": 6138363904,
+      "runs": 20,
+      "successful_runs": 20,
+      "total_output_tokens": 3224
+    },
+    "dflash-r1": {
+      "cap_hits": 9,
+      "dflash": {
+        "p50_acceptance_rate": 0.18040691192865105,
+        "p50_effective_tau": 3.385964912280702,
+        "p50_target_forwards_per_output_token": 0.3144982130783348
+      },
+      "error_events": 0,
+      "oom_events": 0,
+      "p50_decode_ms": 2787.095991499882,
+      "p50_decode_tok_s": 50.76066786465442,
+      "p50_generation_ms": 5921.301846999995,
+      "p50_prefill_ms": 3134.5522839999376,
+      "p50_stage_sum_e2e_ms": 5935.275640500095,
+      "p50_synchronized_request_ms": 6032.781601000352,
+      "peak_allocated_vram_bytes": 5994086400,
+      "peak_reserved_vram_bytes": 6138363904,
+      "runs": 20,
+      "successful_runs": 20,
+      "total_output_tokens": 3479
+    },
+    "llmlingua-ar-r2": {
+      "cap_hits": 5,
+      "error_events": 0,
+      "oom_events": 0,
+      "p50_decode_ms": 6915.932754500091,
+      "p50_decode_tok_s": 23.297205257365796,
+      "p50_generation_ms": 8434.133322499974,
+      "p50_prefill_ms": 1518.1413850000354,
+      "p50_stage_sum_e2e_ms": 8794.376813999634,
+      "p50_synchronized_request_ms": 8471.362482999893,
+      "peak_allocated_vram_bytes": 4548281856,
+      "peak_reserved_vram_bytes": 4645191680,
+      "runs": 20,
+      "successful_runs": 20,
+      "total_output_tokens": 3226
+    }
+  },
+  "config_sha256": "034c0c059e611b5fced5d21dfe15abfebf080cf58b26f6950913b64bac4291aa",
+  "counts": {
+    "error_events": 0,
+    "gsm8k_valid_samples": 10,
+    "hidden_truncated_tokens": 0,
+    "metric_valid_runs": 80,
+    "oom_events": 0,
+    "protected_samples": 20,
+    "qmsum_valid_samples": 10,
+    "runs": 80,
+    "successful": 80
+  },
+  "duration_seconds": 1034.46501635,
+  "gate_pass": false,
+  "gsm8k_boundary": {
+    "all_compression_no_op": true,
+    "all_empty_context": true,
+    "compression_effectiveness_claimed": false,
+    "samples": 10
+  },
+  "pair_parity": {
+    "generated_token_parity_count": 28,
+    "generated_token_parity_rate": 0.7,
+    "input_token_parity_count": 40,
+    "input_token_parity_rate": 1.0,
+    "pairs": 40
+  },
+  "qmsum_compression": {
+    "coverage_rate": 1.0,
+    "hidden_truncated_tokens": 0,
+    "mean_context_reduction_rate": 0.49703048960193047,
+    "samples": 10
+  },
+  "quality": {
+    "gsm8k": {
+      "accuracy": 0.9,
+      "cap_hit": 0,
+      "correct": 36,
+      "evaluations": 40,
+      "invalid_format": 0,
+      "metric": "normalized_numeric_equality",
+      "missing_answer": 0,
+      "wrong_numeric": 4
+    },
+    "qmsum": {
+      "cap_hits": 28,
+      "evaluations": 40,
+      "mean_reference_precision_proxy": 0.2372084956192324,
+      "mean_reference_recall_proxy": 0.42520100511190934,
+      "semantic_correctness": "NOT_CLAIMED",
+      "valid": 40
+    }
+  },
+  "resolved_profile": "dataset_smoke",
+  "started_at_utc": "2026-07-18T09:40:37.864966+00:00",
+  "status": "FAIL",
+  "workflow_version": "dataset-smoke.v1"
+}

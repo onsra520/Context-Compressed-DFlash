@@ -1,0 +1,16 @@
+{
+  "gates": {
+    "ccdf_from_project_editable_source": true,
+    "no_external_site_packages_on_execution_sys_path": true,
+    "third_party_imports_from_project_venv": true
+  },
+  "interpretation": "ccdf resolves to the editable project source; all installed third-party modules resolve inside the project .venv",
+  "origins": {
+    "awq": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py",
+    "ccdf": "/data/Projects/CCDF-Rework/src/ccdf/__init__.py",
+    "llmlingua": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/llmlingua/__init__.py",
+    "torch": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/__init__.py",
+    "transformers": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/transformers/__init__.py"
+  },
+  "pass": true
+}

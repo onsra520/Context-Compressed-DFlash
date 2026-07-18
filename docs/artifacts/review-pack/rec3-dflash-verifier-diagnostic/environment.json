@@ -1,0 +1,19 @@
+{
+  "autoawq_version": "0.2.9",
+  "gpu_compute_capability": [
+    8,
+    9
+  ],
+  "gpu_count": 1,
+  "gpu_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "gpu_total_memory_bytes": 8184201216,
+  "llmlingua_version": "0.2.2",
+  "nvidia_smi": {
+    "available": true,
+    "query": "595.71.05, NVIDIA GeForce RTX 4070 Laptop GPU, 8.9, 8188"
+  },
+  "python_version": "3.12.13",
+  "torch_cuda_version": "13.0",
+  "torch_version": "2.13.0+cu130",
+  "transformers_version": "4.57.6"
+}

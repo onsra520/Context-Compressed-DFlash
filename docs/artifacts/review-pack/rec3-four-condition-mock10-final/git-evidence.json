@@ -1,0 +1,146 @@
+[
+  {
+    "command": [
+      "git",
+      "status",
+      "--short",
+      "--untracked-files=all"
+    ],
+    "duration_seconds": 0.002277561000028072,
+    "exit_code": 0,
+    "label": "git-status",
+    "stderr": "",
+    "stdout": " M src/ccdf/compression/llmlingua.py\n"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--name-status",
+      "b18b283fb8fe82363180157263c8d2ca8446e770"
+    ],
+    "duration_seconds": 0.002094706000207225,
+    "exit_code": 0,
+    "label": "git-diff-name-status",
+    "stderr": "",
+    "stdout": "M\tsrc/ccdf/compression/llmlingua.py\n"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--name-status",
+      "b18b283fb8fe82363180157263c8d2ca8446e770"
+    ],
+    "duration_seconds": 0.0014457040001616406,
+    "exit_code": 0,
+    "label": "git-diff-cached-name-status",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "ls-files",
+      "--others",
+      "--exclude-standard"
+    ],
+    "duration_seconds": 0.0014828649996161403,
+    "exit_code": 0,
+    "label": "git-untracked",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "check-ignore",
+      "-v",
+      "tests/run_rec3_four_condition_protocol.py",
+      "tests/build_rec3_four_condition_review_pack.py",
+      "tests/run_rec3_dflash_block_size_ablation.py",
+      "tests/run_rec3_dflash_verifier_diagnostic.py",
+      "tests/run_rec3_mock02_divergence.py",
+      "tests/test_rec3_protocol_helpers.py",
+      "tests/test_compression_protocol.py",
+      "tests/test_dflash_integration.py",
+      "tests/test_metrics.py"
+    ],
+    "duration_seconds": 0.001682510000136972,
+    "exit_code": 0,
+    "label": "git-ignored-validation-files",
+    "stderr": "",
+    "stdout": ".gitignore:24:*test*\ttests/run_rec3_four_condition_protocol.py\n.gitignore:24:*test*\ttests/build_rec3_four_condition_review_pack.py\n.gitignore:24:*test*\ttests/run_rec3_dflash_block_size_ablation.py\n.gitignore:24:*test*\ttests/run_rec3_dflash_verifier_diagnostic.py\n.gitignore:24:*test*\ttests/run_rec3_mock02_divergence.py\n.gitignore:24:*test*\ttests/test_rec3_protocol_helpers.py\n.gitignore:24:*test*\ttests/test_compression_protocol.py\n.gitignore:24:*test*\ttests/test_dflash_integration.py\n.gitignore:24:*test*\ttests/test_metrics.py\n"
+  },
+  {
+    "command": [
+      "git",
+      "status",
+      "--short",
+      "--",
+      "src/ccdf/dflash"
+    ],
+    "duration_seconds": 0.0030434869995588087,
+    "exit_code": 0,
+    "label": "dflash-core-status",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--numstat",
+      "b18b283fb8fe82363180157263c8d2ca8446e770",
+      "--",
+      "src/ccdf/dflash"
+    ],
+    "duration_seconds": 0.0017979049998757546,
+    "exit_code": 0,
+    "label": "dflash-core-numstat",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "ls-files",
+      "--others",
+      "--exclude-standard",
+      "src/ccdf/dflash"
+    ],
+    "duration_seconds": 0.0013859509999747388,
+    "exit_code": 0,
+    "label": "dflash-core-untracked",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "status",
+      "--short",
+      "--",
+      "config.yml"
+    ],
+    "duration_seconds": 0.001617903999886039,
+    "exit_code": 0,
+    "label": "canonical-config-status",
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--",
+      "config.yml"
+    ],
+    "duration_seconds": 0.0016921540000112145,
+    "exit_code": 0,
+    "label": "canonical-config-diff",
+    "stderr": "",
+    "stdout": ""
+  }
+]

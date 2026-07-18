@@ -1,0 +1,9 @@
+{
+  "configured_attention_backend": "sdpa",
+  "configured_kernel": "math",
+  "cudnn_tf32_enabled": true,
+  "flash_enabled": true,
+  "math_enabled": true,
+  "matmul_tf32_enabled": false,
+  "memory_efficient_enabled": true
+}

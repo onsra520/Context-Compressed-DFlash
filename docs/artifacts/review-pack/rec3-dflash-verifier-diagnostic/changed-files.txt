@@ -1,0 +1,27 @@
+# git-diff-name-status
+$ git diff --name-status b18b283fb8fe82363180157263c8d2ca8446e770
+exit=0
+M	src/ccdf/compression/llmlingua.py
+
+# git-diff-cached-name-status
+$ git diff --cached --name-status b18b283fb8fe82363180157263c8d2ca8446e770
+exit=0
+
+# git-untracked
+$ git ls-files --others --exclude-standard
+exit=0
+
+# git-status
+$ git status --short --untracked-files=all
+exit=0
+ M src/ccdf/compression/llmlingua.py
+
+# git-ignored-validation-sources
+$ git check-ignore -v tests/run_rec3_dflash_verifier_diagnostic.py tests/run_rec3_four_condition_protocol.py tests/run_rec3_mock02_divergence.py tests/build_rec3_dflash_verifier_review_pack.py tests/test_rec3_protocol_helpers.py
+exit=0
+.gitignore:24:*test*	tests/run_rec3_dflash_verifier_diagnostic.py
+.gitignore:24:*test*	tests/run_rec3_four_condition_protocol.py
+.gitignore:24:*test*	tests/run_rec3_mock02_divergence.py
+.gitignore:24:*test*	tests/build_rec3_dflash_verifier_review_pack.py
+.gitignore:24:*test*	tests/test_rec3_protocol_helpers.py
+

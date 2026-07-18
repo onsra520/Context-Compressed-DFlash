@@ -1,0 +1,215 @@
+{
+  "active_profile": "rec3",
+  "base_commit_sha": "b18b283fb8fe82363180157263c8d2ca8446e770",
+  "manifest_version": "ccdf.rec3-tracked-profile-final.v1",
+  "members": {
+    ".gitignore": {
+      "bytes": 364,
+      "sha256": "8e18804026588937d8975fc9523cc05792bac9daf10a73d8da880724c467d368"
+    },
+    "config.yml": {
+      "bytes": 12549,
+      "sha256": "4fba4138ad26104ca89a37c0a90c997a73a6332522c54ba65bd83296636cd05e"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/FINAL_REPORT.md": {
+      "bytes": 3337,
+      "sha256": "9e989bcd192e4779cec5a68d53c343efe183c0d3a3297dd15b2d27c0806f2b3d"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/gate_matrix.json": {
+      "bytes": 994,
+      "sha256": "a7eddc00ead2f824f1b50d611a3769ca6c21954390b8ce50e98739c48e8df2e2"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/mock_fixtures.json": {
+      "bytes": 33413,
+      "sha256": "597da15c7f10bb0b3030f26544306b4673fe90ed21a457f047fac8399ed24578"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/pair_parity.json": {
+      "bytes": 10258,
+      "sha256": "29607693324541a95bbd9978208879313931d81cb054728e7795864110537ecd"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/protected_field_hashes.json": {
+      "bytes": 2853,
+      "sha256": "43597cf07761dc3aad4efffae84173dd4e8e7401d26f260f0b1b503d5110e4d4"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/raw_runs.json": {
+      "bytes": 1340268,
+      "sha256": "4895f3daab061e27f03448ceb411fdf829f4da97fdfcf96aa990c96cdead2c58"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/resolved_config_snapshot.json": {
+      "bytes": 19665,
+      "sha256": "e22a7df88e0fed7b0bd066d7a87b78bf2347a6cf1bdac49baa705b48aae85a87"
+    },
+    "docs/artifacts/rec3-four-condition-mock10/summary.json": {
+      "bytes": 9857,
+      "sha256": "abb2f906e4ae6bdb6f742933438e75716694d02c6068e4bbc9f9657207324654"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/base-commit.txt": {
+      "bytes": 41,
+      "sha256": "5191c7d65a06f62bb1690faf7a99f6ea02fc095e14d3174f83a1a81fbc46a702"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/canonical-benchmark-config-proof.json": {
+      "bytes": 528,
+      "sha256": "b93fdcc36fdf94fd29fc6cf49f1e8199b2b60dcbe057c44c5f167e4ed2288c3a"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/changed-files.txt": {
+      "bytes": 637,
+      "sha256": "53910fad53c65d22d3b3756a57b0c62a40aa178a94a802d86a00cd6ca970f45b"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/checkpoint-manifest.json": {
+      "bytes": 5010,
+      "sha256": "38572a0bb74a7b8e856c21300c799522e26216b1b7e64b3daf8808218ff5e7e3"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/commands.json": {
+      "bytes": 11557,
+      "sha256": "333478605a0e83fee00b885fe0dc182eebdf852a2b6ba2d57a0f562131bb7322"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/dflash-core-unchanged-proof.json": {
+      "bytes": 1016,
+      "sha256": "eb98621629af17179791d556fad17dc6fdbae521a537544d1265b6ffa29fe2ca"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/environment.json": {
+      "bytes": 762,
+      "sha256": "2c2ab7be2a38070f30d0187f00ca6c7bfda99669a5305c7d46dbb3f8b56b3851"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/git-diff.patch": {
+      "bytes": 35731,
+      "sha256": "4edd6ef106ec8528d18a2db3a7bb80970244ce5e549dab4a49f5e06b38a0f135"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/git-evidence.json": {
+      "bytes": 9052,
+      "sha256": "942fac24ed9ad5f984f73b51771767b44e68e369ab2f5aeca3c9b10e99864f42"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/git-status.txt": {
+      "bytes": 356,
+      "sha256": "ceeedb54c6255d1ea69a24de800be1a58f71e074d73ae9699a12bb04425438d8"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/pack-members.txt": {
+      "bytes": 2556,
+      "sha256": "e246c757f856b4a2a389cae2a879d87d8f97d89bbae5f1257275e1ee54a414a6"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/test-results.txt": {
+      "bytes": 10552,
+      "sha256": "302a3de5d92a8ec141f23030af6a93f985188105006f559aa7356e4004847e40"
+    },
+    "docs/artifacts/review-pack/rec3-four-condition-mock10-tracked-final/validation-summary.json": {
+      "bytes": 11578,
+      "sha256": "4a6803aad7570ef4c7696a8f87a3f1848a760b207c34261a3ee34834706e4925"
+    },
+    "pyproject.toml": {
+      "bytes": 884,
+      "sha256": "1bd32688a2a20a9ac8fb224cdf2bcce3cb8ce84ea526eafd3a44bee8a18e268c"
+    },
+    "src/ccdf/benchmark.py": {
+      "bytes": 4503,
+      "sha256": "af44bf2ff867a5234b1799dc8db1b6fbab5c05d8dd5604b29fc46d5331d4b3ca"
+    },
+    "src/ccdf/compression/__init__.py": {
+      "bytes": 291,
+      "sha256": "c46cf3c0f8484ac1a82ee28b9976d0ba533c01bd36de7f550ddc1186f7aee2cd"
+    },
+    "src/ccdf/compression/llmlingua.py": {
+      "bytes": 9771,
+      "sha256": "171da4796fc43345fdd5f1265a0df9263006248a71332818d93c8df662de6f3b"
+    },
+    "src/ccdf/compression/schemas.py": {
+      "bytes": 1082,
+      "sha256": "b7edc73a6cec9bffd6026bbc50edb3039a3caae0a3d1522c03ae3785bda3b3e2"
+    },
+    "src/ccdf/config.py": {
+      "bytes": 17161,
+      "sha256": "a0a4e38e9e164abe2c5ff2e5316642929c8ee84aaf876dab14b259d2e480b847"
+    },
+    "src/ccdf/determinism.py": {
+      "bytes": 2969,
+      "sha256": "c0fcf9a67383e8a1d2264da1aa13f303977fdac9276fc25fcbf9c41e0b67b1e9"
+    },
+    "src/ccdf/device.py": {
+      "bytes": 4708,
+      "sha256": "18f0e1372094384717ffb53245c8415dbc067f2a3e7faee73b62bbbd7c8ce5b7"
+    },
+    "src/ccdf/dflash/acceptance.py": {
+      "bytes": 2606,
+      "sha256": "1aa113b7d1fa34a51fed7f8d4069553bc723774168ee9851d79a660e7178613d"
+    },
+    "src/ccdf/dflash/generate.py": {
+      "bytes": 11114,
+      "sha256": "0642765ab2d781ab466b82542dc09edd8e1a4edfc947c92fa42fa7b2a9b9be01"
+    },
+    "src/ccdf/dflash/policy.py": {
+      "bytes": 2231,
+      "sha256": "ae6b9debf17598839e4a2f2fcc82c50057aff81a536c9fff068681d67f62fb59"
+    },
+    "src/ccdf/dflash/verifier.py": {
+      "bytes": 4933,
+      "sha256": "80a8b49d72203346d5efa2725c191b5fdc0390ba3678f43495dda3c13ef19e92"
+    },
+    "src/ccdf/inference/baseline.py": {
+      "bytes": 3805,
+      "sha256": "4d4104b6633dfde9c5c3b15cc8384a76d33cd80134a991ed68dc50eeaadfb4a1"
+    },
+    "src/ccdf/inference/sampling.py": {
+      "bytes": 444,
+      "sha256": "7a2d4e524a68ff1afec34ec097655ae5e1abcfadc08d0fdd588746e317a00785"
+    },
+    "src/ccdf/models/loaders.py": {
+      "bytes": 11802,
+      "sha256": "26aab26a5fcc46c03b60f970f1d0a1603c72f2f52f0f21cffbfe56b7d42e38b8"
+    },
+    "src/ccdf/rec3/__init__.py": {
+      "bytes": 139,
+      "sha256": "ba84b03f2f7afa77b02b5a11723fdc5c346ff4b4a5c5b1743ff9734fe25decf0"
+    },
+    "src/ccdf/rec3/__main__.py": {
+      "bytes": 726,
+      "sha256": "316b1dc87387c379a5c8cad35f5e8b3e8e3d8e5075e461d0b1b0381de34e159e"
+    },
+    "src/ccdf/rec3/metrics.py": {
+      "bytes": 18293,
+      "sha256": "c40e4e4cea7fbf120c5727476e5236a53e04c1f7f9e2b5cc65c749a1801b7045"
+    },
+    "src/ccdf/rec3/orchestrator.py": {
+      "bytes": 29541,
+      "sha256": "3537c59c9f2ee8f4778f965a462e1b6ed7743ce7e721a88e6d3076a53cfd9cb9"
+    },
+    "src/ccdf/runtime/engine.py": {
+      "bytes": 7898,
+      "sha256": "f8ca462feb6be3847e4cf5e2c321b1bee4df2327dce0fb37fdeabae926101538"
+    },
+    "src/ccdf/schemas.py": {
+      "bytes": 4552,
+      "sha256": "00567df08964ab15ecbc1bf0ef5168c57be91a8b1bfde12ea264ba6d01f7846b"
+    },
+    "src/ccdf/validation/environment.py": {
+      "bytes": 3064,
+      "sha256": "db6612b7fb29db61a65a8c49e9564f2cee8ed36d4fc4123451cb3def96825bd6"
+    },
+    "tests/build_rec3_four_condition_review_pack.py": {
+      "bytes": 24691,
+      "sha256": "d8c96271f7084441fc9c31e50e5a861a785fec8d683b6c7870dbfc6ae8d1e63f"
+    },
+    "tests/run_rec3_four_condition_protocol.py": {
+      "bytes": 729,
+      "sha256": "adc0d3222cfcf04e9f377cf4f4d7bfa1471b927e6630f6eaf3869c4c0f60f847"
+    },
+    "tests/test_compression_protocol.py": {
+      "bytes": 639,
+      "sha256": "e79722c1821a968d4385ca89641bbcbb2a5f285fd6569b798c2a5dc634de0034"
+    },
+    "tests/test_dflash_integration.py": {
+      "bytes": 5336,
+      "sha256": "9f09139dc0f29cd651c7162c24f24b5e75d88e5b4300c1e0c2e600cfc2b14d22"
+    },
+    "tests/test_metrics.py": {
+      "bytes": 717,
+      "sha256": "f91ec4a03959ed2986689cb67ed802f7280d9d7878a38fe62fa517af769cf5e5"
+    },
+    "tests/test_rec3_protocol_helpers.py": {
+      "bytes": 3615,
+      "sha256": "869df6727b3fefd49928556c876c7e2ad270cd16b46cf8a03bcec60dd5124b74"
+    }
+  },
+  "resolved_verification_block_size": 8,
+  "self_entry_policy": "archive-manifest.json is omitted from its own hash map to avoid recursive hashing",
+  "source_config_sha256": "4fba4138ad26104ca89a37c0a90c997a73a6332522c54ba65bd83296636cd05e",
+  "summary_sha256": "abb2f906e4ae6bdb6f742933438e75716694d02c6068e4bbc9f9657207324654"
+}

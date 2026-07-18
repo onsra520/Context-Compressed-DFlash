@@ -1,0 +1,36 @@
+{
+  "attention_states": [
+    {
+      "attn_implementation": "sdpa",
+      "flash_sdp_enabled": false,
+      "math_sdp_enabled": true,
+      "mem_efficient_sdp_enabled": false
+    }
+  ],
+  "determinism_states": [
+    {
+      "allow_tf32_effective": false,
+      "allow_tf32_requested": false,
+      "cublas_workspace_config": ":4096:8",
+      "cuda_seeded": true,
+      "cudnn_benchmark": false,
+      "cudnn_deterministic": true,
+      "deterministic_algorithms": true,
+      "flash_sdp_enabled": false,
+      "math_sdp_enabled": true,
+      "matmul_precision": "high",
+      "mem_efficient_sdp_enabled": false,
+      "python_hash_seed_environment": "42",
+      "python_random_seeded": true,
+      "sdpa_kernel_policy": "math",
+      "seed": 42,
+      "torch_initial_seed": 42
+    }
+  ],
+  "hard_gate": {
+    "flash": false,
+    "math": true,
+    "memory_efficient": false,
+    "tf32": false
+  }
+}

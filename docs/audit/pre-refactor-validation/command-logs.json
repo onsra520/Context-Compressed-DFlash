@@ -1,0 +1,58 @@
+{
+  "shell_protocol": [
+    "source .venv/bin/activate",
+    "export PROJECT_ROOT=\"$PWD\"",
+    "export PYTHONHASHSEED=42",
+    "export CUBLAS_WORKSPACE_CONFIG=:4096:8"
+  ],
+  "effective_environment": {
+    "PROJECT_ROOT": "/data/Projects/CCDF-Rework",
+    "PYTHONHASHSEED": "42",
+    "CUBLAS_WORKSPACE_CONFIG": ":4096:8"
+  },
+  "commands": [
+    {
+      "label": "compileall",
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/python",
+        "-m",
+        "compileall",
+        "-q",
+        "src",
+        "scripts"
+      ],
+      "cwd": "/data/Projects/CCDF-Rework",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "",
+      "duration_seconds": 0.03986728900054004
+    },
+    {
+      "label": "pytest",
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/pytest",
+        "-q"
+      ],
+      "cwd": "/data/Projects/CCDF-Rework",
+      "exit_code": 0,
+      "stdout": "....................................................                     [100%]\n52 passed in 2.39s\n",
+      "stderr": "",
+      "duration_seconds": 3.220097020999674
+    },
+    {
+      "label": "validate-config",
+      "command": [
+        "/data/Projects/CCDF-Rework/.venv/bin/ccdf-rec2",
+        "validate-config",
+        "--config",
+        "config.yml"
+      ],
+      "cwd": "/data/Projects/CCDF-Rework",
+      "exit_code": 0,
+      "stdout": "{\n  \"pass\": true,\n  \"root\": \"/data/Projects/CCDF-Rework\",\n  \"warnings\": []\n}\n",
+      "stderr": "",
+      "duration_seconds": 1.8910888570007955
+    }
+  ],
+  "pass": true
+}

@@ -1,0 +1,223 @@
+config_version: rec.dflash
+
+project:
+    name: ccdf
+    root: "${PROJECT_ROOT}"
+    source_identity:
+        kind: local-source-tree
+
+paths:
+    project_root: "${PROJECT_ROOT}"
+    models_root: "${PROJECT_ROOT}/models"
+    baseline_model: "${PROJECT_ROOT}/models/baseline/Qwen3-4B-AWQ"
+    dflash_target_model: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-AWQ"
+    dflash_target_fallback_model: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-bnb-4bit"
+    dflash_drafter_model: "${PROJECT_ROOT}/models/dflash/drafter/Qwen3-4B-DFlash-b16"
+    compressor_model: "${PROJECT_ROOT}/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank"
+    data_root: "${PROJECT_ROOT}/data"
+    artifacts_root: "${PROJECT_ROOT}/docs/artifacts"
+    benchmark_inputs: "${PROJECT_ROOT}/data/benchmark"
+
+models:
+    baseline:
+        model_id: Qwen/Qwen3-4B-AWQ
+        local_path: "${PROJECT_ROOT}/models/baseline/Qwen3-4B-AWQ"
+        revision: null
+        quantization: awq-int4
+        dtype: bfloat16
+        tokenizer_path: "${PROJECT_ROOT}/models/baseline/Qwen3-4B-AWQ"
+        allow_cpu_offload: false
+        device_map: cuda:0
+        trust_remote_code: true
+
+    dflash:
+        target:
+            model_id: Qwen/Qwen3-4B-AWQ
+            local_path: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-AWQ"
+            fallback_model_id: unsloth/Qwen3-4B-bnb-4bit
+            fallback_local_path: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-bnb-4bit"
+            revision: null
+            quantization: awq-int4
+            fallback_quantization: bitsandbytes-nf4-bfloat16
+            dtype: bfloat16
+            tokenizer_path: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-AWQ"
+            allow_cpu_offload: false
+            device_map: cuda:0
+            trust_remote_code: true
+
+        drafter:
+            model_id: local-dflash-drafter
+            local_path: "${PROJECT_ROOT}/models/dflash/drafter/Qwen3-4B-DFlash-b16"
+            revision: b74e3a329c4d963783143b1e970d95b002be72bd
+            dtype: bfloat16
+            checkpoint_block_size: 16
+            device_map: cuda:0
+            trust_remote_code: true
+
+    compressor:
+        model_id: microsoft/llmlingua-2-xlm-roberta-large-meetingbank
+        local_path: "${PROJECT_ROOT}/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank"
+        device: cuda:0
+        reserved_budget_gib: 2.25
+        load_in_rec2: false
+
+runtime:
+    local_files_only: true
+    device: cuda:0
+    temperature: 0.0
+    max_new_tokens: 256
+    stop_token_ids: [151645]
+    enable_thinking: false
+    attention_backend: sdpa
+    sdpa_kernel: math
+    awq_split_k_iters: 1
+    deterministic: true
+    seed: 42
+    allow_tf32: false
+    matmul_precision: high
+
+memory:
+    dflash_peak_reserved_limit_gib: 6.0
+    device_capacity_gib: 8.0
+    compressor_residency_mode: staged
+    generation_residency_mode: staged
+    enforce_after_model_load: true
+    enforce_after_generation: true
+    baseline_peak_reserved_limit_gib: null
+    use_reserved_memory_for_gate: true
+
+optimization:
+    gpu_resident_acceptance: true
+    output_contract_mode: finalize_only
+    full_structural_audit: false
+    compact_structural_audit: true
+    profile_components: false
+
+    block_policy:
+        mode: fixed
+        fixed_block_size: 16
+        allowed_block_sizes: [4, 8, 12, 16]
+        rolling_window: 4
+        low_tau_threshold: 2.5
+        high_tau_threshold: 4.5
+        low_tau_block_size: 4
+        mid_tau_block_size: 8
+        high_tau_block_size: 16
+        allow_subblock_shapes: true
+
+    compile:
+        drafter_enabled: false
+        target_verify_enabled: false
+        mode: reduce-overhead
+        fullgraph: false
+        dynamic: true
+
+benchmark:
+    warmup_requests: 1
+    repetitions: 5
+    smoke_max_new_tokens: 256
+    prompt_format: chat
+    measurement_mode: benchmark
+    save_generated_text: true
+    save_token_ids: true
+    prompts:
+        - "Compute 7 + 5. Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>`."
+        - "Explain why 9 multiplied by 0 equals 0. Briefly state the essential reasoning, then end with exactly one line in the form `Final answer: <result>` that states the general rule in words."
+        - "A box has 18 red balls and 7 blue balls. Five red balls are removed. How many balls remain? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>`, repeating the unit `balls` in that line."
+        - "A bookstore sells notebooks for $4 and pens for $2. Maya buys 6 notebooks and 5 pens, then uses a $7 coupon. What does she pay? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>` including currency."
+        - "A train travels 120 km in 2 hours, stops for 30 minutes, then travels 180 km in 3 hours. Find total distance, elapsed time, and average speed. Carefully write the distance addition before dividing by elapsed time, and round the average speed to exactly two decimal places. The final line must label all three fields in this order: `Final answer: total distance <value> km; elapsed time <value> hours; average speed <value> km/h`."
+        - "A rectangle is 12 m long and 9 m wide. Its length increases by 3 m and its width decreases by 2 m. Find the new area and the change from the original area. Briefly show the essential calculation. The final line must label both fields in this order: `Final answer: new area <value> square meters; decrease of <value> square meters`."
+        - "A tank contains 240 liters of water. Thirty-five percent is used, then 60 liters are added. How many liters are in the tank? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>` and repeat the requested unit."
+        - "A class has 28 boys and 32 girls. One quarter of the girls are absent and all boys attend. How many students attend, and what is the ratio of boys to attending girls in simplest whole-number colon notation? Briefly show the essential calculation. The final line must label both fields and include the attendance unit: `Final answer: attendance <value> students; ratio <boys:girls>`."
+        - "A jacket costs $80. It is discounted by 15%, then an 8% sales tax is applied to the discounted price. What is the final price? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>` including currency."
+        - "A cyclist rides 18 km at 12 km/h and then 30 km at 15 km/h. Find total distance, total time, and average speed. Briefly show the essential calculation. The final line must label all three fields in this order: `Final answer: total distance <value> km; total time <value> hours; average speed <value> km/h`."
+    output_jsonl: "${PROJECT_ROOT}/docs/artifacts/benchmark/results.jsonl"
+    summary_json: "${PROJECT_ROOT}/docs/artifacts/benchmark/summary.json"
+
+validation:
+    require_cuda: true
+    require_single_gpu: true
+    require_full_gpu_placement: true
+    validate_model_contract: true
+    smoke_prompts:
+        - "What is 17 multiplied by 6? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>`."
+        - "A shop sold 12 boxes with 8 items in each box. How many items were sold? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>`."
+        - "A cyclist rides 18 km at 12 km/h and then 30 km at 15 km/h. Find total distance, total time, and average speed. Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>` containing all three results."
+
+prompts:
+    system: "You are a careful mathematical assistant. Use plain text only: do not restate the problem and do not use headings or bullets. Show only the shortest essential calculation or explanation, verify it, and make the final non-empty line exactly `Final answer: <result>`."
+    default_instruction: "Answer directly and stop when the answer is complete."
+    gsm8k_instruction: >-
+        Compute using concise essential calculations. End with exactly one separate line in the form
+        "Final answer: <result>" and then stop.
+
+protocol_profiles:
+    active: rec3
+    profiles:
+        rec3:
+            description: "REC-3 four-condition mock10 validation profile"
+            dataset: rec3_mock
+            artifact_directory: "${PROJECT_ROOT}/docs/artifacts/rec3-four-condition-mock10"
+            review_archive: "${PROJECT_ROOT}/docs/reviews/review-pack-rec3-protocol-four-conditions-mock10-final.tar.gz"
+            config_overrides:
+                prompts:
+                    system: "You are an information extraction assistant. Return only the requested output format."
+                runtime:
+                    max_new_tokens: 32
+                    temperature: 0.0
+                optimization:
+                    block_policy:
+                        mode: fixed
+                        fixed_block_size: 8
+            compression:
+                keep_rate: 0.5
+                min_context_tokens: 1
+                chunk_max_words: 180
+            prompt_contract:
+                question: "According to the FINAL APPROVED FACT, who is the owner, what is the approval code, and what exact quantity was approved?"
+                output_instruction: "Return exactly: Owner: <name>; Approval code: <code>; Quantity: <integer>"
+                strict_output_pattern: '^Owner: (?P<owner>[^;\r\n]+); Approval code: (?P<approval_code>[^;\r\n]+); Quantity: (?P<quantity>[0-9]+)$'
+                tolerant_field_pattern: 'Owner:\s*(?P<owner>[^;\r\n]+);\s*Approval code:\s*(?P<approval_code>[^;\r\n]+);\s*Quantity:\s*(?P<quantity>[0-9]+)'
+                distractor_template: "Meeting turn {turn}: unapproved proposal says owner Candidate-{candidate}, code ZX-{fixture_index}{turn_padded}, quantity {distractor_quantity}; this is a distractor."
+                evidence_template: "FINAL APPROVED FACT: the approved owner is {owner}; the approval code is {approval_code}; the exact approved quantity is {quantity}."
+            conditions:
+                - name: baseline-ar
+                  runtime_condition: baseline
+                  prompt_kind: original
+                - name: dflash-r1
+                  runtime_condition: dflash
+                  prompt_kind: original
+                - name: llmlingua-ar-r2
+                  runtime_condition: baseline
+                  prompt_kind: compressed
+                  reduction_reference_condition: baseline-ar
+                - name: cc-dflash-r2
+                  runtime_condition: dflash
+                  prompt_kind: compressed
+                  reduction_reference_condition: dflash-r1
+            parity_pairs:
+                - name: original_baseline_ar_vs_dflash_r1
+                  left: baseline-ar
+                  right: dflash-r1
+                - name: compressed_llmlingua_ar_r2_vs_cc_dflash_r2
+                  left: llmlingua-ar-r2
+                  right: cc-dflash-r2
+            hard_gates:
+                condition_success_rate: 1.0
+                pair_generated_token_parity_rate: 1.0
+                exact_field_quality_rate: 1.0
+                protected_input_rate: 1.0
+                metric_validity_rate: 1.0
+                max_oom_events: 0
+                dflash_peak_reserved_vram_gib: 6.0
+            fixtures:
+                - {turns: 16, evidence_position_fraction: 0.15, owner: Asha, approval_code: AP-701, quantity: '41'}
+                - {turns: 16, evidence_position_fraction: 0.15, owner: Binh, approval_code: AP-702, quantity: '58'}
+                - {turns: 20, evidence_position_fraction: 0.30, owner: Chen, approval_code: AP-703, quantity: '73'}
+                - {turns: 24, evidence_position_fraction: 0.45, owner: Dara, approval_code: AP-704, quantity: '89'}
+                - {turns: 28, evidence_position_fraction: 0.60, owner: Elena, approval_code: AP-705, quantity: '104'}
+                - {turns: 32, evidence_position_fraction: 0.75, owner: Farid, approval_code: AP-706, quantity: '126'}
+                - {turns: 30, evidence_position_fraction: 0.90, owner: Gia, approval_code: AP-707, quantity: '147'}
+                - {turns: 30, evidence_position_fraction: 1.00, owner: Hana, approval_code: AP-708, quantity: '168'}
+                - {turns: 18, evidence_position_fraction: 0.50, owner: Ivo, approval_code: AP-709, quantity: '193'}
+                - {turns: 32, evidence_position_fraction: 0.70, owner: Juno, approval_code: AP-710, quantity: '215'}

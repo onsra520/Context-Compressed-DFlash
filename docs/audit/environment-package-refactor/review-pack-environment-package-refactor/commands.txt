@@ -1,0 +1,558 @@
+$ /data/Projects/CCDF-Rework/.venv/bin/python -m ccdf validate-config --config /data/Projects/CCDF-Rework/config.yml
+exit=0
+duration_seconds=2.711719352999353
+--- stdout ---
+{
+  "pass": true,
+  "root": "/data/Projects/CCDF-Rework",
+  "warnings": []
+}
+--- stderr ---
+
+
+$ /data/Projects/CCDF-Rework/.venv/bin/ccdf --help
+exit=0
+duration_seconds=2.6620853490003356
+--- stdout ---
+usage: ccdf [-h]
+            {validate-config,validate-env,validate-models,validation-cycle,run,benchmark,protocol}
+            ...
+
+positional arguments:
+  {validate-config,validate-env,validate-models,validation-cycle,run,benchmark,protocol}
+
+options:
+  -h, --help            show this help message and exit
+--- stderr ---
+
+
+$ /data/Projects/CCDF-Rework/.venv/bin/python -m ccdf validate-env --config /data/Projects/CCDF-Rework/config.yml
+exit=0
+duration_seconds=2.9337198360008188
+--- stdout ---
+{
+  "awq_runtime_available": true,
+  "compatibility_risks": [
+    {
+      "batch_gate": false,
+      "component": "AutoAWQ",
+      "risk": "installed package emits an upstream deprecation warning"
+    }
+  ],
+  "compute_capability": [
+    8,
+    9
+  ],
+  "conda_prefix": null,
+  "cuda_available": true,
+  "cuda_runtime": "13.0",
+  "device_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "external_site_packages": [],
+  "import_paths": {
+    "awq": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py",
+    "ccdf": "/data/Projects/CCDF-Rework/src/ccdf/__init__.py",
+    "llmlingua": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/llmlingua/__init__.py",
+    "torch": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/__init__.py",
+    "transformers": "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/transformers/__init__.py"
+  },
+  "local_only": {
+    "config_local_files_only": true,
+    "hf_hub_offline": "1",
+    "transformers_offline": "1"
+  },
+  "package_versions": {
+    "accelerate": "1.14.0",
+    "awq": "0.2.9",
+    "huggingface_hub": "0.36.2",
+    "llmlingua": "0.2.2",
+    "safetensors": "0.8.0",
+    "torch": "2.13.0",
+    "transformers": "4.57.6",
+    "triton": "3.7.1"
+  },
+  "paths": {
+    "baseline": {
+      "exists": true,
+      "path": "/data/Projects/CCDF-Rework/models/baseline/Qwen3-4B-AWQ"
+    },
+    "compressor": {
+      "exists": true,
+      "path": "/data/Projects/CCDF-Rework/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank"
+    },
+    "drafter": {
+      "exists": true,
+      "path": "/data/Projects/CCDF-Rework/models/dflash/drafter/Qwen3-4B-DFlash-b16"
+    },
+    "target": {
+      "exists": true,
+      "path": "/data/Projects/CCDF-Rework/models/dflash/target/Qwen3-4B-AWQ"
+    }
+  },
+  "process_default_sdpa_state": {
+    "configured_attention_backend": "sdpa",
+    "configured_kernel": "math",
+    "cudnn_tf32_enabled": true,
+    "flash_enabled": true,
+    "math_enabled": true,
+    "matmul_tf32_enabled": false,
+    "memory_efficient_enabled": true
+  },
+  "python": "3.12.13",
+  "pythonpath": null,
+  "sys_executable": "/data/Projects/CCDF-Rework/.venv/bin/python",
+  "sys_executable_is_project_venv": true,
+  "sys_path": [
+    "/data/Projects/CCDF-Rework",
+    "/usr/lib/python312.zip",
+    "/usr/lib/python3.12",
+    "/usr/lib/python3.12/lib-dynload",
+    "/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages",
+    "/data/Projects/CCDF-Rework/src"
+  ],
+  "sys_prefix": "/data/Projects/CCDF-Rework/.venv",
+  "sys_prefix_is_project_venv": true,
+  "torch": "2.13.0+cu130",
+  "total_vram_bytes": 8184201216,
+  "venv_expected_path": "/data/Projects/CCDF-Rework/.venv",
+  "virtual_env": "/data/Projects/CCDF-Rework/.venv",
+  "visible_gpu_count": 1,
+  "which_python": "/data/Projects/CCDF-Rework/.venv/bin/python"
+}
+--- stderr ---
+
+
+$ /data/Projects/CCDF-Rework/.venv/bin/python -m pip check
+exit=0
+duration_seconds=0.2530618519995187
+--- stdout ---
+No broken requirements found.
+--- stderr ---
+
+
+$ /data/Projects/CCDF-Rework/.venv/bin/python -m pip list --format=json
+exit=0
+duration_seconds=0.17030263999913586
+--- stdout ---
+[{"name": "accelerate", "version": "1.14.0"}, {"name": "aiohappyeyeballs", "version": "2.7.1"}, {"name": "aiohttp", "version": "3.14.1"}, {"name": "aiosignal", "version": "1.4.0"}, {"name": "anyio", "version": "4.14.2"}, {"name": "attrs", "version": "26.1.0"}, {"name": "autoawq", "version": "0.2.9"}, {"name": "black", "version": "26.5.1"}, {"name": "ccdf", "version": "0.1.0", "editable_project_location": "/data/Projects/CCDF-Rework"}, {"name": "certifi", "version": "2026.6.17"}, {"name": "charset-normalizer", "version": "3.4.9"}, {"name": "click", "version": "8.4.2"}, {"name": "cuda-bindings", "version": "13.3.1"}, {"name": "cuda-pathfinder", "version": "1.5.6"}, {"name": "cuda-toolkit", "version": "13.0.3.0"}, {"name": "datasets", "version": "5.0.0"}, {"name": "defusedxml", "version": "0.7.1"}, {"name": "dill", "version": "0.4.1"}, {"name": "filelock", "version": "3.29.7"}, {"name": "frozenlist", "version": "1.8.0"}, {"name": "fsspec", "version": "2026.4.0"}, {"name": "h11", "version": "0.16.0"}, {"name": "hf-xet", "version": "1.5.1"}, {"name": "httpcore", "version": "1.0.9"}, {"name": "httpx", "version": "0.28.1"}, {"name": "huggingface_hub", "version": "0.36.2"}, {"name": "idna", "version": "3.18"}, {"name": "iniconfig", "version": "2.3.0"}, {"name": "Jinja2", "version": "3.1.6"}, {"name": "joblib", "version": "1.5.3"}, {"name": "llmlingua", "version": "0.2.2"}, {"name": "MarkupSafe", "version": "3.0.3"}, {"name": "mpmath", "version": "1.3.0"}, {"name": "multidict", "version": "6.7.1"}, {"name": "multiprocess", "version": "0.70.19"}, {"name": "mypy_extensions", "version": "1.1.0"}, {"name": "networkx", "version": "3.6.1"}, {"name": "nltk", "version": "3.10.0"}, {"name": "numpy", "version": "2.5.1"}, {"name": "nvidia-cublas", "version": "13.1.1.3"}, {"name": "nvidia-cuda-cupti", "version": "13.0.85"}, {"name": "nvidia-cuda-nvrtc", "version": "13.0.88"}, {"name": "nvidia-cuda-runtime", "version": "13.0.96"}, {"name": "nvidia-cudnn-cu13", "version": "9.20.0.48"}, {"name": "nvidia-cufft", "version": "12.0.0.61"}, {"name": "nvidia-cufile", "version": "1.15.1.6"}, {"name": "nvidia-curand", "version": "10.4.0.35"}, {"name": "nvidia-cusolver", "version": "12.0.4.66"}, {"name": "nvidia-cusparse", "version": "12.6.3.3"}, {"name": "nvidia-cusparselt-cu13", "version": "0.8.1"}, {"name": "nvidia-nccl-cu13", "version": "2.29.7"}, {"name": "nvidia-nvjitlink", "version": "13.3.33"}, {"name": "nvidia-nvshmem-cu13", "version": "3.4.5"}, {"name": "nvidia-nvtx", "version": "13.0.85"}, {"name": "packaging", "version": "26.2"}, {"name": "pandas", "version": "3.0.3"}, {"name": "pathspec", "version": "1.1.1"}, {"name": "pip", "version": "26.1.2"}, {"name": "platformdirs", "version": "4.10.0"}, {"name": "pluggy", "version": "1.6.0"}, {"name": "propcache", "version": "0.5.2"}, {"name": "psutil", "version": "7.2.2"}, {"name": "pyarrow", "version": "25.0.0"}, {"name": "Pygments", "version": "2.20.0"}, {"name": "pytest", "version": "9.1.1"}, {"name": "python-dateutil", "version": "2.9.0.post0"}, {"name": "pytokens", "version": "0.4.1"}, {"name": "PyYAML", "version": "6.0.3"}, {"name": "regex", "version": "2026.7.10"}, {"name": "requests", "version": "2.34.2"}, {"name": "ruff", "version": "0.15.21"}, {"name": "safetensors", "version": "0.8.0"}, {"name": "setuptools", "version": "83.0.0"}, {"name": "six", "version": "1.17.0"}, {"name": "sympy", "version": "1.14.0"}, {"name": "tiktoken", "version": "0.13.0"}, {"name": "tokenizers", "version": "0.22.2"}, {"name": "torch", "version": "2.13.0"}, {"name": "tqdm", "version": "4.68.4"}, {"name": "transformers", "version": "4.57.6"}, {"name": "triton", "version": "3.7.1"}, {"name": "typing_extensions", "version": "4.16.0"}, {"name": "urllib3", "version": "2.7.0"}, {"name": "wheel", "version": "0.47.0"}, {"name": "xxhash", "version": "3.8.1"}, {"name": "yarl", "version": "1.24.2"}, {"name": "zstandard", "version": "0.25.0"}]
+--- stderr ---
+
+
+$ /data/Projects/CCDF-Rework/.venv/bin/python -m pip freeze --all
+exit=0
+duration_seconds=0.20911422799872526
+--- stdout ---
+accelerate==1.14.0
+aiohappyeyeballs==2.7.1
+aiohttp==3.14.1
+aiosignal==1.4.0
+anyio==4.14.2
+attrs==26.1.0
+autoawq==0.2.9
+black==26.5.1
+-e git+https://github.com/onsra520/Context-Compressed-DFlash.git@b18b283fb8fe82363180157263c8d2ca8446e770#egg=ccdf&subdirectory=../../../CCDF-Rework
+certifi==2026.6.17
+charset-normalizer==3.4.9
+click==8.4.2
+cuda-bindings==13.3.1
+cuda-pathfinder==1.5.6
+cuda-toolkit==13.0.3.0
+datasets==5.0.0
+defusedxml==0.7.1
+dill==0.4.1
+filelock==3.29.7
+frozenlist==1.8.0
+fsspec==2026.4.0
+h11==0.16.0
+hf-xet==1.5.1
+httpcore==1.0.9
+httpx==0.28.1
+huggingface_hub==0.36.2
+idna==3.18
+iniconfig==2.3.0
+Jinja2==3.1.6
+joblib==1.5.3
+llmlingua==0.2.2
+MarkupSafe==3.0.3
+mpmath==1.3.0
+multidict==6.7.1
+multiprocess==0.70.19
+mypy_extensions==1.1.0
+networkx==3.6.1
+nltk==3.10.0
+numpy==2.5.1
+nvidia-cublas==13.1.1.3
+nvidia-cuda-cupti==13.0.85
+nvidia-cuda-nvrtc==13.0.88
+nvidia-cuda-runtime==13.0.96
+nvidia-cudnn-cu13==9.20.0.48
+nvidia-cufft==12.0.0.61
+nvidia-cufile==1.15.1.6
+nvidia-curand==10.4.0.35
+nvidia-cusolver==12.0.4.66
+nvidia-cusparse==12.6.3.3
+nvidia-cusparselt-cu13==0.8.1
+nvidia-nccl-cu13==2.29.7
+nvidia-nvjitlink==13.3.33
+nvidia-nvshmem-cu13==3.4.5
+nvidia-nvtx==13.0.85
+packaging==26.2
+pandas==3.0.3
+pathspec==1.1.1
+pip==26.1.2
+platformdirs==4.10.0
+pluggy==1.6.0
+propcache==0.5.2
+psutil==7.2.2
+pyarrow==25.0.0
+Pygments==2.20.0
+pytest==9.1.1
+python-dateutil==2.9.0.post0
+pytokens==0.4.1
+PyYAML==6.0.3
+regex==2026.7.10
+requests==2.34.2
+ruff==0.15.21
+safetensors==0.8.0
+setuptools==83.0.0
+six==1.17.0
+sympy==1.14.0
+tiktoken==0.13.0
+tokenizers==0.22.2
+torch==2.13.0
+tqdm==4.68.4
+transformers==4.57.6
+triton==3.7.1
+typing_extensions==4.16.0
+urllib3==2.7.0
+wheel==0.47.0
+xxhash==3.8.1
+yarl==1.24.2
+zstandard==0.25.0
+--- stderr ---
+
+
+$ nvidia-smi --query-gpu=name,uuid,driver_version,memory.total,memory.used,compute_cap --format=csv,noheader
+exit=0
+duration_seconds=0.022445425000114483
+--- stdout ---
+NVIDIA GeForce RTX 4070 Laptop GPU, GPU-2e74d4f2-8416-e8a7-b6ac-346a7e7dc26e, 595.71.05, 8188 MiB, 1787 MiB, 8.9
+--- stderr ---
+
+
+$ rg --line-number --ignore-case \b(?:rec|phase|task)[ _-]?[0-9]+\b src/ccdf --glob *.py
+exit=1
+duration_seconds=0.0074789989994314965
+--- stdout ---
+--- stderr ---
+
+
+$ bash --noprofile --norc -c set -o pipefail; rg --files src/ccdf --glob '*.py' | rg --ignore-case '\b(?:rec|phase|task)[ _-]?[0-9]+\b'
+exit=1
+duration_seconds=0.013513294999938807
+--- stdout ---
+--- stderr ---
+
+
+$ /data/Projects/CCDF-Rework/.venv/bin/python -m ccdf protocol --config /data/Projects/CCDF-Rework/config.yml
+exit=0
+duration_seconds=67.15437130200007
+--- stdout ---
+{
+  "active_profile": "rec3",
+  "canonical_block_size": 16,
+  "canonical_config_mutated": false,
+  "condition_success": "40/40",
+  "conditions": {
+    "baseline-ar": {
+      "cap_hit_count": 0,
+      "exact_field_quality": 10,
+      "format_compliance": 10,
+      "max_full_request_peak_allocated_bytes": 3518361600,
+      "max_full_request_peak_reserved_bytes": 4645191680,
+      "mean_chat_template_input_tokens": 991.2,
+      "mean_compression_latency_ms": 0.0,
+      "mean_context_reduction_rate_compressor_tokenizer": null,
+      "mean_decode_latency_ms": 1004.6351905999472,
+      "mean_decode_tok_s": 19.923405671451402,
+      "mean_dflash_tau_unweighted": null,
+      "mean_draft_acceptance_rate_unweighted": null,
+      "mean_generation_latency_ms": 1776.0367346998464,
+      "mean_output_tokens": 20.4,
+      "mean_prefill_latency_ms": 771.3534202001028,
+      "mean_stage_sum_warm_e2e_ms": 1779.2136943002333,
+      "mean_total_input_token_reduction_qwen_tokenizer": null,
+      "p50_compression_latency_ms": 0.0,
+      "p50_decode_latency_ms": 945.3083765001793,
+      "p50_decode_tok_s": 20.118400317394833,
+      "p50_generation_latency_ms": 1765.077573999406,
+      "p50_prefill_latency_ms": 819.7269925003638,
+      "p50_stage_sum_warm_e2e_ms": 1767.7709745003085,
+      "peak_reserved_limit_bytes": null,
+      "peak_reserved_vram_gate_pass": null,
+      "prompt_kind": "original",
+      "runtime_condition": "baseline",
+      "successful_requests": 10,
+      "verification_block_sizes": null,
+      "weighted_dflash": null
+    },
+    "cc-dflash-r2": {
+      "cap_hit_count": 0,
+      "exact_field_quality": 10,
+      "format_compliance": 8,
+      "max_full_request_peak_allocated_bytes": 4358935552,
+      "max_full_request_peak_reserved_bytes": 4812963840,
+      "mean_chat_template_input_tokens": 634,
+      "mean_compression_latency_ms": 151.58555729994987,
+      "mean_context_reduction_rate_compressor_tokenizer": 0.47527211733789465,
+      "mean_decode_latency_ms": 235.35357259970624,
+      "mean_decode_tok_s": 86.57647708248088,
+      "mean_dflash_tau_unweighted": 4.998333333333333,
+      "mean_draft_acceptance_rate_unweighted": 0.5983333333333333,
+      "mean_generation_latency_ms": 725.243296300323,
+      "mean_output_tokens": 20.6,
+      "mean_prefill_latency_ms": 489.81291159980174,
+      "mean_stage_sum_warm_e2e_ms": 881.6379708003296,
+      "mean_total_input_token_reduction_qwen_tokenizer": 0.35915027868994004,
+      "p50_compression_latency_ms": 161.43474649925338,
+      "p50_decode_latency_ms": 224.8150440000245,
+      "p50_decode_tok_s": 86.86853428885016,
+      "p50_generation_latency_ms": 712.7527605007344,
+      "p50_prefill_latency_ms": 518.1969329996718,
+      "p50_stage_sum_warm_e2e_ms": 872.5936299997556,
+      "peak_reserved_limit_bytes": 6442450944,
+      "peak_reserved_vram_gate_pass": true,
+      "prompt_kind": "compressed",
+      "runtime_condition": "dflash",
+      "successful_requests": 10,
+      "verification_block_sizes": [
+        8
+      ],
+      "weighted_dflash": {
+        "counters": {
+          "accepted_draft_tokens": 164,
+          "draft_tokens_proposed": 280,
+          "emitted_tokens": 196,
+          "output_tokens": 206,
+          "target_prefill_calls": 10,
+          "target_single_token_calls": 0,
+          "target_verification_calls": 40
+        },
+        "formula_scope": "counter totals across measured rows for cc-dflash-r2; excludes warmups",
+        "measured_rows": 10,
+        "target_forwards_per_output_token": 0.24271844660194175,
+        "weighted_draft_acceptance_rate": 0.5857142857142857,
+        "weighted_tau": 4.9
+      }
+    },
+    "dflash-r1": {
+      "cap_hit_count": 0,
+      "exact_field_quality": 10,
+      "format_compliance": 10,
+      "max_full_request_peak_allocated_bytes": 4814022656,
+      "max_full_request_peak_reserved_bytes": 5807013888,
+      "mean_chat_template_input_tokens": 991.2,
+      "mean_compression_latency_ms": 0.0,
+      "mean_context_reduction_rate_compressor_tokenizer": null,
+      "mean_decode_latency_ms": 266.11230020025687,
+      "mean_decode_tok_s": 74.82936558489706,
+      "mean_dflash_tau_unweighted": 5.158333333333333,
+      "mean_draft_acceptance_rate_unweighted": 0.6226190476190476,
+      "mean_generation_latency_ms": 981.1813494003218,
+      "mean_output_tokens": 20.4,
+      "mean_prefill_latency_ms": 714.9840174997735,
+      "mean_stage_sum_warm_e2e_ms": 985.981750099927,
+      "mean_total_input_token_reduction_qwen_tokenizer": null,
+      "p50_compression_latency_ms": 0.0,
+      "p50_decode_latency_ms": 277.2994560009465,
+      "p50_decode_tok_s": 70.30957143766013,
+      "p50_generation_latency_ms": 1000.5867925001439,
+      "p50_prefill_latency_ms": 755.0724339998851,
+      "p50_stage_sum_warm_e2e_ms": 1004.8950034997688,
+      "peak_reserved_limit_bytes": 6442450944,
+      "peak_reserved_vram_gate_pass": true,
+      "prompt_kind": "original",
+      "runtime_condition": "dflash",
+      "successful_requests": 10,
+      "verification_block_sizes": [
+        8
+      ],
+      "weighted_dflash": {
+        "counters": {
+          "accepted_draft_tokens": 164,
+          "draft_tokens_proposed": 266,
+          "emitted_tokens": 194,
+          "output_tokens": 204,
+          "target_prefill_calls": 10,
+          "target_single_token_calls": 0,
+          "target_verification_calls": 38
+        },
+        "formula_scope": "counter totals across measured rows for dflash-r1; excludes warmups",
+        "measured_rows": 10,
+        "target_forwards_per_output_token": 0.23529411764705882,
+        "weighted_draft_acceptance_rate": 0.6165413533834586,
+        "weighted_tau": 5.105263157894737
+      }
+    },
+    "llmlingua-ar-r2": {
+      "cap_hit_count": 0,
+      "exact_field_quality": 10,
+      "format_compliance": 8,
+      "max_full_request_peak_allocated_bytes": 3125669888,
+      "max_full_request_peak_reserved_bytes": 3623878656,
+      "mean_chat_template_input_tokens": 634,
+      "mean_compression_latency_ms": 151.58555729994987,
+      "mean_context_reduction_rate_compressor_tokenizer": 0.47527211733789465,
+      "mean_decode_latency_ms": 797.7477182999792,
+      "mean_decode_tok_s": 24.607351743646227,
+      "mean_dflash_tau_unweighted": null,
+      "mean_draft_acceptance_rate_unweighted": null,
+      "mean_generation_latency_ms": 1258.2925710999916,
+      "mean_output_tokens": 20.6,
+      "mean_prefill_latency_ms": 460.47520370011625,
+      "mean_stage_sum_warm_e2e_ms": 1413.2070751997162,
+      "mean_total_input_token_reduction_qwen_tokenizer": 0.35915027868994004,
+      "p50_compression_latency_ms": 161.43474649925338,
+      "p50_decode_latency_ms": 787.9139505012063,
+      "p50_decode_tok_s": 24.95595195273191,
+      "p50_generation_latency_ms": 1251.8168660008087,
+      "p50_prefill_latency_ms": 484.5124900002702,
+      "p50_stage_sum_warm_e2e_ms": 1410.5266130000018,
+      "peak_reserved_limit_bytes": null,
+      "peak_reserved_vram_gate_pass": null,
+      "prompt_kind": "compressed",
+      "runtime_condition": "baseline",
+      "successful_requests": 10,
+      "verification_block_sizes": null,
+      "weighted_dflash": null
+    }
+  },
+  "global_dflash": {
+    "counters": {
+      "accepted_draft_tokens": 328,
+      "draft_tokens_proposed": 546,
+      "emitted_tokens": 390,
+      "output_tokens": 410,
+      "target_prefill_calls": 20,
+      "target_single_token_calls": 0,
+      "target_verification_calls": 78
+    },
+    "formula_scope": "counter totals across measured rows for dflash-r1, cc-dflash-r2; excludes warmups",
+    "measured_rows": 20,
+    "target_forwards_per_output_token": 0.23902439024390243,
+    "weighted_draft_acceptance_rate": 0.6007326007326007,
+    "weighted_tau": 5.0
+  },
+  "hard_gates": {
+    "compressor_cuda_resident": true,
+    "condition_success": true,
+    "configured_verification_block_observed": true,
+    "dflash_peak_reserved_vram": true,
+    "exact_field_quality": true,
+    "metric_validity": true,
+    "no_oom": true,
+    "pair_generated_token_parity": true,
+    "protected_question_instruction_and_evidence": true,
+    "warmups": true
+  },
+  "input_protocol_protected_and_evidence": "10/10",
+  "memory_gate": {
+    "compressor_and_generation_overlap": false,
+    "compressor_budget_added_to_dflash_limit": false,
+    "conditions": {
+      "cc-dflash-r2": {
+        "pass": true,
+        "peak_reserved_bytes": 4812963840
+      },
+      "dflash-r1": {
+        "pass": true,
+        "peak_reserved_bytes": 5807013888
+      }
+    },
+    "pass": true,
+    "peak_reserved_limit_bytes": 6442450944,
+    "peak_reserved_limit_gib": 6.0,
+    "residency": {
+      "compressor_stage": "staged",
+      "generation_stage": "staged"
+    }
+  },
+  "memory_gate_pass": true,
+  "metric_scopes": {
+    "per_condition_p50_and_mean": "measured fixture requests for that condition; excludes warmup and model load/unload",
+    "stage_sum_warm_e2e_ms": "separately synchronized compression and production request stages; excludes warmup and model load/unload",
+    "weighted_dflash": "summed runtime counters over measured requests for that D-Flash condition; excludes warmup",
+    "workload_wall_clock_ms": "compressor lifecycle plus condition engine lifecycles, including warmups and all measured requests"
+  },
+  "metric_validity": {
+    "checked_rows": 40,
+    "pass": true,
+    "valid_rows": 40
+  },
+  "metric_validity_pass": true,
+  "oom_event_count": 0,
+  "output_exact_field_quality": "40/40",
+  "output_format_compliance": "36/40",
+  "overall_pass": true,
+  "pair_token_parity": "20/20",
+  "protocol_pass": true,
+  "quality_pass": true,
+  "source_config_sha256": "d8a2e9bf98bf22f7d80c866b0e37fd1009fad948fe6123f97473b1157a6eb3c2",
+  "strict_format_is_separate_from_exact_field_quality": true,
+  "verification_block_size": 8,
+  "warmup_success": "4/4",
+  "workload": {
+    "lifecycle_amortized_ms_per_measured_request": 1599.1428132000237,
+    "measured_request_count": 40,
+    "scope": "compressor lifecycle plus all condition engine lifecycles, each with one warmup",
+    "workload_wall_clock_ms": 63965.71252800095
+  }
+}
+--- stderr ---
+`torch_dtype` is deprecated! Use `dtype` instead!
+/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.
+`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.
+`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.
+`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.
+
+
+$ /data/Projects/CCDF-Rework/.venv/bin/python -m compileall -q src scripts tests
+exit=0
+duration_seconds=0.029452038999806973
+--- stdout ---
+--- stderr ---
+
+
+$ /data/Projects/CCDF-Rework/.venv/bin/pytest -q
+exit=0
+duration_seconds=3.7653199300002598
+--- stdout ---
+...............................................................          [100%]
+63 passed in 2.81s
+--- stderr ---
+
+
+$ git diff --check
+exit=0
+duration_seconds=0.0035229940003773663
+--- stdout ---
+--- stderr ---
+
+

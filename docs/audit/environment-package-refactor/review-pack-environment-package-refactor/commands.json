@@ -1,0 +1,219 @@
+[
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "ccdf",
+      "validate-config",
+      "--config",
+      "/data/Projects/CCDF-Rework/config.yml"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 2.711719352999353,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "validate-config",
+    "pass": true,
+    "stderr": "",
+    "stdout": "{\n  \"pass\": true,\n  \"root\": \"/data/Projects/CCDF-Rework\",\n  \"warnings\": []\n}\n"
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/ccdf",
+      "--help"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 2.6620853490003356,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "installed-cli-help",
+    "pass": true,
+    "stderr": "",
+    "stdout": "usage: ccdf [-h]\n            {validate-config,validate-env,validate-models,validation-cycle,run,benchmark,protocol}\n            ...\n\npositional arguments:\n  {validate-config,validate-env,validate-models,validation-cycle,run,benchmark,protocol}\n\noptions:\n  -h, --help            show this help message and exit\n"
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "ccdf",
+      "validate-env",
+      "--config",
+      "/data/Projects/CCDF-Rework/config.yml"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 2.9337198360008188,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "validate-environment",
+    "pass": true,
+    "stderr": "",
+    "stdout": "{\n  \"awq_runtime_available\": true,\n  \"compatibility_risks\": [\n    {\n      \"batch_gate\": false,\n      \"component\": \"AutoAWQ\",\n      \"risk\": \"installed package emits an upstream deprecation warning\"\n    }\n  ],\n  \"compute_capability\": [\n    8,\n    9\n  ],\n  \"conda_prefix\": null,\n  \"cuda_available\": true,\n  \"cuda_runtime\": \"13.0\",\n  \"device_name\": \"NVIDIA GeForce RTX 4070 Laptop GPU\",\n  \"external_site_packages\": [],\n  \"import_paths\": {\n    \"awq\": \"/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py\",\n    \"ccdf\": \"/data/Projects/CCDF-Rework/src/ccdf/__init__.py\",\n    \"llmlingua\": \"/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/llmlingua/__init__.py\",\n    \"torch\": \"/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/__init__.py\",\n    \"transformers\": \"/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/transformers/__init__.py\"\n  },\n  \"local_only\": {\n    \"config_local_files_only\": true,\n    \"hf_hub_offline\": \"1\",\n    \"transformers_offline\": \"1\"\n  },\n  \"package_versions\": {\n    \"accelerate\": \"1.14.0\",\n    \"awq\": \"0.2.9\",\n    \"huggingface_hub\": \"0.36.2\",\n    \"llmlingua\": \"0.2.2\",\n    \"safetensors\": \"0.8.0\",\n    \"torch\": \"2.13.0\",\n    \"transformers\": \"4.57.6\",\n    \"triton\": \"3.7.1\"\n  },\n  \"paths\": {\n    \"baseline\": {\n      \"exists\": true,\n      \"path\": \"/data/Projects/CCDF-Rework/models/baseline/Qwen3-4B-AWQ\"\n    },\n    \"compressor\": {\n      \"exists\": true,\n      \"path\": \"/data/Projects/CCDF-Rework/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank\"\n    },\n    \"drafter\": {\n      \"exists\": true,\n      \"path\": \"/data/Projects/CCDF-Rework/models/dflash/drafter/Qwen3-4B-DFlash-b16\"\n    },\n    \"target\": {\n      \"exists\": true,\n      \"path\": \"/data/Projects/CCDF-Rework/models/dflash/target/Qwen3-4B-AWQ\"\n    }\n  },\n  \"process_default_sdpa_state\": {\n    \"configured_attention_backend\": \"sdpa\",\n    \"configured_kernel\": \"math\",\n    \"cudnn_tf32_enabled\": true,\n    \"flash_enabled\": true,\n    \"math_enabled\": true,\n    \"matmul_tf32_enabled\": false,\n    \"memory_efficient_enabled\": true\n  },\n  \"python\": \"3.12.13\",\n  \"pythonpath\": null,\n  \"sys_executable\": \"/data/Projects/CCDF-Rework/.venv/bin/python\",\n  \"sys_executable_is_project_venv\": true,\n  \"sys_path\": [\n    \"/data/Projects/CCDF-Rework\",\n    \"/usr/lib/python312.zip\",\n    \"/usr/lib/python3.12\",\n    \"/usr/lib/python3.12/lib-dynload\",\n    \"/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages\",\n    \"/data/Projects/CCDF-Rework/src\"\n  ],\n  \"sys_prefix\": \"/data/Projects/CCDF-Rework/.venv\",\n  \"sys_prefix_is_project_venv\": true,\n  \"torch\": \"2.13.0+cu130\",\n  \"total_vram_bytes\": 8184201216,\n  \"venv_expected_path\": \"/data/Projects/CCDF-Rework/.venv\",\n  \"virtual_env\": \"/data/Projects/CCDF-Rework/.venv\",\n  \"visible_gpu_count\": 1,\n  \"which_python\": \"/data/Projects/CCDF-Rework/.venv/bin/python\"\n}\n"
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "pip",
+      "check"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.2530618519995187,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "pip-check",
+    "pass": true,
+    "stderr": "",
+    "stdout": "No broken requirements found.\n"
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "pip",
+      "list",
+      "--format=json"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.17030263999913586,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "pip-list",
+    "pass": true,
+    "stderr": "",
+    "stdout": "[{\"name\": \"accelerate\", \"version\": \"1.14.0\"}, {\"name\": \"aiohappyeyeballs\", \"version\": \"2.7.1\"}, {\"name\": \"aiohttp\", \"version\": \"3.14.1\"}, {\"name\": \"aiosignal\", \"version\": \"1.4.0\"}, {\"name\": \"anyio\", \"version\": \"4.14.2\"}, {\"name\": \"attrs\", \"version\": \"26.1.0\"}, {\"name\": \"autoawq\", \"version\": \"0.2.9\"}, {\"name\": \"black\", \"version\": \"26.5.1\"}, {\"name\": \"ccdf\", \"version\": \"0.1.0\", \"editable_project_location\": \"/data/Projects/CCDF-Rework\"}, {\"name\": \"certifi\", \"version\": \"2026.6.17\"}, {\"name\": \"charset-normalizer\", \"version\": \"3.4.9\"}, {\"name\": \"click\", \"version\": \"8.4.2\"}, {\"name\": \"cuda-bindings\", \"version\": \"13.3.1\"}, {\"name\": \"cuda-pathfinder\", \"version\": \"1.5.6\"}, {\"name\": \"cuda-toolkit\", \"version\": \"13.0.3.0\"}, {\"name\": \"datasets\", \"version\": \"5.0.0\"}, {\"name\": \"defusedxml\", \"version\": \"0.7.1\"}, {\"name\": \"dill\", \"version\": \"0.4.1\"}, {\"name\": \"filelock\", \"version\": \"3.29.7\"}, {\"name\": \"frozenlist\", \"version\": \"1.8.0\"}, {\"name\": \"fsspec\", \"version\": \"2026.4.0\"}, {\"name\": \"h11\", \"version\": \"0.16.0\"}, {\"name\": \"hf-xet\", \"version\": \"1.5.1\"}, {\"name\": \"httpcore\", \"version\": \"1.0.9\"}, {\"name\": \"httpx\", \"version\": \"0.28.1\"}, {\"name\": \"huggingface_hub\", \"version\": \"0.36.2\"}, {\"name\": \"idna\", \"version\": \"3.18\"}, {\"name\": \"iniconfig\", \"version\": \"2.3.0\"}, {\"name\": \"Jinja2\", \"version\": \"3.1.6\"}, {\"name\": \"joblib\", \"version\": \"1.5.3\"}, {\"name\": \"llmlingua\", \"version\": \"0.2.2\"}, {\"name\": \"MarkupSafe\", \"version\": \"3.0.3\"}, {\"name\": \"mpmath\", \"version\": \"1.3.0\"}, {\"name\": \"multidict\", \"version\": \"6.7.1\"}, {\"name\": \"multiprocess\", \"version\": \"0.70.19\"}, {\"name\": \"mypy_extensions\", \"version\": \"1.1.0\"}, {\"name\": \"networkx\", \"version\": \"3.6.1\"}, {\"name\": \"nltk\", \"version\": \"3.10.0\"}, {\"name\": \"numpy\", \"version\": \"2.5.1\"}, {\"name\": \"nvidia-cublas\", \"version\": \"13.1.1.3\"}, {\"name\": \"nvidia-cuda-cupti\", \"version\": \"13.0.85\"}, {\"name\": \"nvidia-cuda-nvrtc\", \"version\": \"13.0.88\"}, {\"name\": \"nvidia-cuda-runtime\", \"version\": \"13.0.96\"}, {\"name\": \"nvidia-cudnn-cu13\", \"version\": \"9.20.0.48\"}, {\"name\": \"nvidia-cufft\", \"version\": \"12.0.0.61\"}, {\"name\": \"nvidia-cufile\", \"version\": \"1.15.1.6\"}, {\"name\": \"nvidia-curand\", \"version\": \"10.4.0.35\"}, {\"name\": \"nvidia-cusolver\", \"version\": \"12.0.4.66\"}, {\"name\": \"nvidia-cusparse\", \"version\": \"12.6.3.3\"}, {\"name\": \"nvidia-cusparselt-cu13\", \"version\": \"0.8.1\"}, {\"name\": \"nvidia-nccl-cu13\", \"version\": \"2.29.7\"}, {\"name\": \"nvidia-nvjitlink\", \"version\": \"13.3.33\"}, {\"name\": \"nvidia-nvshmem-cu13\", \"version\": \"3.4.5\"}, {\"name\": \"nvidia-nvtx\", \"version\": \"13.0.85\"}, {\"name\": \"packaging\", \"version\": \"26.2\"}, {\"name\": \"pandas\", \"version\": \"3.0.3\"}, {\"name\": \"pathspec\", \"version\": \"1.1.1\"}, {\"name\": \"pip\", \"version\": \"26.1.2\"}, {\"name\": \"platformdirs\", \"version\": \"4.10.0\"}, {\"name\": \"pluggy\", \"version\": \"1.6.0\"}, {\"name\": \"propcache\", \"version\": \"0.5.2\"}, {\"name\": \"psutil\", \"version\": \"7.2.2\"}, {\"name\": \"pyarrow\", \"version\": \"25.0.0\"}, {\"name\": \"Pygments\", \"version\": \"2.20.0\"}, {\"name\": \"pytest\", \"version\": \"9.1.1\"}, {\"name\": \"python-dateutil\", \"version\": \"2.9.0.post0\"}, {\"name\": \"pytokens\", \"version\": \"0.4.1\"}, {\"name\": \"PyYAML\", \"version\": \"6.0.3\"}, {\"name\": \"regex\", \"version\": \"2026.7.10\"}, {\"name\": \"requests\", \"version\": \"2.34.2\"}, {\"name\": \"ruff\", \"version\": \"0.15.21\"}, {\"name\": \"safetensors\", \"version\": \"0.8.0\"}, {\"name\": \"setuptools\", \"version\": \"83.0.0\"}, {\"name\": \"six\", \"version\": \"1.17.0\"}, {\"name\": \"sympy\", \"version\": \"1.14.0\"}, {\"name\": \"tiktoken\", \"version\": \"0.13.0\"}, {\"name\": \"tokenizers\", \"version\": \"0.22.2\"}, {\"name\": \"torch\", \"version\": \"2.13.0\"}, {\"name\": \"tqdm\", \"version\": \"4.68.4\"}, {\"name\": \"transformers\", \"version\": \"4.57.6\"}, {\"name\": \"triton\", \"version\": \"3.7.1\"}, {\"name\": \"typing_extensions\", \"version\": \"4.16.0\"}, {\"name\": \"urllib3\", \"version\": \"2.7.0\"}, {\"name\": \"wheel\", \"version\": \"0.47.0\"}, {\"name\": \"xxhash\", \"version\": \"3.8.1\"}, {\"name\": \"yarl\", \"version\": \"1.24.2\"}, {\"name\": \"zstandard\", \"version\": \"0.25.0\"}]\n"
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "pip",
+      "freeze",
+      "--all"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.20911422799872526,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "pip-freeze-all",
+    "pass": true,
+    "stderr": "",
+    "stdout": "accelerate==1.14.0\naiohappyeyeballs==2.7.1\naiohttp==3.14.1\naiosignal==1.4.0\nanyio==4.14.2\nattrs==26.1.0\nautoawq==0.2.9\nblack==26.5.1\n-e git+https://github.com/onsra520/Context-Compressed-DFlash.git@b18b283fb8fe82363180157263c8d2ca8446e770#egg=ccdf&subdirectory=../../../CCDF-Rework\ncertifi==2026.6.17\ncharset-normalizer==3.4.9\nclick==8.4.2\ncuda-bindings==13.3.1\ncuda-pathfinder==1.5.6\ncuda-toolkit==13.0.3.0\ndatasets==5.0.0\ndefusedxml==0.7.1\ndill==0.4.1\nfilelock==3.29.7\nfrozenlist==1.8.0\nfsspec==2026.4.0\nh11==0.16.0\nhf-xet==1.5.1\nhttpcore==1.0.9\nhttpx==0.28.1\nhuggingface_hub==0.36.2\nidna==3.18\niniconfig==2.3.0\nJinja2==3.1.6\njoblib==1.5.3\nllmlingua==0.2.2\nMarkupSafe==3.0.3\nmpmath==1.3.0\nmultidict==6.7.1\nmultiprocess==0.70.19\nmypy_extensions==1.1.0\nnetworkx==3.6.1\nnltk==3.10.0\nnumpy==2.5.1\nnvidia-cublas==13.1.1.3\nnvidia-cuda-cupti==13.0.85\nnvidia-cuda-nvrtc==13.0.88\nnvidia-cuda-runtime==13.0.96\nnvidia-cudnn-cu13==9.20.0.48\nnvidia-cufft==12.0.0.61\nnvidia-cufile==1.15.1.6\nnvidia-curand==10.4.0.35\nnvidia-cusolver==12.0.4.66\nnvidia-cusparse==12.6.3.3\nnvidia-cusparselt-cu13==0.8.1\nnvidia-nccl-cu13==2.29.7\nnvidia-nvjitlink==13.3.33\nnvidia-nvshmem-cu13==3.4.5\nnvidia-nvtx==13.0.85\npackaging==26.2\npandas==3.0.3\npathspec==1.1.1\npip==26.1.2\nplatformdirs==4.10.0\npluggy==1.6.0\npropcache==0.5.2\npsutil==7.2.2\npyarrow==25.0.0\nPygments==2.20.0\npytest==9.1.1\npython-dateutil==2.9.0.post0\npytokens==0.4.1\nPyYAML==6.0.3\nregex==2026.7.10\nrequests==2.34.2\nruff==0.15.21\nsafetensors==0.8.0\nsetuptools==83.0.0\nsix==1.17.0\nsympy==1.14.0\ntiktoken==0.13.0\ntokenizers==0.22.2\ntorch==2.13.0\ntqdm==4.68.4\ntransformers==4.57.6\ntriton==3.7.1\ntyping_extensions==4.16.0\nurllib3==2.7.0\nwheel==0.47.0\nxxhash==3.8.1\nyarl==1.24.2\nzstandard==0.25.0\n"
+  },
+  {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=name,uuid,driver_version,memory.total,memory.used,compute_cap",
+      "--format=csv,noheader"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.022445425000114483,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "nvidia-smi",
+    "pass": true,
+    "stderr": "",
+    "stdout": "NVIDIA GeForce RTX 4070 Laptop GPU, GPU-2e74d4f2-8416-e8a7-b6ac-346a7e7dc26e, 595.71.05, 8188 MiB, 1787 MiB, 8.9\n"
+  },
+  {
+    "command": [
+      "rg",
+      "--line-number",
+      "--ignore-case",
+      "\\b(?:rec|phase|task)[ _-]?[0-9]+\\b",
+      "src/ccdf",
+      "--glob",
+      "*.py"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.0074789989994314965,
+    "exit_code": 1,
+    "expected_exit_code": 1,
+    "label": "production-source-content-phase-grep",
+    "pass": true,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "bash",
+      "--noprofile",
+      "--norc",
+      "-c",
+      "set -o pipefail; rg --files src/ccdf --glob '*.py' | rg --ignore-case '\\b(?:rec|phase|task)[ _-]?[0-9]+\\b'"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.013513294999938807,
+    "exit_code": 1,
+    "expected_exit_code": 1,
+    "label": "production-source-path-phase-grep",
+    "pass": true,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "ccdf",
+      "protocol",
+      "--config",
+      "/data/Projects/CCDF-Rework/config.yml"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 67.15437130200007,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "offline-mock10",
+    "pass": true,
+    "stderr": "`torch_dtype` is deprecated! Use `dtype` instead!\n/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: \nI have left this message as the final dev message to help you transition.\n\nImportant Notice:\n- AutoAWQ is officially deprecated and will no longer be maintained.\n- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.\n- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.\n\nAlternative:\n- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor\n\nFor further inquiries, feel free to reach out:\n- X: https://x.com/casper_hansen_\n- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/\n\n  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)\n/data/Projects/CCDF-Rework/.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.\n  warnings.warn(\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n`torch.bfloat16` is not supported for AWQ CUDA/XPU kernels yet. Casting to `torch.float16`.\n",
+    "stdout": "{\n  \"active_profile\": \"rec3\",\n  \"canonical_block_size\": 16,\n  \"canonical_config_mutated\": false,\n  \"condition_success\": \"40/40\",\n  \"conditions\": {\n    \"baseline-ar\": {\n      \"cap_hit_count\": 0,\n      \"exact_field_quality\": 10,\n      \"format_compliance\": 10,\n      \"max_full_request_peak_allocated_bytes\": 3518361600,\n      \"max_full_request_peak_reserved_bytes\": 4645191680,\n      \"mean_chat_template_input_tokens\": 991.2,\n      \"mean_compression_latency_ms\": 0.0,\n      \"mean_context_reduction_rate_compressor_tokenizer\": null,\n      \"mean_decode_latency_ms\": 1004.6351905999472,\n      \"mean_decode_tok_s\": 19.923405671451402,\n      \"mean_dflash_tau_unweighted\": null,\n      \"mean_draft_acceptance_rate_unweighted\": null,\n      \"mean_generation_latency_ms\": 1776.0367346998464,\n      \"mean_output_tokens\": 20.4,\n      \"mean_prefill_latency_ms\": 771.3534202001028,\n      \"mean_stage_sum_warm_e2e_ms\": 1779.2136943002333,\n      \"mean_total_input_token_reduction_qwen_tokenizer\": null,\n      \"p50_compression_latency_ms\": 0.0,\n      \"p50_decode_latency_ms\": 945.3083765001793,\n      \"p50_decode_tok_s\": 20.118400317394833,\n      \"p50_generation_latency_ms\": 1765.077573999406,\n      \"p50_prefill_latency_ms\": 819.7269925003638,\n      \"p50_stage_sum_warm_e2e_ms\": 1767.7709745003085,\n      \"peak_reserved_limit_bytes\": null,\n      \"peak_reserved_vram_gate_pass\": null,\n      \"prompt_kind\": \"original\",\n      \"runtime_condition\": \"baseline\",\n      \"successful_requests\": 10,\n      \"verification_block_sizes\": null,\n      \"weighted_dflash\": null\n    },\n    \"cc-dflash-r2\": {\n      \"cap_hit_count\": 0,\n      \"exact_field_quality\": 10,\n      \"format_compliance\": 8,\n      \"max_full_request_peak_allocated_bytes\": 4358935552,\n      \"max_full_request_peak_reserved_bytes\": 4812963840,\n      \"mean_chat_template_input_tokens\": 634,\n      \"mean_compression_latency_ms\": 151.58555729994987,\n      \"mean_context_reduction_rate_compressor_tokenizer\": 0.47527211733789465,\n      \"mean_decode_latency_ms\": 235.35357259970624,\n      \"mean_decode_tok_s\": 86.57647708248088,\n      \"mean_dflash_tau_unweighted\": 4.998333333333333,\n      \"mean_draft_acceptance_rate_unweighted\": 0.5983333333333333,\n      \"mean_generation_latency_ms\": 725.243296300323,\n      \"mean_output_tokens\": 20.6,\n      \"mean_prefill_latency_ms\": 489.81291159980174,\n      \"mean_stage_sum_warm_e2e_ms\": 881.6379708003296,\n      \"mean_total_input_token_reduction_qwen_tokenizer\": 0.35915027868994004,\n      \"p50_compression_latency_ms\": 161.43474649925338,\n      \"p50_decode_latency_ms\": 224.8150440000245,\n      \"p50_decode_tok_s\": 86.86853428885016,\n      \"p50_generation_latency_ms\": 712.7527605007344,\n      \"p50_prefill_latency_ms\": 518.1969329996718,\n      \"p50_stage_sum_warm_e2e_ms\": 872.5936299997556,\n      \"peak_reserved_limit_bytes\": 6442450944,\n      \"peak_reserved_vram_gate_pass\": true,\n      \"prompt_kind\": \"compressed\",\n      \"runtime_condition\": \"dflash\",\n      \"successful_requests\": 10,\n      \"verification_block_sizes\": [\n        8\n      ],\n      \"weighted_dflash\": {\n        \"counters\": {\n          \"accepted_draft_tokens\": 164,\n          \"draft_tokens_proposed\": 280,\n          \"emitted_tokens\": 196,\n          \"output_tokens\": 206,\n          \"target_prefill_calls\": 10,\n          \"target_single_token_calls\": 0,\n          \"target_verification_calls\": 40\n        },\n        \"formula_scope\": \"counter totals across measured rows for cc-dflash-r2; excludes warmups\",\n        \"measured_rows\": 10,\n        \"target_forwards_per_output_token\": 0.24271844660194175,\n        \"weighted_draft_acceptance_rate\": 0.5857142857142857,\n        \"weighted_tau\": 4.9\n      }\n    },\n    \"dflash-r1\": {\n      \"cap_hit_count\": 0,\n      \"exact_field_quality\": 10,\n      \"format_compliance\": 10,\n      \"max_full_request_peak_allocated_bytes\": 4814022656,\n      \"max_full_request_peak_reserved_bytes\": 5807013888,\n      \"mean_chat_template_input_tokens\": 991.2,\n      \"mean_compression_latency_ms\": 0.0,\n      \"mean_context_reduction_rate_compressor_tokenizer\": null,\n      \"mean_decode_latency_ms\": 266.11230020025687,\n      \"mean_decode_tok_s\": 74.82936558489706,\n      \"mean_dflash_tau_unweighted\": 5.158333333333333,\n      \"mean_draft_acceptance_rate_unweighted\": 0.6226190476190476,\n      \"mean_generation_latency_ms\": 981.1813494003218,\n      \"mean_output_tokens\": 20.4,\n      \"mean_prefill_latency_ms\": 714.9840174997735,\n      \"mean_stage_sum_warm_e2e_ms\": 985.981750099927,\n      \"mean_total_input_token_reduction_qwen_tokenizer\": null,\n      \"p50_compression_latency_ms\": 0.0,\n      \"p50_decode_latency_ms\": 277.2994560009465,\n      \"p50_decode_tok_s\": 70.30957143766013,\n      \"p50_generation_latency_ms\": 1000.5867925001439,\n      \"p50_prefill_latency_ms\": 755.0724339998851,\n      \"p50_stage_sum_warm_e2e_ms\": 1004.8950034997688,\n      \"peak_reserved_limit_bytes\": 6442450944,\n      \"peak_reserved_vram_gate_pass\": true,\n      \"prompt_kind\": \"original\",\n      \"runtime_condition\": \"dflash\",\n      \"successful_requests\": 10,\n      \"verification_block_sizes\": [\n        8\n      ],\n      \"weighted_dflash\": {\n        \"counters\": {\n          \"accepted_draft_tokens\": 164,\n          \"draft_tokens_proposed\": 266,\n          \"emitted_tokens\": 194,\n          \"output_tokens\": 204,\n          \"target_prefill_calls\": 10,\n          \"target_single_token_calls\": 0,\n          \"target_verification_calls\": 38\n        },\n        \"formula_scope\": \"counter totals across measured rows for dflash-r1; excludes warmups\",\n        \"measured_rows\": 10,\n        \"target_forwards_per_output_token\": 0.23529411764705882,\n        \"weighted_draft_acceptance_rate\": 0.6165413533834586,\n        \"weighted_tau\": 5.105263157894737\n      }\n    },\n    \"llmlingua-ar-r2\": {\n      \"cap_hit_count\": 0,\n      \"exact_field_quality\": 10,\n      \"format_compliance\": 8,\n      \"max_full_request_peak_allocated_bytes\": 3125669888,\n      \"max_full_request_peak_reserved_bytes\": 3623878656,\n      \"mean_chat_template_input_tokens\": 634,\n      \"mean_compression_latency_ms\": 151.58555729994987,\n      \"mean_context_reduction_rate_compressor_tokenizer\": 0.47527211733789465,\n      \"mean_decode_latency_ms\": 797.7477182999792,\n      \"mean_decode_tok_s\": 24.607351743646227,\n      \"mean_dflash_tau_unweighted\": null,\n      \"mean_draft_acceptance_rate_unweighted\": null,\n      \"mean_generation_latency_ms\": 1258.2925710999916,\n      \"mean_output_tokens\": 20.6,\n      \"mean_prefill_latency_ms\": 460.47520370011625,\n      \"mean_stage_sum_warm_e2e_ms\": 1413.2070751997162,\n      \"mean_total_input_token_reduction_qwen_tokenizer\": 0.35915027868994004,\n      \"p50_compression_latency_ms\": 161.43474649925338,\n      \"p50_decode_latency_ms\": 787.9139505012063,\n      \"p50_decode_tok_s\": 24.95595195273191,\n      \"p50_generation_latency_ms\": 1251.8168660008087,\n      \"p50_prefill_latency_ms\": 484.5124900002702,\n      \"p50_stage_sum_warm_e2e_ms\": 1410.5266130000018,\n      \"peak_reserved_limit_bytes\": null,\n      \"peak_reserved_vram_gate_pass\": null,\n      \"prompt_kind\": \"compressed\",\n      \"runtime_condition\": \"baseline\",\n      \"successful_requests\": 10,\n      \"verification_block_sizes\": null,\n      \"weighted_dflash\": null\n    }\n  },\n  \"global_dflash\": {\n    \"counters\": {\n      \"accepted_draft_tokens\": 328,\n      \"draft_tokens_proposed\": 546,\n      \"emitted_tokens\": 390,\n      \"output_tokens\": 410,\n      \"target_prefill_calls\": 20,\n      \"target_single_token_calls\": 0,\n      \"target_verification_calls\": 78\n    },\n    \"formula_scope\": \"counter totals across measured rows for dflash-r1, cc-dflash-r2; excludes warmups\",\n    \"measured_rows\": 20,\n    \"target_forwards_per_output_token\": 0.23902439024390243,\n    \"weighted_draft_acceptance_rate\": 0.6007326007326007,\n    \"weighted_tau\": 5.0\n  },\n  \"hard_gates\": {\n    \"compressor_cuda_resident\": true,\n    \"condition_success\": true,\n    \"configured_verification_block_observed\": true,\n    \"dflash_peak_reserved_vram\": true,\n    \"exact_field_quality\": true,\n    \"metric_validity\": true,\n    \"no_oom\": true,\n    \"pair_generated_token_parity\": true,\n    \"protected_question_instruction_and_evidence\": true,\n    \"warmups\": true\n  },\n  \"input_protocol_protected_and_evidence\": \"10/10\",\n  \"memory_gate\": {\n    \"compressor_and_generation_overlap\": false,\n    \"compressor_budget_added_to_dflash_limit\": false,\n    \"conditions\": {\n      \"cc-dflash-r2\": {\n        \"pass\": true,\n        \"peak_reserved_bytes\": 4812963840\n      },\n      \"dflash-r1\": {\n        \"pass\": true,\n        \"peak_reserved_bytes\": 5807013888\n      }\n    },\n    \"pass\": true,\n    \"peak_reserved_limit_bytes\": 6442450944,\n    \"peak_reserved_limit_gib\": 6.0,\n    \"residency\": {\n      \"compressor_stage\": \"staged\",\n      \"generation_stage\": \"staged\"\n    }\n  },\n  \"memory_gate_pass\": true,\n  \"metric_scopes\": {\n    \"per_condition_p50_and_mean\": \"measured fixture requests for that condition; excludes warmup and model load/unload\",\n    \"stage_sum_warm_e2e_ms\": \"separately synchronized compression and production request stages; excludes warmup and model load/unload\",\n    \"weighted_dflash\": \"summed runtime counters over measured requests for that D-Flash condition; excludes warmup\",\n    \"workload_wall_clock_ms\": \"compressor lifecycle plus condition engine lifecycles, including warmups and all measured requests\"\n  },\n  \"metric_validity\": {\n    \"checked_rows\": 40,\n    \"pass\": true,\n    \"valid_rows\": 40\n  },\n  \"metric_validity_pass\": true,\n  \"oom_event_count\": 0,\n  \"output_exact_field_quality\": \"40/40\",\n  \"output_format_compliance\": \"36/40\",\n  \"overall_pass\": true,\n  \"pair_token_parity\": \"20/20\",\n  \"protocol_pass\": true,\n  \"quality_pass\": true,\n  \"source_config_sha256\": \"d8a2e9bf98bf22f7d80c866b0e37fd1009fad948fe6123f97473b1157a6eb3c2\",\n  \"strict_format_is_separate_from_exact_field_quality\": true,\n  \"verification_block_size\": 8,\n  \"warmup_success\": \"4/4\",\n  \"workload\": {\n    \"lifecycle_amortized_ms_per_measured_request\": 1599.1428132000237,\n    \"measured_request_count\": 40,\n    \"scope\": \"compressor lifecycle plus all condition engine lifecycles, each with one warmup\",\n    \"workload_wall_clock_ms\": 63965.71252800095\n  }\n}\n"
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "src",
+      "scripts",
+      "tests"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.029452038999806973,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "compileall",
+    "pass": true,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "command": [
+      "/data/Projects/CCDF-Rework/.venv/bin/pytest",
+      "-q"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 3.7653199300002598,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "pytest",
+    "pass": true,
+    "stderr": "",
+    "stdout": "...............................................................          [100%]\n63 passed in 2.81s\n"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "cwd": "/data/Projects/CCDF-Rework",
+    "duration_seconds": 0.0035229940003773663,
+    "exit_code": 0,
+    "expected_exit_code": 0,
+    "label": "git-diff-check",
+    "pass": true,
+    "stderr": "",
+    "stdout": ""
+  }
+]

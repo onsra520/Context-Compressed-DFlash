@@ -1,0 +1,100 @@
+{
+  "counts": {
+    "error_events": 0,
+    "gsm8k_valid_samples": 10,
+    "hidden_truncated_tokens": 0,
+    "metric_valid_runs": 80,
+    "oom_events": 0,
+    "protected_samples": 20,
+    "qmsum_valid_samples": 10,
+    "runs": 80,
+    "successful": 80
+  },
+  "entries": [
+    {
+      "actual": 80,
+      "gate": "successful_condition_runs",
+      "pass": true,
+      "required": 80
+    },
+    {
+      "actual": 1.0,
+      "gate": "pair_input_token_parity_rate",
+      "pass": true,
+      "required": 1.0
+    },
+    {
+      "actual": 0.7,
+      "gate": "pair_generated_token_parity_rate",
+      "pass": false,
+      "required": 1.0
+    },
+    {
+      "actual": 1.0,
+      "gate": "protected_fields_rate",
+      "pass": true,
+      "required": 1.0
+    },
+    {
+      "actual": 10,
+      "gate": "gsm8k_evaluator_valid_count",
+      "pass": true,
+      "required": 10
+    },
+    {
+      "actual": 10,
+      "gate": "qmsum_evaluator_valid_count",
+      "pass": true,
+      "required": 10
+    },
+    {
+      "actual": 1.0,
+      "gate": "qmsum_precompression_coverage_rate",
+      "pass": true,
+      "required": 1.0
+    },
+    {
+      "actual": 0,
+      "gate": "hidden_truncated_tokens",
+      "pass": true,
+      "required": 0
+    },
+    {
+      "actual": 1.0,
+      "gate": "metric_validity_rate",
+      "pass": true,
+      "required": 1.0
+    },
+    {
+      "actual": 0,
+      "gate": "max_oom_events",
+      "pass": true,
+      "required": 0
+    },
+    {
+      "actual": 0,
+      "gate": "max_error_events",
+      "pass": true,
+      "required": 0
+    },
+    {
+      "actual": true,
+      "gate": "evaluator_fixture_lock",
+      "pass": true,
+      "required": true
+    },
+    {
+      "actual": 5.716796875,
+      "gate": "dflash-r1_peak_reserved_vram_gib",
+      "pass": true,
+      "required_max": 6.0
+    },
+    {
+      "actual": 5.716796875,
+      "gate": "cc-dflash-r2_peak_reserved_vram_gib",
+      "pass": true,
+      "required_max": 6.0
+    }
+  ],
+  "pass": false
+}
