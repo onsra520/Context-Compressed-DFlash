@@ -11,9 +11,9 @@ class GenerationSettings:
     max_new_tokens: int
     temperature: float
     stop_token_ids: tuple[int, ...]
+    block_size: int
+    output_contract_mode: str
     dataset: str = "general"
-    block_size: int = 16
-    output_contract_mode: str = "finalize_only"
 
 
 @dataclass

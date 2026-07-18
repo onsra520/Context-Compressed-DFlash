@@ -13,6 +13,7 @@ models/**/*.pth
 .venv/
 docs/artifacts/
 models/**/*
+models/**/.cache/
 !models/README.md
 tests/
 *.egg-info/
@@ -22,3 +23,6 @@ docs/reviews/*
 docs/audit/
 .worktrees/
 *test*
+
+/.venv/
+/models/

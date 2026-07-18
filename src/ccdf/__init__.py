@@ -1,4 +1,4 @@
-"""CCDF Rec-2 standalone inference runtime."""
+"""CCDF standalone inference runtime."""
 
 import os
 
@@ -7,7 +7,7 @@ import os
 os.environ.setdefault("TORCH_DISABLE_NATIVE_JIT", "1")
 os.environ.setdefault("TRITON_CACHE_DIR", "/tmp/ccdf-rework-triton-cache")
 
-from .config import Rec2Config, load_config
+from .config import Config, load_config
 
-__all__ = ["Rec2Config", "load_config"]
+__all__ = ["Config", "load_config"]
 __version__ = "0.1.0"

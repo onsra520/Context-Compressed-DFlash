@@ -9,6 +9,7 @@ from .benchmark import run_benchmark
 from .config import load_config
 from .models.loaders import load_dflash_models
 from .runtime.engine import RuntimeEngine
+from .protocols import run_active_profile
 from .validation.environment import validate_environment
 
 
@@ -17,7 +18,7 @@ def _print(payload) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="ccdf-rec2")
+    parser = argparse.ArgumentParser(prog="ccdf")
     sub = parser.add_subparsers(dest="command", required=True)
     for name in ("validate-config", "validate-env", "validate-models", "validation-cycle"):
         item = sub.add_parser(name)
@@ -34,6 +35,8 @@ def build_parser() -> argparse.ArgumentParser:
     bench.add_argument("--input", required=True)
     bench.add_argument("--conditions", default="baseline,dflash")
     bench.add_argument("--target-profile", choices=("primary", "fallback"), default="primary")
+    protocol = sub.add_parser("protocol")
+    protocol.add_argument("--config", default="config.yml")
     return parser
 
 
@@ -91,6 +94,10 @@ def main(argv: list[str] | None = None) -> int:
             )
         )
         return 0
+    if args.command == "protocol":
+        summary = run_active_profile(config)
+        _print(summary)
+        return 0 if summary["overall_pass"] else 1
     raise AssertionError(args.command)
 
 

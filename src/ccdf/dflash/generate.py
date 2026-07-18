@@ -8,7 +8,14 @@ from typing import Any
 import torch
 from transformers import DynamicCache
 
-from ..device import EventSpan, collect_memory, current_memory_state, enforce_memory_gate, reset_peak_memory, synchronize
+from ..runtime.device import (
+    EventSpan,
+    collect_memory,
+    current_memory_state,
+    enforce_memory_gate,
+    reset_peak_memory,
+    synchronize,
+)
 from ..inference.sampling import sample
 from ..inference.stopping import BlockStopController
 from ..schemas import DFlashStats, GenerationOutput, GenerationSettings, TimingBreakdown

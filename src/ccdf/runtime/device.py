@@ -3,14 +3,31 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import os
 from typing import Any
 
 import torch
 
-from .errors import MemoryBudgetError, ModelContractError
-from .schemas import MemoryStats
+from ..errors import MemoryBudgetError, ModelContractError
+from ..schemas import MemoryStats
 
 GIB = 1024**3
+
+
+def configure_cuda_allocator_environment(value: str | None) -> dict[str, Any]:
+    """Apply a config-owned allocator policy before the first CUDA allocation."""
+    if value is None:
+        return {
+            "configured": None,
+            "environment": os.environ.get("PYTORCH_ALLOC_CONF"),
+            "applied": False,
+        }
+    value = str(value)
+    current = os.environ.get("PYTORCH_ALLOC_CONF")
+    if torch.cuda.is_initialized() and current != value:
+        raise RuntimeError("CUDA allocator policy cannot change after CUDA initialization")
+    os.environ["PYTORCH_ALLOC_CONF"] = value
+    return {"configured": value, "environment": value, "applied": True}
 
 
 def synchronize(device: Any | None = None) -> None:
@@ -64,17 +81,43 @@ def enforce_memory_gate(stats: MemoryStats, *, label: str) -> None:
         )
 
 
-def assert_cuda_only(model: Any, *, label: str) -> None:
-    devices = {str(parameter.device) for parameter in model.parameters()}
-    if not devices:
+def assert_cuda_only(model: Any, *, label: str) -> dict[str, Any]:
+    tensors = [
+        *(('parameter', value) for value in model.parameters()),
+        *(('buffer', value) for value in model.buffers()),
+    ]
+    devices = {str(tensor.device) for _, tensor in tensors}
+    if not tensors:
         raise ModelContractError(f"{label} has no parameters")
     if any(not device.startswith("cuda") for device in devices):
-        raise ModelContractError(f"{label} is not fully CUDA resident: {sorted(devices)}")
+        raise ModelContractError(
+            f"{label} parameters/buffers are not fully CUDA resident: {sorted(devices)}"
+        )
     device_map = getattr(model, "hf_device_map", None)
     if isinstance(device_map, dict):
         forbidden = {str(value) for value in device_map.values() if str(value) in {"cpu", "disk"}}
         if forbidden:
             raise ModelContractError(f"{label} uses CPU/disk offload: {sorted(forbidden)}")
+    return {
+        "label": label,
+        "all_tensors_cuda": True,
+        "devices": sorted(devices),
+        "parameter_tensor_count": sum(kind == "parameter" for kind, _ in tensors),
+        "buffer_tensor_count": sum(kind == "buffer" for kind, _ in tensors),
+        "parameter_bytes": sum(
+            tensor.numel() * tensor.element_size()
+            for kind, tensor in tensors
+            if kind == "parameter"
+        ),
+        "buffer_bytes": sum(
+            tensor.numel() * tensor.element_size()
+            for kind, tensor in tensors
+            if kind == "buffer"
+        ),
+        "hf_device_map": device_map,
+        "cpu_or_disk_offload": False,
+        "execution_mode": "resident",
+    }
 
 
 def attention_runtime_state(model: Any) -> dict[str, Any]:

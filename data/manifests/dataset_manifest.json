@@ -1,1 +1,58 @@
-{"builder_version":"ccdf.data-builder.rec3.v1","cohort_version":"REC-3-real-sources-seeded-v1","datasets":{"gsm8k":{"expected_raw_sha256":"3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14","processed_path":"processed/gsm8k/gsm8k_processed.jsonl","processed_row_count":1319,"processed_sha256":"1912759a00cfa63fc5ecf875ecd239d36a3eb158b3c00958b77e5385a8a22034","raw_path":"raw/gsm8k/gsm8k_test.jsonl","raw_row_count":1319,"raw_sha256":"3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14","sample_path":"eval/gsm8k/gsm8k_n10.jsonl","sample_row_count":10,"sample_row_ids":["gsm8k_test_000784_b798a8a1","gsm8k_test_000807_6c6be7c4","gsm8k_test_000446_2ac326d8","gsm8k_test_000629_d92a73a6","gsm8k_test_000307_a61bf379","gsm8k_test_000051_88792752","gsm8k_test_000664_d9692bba","gsm8k_test_000104_0c54db10","gsm8k_test_000766_bf7481e7","gsm8k_test_000733_ea5ad0d0"],"sample_sha256":"5cd34aa9e0848a59075eec660bdf453c4e6d4637767b6170f41a57f2201a7720","source_lock_pass":true,"source_revision":"3101c7d5072418e28b9008a6636bde82a006892c","split":"test"},"qmsum":{"expected_raw_sha256":"6bcd428211260ad2efae3af76cbaf6a7f5ae4bb5e1e59c45a4b8e89539cb9208","processed_path":"processed/qmsum/qmsum_processed.jsonl","processed_row_count":244,"processed_sha256":"45a3bc6bad3fc0019268bee10d96258910d5ac9118ad58989054bc5c5acfd7b1","raw_path":"raw/qmsum/qmsum_test.jsonl","raw_row_count":35,"raw_sha256":"6bcd428211260ad2efae3af76cbaf6a7f5ae4bb5e1e59c45a4b8e89539cb9208","sample_path":"eval/qmsum/qmsum_n10.jsonl","sample_row_count":10,"sample_row_ids":["qmsum_test_meeting0029_specific_04_c6920538","qmsum_test_meeting0018_specific_00_79756c44","qmsum_test_meeting0033_specific_02_24b2697d","qmsum_test_meeting0001_specific_02_a5bedb8b","qmsum_test_meeting0013_specific_01_6809badc","qmsum_test_meeting0015_specific_05_005ad578","qmsum_test_meeting0003_specific_01_d12053b5","qmsum_test_meeting0000_specific_05_4b169ecb","qmsum_test_meeting0025_specific_02_1f317049","qmsum_test_meeting0013_specific_09_b7d3d4f4"],"sample_sha256":"097b5b1622f1eabe0881568f7455ceff120aee06d27790006bdb60282d6c8b01","source_lock_pass":true,"source_revision":"83d7768c1f2b4dfeb091385d3dc7e239b8e5bb7e","split":"test"}},"sample_size":10,"sampling_strategy":"sha256(seed:fixture_id)_ascending","schema_version":"ccdf.data.rec3.v1","seed":42}
+{
+  "builder_version": "ccdf.data-builder.v2",
+  "cohort_version": "real-sources-full-context-v2",
+  "datasets": {
+    "gsm8k": {
+      "empty_context": true,
+      "expected_raw_sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+      "full_context": false,
+      "sample_path": "data/eval/gsm8k/gsm8k_n10.jsonl",
+      "sample_row_count": 10,
+      "sample_row_ids": [
+        "gsm8k_test_000784_b798a8a1",
+        "gsm8k_test_000807_6c6be7c4",
+        "gsm8k_test_000446_2ac326d8",
+        "gsm8k_test_000629_d92a73a6",
+        "gsm8k_test_000307_a61bf379",
+        "gsm8k_test_000051_88792752",
+        "gsm8k_test_000664_d9692bba",
+        "gsm8k_test_000104_0c54db10",
+        "gsm8k_test_000766_bf7481e7",
+        "gsm8k_test_000733_ea5ad0d0"
+      ],
+      "sample_sha256": "20a89fc4d501171b2d5821c8f2c977e63e27255610af8929cd55972085027149",
+      "source_lock_pass": true,
+      "source_revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "split": "test"
+    },
+    "qmsum": {
+      "empty_context": false,
+      "expected_raw_sha256": "6bcd428211260ad2efae3af76cbaf6a7f5ae4bb5e1e59c45a4b8e89539cb9208",
+      "full_context": true,
+      "sample_path": "data/eval/qmsum/qmsum_n10.jsonl",
+      "sample_row_count": 10,
+      "sample_row_ids": [
+        "qmsum_test_meeting0029_specific_04_53800266",
+        "qmsum_test_meeting0018_specific_00_8a802fed",
+        "qmsum_test_meeting0033_specific_02_20d48688",
+        "qmsum_test_meeting0001_specific_02_1c2f577e",
+        "qmsum_test_meeting0013_specific_01_65a50e94",
+        "qmsum_test_meeting0015_specific_05_8afeb1a1",
+        "qmsum_test_meeting0003_specific_01_4b3776b6",
+        "qmsum_test_meeting0000_specific_05_9b1f25eb",
+        "qmsum_test_meeting0025_specific_02_10beee09",
+        "qmsum_test_meeting0013_specific_09_3332653e"
+      ],
+      "sample_sha256": "f293e20c29aea1ca7bb903951e6c9f8a002941fd8ceb9a33ff52d4952f2c84f5",
+      "source_lock_pass": true,
+      "source_revision": "83d7768c1f2b4dfeb091385d3dc7e239b8e5bb7e",
+      "split": "test"
+    }
+  },
+  "sample_size": 10,
+  "schema_version": "ccdf.data.v2",
+  "seed": 42,
+  "selection_manifest": "data/manifests/dataset_smoke_selection.json",
+  "selection_manifest_sha256": "bc7379d37ca8b197fc48d637e6df5a6be82bc2ea8bbea1aa642023d6ed7825f1",
+  "selection_policy": "locked_source_coordinates_in_declared_order"
+}

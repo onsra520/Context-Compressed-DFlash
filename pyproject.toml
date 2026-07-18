@@ -24,7 +24,7 @@ profile = ["psutil>=6.0"]
 dev = ["pytest>=8", "ruff>=0.9", "black>=24"]
 
 [project.scripts]
-ccdf-rec2 = "ccdf.cli:main"
+ccdf = "ccdf.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

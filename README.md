@@ -1,6 +1,6 @@
-# CCDF Rec-2 — D-Flash Optimization Runtime
+# CCDF — D-Flash Optimization Runtime
 
-Rec-2 is a standalone backend-only workspace for selecting and optimizing the target model used by D-Flash on a single 8 GB consumer GPU. It is intentionally separated from the existing project and does not include or modify the frontend.
+CCDF is a standalone backend-only workspace for selecting and optimizing the target model used by D-Flash on a single 8 GB consumer GPU. It is intentionally separated from the existing project and does not include or modify the frontend.
 
 ## Locked model layout
 
@@ -24,14 +24,14 @@ Default model roles:
 - D-Flash target: `Qwen/Qwen3-4B-AWQ`.
 - Optional target fallback: `unsloth/Qwen3-4B-bnb-4bit`.
 - Drafter: local `Qwen3-4B-DFlash-b16` checkpoint, BF16, checkpoint block size 16.
-- Compressor is not loaded by Rec-2; 2 GiB is reserved for later integration.
+- The compressor is loaded only by the configured four-condition protocol; 2 GiB is reserved outside that protocol.
 
 The D-Flash stack has a hard peak-reserved-memory gate of 6 GiB. Baseline execution is not subject to that gate.
 
 ## Setup
 
 ```bash
-cd ccdf-rec2
+cd CCDF-Rework
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -U pip setuptools wheel
@@ -49,15 +49,15 @@ All paths are declared in the root `config.yml`. `${PROJECT_ROOT}` is expanded b
 ## Validation-first workflow
 
 ```bash
-ccdf-rec2 validate-config --config config.yml
-ccdf-rec2 validate-env --config config.yml
-ccdf-rec2 validate-models --config config.yml
+ccdf validate-config --config config.yml
+ccdf validate-env --config config.yml
+ccdf validate-models --config config.yml
 ```
 
 Run the full cycle before and after changing an optimization flag:
 
 ```bash
-ccdf-rec2 validation-cycle --config config.yml
+ccdf validation-cycle --config config.yml
 ```
 
 ## Run one prompt
@@ -65,19 +65,19 @@ ccdf-rec2 validation-cycle --config config.yml
 Baseline:
 
 ```bash
-ccdf-rec2 run --config config.yml --condition baseline --prompt "What is 17 multiplied by 6?"
+ccdf run --config config.yml --condition baseline --prompt "What is 17 multiplied by 6?"
 ```
 
 D-Flash:
 
 ```bash
-ccdf-rec2 run --config config.yml --condition dflash --prompt "What is 17 multiplied by 6?"
+ccdf run --config config.yml --condition dflash --prompt "What is 17 multiplied by 6?"
 ```
 
 Use the fallback target only for a controlled comparison:
 
 ```bash
-ccdf-rec2 run --config config.yml --condition dflash --target-profile fallback --prompt "What is 17 multiplied by 6?"
+ccdf run --config config.yml --condition dflash --target-profile fallback --prompt "What is 17 multiplied by 6?"
 ```
 
 ## Benchmark JSONL
@@ -104,7 +104,7 @@ must contain at least `id` and `prompt`:
 ```
 
 ```bash
-ccdf-rec2 benchmark   --config config.yml   --input data/benchmark/prompts.jsonl   --conditions baseline,dflash
+ccdf benchmark --config config.yml --input data/benchmark/prompts.jsonl --conditions baseline,dflash
 ```
 
 The output records distinct scopes:

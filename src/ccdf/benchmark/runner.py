@@ -7,8 +7,8 @@ import statistics
 from pathlib import Path
 from typing import Any, Iterable
 
-from .config import Rec2Config
-from .runtime.engine import RuntimeEngine
+from ..config import Config
+from ..runtime.engine import RuntimeEngine
 
 
 def read_jsonl(path: str | Path) -> list[dict[str, Any]]:
@@ -32,15 +32,15 @@ def write_jsonl(path: str | Path, rows: Iterable[dict[str, Any]]) -> None:
 
 
 def run_benchmark(
-    config: Rec2Config,
+    config: Config,
     *,
     input_path: str | Path,
     conditions: list[str],
     target_profile: str = "primary",
 ) -> dict[str, Any]:
     inputs = read_jsonl(input_path)
-    repetitions = int(config.get("benchmark.repetitions", 1))
-    warmups = int(config.get("benchmark.warmup_requests", 0))
+    repetitions = int(config.require("benchmark.repetitions"))
+    warmups = int(config.require("benchmark.warmup_requests"))
     all_rows: list[dict[str, Any]] = []
     summaries: list[dict[str, Any]] = []
     for condition in conditions:

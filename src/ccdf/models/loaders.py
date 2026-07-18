@@ -9,8 +9,8 @@ from typing import Any
 
 import torch
 
-from ..config import Rec2Config
-from ..device import assert_cuda_only, attention_runtime_state
+from ..config import Config
+from ..runtime.device import assert_cuda_only, attention_runtime_state
 from ..errors import ConfigurationError, ModelContractError
 
 
@@ -71,7 +71,14 @@ def _prepare_triton_build_headers() -> bool:
     return False
 
 
-def _load_pretrained(cls: Any, *, path: Path, profile: dict[str, Any], attention_backend: str) -> Any:
+def _load_pretrained(
+    cls: Any,
+    *,
+    path: Path,
+    profile: dict[str, Any],
+    attention_backend: str,
+    local_files_only: bool,
+) -> Any:
     workarounds = {
         "awq_profile": False,
         "activation_alias_applied": False,
@@ -88,16 +95,16 @@ def _load_pretrained(cls: Any, *, path: Path, profile: dict[str, Any], attention
         workarounds["awq_profile"] = True
         workarounds["triton_header_override_applied"] = _prepare_triton_build_headers()
         workarounds["activation_alias_applied"] = _prepare_awq_compatibility()
-    configured_device_map = profile.get("device_map", "cuda:0")
+    configured_device_map = profile["device_map"]
     if isinstance(configured_device_map, str) and configured_device_map.startswith("cuda"):
         index = int(configured_device_map.split(":", 1)[1]) if ":" in configured_device_map else 0
         configured_device_map = {"": index}
     kwargs: dict[str, Any] = {
-        "local_files_only": True,
+        "local_files_only": local_files_only,
         "device_map": configured_device_map,
-        "dtype": _dtype(profile.get("dtype", "bfloat16")),
+        "dtype": _dtype(profile["dtype"]),
     }
-    if profile.get("trust_remote_code"):
+    if bool(profile["trust_remote_code"]):
         kwargs["trust_remote_code"] = True
     if attention_backend and attention_backend != "auto":
         kwargs["attn_implementation"] = attention_backend
@@ -123,7 +130,9 @@ def _load_pretrained(cls: Any, *, path: Path, profile: dict[str, Any], attention
     return model
 
 
-def load_tokenizer(path: str | Path):
+def load_tokenizer(
+    path: str | Path, *, local_files_only: bool, trust_remote_code: bool
+):
     from transformers import AutoTokenizer
 
     model_path = Path(path).resolve()
@@ -131,22 +140,22 @@ def load_tokenizer(path: str | Path):
         raise FileNotFoundError(f"tokenizer path not found: {model_path}")
     tokenizer = AutoTokenizer.from_pretrained(
         model_path,
-        local_files_only=True,
-        trust_remote_code=True,
+        local_files_only=local_files_only,
+        trust_remote_code=trust_remote_code,
     )
     if tokenizer.pad_token_id is None and tokenizer.eos_token_id is not None:
         tokenizer.pad_token_id = tokenizer.eos_token_id
     return tokenizer
 
 
-def load_baseline(config: Rec2Config):
+def load_baseline(config: Config):
     from transformers import AutoModelForCausalLM
 
     profile = config.model_profile("baseline")
     _prepare_awq_compatibility()
     awq_kernel = _prepare_awq_deterministic_kernel(
-        bool(config.get("runtime.deterministic", True)),
-        int(config.get("runtime.awq_split_k_iters", 1)),
+        bool(config.require("runtime.deterministic")),
+        int(config.require("runtime.awq_split_k_iters")),
     )
     path = Path(profile["local_path"]).resolve()
     if not path.exists():
@@ -155,12 +164,16 @@ def load_baseline(config: Rec2Config):
         AutoModelForCausalLM,
         path=path,
         profile=profile,
-        attention_backend=str(config.get("runtime.attention_backend", "sdpa")),
+        attention_backend=str(config.require("runtime.attention_backend")),
+        local_files_only=bool(config.require("runtime.local_files_only")),
     )
     model.eval()
-    if config.get("validation.require_full_gpu_placement", True):
-        assert_cuda_only(model, label="baseline")
-    tokenizer = load_tokenizer(profile.get("tokenizer_path", path))
+    device_audit = assert_cuda_only(model, label="baseline")
+    tokenizer = load_tokenizer(
+        profile["tokenizer_path"],
+        local_files_only=bool(config.require("runtime.local_files_only")),
+        trust_remote_code=bool(profile["trust_remote_code"]),
+    )
     return model, tokenizer, {
         "role": "baseline",
         "model_id": profile["model_id"],
@@ -170,17 +183,19 @@ def load_baseline(config: Rec2Config):
         "attention": attention_runtime_state(model),
         "runtime_workarounds": getattr(model, "_ccdf_runtime_workarounds", {}),
         "awq_deterministic_kernel": awq_kernel,
+        "device_audit": device_audit,
+        "local_files_only": bool(config.require("runtime.local_files_only")),
     }
 
 
-def load_dflash_models(config: Rec2Config, target_profile: str = "primary"):
+def load_dflash_models(config: Config, target_profile: str = "primary"):
     from transformers import AutoModel, AutoModelForCausalLM
 
     target_cfg = config.model_profile("dflash", target_profile=target_profile)
     _prepare_awq_compatibility()
     awq_kernel = _prepare_awq_deterministic_kernel(
-        bool(config.get("runtime.deterministic", True)),
-        int(config.get("runtime.awq_split_k_iters", 1)),
+        bool(config.require("runtime.deterministic")),
+        int(config.require("runtime.awq_split_k_iters")),
     )
     drafter_cfg = dict(config.require("models.dflash.drafter"))
     target_path = Path(target_cfg["local_path"]).resolve()
@@ -188,15 +203,31 @@ def load_dflash_models(config: Rec2Config, target_profile: str = "primary"):
     for label, path in (("target", target_path), ("drafter", drafter_path)):
         if not path.exists():
             raise FileNotFoundError(f"{label} model path not found: {path}")
-    backend = str(config.get("runtime.attention_backend", "sdpa"))
-    target = _load_pretrained(AutoModelForCausalLM, path=target_path, profile=target_cfg, attention_backend=backend)
-    drafter = _load_pretrained(AutoModel, path=drafter_path, profile=drafter_cfg, attention_backend=backend)
+    backend = str(config.require("runtime.attention_backend"))
+    local_files_only = bool(config.require("runtime.local_files_only"))
+    target = _load_pretrained(
+        AutoModelForCausalLM,
+        path=target_path,
+        profile=target_cfg,
+        attention_backend=backend,
+        local_files_only=local_files_only,
+    )
+    drafter = _load_pretrained(
+        AutoModel,
+        path=drafter_path,
+        profile=drafter_cfg,
+        attention_backend=backend,
+        local_files_only=local_files_only,
+    )
     target.eval()
     drafter.eval()
-    if config.get("validation.require_full_gpu_placement", True):
-        assert_cuda_only(target, label="D-Flash target")
-        assert_cuda_only(drafter, label="D-Flash drafter")
-    tokenizer = load_tokenizer(target_cfg.get("tokenizer_path", target_path))
+    target_device_audit = assert_cuda_only(target, label="D-Flash target")
+    drafter_device_audit = assert_cuda_only(drafter, label="D-Flash drafter")
+    tokenizer = load_tokenizer(
+        target_cfg["tokenizer_path"],
+        local_files_only=local_files_only,
+        trust_remote_code=bool(target_cfg["trust_remote_code"]),
+    )
     contract = validate_dflash_contract(target, drafter, config)
     return target, drafter, tokenizer, {
         "role": "dflash",
@@ -214,10 +245,13 @@ def load_dflash_models(config: Rec2Config, target_profile: str = "primary"):
         "target_runtime_workarounds": getattr(target, "_ccdf_runtime_workarounds", {}),
         "drafter_runtime_workarounds": getattr(drafter, "_ccdf_runtime_workarounds", {}),
         "awq_deterministic_kernel": awq_kernel,
+        "target_device_audit": target_device_audit,
+        "drafter_device_audit": drafter_device_audit,
+        "local_files_only": local_files_only,
     }
 
 
-def validate_dflash_contract(target: Any, drafter: Any, config: Rec2Config) -> dict[str, Any]:
+def validate_dflash_contract(target: Any, drafter: Any, config: Config) -> dict[str, Any]:
     target_config = target.config
     draft_config = drafter.config
     target_layer_ids = list(

@@ -9,9 +9,15 @@ from typing import Any
 
 import torch
 
-from ..config import Rec2Config, load_config
-from ..determinism import configure_determinism
-from ..device import collect_memory, enforce_memory_gate, reset_peak_memory, synchronize
+from ..config import Config, load_config
+from .determinism import configure_determinism
+from .device import (
+    collect_memory,
+    configure_cuda_allocator_environment,
+    enforce_memory_gate,
+    reset_peak_memory,
+    synchronize,
+)
 from ..dflash.generate import generate_dflash
 from ..dflash.policy import BlockPolicy
 from ..inference.baseline import generate_baseline
@@ -20,7 +26,7 @@ from ..schemas import GenerationOutput, GenerationSettings
 
 
 class RuntimeEngine:
-    def __init__(self, config: Rec2Config, *, condition: str, target_profile: str = "primary") -> None:
+    def __init__(self, config: Config, *, condition: str, target_profile: str = "primary") -> None:
         if condition not in {"baseline", "dflash"}:
             raise ValueError("condition must be baseline or dflash")
         self.config = config
@@ -31,6 +37,9 @@ class RuntimeEngine:
         self.model = None
         self.tokenizer = None
         self.model_metadata: dict[str, Any] = {}
+        self.allocator_policy = configure_cuda_allocator_environment(
+            self.config.require("runtime.cuda_allocator_conf")
+        )
         self.seed = int(self.config.require("runtime.seed"))
         self.determinism = self._configure_determinism()
         self._load()
@@ -38,10 +47,10 @@ class RuntimeEngine:
     def _configure_determinism(self) -> dict[str, Any]:
         return configure_determinism(
             seed=self.seed,
-            deterministic=bool(self.config.get("runtime.deterministic", True)),
-            allow_tf32=bool(self.config.get("runtime.allow_tf32", False)),
-            matmul_precision=str(self.config.get("runtime.matmul_precision", "high")),
-            sdpa_kernel=str(self.config.get("runtime.sdpa_kernel", "math")),
+            deterministic=bool(self.config.require("runtime.deterministic")),
+            allow_tf32=bool(self.config.require("runtime.allow_tf32")),
+            matmul_precision=str(self.config.require("runtime.matmul_precision")),
+            sdpa_kernel=str(self.config.require("runtime.sdpa_kernel")),
         )
 
     @classmethod
@@ -84,7 +93,7 @@ class RuntimeEngine:
                 fullgraph=bool(compile_cfg["fullgraph"]),
                 dynamic=bool(compile_cfg["dynamic"]),
             )
-        if self.config.get("memory.enforce_after_model_load", True):
+        if bool(self.config.require("memory.enforce_after_model_load")):
             reset_peak_memory()
             synchronize()
             stats = collect_memory(
@@ -93,7 +102,7 @@ class RuntimeEngine:
             enforce_memory_gate(stats, label="D-Flash model load")
 
     def encode_prompt(self, prompt: str, *, system: str | None = None) -> torch.Tensor:
-        system_text = system or str(self.config.get("prompts.system", ""))
+        system_text = str(self.config.require("prompts.system")) if system is None else system
         messages = []
         if system_text:
             messages.append({"role": "system", "content": system_text})
@@ -105,7 +114,7 @@ class RuntimeEngine:
         }
         chat_template = getattr(self.tokenizer, "chat_template", "") or ""
         if "enable_thinking" in chat_template:
-            kwargs["enable_thinking"] = bool(self.config.get("runtime.enable_thinking", False))
+            kwargs["enable_thinking"] = bool(self.config.require("runtime.enable_thinking"))
         try:
             encoded = self.tokenizer.apply_chat_template(messages, **kwargs)
         except TypeError:
@@ -124,9 +133,15 @@ class RuntimeEngine:
     ) -> GenerationOutput:
         # Reset every request so repetitions and condition order cannot inherit RNG state.
         self.determinism = self._configure_determinism()
+        if self.config.require("memory.request_cache_policy") == "release_unused":
+            synchronize()
+            torch.cuda.empty_cache()
+            synchronize()
         warm_start = time.perf_counter()
         prepare_start = time.perf_counter()
         input_ids = self.encode_prompt(prompt)
+        if input_ids.device.type != "cuda":
+            raise RuntimeError(f"inference input tensor must be CUDA resident: {input_ids.device}")
         prompt_prepare_ms = (time.perf_counter() - prepare_start) * 1000.0
         settings = GenerationSettings(
             max_new_tokens=int(max_new_tokens or self.config.require("runtime.max_new_tokens")),
@@ -137,7 +152,7 @@ class RuntimeEngine:
             dataset=dataset,
             block_size=int(self.config.require("optimization.block_policy.fixed_block_size")),
             output_contract_mode=str(
-                self.config.get("optimization.output_contract_mode", "finalize_only")
+                self.config.require("optimization.output_contract_mode")
             ),
         )
         if self.condition == "baseline":
@@ -160,21 +175,30 @@ class RuntimeEngine:
                 block_policy=policy,
                 memory_limit_gib=float(self.config.require("memory.dflash_peak_reserved_limit_gib")),
                 full_structural_audit=bool(
-                    self.config.get("optimization.full_structural_audit", False)
+                    self.config.require("optimization.full_structural_audit")
                 ),
                 compact_structural_audit=bool(
-                    self.config.get("optimization.compact_structural_audit", True)
+                    self.config.require("optimization.compact_structural_audit")
                 ),
-                profile_components=bool(self.config.get("optimization.profile_components", False)),
+                profile_components=bool(self.config.require("optimization.profile_components")),
                 gpu_resident_acceptance=bool(
-                    self.config.get("optimization.gpu_resident_acceptance", True)
+                    self.config.require("optimization.gpu_resident_acceptance")
                 ),
                 allow_subblock_shapes=bool(
-                    self.config.get("optimization.block_policy.allow_subblock_shapes", True)
+                    self.config.require("optimization.block_policy.allow_subblock_shapes")
                 ),
             )
         synchronize()
         result.runtime["determinism"] = dict(self.determinism)
+        result.runtime["cuda_allocator"] = dict(self.allocator_policy)
+        result.runtime["inference_tensor_audit"] = {
+            "input_ids_device": str(input_ids.device),
+            "input_ids_cuda": input_ids.device.type == "cuda",
+            "generated_intermediate_device_policy": (
+                "all inference tensors are allocated from input_ids.device or model.device"
+            ),
+            "cpu_or_disk_offload": False,
+        }
         result.timing.prompt_prepare_ms = prompt_prepare_ms
         result.timing.warm_request_ms = (time.perf_counter() - warm_start) * 1000.0
         return result
