@@ -1,0 +1,17 @@
+{
+  "datasets": {
+    "gsm8k": {
+      "hard_validity_pass": true,
+      "quality_preservation_pass": false
+    },
+    "qmsum": {
+      "hard_validity_pass": true,
+      "quality_preservation_pass": true
+    }
+  },
+  "decision": "FINAL_BENCHMARK_COMPLETE_WITH_FAILED_CLAIMS",
+  "hard_validity_pass": true,
+  "quality_preservation_pass": false,
+  "schema": "ccdf.final-benchmark-n20.final-decision.v1",
+  "classification_note": "GSM8K parser failures and compressed answer disagreement are model-output quality failures; completeness, checksums, fairness, CUDA, and independent recomputation pass."
+}

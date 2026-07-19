@@ -8,8 +8,8 @@ from typing import Any
 import torch
 from transformers import DynamicCache
 
-from ..device import collect_memory, current_memory_state, reset_peak_memory, synchronize
-from ..schemas import GenerationOutput, GenerationSettings, TimingBreakdown
+from ..infrastructure.device import collect_memory, current_memory_state, reset_peak_memory, synchronize
+from ..runtime.schemas import GenerationOutput, GenerationSettings, TimingBreakdown
 from .sampling import sample
 from .stopping import BlockStopController
 

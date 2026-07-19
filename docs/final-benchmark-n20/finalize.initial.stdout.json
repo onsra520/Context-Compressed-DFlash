@@ -1,0 +1,1 @@
+{"datasets": {"gsm8k": {"hard_validity_pass": false, "quality_preservation_pass": false}, "qmsum": {"hard_validity_pass": true, "quality_preservation_pass": true}}, "decision": "FINAL_BENCHMARK_INVALID", "hard_validity_pass": false, "quality_preservation_pass": false, "schema": "ccdf.final-benchmark-n20.final-decision.v1"}

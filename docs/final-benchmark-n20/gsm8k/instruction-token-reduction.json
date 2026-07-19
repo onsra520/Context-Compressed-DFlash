@@ -1,0 +1,15 @@
+{
+  "schema": "ccdf.final-benchmark-n20.gsm8k-instruction-reduction.v1",
+  "sample_count": 20,
+  "tokenizer": "Qwen3-4B-AWQ target tokenizer",
+  "comparison": "same questions and chat template; only the v4 instruction suffix is replaced by promoted v5",
+  "v4_instruction": "Show the arithmetic briefly using exactly two lines. Line 1: Calculation: <equations>. Line 2: Final answer: <number>. The final number must be a finite decimal literal using digits and at most one decimal point; do not use a fraction, ellipsis, currency symbol, comma, or unit in the final answer.",
+  "v5_instruction": "Solve with concise equations. Track all quantities, steps, and units; do not skip conversions or repeated actions. End with: Final answer: <number>",
+  "mean_target_user_tokens_v4": 132.25,
+  "mean_target_user_tokens_v5": 96.25,
+  "mean_target_user_token_reduction_from_instruction": 36.0,
+  "mean_full_input_tokens_v4": 203.25,
+  "mean_full_input_tokens_v5": 167.25,
+  "mean_full_input_token_reduction_from_instruction": 36.0,
+  "llmlingua_reduction_excluded": true
+}

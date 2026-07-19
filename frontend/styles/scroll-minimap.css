@@ -1,0 +1,141 @@
+/* SCROLL MINIMAP (MARKERS) */
+:root {
+    --minimap-z: 1000;
+}
+
+.scroll-minimap {
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    z-index: var(--minimap-z);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+    pointer-events: none; /* Let events pass through the container */
+}
+
+/* Markers */
+.minimap-marker {
+    position: relative;
+    background: transparent;
+    border: none;
+    padding: 10px 0 10px 10px; /* Expand hit area transparently */
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    pointer-events: auto; /* Catch events on marker hit area */
+}
+
+.minimap-marker::after {
+    content: '';
+    display: block;
+    width: 14px;
+    height: 4px;
+    background: #fff;
+    border: 1px solid #000;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    opacity: 0.7;
+    border-radius: 0;
+    transition: all 0.2s ease;
+}
+
+.minimap-marker:hover::after,
+.minimap-marker:focus-visible::after {
+    width: 20px;
+    background: #fff;
+    opacity: 1;
+}
+
+.minimap-marker.active::after {
+    width: 26px;
+    height: 6px;
+    background: var(--cyan);
+    opacity: 1;
+    border-radius: 0;
+    border: 2px solid #000;
+    box-shadow: -2px 2px 0 #000;
+}
+
+/* Preview Popover */
+.minimap-preview {
+    position: absolute;
+    right: calc(100% + 4px);
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    width: 260px;
+    background: var(--paper);
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    padding: 12px 14px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Hide and ignore initially */
+    transition: transform 0.15s ease-out, opacity 0.15s ease-out, visibility 0.15s;
+    text-align: left;
+    cursor: default;
+}
+
+/* 
+ * The hover bridge is created naturally because the popup is adjacent to the marker. 
+ * As long as the pointer doesn't leave the marker's bounds or the popup's bounds, 
+ * it stays open. But wait, we want a small delay so we manage state via JS instead of CSS hover.
+ * The JS will add '.is-hovered' to the marker. 
+ */
+.minimap-marker.is-hovered .minimap-preview,
+.minimap-marker:focus-visible .minimap-preview {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+    pointer-events: auto;
+}
+
+.preview-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    opacity: 0.7;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.preview-title {
+    font-family: var(--display);
+    font-size: 16px;
+    color: var(--black);
+    margin-bottom: 6px;
+    line-height: 1.1;
+}
+
+.preview-desc {
+    font-family: var(--body);
+    font-size: 13px;
+    line-height: 1.4;
+    color: #444;
+}
+
+/* Mobile */
+@media (max-width: 760px) {
+    .scroll-minimap {
+        right: 4px;
+    }
+    
+    .minimap-preview {
+        width: 200px;
+        padding: 8px 10px;
+    }
+    
+    .preview-desc {
+        display: none;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .minimap-preview {
+        transition: none;
+        transform: translateY(-50%);
+    }
+}

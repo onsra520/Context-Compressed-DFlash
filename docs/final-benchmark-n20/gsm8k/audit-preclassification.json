@@ -1,0 +1,40 @@
+{
+  "benchmark_name": "GSM8K n=20",
+  "compression_run_id": "compression-e59f4f98-bf69-41cc-a942-4ac9e0c6355b",
+  "dataset": "gsm8k",
+  "fallback_count": 0,
+  "fallback_rate": 0.0,
+  "generic_audit_conclusion": "FAIL",
+  "generic_failed_gates": [
+    "compressed_numeric_answer_agreement",
+    "gsm8k_compressed_quality_non_regression",
+    "original_generated_token_parity"
+  ],
+  "hard_gates": {
+    "c1_c2_prompt_fairness": true,
+    "c3_c4_cache_fairness": true,
+    "compression_checksums_valid": true,
+    "compressor_cuda": true,
+    "config_runtime_consistency": true,
+    "deterministic_n20_selection": true,
+    "fresh_single_cache_run": true,
+    "generic_validity_gates": false,
+    "metric_recomputation_match": true,
+    "parser_and_output_health": false,
+    "raw_complete": true,
+    "raw_unique": true,
+    "row_checksums_valid": true,
+    "same_samples_references_all_conditions": true,
+    "source_snapshot_unchanged_since_preflight": true
+  },
+  "hard_validity_pass": false,
+  "quality_gates": {
+    "gsm8k_c3_not_below_c1": false,
+    "gsm8k_c4_not_below_c2": false,
+    "qmsum_c3_mean_f1_drop_le_0_01": true,
+    "qmsum_c4_mean_f1_drop_le_0_01": true
+  },
+  "quality_preservation_pass": false,
+  "recompute_failures": [],
+  "schema": "ccdf.final-benchmark-n20.dataset-audit.v1"
+}

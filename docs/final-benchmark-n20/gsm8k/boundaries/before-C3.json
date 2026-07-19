@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-07-19T20:32:28.840498+00:00",
+  "command": [
+    "nvidia-smi",
+    "--query-compute-apps=pid,process_name,used_memory",
+    "--format=csv,noheader"
+  ],
+  "compute_processes": [],
+  "label": "before-gsm8k-C3",
+  "schema": "ccdf.gpu-boundary-state.v1"
+}

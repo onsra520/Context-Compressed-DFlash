@@ -1,0 +1,102 @@
+{
+  "builder": "ccdf.datasets.pipeline",
+  "datasets": {
+    "gsm8k": {
+      "path": "data/eval/gsm8k/gsm8k_n10.jsonl",
+      "prompt_sha256": [
+        "44615f3d9ca6049e8a063f455ec16446292576a0e326212201053c3874143ce3",
+        "7f54b0c5ac0d1098cde24cda6b22b9c26cc9e779ce0292e55186aa89f534d2f7",
+        "3c2015294e94412a771411ada9333dd401ad7d35392f758a7d7761c62f23e30a",
+        "c813a540fa5867d3df34e089aea669d74e35744c17283a1b11aae4e57f9c7ff5",
+        "3926bfa9b06a1e57b467433b6c6c5302fe61227d048bca6f2d1ebabebc9f7e6b",
+        "c90db990b2811f32034d77debcd10879fcc34ebe5229982f1863d93f0430707d",
+        "fd7a28431241cd5437feaf666c17884ce42752c1be4a00890b33beeb676c46b4",
+        "89eaca0dfff4e6c47973e5fd3522a2c7bac0b5a90a30f2c4e025e20d8c9fe0fe",
+        "25158875853345b8dab9dd993638a3ea71a2dfbed2878e08eb701eee940dca5c",
+        "d25f01dfb7348acf540e2817100df2612b86dc4cfb16a42cf70391674927d40f"
+      ],
+      "prompt_versions": [
+        "stage3-gsm8k-calculation-v5"
+      ],
+      "sample_count": 10,
+      "sample_ids": [
+        "gsm8k-test-000784-71514f42",
+        "gsm8k-test-000807-ff2d6349",
+        "gsm8k-test-000446-68659df7",
+        "gsm8k-test-000629-b3b9cc8a",
+        "gsm8k-test-000307-885794fa",
+        "gsm8k-test-000051-a4877e9f",
+        "gsm8k-test-000664-2ab48ff5",
+        "gsm8k-test-000104-09cb2ed6",
+        "gsm8k-test-000766-fd6fc7e9",
+        "gsm8k-test-000733-251d88e0"
+      ],
+      "sha256": "47a785b2d7c7d242ac9053576a2e19224d5ca5a4eff5c35d5888041e6d40296a",
+      "source_fingerprints": [
+        "71514f427cf6bec0a55e013c4e9783f6db13d730cfb018c45abeee402a10897d",
+        "ff2d634962bcdda180d25a31307ffcc2eba5a0f1115b50045f9326944461de34",
+        "68659df75ac79386131f6adb1190f8754bc99f0f970db01b17116c8221f84bf8",
+        "b3b9cc8a00ffd67cc49eedf8f22e961ed89f9f5631b82965d8778f71ec00841d",
+        "885794fa538d669b3a64200e660fad12195febaeb8b0aa6c3f9a61688f8ebc6f",
+        "a4877e9fd2f52045851620fe0f2b79399b5366aea3b0e6b36bdd2fb8384bce18",
+        "2ab48ff58ff1678c778aaa91a6bfd77e0b3ed9b7610e9c456a7b60ace0cd3a12",
+        "09cb2ed620c422a9fb05f0f328f1d9825b2015cb866f67006008cffe69d57dce",
+        "fd6fc7e956390ba6ccbdf1e461161f7cbad5cd3437025979b6cb8c02dcac0ea4",
+        "251d88e006a36e108e9b30001259e4c80e89513c91645824e9d4cc0ed1102d58"
+      ],
+      "source_revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "source_sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14"
+    },
+    "qmsum": {
+      "path": "data/eval/qmsum/qmsum_n10.jsonl",
+      "prompt_sha256": [
+        "7ca91a6419180c67724c5f211216e210741de913ce0f7936ce50dfa889d9cde2",
+        "dc8e7edcf78132544714c4a31abb75aa413c3d902113e9f210589ffd0859329f",
+        "1eb309a76e73e9d19381c31816fdfbd533d941f51b268c0873de6d7726328ed3",
+        "536b20fc625d29eb1eb1c464fd4973237ca5094754ab6c745cdca9f2bc5837e8",
+        "53b36bed84a43c92edefef3851de5668374712219974cbae2f9e6301ca10604a",
+        "08df54e6c134a755ccb1bec7e1330cea5f8007a48a29b080c402beccad92064c",
+        "8ed3d2c27123ad2a73a7557bec3fff18084e76b013fdfd0adc87e2b91c7525f5",
+        "bcb1779c19e1afb31f5198d2d593e70a4a384a45a993e83950da8e35109c0a22",
+        "c9a2f0ad4b0b8c83599e55722436ab20b13faeb727f6a814c346bb9197490b83",
+        "c60aded83cf96f8a53e902c4ce61bafe8b8deea980415b702b7283acac90c667"
+      ],
+      "prompt_versions": [
+        "quality-repair-qmsum-query-aware-v1"
+      ],
+      "sample_count": 10,
+      "sample_ids": [
+        "qmsum-test-meeting0029-specific-04-e68f5dd1",
+        "qmsum-test-meeting0018-specific-00-fdd5f660",
+        "qmsum-test-meeting0033-specific-02-5c9c47c8",
+        "qmsum-test-meeting0001-specific-02-a316daa1",
+        "qmsum-test-meeting0013-specific-01-c739d680",
+        "qmsum-test-meeting0015-specific-05-743e4459",
+        "qmsum-test-meeting0003-specific-01-1eb778c0",
+        "qmsum-test-meeting0000-specific-05-0945f791",
+        "qmsum-test-meeting0025-specific-02-018bfcec",
+        "qmsum-test-meeting0013-specific-09-d7ec83ae"
+      ],
+      "sha256": "8c063730f16bb5a75178304b3b933fab608a3f2e94005846d837b7def1a590df",
+      "source_fingerprints": [
+        "e68f5dd1c2a2b0fb50cd833e85942ff240fcc156559da7ef3071d7d1d33417f0",
+        "fdd5f66076738abb9575615b8218f7cda5b3f9d7866bcd0c7cf8aaceaaab98a2",
+        "5c9c47c8a8fcfc93184e047254b35671456b145cebf8b7e01da355e82addb558",
+        "a316daa178104d853e4ab7f6d58ff31705eaee5f78d09e7a4fd58adeab055a6c",
+        "c739d680ee5e919826e872edc7509b9b05aea6dbd170aac3a7d369c569f8dcc6",
+        "743e4459a507dae43f6a02a83311aa2d4b9bd4cc4e05a1330ecbacf88911d67c",
+        "1eb778c0d18ffcc4c112fbf5989de67df03ff9f9778523f14523b6f56366461a",
+        "0945f7914739cec4b3016a53d276ed12704c70d9dd24fd15050e69e67ade8a32",
+        "018bfcec6c0a09e9bf7912e214d3c52d114673fb445767061c8cd7da5b703d52",
+        "d7ec83ae9f99f4514039b19426354a224e42e0c9af79e2169e079b5c9aa1e80c"
+      ],
+      "source_revision": "83d7768c1f2b4dfeb091385d3dc7e239b8e5bb7e",
+      "source_sha256": "6bcd428211260ad2efae3af76cbaf6a7f5ae4bb5e1e59c45a4b8e89539cb9208"
+    }
+  },
+  "schema": "ccdf.dataset-manifest.v3",
+  "seed": 42,
+  "selection_manifest": "data/manifests/stage3_n10_selection.json",
+  "selection_manifest_sha256": "870ae840e7ff6432ab8009b983cb6048bba6ffc359b331366ea04c8099e1c426",
+  "selection_policy": "locked_source_coordinates_in_declared_order"
+}

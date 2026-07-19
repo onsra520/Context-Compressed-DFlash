@@ -1,0 +1,940 @@
+{
+  "compression_policy": {
+    "enabled": true,
+    "long_keep_rate": 0.55,
+    "medium_keep_rate": 0.7,
+    "medium_max_target_user_tokens": 512,
+    "mode": "adaptive_target_user_tokens",
+    "retry_keep_rate": 0.9,
+    "short_keep_rate": 0.85,
+    "short_max_target_user_tokens": 127
+  },
+  "compressor": {
+    "local_path": "/data/Projects/CCDF-Rework/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank",
+    "model_id": "microsoft/llmlingua-2-xlm-roberta-large-meetingbank",
+    "reserved_budget_gib": 2.25
+  },
+  "conditions": [
+    {
+      "condition_id": "C1",
+      "name": "Baseline-AR",
+      "prompt_kind": "original",
+      "runtime_condition": "baseline"
+    },
+    {
+      "condition_id": "C2",
+      "name": "DFlash-R1",
+      "prompt_kind": "original",
+      "runtime_condition": "dflash"
+    },
+    {
+      "condition_id": "C3",
+      "name": "LLMLingua-AR-R2",
+      "prompt_kind": "compressed",
+      "runtime_condition": "baseline"
+    },
+    {
+      "condition_id": "C4",
+      "name": "CC-DFlash-R2",
+      "prompt_kind": "compressed",
+      "runtime_condition": "dflash"
+    }
+  ],
+  "config_sha256": "46720ace24e238144e75c5befeb058eb0b41c4d991f3d5f8045bb34fae8fa7f2",
+  "created_at": "2026-07-19T20:30:18.336671+00:00",
+  "expected_counts": {
+    "compression_rows": 20,
+    "per_condition_measured_rows": 20,
+    "per_condition_warmup_rows": 1,
+    "raw_rows_total": 84
+  },
+  "expected_records": [
+    {
+      "condition_id": "C1",
+      "phase": "warmup",
+      "repetition": null,
+      "request_index": 0,
+      "sample_id": "gsm8k-test-000784-71514f42"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 1,
+      "sample_id": "gsm8k-test-000784-71514f42"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 2,
+      "sample_id": "gsm8k-test-000807-ff2d6349"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 3,
+      "sample_id": "gsm8k-test-000446-68659df7"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 4,
+      "sample_id": "gsm8k-test-000629-b3b9cc8a"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 5,
+      "sample_id": "gsm8k-test-000307-885794fa"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 6,
+      "sample_id": "gsm8k-test-000051-a4877e9f"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 7,
+      "sample_id": "gsm8k-test-000664-2ab48ff5"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 8,
+      "sample_id": "gsm8k-test-000104-09cb2ed6"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 9,
+      "sample_id": "gsm8k-test-000766-fd6fc7e9"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 10,
+      "sample_id": "gsm8k-test-000733-251d88e0"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 11,
+      "sample_id": "gsm8k-test-000453-f33db3f7"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 12,
+      "sample_id": "gsm8k-test-000772-21ef558c"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 13,
+      "sample_id": "gsm8k-test-001083-f48c3c08"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 14,
+      "sample_id": "gsm8k-test-001272-43af79f7"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 15,
+      "sample_id": "gsm8k-test-000725-1179f643"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 16,
+      "sample_id": "gsm8k-test-001247-849da988"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 17,
+      "sample_id": "gsm8k-test-000245-724615a4"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 18,
+      "sample_id": "gsm8k-test-000954-a9763cdf"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 19,
+      "sample_id": "gsm8k-test-000796-b21e0998"
+    },
+    {
+      "condition_id": "C1",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 20,
+      "sample_id": "gsm8k-test-000221-9baa0f3b"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "warmup",
+      "repetition": null,
+      "request_index": 0,
+      "sample_id": "gsm8k-test-000784-71514f42"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 1,
+      "sample_id": "gsm8k-test-000784-71514f42"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 2,
+      "sample_id": "gsm8k-test-000807-ff2d6349"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 3,
+      "sample_id": "gsm8k-test-000446-68659df7"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 4,
+      "sample_id": "gsm8k-test-000629-b3b9cc8a"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 5,
+      "sample_id": "gsm8k-test-000307-885794fa"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 6,
+      "sample_id": "gsm8k-test-000051-a4877e9f"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 7,
+      "sample_id": "gsm8k-test-000664-2ab48ff5"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 8,
+      "sample_id": "gsm8k-test-000104-09cb2ed6"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 9,
+      "sample_id": "gsm8k-test-000766-fd6fc7e9"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 10,
+      "sample_id": "gsm8k-test-000733-251d88e0"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 11,
+      "sample_id": "gsm8k-test-000453-f33db3f7"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 12,
+      "sample_id": "gsm8k-test-000772-21ef558c"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 13,
+      "sample_id": "gsm8k-test-001083-f48c3c08"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 14,
+      "sample_id": "gsm8k-test-001272-43af79f7"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 15,
+      "sample_id": "gsm8k-test-000725-1179f643"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 16,
+      "sample_id": "gsm8k-test-001247-849da988"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 17,
+      "sample_id": "gsm8k-test-000245-724615a4"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 18,
+      "sample_id": "gsm8k-test-000954-a9763cdf"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 19,
+      "sample_id": "gsm8k-test-000796-b21e0998"
+    },
+    {
+      "condition_id": "C2",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 20,
+      "sample_id": "gsm8k-test-000221-9baa0f3b"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "warmup",
+      "repetition": null,
+      "request_index": 0,
+      "sample_id": "gsm8k-test-000784-71514f42"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 1,
+      "sample_id": "gsm8k-test-000784-71514f42"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 2,
+      "sample_id": "gsm8k-test-000807-ff2d6349"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 3,
+      "sample_id": "gsm8k-test-000446-68659df7"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 4,
+      "sample_id": "gsm8k-test-000629-b3b9cc8a"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 5,
+      "sample_id": "gsm8k-test-000307-885794fa"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 6,
+      "sample_id": "gsm8k-test-000051-a4877e9f"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 7,
+      "sample_id": "gsm8k-test-000664-2ab48ff5"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 8,
+      "sample_id": "gsm8k-test-000104-09cb2ed6"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 9,
+      "sample_id": "gsm8k-test-000766-fd6fc7e9"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 10,
+      "sample_id": "gsm8k-test-000733-251d88e0"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 11,
+      "sample_id": "gsm8k-test-000453-f33db3f7"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 12,
+      "sample_id": "gsm8k-test-000772-21ef558c"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 13,
+      "sample_id": "gsm8k-test-001083-f48c3c08"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 14,
+      "sample_id": "gsm8k-test-001272-43af79f7"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 15,
+      "sample_id": "gsm8k-test-000725-1179f643"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 16,
+      "sample_id": "gsm8k-test-001247-849da988"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 17,
+      "sample_id": "gsm8k-test-000245-724615a4"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 18,
+      "sample_id": "gsm8k-test-000954-a9763cdf"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 19,
+      "sample_id": "gsm8k-test-000796-b21e0998"
+    },
+    {
+      "condition_id": "C3",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 20,
+      "sample_id": "gsm8k-test-000221-9baa0f3b"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "warmup",
+      "repetition": null,
+      "request_index": 0,
+      "sample_id": "gsm8k-test-000784-71514f42"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 1,
+      "sample_id": "gsm8k-test-000784-71514f42"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 2,
+      "sample_id": "gsm8k-test-000807-ff2d6349"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 3,
+      "sample_id": "gsm8k-test-000446-68659df7"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 4,
+      "sample_id": "gsm8k-test-000629-b3b9cc8a"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 5,
+      "sample_id": "gsm8k-test-000307-885794fa"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 6,
+      "sample_id": "gsm8k-test-000051-a4877e9f"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 7,
+      "sample_id": "gsm8k-test-000664-2ab48ff5"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 8,
+      "sample_id": "gsm8k-test-000104-09cb2ed6"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 9,
+      "sample_id": "gsm8k-test-000766-fd6fc7e9"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 10,
+      "sample_id": "gsm8k-test-000733-251d88e0"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 11,
+      "sample_id": "gsm8k-test-000453-f33db3f7"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 12,
+      "sample_id": "gsm8k-test-000772-21ef558c"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 13,
+      "sample_id": "gsm8k-test-001083-f48c3c08"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 14,
+      "sample_id": "gsm8k-test-001272-43af79f7"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 15,
+      "sample_id": "gsm8k-test-000725-1179f643"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 16,
+      "sample_id": "gsm8k-test-001247-849da988"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 17,
+      "sample_id": "gsm8k-test-000245-724615a4"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 18,
+      "sample_id": "gsm8k-test-000954-a9763cdf"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 19,
+      "sample_id": "gsm8k-test-000796-b21e0998"
+    },
+    {
+      "condition_id": "C4",
+      "phase": "measured",
+      "repetition": 0,
+      "request_index": 20,
+      "sample_id": "gsm8k-test-000221-9baa0f3b"
+    }
+  ],
+  "manifest_sha256": "995d9395f9c5d9ab3f11840ba923fbafb15101f8a16ac9714db58692ab7fb1b9",
+  "max_new_tokens": 256,
+  "models": {
+    "baseline": {
+      "dtype": "float16",
+      "local_path": "/data/Projects/CCDF-Rework/models/baseline/Qwen3-4B-AWQ",
+      "model_id": "Qwen/Qwen3-4B-AWQ",
+      "quantization": "awq-int4"
+    },
+    "dflash_drafter": {
+      "dtype": "bfloat16",
+      "local_path": "/data/Projects/CCDF-Rework/models/dflash/drafter/Qwen3-4B-DFlash-b16",
+      "model_id": "local-dflash-drafter"
+    },
+    "dflash_target": {
+      "dtype": "float16",
+      "local_path": "/data/Projects/CCDF-Rework/models/dflash/target/Qwen3-4B-AWQ",
+      "model_id": "Qwen/Qwen3-4B-AWQ",
+      "quantization": "awq-int4"
+    }
+  },
+  "policy": {
+    "max_new_tokens": 256,
+    "optimization": {
+      "block_policy": {
+        "allow_subblock_shapes": true,
+        "allowed_block_sizes": [
+          4,
+          8,
+          12,
+          16
+        ],
+        "fixed_block_size": 16,
+        "high_tau_block_size": 16,
+        "high_tau_threshold": 4.5,
+        "low_tau_block_size": 4,
+        "low_tau_threshold": 2.5,
+        "mid_tau_block_size": 8,
+        "mode": "fixed",
+        "rolling_window": 4
+      },
+      "compact_structural_audit": true,
+      "compile": {
+        "drafter_enabled": false,
+        "dynamic": true,
+        "fullgraph": false,
+        "mode": "reduce-overhead",
+        "target_verify_enabled": false
+      },
+      "full_structural_audit": false,
+      "gpu_resident_acceptance": true,
+      "output_contract_mode": "finalize_only",
+      "profile_components": false
+    },
+    "runtime": {
+      "attention_backend": "sdpa",
+      "enable_thinking": false,
+      "sdpa_kernel": "math",
+      "seed": 42,
+      "stop_token_ids": [
+        151645
+      ],
+      "temperature": 0.0
+    }
+  },
+  "policy_sha256": "f1b6f5233b65dc086389edecfd72585499aa5c697d067b691483715c103c120f",
+  "repetitions": 1,
+  "requested_keep_rate": null,
+  "run_id": "final-benchmark-gsm8k-n20",
+  "schema": "ccdf.four-condition.manifest.v3",
+  "seed": 42,
+  "warmups": 1,
+  "workload": {
+    "name": "gsm8k_n20",
+    "sample_ids": [
+      "gsm8k-test-000784-71514f42",
+      "gsm8k-test-000807-ff2d6349",
+      "gsm8k-test-000446-68659df7",
+      "gsm8k-test-000629-b3b9cc8a",
+      "gsm8k-test-000307-885794fa",
+      "gsm8k-test-000051-a4877e9f",
+      "gsm8k-test-000664-2ab48ff5",
+      "gsm8k-test-000104-09cb2ed6",
+      "gsm8k-test-000766-fd6fc7e9",
+      "gsm8k-test-000733-251d88e0",
+      "gsm8k-test-000453-f33db3f7",
+      "gsm8k-test-000772-21ef558c",
+      "gsm8k-test-001083-f48c3c08",
+      "gsm8k-test-001272-43af79f7",
+      "gsm8k-test-000725-1179f643",
+      "gsm8k-test-001247-849da988",
+      "gsm8k-test-000245-724615a4",
+      "gsm8k-test-000954-a9763cdf",
+      "gsm8k-test-000796-b21e0998",
+      "gsm8k-test-000221-9baa0f3b"
+    ],
+    "samples": [
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "44615f3d9ca6049e8a063f455ec16446292576a0e326212201053c3874143ce3",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000784-71514f42",
+        "source_fingerprint": "71514f427cf6bec0a55e013c4e9783f6db13d730cfb018c45abeee402a10897d",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "7f54b0c5ac0d1098cde24cda6b22b9c26cc9e779ce0292e55186aa89f534d2f7",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000807-ff2d6349",
+        "source_fingerprint": "ff2d634962bcdda180d25a31307ffcc2eba5a0f1115b50045f9326944461de34",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "3c2015294e94412a771411ada9333dd401ad7d35392f758a7d7761c62f23e30a",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000446-68659df7",
+        "source_fingerprint": "68659df75ac79386131f6adb1190f8754bc99f0f970db01b17116c8221f84bf8",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "c813a540fa5867d3df34e089aea669d74e35744c17283a1b11aae4e57f9c7ff5",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000629-b3b9cc8a",
+        "source_fingerprint": "b3b9cc8a00ffd67cc49eedf8f22e961ed89f9f5631b82965d8778f71ec00841d",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "3926bfa9b06a1e57b467433b6c6c5302fe61227d048bca6f2d1ebabebc9f7e6b",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000307-885794fa",
+        "source_fingerprint": "885794fa538d669b3a64200e660fad12195febaeb8b0aa6c3f9a61688f8ebc6f",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "c90db990b2811f32034d77debcd10879fcc34ebe5229982f1863d93f0430707d",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000051-a4877e9f",
+        "source_fingerprint": "a4877e9fd2f52045851620fe0f2b79399b5366aea3b0e6b36bdd2fb8384bce18",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "fd7a28431241cd5437feaf666c17884ce42752c1be4a00890b33beeb676c46b4",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000664-2ab48ff5",
+        "source_fingerprint": "2ab48ff58ff1678c778aaa91a6bfd77e0b3ed9b7610e9c456a7b60ace0cd3a12",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "89eaca0dfff4e6c47973e5fd3522a2c7bac0b5a90a30f2c4e025e20d8c9fe0fe",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000104-09cb2ed6",
+        "source_fingerprint": "09cb2ed620c422a9fb05f0f328f1d9825b2015cb866f67006008cffe69d57dce",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "25158875853345b8dab9dd993638a3ea71a2dfbed2878e08eb701eee940dca5c",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000766-fd6fc7e9",
+        "source_fingerprint": "fd6fc7e956390ba6ccbdf1e461161f7cbad5cd3437025979b6cb8c02dcac0ea4",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "d25f01dfb7348acf540e2817100df2612b86dc4cfb16a42cf70391674927d40f",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000733-251d88e0",
+        "source_fingerprint": "251d88e006a36e108e9b30001259e4c80e89513c91645824e9d4cc0ed1102d58",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "30b294c9986e9b20f56afcd6d3f93393cc88eebe294896837eab0635e6d161cb",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000453-f33db3f7",
+        "source_fingerprint": "f33db3f75ab57e409fc321b0f7fd73087a5d42bbbd72ba24562f87952cc88bda",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "51388cf384c13bb17919a343bc07aafb09556813adaa23898e128a41d8dc1321",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000772-21ef558c",
+        "source_fingerprint": "21ef558c6985a950b8e19a2c80facce04c2adc0759a9b4c8b461da275c5e029b",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "44db5e17f61cd2e245fadcba4f763abc4890e7c3d303ac3d5bef8b7a98ef7088",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-001083-f48c3c08",
+        "source_fingerprint": "f48c3c081ee321d4b6355995ebe0f2385143ac60a6e46a84e71dcd152aad9717",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "1131ad85a5b7b0cc17472920ade873a27b6a402dff4e9ca51a980bd467cd0e26",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-001272-43af79f7",
+        "source_fingerprint": "43af79f71a5dc0070f4d429dfe3e391e4fe45bb2188b85ea805d0dca4bcc8c75",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "66c7ad2ce6a9e8de89db3de839658af5f39e59d5ff3763a551b42ce32d2f6d06",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000725-1179f643",
+        "source_fingerprint": "1179f6433d49ed67622d2d233479b55908cb23f87dbdc8df53ee3d80470cbdd0",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "9c0dd119a3cda60393f4e02205d248241defe4eb027e2e783892430f1ee19d3c",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-001247-849da988",
+        "source_fingerprint": "849da9887bb3b98341935660d5a8d24d470953136549fc29c3de1c1bfa5ae5b3",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "c6835c78d78246ee1a50f53af4ffe18c23c7916a9d640a5c2403a0a6b0ae8d51",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000245-724615a4",
+        "source_fingerprint": "724615a40e00524b9a9c27a0f96c990aed8615a979216319403ed57375807f25",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "6bcf7973c5925630fdd23f697fcbb42e77be5e9dd5ad5c994eca8ebe9f498e4f",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000954-a9763cdf",
+        "source_fingerprint": "a9763cdff79d4f087e56c2c9d451fcb001559ed7dbe2892e096f6820d5fd16ea",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "838581d7e00cd2ad8284c61dae48fb00f3e9ca8d18095f75c4ecab2f231a2449",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000796-b21e0998",
+        "source_fingerprint": "b21e09987c6d7ec353622487665fa7fd7f3ed0c72a1c39e07ab63cec914a902b",
+        "split": "test",
+        "task_type": "numeric_qa"
+      },
+      {
+        "context_selection": null,
+        "dataset": "gsm8k",
+        "prompt_sha256": "404e937b33cf82a26cee4fc9a9d466c0723fa1fc58b3bb6adf462c7fbed88877",
+        "prompt_version": "stage3-gsm8k-calculation-v5",
+        "sample_id": "gsm8k-test-000221-9baa0f3b",
+        "source_fingerprint": "9baa0f3bbdb46b00941486481f711dc4c6940e21d6137d6d127f50a57d4253c7",
+        "split": "test",
+        "task_type": "numeric_qa"
+      }
+    ]
+  }
+}

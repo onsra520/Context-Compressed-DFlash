@@ -99,9 +99,15 @@ def _answer_checks(prompt_index: int, answer: str) -> dict[str, bool]:
     checks_by_prompt = (
         {"answer_value_12": _number(answer, "12")},
         {
-            "answer_general_zero_rule": _phrase(
-                answer,
-                rf"\b(?:any|every|all)\s+(?:number|value)s?\b.*\bmultipl(?:y|ied|ying)\b.*\bby\s+{zero}\b.*\b(?:equals?|is|gives?|results?\s+in)\s+{zero}\b",
+            "answer_general_zero_rule": (
+                _phrase(
+                    answer,
+                    rf"\b(?:any|every|all)\s+(?:number|value)s?\b.*\bmultipl(?:y|ied|ying)\b.*\bby\s+{zero}\b.*\b(?:equals?|is|gives?|results?\s+in)\s+{zero}\b",
+                )
+                or _phrase(
+                    answer,
+                    rf"\bproduct\s+of\s+(?:any|every|all)\s+(?:number|value)s?\s+and\s+{zero}\s+(?:equals?|is)\s+{zero}\b",
+                )
             )
         },
         {"answer_value_20": _number(answer, "20")},

@@ -1,0 +1,98 @@
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml build-manifest --samples data/eval/qmsum/qmsum_n20.jsonl --run-id final-benchmark-qmsum-n20 --workload-name qmsum_n20 --warmups 1 --repetitions 1 --max-new-tokens 512 --output docs/final-benchmark-n20/qmsum/run-manifest.json
+{"run_id": "final-benchmark-qmsum-n20", "output": "docs/final-benchmark-n20/qmsum/run-manifest.json"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml compress --samples data/eval/qmsum/qmsum_n20.jsonl --output docs/final-benchmark-n20/qmsum/compression-cache.jsonl --audit docs/final-benchmark-n20/qmsum/compressor-audit.json --resume
+`torch_dtype` is deprecated! Use `dtype` instead!
+Token indices sequence length is longer than the specified maximum sequence length for this model (1070 > 512). Running this sequence through the model will result in indexing errors
+{"samples": 20, "compression_run_id": "compression-94ae1d75-2769-4fee-9209-4ffa3de37f28", "device": "cuda:0", "output": "docs/final-benchmark-n20/qmsum/compression-cache.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label before-qmsum-C1 --output docs/final-benchmark-n20/qmsum/boundaries/before-C1.json
+{"captured_at": "2026-07-19T20:35:00.607121+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "before-qmsum-C1", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml run --condition C1 --samples data/eval/qmsum/qmsum_n20.jsonl --compression docs/final-benchmark-n20/qmsum/compression-cache.jsonl --manifest docs/final-benchmark-n20/qmsum/run-manifest.json --output docs/final-benchmark-n20/qmsum/checkpoints/C1.jsonl --resume
+/home/quyseggs/miniforge3/envs/CCDF/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+{"condition": "C1", "rows": 21, "output": "docs/final-benchmark-n20/qmsum/checkpoints/C1.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label after-qmsum-C1 --output docs/final-benchmark-n20/qmsum/boundaries/after-C1.json
+{"captured_at": "2026-07-19T20:36:11.005815+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "after-qmsum-C1", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label before-qmsum-C2 --output docs/final-benchmark-n20/qmsum/boundaries/before-C2.json
+{"captured_at": "2026-07-19T20:36:12.324056+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "before-qmsum-C2", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml run --condition C2 --samples data/eval/qmsum/qmsum_n20.jsonl --compression docs/final-benchmark-n20/qmsum/compression-cache.jsonl --manifest docs/final-benchmark-n20/qmsum/run-manifest.json --output docs/final-benchmark-n20/qmsum/checkpoints/C2.jsonl --resume
+/home/quyseggs/miniforge3/envs/CCDF/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+{"condition": "C2", "rows": 21, "output": "docs/final-benchmark-n20/qmsum/checkpoints/C2.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label after-qmsum-C2 --output docs/final-benchmark-n20/qmsum/boundaries/after-C2.json
+{"captured_at": "2026-07-19T20:37:02.325884+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "after-qmsum-C2", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label before-qmsum-C3 --output docs/final-benchmark-n20/qmsum/boundaries/before-C3.json
+{"captured_at": "2026-07-19T20:37:03.720479+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "before-qmsum-C3", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml run --condition C3 --samples data/eval/qmsum/qmsum_n20.jsonl --compression docs/final-benchmark-n20/qmsum/compression-cache.jsonl --manifest docs/final-benchmark-n20/qmsum/run-manifest.json --output docs/final-benchmark-n20/qmsum/checkpoints/C3.jsonl --resume
+/home/quyseggs/miniforge3/envs/CCDF/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+{"condition": "C3", "rows": 21, "output": "docs/final-benchmark-n20/qmsum/checkpoints/C3.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label after-qmsum-C3 --output docs/final-benchmark-n20/qmsum/boundaries/after-C3.json
+{"captured_at": "2026-07-19T20:38:16.955979+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "after-qmsum-C3", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label before-qmsum-C4 --output docs/final-benchmark-n20/qmsum/boundaries/before-C4.json
+{"captured_at": "2026-07-19T20:38:18.274743+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "before-qmsum-C4", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml run --condition C4 --samples data/eval/qmsum/qmsum_n20.jsonl --compression docs/final-benchmark-n20/qmsum/compression-cache.jsonl --manifest docs/final-benchmark-n20/qmsum/run-manifest.json --output docs/final-benchmark-n20/qmsum/checkpoints/C4.jsonl --resume
+/home/quyseggs/miniforge3/envs/CCDF/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+{"condition": "C4", "rows": 21, "output": "docs/final-benchmark-n20/qmsum/checkpoints/C4.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label after-qmsum-C4 --output docs/final-benchmark-n20/qmsum/boundaries/after-C4.json
+{"captured_at": "2026-07-19T20:39:12.236775+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "after-qmsum-C4", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml build-isolation --state docs/final-benchmark-n20/qmsum/boundaries/before-C1.json --state docs/final-benchmark-n20/qmsum/boundaries/after-C1.json --state docs/final-benchmark-n20/qmsum/boundaries/before-C2.json --state docs/final-benchmark-n20/qmsum/boundaries/after-C2.json --state docs/final-benchmark-n20/qmsum/boundaries/before-C3.json --state docs/final-benchmark-n20/qmsum/boundaries/after-C3.json --state docs/final-benchmark-n20/qmsum/boundaries/before-C4.json --state docs/final-benchmark-n20/qmsum/boundaries/after-C4.json --output docs/final-benchmark-n20/qmsum/isolation.json
+{"boundaries": 8, "output": "docs/final-benchmark-n20/qmsum/isolation.json"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml audit --c1 docs/final-benchmark-n20/qmsum/checkpoints/C1.jsonl --c2 docs/final-benchmark-n20/qmsum/checkpoints/C2.jsonl --c3 docs/final-benchmark-n20/qmsum/checkpoints/C3.jsonl --c4 docs/final-benchmark-n20/qmsum/checkpoints/C4.jsonl --compression docs/final-benchmark-n20/qmsum/compression-cache.jsonl --compressor-audit docs/final-benchmark-n20/qmsum/compressor-audit.json --isolation docs/final-benchmark-n20/qmsum/isolation.json --manifest docs/final-benchmark-n20/qmsum/run-manifest.json --output docs/final-benchmark-n20/qmsum/generic-audit/audit.json --report docs/final-benchmark-n20/qmsum/generic-audit/report.md
+{"conclusion": "PASS", "gates": {"manifest_valid": true, "unified_schema": true, "raw_unique": true, "raw_complete": true, "raw_order": true, "row_identity_and_prompt_hash": true, "condition_success": true, "compression_unique_complete_ordered": true, "compression_hash_and_status": true, "compression_once_per_sample": true, "fact_safety_resolved": true, "compressed_prompt_reused": true, "compressor_gpu": true, "condition_process_isolation": true, "gpu_release_between_conditions": true, "independent_metric_recomputation": true, "memory_scope_valid": true, "original_input_parity": true, "compressed_input_parity": true, "valid_quality_parsing": true, "qmsum_outputs_nonempty": true, "qmsum_context_selection_accounting": true, "qmsum_selected_context_shared": true, "qmsum_compressed_context_shared": true}}

@@ -1,0 +1,21 @@
+ .gitignore                         |   4 +-
+ config.yml                         | 227 +++++++++++++++++++++++++++++++++++--
+ docs/reviews/history/.gitkeep      |   1 -
+ src/ccdf/benchmark.py              | 106 -----------------
+ src/ccdf/cli.py                    |  98 ----------------
+ src/ccdf/config.py                 | 138 ----------------------
+ src/ccdf/determinism.py            |  67 -----------
+ src/ccdf/device.py                 | 129 ---------------------
+ src/ccdf/dflash/acceptance.py      |  24 +++-
+ src/ccdf/dflash/generate.py        |  27 +++--
+ src/ccdf/dflash/verifier.py        |   2 +
+ src/ccdf/errors.py                 |  21 ----
+ src/ccdf/inference/baseline.py     |   4 +-
+ src/ccdf/inference/sampling.py     |  11 ++
+ src/ccdf/models/loaders.py         |   4 +-
+ src/ccdf/runtime/__init__.py       |  21 +++-
+ src/ccdf/runtime/engine.py         |   6 +-
+ src/ccdf/schemas.py                | 138 ----------------------
+ src/ccdf/validation/environment.py |   2 +-
+ src/ccdf/validation/quality.py     |  12 +-
+ 20 files changed, 307 insertions(+), 735 deletions(-)

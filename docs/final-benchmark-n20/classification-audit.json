@@ -1,0 +1,10 @@
+{
+  "schema": "ccdf.final-benchmark-n20.classification-audit.v1",
+  "pass": true,
+  "raw_rows_modified": false,
+  "gsm8k_hard_validity_pass": true,
+  "gsm8k_quality_preservation_pass": false,
+  "qmsum_hard_validity_pass": true,
+  "qmsum_quality_preservation_pass": true,
+  "decision": "FINAL_BENCHMARK_COMPLETE_WITH_FAILED_CLAIMS"
+}

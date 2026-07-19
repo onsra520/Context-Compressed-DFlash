@@ -1,0 +1,351 @@
+{
+  "byte_identical_double_build": true,
+  "datasets": {
+    "gsm8k": {
+      "raw_source": "data/raw/gsm8k/gsm8k_test.jsonl",
+      "raw_source_sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+      "sample_count": 20,
+      "sample_file": "data/eval/gsm8k/gsm8k_n20.jsonl",
+      "sample_file_sha256": "2b54cf657d3e0baf95f8c558868d6fea65d83e9d7edf9838605dbc7fa84b4270",
+      "samples": [
+        {
+          "prompt_sha256": "44615f3d9ca6049e8a063f455ec16446292576a0e326212201053c3874143ce3",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "15",
+          "sample_id": "gsm8k-test-000784-71514f42",
+          "source_fingerprint": "71514f427cf6bec0a55e013c4e9783f6db13d730cfb018c45abeee402a10897d",
+          "source_index": 784
+        },
+        {
+          "prompt_sha256": "7f54b0c5ac0d1098cde24cda6b22b9c26cc9e779ce0292e55186aa89f534d2f7",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "4",
+          "sample_id": "gsm8k-test-000807-ff2d6349",
+          "source_fingerprint": "ff2d634962bcdda180d25a31307ffcc2eba5a0f1115b50045f9326944461de34",
+          "source_index": 807
+        },
+        {
+          "prompt_sha256": "3c2015294e94412a771411ada9333dd401ad7d35392f758a7d7761c62f23e30a",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "2",
+          "sample_id": "gsm8k-test-000446-68659df7",
+          "source_fingerprint": "68659df75ac79386131f6adb1190f8754bc99f0f970db01b17116c8221f84bf8",
+          "source_index": 446
+        },
+        {
+          "prompt_sha256": "c813a540fa5867d3df34e089aea669d74e35744c17283a1b11aae4e57f9c7ff5",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "17500",
+          "sample_id": "gsm8k-test-000629-b3b9cc8a",
+          "source_fingerprint": "b3b9cc8a00ffd67cc49eedf8f22e961ed89f9f5631b82965d8778f71ec00841d",
+          "source_index": 629
+        },
+        {
+          "prompt_sha256": "3926bfa9b06a1e57b467433b6c6c5302fe61227d048bca6f2d1ebabebc9f7e6b",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "16",
+          "sample_id": "gsm8k-test-000307-885794fa",
+          "source_fingerprint": "885794fa538d669b3a64200e660fad12195febaeb8b0aa6c3f9a61688f8ebc6f",
+          "source_index": 307
+        },
+        {
+          "prompt_sha256": "c90db990b2811f32034d77debcd10879fcc34ebe5229982f1863d93f0430707d",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "5",
+          "sample_id": "gsm8k-test-000051-a4877e9f",
+          "source_fingerprint": "a4877e9fd2f52045851620fe0f2b79399b5366aea3b0e6b36bdd2fb8384bce18",
+          "source_index": 51
+        },
+        {
+          "prompt_sha256": "fd7a28431241cd5437feaf666c17884ce42752c1be4a00890b33beeb676c46b4",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "32",
+          "sample_id": "gsm8k-test-000664-2ab48ff5",
+          "source_fingerprint": "2ab48ff58ff1678c778aaa91a6bfd77e0b3ed9b7610e9c456a7b60ace0cd3a12",
+          "source_index": 664
+        },
+        {
+          "prompt_sha256": "89eaca0dfff4e6c47973e5fd3522a2c7bac0b5a90a30f2c4e025e20d8c9fe0fe",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "500",
+          "sample_id": "gsm8k-test-000104-09cb2ed6",
+          "source_fingerprint": "09cb2ed620c422a9fb05f0f328f1d9825b2015cb866f67006008cffe69d57dce",
+          "source_index": 104
+        },
+        {
+          "prompt_sha256": "25158875853345b8dab9dd993638a3ea71a2dfbed2878e08eb701eee940dca5c",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "12",
+          "sample_id": "gsm8k-test-000766-fd6fc7e9",
+          "source_fingerprint": "fd6fc7e956390ba6ccbdf1e461161f7cbad5cd3437025979b6cb8c02dcac0ea4",
+          "source_index": 766
+        },
+        {
+          "prompt_sha256": "d25f01dfb7348acf540e2817100df2612b86dc4cfb16a42cf70391674927d40f",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "5",
+          "sample_id": "gsm8k-test-000733-251d88e0",
+          "source_fingerprint": "251d88e006a36e108e9b30001259e4c80e89513c91645824e9d4cc0ed1102d58",
+          "source_index": 733
+        },
+        {
+          "prompt_sha256": "30b294c9986e9b20f56afcd6d3f93393cc88eebe294896837eab0635e6d161cb",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "6400",
+          "sample_id": "gsm8k-test-000453-f33db3f7",
+          "source_fingerprint": "f33db3f75ab57e409fc321b0f7fd73087a5d42bbbd72ba24562f87952cc88bda",
+          "source_index": 453
+        },
+        {
+          "prompt_sha256": "51388cf384c13bb17919a343bc07aafb09556813adaa23898e128a41d8dc1321",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "50",
+          "sample_id": "gsm8k-test-000772-21ef558c",
+          "source_fingerprint": "21ef558c6985a950b8e19a2c80facce04c2adc0759a9b4c8b461da275c5e029b",
+          "source_index": 772
+        },
+        {
+          "prompt_sha256": "44db5e17f61cd2e245fadcba4f763abc4890e7c3d303ac3d5bef8b7a98ef7088",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "2",
+          "sample_id": "gsm8k-test-001083-f48c3c08",
+          "source_fingerprint": "f48c3c081ee321d4b6355995ebe0f2385143ac60a6e46a84e71dcd152aad9717",
+          "source_index": 1083
+        },
+        {
+          "prompt_sha256": "1131ad85a5b7b0cc17472920ade873a27b6a402dff4e9ca51a980bd467cd0e26",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "296",
+          "sample_id": "gsm8k-test-001272-43af79f7",
+          "source_fingerprint": "43af79f71a5dc0070f4d429dfe3e391e4fe45bb2188b85ea805d0dca4bcc8c75",
+          "source_index": 1272
+        },
+        {
+          "prompt_sha256": "66c7ad2ce6a9e8de89db3de839658af5f39e59d5ff3763a551b42ce32d2f6d06",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "25",
+          "sample_id": "gsm8k-test-000725-1179f643",
+          "source_fingerprint": "1179f6433d49ed67622d2d233479b55908cb23f87dbdc8df53ee3d80470cbdd0",
+          "source_index": 725
+        },
+        {
+          "prompt_sha256": "9c0dd119a3cda60393f4e02205d248241defe4eb027e2e783892430f1ee19d3c",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "7",
+          "sample_id": "gsm8k-test-001247-849da988",
+          "source_fingerprint": "849da9887bb3b98341935660d5a8d24d470953136549fc29c3de1c1bfa5ae5b3",
+          "source_index": 1247
+        },
+        {
+          "prompt_sha256": "c6835c78d78246ee1a50f53af4ffe18c23c7916a9d640a5c2403a0a6b0ae8d51",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "7",
+          "sample_id": "gsm8k-test-000245-724615a4",
+          "source_fingerprint": "724615a40e00524b9a9c27a0f96c990aed8615a979216319403ed57375807f25",
+          "source_index": 245
+        },
+        {
+          "prompt_sha256": "6bcf7973c5925630fdd23f697fcbb42e77be5e9dd5ad5c994eca8ebe9f498e4f",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "34",
+          "sample_id": "gsm8k-test-000954-a9763cdf",
+          "source_fingerprint": "a9763cdff79d4f087e56c2c9d451fcb001559ed7dbe2892e096f6820d5fd16ea",
+          "source_index": 954
+        },
+        {
+          "prompt_sha256": "838581d7e00cd2ad8284c61dae48fb00f3e9ca8d18095f75c4ecab2f231a2449",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "2880000",
+          "sample_id": "gsm8k-test-000796-b21e0998",
+          "source_fingerprint": "b21e09987c6d7ec353622487665fa7fd7f3ed0c72a1c39e07ab63cec914a902b",
+          "source_index": 796
+        },
+        {
+          "prompt_sha256": "404e937b33cf82a26cee4fc9a9d466c0723fa1fc58b3bb6adf462c7fbed88877",
+          "prompt_version": "stage3-gsm8k-calculation-v5",
+          "reference": "90",
+          "sample_id": "gsm8k-test-000221-9baa0f3b",
+          "source_fingerprint": "9baa0f3bbdb46b00941486481f711dc4c6940e21d6137d6d127f50a57d4253c7",
+          "source_index": 221
+        }
+      ],
+      "source_revision": "3101c7d5072418e28b9008a6636bde82a006892c"
+    },
+    "qmsum": {
+      "raw_source": "data/raw/qmsum/qmsum_test.jsonl",
+      "raw_source_sha256": "6bcd428211260ad2efae3af76cbaf6a7f5ae4bb5e1e59c45a4b8e89539cb9208",
+      "sample_count": 20,
+      "sample_file": "data/eval/qmsum/qmsum_n20.jsonl",
+      "sample_file_sha256": "3bb3265dd0c614cf4ae625aba75bfb4f56221e0a3d6e2056ce1a715aec05ec76",
+      "samples": [
+        {
+          "prompt_sha256": "7ca91a6419180c67724c5f211216e210741de913ce0f7936ce50dfa889d9cde2",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Industrial Designer was inspired by the design of Xbox and gave an example of Japanese people's small hands compared to the big controller. Out of ergonomic considerations, Industrial Designer encouraged the team to notice the physical differences among users all over the world when deciding the remote control size.",
+          "sample_id": "qmsum-test-meeting0029-specific-04-e68f5dd1",
+          "source_fingerprint": "e68f5dd1c2a2b0fb50cd833e85942ff240fcc156559da7ef3071d7d1d33417f0",
+          "source_index": 29
+        },
+        {
+          "prompt_sha256": "dc8e7edcf78132544714c4a31abb75aa413c3d902113e9f210589ffd0859329f",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Marketing set the criteria for evaluation. The group gave two points on the fancy look and feel, three points on the ease of use and learnable, and two points on technological innovation because the group thought new features were not all extraordinary. Besides, they gave two points on the target market trend which said that the products with fruit and vegetables in different colors might be popular. Lastly, they gave high marks on the room for creativity and leadership.",
+          "sample_id": "qmsum-test-meeting0018-specific-00-fdd5f660",
+          "source_fingerprint": "fdd5f66076738abb9575615b8218f7cda5b3f9d7866bcd0c7cf8aaceaaab98a2",
+          "source_index": 18
+        },
+        {
+          "prompt_sha256": "1eb309a76e73e9d19381c31816fdfbd533d941f51b268c0873de6d7726328ed3",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Industrial Designer explained that TA11835 is a chip used in pretty much every remote control to send out standard signals based on the input. On the other hand, most current remotes use a silicone printed circuit board (PCB board) which connects the circuits so that the messages would be sent to the chip. The size should be decided as the board can be custom made.",
+          "sample_id": "qmsum-test-meeting0033-specific-02-5c9c47c8",
+          "source_fingerprint": "5c9c47c8a8fcfc93184e047254b35671456b145cebf8b7e01da355e82addb558",
+          "source_index": 33
+        },
+        {
+          "prompt_sha256": "536b20fc625d29eb1eb1c464fd4973237ca5094754ab6c745cdca9f2bc5837e8",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Marketing thought that the basic layout was mundane but the voice recognition was brilliant. User Interface added that it did not have the digits but had all the features a normal remote control had. Industrial Designer agreed but pointed out that they just design the best product within their capacity. Project agreed and concluded that it was of high quality but low acceptance.",
+          "sample_id": "qmsum-test-meeting0001-specific-02-a316daa1",
+          "source_fingerprint": "a316daa178104d853e4ab7f6d58ff31705eaee5f78d09e7a4fd58adeab055a6c",
+          "source_index": 1
+        },
+        {
+          "prompt_sha256": "53b36bed84a43c92edefef3851de5668374712219974cbae2f9e6301ca10604a",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Ed Evans thought employers did not understand it, but they would appreciate it if they do. This was particularly true for his own sector, the civil engineering sector, and particularly contracting sector. Because pupils usually did not have a very strong academic background in this sector, and Welsh bac gave them the opportunity to not pursue that much of academic, but tested them in terms of the challenges. Therefore, the growth of the Welsh bac would be valued at least for this sector.",
+          "sample_id": "qmsum-test-meeting0013-specific-01-c739d680",
+          "source_fingerprint": "c739d680ee5e919826e872edc7509b9b05aea6dbd170aac3a7d369c569f8dcc6",
+          "source_index": 13
+        },
+        {
+          "prompt_sha256": "08df54e6c134a755ccb1bec7e1330cea5f8007a48a29b080c402beccad92064c",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "When discussing the button layout, the User Interface drew a draft to show how to make the remote control more unique and attractive. He suggested to put several essential and useful buttons together in the same place, and others might be scattered on the remote control, on all of which there would be clear logos. As long as the button layout was user-friendly enough, the User Interface thought it did not really matter much where the buttons would be.",
+          "sample_id": "qmsum-test-meeting0015-specific-05-743e4459",
+          "source_fingerprint": "743e4459a507dae43f6a02a83311aa2d4b9bd4cc4e05a1330ecbacf88911d67c",
+          "source_index": 15
+        },
+        {
+          "prompt_sha256": "8ed3d2c27123ad2a73a7557bec3fff18084e76b013fdfd0adc87e2b91c7525f5",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "PhD F explained that he mistakenly had run his tasks on all the available compute instances. There was not enough computational resources going around. New computers were coming soon, but people would have to learn to share until then. It was important not to saturate computational resources. He also told the team how to properly queue tasks.",
+          "sample_id": "qmsum-test-meeting0003-specific-01-1eb778c0",
+          "source_fingerprint": "1eb778c0d18ffcc4c112fbf5989de67df03ff9f9778523f14523b6f56366461a",
+          "source_index": 3
+        },
+        {
+          "prompt_sha256": "bcb1779c19e1afb31f5198d2d593e70a4a384a45a993e83950da8e35109c0a22",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Barry Hughes thought draft changes to CPS guidance would not necessarily be helpful to the scrutinisers, and simply wanted to take the present interest factors. Barry thought they needed to work for the principles of generality and a degree of specificity.",
+          "sample_id": "qmsum-test-meeting0000-specific-05-0945f791",
+          "source_fingerprint": "0945f7914739cec4b3016a53d276ed12704c70d9dd24fd15050e69e67ade8a32",
+          "source_index": 0
+        },
+        {
+          "prompt_sha256": "c9a2f0ad4b0b8c83599e55722436ab20b13faeb727f6a814c346bb9197490b83",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "User Interface recommended the speech recognition when Marketing asked how to do with technological innovation because User Interface knew from the technology department that they had done research about it and recommended using speech. And User Interface would also check with the technology department on how to do that.",
+          "sample_id": "qmsum-test-meeting0025-specific-02-018bfcec",
+          "source_fingerprint": "018bfcec6c0a09e9bf7912e214d3c52d114673fb445767061c8cd7da5b703d52",
+          "source_index": 25
+        },
+        {
+          "prompt_sha256": "c60aded83cf96f8a53e902c4ce61bafe8b8deea980415b702b7283acac90c667",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "They thought that a lot of skills and challenges that were done within the Welsh bac were very similar with the vocational qualification. Therefore, a number of those staff had already got those skills. Besides, for the vocational lecturers to do that, they had invested heavily in training those vocational lecturers to understand how to deliver the Welsh bac and got positive outcomes of the Welsh bac, which had been an intensive staff development process.",
+          "sample_id": "qmsum-test-meeting0013-specific-09-d7ec83ae",
+          "source_fingerprint": "d7ec83ae9f99f4514039b19426354a224e42e0c9af79e2169e079b5c9aa1e80c",
+          "source_index": 13
+        },
+        {
+          "prompt_sha256": "3f662102ea16c702d04113b79bb95fd10ef4061e5fc8b0f359f8a9f6601c682b",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Titanium is too expensive, would be easily dented and could only do a standard box shape whereas plastic could be made into different curved shapes. Marketing suggested making the basic mould out of plastic with a rubber cover, which would give a spongy feel and be a cheap way to change the look of the device. Industrial Designer, User Interface and Project Manager quickly jumped on board with this idea.",
+          "sample_id": "qmsum-test-meeting0033-specific-04-1aed872e",
+          "source_fingerprint": "1aed872e3dfb68c4437038c1103adf8323ba91fe2d1f32a8d6db14175457caf5",
+          "source_index": 33
+        },
+        {
+          "prompt_sha256": "df6cadaaaf3af4ad13537296694f9eb40db1b9fb94b9cac78cd2a8349b311c8d",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "User Interface proposed that a base station next to the TV could be a solution, but Industrial Designer pointed out that this could be technically complicated and would cost a lot. So the team eventually adopted Marketing's advice to implement an audio signal.",
+          "sample_id": "qmsum-test-meeting0021-specific-04-2b8894a9",
+          "source_fingerprint": "2b8894a9752fe7edbb2be13f65c5a467fd99d955f184b9536d0b49e50c4c98d4",
+          "source_index": 21
+        },
+        {
+          "prompt_sha256": "4c538243e6b14844e76597b1fe8dd128d4995b0175733578ff7d5a7487be6db7",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "The marketing expert gave three points from the market analysis. Users would like to have a fancy look and feel rather than a functional one. Apart from that, they still wanted the product to be technologically innovative. At the same time, being user-friendly was also important. Then the group discussed how to make these requirements into practice.",
+          "sample_id": "qmsum-test-meeting0024-specific-06-df0a3c16",
+          "source_fingerprint": "df0a3c16b30e1889cb2f59cbbb7c2b721d23dcf5f1c779fdf5ebc7aa89540437",
+          "source_index": 24
+        },
+        {
+          "prompt_sha256": "1109ae5ef1c14aaa8664cf503af4e4738a70275039dcc15c09116ddbbb068ce2",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Barry Hughes stated that they did not have targets and only prosecuted with reasonable prospects. As for the police, there were no targets for the police anymore, except for some individuals.",
+          "sample_id": "qmsum-test-meeting0000-specific-10-2b9f79a9",
+          "source_fingerprint": "2b9f79a98ecbb9dc18fe2aa6d8cb950972c279d6b8c6f3f0c9758d0100febd9b",
+          "source_index": 0
+        },
+        {
+          "prompt_sha256": "740d56b5d7a33966c3f314ebc8e65057de1e70fca34c5a6ccc5911e9e8bd9413",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "When discussing adding several advanced techniques onto the remote control to make it more unique, the Industrial Design put forward to using the touchscreen. Notwithstanding the merits of the touchscreen, for instance, a touch screen would make the remote control easier and smaller, the Marketing did not agree to do so just because in that case they would be beyond the budget.",
+          "sample_id": "qmsum-test-meeting0015-specific-02-7e23c992",
+          "source_fingerprint": "7e23c992108c2e307edc594735e2914541d958a702a2e5a0f2a500acaf92aa74",
+          "source_index": 15
+        },
+        {
+          "prompt_sha256": "10790554c94b30c98493646dd368cc69e8b022fb5ef548c5d4e6bef4eecce6e4",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "The controller had an embedded microphone array which could recognise simple vocal commands and the four microphones could capture voice from different directions. It also had tactile buttons, which was a really good point.",
+          "sample_id": "qmsum-test-meeting0027-specific-04-9fd7cb2b",
+          "source_fingerprint": "9fd7cb2b01c95e8c0762262fd9b20612ab493c6a08915bd9dad5da35aeec0cc0",
+          "source_index": 27
+        },
+        {
+          "prompt_sha256": "120a7cebd50db605fedcd021e123fa4bf8a450ef3007b8c96e76a5a1c21b73f4",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "User Interface reiterated that the remote control should have a robust and water resistant function. Marketing also mentioned a good tactile feel for the remote control function, which doesn't make hand sweat a lot. Therefore, Project Manager suggested a clip feature on the remote control so that people can clip it to their device.",
+          "sample_id": "qmsum-test-meeting0010-specific-04-79af5a2f",
+          "source_fingerprint": "79af5a2f15a87feb9a5d141f83166616454029f172900b80e8972233f7e161b2",
+          "source_index": 10
+        },
+        {
+          "prompt_sha256": "bea81226c9e069927fd50c4ab843c03dacfba72a5e15448553aeab7d4c202be0",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "The 'what matters' was the articulation of the big ideas and it was to make sure that essence of the core content was consistent. The actual wording of the 'what matters' statements would be in the secondary legislation. At that time, the need to deliver and the legal requirement to deliver the 'what matters' statement would be on the face of the Bill. As a result, mental health would be put in an important place.",
+          "sample_id": "qmsum-test-meeting0014-specific-02-3db42b10",
+          "source_fingerprint": "3db42b1003261a3dae4110e0967a7e7f708b9e1f907e8c5bc6828e1e8377fdbe",
+          "source_index": 14
+        },
+        {
+          "prompt_sha256": "1ec196152d18a15812a2e5c9f6edec881a441b570f3832f1e772665387b927b9",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "David Hopkins did not think that the delegation levels were not high enough in most authority areas. Instead, he thought they had got agreements with the government to make sure that enough money was devolved to school. The true decisive factor was the narrow measure at the end of Stage 4 that drove the headmasters to exclude students or put them into another school.",
+          "sample_id": "qmsum-test-meeting0020-specific-02-fe4fac35",
+          "source_fingerprint": "fe4fac35e718399b7d9e3cc0d20cd6e6cf69c4c824059f350aaea515ab59bfff",
+          "source_index": 20
+        },
+        {
+          "prompt_sha256": "d25946f8a94f7c661b67ff669936ab09dba15cdad5a73c90ed860d630a90cd82",
+          "prompt_version": "quality-repair-qmsum-query-aware-v1",
+          "reference": "Project Manager asked if the remote control needed to be made larger to avoid losing it. At the first beginning, User Interface suggested bigger, while Project Manager suggested a hand-sized device. Considering the light feature and putting noise on it, User Interface thought it would be feasible to make it mobile with a target price at 25 Euros.",
+          "sample_id": "qmsum-test-meeting0010-specific-02-0b3b30a6",
+          "source_fingerprint": "0b3b30a6a5a839f84031591798e3e3018b250f03a3dcfc3debf18591058ec188",
+          "source_index": 10
+        }
+      ],
+      "source_revision": "83d7768c1f2b4dfeb091385d3dc7e239b8e5bb7e"
+    }
+  },
+  "reference_used_for_selection": false,
+  "schema": "ccdf.final-benchmark-n20.sample-manifest.v1",
+  "seed": 42,
+  "selection_config": "docs/final-benchmark-n20/selection-config.json",
+  "selection_config_sha256": "9908b4c91a25cef6860bdbe41f0c4562739e9c2c83e1b16d69e7e79f989796c8",
+  "selection_policy": "locked_n10_prefix_then_seed42_sha256_coordinate_rank"
+}

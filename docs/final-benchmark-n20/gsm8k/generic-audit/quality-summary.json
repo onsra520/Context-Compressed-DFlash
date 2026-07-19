@@ -1,0 +1,58 @@
+{
+  "C1": {
+    "empty_output_count": 0,
+    "parse_failure_count": 0,
+    "quality_pass_rate": null,
+    "quality_score": {
+      "count": 20,
+      "max": 1.0,
+      "mean": 0.9,
+      "median": 1.0,
+      "min": 0.0,
+      "stdev": 0.30779350562554625
+    },
+    "scope": "GSM8K quality is anchored numeric exact match."
+  },
+  "C2": {
+    "empty_output_count": 0,
+    "parse_failure_count": 0,
+    "quality_pass_rate": null,
+    "quality_score": {
+      "count": 20,
+      "max": 1.0,
+      "mean": 0.9,
+      "median": 1.0,
+      "min": 0.0,
+      "stdev": 0.30779350562554625
+    },
+    "scope": "GSM8K quality is anchored numeric exact match."
+  },
+  "C3": {
+    "empty_output_count": 0,
+    "parse_failure_count": 1,
+    "quality_pass_rate": null,
+    "quality_score": {
+      "count": 20,
+      "max": 1.0,
+      "mean": 0.75,
+      "median": 1.0,
+      "min": 0.0,
+      "stdev": 0.44426165831931924
+    },
+    "scope": "GSM8K quality is anchored numeric exact match."
+  },
+  "C4": {
+    "empty_output_count": 0,
+    "parse_failure_count": 1,
+    "quality_pass_rate": null,
+    "quality_score": {
+      "count": 20,
+      "max": 1.0,
+      "mean": 0.75,
+      "median": 1.0,
+      "min": 0.0,
+      "stdev": 0.44426165831931924
+    },
+    "scope": "GSM8K quality is anchored numeric exact match."
+  }
+}

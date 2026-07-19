@@ -14,10 +14,13 @@ models/**/*.pth
 docs/artifacts/
 models/**/*
 !models/README.md
-tests/
 *.egg-info/
 docs/reviews/*
 !docs/reviews/history/
 !docs/reviews/history/.gitkeep
 docs/audit/
-scripts/
+.worktrees/
+node_modules/
+screenshots/
+frontend/test/
+.vscode/

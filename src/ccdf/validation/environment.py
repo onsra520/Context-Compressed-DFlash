@@ -12,7 +12,7 @@ from typing import Any
 import torch
 
 from ..config import Rec2Config
-from ..errors import ConfigurationError
+from ..core.errors import ConfigurationError
 
 
 def _package_version(*names: str) -> str | None:

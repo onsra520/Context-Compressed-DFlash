@@ -1,0 +1,11 @@
+{
+  "by_stage": {},
+  "by_type": {},
+  "failed_gates": [
+    "original_generated_token_parity",
+    "compressed_numeric_answer_agreement",
+    "gsm8k_compressed_quality_non_regression"
+  ],
+  "rows": [],
+  "runtime_error_count": 0
+}

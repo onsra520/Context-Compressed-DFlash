@@ -10,8 +10,8 @@ from typing import Any
 import torch
 
 from ..config import Rec2Config
-from ..device import assert_cuda_only, attention_runtime_state
-from ..errors import ConfigurationError, ModelContractError
+from ..infrastructure.device import assert_cuda_only, attention_runtime_state
+from ..core.errors import ConfigurationError, ModelContractError
 
 
 def _dtype(name: str) -> torch.dtype:

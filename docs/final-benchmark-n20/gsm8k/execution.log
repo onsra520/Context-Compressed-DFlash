@@ -1,0 +1,97 @@
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml build-manifest --samples data/eval/gsm8k/gsm8k_n20.jsonl --run-id final-benchmark-gsm8k-n20 --workload-name gsm8k_n20 --warmups 1 --repetitions 1 --max-new-tokens 256 --output docs/final-benchmark-n20/gsm8k/run-manifest.json
+{"run_id": "final-benchmark-gsm8k-n20", "output": "docs/final-benchmark-n20/gsm8k/run-manifest.json"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml compress --samples data/eval/gsm8k/gsm8k_n20.jsonl --output docs/final-benchmark-n20/gsm8k/compression-cache.jsonl --audit docs/final-benchmark-n20/gsm8k/compressor-audit.json --resume
+`torch_dtype` is deprecated! Use `dtype` instead!
+{"samples": 20, "compression_run_id": "compression-e59f4f98-bf69-41cc-a942-4ac9e0c6355b", "device": "cuda:0", "output": "docs/final-benchmark-n20/gsm8k/compression-cache.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label before-gsm8k-C1 --output docs/final-benchmark-n20/gsm8k/boundaries/before-C1.json
+{"captured_at": "2026-07-19T20:30:25.163865+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "before-gsm8k-C1", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml run --condition C1 --samples data/eval/gsm8k/gsm8k_n20.jsonl --compression docs/final-benchmark-n20/gsm8k/compression-cache.jsonl --manifest docs/final-benchmark-n20/gsm8k/run-manifest.json --output docs/final-benchmark-n20/gsm8k/checkpoints/C1.jsonl --resume
+/home/quyseggs/miniforge3/envs/CCDF/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+{"condition": "C1", "rows": 21, "output": "docs/final-benchmark-n20/gsm8k/checkpoints/C1.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label after-gsm8k-C1 --output docs/final-benchmark-n20/gsm8k/boundaries/after-C1.json
+{"captured_at": "2026-07-19T20:31:54.322972+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "after-gsm8k-C1", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label before-gsm8k-C2 --output docs/final-benchmark-n20/gsm8k/boundaries/before-C2.json
+{"captured_at": "2026-07-19T20:31:55.629393+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "before-gsm8k-C2", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml run --condition C2 --samples data/eval/gsm8k/gsm8k_n20.jsonl --compression docs/final-benchmark-n20/gsm8k/compression-cache.jsonl --manifest docs/final-benchmark-n20/gsm8k/run-manifest.json --output docs/final-benchmark-n20/gsm8k/checkpoints/C2.jsonl --resume
+/home/quyseggs/miniforge3/envs/CCDF/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+{"condition": "C2", "rows": 21, "output": "docs/final-benchmark-n20/gsm8k/checkpoints/C2.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label after-gsm8k-C2 --output docs/final-benchmark-n20/gsm8k/boundaries/after-C2.json
+{"captured_at": "2026-07-19T20:32:27.384633+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "after-gsm8k-C2", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label before-gsm8k-C3 --output docs/final-benchmark-n20/gsm8k/boundaries/before-C3.json
+{"captured_at": "2026-07-19T20:32:28.840498+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "before-gsm8k-C3", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml run --condition C3 --samples data/eval/gsm8k/gsm8k_n20.jsonl --compression docs/final-benchmark-n20/gsm8k/compression-cache.jsonl --manifest docs/final-benchmark-n20/gsm8k/run-manifest.json --output docs/final-benchmark-n20/gsm8k/checkpoints/C3.jsonl --resume
+/home/quyseggs/miniforge3/envs/CCDF/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+{"condition": "C3", "rows": 21, "output": "docs/final-benchmark-n20/gsm8k/checkpoints/C3.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label after-gsm8k-C3 --output docs/final-benchmark-n20/gsm8k/boundaries/after-C3.json
+{"captured_at": "2026-07-19T20:33:48.609354+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "after-gsm8k-C3", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label before-gsm8k-C4 --output docs/final-benchmark-n20/gsm8k/boundaries/before-C4.json
+{"captured_at": "2026-07-19T20:33:49.998820+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "before-gsm8k-C4", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml run --condition C4 --samples data/eval/gsm8k/gsm8k_n20.jsonl --compression docs/final-benchmark-n20/gsm8k/compression-cache.jsonl --manifest docs/final-benchmark-n20/gsm8k/run-manifest.json --output docs/final-benchmark-n20/gsm8k/checkpoints/C4.jsonl --resume
+/home/quyseggs/miniforge3/envs/CCDF/lib/python3.12/site-packages/awq/__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+{"condition": "C4", "rows": 21, "output": "docs/final-benchmark-n20/gsm8k/checkpoints/C4.jsonl"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml capture-gpu-state --label after-gsm8k-C4 --output docs/final-benchmark-n20/gsm8k/boundaries/after-C4.json
+{"captured_at": "2026-07-19T20:34:20.809996+00:00", "command": ["nvidia-smi", "--query-compute-apps=pid,process_name,used_memory", "--format=csv,noheader"], "compute_processes": [], "label": "after-gsm8k-C4", "schema": "ccdf.gpu-boundary-state.v1"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml build-isolation --state docs/final-benchmark-n20/gsm8k/boundaries/before-C1.json --state docs/final-benchmark-n20/gsm8k/boundaries/after-C1.json --state docs/final-benchmark-n20/gsm8k/boundaries/before-C2.json --state docs/final-benchmark-n20/gsm8k/boundaries/after-C2.json --state docs/final-benchmark-n20/gsm8k/boundaries/before-C3.json --state docs/final-benchmark-n20/gsm8k/boundaries/after-C3.json --state docs/final-benchmark-n20/gsm8k/boundaries/before-C4.json --state docs/final-benchmark-n20/gsm8k/boundaries/after-C4.json --output docs/final-benchmark-n20/gsm8k/isolation.json
+{"boundaries": 8, "output": "docs/final-benchmark-n20/gsm8k/isolation.json"}
+$ /home/quyseggs/miniforge3/envs/CCDF/bin/python scripts/run_four_condition.py --config config.yml audit --c1 docs/final-benchmark-n20/gsm8k/checkpoints/C1.jsonl --c2 docs/final-benchmark-n20/gsm8k/checkpoints/C2.jsonl --c3 docs/final-benchmark-n20/gsm8k/checkpoints/C3.jsonl --c4 docs/final-benchmark-n20/gsm8k/checkpoints/C4.jsonl --compression docs/final-benchmark-n20/gsm8k/compression-cache.jsonl --compressor-audit docs/final-benchmark-n20/gsm8k/compressor-audit.json --isolation docs/final-benchmark-n20/gsm8k/isolation.json --manifest docs/final-benchmark-n20/gsm8k/run-manifest.json --output docs/final-benchmark-n20/gsm8k/generic-audit/audit.json --report docs/final-benchmark-n20/gsm8k/generic-audit/report.md
+{"conclusion": "FAIL", "gates": {"manifest_valid": true, "unified_schema": true, "raw_unique": true, "raw_complete": true, "raw_order": true, "row_identity_and_prompt_hash": true, "condition_success": true, "compression_unique_complete_ordered": true, "compression_hash_and_status": true, "compression_once_per_sample": true, "fact_safety_resolved": true, "compressed_prompt_reused": true, "compressor_gpu": true, "condition_process_isolation": true, "gpu_release_between_conditions": true, "independent_metric_recomputation": true, "memory_scope_valid": true, "original_input_parity": true, "compressed_input_parity": true, "valid_quality_parsing": true, "original_generated_token_parity": false, "gsm8k_reference_valid": true, "compressed_numeric_answer_agreement": false, "gsm8k_compressed_quality_non_regression": false}}

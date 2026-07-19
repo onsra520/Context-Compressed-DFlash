@@ -1,0 +1,34 @@
+{
+  "canonical_reserved_budget_gib": 2.25,
+  "compression_run_id": "compression-e59f4f98-bf69-41cc-a942-4ac9e0c6355b",
+  "compressor_dtype": [
+    "float32"
+  ],
+  "compressor_max_batch_size": 1,
+  "compressor_model": {
+    "config_sha256": "a3fdcf4e63057797101ecc84412bc654f9adb4e8d4ed3c91c5afb28eda327706",
+    "local_path": "/data/Projects/CCDF-Rework/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank",
+    "model_id": "microsoft/llmlingua-2-xlm-roberta-large-meetingbank"
+  },
+  "cuda_device_index": 0,
+  "cuda_device_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "error": null,
+  "failed_samples": 0,
+  "fallback_rate": 0.0,
+  "fallback_samples": 0,
+  "memory_gate_pass": true,
+  "model_load_latency_ms": 913.787356003013,
+  "model_load_peak_allocated_bytes": 2235790848,
+  "model_load_peak_reserved_bytes": 2239758336,
+  "new_samples": 20,
+  "requested_device": "cuda:0",
+  "resolved_device": "cuda:0",
+  "resumed_samples": 0,
+  "sample_count": 20,
+  "schema": "ccdf.compressor-audit.v1",
+  "silent_cpu_fallback": false,
+  "status": "success",
+  "successful_compressions": 20,
+  "successful_samples": 20,
+  "usable_samples": 20
+}
