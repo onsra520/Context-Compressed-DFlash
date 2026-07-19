@@ -1,0 +1,76 @@
+{
+  "baseline-ar": {
+    "cap_hits": 9,
+    "error_events": 0,
+    "oom_events": 0,
+    "p50_decode_ms": 14050.108949999412,
+    "p50_decode_tok_s": 12.238110523979248,
+    "p50_generation_ms": 15591.161750000538,
+    "p50_prefill_ms": 3408.830100001069,
+    "p50_stage_sum_e2e_ms": 15600.730900000599,
+    "p50_synchronized_request_ms": 15617.974349999713,
+    "peak_allocated_vram_bytes": 4560220672,
+    "peak_reserved_vram_bytes": 4747952128,
+    "runs": 20,
+    "successful_runs": 20,
+    "total_output_tokens": 3493
+  },
+  "cc-dflash-r2": {
+    "cap_hits": 5,
+    "dflash": {
+      "p50_acceptance_rate": 0.22585029340765017,
+      "p50_effective_tau": 2.543103448275862,
+      "p50_target_forwards_per_output_token": 0.40389016018306634
+    },
+    "error_events": 0,
+    "oom_events": 0,
+    "p50_decode_ms": 8349.48600000007,
+    "p50_decode_tok_s": 15.305601317303523,
+    "p50_generation_ms": 9977.617650000866,
+    "p50_prefill_ms": 1740.6715999986773,
+    "p50_stage_sum_e2e_ms": 10379.93169999936,
+    "p50_synchronized_request_ms": 10003.112149999652,
+    "peak_allocated_vram_bytes": 6007362560,
+    "peak_reserved_vram_bytes": 6132072448,
+    "runs": 20,
+    "successful_runs": 20,
+    "total_output_tokens": 3219
+  },
+  "dflash-r1": {
+    "cap_hits": 9,
+    "dflash": {
+      "p50_acceptance_rate": 0.2896221301767229,
+      "p50_effective_tau": 2.842816500711238,
+      "p50_target_forwards_per_output_token": 0.37129210658622425
+    },
+    "error_events": 0,
+    "oom_events": 0,
+    "p50_decode_ms": 5185.939650000364,
+    "p50_decode_tok_s": 27.072988462174575,
+    "p50_generation_ms": 8384.408399998392,
+    "p50_prefill_ms": 3411.6397999987385,
+    "p50_stage_sum_e2e_ms": 8395.800549998967,
+    "p50_synchronized_request_ms": 8415.164250000089,
+    "peak_allocated_vram_bytes": 6007362560,
+    "peak_reserved_vram_bytes": 6132072448,
+    "runs": 20,
+    "successful_runs": 20,
+    "total_output_tokens": 3460
+  },
+  "llmlingua-ar-r2": {
+    "cap_hits": 5,
+    "error_events": 0,
+    "oom_events": 0,
+    "p50_decode_ms": 20057.468799999697,
+    "p50_decode_tok_s": 7.391838132093243,
+    "p50_generation_ms": 21985.31450000064,
+    "p50_prefill_ms": 1771.1981500006004,
+    "p50_stage_sum_e2e_ms": 21987.697300000036,
+    "p50_synchronized_request_ms": 21991.302749999704,
+    "peak_allocated_vram_bytes": 4560220672,
+    "peak_reserved_vram_bytes": 4747952128,
+    "runs": 20,
+    "successful_runs": 20,
+    "total_output_tokens": 3226
+  }
+}

@@ -1,0 +1,784 @@
+{
+  "archive_members": [
+    "FINAL_REPORT.md",
+    "canonical-regression/pair_parity.json",
+    "canonical-regression/raw_runs/baseline.jsonl",
+    "canonical-regression/raw_runs/dflash.jsonl",
+    "canonical-regression/resolved_config.json",
+    "canonical-regression/summary.json",
+    "canonical-regression/worker_attempts.json",
+    "canonical-regression/worker_logs/baseline.stderr.txt",
+    "canonical-regression/worker_logs/baseline.stdout.txt",
+    "canonical-regression/worker_logs/dflash.stderr.txt",
+    "canonical-regression/worker_logs/dflash.stdout.txt",
+    "command-logs/canonical-regression-parent.json",
+    "command-logs/canonical-regression-parent.stderr.txt",
+    "command-logs/canonical-regression-parent.stdout.txt",
+    "command-logs/compileall.json",
+    "command-logs/compileall.stderr.txt",
+    "command-logs/compileall.stdout.txt",
+    "command-logs/dataset-artifact-verify.json",
+    "command-logs/dataset-artifact-verify.stderr.txt",
+    "command-logs/dataset-artifact-verify.stdout.txt",
+    "command-logs/dataset-smoke-parent.json",
+    "command-logs/dataset-smoke-parent.stderr.txt",
+    "command-logs/dataset-smoke-parent.stdout.txt",
+    "command-logs/git-diff-check.json",
+    "command-logs/git-diff-check.stderr.txt",
+    "command-logs/git-diff-check.stdout.txt",
+    "command-logs/mock10-parent.json",
+    "command-logs/mock10-parent.stderr.txt",
+    "command-logs/mock10-parent.stdout.txt",
+    "command-logs/pip-check.json",
+    "command-logs/pip-check.stderr.txt",
+    "command-logs/pip-check.stdout.txt",
+    "command-logs/post-probe-baseline.json",
+    "command-logs/post-probe-baseline.stderr.txt",
+    "command-logs/post-probe-baseline.stdout.txt",
+    "command-logs/post-probe-compressor.json",
+    "command-logs/post-probe-compressor.stderr.txt",
+    "command-logs/post-probe-compressor.stdout.txt",
+    "command-logs/post-probe-drafter.json",
+    "command-logs/post-probe-drafter.stderr.txt",
+    "command-logs/post-probe-drafter.stdout.txt",
+    "command-logs/post-probe-environment.json",
+    "command-logs/post-probe-environment.stderr.txt",
+    "command-logs/post-probe-environment.stdout.txt",
+    "command-logs/post-probe-target.json",
+    "command-logs/post-probe-target.stderr.txt",
+    "command-logs/post-probe-target.stdout.txt",
+    "command-logs/pytest.json",
+    "command-logs/pytest.stderr.txt",
+    "command-logs/pytest.stdout.txt",
+    "commands/commands-with-duration.json",
+    "config/config.yml",
+    "config/resolved-config-and-platform.json",
+    "dataset-smoke/artifact_manifest.json",
+    "dataset-smoke/cohort_manifest.json",
+    "dataset-smoke/compression_stage.json",
+    "dataset-smoke/condition_summaries.json",
+    "dataset-smoke/condition_worker_attempts.json",
+    "dataset-smoke/condition_worker_attempts.partial.json",
+    "dataset-smoke/environment.json",
+    "dataset-smoke/evaluator_lock.json",
+    "dataset-smoke/gate_matrix.json",
+    "dataset-smoke/lifecycle.json",
+    "dataset-smoke/pair_parity.json",
+    "dataset-smoke/per_sample_results.jsonl",
+    "dataset-smoke/prepared_input_manifest.jsonl",
+    "dataset-smoke/qmsum_chunk_maps.jsonl",
+    "dataset-smoke/qmsum_generation_chunk_maps.jsonl",
+    "dataset-smoke/raw_runs/gsm8k/baseline-ar.jsonl",
+    "dataset-smoke/raw_runs/gsm8k/cc-dflash-r2.jsonl",
+    "dataset-smoke/raw_runs/gsm8k/dflash-r1.jsonl",
+    "dataset-smoke/raw_runs/gsm8k/llmlingua-ar-r2.jsonl",
+    "dataset-smoke/raw_runs/qmsum/baseline-ar.jsonl",
+    "dataset-smoke/raw_runs/qmsum/cc-dflash-r2.jsonl",
+    "dataset-smoke/raw_runs/qmsum/dflash-r1.jsonl",
+    "dataset-smoke/raw_runs/qmsum/llmlingua-ar-r2.jsonl",
+    "dataset-smoke/resolved_config.json",
+    "dataset-smoke/sdpa_evidence.json",
+    "dataset-smoke/source_hashes.json",
+    "dataset-smoke/summary.json",
+    "dataset-smoke/worker_logs/baseline-ar.stderr.txt",
+    "dataset-smoke/worker_logs/baseline-ar.stdout.txt",
+    "dataset-smoke/worker_logs/cc-dflash-r2.stderr.txt",
+    "dataset-smoke/worker_logs/cc-dflash-r2.stdout.txt",
+    "dataset-smoke/worker_logs/dflash-r1.stderr.txt",
+    "dataset-smoke/worker_logs/dflash-r1.stdout.txt",
+    "dataset-smoke/worker_logs/llmlingua-ar-r2.stderr.txt",
+    "dataset-smoke/worker_logs/llmlingua-ar-r2.stdout.txt",
+    "diagnostics/dataset-smoke-parity-failure.json",
+    "diagnostics/mock10-parity-failure.json",
+    "environment/compatibility-matrix.json",
+    "environment/environment-lock-windows.txt",
+    "environment/environment-pre-post-comparison.json",
+    "environment/official-triton-windows-minimal-reproduction.txt",
+    "environment/post-fix/baseline.json",
+    "environment/post-fix/compressor.json",
+    "environment/post-fix/drafter.json",
+    "environment/post-fix/environment.json",
+    "environment/post-fix/target.json",
+    "environment/pre-fix/baseline.json",
+    "environment/pre-fix/compressor.json",
+    "environment/pre-fix/drafter.json",
+    "environment/pre-fix/environment.json",
+    "environment/pre-fix/target.json",
+    "manifest-verification.json",
+    "mock10/FINAL_REPORT.md",
+    "mock10/condition_worker_attempts.json",
+    "mock10/condition_worker_attempts.partial.json",
+    "mock10/gate_matrix.json",
+    "mock10/mock_fixtures.json",
+    "mock10/pair_parity.json",
+    "mock10/protected_field_hashes.json",
+    "mock10/raw_runs.json",
+    "mock10/resolved_config_snapshot.json",
+    "mock10/summary.json",
+    "mock10/worker_logs/baseline-ar.stderr.txt",
+    "mock10/worker_logs/baseline-ar.stdout.txt",
+    "mock10/worker_logs/cc-dflash-r2.stderr.txt",
+    "mock10/worker_logs/cc-dflash-r2.stdout.txt",
+    "mock10/worker_logs/dflash-r1.stderr.txt",
+    "mock10/worker_logs/dflash-r1.stdout.txt",
+    "mock10/worker_logs/llmlingua-ar-r2.stderr.txt",
+    "mock10/worker_logs/llmlingua-ar-r2.stdout.txt",
+    "pack-members.txt",
+    "repository/changed-files.txt",
+    "repository/dflash-core-unchanged-proof.json",
+    "repository/git-diff-stat.txt",
+    "repository/git-diff.patch",
+    "repository/git-status.txt",
+    "requirements-audit.json",
+    "sha256-manifest.json"
+  ],
+  "checks": {
+    "FINAL_REPORT.md": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/pair_parity.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/raw_runs/baseline.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/raw_runs/dflash.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/resolved_config.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/summary.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/worker_attempts.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/worker_logs/baseline.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/worker_logs/baseline.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/worker_logs/dflash.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "canonical-regression/worker_logs/dflash.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/canonical-regression-parent.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/canonical-regression-parent.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/canonical-regression-parent.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/compileall.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/compileall.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/compileall.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/dataset-artifact-verify.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/dataset-artifact-verify.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/dataset-artifact-verify.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/dataset-smoke-parent.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/dataset-smoke-parent.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/dataset-smoke-parent.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/git-diff-check.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/git-diff-check.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/git-diff-check.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/mock10-parent.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/mock10-parent.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/mock10-parent.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/pip-check.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/pip-check.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/pip-check.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-baseline.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-baseline.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-baseline.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-compressor.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-compressor.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-compressor.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-drafter.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-drafter.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-drafter.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-environment.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-environment.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-environment.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-target.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-target.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/post-probe-target.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/pytest.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/pytest.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "command-logs/pytest.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "commands/commands-with-duration.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "config/config.yml": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "config/resolved-config-and-platform.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/artifact_manifest.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/cohort_manifest.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/compression_stage.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/condition_summaries.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/condition_worker_attempts.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/condition_worker_attempts.partial.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/environment.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/evaluator_lock.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/gate_matrix.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/lifecycle.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/pair_parity.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/per_sample_results.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/prepared_input_manifest.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/qmsum_chunk_maps.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/qmsum_generation_chunk_maps.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/raw_runs/gsm8k/baseline-ar.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/raw_runs/gsm8k/cc-dflash-r2.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/raw_runs/gsm8k/dflash-r1.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/raw_runs/gsm8k/llmlingua-ar-r2.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/raw_runs/qmsum/baseline-ar.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/raw_runs/qmsum/cc-dflash-r2.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/raw_runs/qmsum/dflash-r1.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/raw_runs/qmsum/llmlingua-ar-r2.jsonl": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/resolved_config.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/sdpa_evidence.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/source_hashes.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/summary.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/worker_logs/baseline-ar.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/worker_logs/baseline-ar.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/worker_logs/cc-dflash-r2.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/worker_logs/cc-dflash-r2.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/worker_logs/dflash-r1.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/worker_logs/dflash-r1.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/worker_logs/llmlingua-ar-r2.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "dataset-smoke/worker_logs/llmlingua-ar-r2.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "diagnostics/dataset-smoke-parity-failure.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "diagnostics/mock10-parity-failure.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/compatibility-matrix.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/environment-lock-windows.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/environment-pre-post-comparison.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/official-triton-windows-minimal-reproduction.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/post-fix/baseline.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/post-fix/compressor.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/post-fix/drafter.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/post-fix/environment.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/post-fix/target.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/pre-fix/baseline.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/pre-fix/compressor.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/pre-fix/drafter.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/pre-fix/environment.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "environment/pre-fix/target.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/FINAL_REPORT.md": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/condition_worker_attempts.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/condition_worker_attempts.partial.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/gate_matrix.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/mock_fixtures.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/pair_parity.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/protected_field_hashes.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/raw_runs.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/resolved_config_snapshot.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/summary.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/worker_logs/baseline-ar.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/worker_logs/baseline-ar.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/worker_logs/cc-dflash-r2.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/worker_logs/cc-dflash-r2.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/worker_logs/dflash-r1.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/worker_logs/dflash-r1.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/worker_logs/llmlingua-ar-r2.stderr.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "mock10/worker_logs/llmlingua-ar-r2.stdout.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "pack-members.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "repository/changed-files.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "repository/dflash-core-unchanged-proof.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "repository/git-diff-stat.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "repository/git-diff.patch": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "repository/git-status.txt": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    },
+    "requirements-audit.json": {
+      "bytes_match": true,
+      "exists": true,
+      "sha256_match": true
+    }
+  },
+  "manifest_member_count": 129,
+  "pass": true
+}

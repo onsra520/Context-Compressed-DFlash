@@ -1,0 +1,22 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "-m",
+    "ccdf.benchmark.dataset_smoke",
+    "--config",
+    "config.yml",
+    "--replace"
+  ],
+  "duration_seconds": 1607.7909701000008,
+  "exit_code": 1,
+  "label": "dataset-smoke-parent",
+  "native_crash_code": null,
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\dataset-smoke-parent.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\dataset-smoke-parent.stdout.txt"
+}

@@ -1,0 +1,85 @@
+{
+  "command_duration_seconds": 3.7365860999998404,
+  "component": "target",
+  "config_sha256": "904c408e5d492ec03ec0b21a710303b06589479012e804725a575bb14ba4c086",
+  "duration_seconds": 3.7363173000012466,
+  "error": null,
+  "local_files_only": true,
+  "offline_environment": {
+    "HF_DATASETS_OFFLINE": "1",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "phase": "post-fix",
+  "result": {
+    "device_audit": {
+      "all_tensors_cuda": true,
+      "buffer_bytes": 1887621376,
+      "buffer_tensor_count": 757,
+      "cpu_or_disk_offload": false,
+      "devices": [
+        "cuda:0"
+      ],
+      "execution_mode": "resident",
+      "hf_device_map": {
+        "": 0
+      },
+      "label": "target probe",
+      "parameter_bytes": 778304512,
+      "parameter_tensor_count": 146
+    },
+    "effective_dtypes": [
+      "float16",
+      "float32"
+    ],
+    "inference": {
+      "input_device": "cuda:0",
+      "output_device": "cuda:0",
+      "output_dtype": "float16",
+      "output_shape": [
+        1,
+        1,
+        151936
+      ],
+      "pass": true
+    },
+    "model_inventory": {
+      "all_buffers_cuda": true,
+      "all_parameters_cuda": true,
+      "buffer_count": 486097984,
+      "buffer_devices": [
+        "cuda:0"
+      ],
+      "floating_dtypes": [
+        "float16",
+        "float32"
+      ],
+      "parameter_count": 389152256,
+      "parameter_devices": [
+        "cuda:0"
+      ]
+    },
+    "requested_dtype": "float16"
+  },
+  "status": "PASS",
+  "stderr": "",
+  "stdout": "",
+  "warnings": [
+    {
+      "classification": "deprecated_but_operational",
+      "fatal": false,
+      "filename": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\awq\\__init__.py",
+      "lineno": 21,
+      "message": "\nI have left this message as the final dev message to help you transition.\n\nImportant Notice:\n- AutoAWQ is officially deprecated and will no longer be maintained.\n- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.\n- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.\n\nAlternative:\n- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor\n\nFor further inquiries, feel free to reach out:\n- X: https://x.com/casper_hansen_\n- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/\n",
+      "warning_category": "DeprecationWarning"
+    },
+    {
+      "classification": "deprecated_but_operational",
+      "fatal": false,
+      "filename": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\torch\\jit\\_script.py",
+      "lineno": 1488,
+      "message": "`torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.",
+      "warning_category": "DeprecationWarning"
+    }
+  ]
+}

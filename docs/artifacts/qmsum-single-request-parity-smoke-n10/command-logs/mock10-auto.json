@@ -1,0 +1,25 @@
+{
+  "attempt": 1,
+  "command": [
+    ".venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "-m",
+    "ccdf",
+    "protocol",
+    "--config",
+    "config.yml"
+  ],
+  "duration_seconds": 153.07254209999883,
+  "exit_code": 1,
+  "finished_at_utc": "2026-07-18T21:40:44.616806+00:00",
+  "label": "mock10-auto",
+  "native_crash_code": null,
+  "python_faulthandler_environment": "1",
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "started_at_utc": "2026-07-18T21:38:11.543056+00:00",
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-single-request-parity-smoke-n10\\command-logs\\mock10-auto.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-single-request-parity-smoke-n10\\command-logs\\mock10-auto.stdout.txt"
+}

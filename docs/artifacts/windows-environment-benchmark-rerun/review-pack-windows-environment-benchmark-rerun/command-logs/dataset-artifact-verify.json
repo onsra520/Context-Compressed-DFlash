@@ -1,0 +1,21 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "-m",
+    "ccdf.benchmark.dataset_smoke_verify",
+    "--config",
+    "config.yml"
+  ],
+  "duration_seconds": 3.168890700000702,
+  "exit_code": 1,
+  "label": "dataset-artifact-verify",
+  "native_crash_code": null,
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\dataset-artifact-verify.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\dataset-artifact-verify.stdout.txt"
+}

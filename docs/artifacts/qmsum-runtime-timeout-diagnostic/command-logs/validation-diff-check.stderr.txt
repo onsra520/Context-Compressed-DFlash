@@ -1,0 +1,3 @@
+warning: in the working copy of 'config.yml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'pyproject.toml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/ccdf/config.py', LF will be replaced by CRLF the next time Git touches it

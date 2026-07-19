@@ -1,0 +1,54 @@
+[
+  {
+    "attempt": 1,
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-X",
+      "faulthandler",
+      "D:\\projects\\CCDF-Rework\\tests\\run_windows_canonical_regression.py",
+      "--config",
+      "D:\\projects\\CCDF-Rework\\config.yml",
+      "--condition-worker",
+      "baseline",
+      "--output",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\canonical-math\\raw_runs\\baseline.jsonl"
+    ],
+    "condition": "baseline",
+    "duration_seconds": 246.3835895000011,
+    "exit_code": 0,
+    "faulthandler_enabled": true,
+    "native_crash_code": null,
+    "output_written": true,
+    "resume_enabled": false,
+    "retry_count": 0,
+    "signal": null,
+    "stderr_path": "worker_logs\\baseline.stderr.txt",
+    "stdout_path": "worker_logs\\baseline.stdout.txt"
+  },
+  {
+    "attempt": 1,
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-X",
+      "faulthandler",
+      "D:\\projects\\CCDF-Rework\\tests\\run_windows_canonical_regression.py",
+      "--config",
+      "D:\\projects\\CCDF-Rework\\config.yml",
+      "--condition-worker",
+      "dflash",
+      "--output",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\canonical-math\\raw_runs\\dflash.jsonl"
+    ],
+    "condition": "dflash",
+    "duration_seconds": 79.72856610000235,
+    "exit_code": 0,
+    "faulthandler_enabled": true,
+    "native_crash_code": null,
+    "output_written": true,
+    "resume_enabled": false,
+    "retry_count": 0,
+    "signal": null,
+    "stderr_path": "worker_logs\\dflash.stderr.txt",
+    "stdout_path": "worker_logs\\dflash.stdout.txt"
+  }
+]

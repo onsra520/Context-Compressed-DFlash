@@ -1,0 +1,665 @@
+{
+  "checks": {
+    "FINAL_REPORT.md": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "commands/command-records.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "commands/execution-order.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "commands/worker-records.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/environment-lock-windows.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/official-triton-windows-minimal-reproduction.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/post-fix/baseline.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/post-fix/compressor.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/post-fix/drafter.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/post-fix/environment.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/post-fix/target.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/pre-fix/baseline.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/pre-fix/compressor.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/pre-fix/drafter.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/pre-fix/environment.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "environment/prior-windows-rerun/pre-fix/target.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/pair_parity.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/raw_runs/baseline.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/raw_runs/dflash.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/resolved_config.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/summary.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/worker_attempts.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/worker_logs/baseline.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/worker_logs/baseline.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/worker_logs/dflash.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/canonical-math/worker_logs/dflash.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/canonical-math.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/canonical-math.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/canonical-math.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/compileall.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/compileall.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/compileall.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/dataset-artifact-verify.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/dataset-artifact-verify.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/dataset-artifact-verify.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/dataset-auto.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/dataset-auto.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/dataset-auto.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/environment-audit.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/environment-audit.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/environment-audit.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/git-diff-check.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/git-diff-check.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/git-diff-check.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/mock10-auto.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/mock10-auto.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/mock10-auto.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/parity-diagnostics-final.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/parity-diagnostics-final.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/parity-diagnostics-final.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/parity-diagnostics.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/parity-diagnostics.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/parity-diagnostics.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/pip-check.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/pip-check.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/pip-check.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/pytest.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/pytest.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/pytest.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/sdpa-runtime-probe.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/sdpa-runtime-probe.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/command-logs/sdpa-runtime-probe.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/artifact_manifest.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/cap_hit_breakdown.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/cohort_manifest.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/compression_stage.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/condition_summaries.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/condition_worker_attempts.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/condition_worker_attempts.partial.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/environment.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/evaluator_lock.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/gate_matrix.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/lifecycle.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/pair_parity.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/per_sample_results.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/prepared_input_manifest.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/qmsum_chunk_maps.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/qmsum_generation_chunk_maps.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/raw_runs/gsm8k/baseline-ar.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/raw_runs/gsm8k/cc-dflash-r2.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/raw_runs/gsm8k/dflash-r1.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/raw_runs/gsm8k/llmlingua-ar-r2.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/raw_runs/qmsum/baseline-ar.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/raw_runs/qmsum/cc-dflash-r2.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/raw_runs/qmsum/dflash-r1.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/raw_runs/qmsum/llmlingua-ar-r2.jsonl": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/resolved_config.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/sdpa_evidence.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/source_hashes.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/summary.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/worker_logs/baseline-ar.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/worker_logs/baseline-ar.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/worker_logs/cc-dflash-r2.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/worker_logs/cc-dflash-r2.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/worker_logs/dflash-r1.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/worker_logs/dflash-r1.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/worker_logs/llmlingua-ar-r2.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/dataset-smoke/worker_logs/llmlingua-ar-r2.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/environment/environment.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/environment/sdpa-runtime-probe.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/FINAL_REPORT.md": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/condition_worker_attempts.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/condition_worker_attempts.partial.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/gate_matrix.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/mock_fixtures.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/pair_parity.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/protected_field_hashes.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/raw_runs.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/resolved_config_snapshot.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/summary.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/worker_logs/baseline-ar.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/worker_logs/baseline-ar.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/worker_logs/cc-dflash-r2.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/worker_logs/cc-dflash-r2.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/worker_logs/dflash-r1.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/worker_logs/dflash-r1.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/worker_logs/llmlingua-ar-r2.stderr.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/mock10/worker_logs/llmlingua-ar-r2.stdout.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "evidence/parity-diagnostics/first-divergences.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "pack-members.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/config.yml": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/pyproject.toml": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/scripts/build_dataset_smoke_review_pack.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/scripts/refresh_dataset_smoke_cohorts.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/scripts/windows_triton_compat/README.md": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/scripts/windows_triton_compat/pyproject.toml": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/__main__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/benchmark/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/benchmark/aggregation.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/benchmark/dataset_smoke.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/benchmark/dataset_smoke_verify.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/benchmark/evaluators.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/benchmark/metrics.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/benchmark/runner.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/cli.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/compression/llmlingua.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/compression/schemas.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/config.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/data/pipeline.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/dflash/generate.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/errors.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/inference/baseline.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/models/loaders.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/protocols/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/protocols/conditions.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/protocols/orchestrator.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/protocols/worker.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/runtime/__init__.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/runtime/determinism.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/runtime/device.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/runtime/engine.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/schemas.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "production-source/src/ccdf/validation/environment.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "repository/deleted-production-paths.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "repository/dflash-core-unchanged-proof.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "repository/git-diff.patch": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "repository/git-status.txt": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "repository/source-completeness.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "requirements-audit.json": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "review-tooling/tests/build_windows_auto_sdpa_parity_diagnostics.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "review-tooling/tests/build_windows_auto_sdpa_parity_review_pack.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "review-tooling/tests/run_windows_canonical_regression.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "review-tooling/tests/run_windows_command_capture.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    },
+    "review-tooling/tests/run_windows_sdpa_runtime_probe.py": {
+      "bytes_match": true,
+      "sha256_match": true
+    }
+  },
+  "pass": true
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "exit_code": 0,
+  "stderr": "warning: in the working copy of 'config.yml', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'pyproject.toml', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/ccdf/config.py', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/ccdf/inference/baseline.py', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'src/ccdf/runtime/engine.py', LF will be replaced by CRLF the next time Git touches it\n",
+  "stdout": ""
+}

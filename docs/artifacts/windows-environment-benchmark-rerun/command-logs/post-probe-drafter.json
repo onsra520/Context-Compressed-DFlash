@@ -1,0 +1,26 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "tests\\run_windows_environment_audit.py",
+    "--config",
+    "config.yml",
+    "--phase",
+    "post-fix",
+    "--output-dir",
+    "docs\\artifacts\\windows-environment-benchmark-rerun\\environment\\post-fix",
+    "--component",
+    "drafter"
+  ],
+  "duration_seconds": 6.5824439999996684,
+  "exit_code": 0,
+  "label": "post-probe-drafter",
+  "native_crash_code": null,
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\post-probe-drafter.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\post-probe-drafter.stdout.txt"
+}

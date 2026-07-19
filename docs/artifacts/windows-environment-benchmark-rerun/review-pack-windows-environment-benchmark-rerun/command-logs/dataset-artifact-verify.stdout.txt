@@ -1,0 +1,15 @@
+{
+  "artifact_files_verified": 34,
+  "artifact_root": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\dataset-protocol-evaluator-smoke-n10",
+  "chunk_maps_verified": 10,
+  "condition_worker_attempts_verified": 4,
+  "config_sha256": "904c408e5d492ec03ec0b21a710303b06589479012e804725a575bb14ba4c086",
+  "failures": [
+    "summary is not PASS",
+    "gate matrix is not fully PASS"
+  ],
+  "generation_chunk_maps_verified": 40,
+  "parity_records_verified": 40,
+  "pass": false,
+  "run_rows_verified": 80
+}

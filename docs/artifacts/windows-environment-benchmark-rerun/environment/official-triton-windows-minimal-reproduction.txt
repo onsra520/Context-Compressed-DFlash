@@ -1,0 +1,9 @@
+exit_code=1
+command=uv pip install --python .\.venv\Scripts\python.exe --reinstall triton==3.7.1
+
+  × No solution found when resolving dependencies:
+  ╰─▶ Because triton==3.7.1 has no wheels with a matching platform tag (e.g.,
+      `win_amd64`) and you require triton==3.7.1, we can conclude that your
+      requirements are unsatisfiable.
+
+hint: Wheels are available for `triton` (v3.7.1) on the following platforms: `manylinux_2_27_aarch64`, `manylinux_2_27_x86_64`, `manylinux_2_28_aarch64`, `manylinux_2_28_x86_64`

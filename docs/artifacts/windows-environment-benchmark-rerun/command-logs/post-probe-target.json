@@ -1,0 +1,26 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "tests\\run_windows_environment_audit.py",
+    "--config",
+    "config.yml",
+    "--phase",
+    "post-fix",
+    "--output-dir",
+    "docs\\artifacts\\windows-environment-benchmark-rerun\\environment\\post-fix",
+    "--component",
+    "target"
+  ],
+  "duration_seconds": 7.815039900000556,
+  "exit_code": 0,
+  "label": "post-probe-target",
+  "native_crash_code": null,
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\post-probe-target.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\post-probe-target.stdout.txt"
+}

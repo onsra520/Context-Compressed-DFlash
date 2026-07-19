@@ -1,0 +1,34 @@
+## CCDF-Rework...origin/CCDF-Rework
+ M .gitignore
+ M config.yml
+ M data/eval/gsm8k/gsm8k_n10.jsonl
+ M data/eval/qmsum/qmsum_n10.jsonl
+ M data/manifests/dataset_manifest.json
+ M pyproject.toml
+ M src/ccdf/__init__.py
+ D src/ccdf/benchmark.py
+ M src/ccdf/cli.py
+ M src/ccdf/compression/llmlingua.py
+ M src/ccdf/compression/schemas.py
+ M src/ccdf/config.py
+ M src/ccdf/data/pipeline.py
+ D src/ccdf/determinism.py
+ D src/ccdf/device.py
+ M src/ccdf/dflash/generate.py
+ M src/ccdf/errors.py
+ M src/ccdf/inference/baseline.py
+ M src/ccdf/models/loaders.py
+ M src/ccdf/runtime/__init__.py
+ M src/ccdf/runtime/engine.py
+ M src/ccdf/schemas.py
+ M src/ccdf/validation/environment.py
+?? data/manifests/dataset_smoke_selection.json
+?? data/raw/
+?? scripts/build_dataset_smoke_review_pack.py
+?? scripts/refresh_dataset_smoke_cohorts.py
+?? scripts/windows_triton_compat/
+?? src/ccdf/__main__.py
+?? src/ccdf/benchmark/
+?? src/ccdf/protocols/
+?? src/ccdf/runtime/determinism.py
+?? src/ccdf/runtime/device.py

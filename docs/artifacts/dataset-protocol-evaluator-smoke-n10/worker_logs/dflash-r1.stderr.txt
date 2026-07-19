@@ -1,0 +1,39 @@
+[dataset-smoke] worker loading fresh condition dflash-r1 (dflash, original); resume disabled, expected rows 20
+D:\projects\CCDF-Rework\.venv\Lib\site-packages\awq\__init__.py:21: DeprecationWarning: 
+I have left this message as the final dev message to help you transition.
+
+Important Notice:
+- AutoAWQ is officially deprecated and will no longer be maintained.
+- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.
+- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.
+
+Alternative:
+- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor
+
+For further inquiries, feel free to reach out:
+- X: https://x.com/casper_hansen_
+- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/
+
+  warnings.warn(_FINAL_DEV_MESSAGE, category=DeprecationWarning, stacklevel=1)
+D:\projects\CCDF-Rework\.venv\Lib\site-packages\torch\jit\_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 1/20: gsm8k/gsm8k_test_000784_b798a8a1
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 2/20: gsm8k/gsm8k_test_000807_6c6be7c4
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 3/20: gsm8k/gsm8k_test_000446_2ac326d8
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 4/20: gsm8k/gsm8k_test_000629_d92a73a6
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 5/20: gsm8k/gsm8k_test_000307_a61bf379
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 6/20: gsm8k/gsm8k_test_000051_88792752
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 7/20: gsm8k/gsm8k_test_000664_d9692bba
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 8/20: gsm8k/gsm8k_test_000104_0c54db10
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 9/20: gsm8k/gsm8k_test_000766_bf7481e7
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 10/20: gsm8k/gsm8k_test_000733_ea5ad0d0
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 11/20: qmsum/qmsum_test_meeting0029_specific_04_53800266
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 12/20: qmsum/qmsum_test_meeting0018_specific_00_8a802fed
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 13/20: qmsum/qmsum_test_meeting0033_specific_02_20d48688
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 14/20: qmsum/qmsum_test_meeting0001_specific_02_1c2f577e
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 15/20: qmsum/qmsum_test_meeting0013_specific_01_65a50e94
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 16/20: qmsum/qmsum_test_meeting0015_specific_05_8afeb1a1
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 17/20: qmsum/qmsum_test_meeting0003_specific_01_4b3776b6
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 18/20: qmsum/qmsum_test_meeting0000_specific_05_9b1f25eb
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 19/20: qmsum/qmsum_test_meeting0025_specific_02_10beee09
+[dataset-smoke] worker dflash-r1 repetition 1/1 request 20/20: qmsum/qmsum_test_meeting0013_specific_09_3332653e

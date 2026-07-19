@@ -1,0 +1,68 @@
+{
+  "backend_requested": "efficient",
+  "duration_seconds": 3.1200960999995004,
+  "error": "RuntimeError: No available kernel. Aborting execution.",
+  "forward_path": "standard",
+  "host_working_set_bytes": 2375360512,
+  "length": 2048,
+  "mask_mode": "none",
+  "monitor": {
+    "baseline_gpu": {
+      "gpu_utilization_percent": 0.0,
+      "memory_total_mib": 8188.0,
+      "memory_used_mib": 179.0,
+      "memory_utilization_percent": 1.0
+    },
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-X",
+      "faulthandler",
+      "D:\\projects\\CCDF-Rework\\tests\\run_qmsum_prefill_probe.py",
+      "--length",
+      "2048",
+      "--backend",
+      "efficient",
+      "--mask",
+      "none",
+      "--forward-path",
+      "standard",
+      "--use-cache",
+      "true",
+      "--progress",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-supplemental-efficient\\cases\\L2048-efficient-none-standard-cache-true\\progress.jsonl",
+      "--output",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-supplemental-efficient\\cases\\L2048-efficient-none-standard-cache-true\\result.json",
+      "--profile",
+      "--trace",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-supplemental-efficient\\cases\\L2048-efficient-none-standard-cache-true\\trace.json"
+    ],
+    "duration_seconds": 6.965000800002599,
+    "exit_code": 1,
+    "finished_at_utc": "2026-07-19T01:33:31.823044+00:00",
+    "max_gpu_utilization_percent": 38.0,
+    "max_physical_vram_used_mib": 2916.0,
+    "max_process_tree_working_set_bytes": 4356001792,
+    "max_rss_processes": [
+      {
+        "parent_pid": 26756,
+        "pid": 34116,
+        "rss_bytes": 5173248
+      },
+      {
+        "parent_pid": 34116,
+        "pid": 36932,
+        "rss_bytes": 4350828544
+      }
+    ],
+    "physical_vram_limit_mib": 7680.0,
+    "progress_path": "cases\\L2048-efficient-none-standard-cache-true\\progress.jsonl",
+    "started_at_utc": "2026-07-19T01:33:24.839854+00:00",
+    "stderr_path": "cases\\L2048-efficient-none-standard-cache-true\\stderr.txt",
+    "stdout_path": "cases\\L2048-efficient-none-standard-cache-true\\stdout.txt",
+    "termination": null,
+    "termination_reason": null,
+    "timeout_seconds": 120.0
+  },
+  "status": "REJECTED",
+  "use_cache": true
+}

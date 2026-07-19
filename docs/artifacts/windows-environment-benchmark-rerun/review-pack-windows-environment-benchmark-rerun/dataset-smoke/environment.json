@@ -1,0 +1,102 @@
+{
+  "import_origins": {
+    "modules": {
+      "ccdf": "D:\\projects\\CCDF-Rework\\src\\ccdf\\__init__.py",
+      "llmlingua": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\llmlingua\\__init__.py",
+      "torch": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\torch\\__init__.py",
+      "transformers": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\transformers\\__init__.py",
+      "yaml": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\yaml\\__init__.py"
+    },
+    "python_executable": "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe"
+  },
+  "validation": {
+    "awq_runtime_available": true,
+    "compatibility_risks": [
+      {
+        "batch_gate": false,
+        "component": "AutoAWQ",
+        "risk": "installed package emits an upstream deprecation warning"
+      }
+    ],
+    "compute_capability": [
+      8,
+      9
+    ],
+    "conda_prefix": null,
+    "cuda_available": true,
+    "cuda_runtime": "13.0",
+    "device_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "external_site_packages": [],
+    "import_paths": {
+      "awq": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\awq\\__init__.py",
+      "ccdf": "D:\\projects\\CCDF-Rework\\src\\ccdf\\__init__.py",
+      "llmlingua": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\llmlingua\\__init__.py",
+      "torch": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\torch\\__init__.py",
+      "transformers": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\transformers\\__init__.py"
+    },
+    "local_only": {
+      "config_local_files_only": true,
+      "hf_hub_offline": "1",
+      "transformers_offline": "1"
+    },
+    "package_versions": {
+      "accelerate": "1.14.0",
+      "awq": "0.2.9",
+      "huggingface_hub": "0.36.2",
+      "llmlingua": "0.2.2",
+      "safetensors": "0.8.0",
+      "torch": "2.13.0+cu130",
+      "transformers": "4.57.6",
+      "triton": "3.7.1"
+    },
+    "paths": {
+      "baseline": {
+        "exists": true,
+        "path": "D:\\projects\\CCDF-Rework\\models\\baseline\\Qwen3-4B-AWQ"
+      },
+      "compressor": {
+        "exists": true,
+        "path": "D:\\projects\\CCDF-Rework\\models\\compressor\\llmlingua-2-xlm-roberta-large-meetingbank"
+      },
+      "drafter": {
+        "exists": true,
+        "path": "D:\\projects\\CCDF-Rework\\models\\dflash\\drafter\\Qwen3-4B-DFlash-b16"
+      },
+      "target": {
+        "exists": true,
+        "path": "D:\\projects\\CCDF-Rework\\models\\dflash\\target\\Qwen3-4B-AWQ"
+      }
+    },
+    "process_default_sdpa_state": {
+      "configured_attention_backend": "sdpa",
+      "configured_kernel": "math",
+      "cudnn_tf32_enabled": true,
+      "flash_enabled": true,
+      "math_enabled": true,
+      "matmul_tf32_enabled": false,
+      "memory_efficient_enabled": true
+    },
+    "python": "3.12.10",
+    "pythonpath": null,
+    "sys_executable": "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+    "sys_executable_is_project_venv": true,
+    "sys_path": [
+      "D:\\projects\\CCDF-Rework",
+      "C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\python312.zip",
+      "C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\DLLs",
+      "C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\Lib",
+      "C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312",
+      "D:\\projects\\CCDF-Rework\\.venv",
+      "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages",
+      "D:\\projects\\CCDF-Rework\\src"
+    ],
+    "sys_prefix": "D:\\projects\\CCDF-Rework\\.venv",
+    "sys_prefix_is_project_venv": true,
+    "torch": "2.13.0+cu130",
+    "total_vram_bytes": 8585216000,
+    "venv_expected_path": "D:\\projects\\CCDF-Rework\\.venv",
+    "virtual_env": null,
+    "visible_gpu_count": 1,
+    "which_python": "C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\python.EXE"
+  }
+}

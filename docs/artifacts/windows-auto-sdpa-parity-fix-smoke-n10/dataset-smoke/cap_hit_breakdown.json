@@ -1,0 +1,96 @@
+{
+  "by_dataset": {
+    "gsm8k": {
+      "cap_hits": 0,
+      "configured_max_new_tokens": 256,
+      "runs": 40
+    },
+    "qmsum": {
+      "cap_hits": 12,
+      "configured_max_new_tokens": 512,
+      "runs": 40
+    }
+  },
+  "records": [
+    {
+      "cap_hit_is_complete_output": false,
+      "cap_hits": 0,
+      "condition": "baseline-ar",
+      "configured_max_new_tokens": 256,
+      "dataset": "gsm8k",
+      "evaluator_scope": "generated_output_only",
+      "outputs_complete_before_cap": 10,
+      "runs": 10
+    },
+    {
+      "cap_hit_is_complete_output": false,
+      "cap_hits": 0,
+      "condition": "dflash-r1",
+      "configured_max_new_tokens": 256,
+      "dataset": "gsm8k",
+      "evaluator_scope": "generated_output_only",
+      "outputs_complete_before_cap": 10,
+      "runs": 10
+    },
+    {
+      "cap_hit_is_complete_output": false,
+      "cap_hits": 0,
+      "condition": "llmlingua-ar-r2",
+      "configured_max_new_tokens": 256,
+      "dataset": "gsm8k",
+      "evaluator_scope": "generated_output_only",
+      "outputs_complete_before_cap": 10,
+      "runs": 10
+    },
+    {
+      "cap_hit_is_complete_output": false,
+      "cap_hits": 0,
+      "condition": "cc-dflash-r2",
+      "configured_max_new_tokens": 256,
+      "dataset": "gsm8k",
+      "evaluator_scope": "generated_output_only",
+      "outputs_complete_before_cap": 10,
+      "runs": 10
+    },
+    {
+      "cap_hit_is_complete_output": false,
+      "cap_hits": 6,
+      "condition": "baseline-ar",
+      "configured_max_new_tokens": 512,
+      "dataset": "qmsum",
+      "evaluator_scope": "generated_output_only",
+      "outputs_complete_before_cap": 4,
+      "runs": 10
+    },
+    {
+      "cap_hit_is_complete_output": false,
+      "cap_hits": 6,
+      "condition": "dflash-r1",
+      "configured_max_new_tokens": 512,
+      "dataset": "qmsum",
+      "evaluator_scope": "generated_output_only",
+      "outputs_complete_before_cap": 4,
+      "runs": 10
+    },
+    {
+      "cap_hit_is_complete_output": false,
+      "cap_hits": 0,
+      "condition": "llmlingua-ar-r2",
+      "configured_max_new_tokens": 512,
+      "dataset": "qmsum",
+      "evaluator_scope": "generated_output_only",
+      "outputs_complete_before_cap": 10,
+      "runs": 10
+    },
+    {
+      "cap_hit_is_complete_output": false,
+      "cap_hits": 0,
+      "condition": "cc-dflash-r2",
+      "configured_max_new_tokens": 512,
+      "dataset": "qmsum",
+      "evaluator_scope": "generated_output_only",
+      "outputs_complete_before_cap": 10,
+      "runs": 10
+    }
+  ]
+}

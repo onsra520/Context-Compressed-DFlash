@@ -1,0 +1,149 @@
+{
+  "command_duration_seconds": 4.569924700001138,
+  "component": "baseline",
+  "config_sha256": "904c408e5d492ec03ec0b21a710303b06589479012e804725a575bb14ba4c086",
+  "duration_seconds": 4.569652199999837,
+  "error": null,
+  "local_files_only": true,
+  "offline_environment": {
+    "HF_DATASETS_OFFLINE": "1",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "phase": "post-fix",
+  "result": {
+    "inference": {
+      "generated_token_ids": [
+        19357
+      ],
+      "pass": true,
+      "runtime": {
+        "cuda_allocator": {
+          "applied": false,
+          "configured": null,
+          "environment": null
+        },
+        "determinism": {
+          "actual_kernel_observed": false,
+          "allow_tf32_effective": false,
+          "allow_tf32_requested": false,
+          "configured_attention_backend": "sdpa",
+          "configured_sdpa_kernel_policy": "math",
+          "cublas_workspace_config": ":4096:8",
+          "cuda_seeded": true,
+          "cudnn_benchmark": false,
+          "cudnn_deterministic": true,
+          "deterministic_algorithms": true,
+          "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "matmul_precision": "high",
+          "mem_efficient_sdp_enabled": false,
+          "python_hash_seed_environment": "42",
+          "python_random_seeded": true,
+          "pytorch_allocator_environment": null,
+          "sdpa_kernel_policy": "math",
+          "seed": 42,
+          "torch_initial_seed": 42
+        },
+        "inference_tensor_audit": {
+          "cpu_or_disk_offload": false,
+          "generated_intermediate_device_policy": "all inference tensors are allocated from input_ids.device or model.device",
+          "input_ids_cuda": true,
+          "input_ids_device": "cuda:0"
+        },
+        "output_health": {
+          "empty": false,
+          "output_words": 1,
+          "repeated_ngram_ratio": 0.0,
+          "repetition_detected": false
+        }
+      }
+    },
+    "model_inventory": {
+      "all_buffers_cuda": true,
+      "all_parameters_cuda": true,
+      "buffer_count": 486097984,
+      "buffer_devices": [
+        "cuda:0"
+      ],
+      "floating_dtypes": [
+        "float16",
+        "float32"
+      ],
+      "parameter_count": 389152256,
+      "parameter_devices": [
+        "cuda:0"
+      ]
+    },
+    "model_metadata": {
+      "attention": {
+        "attn_implementation": "sdpa",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "mem_efficient_sdp_enabled": false
+      },
+      "awq_deterministic_kernel": {
+        "applied": true,
+        "triton_split_k_iters": 1
+      },
+      "device_audit": {
+        "all_tensors_cuda": true,
+        "buffer_bytes": 1887621376,
+        "buffer_tensor_count": 757,
+        "cpu_or_disk_offload": false,
+        "devices": [
+          "cuda:0"
+        ],
+        "execution_mode": "resident",
+        "hf_device_map": {
+          "": 0
+        },
+        "label": "baseline",
+        "parameter_bytes": 778304512,
+        "parameter_tensor_count": 146
+      },
+      "effective_dtypes": [
+        "float16",
+        "float32"
+      ],
+      "local_files_only": true,
+      "model_id": "Qwen/Qwen3-4B-AWQ",
+      "quantization": "awq-int4",
+      "requested_dtype": "float16",
+      "role": "baseline",
+      "runtime_workarounds": {
+        "activation_alias_applied": false,
+        "awq_deterministic_kernel": true,
+        "awq_profile": true,
+        "isolated_triton_cache": "/tmp/ccdf-rework-triton-cache",
+        "torch_disable_native_jit_environment": "1",
+        "triton_header_override_applied": false
+      },
+      "source_identity": {
+        "kind": "local-source-tree"
+      }
+    }
+  },
+  "status": "PASS",
+  "stderr": "",
+  "stdout": "",
+  "warnings": [
+    {
+      "classification": "deprecated_but_operational",
+      "fatal": false,
+      "filename": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\awq\\__init__.py",
+      "lineno": 21,
+      "message": "\nI have left this message as the final dev message to help you transition.\n\nImportant Notice:\n- AutoAWQ is officially deprecated and will no longer be maintained.\n- The last tested configuration used Torch 2.6.0 and Transformers 4.51.3.\n- If future versions of Transformers break AutoAWQ compatibility, please report the issue to the Transformers project.\n\nAlternative:\n- AutoAWQ has been adopted by the vLLM Project: https://github.com/vllm-project/llm-compressor\n\nFor further inquiries, feel free to reach out:\n- X: https://x.com/casper_hansen_\n- LinkedIn: https://www.linkedin.com/in/casper-hansen-804005170/\n",
+      "warning_category": "DeprecationWarning"
+    },
+    {
+      "classification": "deprecated_but_operational",
+      "fatal": false,
+      "filename": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\torch\\jit\\_script.py",
+      "lineno": 1488,
+      "message": "`torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.",
+      "warning_category": "DeprecationWarning"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "backend_requested": "flash",
+  "duration_seconds": 3.0714805999959935,
+  "error": "RuntimeError: No available kernel. Aborting execution.",
+  "forward_path": "standard",
+  "host_working_set_bytes": 2376867840,
+  "length": 2048,
+  "mask_mode": "none",
+  "monitor": {
+    "baseline_gpu": {
+      "gpu_utilization_percent": 0.0,
+      "memory_total_mib": 8188.0,
+      "memory_used_mib": 179.0,
+      "memory_utilization_percent": 1.0
+    },
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-X",
+      "faulthandler",
+      "D:\\projects\\CCDF-Rework\\tests\\run_qmsum_prefill_probe.py",
+      "--length",
+      "2048",
+      "--backend",
+      "flash",
+      "--mask",
+      "none",
+      "--forward-path",
+      "standard",
+      "--use-cache",
+      "true",
+      "--progress",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-supplemental-flash\\cases\\L2048-flash-none-standard-cache-true\\progress.jsonl",
+      "--output",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-supplemental-flash\\cases\\L2048-flash-none-standard-cache-true\\result.json",
+      "--profile",
+      "--trace",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-supplemental-flash\\cases\\L2048-flash-none-standard-cache-true\\trace.json"
+    ],
+    "duration_seconds": 6.779504599995562,
+    "exit_code": 1,
+    "finished_at_utc": "2026-07-19T01:34:02.829816+00:00",
+    "max_gpu_utilization_percent": 37.0,
+    "max_physical_vram_used_mib": 2916.0,
+    "max_process_tree_working_set_bytes": 4363288576,
+    "max_rss_processes": [
+      {
+        "parent_pid": 37200,
+        "pid": 37600,
+        "rss_bytes": 5169152
+      },
+      {
+        "parent_pid": 37600,
+        "pid": 34992,
+        "rss_bytes": 4358119424
+      }
+    ],
+    "physical_vram_limit_mib": 7680.0,
+    "progress_path": "cases\\L2048-flash-none-standard-cache-true\\progress.jsonl",
+    "started_at_utc": "2026-07-19T01:33:56.031317+00:00",
+    "stderr_path": "cases\\L2048-flash-none-standard-cache-true\\stderr.txt",
+    "stdout_path": "cases\\L2048-flash-none-standard-cache-true\\stdout.txt",
+    "termination": null,
+    "termination_reason": null,
+    "timeout_seconds": 120.0
+  },
+  "status": "REJECTED",
+  "use_cache": true
+}

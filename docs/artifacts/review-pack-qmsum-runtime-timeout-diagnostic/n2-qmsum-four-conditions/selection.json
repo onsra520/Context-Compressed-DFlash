@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    "baseline-ar",
+    "dflash-r1",
+    "llmlingua-ar-r2",
+    "cc-dflash-r2"
+  ],
+  "fixture_ids": [
+    "qmsum_test_meeting0015_specific_05_8afeb1a1",
+    "qmsum_test_meeting0001_specific_02_1c2f577e"
+  ],
+  "original_words": [
+    3862,
+    6030
+  ],
+  "policy": "two shortest full-transcript QMSum samples for conservative protocol smoke",
+  "qmsum_max_new_tokens": 512,
+  "watchdog": {
+    "condition_wall_clock_timeout_seconds": 900,
+    "dataset_wall_clock_timeout_seconds": 3000,
+    "no_progress_timeout_seconds": 600,
+    "poll_interval_seconds": 1,
+    "terminate_grace_seconds": 10
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "tests\\run_windows_environment_audit.py",
+    "--config",
+    "config.yml",
+    "--phase",
+    "post-fix",
+    "--output-dir",
+    "docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\environment",
+    "--component",
+    "environment"
+  ],
+  "duration_seconds": 6.293178600000829,
+  "exit_code": 0,
+  "finished_at_utc": "2026-07-18T18:15:05.995564+00:00",
+  "label": "environment-audit",
+  "native_crash_code": null,
+  "python_faulthandler_environment": "1",
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "started_at_utc": "2026-07-18T18:14:59.701311+00:00",
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\command-logs\\environment-audit.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\command-logs\\environment-audit.stdout.txt"
+}

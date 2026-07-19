@@ -1,0 +1,58 @@
+{
+  "config_sha256": "4ee0fcf85510fbb42044431f8bb212eb8b799b7309bb535b99b31e9db2cea2a5",
+  "pass": true,
+  "prior_qmsum_contract": "set(lowercase([A-Za-z0-9]+)); overlap precision and recall",
+  "records": [
+    {
+      "actual": "correct",
+      "evaluator": "gsm8k",
+      "expected": "correct",
+      "pass": true
+    },
+    {
+      "actual": "correct",
+      "evaluator": "gsm8k",
+      "expected": "correct",
+      "pass": true
+    },
+    {
+      "actual": "wrong_numeric",
+      "evaluator": "gsm8k",
+      "expected": "wrong_numeric",
+      "pass": true
+    },
+    {
+      "actual": "invalid_format",
+      "evaluator": "gsm8k",
+      "expected": "invalid_format",
+      "pass": true
+    },
+    {
+      "actual": "missing_answer",
+      "evaluator": "gsm8k",
+      "expected": "missing_answer",
+      "pass": true
+    },
+    {
+      "actual_precision": 0.5,
+      "actual_recall": 0.5,
+      "evaluator": "qmsum",
+      "expected_precision": 0.5,
+      "expected_recall": 0.5,
+      "pass": true
+    },
+    {
+      "actual_precision": 0.0,
+      "actual_recall": 0.0,
+      "evaluator": "qmsum",
+      "expected_precision": 0.0,
+      "expected_recall": 0.0,
+      "pass": true
+    }
+  ],
+  "source_sha256": "6b6768137cb87993f4e88d0a8a1c1e45f44fe27d06efbb8fa5c8af09ccfaaf27",
+  "versions": {
+    "gsm8k": "gsm8k-numeric.v1",
+    "qmsum": "qmsum-overlap.v1"
+  }
+}

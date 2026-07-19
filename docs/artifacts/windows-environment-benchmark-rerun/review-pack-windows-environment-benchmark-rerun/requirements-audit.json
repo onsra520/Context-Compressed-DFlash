@@ -1,0 +1,53 @@
+{
+  "canonical_regression": "PASS",
+  "config_sha256": "904c408e5d492ec03ec0b21a710303b06589479012e804725a575bb14ba4c086",
+  "dataset_smoke": {
+    "generated_token_parity": "26/40",
+    "gsm8k_evaluator_valid": 10,
+    "hidden_truncation": 0,
+    "metric_valid_runs": 80,
+    "qmsum_coverage": 1.0,
+    "qmsum_evaluator_valid": 10,
+    "rendered_input_parity": "40/40",
+    "runs": "80/80",
+    "status": "FAIL"
+  },
+  "dflash_core_unchanged": true,
+  "environment_post_fix": true,
+  "execution_order": {
+    "actual": [
+      "mock10",
+      "canonical-regression",
+      "dataset-smoke"
+    ],
+    "pass": false,
+    "requested": [
+      "canonical-regression",
+      "mock10",
+      "dataset-smoke"
+    ],
+    "rerun_performed": false
+  },
+  "mock10": {
+    "condition_success": "40/40",
+    "exact_quality": "40/40",
+    "pair_parity": "19/20",
+    "status": "FAIL"
+  },
+  "no_commit_or_push_performed": true,
+  "overall_status": "FAIL",
+  "repository_checks": {
+    "compileall": true,
+    "git_diff_check": true,
+    "pip_check": true,
+    "pytest": true
+  },
+  "worker_processes": {
+    "count": 10,
+    "native_crash": 0,
+    "nonzero_exit": 0,
+    "resume_enabled": 0,
+    "retry": 0,
+    "zero_exit": 10
+  }
+}

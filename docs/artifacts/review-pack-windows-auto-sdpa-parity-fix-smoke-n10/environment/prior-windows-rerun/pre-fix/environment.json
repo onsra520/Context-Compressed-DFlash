@@ -1,0 +1,172 @@
+{
+  "audit_version": "ccdf.windows-environment.v1",
+  "command_duration_seconds": 2.8618200000000797,
+  "component": "environment",
+  "config_path": "D:\\projects\\CCDF-Rework\\config.yml",
+  "config_sha256": "02f2d7c2e107843ce083a857efb4de578043ba9cbe739b6475ea1d4bdb9e3a4e",
+  "cuda_probes": {
+    "cuda_matmul": {
+      "pass": true,
+      "value": 11.0
+    },
+    "cuda_tensor": {
+      "device": "cuda:0",
+      "pass": true
+    },
+    "sdpa_math": {
+      "device": "cuda:0",
+      "pass": true,
+      "shape": [
+        1,
+        1,
+        2,
+        8
+      ]
+    }
+  },
+  "deprecated_project_api_scan": {
+    "command": [
+      "rg",
+      "-n",
+      "torch_dtype|torch\\.jit\\.script",
+      "src",
+      "scripts",
+      "tests",
+      "-g",
+      "*.py"
+    ],
+    "duration_seconds": 0.5377152000000933,
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "tests\\run_windows_environment_audit.py:97:    elif \"torch_dtype\" in lowered or \"torch.jit.script\" in lowered:\ntests\\run_windows_environment_audit.py:210:        \"rg\", \"-n\", \"torch_dtype|torch\\\\.jit\\\\.script\", \"src\", \"scripts\", \"tests\",\n"
+  },
+  "expandable_segments_reproduction": {
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-X",
+      "faulthandler",
+      "-c",
+      "import torch; x=torch.ones(1,device='cuda'); torch.cuda.synchronize(); print(x.device)"
+    ],
+    "duration_seconds": 1.6457651000000624,
+    "exit_code": 0,
+    "stderr": "<string>:1: UserWarning: expandable_segments not supported on this platform (Triggered internally at C:\\actions-runner\\_work\\pytorch\\pytorch\\c10/cuda/CUDAAllocatorConfig.h:40.)\n",
+    "stdout": "cuda:0\n"
+  },
+  "gpu": {
+    "compute_capability": [
+      8,
+      9
+    ],
+    "cuda_available": true,
+    "device_count": 1,
+    "device_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "torch_cuda_driver_version": null,
+    "torch_cuda_runtime": "13.0",
+    "total_memory_bytes": 8585216000
+  },
+  "nvidia_smi": {
+    "command": [
+      "nvidia-smi",
+      "--query-gpu=name,driver_version,compute_cap,memory.total",
+      "--format=csv,noheader"
+    ],
+    "duration_seconds": 0.05050350000055914,
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "NVIDIA GeForce RTX 4070 Laptop GPU, 610.62, 8.9, 8188 MiB\n"
+  },
+  "packages": {
+    "accelerate": {
+      "available": true,
+      "distribution": "accelerate",
+      "module": "accelerate",
+      "origin": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\accelerate\\__init__.py",
+      "version": "1.14.0"
+    },
+    "awq": {
+      "available": true,
+      "distribution": "autoawq",
+      "module": "awq",
+      "origin": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\awq\\__init__.py",
+      "version": "0.2.9"
+    },
+    "llmlingua": {
+      "available": true,
+      "distribution": "llmlingua",
+      "module": "llmlingua",
+      "origin": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\llmlingua\\__init__.py",
+      "version": "0.2.2"
+    },
+    "safetensors": {
+      "available": true,
+      "distribution": "safetensors",
+      "module": "safetensors",
+      "origin": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\safetensors\\__init__.py",
+      "version": "0.8.0"
+    },
+    "torch": {
+      "available": true,
+      "distribution": "torch",
+      "module": "torch",
+      "origin": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\torch\\__init__.py",
+      "version": "2.13.0+cu130"
+    },
+    "transformers": {
+      "available": true,
+      "distribution": "transformers",
+      "module": "transformers",
+      "origin": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\transformers\\__init__.py",
+      "version": "4.57.6"
+    },
+    "triton": {
+      "available": true,
+      "distribution": "triton",
+      "module": "triton",
+      "origin": "D:\\projects\\CCDF-Rework\\.venv\\Lib\\site-packages\\triton\\__init__.py",
+      "version": null
+    }
+  },
+  "phase": "pre-fix",
+  "pip_check": {
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "check"
+    ],
+    "duration_seconds": 0.4249797000002218,
+    "exit_code": 1,
+    "stderr": "",
+    "stdout": "autoawq 0.2.9 requires triton, which is not installed.\n"
+  },
+  "python_environment": {
+    "conda_prefix": null,
+    "path": "C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.6.3.0_x64__8wekyb3d8bbwe;C:\\Users\\trtie\\.codex\\tmp\\arg0\\codex-arg0q3TIDk;C:\\Users\\trtie\\.codex\\packages\\standalone\\releases\\0.144.6-x86_64-pc-windows-msvc\\codex-path;C:\\Program Files\\WindowsApps\\Microsoft.PowerShell_7.6.3.0_x64__8wekyb3d8bbwe;c:\\Users\\trtie\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand;c:\\Users\\trtie\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\dotnet\\;C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs\\;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Program Files\\CMake\\bin;C:\\Users\\trtie\\AppData\\Local\\Programs\\OpenAI\\Codex\\bin;C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\;C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\;C:\\Users\\trtie\\.cargo\\bin;C:\\Users\\trtie\\AppData\\Local\\agy\\bin;C:\\Users\\trtie\\AppData\\Local\\pnpm\\bin;C:\\Users\\trtie\\.unsloth\\studio\\bin;C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\;C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python313\\;C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Launcher\\;C:\\Users\\trtie\\miniconda3;C:\\Users\\trtie\\miniconda3\\Library\\mingw-w64\\bin;C:\\Users\\trtie\\miniconda3\\Library\\usr\\bin;C:\\Users\\trtie\\miniconda3\\Library\\bin;C:\\Users\\trtie\\miniconda3\\Scripts;C:\\Users\\trtie\\miniconda3\\bin;C:\\Users\\trtie\\miniconda3\\condabin;c:\\Users\\trtie\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\debugCommand;c:\\Users\\trtie\\AppData\\Roaming\\Code\\User\\globalStorage\\github.copilot-chat\\copilotCli;C:\\Users\\trtie\\AppData\\Local\\Programs\\Microsoft VS Code;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0;C:\\Windows\\System32\\OpenSSH;C:\\Program Files\\dotnet;C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit;C:\\Program Files\\Docker\\Docker\\resources\\bin;c:\\Users\\trtie\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin;C:\\Users\\trtie\\.local\\bin;C:\\Users\\trtie\\miniconda3;C:\\Users\\trtie\\miniconda3\\Library\\mingw-w64\\bin;C:\\Users\\trtie\\miniconda3\\Library\\usr\\bin;C:\\Users\\trtie\\miniconda3\\Library\\bin;C:\\Users\\trtie\\miniconda3\\Scripts;C:\\Users\\trtie\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\trtie\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\trtie\\AppData\\Local\\GitHubDesktop\\bin;C:\\Users\\trtie\\AppData\\Roaming\\npm;C:\\Users\\trtie\\AppData\\Local\\Programs\\Ollama;C:\\Users\\trtie\\AppData\\Local\\Programs\\Obsidian;C:\\Users\\trtie\\.lmstudio\\bin;C:\\Users\\trtie\\AppData\\Local\\Programs\\Antigravity\\bin;C:\\Users\\trtie\\.dotnet\\tools;C:\\Users\\trtie\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin;C:\\Users\\trtie\\AppData\\Local\\PowerToys\\DSCModules;C:\\Users\\trtie\\.command-alias-bin;C:\\Users\\trtie\\AppData\\Local\\Programs\\MiKTeX\\miktex\\bin\\x64\\;C:\\Users\\trtie\\AppData\\Local\\PowerToys\\DSCModules\\;C:\\Users\\trtie\\AppData\\Local\\Programs\\Antigravity IDE\\bin;c:\\Users\\trtie\\.vscode\\extensions\\ms-python.debugpy-2026.6.0-win32-x64\\bundled\\scripts\\noConfigScripts",
+    "project_venv": "D:\\projects\\CCDF-Rework\\.venv",
+    "python_version": "3.12.10",
+    "pythonpath": null,
+    "sys_executable": "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+    "sys_prefix": "D:\\projects\\CCDF-Rework\\.venv",
+    "using_project_venv": true,
+    "virtual_env": null,
+    "which_python": "C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\python.EXE",
+    "windows_version": "Windows-11-10.0.26200-SP0"
+  },
+  "status": "FAIL",
+  "trusted_settings": {
+    "baseline_dtype": "bfloat16",
+    "dataset_allocator": "expandable_segments:True,garbage_collection_threshold:0.5",
+    "drafter_dtype": "bfloat16",
+    "local_files_only": true,
+    "runtime_allocator": null,
+    "target_dtype": "bfloat16"
+  },
+  "warnings": [
+    {
+      "classification": "unsupported_on_windows",
+      "fatal": false,
+      "message": "<string>:1: UserWarning: expandable_segments not supported on this platform (Triggered internally at C:\\actions-runner\\_work\\pytorch\\pytorch\\c10/cuda/CUDAAllocatorConfig.h:40.)"
+    }
+  ]
+}

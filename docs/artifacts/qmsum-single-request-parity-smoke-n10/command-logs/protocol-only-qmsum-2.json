@@ -1,0 +1,27 @@
+{
+  "attempt": 1,
+  "command": [
+    ".venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "tests\\run_dataset_smoke_generation_preflight.py",
+    "--condition",
+    "baseline",
+    "--prompt-kind",
+    "both",
+    "--output",
+    "docs\\artifacts\\qmsum-single-request-parity-smoke-n10\\protocol-only\\summary.json"
+  ],
+  "duration_seconds": 836.9737203000004,
+  "exit_code": 0,
+  "finished_at_utc": "2026-07-18T21:27:00.506500+00:00",
+  "label": "protocol-only-qmsum-2",
+  "native_crash_code": null,
+  "python_faulthandler_environment": "1",
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "started_at_utc": "2026-07-18T21:13:03.531186+00:00",
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-single-request-parity-smoke-n10\\command-logs\\protocol-only-qmsum-2.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-single-request-parity-smoke-n10\\command-logs\\protocol-only-qmsum-2.stdout.txt"
+}

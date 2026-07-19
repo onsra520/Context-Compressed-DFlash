@@ -1,0 +1,17 @@
+{
+  "attempt": 1,
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "duration_seconds": 0.04946609999933571,
+  "exit_code": 0,
+  "label": "git-diff-check",
+  "native_crash_code": null,
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\git-diff-check.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\git-diff-check.stdout.txt"
+}

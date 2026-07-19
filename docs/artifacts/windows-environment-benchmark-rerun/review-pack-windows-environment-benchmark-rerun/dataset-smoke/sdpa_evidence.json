@@ -1,0 +1,3056 @@
+{
+  "actual_kernel_execution_observed": false,
+  "config_sha256": "904c408e5d492ec03ec0b21a710303b06589479012e804725a575bb14ba4c086",
+  "configured": {
+    "attention_backend": "sdpa",
+    "sdpa_kernel": "math"
+  },
+  "effective_runtime_states": [
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000784_b798a8a1",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000807_6c6be7c4",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000446_2ac326d8",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000629_d92a73a6",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000307_a61bf379",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000051_88792752",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000664_d9692bba",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000104_0c54db10",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000766_bf7481e7",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000733_ea5ad0d0",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0029_specific_04_53800266",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0018_specific_00_8a802fed",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0033_specific_02_20d48688",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0001_specific_02_1c2f577e",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0013_specific_01_65a50e94",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0015_specific_05_8afeb1a1",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0003_specific_01_4b3776b6",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0000_specific_05_9b1f25eb",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0025_specific_02_10beee09",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "baseline-ar",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0013_specific_09_3332653e",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000784_b798a8a1",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000807_6c6be7c4",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000446_2ac326d8",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000629_d92a73a6",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000307_a61bf379",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000051_88792752",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000664_d9692bba",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000104_0c54db10",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000766_bf7481e7",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000733_ea5ad0d0",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0029_specific_04_53800266",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0018_specific_00_8a802fed",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0033_specific_02_20d48688",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0001_specific_02_1c2f577e",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0013_specific_01_65a50e94",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0015_specific_05_8afeb1a1",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0003_specific_01_4b3776b6",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0000_specific_05_9b1f25eb",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0025_specific_02_10beee09",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "dflash-r1",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0013_specific_09_3332653e",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000784_b798a8a1",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000807_6c6be7c4",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000446_2ac326d8",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000629_d92a73a6",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000307_a61bf379",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000051_88792752",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000664_d9692bba",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000104_0c54db10",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000766_bf7481e7",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000733_ea5ad0d0",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0029_specific_04_53800266",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0018_specific_00_8a802fed",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0033_specific_02_20d48688",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0001_specific_02_1c2f577e",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0013_specific_01_65a50e94",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0015_specific_05_8afeb1a1",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0003_specific_01_4b3776b6",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0000_specific_05_9b1f25eb",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0025_specific_02_10beee09",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "llmlingua-ar-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0013_specific_09_3332653e",
+      "model_attention": {
+        "attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000784_b798a8a1",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000807_6c6be7c4",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000446_2ac326d8",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000629_d92a73a6",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000307_a61bf379",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000051_88792752",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000664_d9692bba",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000104_0c54db10",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000766_bf7481e7",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "gsm8k_test_000733_ea5ad0d0",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0029_specific_04_53800266",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0018_specific_00_8a802fed",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0033_specific_02_20d48688",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0001_specific_02_1c2f577e",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0013_specific_01_65a50e94",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0015_specific_05_8afeb1a1",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0003_specific_01_4b3776b6",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0000_specific_05_9b1f25eb",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0025_specific_02_10beee09",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    },
+    {
+      "condition": "cc-dflash-r2",
+      "determinism": {
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "fixture_id": "qmsum_test_meeting0013_specific_09_3332653e",
+      "model_attention": {
+        "drafter_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        },
+        "target_attention": {
+          "attn_implementation": "sdpa",
+          "flash_sdp_enabled": false,
+          "math_sdp_enabled": true,
+          "mem_efficient_sdp_enabled": false
+        }
+      }
+    }
+  ],
+  "interpretation": "flash_sdp_enabled and mem_efficient_sdp_enabled describe dispatcher availability only; they are not evidence that either kernel executed",
+  "resolved": {
+    "attention_backend": "sdpa",
+    "sdpa_kernel": "math"
+  },
+  "resolved_profile": "dataset_smoke"
+}

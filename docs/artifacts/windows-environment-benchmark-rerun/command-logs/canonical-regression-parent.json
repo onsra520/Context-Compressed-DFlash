@@ -1,0 +1,20 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "tests\\run_windows_canonical_regression.py",
+    "--config",
+    "config.yml"
+  ],
+  "duration_seconds": 317.1516697999996,
+  "exit_code": 0,
+  "label": "canonical-regression-parent",
+  "native_crash_code": null,
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\canonical-regression-parent.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-environment-benchmark-rerun\\command-logs\\canonical-regression-parent.stdout.txt"
+}

@@ -1,0 +1,36 @@
+[
+  {
+    "attempt": 1,
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-X",
+      "faulthandler",
+      "-m",
+      "ccdf.benchmark.dataset_smoke",
+      "--config",
+      "D:\\projects\\CCDF-Rework\\config.yml",
+      "--condition-worker",
+      "baseline-ar",
+      "--prepared-path",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\prepared.jsonl",
+      "--rows-path",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\baseline-ar.jsonl",
+      "--progress-path",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\progress_logs\\baseline-ar.jsonl"
+    ],
+    "condition": "baseline-ar",
+    "duration_seconds": 902.2878014999951,
+    "exit_code": 1,
+    "faulthandler_enabled": true,
+    "max_attempts": 1,
+    "native_crash_code": null,
+    "progress_path": "progress_logs\\baseline-ar.jsonl",
+    "resume_enabled": false,
+    "retry_count": 0,
+    "rows_written": 0,
+    "signal": null,
+    "stderr_path": "worker_logs\\baseline-ar.stderr.txt",
+    "stdout_path": "worker_logs\\baseline-ar.stdout.txt",
+    "timeout_event": "condition_wall_clock_timeout"
+  }
+]

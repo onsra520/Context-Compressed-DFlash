@@ -1,0 +1,4 @@
+{
+  "output": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\parity-diagnostics\\first-divergences.json",
+  "failure_count": 16
+}

@@ -1,0 +1,135 @@
+{
+  "completed_cases": 0,
+  "duration_seconds": 908.4333007000023,
+  "expected_cases": 8,
+  "failure": {
+    "attempts": [
+      {
+        "attempt": 1,
+        "command": [
+          "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+          "-X",
+          "faulthandler",
+          "-m",
+          "ccdf.benchmark.dataset_smoke",
+          "--config",
+          "D:\\projects\\CCDF-Rework\\config.yml",
+          "--condition-worker",
+          "baseline-ar",
+          "--prepared-path",
+          "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\prepared.jsonl",
+          "--rows-path",
+          "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\baseline-ar.jsonl",
+          "--progress-path",
+          "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\progress_logs\\baseline-ar.jsonl"
+        ],
+        "condition": "baseline-ar",
+        "duration_seconds": 902.2878014999951,
+        "exit_code": 1,
+        "faulthandler_enabled": true,
+        "max_attempts": 1,
+        "native_crash_code": null,
+        "progress_path": "progress_logs\\baseline-ar.jsonl",
+        "resume_enabled": false,
+        "retry_count": 0,
+        "rows_written": 0,
+        "signal": null,
+        "stderr_path": "worker_logs\\baseline-ar.stderr.txt",
+        "stdout_path": "worker_logs\\baseline-ar.stdout.txt",
+        "timeout_event": "condition_wall_clock_timeout"
+      }
+    ],
+    "condition": "baseline-ar",
+    "condition_elapsed_seconds": 902.2878014999951,
+    "configured_timeouts_seconds": {
+      "condition": 900.0,
+      "dataset": 3000.0,
+      "no_progress": 600.0
+    },
+    "dataset_elapsed_seconds": 908.4326025999981,
+    "last_progress": {
+      "condition": "baseline-ar",
+      "dataset": "qmsum",
+      "elapsed_sample_seconds": 0.0,
+      "event": "request_start",
+      "fixture_id": "qmsum_test_meeting0015_specific_05_8afeb1a1",
+      "input_tokens": 6289,
+      "measured": true,
+      "output_tokens": null,
+      "sample_index": 1,
+      "timestamp_utc": "2026-07-19T00:49:39.497750+00:00",
+      "total_elapsed_seconds": 568.7670299999954
+    },
+    "last_progress_file_timestamp_utc": "2026-07-19T00:49:39.497750+00:00",
+    "reason": "condition_wall_clock_timeout",
+    "rows_written": 0,
+    "status": "TIMEOUT_FAIL",
+    "termination": {
+      "after": {
+        "captured_at_utc": "2026-07-19T00:55:09.213765+00:00",
+        "gpu": {
+          "exit_code": 0,
+          "stderr": "",
+          "stdout": "2026/07/19 07:55:09.921, NVIDIA GeForce RTX 4070 Laptop GPU, 1 %, 1 %, 844 MiB, 8188 MiB"
+        },
+        "platform": "win32",
+        "processes": [
+          {
+            "CommandLine": "\"C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -X faulthandler -m ccdf.benchmark.dataset_smoke --config D:\\projects\\CCDF-Rework\\config.yml --condition-worker baseline-ar --prepared-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\prepared.jsonl --rows-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\baseline-ar.jsonl --progress-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\progress_logs\\baseline-ar.jsonl",
+            "CreationDate": "/Date(1784421607652)/",
+            "KernelModeTime": 63125000,
+            "Name": "python.exe",
+            "ParentProcessId": 10540,
+            "ProcessId": 30336,
+            "UserModeTime": 2033281250,
+            "WorkingSetSize": 8586825728
+          }
+        ],
+        "root_pid": 10540
+      },
+      "before": {
+        "captured_at_utc": "2026-07-19T00:55:08.104123+00:00",
+        "gpu": {
+          "exit_code": 0,
+          "stderr": "",
+          "stdout": "2026/07/19 07:55:09.002, NVIDIA GeForce RTX 4070 Laptop GPU, 100 %, 2 %, 7692 MiB, 8188 MiB"
+        },
+        "platform": "win32",
+        "processes": [
+          {
+            "CommandLine": "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe -X faulthandler -m ccdf.benchmark.dataset_smoke --config D:\\projects\\CCDF-Rework\\config.yml --condition-worker baseline-ar --prepared-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\prepared.jsonl --rows-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\baseline-ar.jsonl --progress-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\progress_logs\\baseline-ar.jsonl",
+            "CreationDate": "/Date(1784421607642)/",
+            "KernelModeTime": 0,
+            "Name": "python.exe",
+            "ParentProcessId": 31268,
+            "ProcessId": 10540,
+            "UserModeTime": 0,
+            "WorkingSetSize": 5246976
+          },
+          {
+            "CommandLine": "\"C:\\Users\\trtie\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -X faulthandler -m ccdf.benchmark.dataset_smoke --config D:\\projects\\CCDF-Rework\\config.yml --condition-worker baseline-ar --prepared-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\prepared.jsonl --rows-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\.working\\baseline-ar.jsonl --progress-path D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\n2-qmsum-four-conditions\\progress_logs\\baseline-ar.jsonl",
+            "CreationDate": "/Date(1784421607652)/",
+            "KernelModeTime": 62812500,
+            "Name": "python.exe",
+            "ParentProcessId": 10540,
+            "ProcessId": 30336,
+            "UserModeTime": 2028593750,
+            "WorkingSetSize": 11892240384
+          }
+        ],
+        "root_pid": 10540
+      },
+      "exit_code": 1,
+      "method": "taskkill /T /F",
+      "taskkill_exit_code": 0,
+      "taskkill_stderr": "",
+      "taskkill_stdout": "SUCCESS: The process with PID 30336 (child process of PID 10540) has been terminated.\nSUCCESS: The process with PID 10540 (child process of PID 31268) has been terminated."
+    }
+  },
+  "finished_at_utc": "2026-07-19T00:55:09.930828+00:00",
+  "n10_rerun_permitted": false,
+  "slow_sample_phase_permitted": false,
+  "started_at_utc": "2026-07-19T00:40:01.497781+00:00",
+  "status": "FAIL",
+  "verdict": "TIMEOUT_FAIL"
+}

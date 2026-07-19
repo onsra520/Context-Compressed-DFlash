@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "current_sha256": "a40dbfb114b04dae8f728cb21b15fd6c7bcb835bd5452e9c8026daa7d4e002d8",
+      "path": "src/ccdf/dflash/__init__.py",
+      "sealed_pre_goal_sha256": "a40dbfb114b04dae8f728cb21b15fd6c7bcb835bd5452e9c8026daa7d4e002d8",
+      "unchanged": true
+    },
+    {
+      "current_sha256": "b487f7d9cf6eb264288635ae5540f96095fcf3b4550746da7e18d1f4bb946e2b",
+      "path": "src/ccdf/dflash/acceptance.py",
+      "sealed_pre_goal_sha256": "b487f7d9cf6eb264288635ae5540f96095fcf3b4550746da7e18d1f4bb946e2b",
+      "unchanged": true
+    },
+    {
+      "current_sha256": "e3a518a20b679b107ce9e9cc85c24e11c6041531ce855e936fc580d6b236f86a",
+      "path": "src/ccdf/dflash/generate.py",
+      "sealed_pre_goal_sha256": "e3a518a20b679b107ce9e9cc85c24e11c6041531ce855e936fc580d6b236f86a",
+      "unchanged": true
+    },
+    {
+      "current_sha256": "8ea745197ec0bced5bab6550ff1c554344df7b7ef7cb8303c2b540677207d581",
+      "path": "src/ccdf/dflash/policy.py",
+      "sealed_pre_goal_sha256": "8ea745197ec0bced5bab6550ff1c554344df7b7ef7cb8303c2b540677207d581",
+      "unchanged": true
+    },
+    {
+      "current_sha256": "c647e78821c750d8c190d8b109325a1b07a040b0711f89123f9568ca1b5e89bd",
+      "path": "src/ccdf/dflash/verifier.py",
+      "sealed_pre_goal_sha256": "c647e78821c750d8c190d8b109325a1b07a040b0711f89123f9568ca1b5e89bd",
+      "unchanged": true
+    }
+  ],
+  "pass": true
+}

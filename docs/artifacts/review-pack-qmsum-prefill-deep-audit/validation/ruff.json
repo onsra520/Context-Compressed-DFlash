@@ -1,0 +1,18 @@
+{
+  "command": [
+    "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+    "-m",
+    "ruff",
+    "check",
+    "src/ccdf/protocols/orchestrator.py",
+    "src/ccdf/runtime/engine.py",
+    "src/ccdf/inference/baseline.py",
+    "src/ccdf/benchmark/dataset_smoke.py",
+    "tests/test_prefill_runner_overhead.py",
+    "tests/run_qmsum_prefill_probe.py",
+    "tests/run_qmsum_prefill_deep_audit.py"
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "stdout": "All checks passed!\n"
+}

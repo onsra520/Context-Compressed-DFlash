@@ -1,0 +1,10 @@
+{
+  "command": [
+    "git",
+    "status",
+    "--short"
+  ],
+  "exit_code": 0,
+  "stderr": "",
+  "stdout": " M .gitignore\n M config.yml\n M data/eval/gsm8k/gsm8k_n10.jsonl\n M data/eval/qmsum/qmsum_n10.jsonl\n M data/manifests/dataset_manifest.json\n M pyproject.toml\n M src/ccdf/__init__.py\n D src/ccdf/benchmark.py\n M src/ccdf/cli.py\n M src/ccdf/compression/llmlingua.py\n M src/ccdf/compression/schemas.py\n M src/ccdf/config.py\n M src/ccdf/data/pipeline.py\n D src/ccdf/determinism.py\n D src/ccdf/device.py\n M src/ccdf/dflash/generate.py\n M src/ccdf/errors.py\n M src/ccdf/inference/baseline.py\n M src/ccdf/models/loaders.py\n M src/ccdf/runtime/__init__.py\n M src/ccdf/runtime/engine.py\n M src/ccdf/schemas.py\n M src/ccdf/validation/environment.py\n?? .prompt\n?? data/manifests/dataset_smoke_selection.json\n?? data/raw/\n?? scripts/build_dataset_smoke_review_pack.py\n?? scripts/build_qmsum_prefill_deep_audit_review_pack.py\n?? scripts/build_qmsum_runtime_timeout_review_pack.py\n?? scripts/refresh_dataset_smoke_cohorts.py\n?? scripts/windows_triton_compat/\n?? src/ccdf/__main__.py\n?? src/ccdf/benchmark/\n?? src/ccdf/protocols/\n?? src/ccdf/runtime/determinism.py\n?? src/ccdf/runtime/device.py\n"
+}

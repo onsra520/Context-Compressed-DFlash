@@ -1,0 +1,230 @@
+{
+  "dataset_manifest": {
+    "path": "D:\\projects\\CCDF-Rework\\data\\manifests\\dataset_manifest.json",
+    "sha256": "d2188c8b696a16a338f297fb32300a3bab0645655e24fcb90cabf535c56f904f",
+    "value": {
+      "builder_version": "ccdf.data-builder.v2",
+      "cohort_version": "real-sources-full-context-v2",
+      "datasets": {
+        "gsm8k": {
+          "empty_context": true,
+          "expected_raw_sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+          "full_context": false,
+          "sample_path": "data/eval/gsm8k/gsm8k_n10.jsonl",
+          "sample_row_count": 10,
+          "sample_row_ids": [
+            "gsm8k_test_000784_b798a8a1",
+            "gsm8k_test_000807_6c6be7c4",
+            "gsm8k_test_000446_2ac326d8",
+            "gsm8k_test_000629_d92a73a6",
+            "gsm8k_test_000307_a61bf379",
+            "gsm8k_test_000051_88792752",
+            "gsm8k_test_000664_d9692bba",
+            "gsm8k_test_000104_0c54db10",
+            "gsm8k_test_000766_bf7481e7",
+            "gsm8k_test_000733_ea5ad0d0"
+          ],
+          "sample_sha256": "20a89fc4d501171b2d5821c8f2c977e63e27255610af8929cd55972085027149",
+          "source_lock_pass": true,
+          "source_revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+          "split": "test"
+        },
+        "qmsum": {
+          "empty_context": false,
+          "expected_raw_sha256": "6bcd428211260ad2efae3af76cbaf6a7f5ae4bb5e1e59c45a4b8e89539cb9208",
+          "full_context": true,
+          "sample_path": "data/eval/qmsum/qmsum_n10.jsonl",
+          "sample_row_count": 10,
+          "sample_row_ids": [
+            "qmsum_test_meeting0029_specific_04_53800266",
+            "qmsum_test_meeting0018_specific_00_8a802fed",
+            "qmsum_test_meeting0033_specific_02_20d48688",
+            "qmsum_test_meeting0001_specific_02_1c2f577e",
+            "qmsum_test_meeting0013_specific_01_65a50e94",
+            "qmsum_test_meeting0015_specific_05_8afeb1a1",
+            "qmsum_test_meeting0003_specific_01_4b3776b6",
+            "qmsum_test_meeting0000_specific_05_9b1f25eb",
+            "qmsum_test_meeting0025_specific_02_10beee09",
+            "qmsum_test_meeting0013_specific_09_3332653e"
+          ],
+          "sample_sha256": "f293e20c29aea1ca7bb903951e6c9f8a002941fd8ceb9a33ff52d4952f2c84f5",
+          "source_lock_pass": true,
+          "source_revision": "83d7768c1f2b4dfeb091385d3dc7e239b8e5bb7e",
+          "split": "test"
+        }
+      },
+      "sample_size": 10,
+      "schema_version": "ccdf.data.v2",
+      "seed": 42,
+      "selection_manifest": "data/manifests/dataset_smoke_selection.json",
+      "selection_manifest_sha256": "bc7379d37ca8b197fc48d637e6df5a6be82bc2ea8bbea1aa642023d6ed7825f1",
+      "selection_policy": "locked_source_coordinates_in_declared_order"
+    }
+  },
+  "datasets": {
+    "gsm8k": {
+      "fixture_ids": [
+        "gsm8k_test_000784_b798a8a1",
+        "gsm8k_test_000807_6c6be7c4",
+        "gsm8k_test_000446_2ac326d8",
+        "gsm8k_test_000629_d92a73a6",
+        "gsm8k_test_000307_a61bf379",
+        "gsm8k_test_000051_88792752",
+        "gsm8k_test_000664_d9692bba",
+        "gsm8k_test_000104_0c54db10",
+        "gsm8k_test_000766_bf7481e7",
+        "gsm8k_test_000733_ea5ad0d0"
+      ],
+      "path": "D:\\projects\\CCDF-Rework\\data\\eval\\gsm8k\\gsm8k_n10.jsonl",
+      "reference_answer_sha256": [
+        "e629fa6598d732768f7c726b4b621285f9c3b85303900aa912017db7617d8bdb",
+        "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+        "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+        "ef7402cee3c5e159613ebced01eea3d9f95536f28b267179d463d1b9371b363b",
+        "b17ef6d19c7a5b1ee83b907c595526dcb1eb06db8227d650d5dda0a9f4ce8cd9",
+        "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+        "e29c9c180c6279b0b02abd6a1801c7c04082cf486ec027aa13515e4f3884bb6b",
+        "0604cd3138feed202ef293e062da2f4720f77a05d25ee036a7a01c9cfcdd1f0a",
+        "6b51d431df5d7f141cbececcf79edf3dd861c3b4069f0b11661a3eefacbba918",
+        "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d"
+      ],
+      "rows": 10,
+      "sha256": "e9630d8637d41f1b041f34b7571e555147a021d5a2de0c93f0f10b2bb07a2b26",
+      "source_row_hashes": [
+        "5544d93722e871fe441c26323d8ae30b4a69d9fd8fc1e1f7cd3c6517d23817dc",
+        "3000a6800e88f1ce9aa02272f715d475a414bb65f8679e43c3fe9c85046ba31c",
+        "62ed1c00084e0464f40ad1b9550645a3bf54d1f8d674f33228771ccceda46cb9",
+        "69360d3c590ac57efe6847e6b5e772317c9ffb457b5740072f5a39c10470e9ef",
+        "7787f4c98a411b4bf10a8425e6d974679ff71d142947628dab1067d558340d38",
+        "f92f5a56bdcb8fc2598f9f86bab22852444c35b014cf0e2b03656dcbb36275ac",
+        "67306e6e6298582aa563050af590c31a0777284b26a13f89662b3e53ecbc9870",
+        "d73ac2506d69c23b16e8f14d7a2dff1eb12eaf1d9c8bedbd636f762433a41a8b",
+        "7fef6c9f51203e509b16d9241cb5fed66baf2093bacac53973784c28c7982b45",
+        "227b61811e978d0b57df497ca6d6a1c6789545b4b071f24497b9fa3c3b06b8dc"
+      ]
+    },
+    "qmsum": {
+      "fixture_ids": [
+        "qmsum_test_meeting0029_specific_04_53800266",
+        "qmsum_test_meeting0018_specific_00_8a802fed",
+        "qmsum_test_meeting0033_specific_02_20d48688",
+        "qmsum_test_meeting0001_specific_02_1c2f577e",
+        "qmsum_test_meeting0013_specific_01_65a50e94",
+        "qmsum_test_meeting0015_specific_05_8afeb1a1",
+        "qmsum_test_meeting0003_specific_01_4b3776b6",
+        "qmsum_test_meeting0000_specific_05_9b1f25eb",
+        "qmsum_test_meeting0025_specific_02_10beee09",
+        "qmsum_test_meeting0013_specific_09_3332653e"
+      ],
+      "path": "D:\\projects\\CCDF-Rework\\data\\eval\\qmsum\\qmsum_n10.jsonl",
+      "reference_answer_sha256": [
+        "ab36fe1490942224523272a97da2a4e87f66d4d945b180333c665ab5a6695dd7",
+        "9914bbdd8cc745e3c10e8e92a673801f316fcacabf3736635d6f25f534bb15ca",
+        "5d2793d8a5350ca72bc676b344f8cf130dc98c4be919d4f103323da599380858",
+        "acfc0b79b3641fd33e4450cc611510a051149cfc25d4560355460883152c8b15",
+        "14f47bcc15fec74ea5c5d2364d713e140f0afb7a441faa7e174731b2f0dbf16f",
+        "24a165e5592bcd6a4988750a78f8dacb8045e32326425ede99fa068b89dffba7",
+        "467b1788eaeb9a4a0d67408be504e8c47d57f99e54d1eb27270985ce54d1a09e",
+        "b7d17c9e27dd6efcb920edccec625729a0d426357f565298667e6b64bd47d665",
+        "cb9c70cf2e87ecadfc1d6dbaa7b970fa3db7084ba0a58d5c865149b6f8d69ef3",
+        "c94d693358c1a850781495247a7c7a55a3c530381d2d492a4e06c12f0b5dcf74"
+      ],
+      "rows": 10,
+      "sha256": "85e30f2a1c8337f776a337c0a30d851a9c461231ba07e711f18c8c42ccbc9b81",
+      "source_row_hashes": [
+        "61ef6a94444a461918fbbca50bc33261c8fa733a32469e8c44897b52c54e890b",
+        "335163452c660850c0807c4e4d2e4f7d21a8af39cba080be3a96c69aa0d596b4",
+        "f7754ecdc378fa52af4b717223f79d344d6dd69688b63eb01ff3245fdc91c33e",
+        "70427c2e052c51987be264e0bcf0ec28231ce0316d7ea3de61c2e74ea1686aec",
+        "431b8bdf7cdf97f52c4d5e0e681d7b2c17d94b602ff4ae641578a777078ada4e",
+        "25bb6efa6976e003ae6f36131a15d36faec3efb9c574155254ce8f0b2451f3dd",
+        "a79374db492055b8a2b464a151a99364452d6f0b6f31bae5f20c8f6fa798e777",
+        "78d4638bee25dad6f0bc9620fb5f7a31fccc87d6c5d0a87fd4a8602024801826",
+        "81982e31fa7c6016a9209fa11b894f3f7b849e6977158d09512804766b563ef6",
+        "431b8bdf7cdf97f52c4d5e0e681d7b2c17d94b602ff4ae641578a777078ada4e"
+      ]
+    }
+  },
+  "selection_manifest": {
+    "path": "D:\\projects\\CCDF-Rework\\data\\manifests\\dataset_smoke_selection.json",
+    "sha256": "d55785cc548c8cdeaf4396b9f93faefd64a1b8da8daa49a64679c3784ca4306a",
+    "value": {
+      "gsm8k": [
+        {
+          "upstream_row_index": 784
+        },
+        {
+          "upstream_row_index": 807
+        },
+        {
+          "upstream_row_index": 446
+        },
+        {
+          "upstream_row_index": 629
+        },
+        {
+          "upstream_row_index": 307
+        },
+        {
+          "upstream_row_index": 51
+        },
+        {
+          "upstream_row_index": 664
+        },
+        {
+          "upstream_row_index": 104
+        },
+        {
+          "upstream_row_index": 766
+        },
+        {
+          "upstream_row_index": 733
+        }
+      ],
+      "manifest_version": "dataset-smoke-selection.v1",
+      "qmsum": [
+        {
+          "meeting_index": 29,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 18,
+          "query_index": 0
+        },
+        {
+          "meeting_index": 33,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 1,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 13,
+          "query_index": 1
+        },
+        {
+          "meeting_index": 15,
+          "query_index": 5
+        },
+        {
+          "meeting_index": 3,
+          "query_index": 1
+        },
+        {
+          "meeting_index": 0,
+          "query_index": 5
+        },
+        {
+          "meeting_index": 25,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 13,
+          "query_index": 9
+        }
+      ],
+      "selection_policy": "locked_source_coordinates_in_declared_order"
+    }
+  }
+}

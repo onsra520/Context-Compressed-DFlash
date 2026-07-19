@@ -1,0 +1,162 @@
+{
+  "backend_results": [
+    {
+      "error": null,
+      "observed": "math",
+      "prefill_seconds": 1.9240869999994175,
+      "requested": "auto",
+      "status": "PASS"
+    },
+    {
+      "error": "RuntimeError: No available kernel. Aborting execution.",
+      "observed": null,
+      "prefill_seconds": null,
+      "requested": "flash",
+      "status": "REJECTED"
+    },
+    {
+      "error": null,
+      "observed": "math",
+      "prefill_seconds": 1.906830699997954,
+      "requested": "math",
+      "status": "PASS"
+    },
+    {
+      "error": "RuntimeError: No available kernel. Aborting execution.",
+      "observed": null,
+      "prefill_seconds": null,
+      "requested": "efficient",
+      "status": "REJECTED"
+    }
+  ],
+  "cases": 13,
+  "length_results": [
+    {
+      "backend_observed": "math",
+      "decode_seconds": 0.11350680000032298,
+      "first_token_latency_seconds": 0.24952519999351352,
+      "length": 128,
+      "physical_vram_mib": 3549.0,
+      "prefill_seconds": 0.24559089999820571,
+      "status": "PASS",
+      "torch": {
+        "allocated_bytes": 2726391296,
+        "max_allocated_bytes": 2745296896,
+        "max_reserved_bytes": 2766143488,
+        "reserved_bytes": 2766143488
+      },
+      "working_set_bytes": 4237631488
+    },
+    {
+      "backend_observed": "math",
+      "decode_seconds": 0.13054349999583792,
+      "first_token_latency_seconds": 0.4304913999949349,
+      "length": 512,
+      "physical_vram_mib": 3723.0,
+      "prefill_seconds": 0.4262747999964631,
+      "status": "PASS",
+      "torch": {
+        "allocated_bytes": 2786816512,
+        "max_allocated_bytes": 2909425152,
+        "max_reserved_bytes": 2948595712,
+        "reserved_bytes": 2948595712
+      },
+      "working_set_bytes": 4199346176
+    },
+    {
+      "backend_observed": "math",
+      "decode_seconds": 0.10641079999913927,
+      "first_token_latency_seconds": 0.7243118999977014,
+      "length": 1024,
+      "physical_vram_mib": 4074.0,
+      "prefill_seconds": 0.7205561000009766,
+      "status": "PASS",
+      "torch": {
+        "allocated_bytes": 2878364160,
+        "max_allocated_bytes": 3287203328,
+        "max_reserved_bytes": 3315597312,
+        "reserved_bytes": 3315597312
+      },
+      "working_set_bytes": 4161982464
+    },
+    {
+      "backend_observed": "math",
+      "decode_seconds": 0.12698789999558358,
+      "first_token_latency_seconds": 1.9379994999981136,
+      "length": 2048,
+      "physical_vram_mib": 5302.0,
+      "prefill_seconds": 1.9338105999995605,
+      "status": "PASS",
+      "torch": {
+        "allocated_bytes": 3010304512,
+        "max_allocated_bytes": 4434664960,
+        "max_reserved_bytes": 4603248640,
+        "reserved_bytes": 4603248640
+      },
+      "working_set_bytes": 4310646784
+    }
+  ],
+  "longest_successful_length": 2048,
+  "mask_cache_results": [
+    {
+      "backend_observed": "math",
+      "first_token_id": 7849,
+      "forward_path": "project",
+      "mask": "none",
+      "prefill_seconds": 1.9287361000024248,
+      "status": "PASS",
+      "use_cache": true
+    },
+    {
+      "backend_observed": "math",
+      "first_token_id": 7849,
+      "forward_path": "project",
+      "mask": "ones",
+      "prefill_seconds": 1.9338105999995605,
+      "status": "PASS",
+      "use_cache": true
+    },
+    {
+      "backend_observed": "math",
+      "first_token_id": 7849,
+      "forward_path": "standard",
+      "mask": "none",
+      "prefill_seconds": 1.9240869999994175,
+      "status": "PASS",
+      "use_cache": true
+    },
+    {
+      "backend_observed": "math",
+      "first_token_id": 7849,
+      "forward_path": "standard",
+      "mask": "ones",
+      "prefill_seconds": 1.9211118000021088,
+      "status": "PASS",
+      "use_cache": true
+    },
+    {
+      "backend_observed": "efficient",
+      "first_token_id": 7849,
+      "forward_path": "standard",
+      "mask": "none",
+      "prefill_seconds": 0.8317122000007657,
+      "status": "PASS",
+      "use_cache": false
+    },
+    {
+      "backend_observed": "math",
+      "first_token_id": 7849,
+      "forward_path": "standard",
+      "mask": "ones",
+      "prefill_seconds": 1.9323269000014989,
+      "status": "PASS",
+      "use_cache": false
+    }
+  ],
+  "output_token_match": true,
+  "output_token_values": [
+    7849
+  ],
+  "requested_full_length_reached": false,
+  "status": "PASS"
+}

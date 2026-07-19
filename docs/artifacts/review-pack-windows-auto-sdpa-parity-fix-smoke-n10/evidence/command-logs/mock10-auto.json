@@ -1,0 +1,23 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-X",
+    "faulthandler",
+    "tests\\run_rec3_four_condition_protocol.py",
+    "--config",
+    "config.yml"
+  ],
+  "duration_seconds": 161.0033317999987,
+  "exit_code": 1,
+  "finished_at_utc": "2026-07-18T18:24:47.199183+00:00",
+  "label": "mock10-auto",
+  "native_crash_code": null,
+  "python_faulthandler_environment": "1",
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "started_at_utc": "2026-07-18T18:22:06.194531+00:00",
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\command-logs\\mock10-auto.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\command-logs\\mock10-auto.stdout.txt"
+}

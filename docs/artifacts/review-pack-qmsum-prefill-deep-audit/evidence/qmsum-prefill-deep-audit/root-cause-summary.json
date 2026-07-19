@@ -1,0 +1,39 @@
+{
+  "status": "DIAGNOSIS_COMPLETE_PRODUCTION_GATE_BLOCKED",
+  "root_causes": {
+    "SDPA_MATH_FALLBACK": "PROVEN",
+    "EXPLICIT_MASK_BLOCKS_FUSED_SDPA": "PROVEN_SECONDARY",
+    "AWQ_TRITON_WINDOWS_SLOW_PATH": "NOT_PROVEN_NO_CANONICAL_LINUX_ARTIFACT",
+    "PHYSICAL_VRAM_EXHAUSTION": "PROVEN",
+    "WINDOWS_MEMORY_THRASH": "PROVEN_OPERATIONALLY_PAGE_ATTRIBUTION_UNAVAILABLE",
+    "CUSTOM_FORWARD_PATH_REGRESSION": "RULED_OUT",
+    "OTHER_PROVEN_CAUSE": "USE_CACHE_DYNAMIC_CACHE_ROUTE_REMAINS_MATH_AND_FUSED_KERNELS_REJECT_INPUT"
+  },
+  "safe_length_gate": {
+    "longest_pass_tokens": 2048,
+    "first_failed_tokens": 4096,
+    "failure": "PHYSICAL_VRAM_LIMIT",
+    "physical_vram_used_mib": 7799,
+    "physical_vram_limit_mib": 7680,
+    "requested_full_length_tokens": 6289,
+    "full_length_launched": false
+  },
+  "post_patch": {
+    "safe_probe_status": "PASS",
+    "tokens": 2048,
+    "chat_template_calls": 1,
+    "prefill_seconds": 1.8894939000019804,
+    "first_token_latency_seconds": 1.8951243000046816,
+    "max_physical_vram_used_mib": 5039,
+    "first_token_id": 7849,
+    "full_n1": "BLOCKED_BY_PHYSICAL_VRAM_GATE",
+    "n2": "NOT_RUN_AFTER_N1_GATE",
+    "n10": "PROHIBITED",
+    "projected_80_requests_seconds": 50889.066666666666,
+    "projected_80_requests_hours": 14.135851851851852,
+    "projection_basis": "9541.7 seconds observed wall time / 15 completed measured requests * 80"
+  },
+  "dependency_changes": false,
+  "dflash_core_changed_by_this_audit": false,
+  "commit_or_push_performed": false
+}

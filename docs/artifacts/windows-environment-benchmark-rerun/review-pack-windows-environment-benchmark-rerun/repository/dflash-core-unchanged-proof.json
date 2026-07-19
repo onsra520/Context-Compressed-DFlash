@@ -1,0 +1,53 @@
+{
+  "baseline": "docs\\audit\\environment-package-refactor\\review-pack-environment-package-refactor\\tracked-source\\src\\ccdf\\dflash",
+  "current_git_diff": {
+    "command": [
+      "git",
+      "diff",
+      "--",
+      "src/ccdf/dflash"
+    ],
+    "exit_code": 0,
+    "stderr": "",
+    "stdout": "diff --git a/src/ccdf/dflash/generate.py b/src/ccdf/dflash/generate.py\nindex 0aa39f1..63d5d2a 100644\n--- a/src/ccdf/dflash/generate.py\n+++ b/src/ccdf/dflash/generate.py\n@@ -8,7 +8,14 @@ from typing import Any\n import torch\n from transformers import DynamicCache\n \n-from ..device import EventSpan, collect_memory, current_memory_state, enforce_memory_gate, reset_peak_memory, synchronize\n+from ..runtime.device import (\n+    EventSpan,\n+    collect_memory,\n+    current_memory_state,\n+    enforce_memory_gate,\n+    reset_peak_memory,\n+    synchronize,\n+)\n from ..inference.sampling import sample\n from ..inference.stopping import BlockStopController\n from ..schemas import DFlashStats, GenerationOutput, GenerationSettings, TimingBreakdown\n"
+  },
+  "files": [
+    {
+      "current_last_write_utc": "2026-07-18T13:35:29.307505+00:00",
+      "current_sha256": "a40dbfb114b04dae8f728cb21b15fd6c7bcb835bd5452e9c8026daa7d4e002d8",
+      "path": "src\\ccdf\\dflash\\__init__.py",
+      "pre_task_tracked_source_sha256": "a40dbfb114b04dae8f728cb21b15fd6c7bcb835bd5452e9c8026daa7d4e002d8",
+      "unchanged": true
+    },
+    {
+      "current_last_write_utc": "2026-07-18T13:35:29.308570+00:00",
+      "current_sha256": "b487f7d9cf6eb264288635ae5540f96095fcf3b4550746da7e18d1f4bb946e2b",
+      "path": "src\\ccdf\\dflash\\acceptance.py",
+      "pre_task_tracked_source_sha256": "b487f7d9cf6eb264288635ae5540f96095fcf3b4550746da7e18d1f4bb946e2b",
+      "unchanged": true
+    },
+    {
+      "current_last_write_utc": "2026-07-18T14:52:03.474786+00:00",
+      "current_sha256": "e3a518a20b679b107ce9e9cc85c24e11c6041531ce855e936fc580d6b236f86a",
+      "path": "src\\ccdf\\dflash\\generate.py",
+      "pre_task_tracked_source_sha256": "e3a518a20b679b107ce9e9cc85c24e11c6041531ce855e936fc580d6b236f86a",
+      "unchanged": true
+    },
+    {
+      "current_last_write_utc": "2026-07-18T13:35:29.309571+00:00",
+      "current_sha256": "8ea745197ec0bced5bab6550ff1c554344df7b7ef7cb8303c2b540677207d581",
+      "path": "src\\ccdf\\dflash\\policy.py",
+      "pre_task_tracked_source_sha256": "8ea745197ec0bced5bab6550ff1c554344df7b7ef7cb8303c2b540677207d581",
+      "unchanged": true
+    },
+    {
+      "current_last_write_utc": "2026-07-18T13:35:29.309571+00:00",
+      "current_sha256": "c647e78821c750d8c190d8b109325a1b07a040b0711f89123f9568ca1b5e89bd",
+      "path": "src\\ccdf\\dflash\\verifier.py",
+      "pre_task_tracked_source_sha256": "c647e78821c750d8c190d8b109325a1b07a040b0711f89123f9568ca1b5e89bd",
+      "unchanged": true
+    }
+  ],
+  "interpretation": "Exact byte comparison with the sealed tracked-source snapshot that predates this Windows audit. The existing device-import relocation is preserved unchanged.",
+  "pass": true
+}

@@ -1,0 +1,67 @@
+{
+  "command_duration_seconds": 3.556653900001038,
+  "component": "compressor",
+  "config_sha256": "904c408e5d492ec03ec0b21a710303b06589479012e804725a575bb14ba4c086",
+  "duration_seconds": 3.5563115000004473,
+  "error": null,
+  "local_files_only": true,
+  "offline_environment": {
+    "HF_DATASETS_OFFLINE": "1",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "phase": "post-fix",
+  "result": {
+    "device_audit": {
+      "all_tensors_cuda": true,
+      "buffer_bytes": 8224,
+      "buffer_tensor_count": 2,
+      "cpu_offload": false,
+      "devices": [
+        "cuda:0"
+      ],
+      "execution_mode": "resident",
+      "parameter_bytes": 2235781128,
+      "parameter_tensor_count": 391,
+      "total_parameters_numel": 558945282
+    },
+    "inference": {
+      "compressed_tokens": 2,
+      "coverage_rate": 1.0,
+      "original_tokens": 4,
+      "pass": true
+    },
+    "model_contract": {
+      "architectures": [
+        "XLMRobertaForTokenClassification"
+      ],
+      "backend_class": "PromptCompressor",
+      "compression_algorithm": "llmlingua2_token_classification",
+      "configured_device": "cuda:0",
+      "heuristic_or_truncation_fallback": false,
+      "local_files_only": true,
+      "model_type": "xlm-roberta"
+    },
+    "model_inventory": {
+      "model": {
+        "all_buffers_cuda": true,
+        "all_parameters_cuda": true,
+        "buffer_count": 1028,
+        "buffer_devices": [
+          "cuda:0"
+        ],
+        "floating_dtypes": [
+          "float32"
+        ],
+        "parameter_count": 558945282,
+        "parameter_devices": [
+          "cuda:0"
+        ]
+      }
+    }
+  },
+  "status": "PASS",
+  "stderr": "",
+  "stdout": "",
+  "warnings": []
+}

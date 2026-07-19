@@ -1,0 +1,48 @@
+{
+  "baseline_dtype": {
+    "post_effective": [
+      "float16",
+      "float32"
+    ],
+    "post_requested": "float16",
+    "pre_effective": [
+      "float16",
+      "float32"
+    ],
+    "pre_requested": "bfloat16"
+  },
+  "config_sha256": "904c408e5d492ec03ec0b21a710303b06589479012e804725a575bb14ba4c086",
+  "drafter_dtype": {
+    "effective": [
+      "bfloat16",
+      "float32"
+    ],
+    "requested": "bfloat16"
+  },
+  "post_component_config_hashes_match": true,
+  "post_component_status": {
+    "baseline": "PASS",
+    "compressor": "PASS",
+    "drafter": "PASS",
+    "target": "PASS"
+  },
+  "post_dataset_allocator": null,
+  "post_effective_platform": "win32",
+  "post_environment_status": "PASS",
+  "post_pip_check_exit": 0,
+  "pre_dataset_allocator": "expandable_segments:True,garbage_collection_threshold:0.5",
+  "pre_environment_status": "FAIL",
+  "pre_pip_check_exit": 1,
+  "target_dtype": {
+    "post_effective": [
+      "float16",
+      "float32"
+    ],
+    "post_requested": "float16",
+    "pre_effective": [
+      "float16",
+      "float32"
+    ],
+    "pre_requested": "bfloat16"
+  }
+}

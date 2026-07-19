@@ -1,0 +1,28 @@
+[dataset-smoke] configuration, environment, evaluator fixtures, and cohorts validated
+`torch_dtype` is deprecated! Use `dtype` instead!
+[dataset-smoke] compression gsm8k 1/10: gsm8k_test_000784_b798a8a1
+[dataset-smoke] compression gsm8k 2/10: gsm8k_test_000807_6c6be7c4
+[dataset-smoke] compression gsm8k 3/10: gsm8k_test_000446_2ac326d8
+[dataset-smoke] compression gsm8k 4/10: gsm8k_test_000629_d92a73a6
+[dataset-smoke] compression gsm8k 5/10: gsm8k_test_000307_a61bf379
+[dataset-smoke] compression gsm8k 6/10: gsm8k_test_000051_88792752
+[dataset-smoke] compression gsm8k 7/10: gsm8k_test_000664_d9692bba
+[dataset-smoke] compression gsm8k 8/10: gsm8k_test_000104_0c54db10
+[dataset-smoke] compression gsm8k 9/10: gsm8k_test_000766_bf7481e7
+[dataset-smoke] compression gsm8k 10/10: gsm8k_test_000733_ea5ad0d0
+[dataset-smoke] compression qmsum 1/10: qmsum_test_meeting0029_specific_04_53800266
+[dataset-smoke] compression qmsum 2/10: qmsum_test_meeting0018_specific_00_8a802fed
+[dataset-smoke] compression qmsum 3/10: qmsum_test_meeting0033_specific_02_20d48688
+[dataset-smoke] compression qmsum 4/10: qmsum_test_meeting0001_specific_02_1c2f577e
+[dataset-smoke] compression qmsum 5/10: qmsum_test_meeting0013_specific_01_65a50e94
+[dataset-smoke] compression qmsum 6/10: qmsum_test_meeting0015_specific_05_8afeb1a1
+[dataset-smoke] compression qmsum 7/10: qmsum_test_meeting0003_specific_01_4b3776b6
+[dataset-smoke] compression qmsum 8/10: qmsum_test_meeting0000_specific_05_9b1f25eb
+[dataset-smoke] compression qmsum 9/10: qmsum_test_meeting0025_specific_02_10beee09
+[dataset-smoke] compression qmsum 10/10: qmsum_test_meeting0013_specific_09_3332653e
+[dataset-smoke] compression stage complete; generation stages starting
+[dataset-smoke] starting isolated condition baseline-ar, single attempt
+[dataset-smoke] starting isolated condition dflash-r1, single attempt
+[dataset-smoke] starting isolated condition llmlingua-ar-r2, single attempt
+[dataset-smoke] starting isolated condition cc-dflash-r2, single attempt
+[dataset-smoke] workflow complete with status FAIL

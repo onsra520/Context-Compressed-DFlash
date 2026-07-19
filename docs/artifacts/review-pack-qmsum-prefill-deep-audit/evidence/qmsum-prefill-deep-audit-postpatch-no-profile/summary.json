@@ -1,0 +1,88 @@
+{
+  "backend_observed": "not_profiled",
+  "backend_requested": "auto",
+  "chat_template_calls": 1,
+  "decode_seconds": 0.14137440000195056,
+  "duration_seconds": 5.084830599997076,
+  "first_token_id": 7849,
+  "first_token_latency_seconds": 1.8951243000046816,
+  "forward_path": "project",
+  "full_rendered_token_count": 6289,
+  "host_working_set_bytes": 2447134720,
+  "length": 2048,
+  "mask_mode": "ones",
+  "model_load_seconds": 2.5383247999998275,
+  "monitor": {
+    "baseline_gpu": {
+      "gpu_utilization_percent": 1.0,
+      "memory_total_mib": 8188.0,
+      "memory_used_mib": 501.0,
+      "memory_utilization_percent": 2.0
+    },
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-X",
+      "faulthandler",
+      "D:\\projects\\CCDF-Rework\\tests\\run_qmsum_prefill_probe.py",
+      "--length",
+      "2048",
+      "--backend",
+      "auto",
+      "--mask",
+      "ones",
+      "--forward-path",
+      "project",
+      "--use-cache",
+      "true",
+      "--progress",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-postpatch-no-profile\\cases\\L2048-auto-ones-project-cache-true\\progress.jsonl",
+      "--output",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-postpatch-no-profile\\cases\\L2048-auto-ones-project-cache-true\\result.json"
+    ],
+    "duration_seconds": 8.864239500006079,
+    "exit_code": 0,
+    "finished_at_utc": "2026-07-19T01:47:58.091140+00:00",
+    "max_gpu_utilization_percent": 100.0,
+    "max_physical_vram_used_mib": 5039.0,
+    "max_process_tree_working_set_bytes": 4135661568,
+    "max_rss_processes": [
+      {
+        "parent_pid": 6756,
+        "pid": 35360,
+        "rss_bytes": 4812800
+      },
+      {
+        "parent_pid": 35360,
+        "pid": 26932,
+        "rss_bytes": 4130848768
+      }
+    ],
+    "physical_vram_limit_mib": 7680.0,
+    "progress_path": "cases\\L2048-auto-ones-project-cache-true\\progress.jsonl",
+    "started_at_utc": "2026-07-19T01:47:49.201881+00:00",
+    "stderr_path": "cases\\L2048-auto-ones-project-cache-true\\stderr.txt",
+    "stdout_path": "cases\\L2048-auto-ones-project-cache-true\\stdout.txt",
+    "termination": null,
+    "termination_reason": null,
+    "timeout_seconds": 120.0
+  },
+  "prefill_seconds": 1.8894939000019804,
+  "profiler_events": [],
+  "status": "PASS",
+  "tokenize_seconds": 0.022790700000768993,
+  "top_cuda_operators": [],
+  "torch": {
+    "allocated_bytes": 3010304512,
+    "max_allocated_bytes": 4434664960,
+    "max_reserved_bytes": 4603248640,
+    "reserved_bytes": 4603248640
+  },
+  "use_cache": true,
+  "versions": {
+    "cuda_runtime": "13.0",
+    "device": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "python": "3.12.10",
+    "torch": "2.13.0+cu130",
+    "transformers": "4.57.6"
+  }
+}

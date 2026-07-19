@@ -1,0 +1,15 @@
+{
+  "artifact_files_verified": 35,
+  "artifact_root": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\dataset-smoke",
+  "chunk_maps_verified": 10,
+  "condition_worker_attempts_verified": 4,
+  "config_sha256": "e6809adeca0a3be74b091f8750dbd8e5228e244b96139078cac1c18ba4660baa",
+  "failures": [
+    "summary is not PASS",
+    "gate matrix is not fully PASS"
+  ],
+  "generation_chunk_maps_verified": 40,
+  "parity_records_verified": 40,
+  "pass": false,
+  "run_rows_verified": 80
+}

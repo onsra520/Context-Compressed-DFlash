@@ -1,0 +1,207 @@
+{
+  "created_at_utc": "2026-07-19T00:57:36.556667+00:00",
+  "files": [
+    {
+      "bytes": 758,
+      "path": "command-logs/qmsum-n2-watchdog.json",
+      "sha256": "191a85267b848cffae47a6a685f12f4c4e03fff68c66cb00dd5d4416b70b35fe"
+    },
+    {
+      "bytes": 292,
+      "path": "command-logs/qmsum-n2-watchdog.stderr.txt",
+      "sha256": "67adbafe9998a916a52d37bbc003765b25e7550d78598e20ba510eee53b812b9"
+    },
+    {
+      "bytes": 6794,
+      "path": "command-logs/qmsum-n2-watchdog.stdout.txt",
+      "sha256": "6a4e5a1a526da1278d82b611f53fe6e3e89a5ce40f7f5090aff297f7311ecf62"
+    },
+    {
+      "bytes": 796,
+      "path": "command-logs/validation-compileall.json",
+      "sha256": "a6b6733aafb665111f4a8fabda75ffbbbd8dccf115e9d8c2cd52e772f3135104"
+    },
+    {
+      "bytes": 0,
+      "path": "command-logs/validation-compileall.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "command-logs/validation-compileall.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 732,
+      "path": "command-logs/validation-diff-check.json",
+      "sha256": "05f98a3dacc04bd833c5b8737c7045c0b15d24ab208ec6b8737d6f114ed15974"
+    },
+    {
+      "bytes": 324,
+      "path": "command-logs/validation-diff-check.stderr.txt",
+      "sha256": "b6f96bdb634badbe022d3616a44a88378309c062a6da89471acc0dc2543d060b"
+    },
+    {
+      "bytes": 0,
+      "path": "command-logs/validation-diff-check.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 763,
+      "path": "command-logs/validation-pip-check.json",
+      "sha256": "95c921eb705436142cc5bcbf2227b863036afe1936df44b5dbd81db1b2d3c4c8"
+    },
+    {
+      "bytes": 0,
+      "path": "command-logs/validation-pip-check.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 31,
+      "path": "command-logs/validation-pip-check.stdout.txt",
+      "sha256": "672aec65a45bed50e70229c70934a7eebf0462595c459b83023027645d57cccf"
+    },
+    {
+      "bytes": 898,
+      "path": "command-logs/validation-pytest-focused.json",
+      "sha256": "7e63ac664c318026c93098ecdcc3e5ccdba66a4b733f19580005f41fec8643a6"
+    },
+    {
+      "bytes": 0,
+      "path": "command-logs/validation-pytest-focused.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 101,
+      "path": "command-logs/validation-pytest-focused.stdout.txt",
+      "sha256": "92888cef043d90fbf21a751468326d298ee14f0fc782c0d0221b988a07b18d59"
+    },
+    {
+      "bytes": 1089,
+      "path": "emergency-process-snapshot.json",
+      "sha256": "246f432f77efd2251c6dfef4e02b2940869a7c831ff5c64ae8c4c99fec66c60d"
+    },
+    {
+      "bytes": 288041,
+      "path": "n2-qmsum-four-conditions/.working/prepared.jsonl",
+      "sha256": "2e5803350425a24b027216fa1c23f3362f370bd440fbe9293e8cf8fb4bc64658"
+    },
+    {
+      "bytes": 1612,
+      "path": "n2-qmsum-four-conditions/compression_stage.json",
+      "sha256": "9d209b4f42ee4e2e660e08c7f06fb6b70910fd84cfb46f8675aae5b2504a7410"
+    },
+    {
+      "bytes": 1348,
+      "path": "n2-qmsum-four-conditions/condition_worker_attempts.json",
+      "sha256": "276124eda29a8e6ce8b5aa54a7b7d7c30cc213fd4c32f09ecca278de47be9b97"
+    },
+    {
+      "bytes": 1348,
+      "path": "n2-qmsum-four-conditions/condition_worker_attempts.partial.json",
+      "sha256": "276124eda29a8e6ce8b5aa54a7b7d7c30cc213fd4c32f09ecca278de47be9b97"
+    },
+    {
+      "bytes": 288041,
+      "path": "n2-qmsum-four-conditions/prepared.jsonl",
+      "sha256": "2e5803350425a24b027216fa1c23f3362f370bd440fbe9293e8cf8fb4bc64658"
+    },
+    {
+      "bytes": 1557,
+      "path": "n2-qmsum-four-conditions/progress_logs/baseline-ar.jsonl",
+      "sha256": "e3beb6773e19d016ee3bd709d7a2ead942d7933ce896e06b34e29497158b8884"
+    },
+    {
+      "bytes": 645,
+      "path": "n2-qmsum-four-conditions/selection.json",
+      "sha256": "826115dbc480228c26138800255ca0ef5b7e174f9a9fe6e23d0cf09020bd77ef"
+    },
+    {
+      "bytes": 6794,
+      "path": "n2-qmsum-four-conditions/summary.json",
+      "sha256": "6a4e5a1a526da1278d82b611f53fe6e3e89a5ce40f7f5090aff297f7311ecf62"
+    },
+    {
+      "bytes": 6198,
+      "path": "n2-qmsum-four-conditions/watchdog_failure.json",
+      "sha256": "629c287bf20d76bcd3447345c19dca3240d06bc32b5db6a17ad5319dd87755bf"
+    },
+    {
+      "bytes": 1225,
+      "path": "n2-qmsum-four-conditions/worker_logs/baseline-ar.stderr.txt",
+      "sha256": "aca90537347e08232f80614fa6d470c6b2825a1b1872d5443c9da1dae4d47cd7"
+    },
+    {
+      "bytes": 0,
+      "path": "n2-qmsum-four-conditions/worker_logs/baseline-ar.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 568730,
+      "path": "partial-run/dataset-smoke/.working/baseline-ar.jsonl",
+      "sha256": "ef9cb55fe83ae2226b0f9bb159ff95cb145c0fa1100128e8b39b53a361d6a585"
+    },
+    {
+      "bytes": 2178082,
+      "path": "partial-run/dataset-smoke/.working/prepared.jsonl",
+      "sha256": "a1462cc8416e1e58f528217f7ddad8d0a4e12a6791f001f96658a373b50754f3"
+    },
+    {
+      "bytes": 2970,
+      "path": "partial-run-diagnostic.json",
+      "sha256": "266f7de665a57f36c291358984c91a999e944a61b8053b96f18489f00aa127f6"
+    },
+    {
+      "bytes": 3809,
+      "path": "PARTIAL_RUN_DIAGNOSTIC.md",
+      "sha256": "dd3897f521192fadbcbebf05d7d9a3447fde059c58c5b75fdeb53c2fc35934c3"
+    },
+    {
+      "bytes": 18168,
+      "path": "watchdog-source/config.yml",
+      "sha256": "08025505fbbfb26cd28e78b3162997474162f21397d3913bc8b0f528ea6382d8"
+    },
+    {
+      "bytes": 7922,
+      "path": "watchdog-source/scripts/build_qmsum_runtime_timeout_review_pack.py",
+      "sha256": "0c56ee22b99157635d269fdfd6301336afc96f87ca298cc77a1bd366c20f70a8"
+    },
+    {
+      "bytes": 85341,
+      "path": "watchdog-source/src/ccdf/benchmark/dataset_smoke.py",
+      "sha256": "d629d877668b6da5fa0f90285cb4cd20a30431ec0b426b468fc60a9ee72c7a53"
+    },
+    {
+      "bytes": 15749,
+      "path": "watchdog-source/src/ccdf/benchmark/dataset_smoke_verify.py",
+      "sha256": "834c66884d615847432d9ab2d99cd69a1e5ec40eaf50f3b0443c84442dac489f"
+    },
+    {
+      "bytes": 31290,
+      "path": "watchdog-source/src/ccdf/config.py",
+      "sha256": "ece9713d44634d8a7137ff3101c220834ddd487f348f6498358b3ee8e28dec38"
+    },
+    {
+      "bytes": 4083,
+      "path": "watchdog-source/tests/run_qmsum_watchdog_smoke.py",
+      "sha256": "d8da3490ed0e2472f2c5f1b96b9f2ff24c5b9038386b8f30925c446557e1ebbe"
+    },
+    {
+      "bytes": 6124,
+      "path": "watchdog-source/tests/test_config.py",
+      "sha256": "499640541584c9fef5ed98ebec122602daf378a785c438f1476e38412139e797"
+    },
+    {
+      "bytes": 1465,
+      "path": "watchdog-source/tests/test_dataset_smoke_watchdog.py",
+      "sha256": "83b2486603d896096c096bc452a4a91c9dd43118d6e52bddbe6d063a7e134bcb"
+    }
+  ],
+  "manifest_version": "qmsum-runtime-timeout-diagnostic.v1",
+  "n10_rerun_included": false,
+  "n10_rerun_reason": "n2 gate did not permit n10",
+  "verification": {
+    "method": "archive entry byte count and SHA-256 rechecked after ZIP creation",
+    "status": "PASS"
+  }
+}

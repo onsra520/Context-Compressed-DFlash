@@ -1,0 +1,21 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pip",
+    "check"
+  ],
+  "duration_seconds": 0.5683371999984956,
+  "exit_code": 0,
+  "finished_at_utc": "2026-07-18T19:05:23.187258+00:00",
+  "label": "pip-check",
+  "native_crash_code": null,
+  "python_faulthandler_environment": "1",
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "started_at_utc": "2026-07-18T19:05:22.618979+00:00",
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\command-logs\\pip-check.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\command-logs\\pip-check.stdout.txt"
+}

@@ -1,0 +1,402 @@
+[
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 0,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 1,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 2,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 3,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 4,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 5,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 6,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 7,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 8,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 9,
+    "rendered_input_match": true,
+    "repetition": 0
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 0,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 1,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 2,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 3,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 4,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 5,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 6,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 7,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 8,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 9,
+    "rendered_input_match": true,
+    "repetition": 1
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 0,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 1,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 2,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 3,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 4,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 5,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 6,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 7,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 8,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 9,
+    "rendered_input_match": true,
+    "repetition": 2
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 0,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 1,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 2,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 3,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 4,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 5,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 6,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 7,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 8,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 9,
+    "rendered_input_match": true,
+    "repetition": 3
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 0,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 1,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 2,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 3,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 4,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 5,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 6,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 7,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 8,
+    "rendered_input_match": true,
+    "repetition": 4
+  },
+  {
+    "baseline_reference_match": true,
+    "dflash_reference_match": true,
+    "generated_token_match": true,
+    "prompt_index": 9,
+    "rendered_input_match": true,
+    "repetition": 4
+  }
+]

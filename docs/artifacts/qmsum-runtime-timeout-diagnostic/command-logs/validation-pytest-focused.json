@@ -1,0 +1,24 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "tests\\test_config.py",
+    "tests\\test_dataset_smoke_protocol.py",
+    "tests\\test_dataset_smoke_watchdog.py"
+  ],
+  "duration_seconds": 4.222214699999313,
+  "exit_code": 0,
+  "finished_at_utc": "2026-07-19T00:56:37.807737+00:00",
+  "label": "validation-pytest-focused",
+  "native_crash_code": null,
+  "python_faulthandler_environment": "1",
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "started_at_utc": "2026-07-19T00:56:33.583422+00:00",
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\command-logs\\validation-pytest-focused.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\command-logs\\validation-pytest-focused.stdout.txt"
+}

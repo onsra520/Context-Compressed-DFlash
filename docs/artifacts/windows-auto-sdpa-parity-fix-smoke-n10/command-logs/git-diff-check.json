@@ -1,0 +1,20 @@
+{
+  "attempt": 1,
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "duration_seconds": 0.07017890000133775,
+  "exit_code": 0,
+  "finished_at_utc": "2026-07-18T19:05:22.639115+00:00",
+  "label": "git-diff-check",
+  "native_crash_code": null,
+  "python_faulthandler_environment": "1",
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "started_at_utc": "2026-07-18T19:05:22.567991+00:00",
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\command-logs\\git-diff-check.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\windows-auto-sdpa-parity-fix-smoke-n10\\command-logs\\git-diff-check.stdout.txt"
+}

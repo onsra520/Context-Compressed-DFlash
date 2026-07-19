@@ -1,0 +1,81 @@
+{
+  "classification": "qmsum_original_context_generation_pathologically_slow_with_separate_oom",
+  "completed_rows": 15,
+  "compression_seconds": 18.198606999998447,
+  "conditions_started": [
+    "baseline-ar"
+  ],
+  "error_rows": 1,
+  "legacy_progress_timestamp_utc": "2026-07-19T00:20:32.035993+00:00",
+  "prepared_rows": 20,
+  "qmsum_max_new_tokens": 512,
+  "qmsum_measured_request_seconds": 8706.367933900005,
+  "qmsum_rows": 5,
+  "qmsum_successes": 4,
+  "resume_enabled": false,
+  "retry_count": 0,
+  "samples": [
+    {
+      "cap_hit": false,
+      "decode_tok_s": 0.15897027576168274,
+      "error": null,
+      "fixture_id": "qmsum_test_meeting0029_specific_04_53800266",
+      "input_tokens": 10956,
+      "output_tokens": 49,
+      "request_wall_clock_seconds": 2150.7065790999986,
+      "success": true
+    },
+    {
+      "cap_hit": null,
+      "decode_tok_s": null,
+      "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 5.15 GiB. GPU 0 has a total capacity of 8.00 GiB of which 0 bytes is free. Of the allocated memory 46.04 GiB is allocated by PyTorch, and 5.42 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)",
+      "fixture_id": "qmsum_test_meeting0018_specific_00_8a802fed",
+      "input_tokens": null,
+      "output_tokens": null,
+      "request_wall_clock_seconds": null,
+      "success": false
+    },
+    {
+      "cap_hit": false,
+      "decode_tok_s": 0.151103984599484,
+      "error": null,
+      "fixture_id": "qmsum_test_meeting0033_specific_02_20d48688",
+      "input_tokens": 11631,
+      "output_tokens": 37,
+      "request_wall_clock_seconds": 2479.365498199997,
+      "success": true
+    },
+    {
+      "cap_hit": false,
+      "decode_tok_s": 0.12278745893943191,
+      "error": null,
+      "fixture_id": "qmsum_test_meeting0001_specific_02_1c2f577e",
+      "input_tokens": 10342,
+      "output_tokens": 44,
+      "request_wall_clock_seconds": 1928.4411632000047,
+      "success": true
+    },
+    {
+      "cap_hit": false,
+      "decode_tok_s": 0.17639728679123481,
+      "error": null,
+      "fixture_id": "qmsum_test_meeting0013_specific_01_65a50e94",
+      "input_tokens": 11782,
+      "output_tokens": 60,
+      "request_wall_clock_seconds": 2147.8546934000037,
+      "success": true
+    }
+  ],
+  "single_request_protocol": true,
+  "slowest_completed_sample": {
+    "cap_hit": false,
+    "decode_tok_s": 0.151103984599484,
+    "error": null,
+    "fixture_id": "qmsum_test_meeting0033_specific_02_20d48688",
+    "input_tokens": 11631,
+    "output_tokens": 37,
+    "request_wall_clock_seconds": 2479.365498199997,
+    "success": true
+  },
+  "successful_rows": 14
+}

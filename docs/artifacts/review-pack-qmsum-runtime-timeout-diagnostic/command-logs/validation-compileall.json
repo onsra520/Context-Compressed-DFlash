@@ -1,0 +1,23 @@
+{
+  "attempt": 1,
+  "command": [
+    ".\\.venv\\Scripts\\python.exe",
+    "-m",
+    "compileall",
+    "-q",
+    "src",
+    "tests"
+  ],
+  "duration_seconds": 0.10662859999865759,
+  "exit_code": 0,
+  "finished_at_utc": "2026-07-19T00:56:35.417807+00:00",
+  "label": "validation-compileall",
+  "native_crash_code": null,
+  "python_faulthandler_environment": "1",
+  "resume_enabled": false,
+  "retry_count": 0,
+  "signal": null,
+  "started_at_utc": "2026-07-19T00:56:35.311226+00:00",
+  "stderr_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\command-logs\\validation-compileall.stderr.txt",
+  "stdout_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-runtime-timeout-diagnostic\\command-logs\\validation-compileall.stdout.txt"
+}

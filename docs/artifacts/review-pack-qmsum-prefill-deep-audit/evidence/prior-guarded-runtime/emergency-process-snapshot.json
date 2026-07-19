@@ -1,0 +1,29 @@
+{
+  "captured_at_local": "2026-07-19T07:29:08+07:00",
+  "requested_process_label": "dataset-n10-auto",
+  "benchmark_processes_found": [],
+  "python_processes_found": [
+    {
+      "pid": 35644,
+      "parent_pid": 11676,
+      "command_line": "d:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe ...black-formatter...lsp_server.py",
+      "classification": "unrelated_editor_formatter"
+    },
+    {
+      "pid": 4156,
+      "parent_pid": 35644,
+      "command_line": "...Python312\\python.exe ...black-formatter...lsp_server.py",
+      "classification": "unrelated_editor_formatter_child"
+    }
+  ],
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "utilization_gpu_percent": 0,
+    "utilization_memory_percent": 1,
+    "memory_used_mib": 736,
+    "memory_total_mib": 8188,
+    "python_compute_process_found": false
+  },
+  "action": "no termination issued because the requested benchmark process tree had already exited",
+  "evidence_limit": "a pre-exit PID/CPU/RAM/GPU snapshot was unavailable; partial rows and timestamps were preserved and used for stage diagnosis"
+}

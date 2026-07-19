@@ -1,0 +1,53 @@
+{
+  "after_close_memory": {
+    "allocated_bytes": 8519680,
+    "cuda_available": true,
+    "label": "after_compressor_close",
+    "max_allocated_bytes": 2268432384,
+    "max_reserved_bytes": 2285895680,
+    "reserved_bytes": 20971520
+  },
+  "after_load_memory": {
+    "allocated_bytes": 2235790848,
+    "cuda_available": true,
+    "label": "after_compressor_load",
+    "max_allocated_bytes": 2235790848,
+    "max_reserved_bytes": 2239758336,
+    "reserved_bytes": 2239758336
+  },
+  "configured_compression": {
+    "chunk_overlap_tokens": 32,
+    "chunk_size_tokens": 480,
+    "keep_rate": 0.5,
+    "merge_policy": "newline_preserve_order",
+    "min_context_tokens": 1,
+    "tokenizer": "compressor"
+  },
+  "device_audit": {
+    "all_tensors_cuda": true,
+    "buffer_bytes": 8224,
+    "buffer_tensor_count": 2,
+    "cpu_offload": false,
+    "devices": [
+      "cuda:0"
+    ],
+    "execution_mode": "resident",
+    "parameter_bytes": 2235781128,
+    "parameter_tensor_count": 391,
+    "total_parameters_numel": 558945282
+  },
+  "execution_mode": "staged",
+  "initialization_ms": 1627.1768999995402,
+  "loaded_tokenizer": "D:\\projects\\CCDF-Rework\\models\\compressor\\llmlingua-2-xlm-roberta-large-meetingbank",
+  "model_contract": {
+    "architectures": [
+      "XLMRobertaForTokenClassification"
+    ],
+    "backend_class": "PromptCompressor",
+    "compression_algorithm": "llmlingua2_token_classification",
+    "configured_device": "cuda:0",
+    "heuristic_or_truncation_fallback": false,
+    "local_files_only": true,
+    "model_type": "xlm-roberta"
+  }
+}

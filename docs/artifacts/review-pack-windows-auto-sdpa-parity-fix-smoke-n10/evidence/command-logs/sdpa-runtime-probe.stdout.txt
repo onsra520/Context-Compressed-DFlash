@@ -1,0 +1,55 @@
+{
+  "active_profile": {
+    "backend_observed": "memory_efficient",
+    "backend_observed_from_profiler": true,
+    "configured_attention_backend": "sdpa",
+    "configured_policy": "auto",
+    "effective_allowed_backends": [
+      "flash",
+      "memory_efficient",
+      "math"
+    ],
+    "interpretation": "Profiler events are actual execution evidence for this representative probe only; enabled backend flags alone are not treated as execution evidence.",
+    "probe_dtype": "float16",
+    "probe_shape": [
+      1,
+      8,
+      64,
+      64
+    ],
+    "profiler_events": [
+      "_Z39fmha_cutlassF_f16_aligned_64x64_rf_sm80N22PyTorchMemEffAttention15AttentionKernelIN7cutlass6half_tENS1_4arch4Sm80ELb1ELi64ELi64ELi64ELb1ELb1EE6ParamsE",
+      "aten::_efficient_attention_forward",
+      "aten::_scaled_dot_product_efficient_attention",
+      "aten::scaled_dot_product_attention"
+    ]
+  },
+  "canonical_profile": {
+    "backend_observed": "math",
+    "backend_observed_from_profiler": true,
+    "configured_attention_backend": "sdpa",
+    "configured_policy": "math",
+    "effective_allowed_backends": [
+      "math"
+    ],
+    "interpretation": "Profiler events are actual execution evidence for this representative probe only; enabled backend flags alone are not treated as execution evidence.",
+    "probe_dtype": "float16",
+    "probe_shape": [
+      1,
+      8,
+      64,
+      64
+    ],
+    "profiler_events": [
+      "aten::_scaled_dot_product_attention_math",
+      "aten::scaled_dot_product_attention"
+    ]
+  },
+  "config_path": "D:\\projects\\CCDF-Rework\\config.yml",
+  "config_sha256": "e6809adeca0a3be74b091f8750dbd8e5228e244b96139078cac1c18ba4660baa",
+  "resolved_profiles": {
+    "active_protocol": "rec3",
+    "canonical": "root runtime",
+    "dataset": "dataset_smoke"
+  }
+}

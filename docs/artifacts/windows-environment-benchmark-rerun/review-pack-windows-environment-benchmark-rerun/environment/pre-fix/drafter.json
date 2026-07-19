@@ -1,0 +1,69 @@
+{
+  "command_duration_seconds": 1.4754888999996183,
+  "component": "drafter",
+  "duration_seconds": 1.4754179000001386,
+  "error": null,
+  "local_files_only": true,
+  "offline_environment": {
+    "HF_DATASETS_OFFLINE": "1",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1"
+  },
+  "phase": "pre-fix",
+  "result": {
+    "device_audit": {
+      "all_tensors_cuda": true,
+      "buffer_bytes": 256,
+      "buffer_tensor_count": 1,
+      "cpu_or_disk_offload": false,
+      "devices": [
+        "cuda:0"
+      ],
+      "execution_mode": "resident",
+      "hf_device_map": {
+        "": 0
+      },
+      "label": "drafter probe",
+      "parameter_bytes": 1074854400,
+      "parameter_tensor_count": 58
+    },
+    "effective_dtypes": [
+      "bfloat16",
+      "float32"
+    ],
+    "inference": {
+      "noise_device": "cuda:0",
+      "output_device": "cuda:0",
+      "output_dtype": "bfloat16",
+      "output_shape": [
+        1,
+        2,
+        2560
+      ],
+      "pass": true,
+      "position_device": "cuda:0",
+      "target_hidden_device": "cuda:0"
+    },
+    "model_inventory": {
+      "all_buffers_cuda": true,
+      "all_parameters_cuda": true,
+      "buffer_count": 64,
+      "buffer_devices": [
+        "cuda:0"
+      ],
+      "floating_dtypes": [
+        "bfloat16",
+        "float32"
+      ],
+      "parameter_count": 537427200,
+      "parameter_devices": [
+        "cuda:0"
+      ]
+    },
+    "requested_dtype": "bfloat16"
+  },
+  "status": "PASS",
+  "stderr": "",
+  "stdout": "",
+  "warnings": []
+}

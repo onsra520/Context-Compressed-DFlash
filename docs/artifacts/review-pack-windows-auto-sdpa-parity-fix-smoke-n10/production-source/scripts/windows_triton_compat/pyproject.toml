@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "triton"
+version = "3.7.1"
+description = "Metadata-only Windows bridge from AutoAWQ's triton requirement to triton-windows."
+requires-python = ">=3.10"
+dependencies = [
+  "triton-windows==3.7.1.post27; platform_system == 'Windows'",
+]
+
+[tool.setuptools]
+packages = []

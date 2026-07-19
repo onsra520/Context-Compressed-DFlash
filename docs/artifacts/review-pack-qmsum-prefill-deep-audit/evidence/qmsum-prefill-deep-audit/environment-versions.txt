@@ -1,0 +1,12 @@
+Python: 3.12.10
+Torch: 2.13.0+cu130
+Torch CUDA runtime: 13.0
+cuDNN: 92000
+Transformers: 4.57.6
+AutoAWQ: 0.2.9
+Triton metadata bridge: 3.7.1
+Triton-Windows: 3.7.1.post27
+GPU: NVIDIA GeForce RTX 4070 Laptop GPU
+Physical VRAM reported by nvidia-smi: 8188 MiB
+NVIDIA driver: 610.62
+

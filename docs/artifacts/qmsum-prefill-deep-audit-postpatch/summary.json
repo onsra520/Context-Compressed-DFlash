@@ -1,0 +1,66 @@
+{
+  "backend": "auto",
+  "error": "worker produced no result artifact",
+  "forward_path": "project",
+  "length": 2048,
+  "mask": "ones",
+  "monitor": {
+    "baseline_gpu": {
+      "gpu_utilization_percent": 1.0,
+      "memory_total_mib": 8188.0,
+      "memory_used_mib": 501.0,
+      "memory_utilization_percent": 2.0
+    },
+    "command": [
+      "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+      "-X",
+      "faulthandler",
+      "D:\\projects\\CCDF-Rework\\tests\\run_qmsum_prefill_probe.py",
+      "--length",
+      "2048",
+      "--backend",
+      "auto",
+      "--mask",
+      "ones",
+      "--forward-path",
+      "project",
+      "--use-cache",
+      "true",
+      "--progress",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-postpatch\\cases\\L2048-auto-ones-project-cache-true\\progress.jsonl",
+      "--output",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-postpatch\\cases\\L2048-auto-ones-project-cache-true\\result.json",
+      "--profile",
+      "--trace",
+      "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-prefill-deep-audit-postpatch\\cases\\L2048-auto-ones-project-cache-true\\trace.json"
+    ],
+    "duration_seconds": 25.519835500002955,
+    "exit_code": 3221225477,
+    "finished_at_utc": "2026-07-19T01:47:26.562202+00:00",
+    "max_gpu_utilization_percent": 100.0,
+    "max_physical_vram_used_mib": 5065.0,
+    "max_process_tree_working_set_bytes": 4196102144,
+    "max_rss_processes": [
+      {
+        "parent_pid": 7780,
+        "pid": 22340,
+        "rss_bytes": 4808704
+      },
+      {
+        "parent_pid": 22340,
+        "pid": 32216,
+        "rss_bytes": 4191293440
+      }
+    ],
+    "physical_vram_limit_mib": 7680.0,
+    "progress_path": "cases\\L2048-auto-ones-project-cache-true\\progress.jsonl",
+    "started_at_utc": "2026-07-19T01:47:01.042203+00:00",
+    "stderr_path": "cases\\L2048-auto-ones-project-cache-true\\stderr.txt",
+    "stdout_path": "cases\\L2048-auto-ones-project-cache-true\\stdout.txt",
+    "termination": null,
+    "termination_reason": null,
+    "timeout_seconds": 120.0
+  },
+  "status": "CRASH",
+  "use_cache": "true"
+}

@@ -1,0 +1,24 @@
+ .gitignore                           | 192 +++++++++++++++--
+ config.yml                           | 190 +++++++++++++++-
+ data/eval/gsm8k/gsm8k_n10.jsonl      |  20 +-
+ data/eval/qmsum/qmsum_n10.jsonl      |  20 +-
+ data/manifests/dataset_manifest.json |  59 ++++-
+ pyproject.toml                       |   7 +-
+ src/ccdf/__init__.py                 |   6 +-
+ src/ccdf/benchmark.py                | 106 ---------
+ src/ccdf/cli.py                      |   9 +-
+ src/ccdf/compression/llmlingua.py    | 148 +++++++++++--
+ src/ccdf/compression/schemas.py      |  22 +-
+ src/ccdf/config.py                   | 407 ++++++++++++++++++++++++++++++++++-
+ src/ccdf/data/pipeline.py            | 206 +++++++++++-------
+ src/ccdf/determinism.py              |  67 ------
+ src/ccdf/device.py                   | 129 -----------
+ src/ccdf/dflash/generate.py          |   9 +-
+ src/ccdf/errors.py                   |  12 +-
+ src/ccdf/inference/baseline.py       |   2 +-
+ src/ccdf/models/loaders.py           |  90 +++++---
+ src/ccdf/runtime/__init__.py         |   6 +-
+ src/ccdf/runtime/engine.py           |  58 +++--
+ src/ccdf/schemas.py                  |   4 +-
+ src/ccdf/validation/environment.py   |  69 +++++-
+ 23 files changed, 1315 insertions(+), 523 deletions(-)

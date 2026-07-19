@@ -1,0 +1,35 @@
+{
+  "captured_at_utc": "2026-07-18T21:12:54.4560765Z",
+  "purpose": "pre-goal D-Flash core identity; current goal must not edit these files",
+  "config_sha256": "362fcf0842712e9e1ecce42bedd7776b20ebe80c5e37be1b7f864c85add86bce",
+  "files": [
+    {
+      "path": "src/ccdf/dflash/__init__.py",
+      "sha256": "a40dbfb114b04dae8f728cb21b15fd6c7bcb835bd5452e9c8026daa7d4e002d8",
+      "bytes": 58
+    },
+    {
+      "path": "src/ccdf/dflash/acceptance.py",
+      "sha256": "b487f7d9cf6eb264288635ae5540f96095fcf3b4550746da7e18d1f4bb946e2b",
+      "bytes": 2673
+    },
+    {
+      "path": "src/ccdf/dflash/generate.py",
+      "sha256": "e3a518a20b679b107ce9e9cc85c24e11c6041531ce855e936fc580d6b236f86a",
+      "bytes": 11431
+    },
+    {
+      "path": "src/ccdf/dflash/policy.py",
+      "sha256": "8ea745197ec0bced5bab6550ff1c554344df7b7ef7cb8303c2b540677207d581",
+      "bytes": 2293
+    },
+    {
+      "path": "src/ccdf/dflash/verifier.py",
+      "sha256": "c647e78821c750d8c190d8b109325a1b07a040b0711f89123f9568ca1b5e89bd",
+      "bytes": 5070
+    }
+  ],
+  "git_diff_names_at_capture": [
+    "src/ccdf/dflash/generate.py"
+  ]
+}

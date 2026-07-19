@@ -1,0 +1,151 @@
+{
+  "canonical_reference_parity_count": 50,
+  "config_sha256": "362fcf0842712e9e1ecce42bedd7776b20ebe80c5e37be1b7f864c85add86bce",
+  "determinism": {
+    "baseline": true,
+    "dflash": true
+  },
+  "fixed_block_size": 16,
+  "gates": {
+    "canonical_reference_parity": true,
+    "determinism": true,
+    "dflash_peak_reserved_le_6_gib": true,
+    "dflash_structural": true,
+    "expected_run_count": true,
+    "generated_token_parity": true,
+    "process_stability": true,
+    "quality": true,
+    "rendered_input_parity": true,
+    "zero_resume": true,
+    "zero_retry": true
+  },
+  "generated_token_parity_count": 50,
+  "max_dflash_peak_reserved_bytes": 3892314112,
+  "pair_count": 50,
+  "reference_path": "D:\\projects\\CCDF-Rework\\docs\\artifacts\\benchmark\\canonical_freeze_benchmark.json",
+  "reference_sha256": "8224b22871b608f6154dfe2ab1ee4f472d9b7feffa52eebd85db80e232016f87",
+  "rendered_input_parity_count": 50,
+  "repetitions": 5,
+  "run_counts": {
+    "baseline": 50,
+    "dflash": 50
+  },
+  "sdpa_evidence": {
+    "actual_kernel_execution_observed_in_benchmark": false,
+    "configured_policy": "math",
+    "effective_runtime_states": {
+      "baseline": {
+        "actual_backend": null,
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "effective_allowed_backends": [
+          "math"
+        ],
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      },
+      "dflash": {
+        "actual_backend": null,
+        "actual_kernel_observed": false,
+        "allow_tf32_effective": false,
+        "allow_tf32_requested": false,
+        "configured_attention_backend": "sdpa",
+        "configured_sdpa_kernel_policy": "math",
+        "cublas_workspace_config": ":4096:8",
+        "cuda_seeded": true,
+        "cudnn_benchmark": false,
+        "cudnn_deterministic": true,
+        "deterministic_algorithms": true,
+        "dispatcher_state_scope": "kernel availability, not observed kernel execution",
+        "effective_allowed_backends": [
+          "math"
+        ],
+        "flash_sdp_enabled": false,
+        "math_sdp_enabled": true,
+        "matmul_precision": "high",
+        "mem_efficient_sdp_enabled": false,
+        "python_hash_seed_environment": "42",
+        "python_random_seeded": true,
+        "pytorch_allocator_environment": null,
+        "sdpa_kernel_policy": "math",
+        "seed": 42,
+        "torch_initial_seed": 42
+      }
+    },
+    "interpretation": "effective_allowed_backends are dispatcher permissions, not proof that a kernel ran",
+    "resolved_profile": "frozen canonical root runtime"
+  },
+  "sdpa_kernel": "math",
+  "status": "PASS",
+  "worker_attempts": [
+    {
+      "attempt": 1,
+      "command": [
+        "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+        "-X",
+        "faulthandler",
+        "D:\\projects\\CCDF-Rework\\tests\\run_windows_canonical_regression.py",
+        "--config",
+        "D:\\projects\\CCDF-Rework\\config.yml",
+        "--condition-worker",
+        "baseline",
+        "--output",
+        "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-single-request-parity-smoke-n10\\canonical-math\\raw_runs\\baseline.jsonl"
+      ],
+      "condition": "baseline",
+      "duration_seconds": 463.3872698000014,
+      "exit_code": 0,
+      "faulthandler_enabled": true,
+      "native_crash_code": null,
+      "output_written": true,
+      "resume_enabled": false,
+      "retry_count": 0,
+      "signal": null,
+      "stderr_path": "worker_logs\\baseline.stderr.txt",
+      "stdout_path": "worker_logs\\baseline.stdout.txt"
+    },
+    {
+      "attempt": 1,
+      "command": [
+        "D:\\projects\\CCDF-Rework\\.venv\\Scripts\\python.exe",
+        "-X",
+        "faulthandler",
+        "D:\\projects\\CCDF-Rework\\tests\\run_windows_canonical_regression.py",
+        "--config",
+        "D:\\projects\\CCDF-Rework\\config.yml",
+        "--condition-worker",
+        "dflash",
+        "--output",
+        "D:\\projects\\CCDF-Rework\\docs\\artifacts\\qmsum-single-request-parity-smoke-n10\\canonical-math\\raw_runs\\dflash.jsonl"
+      ],
+      "condition": "dflash",
+      "duration_seconds": 130.93246920000092,
+      "exit_code": 0,
+      "faulthandler_enabled": true,
+      "native_crash_code": null,
+      "output_written": true,
+      "resume_enabled": false,
+      "retry_count": 0,
+      "signal": null,
+      "stderr_path": "worker_logs\\dflash.stderr.txt",
+      "stdout_path": "worker_logs\\dflash.stdout.txt"
+    }
+  ]
+}

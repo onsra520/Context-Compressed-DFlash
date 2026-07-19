@@ -1,0 +1,4 @@
+USDT:2026-07-19 01:15:15 32400:35588 C:\actions-runner\_work\pytorch\pytorch\third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:52] profiler_start
+USDT:2026-07-19 01:15:15 32400:35588 C:\actions-runner\_work\pytorch\pytorch\third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:59] profiler_stop
+USDT:2026-07-19 01:15:15 32400:35588 C:\actions-runner\_work\pytorch\pytorch\third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:52] profiler_start
+USDT:2026-07-19 01:15:15 32400:35588 C:\actions-runner\_work\pytorch\pytorch\third_party\kineto\libkineto\src\SyncActivityProfilerHandler.cpp:59] profiler_stop

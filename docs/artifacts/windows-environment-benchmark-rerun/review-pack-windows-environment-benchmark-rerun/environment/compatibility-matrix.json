@@ -1,0 +1,62 @@
+[
+  {
+    "classification": "unsupported_on_windows",
+    "component": "PyTorch CUDA allocator",
+    "evidence": "environment/pre-fix/environment.json and environment/post-fix/environment.json",
+    "fatal": false,
+    "finding": "expandable_segments is unsupported on native Windows",
+    "fix": "config.yml win32 platform override resolves cuda_allocator_conf to null",
+    "post_fix": "PASS; no unsupported option is passed by benchmark workers",
+    "pre_fix": "reproduced warning with successful allocation"
+  },
+  {
+    "classification": "invalid_config_effective_dtype_claim",
+    "component": "Baseline and target AWQ",
+    "evidence": "pre/post baseline.json and target.json",
+    "fatal": false,
+    "finding": "BF16 request is cast to FP16 by AWQ CUDA kernels",
+    "fix": "models.baseline.dtype and models.dflash.target.dtype set to float16",
+    "post_fix": "PASS; requested and effective AWQ dtype are FP16",
+    "pre_fix": "requested bfloat16; effective tensors include float16"
+  },
+  {
+    "classification": "deprecated_but_operational_compatibility_risk",
+    "component": "AutoAWQ 0.2.9",
+    "evidence": "worker stderr logs, pyproject.toml, post component probes",
+    "fatal": false,
+    "finding": "upstream package is deprecated but project inference remains operational",
+    "fix": "version pinned to 0.2.9; backend not replaced",
+    "post_fix": "PASS with deprecation warning retained as risk",
+    "pre_fix": "all AWQ component probes PASS through project compatibility alias"
+  },
+  {
+    "classification": "platform_package_metadata_incompatibility",
+    "component": "AutoAWQ Triton dependency metadata",
+    "evidence": "official-triton-windows-minimal-reproduction.txt and environment lock",
+    "fatal": true,
+    "finding": "official triton 3.7.1 has no win_amd64 wheel; triton-windows provides module under another distribution name",
+    "fix": "pinned triton-windows plus metadata-only local triton bridge",
+    "post_fix": "pip check PASS and triton import origin remains triton-windows implementation",
+    "pre_fix": "pip check failed: autoawq requires triton"
+  },
+  {
+    "classification": "deprecated_but_operational",
+    "component": "LLMLingua dependency",
+    "evidence": "post-probe-compressor.stderr.txt and deprecated API scan",
+    "fatal": false,
+    "finding": "dependency emits torch_dtype deprecation warning",
+    "fix": "none; project source has no direct torch_dtype call",
+    "post_fix": "compressor inference PASS",
+    "pre_fix": "compressor inference PASS"
+  },
+  {
+    "classification": "deprecated_but_operational",
+    "component": "AutoAWQ dependency",
+    "evidence": "mock10/dataset worker stderr and deprecated API scan",
+    "fatal": false,
+    "finding": "dependency invokes deprecated torch.jit.script",
+    "fix": "none; project source has no direct torch.jit.script call",
+    "post_fix": "all AWQ workers exit 0",
+    "pre_fix": "AWQ inference PASS"
+  }
+]

@@ -1,0 +1,750 @@
+{
+  "active_profile": "dataset_smoke",
+  "profile_settings": {
+    "artifact_directory": "D:\\projects\\CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10",
+    "cohorts": {
+      "expected_rows_per_dataset": 10,
+      "gsm8k": "D:\\projects\\CCDF-Rework/data/eval/gsm8k/gsm8k_n10.jsonl",
+      "manifest": "D:\\projects\\CCDF-Rework/data/manifests/dataset_manifest.json",
+      "qmsum": "D:\\projects\\CCDF-Rework/data/eval/qmsum/qmsum_n10.jsonl",
+      "selection_manifest": "D:\\projects\\CCDF-Rework/data/manifests/dataset_smoke_selection.json"
+    },
+    "compression": {
+      "chunk_overlap_tokens": 32,
+      "chunk_size_tokens": 480,
+      "keep_rate": 0.5,
+      "merge_policy": "newline_preserve_order",
+      "min_context_tokens": 1,
+      "tokenizer": "compressor"
+    },
+    "conditions": [
+      {
+        "name": "baseline-ar",
+        "prompt_kind": "original",
+        "runtime_condition": "baseline"
+      },
+      {
+        "name": "dflash-r1",
+        "prompt_kind": "original",
+        "runtime_condition": "dflash"
+      },
+      {
+        "name": "llmlingua-ar-r2",
+        "prompt_kind": "compressed",
+        "runtime_condition": "baseline"
+      },
+      {
+        "name": "cc-dflash-r2",
+        "prompt_kind": "compressed",
+        "runtime_condition": "dflash"
+      }
+    ],
+    "config_overrides": {
+      "memory": {
+        "request_cache_policy": "release_unused"
+      },
+      "optimization": {
+        "block_policy": {
+          "fixed_block_size": 8,
+          "mode": "fixed"
+        }
+      },
+      "prompts": {
+        "system": "Answer the user request from the provided input. Follow the required output format exactly and stop when the answer is complete."
+      },
+      "runtime": {
+        "sdpa_kernel": "math"
+      }
+    },
+    "effective_platform": "win32",
+    "effective_platform_override": {
+      "runtime": {
+        "cuda_allocator_conf": null
+      }
+    },
+    "evaluators": {
+      "gsm8k": {
+        "final_answer_prefix": "Final answer:",
+        "fixture_cases": [
+          {
+            "generated": "work\nFinal answer: +1,200",
+            "label": "correct",
+            "reference": "1200"
+          },
+          {
+            "generated": "Final answer: 1/2",
+            "label": "correct",
+            "reference": "0.5"
+          },
+          {
+            "generated": "Final answer: 7",
+            "label": "wrong_numeric",
+            "reference": "8"
+          },
+          {
+            "generated": "Final answer: seven",
+            "label": "invalid_format",
+            "reference": "7"
+          },
+          {
+            "generated": "no final line",
+            "label": "missing_answer",
+            "reference": "7"
+          }
+        ],
+        "version": "gsm8k-numeric.v1"
+      },
+      "qmsum": {
+        "fixture_cases": [
+          {
+            "generated": "Alpha beta beta",
+            "precision": 0.5,
+            "recall": 0.5,
+            "reference": "beta gamma"
+          },
+          {
+            "generated": "",
+            "precision": 0.0,
+            "recall": 0.0,
+            "reference": "beta"
+          }
+        ],
+        "semantic_correctness": "NOT_CLAIMED",
+        "version": "qmsum-overlap.v1",
+        "word_pattern": "[A-Za-z0-9]+"
+      }
+    },
+    "generation": {
+      "condition_worker_max_attempts": 1,
+      "gsm8k_max_new_tokens": 256,
+      "qmsum_context_chunk_overlap_tokens": 256,
+      "qmsum_context_chunk_size_tokens": 2048,
+      "qmsum_context_chunk_tokenizer": "generation_target",
+      "qmsum_context_merge_policy": "newline_preserve_order",
+      "qmsum_max_new_tokens": 256,
+      "repetitions": 1,
+      "warmup_requests": 1
+    },
+    "hard_gates": {
+      "dflash_peak_reserved_vram_gib": 6.0,
+      "gsm8k_evaluator_valid_count": 10,
+      "hidden_truncated_tokens": 0,
+      "max_error_events": 0,
+      "max_oom_events": 0,
+      "metric_validity_rate": 1.0,
+      "pair_generated_token_parity_rate": 1.0,
+      "pair_input_token_parity_rate": 1.0,
+      "protected_fields_rate": 1.0,
+      "qmsum_evaluator_valid_count": 10,
+      "qmsum_precompression_coverage_rate": 1.0,
+      "successful_condition_runs": 80
+    },
+    "parity_pairs": [
+      {
+        "left": "baseline-ar",
+        "name": "original",
+        "right": "dflash-r1"
+      },
+      {
+        "left": "llmlingua-ar-r2",
+        "name": "compressed",
+        "right": "cc-dflash-r2"
+      }
+    ],
+    "platform_overrides": {
+      "default": {
+        "runtime": {
+          "cuda_allocator_conf": null
+        }
+      },
+      "linux": {
+        "runtime": {
+          "cuda_allocator_conf": "expandable_segments:True,garbage_collection_threshold:0.5"
+        }
+      },
+      "win32": {
+        "runtime": {
+          "cuda_allocator_conf": null
+        }
+      }
+    },
+    "prompts": {
+      "gsm8k_context_header": "",
+      "gsm8k_question_header": "Question:",
+      "qmsum_context_header": "Meeting transcript:",
+      "qmsum_question_header": "Question:"
+    },
+    "review_archive": "D:\\projects\\CCDF-Rework/docs/reviews/review-pack-dataset-protocol-evaluator-smoke-n10.tar.gz",
+    "validation_commands": {
+      "artifact_verify": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "ccdf.benchmark.dataset_smoke_verify",
+        "--config",
+        "config.yml"
+      ],
+      "compileall": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "compileall",
+        "-q",
+        "src"
+      ],
+      "diff_check": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "pip_check": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "pytest": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ]
+    },
+    "version": "dataset-smoke.v1"
+  },
+  "resolved_config": {
+    "benchmark": {
+      "measurement_mode": "benchmark",
+      "output_jsonl": "D:\\projects\\CCDF-Rework/docs/artifacts/benchmark/results.jsonl",
+      "prompt_format": "chat",
+      "prompts": [
+        "Compute 7 + 5. Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>`.",
+        "Explain why 9 multiplied by 0 equals 0. Briefly state the essential reasoning, then end with exactly one line in the form `Final answer: <result>` that states the general rule in words.",
+        "A box has 18 red balls and 7 blue balls. Five red balls are removed. How many balls remain? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>`, repeating the unit `balls` in that line.",
+        "A bookstore sells notebooks for $4 and pens for $2. Maya buys 6 notebooks and 5 pens, then uses a $7 coupon. What does she pay? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>` including currency.",
+        "A train travels 120 km in 2 hours, stops for 30 minutes, then travels 180 km in 3 hours. Find total distance, elapsed time, and average speed. Carefully write the distance addition before dividing by elapsed time, and round the average speed to exactly two decimal places. The final line must label all three fields in this order: `Final answer: total distance <value> km; elapsed time <value> hours; average speed <value> km/h`.",
+        "A rectangle is 12 m long and 9 m wide. Its length increases by 3 m and its width decreases by 2 m. Find the new area and the change from the original area. Briefly show the essential calculation. The final line must label both fields in this order: `Final answer: new area <value> square meters; decrease of <value> square meters`.",
+        "A tank contains 240 liters of water. Thirty-five percent is used, then 60 liters are added. How many liters are in the tank? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>` and repeat the requested unit.",
+        "A class has 28 boys and 32 girls. One quarter of the girls are absent and all boys attend. How many students attend, and what is the ratio of boys to attending girls in simplest whole-number colon notation? Briefly show the essential calculation. The final line must label both fields and include the attendance unit: `Final answer: attendance <value> students; ratio <boys:girls>`.",
+        "A jacket costs $80. It is discounted by 15%, then an 8% sales tax is applied to the discounted price. What is the final price? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>` including currency.",
+        "A cyclist rides 18 km at 12 km/h and then 30 km at 15 km/h. Find total distance, total time, and average speed. Briefly show the essential calculation. The final line must label all three fields in this order: `Final answer: total distance <value> km; total time <value> hours; average speed <value> km/h`."
+      ],
+      "repetitions": 5,
+      "save_generated_text": true,
+      "save_token_ids": true,
+      "smoke_max_new_tokens": 256,
+      "summary_json": "D:\\projects\\CCDF-Rework/docs/artifacts/benchmark/summary.json",
+      "warmup_requests": 1
+    },
+    "config_version": "rec.dflash",
+    "dataset_smoke": {
+      "artifact_directory": "D:\\projects\\CCDF-Rework/docs/artifacts/dataset-protocol-evaluator-smoke-n10",
+      "cohorts": {
+        "expected_rows_per_dataset": 10,
+        "gsm8k": "D:\\projects\\CCDF-Rework/data/eval/gsm8k/gsm8k_n10.jsonl",
+        "manifest": "D:\\projects\\CCDF-Rework/data/manifests/dataset_manifest.json",
+        "qmsum": "D:\\projects\\CCDF-Rework/data/eval/qmsum/qmsum_n10.jsonl",
+        "selection_manifest": "D:\\projects\\CCDF-Rework/data/manifests/dataset_smoke_selection.json"
+      },
+      "compression": {
+        "chunk_overlap_tokens": 32,
+        "chunk_size_tokens": 480,
+        "keep_rate": 0.5,
+        "merge_policy": "newline_preserve_order",
+        "min_context_tokens": 1,
+        "tokenizer": "compressor"
+      },
+      "conditions": [
+        {
+          "name": "baseline-ar",
+          "prompt_kind": "original",
+          "runtime_condition": "baseline"
+        },
+        {
+          "name": "dflash-r1",
+          "prompt_kind": "original",
+          "runtime_condition": "dflash"
+        },
+        {
+          "name": "llmlingua-ar-r2",
+          "prompt_kind": "compressed",
+          "runtime_condition": "baseline"
+        },
+        {
+          "name": "cc-dflash-r2",
+          "prompt_kind": "compressed",
+          "runtime_condition": "dflash"
+        }
+      ],
+      "config_overrides": {
+        "memory": {
+          "request_cache_policy": "release_unused"
+        },
+        "optimization": {
+          "block_policy": {
+            "fixed_block_size": 8,
+            "mode": "fixed"
+          }
+        },
+        "prompts": {
+          "system": "Answer the user request from the provided input. Follow the required output format exactly and stop when the answer is complete."
+        },
+        "runtime": {
+          "sdpa_kernel": "math"
+        }
+      },
+      "evaluators": {
+        "gsm8k": {
+          "final_answer_prefix": "Final answer:",
+          "fixture_cases": [
+            {
+              "generated": "work\nFinal answer: +1,200",
+              "label": "correct",
+              "reference": "1200"
+            },
+            {
+              "generated": "Final answer: 1/2",
+              "label": "correct",
+              "reference": "0.5"
+            },
+            {
+              "generated": "Final answer: 7",
+              "label": "wrong_numeric",
+              "reference": "8"
+            },
+            {
+              "generated": "Final answer: seven",
+              "label": "invalid_format",
+              "reference": "7"
+            },
+            {
+              "generated": "no final line",
+              "label": "missing_answer",
+              "reference": "7"
+            }
+          ],
+          "version": "gsm8k-numeric.v1"
+        },
+        "qmsum": {
+          "fixture_cases": [
+            {
+              "generated": "Alpha beta beta",
+              "precision": 0.5,
+              "recall": 0.5,
+              "reference": "beta gamma"
+            },
+            {
+              "generated": "",
+              "precision": 0.0,
+              "recall": 0.0,
+              "reference": "beta"
+            }
+          ],
+          "semantic_correctness": "NOT_CLAIMED",
+          "version": "qmsum-overlap.v1",
+          "word_pattern": "[A-Za-z0-9]+"
+        }
+      },
+      "generation": {
+        "condition_worker_max_attempts": 1,
+        "gsm8k_max_new_tokens": 256,
+        "qmsum_context_chunk_overlap_tokens": 256,
+        "qmsum_context_chunk_size_tokens": 2048,
+        "qmsum_context_chunk_tokenizer": "generation_target",
+        "qmsum_context_merge_policy": "newline_preserve_order",
+        "qmsum_max_new_tokens": 256,
+        "repetitions": 1,
+        "warmup_requests": 1
+      },
+      "hard_gates": {
+        "dflash_peak_reserved_vram_gib": 6.0,
+        "gsm8k_evaluator_valid_count": 10,
+        "hidden_truncated_tokens": 0,
+        "max_error_events": 0,
+        "max_oom_events": 0,
+        "metric_validity_rate": 1.0,
+        "pair_generated_token_parity_rate": 1.0,
+        "pair_input_token_parity_rate": 1.0,
+        "protected_fields_rate": 1.0,
+        "qmsum_evaluator_valid_count": 10,
+        "qmsum_precompression_coverage_rate": 1.0,
+        "successful_condition_runs": 80
+      },
+      "parity_pairs": [
+        {
+          "left": "baseline-ar",
+          "name": "original",
+          "right": "dflash-r1"
+        },
+        {
+          "left": "llmlingua-ar-r2",
+          "name": "compressed",
+          "right": "cc-dflash-r2"
+        }
+      ],
+      "platform_overrides": {
+        "default": {
+          "runtime": {
+            "cuda_allocator_conf": null
+          }
+        },
+        "linux": {
+          "runtime": {
+            "cuda_allocator_conf": "expandable_segments:True,garbage_collection_threshold:0.5"
+          }
+        },
+        "win32": {
+          "runtime": {
+            "cuda_allocator_conf": null
+          }
+        }
+      },
+      "prompts": {
+        "gsm8k_context_header": "",
+        "gsm8k_question_header": "Question:",
+        "qmsum_context_header": "Meeting transcript:",
+        "qmsum_question_header": "Question:"
+      },
+      "review_archive": "D:\\projects\\CCDF-Rework/docs/reviews/review-pack-dataset-protocol-evaluator-smoke-n10.tar.gz",
+      "validation_commands": {
+        "artifact_verify": [
+          ".venv/Scripts/python.exe",
+          "-m",
+          "ccdf.benchmark.dataset_smoke_verify",
+          "--config",
+          "config.yml"
+        ],
+        "compileall": [
+          ".venv/Scripts/python.exe",
+          "-m",
+          "compileall",
+          "-q",
+          "src"
+        ],
+        "diff_check": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "pip_check": [
+          ".venv/Scripts/python.exe",
+          "-m",
+          "pip",
+          "check"
+        ],
+        "pytest": [
+          ".venv/Scripts/python.exe",
+          "-m",
+          "pytest",
+          "-q"
+        ]
+      },
+      "version": "dataset-smoke.v1"
+    },
+    "datasets": {
+      "qmsum_context_policy": "full_transcript",
+      "qmsum_query_policy": "specific_only",
+      "sample_size": 10,
+      "seed": 42
+    },
+    "memory": {
+      "baseline_peak_reserved_limit_gib": null,
+      "compressor_residency_mode": "staged",
+      "device_capacity_gib": 8.0,
+      "dflash_peak_reserved_limit_gib": 6.0,
+      "enforce_after_generation": true,
+      "enforce_after_model_load": true,
+      "generation_residency_mode": "staged",
+      "request_cache_policy": "release_unused",
+      "use_reserved_memory_for_gate": true
+    },
+    "models": {
+      "baseline": {
+        "allow_cpu_offload": false,
+        "device_map": "cuda:0",
+        "dtype": "float16",
+        "local_path": "D:\\projects\\CCDF-Rework/models/baseline/Qwen3-4B-AWQ",
+        "model_id": "Qwen/Qwen3-4B-AWQ",
+        "quantization": "awq-int4",
+        "revision": null,
+        "tokenizer_path": "D:\\projects\\CCDF-Rework/models/baseline/Qwen3-4B-AWQ",
+        "trust_remote_code": true
+      },
+      "compressor": {
+        "device": "cuda:0",
+        "load_in_rec2": false,
+        "local_path": "D:\\projects\\CCDF-Rework/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank",
+        "model_id": "microsoft/llmlingua-2-xlm-roberta-large-meetingbank",
+        "reserved_budget_gib": 2.25
+      },
+      "dflash": {
+        "drafter": {
+          "checkpoint_block_size": 16,
+          "device_map": "cuda:0",
+          "dtype": "bfloat16",
+          "local_path": "D:\\projects\\CCDF-Rework/models/dflash/drafter/Qwen3-4B-DFlash-b16",
+          "model_id": "local-dflash-drafter",
+          "revision": "b74e3a329c4d963783143b1e970d95b002be72bd",
+          "trust_remote_code": true
+        },
+        "target": {
+          "allow_cpu_offload": false,
+          "device_map": "cuda:0",
+          "dtype": "float16",
+          "fallback_local_path": "D:\\projects\\CCDF-Rework/models/dflash/target/Qwen3-4B-bnb-4bit",
+          "fallback_model_id": "unsloth/Qwen3-4B-bnb-4bit",
+          "fallback_quantization": "bitsandbytes-nf4-bfloat16",
+          "local_path": "D:\\projects\\CCDF-Rework/models/dflash/target/Qwen3-4B-AWQ",
+          "model_id": "Qwen/Qwen3-4B-AWQ",
+          "quantization": "awq-int4",
+          "revision": null,
+          "tokenizer_path": "D:\\projects\\CCDF-Rework/models/dflash/target/Qwen3-4B-AWQ",
+          "trust_remote_code": true
+        }
+      }
+    },
+    "optimization": {
+      "block_policy": {
+        "allow_subblock_shapes": true,
+        "allowed_block_sizes": [
+          4,
+          8,
+          12,
+          16
+        ],
+        "fixed_block_size": 8,
+        "high_tau_block_size": 16,
+        "high_tau_threshold": 4.5,
+        "low_tau_block_size": 4,
+        "low_tau_threshold": 2.5,
+        "mid_tau_block_size": 8,
+        "mode": "fixed",
+        "rolling_window": 4
+      },
+      "compact_structural_audit": true,
+      "compile": {
+        "drafter_enabled": false,
+        "dynamic": true,
+        "fullgraph": false,
+        "mode": "reduce-overhead",
+        "target_verify_enabled": false
+      },
+      "full_structural_audit": false,
+      "gpu_resident_acceptance": true,
+      "output_contract_mode": "finalize_only",
+      "profile_components": false
+    },
+    "paths": {
+      "artifacts_root": "D:\\projects\\CCDF-Rework/docs/artifacts",
+      "baseline_model": "D:\\projects\\CCDF-Rework/models/baseline/Qwen3-4B-AWQ",
+      "benchmark_inputs": "D:\\projects\\CCDF-Rework/data/benchmark",
+      "compressor_model": "D:\\projects\\CCDF-Rework/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank",
+      "data_root": "D:\\projects\\CCDF-Rework/data",
+      "dflash_drafter_model": "D:\\projects\\CCDF-Rework/models/dflash/drafter/Qwen3-4B-DFlash-b16",
+      "dflash_target_fallback_model": "D:\\projects\\CCDF-Rework/models/dflash/target/Qwen3-4B-bnb-4bit",
+      "dflash_target_model": "D:\\projects\\CCDF-Rework/models/dflash/target/Qwen3-4B-AWQ",
+      "models_root": "D:\\projects\\CCDF-Rework/models",
+      "project_root": "D:\\projects\\CCDF-Rework"
+    },
+    "project": {
+      "name": "ccdf",
+      "root": "D:\\projects\\CCDF-Rework",
+      "source_identity": {
+        "kind": "local-source-tree"
+      }
+    },
+    "prompts": {
+      "default_instruction": "Answer directly and stop when the answer is complete.",
+      "gsm8k_instruction": "Compute using concise essential calculations. End with exactly one separate line in the form \"Final answer: <result>\" and then stop.",
+      "system": "Answer the user request from the provided input. Follow the required output format exactly and stop when the answer is complete."
+    },
+    "protocol_profiles": {
+      "active": "rec3",
+      "profiles": {
+        "rec3": {
+          "artifact_directory": "D:\\projects\\CCDF-Rework/docs/artifacts/rec3-four-condition-mock10",
+          "compression": {
+            "chunk_overlap_tokens": 32,
+            "chunk_size_tokens": 480,
+            "keep_rate": 0.5,
+            "merge_policy": "newline_preserve_order",
+            "min_context_tokens": 1,
+            "tokenizer": "compressor"
+          },
+          "conditions": [
+            {
+              "name": "baseline-ar",
+              "prompt_kind": "original",
+              "runtime_condition": "baseline"
+            },
+            {
+              "name": "dflash-r1",
+              "prompt_kind": "original",
+              "runtime_condition": "dflash"
+            },
+            {
+              "name": "llmlingua-ar-r2",
+              "prompt_kind": "compressed",
+              "reduction_reference_condition": "baseline-ar",
+              "runtime_condition": "baseline"
+            },
+            {
+              "name": "cc-dflash-r2",
+              "prompt_kind": "compressed",
+              "reduction_reference_condition": "dflash-r1",
+              "runtime_condition": "dflash"
+            }
+          ],
+          "config_overrides": {
+            "optimization": {
+              "block_policy": {
+                "fixed_block_size": 8,
+                "mode": "fixed"
+              }
+            },
+            "prompts": {
+              "system": "You are an information extraction assistant. Return only the requested output format."
+            },
+            "runtime": {
+              "max_new_tokens": 32,
+              "temperature": 0.0
+            }
+          },
+          "dataset": "rec3_mock",
+          "description": "REC-3 four-condition mock10 validation profile",
+          "fixtures": [
+            {
+              "approval_code": "AP-701",
+              "evidence_position_fraction": 0.15,
+              "owner": "Asha",
+              "quantity": "41",
+              "turns": 16
+            },
+            {
+              "approval_code": "AP-702",
+              "evidence_position_fraction": 0.15,
+              "owner": "Binh",
+              "quantity": "58",
+              "turns": 16
+            },
+            {
+              "approval_code": "AP-703",
+              "evidence_position_fraction": 0.3,
+              "owner": "Chen",
+              "quantity": "73",
+              "turns": 20
+            },
+            {
+              "approval_code": "AP-704",
+              "evidence_position_fraction": 0.45,
+              "owner": "Dara",
+              "quantity": "89",
+              "turns": 24
+            },
+            {
+              "approval_code": "AP-705",
+              "evidence_position_fraction": 0.6,
+              "owner": "Elena",
+              "quantity": "104",
+              "turns": 28
+            },
+            {
+              "approval_code": "AP-706",
+              "evidence_position_fraction": 0.75,
+              "owner": "Farid",
+              "quantity": "126",
+              "turns": 32
+            },
+            {
+              "approval_code": "AP-707",
+              "evidence_position_fraction": 0.9,
+              "owner": "Gia",
+              "quantity": "147",
+              "turns": 30
+            },
+            {
+              "approval_code": "AP-708",
+              "evidence_position_fraction": 1.0,
+              "owner": "Hana",
+              "quantity": "168",
+              "turns": 30
+            },
+            {
+              "approval_code": "AP-709",
+              "evidence_position_fraction": 0.5,
+              "owner": "Ivo",
+              "quantity": "193",
+              "turns": 18
+            },
+            {
+              "approval_code": "AP-710",
+              "evidence_position_fraction": 0.7,
+              "owner": "Juno",
+              "quantity": "215",
+              "turns": 32
+            }
+          ],
+          "hard_gates": {
+            "condition_success_rate": 1.0,
+            "dflash_peak_reserved_vram_gib": 6.0,
+            "exact_field_quality_rate": 1.0,
+            "max_oom_events": 0,
+            "metric_validity_rate": 1.0,
+            "pair_generated_token_parity_rate": 1.0,
+            "protected_input_rate": 1.0
+          },
+          "parity_pairs": [
+            {
+              "left": "baseline-ar",
+              "name": "original_baseline_ar_vs_dflash_r1",
+              "right": "dflash-r1"
+            },
+            {
+              "left": "llmlingua-ar-r2",
+              "name": "compressed_llmlingua_ar_r2_vs_cc_dflash_r2",
+              "right": "cc-dflash-r2"
+            }
+          ],
+          "prompt_contract": {
+            "distractor_template": "Meeting turn {turn}: unapproved proposal says owner Candidate-{candidate}, code ZX-{fixture_index}{turn_padded}, quantity {distractor_quantity}; this is a distractor.",
+            "evidence_template": "FINAL APPROVED FACT: the approved owner is {owner}; the approval code is {approval_code}; the exact approved quantity is {quantity}.",
+            "output_instruction": "Return exactly: Owner: <name>; Approval code: <code>; Quantity: <integer>",
+            "question": "According to the FINAL APPROVED FACT, who is the owner, what is the approval code, and what exact quantity was approved?",
+            "strict_output_pattern": "^Owner: (?P<owner>[^;\\r\\n]+); Approval code: (?P<approval_code>[^;\\r\\n]+); Quantity: (?P<quantity>[0-9]+)$",
+            "tolerant_field_pattern": "Owner:\\s*(?P<owner>[^;\\r\\n]+);\\s*Approval code:\\s*(?P<approval_code>[^;\\r\\n]+);\\s*Quantity:\\s*(?P<quantity>[0-9]+)"
+          },
+          "review_archive": "D:\\projects\\CCDF-Rework/docs/reviews/review-pack-rec3-protocol-four-conditions-mock10-final.tar.gz"
+        }
+      }
+    },
+    "runtime": {
+      "allow_tf32": false,
+      "attention_backend": "sdpa",
+      "awq_split_k_iters": 1,
+      "cuda_allocator_conf": null,
+      "deterministic": true,
+      "device": "cuda:0",
+      "enable_thinking": false,
+      "local_files_only": true,
+      "matmul_precision": "high",
+      "max_new_tokens": 256,
+      "sdpa_kernel": "math",
+      "seed": 42,
+      "stop_token_ids": [
+        151645
+      ],
+      "temperature": 0.0
+    },
+    "validation": {
+      "require_cuda": true,
+      "require_full_gpu_placement": true,
+      "require_single_gpu": true,
+      "smoke_prompts": [
+        "What is 17 multiplied by 6? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>`.",
+        "A shop sold 12 boxes with 8 items in each box. How many items were sold? Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>`.",
+        "A cyclist rides 18 km at 12 km/h and then 30 km at 15 km/h. Find total distance, total time, and average speed. Briefly show the essential calculation, then end with exactly one line in the form `Final answer: <result>` containing all three results."
+      ],
+      "validate_model_contract": true
+    }
+  },
+  "source_config_path": "D:\\projects\\CCDF-Rework\\config.yml",
+  "source_config_sha256": "904c408e5d492ec03ec0b21a710303b06589479012e804725a575bb14ba4c086"
+}
