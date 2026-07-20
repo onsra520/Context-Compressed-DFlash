@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import time
-from typing import Any
+from typing import Any, Callable
 
 import torch
 from transformers import DynamicCache
@@ -32,6 +32,7 @@ def generate_dflash(
     profile_components: bool = False,
     gpu_resident_acceptance: bool = True,
     allow_subblock_shapes: bool = True,
+    on_tokens_committed: Callable[[list[int], str], None] | None = None,
 ) -> GenerationOutput:
     target.eval()
     drafter.eval()
@@ -64,6 +65,14 @@ def generate_dflash(
     target_prefill_ms = (time.perf_counter() - prefill_start) * 1000.0
 
     generated = [int(seed)]
+    streamed_text = ""
+    if on_tokens_committed is not None:
+        streamed_text = tokenizer.decode(
+            generated,
+            skip_special_tokens=True,
+            clean_up_tokenization_spaces=False,
+        )
+        on_tokens_committed([int(seed)], streamed_text)
     stop_reason = controller.token_reason(seed, len(generated))
     draft_cache = DynamicCache()
     stats = DFlashStats(target_prefill_calls=1)
@@ -154,15 +163,35 @@ def generate_dflash(
         stats.block_sizes.append(physical_block_size)
 
         emitted_from_block = 0
+        committed_token_ids: list[int] = []
         for token_id in verification.emitted_tokens:
             if len(generated) >= settings.max_new_tokens:
                 stop_reason = "max_new_tokens"
                 break
             generated.append(int(token_id))
+            committed_token_ids.append(int(token_id))
             emitted_from_block += 1
             stop_reason = controller.token_reason(token_id, len(generated))
             if stop_reason:
                 break
+
+        if on_tokens_committed is not None and committed_token_ids:
+            decoded = tokenizer.decode(
+                generated,
+                skip_special_tokens=True,
+                clean_up_tokenization_spaces=False,
+            )
+            text_delta = (
+                decoded[len(streamed_text) :]
+                if decoded.startswith(streamed_text)
+                else tokenizer.decode(
+                    committed_token_ids,
+                    skip_special_tokens=True,
+                    clean_up_tokenization_spaces=False,
+                )
+            )
+            streamed_text = decoded
+            on_tokens_committed(committed_token_ids, text_delta)
 
         if emitted_from_block <= 0:
             raise RuntimeError("verification block emitted no token")

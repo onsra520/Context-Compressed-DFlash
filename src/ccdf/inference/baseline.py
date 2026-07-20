@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import time
-from typing import Any
+from typing import Any, Callable
 
 import torch
 from transformers import DynamicCache
@@ -22,6 +22,7 @@ def generate_baseline(
     settings: GenerationSettings,
     *,
     model_metadata: dict[str, Any],
+    on_tokens_committed: Callable[[list[int], str], None] | None = None,
 ) -> GenerationOutput:
     reset_peak_memory()
     memory_before = current_memory_state()
@@ -51,11 +52,29 @@ def generate_baseline(
     target_prefill_ms = (time.perf_counter() - prefill_start) * 1000.0
 
     generated: list[int] = []
+    streamed_text = ""
     stop_reason: str | None = None
     synchronize(model.device)
     decode_start = time.perf_counter()
     while len(generated) < settings.max_new_tokens:
         generated.append(next_token)
+        if on_tokens_committed is not None:
+            decoded = tokenizer.decode(
+                generated,
+                skip_special_tokens=True,
+                clean_up_tokenization_spaces=False,
+            )
+            text_delta = (
+                decoded[len(streamed_text) :]
+                if decoded.startswith(streamed_text)
+                else tokenizer.decode(
+                    [next_token],
+                    skip_special_tokens=True,
+                    clean_up_tokenization_spaces=False,
+                )
+            )
+            streamed_text = decoded
+            on_tokens_committed([next_token], text_delta)
         stop_reason = controller.token_reason(next_token, len(generated))
         if stop_reason:
             break

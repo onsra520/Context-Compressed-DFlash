@@ -505,7 +505,7 @@
                 <span class="puri-word puri-word--a puri-word--lime">METRICS</span>
                 <span class="puri-word puri-word--b puri-word--cyan">E2E</span>
                 <span class="puri-sticker puri-sticker--lime puri-s1">TOKENS</span>
-                <span class="puri-sticker puri-sticker--cyan puri-s2">PREFILL</span>
+                <span class="puri-sticker puri-sticker--cyan puri-s2">TTFT</span>
                 <span class="puri-sticker puri-sticker--orange puri-s3">OVERHEAD</span>
                 <span class="puri-doodle puri-doodle--black puri-d1">generation ≠ e2e</span>
                 <span class="puri-sparkle puri-sparkle--yellow puri-x1">★</span>
@@ -516,8 +516,8 @@
                 <div>
                     <h2 class="section-title">Các metric sử dụng</h2>
                     <p class="section-sub">
-                        CC-DFlash không thể được đánh giá chỉ bằng tok/s. Compression overhead, prefill và
-                        generation phải được cộng lại trong end-to-end latency.
+                        Metric của live demo được tính trên prompt bất kỳ và lần chạy hiện tại, với
+                        compression, generation và speculative verification được báo cáo riêng.
                     </p>
                 </div>
             </header>
@@ -531,10 +531,10 @@
                 <span class="puri-word puri-word--b puri-word--yellow">EVIDENCE</span>
                 <span class="puri-sticker puri-sticker--hot puri-s1">GSM8K</span>
                 <span class="puri-sticker puri-sticker--cyan puri-s2">QMSUM</span>
-                <span class="puri-sticker puri-sticker--lime puri-s3">N=30</span>
+                <span class="puri-sticker puri-sticker--lime puri-s3" id="evidence-sample-size"></span>
                 <span class="puri-doodle puri-doodle--purple puri-d1">quality + latency</span>
-                <span class="puri-sticker puri-sticker--hot puri-s4">MOCK · FINAL N=20 PENDING</span>
-                <span class="puri-sticker puri-sticker--cyan puri-s5">QMSum · n=100</span>
+                <span class="puri-sticker puri-sticker--hot puri-s4">FINAL BENCHMARK</span>
+                <span class="puri-sticker puri-sticker--cyan puri-s5">FOUR CONDITIONS</span>
                 <span class="puri-sticker puri-sticker--lime puri-s6">Final interpretation</span>
                 <span class="puri-sparkle puri-sparkle--cyan puri-x1">✧</span>
             </div>
@@ -542,9 +542,8 @@
             <header class="section-header">
                 <div class="section-no">03</div>
                 <div>
-                    <h2 class="section-title">Kết quả tổng hợp</h2>
-                    <p class="section-sub">Dữ liệu tạm để hoàn thiện giao diện; sẽ được thay bằng final benchmark n=20.</p>
-                    <div class="mock-badge">MOCK DATA · ƯỚC LƯỢNG TỪ BEST HISTORICAL RUN</div>
+                    <h2 class="section-title" id="evidence-heading"></h2>
+                    <p class="section-sub">Kết quả frozen GSM8K và QMSum cho đủ bốn condition.</p>
                 </div>
             </header>
 
@@ -559,7 +558,7 @@
                        </div>
                    </div>
                    <div class="chart-container" id="chart-throughput"></div>
-                   <p class="evidence-note">DFlash cải thiện generation path; tok/s không bao gồm toàn bộ compression overhead.</p>
+                   <p class="evidence-note" id="note-throughput"></p>
                 </article>
 
                 <!-- 2. INPUT TOKEN REDUCTION -->
@@ -572,7 +571,7 @@
                        </div>
                    </div>
                    <div class="chart-container" id="chart-reduction"></div>
-                   <p class="evidence-note" id="note-reduction">Prompt ngắn giảm token đáng kể; fact safeguard khiến compression trên bài toán ngắn gần như no-op.</p>
+                   <p class="evidence-note" id="note-reduction"></p>
                 </article>
 
                 <!-- 3. QUALITY PRESERVATION -->
@@ -593,27 +592,18 @@
                    <div class="card-title-bar">
                        <h3>4. PIPELINE E2E LATENCY</h3>
                        <div class="card-toggles">
-                           <button class="tgl-btn active" data-ds="qmsum">QMSum</button>
-                           <button class="tgl-btn" data-ds="gsm8k">GSM8K</button>
+                           <button class="tgl-btn active" data-ds="gsm8k">GSM8K</button>
+                           <button class="tgl-btn" data-ds="qmsum">QMSum</button>
                        </div>
                    </div>
                    <div class="chart-container" id="chart-latency"></div>
-                   <p class="evidence-note">Input ngắn hoặc compression overhead lớn có thể khiến CC-DFlash chậm hơn DFlash end-to-end, dù generation path vẫn nhanh.</p>
+                   <p class="evidence-note" id="note-latency"></p>
                 </article>
             </div>
 
-            <!-- KPI strip -->
-            <div class="kpi-strip" id="kpi-strip"></div>
-
             <!-- Conclusion Strip -->
             <div class="evidence-conclusion-strip">
-                <ul class="conclusion-list">
-                    <li><span class="icon">✓</span> DFlash tăng tốc quá trình decode so với autoregressive decoding.</li>
-                    <li><span class="icon">✓</span> CC-DFlash giảm input tokens trước target prefill.</li>
-                    <li><span class="icon">✓</span> Quality được giữ gần target baseline trong mock benchmark.</li>
-                    <li><span class="icon warn">⚠</span> Lợi ích end-to-end phụ thuộc độ dài context và compression overhead.</li>
-                </ul>
-                <div class="conclusion-hero">SHORT CONTEXT: OVERHEAD DOMINATES · LONG CONTEXT: POTENTIAL BENEFIT</div>
+                <ul class="conclusion-list" id="evidence-conclusion-list"></ul>
             </div>
         </section>
 
@@ -628,7 +618,7 @@
                 <span class="puri-sticker puri-sticker--orange puri-s4">Same target</span>
                 <span class="puri-sticker puri-sticker--hot puri-s5">Same prompt</span>
                 <span class="puri-sticker puri-sticker--cyan puri-s6">Separated metrics</span>
-                <span class="puri-sticker puri-sticker--lime puri-s7">Deterministic mock</span>
+                <span class="puri-sticker puri-sticker--lime puri-s7">Live committed tokens</span>
 
                 <span class="puri-doodle puri-doodle--black puri-d1">same prompt!</span>
                 <span class="puri-sparkle puri-sparkle--purple puri-x1">♡</span>
@@ -642,17 +632,16 @@
                         Nhập một prompt bất kỳ. Backend sẽ thực thi cùng prompt qua Baseline-AR, D-Flash và
                         CC-DFlash bằng mô hình thực tế và trả về kết quả thực.
                     </p>
+                    <span class="live-model-badge">REAL MODEL · TOKEN STREAMING</span>
                 </div>
             </header>
 
             <div class="comparison-shell">
                 <aside class="controls comparison-controls">
                     <h3>Comparison Console</h3>
-                    <label for="demoPreset">Demo preset</label>
+                    <label for="demoPreset">PROMPT MẪU</label>
                     <select id="demoPreset" class="select-control">
-                        <option value="gsm8k">GSM8K · short numeric prompt</option>
-                        <option value="qmsum">QMSum · long meeting context</option>
-                        <option value="custom">Custom prompt</option>
+                        <option>Loading prompt samples…</option>
                     </select>
 
                     <label for="comparePrompt">Prompt / context</label>
@@ -660,9 +649,12 @@
 
                     <label for="compressionDevice">Compression device (CC-DFlash only)</label>
                     <select id="compressionDevice" class="select-control">
-                        <option value="cpu">CPU</option>
                         <option value="cuda">CUDA</option>
+                        <option value="cpu">CPU</option>
                     </select>
+
+                    <label for="maxNewTokens">Max new tokens</label>
+                    <input id="maxNewTokens" class="select-control" type="number" min="1" max="256" value="64" />
 
                     <div class="input-stats" id="inputStats">
                         <span>Words: 0</span>
@@ -670,26 +662,27 @@
                         <span>Workload: —</span>
                     </div>
 
-                    <button class="btn btn-start" id="compareStart" type="button">▶ Run Three-Way Comparison</button>
+                    <button class="btn btn-start" id="compareStart" type="button">RUN LIVE COMPARISON</button>
                     <button class="btn btn-reset" id="compareReset" type="button">↻ Reset</button>
 
                     <div class="rules">
                         ✓ one prompt, three real model executions<br />
-                        ✓ metrics from real timing, not formulas<br />
-                        ✓ compression bypassed automatically on short context<br />
-                        ✓ benchmark artifacts remain separate
+                        ✓ committed tokens arrive directly from runtime loops<br />
+                        ✓ one GPU condition runs at a time<br />
+                        ✓ arbitrary prompt demo is separate from benchmark
                     </div>
                 </aside>
 
                 <div class="comparison-main">
                     <section class="stepper">
-                        <h3>Simulation Pipeline</h3>
+                        <h3>Live Pipeline</h3>
                         <div class="steps steps--comparison" id="compareSteps">
                             <div class="step">1. Analyze input</div>
                             <div class="step">2. Baseline-AR</div>
                             <div class="step">3. D-Flash</div>
-                            <div class="step">4. CC-DFlash</div>
-                            <div class="step">5. Compare</div>
+                            <div class="step">4. Compress</div>
+                            <div class="step">5. CC-DFlash</div>
+                            <div class="step">6. Compare</div>
                         </div>
                     </section>
 
@@ -705,7 +698,7 @@
                             <div class="card-body">
                                 <div class="progress-wrap" id="baselineProgress"><div class="progress-fill" id="baselineFill"></div></div>
                                 <div class="path-diagram"><span>Full input</span><b>→</b><span>Target AR</span><b>→</b><span>Output</span></div>
-                                <div class="response" id="baselineResponse">Waiting for comparison...</div>
+                                <div class="response live-terminal" id="baselineResponse">Waiting for committed tokens...</div>
                                 <div class="metrics" id="baselineMetrics"></div>
                             </div>
                         </article>
@@ -721,7 +714,7 @@
                             <div class="card-body">
                                 <div class="progress-wrap" id="dflashProgress"><div class="progress-fill" id="dflashFill"></div></div>
                                 <div class="path-diagram"><span>Full input</span><b>→</b><span>Draft + Verify</span><b>→</b><span>Output</span></div>
-                                <div class="response" id="dflashResponse">Waiting for comparison...</div>
+                                <div class="response live-terminal" id="dflashResponse">Waiting for committed tokens...</div>
                                 <div class="metrics" id="dflashMetrics"></div>
                             </div>
                         </article>
@@ -737,14 +730,14 @@
                             <div class="card-body">
                                 <div class="progress-wrap" id="ccProgress"><div class="progress-fill" id="ccFill"></div></div>
                                 <div class="path-diagram"><span>Compress</span><b>→</b><span>Draft + Verify</span><b>→</b><span>Output</span></div>
-                                <div class="response" id="ccResponse">Waiting for comparison...</div>
+                                <div class="response live-terminal" id="ccResponse">Waiting for committed tokens...</div>
                                 <div class="metrics" id="ccMetrics"></div>
                             </div>
                         </article>
                     </div>
 
                     <section class="compare comparison-summary" id="comparisonSummary" aria-live="polite">
-                        <h3>Workload Interpretation</h3>
+                        <h3>Live Metrics</h3>
                         <div id="comparisonSummaryBody"></div>
                     </section>
                 </div>

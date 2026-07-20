@@ -4,19 +4,6 @@ Rec-2 is a standalone backend-only workspace for selecting and optimizing the ta
 
 ## Locked model layout
 
-```text
-models/
-├── compressor/
-│   └── llmlingua-2-bert-base-multilingual-cased-meetingbank/
-├── dflash/
-│   ├── target/
-│   │   ├── Qwen3-4B-AWQ/
-│   │   └── Qwen3-4B-bnb-4bit/          # optional fallback
-│   └── drafter/
-│       └── Qwen3-4B-DFlash-b16/
-└── baseline/
-    └── Qwen3-4B-AWQ/
-```
 
 Default model roles:
 
@@ -158,3 +145,10 @@ No web server or frontend dependency is included.
 - D-Flash speedup is measured against the same AWQ target running autoregressively.
 - Full-system comparison against another model condition must be labeled separately.
 - A target candidate is accepted only after model-contract, deterministic-reference, quality, and 6 GiB D-Flash memory gates pass on the actual GPU.
+
+```bash
+python -m src.ccdf.api
+
+cd src/ccdf/frontend
+pnpm dev
+```

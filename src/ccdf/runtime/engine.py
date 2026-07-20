@@ -5,7 +5,7 @@ from __future__ import annotations
 import gc
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import torch
 
@@ -121,6 +121,7 @@ class RuntimeEngine:
         dataset: str = "general",
         max_new_tokens: int | None = None,
         temperature: float | None = None,
+        on_tokens_committed: Callable[[list[int], str], None] | None = None,
     ) -> GenerationOutput:
         # Reset every request so repetitions and condition order cannot inherit RNG state.
         self.determinism = self._configure_determinism()
@@ -141,15 +142,21 @@ class RuntimeEngine:
             ),
         )
         if self.condition == "baseline":
+            baseline_kwargs: dict[str, Any] = {"model_metadata": self.model_metadata}
+            if on_tokens_committed is not None:
+                baseline_kwargs["on_tokens_committed"] = on_tokens_committed
             result = generate_baseline(
                 self.model,
                 self.tokenizer,
                 input_ids,
                 settings,
-                model_metadata=self.model_metadata,
+                **baseline_kwargs,
             )
         else:
             policy = BlockPolicy.from_config(dict(self.config.require("optimization.block_policy")))
+            dflash_kwargs: dict[str, Any] = {}
+            if on_tokens_committed is not None:
+                dflash_kwargs["on_tokens_committed"] = on_tokens_committed
             result = generate_dflash(
                 self.target,
                 self.drafter,
@@ -172,6 +179,7 @@ class RuntimeEngine:
                 allow_subblock_shapes=bool(
                     self.config.get("optimization.block_policy.allow_subblock_shapes", True)
                 ),
+                **dflash_kwargs,
             )
         synchronize()
         result.runtime["determinism"] = dict(self.determinism)

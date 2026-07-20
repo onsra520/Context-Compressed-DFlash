@@ -1,4 +1,4 @@
-import { metricDefs } from '../mocks/mock-data.js';
+import { liveMetricDefinitions } from '../data/live-metrics.js';
 
 export function initMetricsExplained() {
     const colorClasses = [
@@ -7,11 +7,11 @@ export function initMetricsExplained() {
         'def-hot', 'def-yellow', 'def-purple', 'def-orange'
     ];
 
-    document.getElementById('metricDefs').innerHTML = metricDefs.map(([title, description], index) => `
-        <article class="def-card ${colorClasses[index % colorClasses.length]}">
+    document.getElementById('metricDefs').innerHTML = liveMetricDefinitions.map((metric, index) => `
+        <article class="def-card ${colorClasses[index % colorClasses.length]}" data-fields="${metric.fields.join(',')}">
             <span class="metric-index">${String(index + 1).padStart(2, '0')}</span>
-            <h3>${title}</h3>
-            <p>${description}</p>
+            <h3>${metric.title}</h3>
+            <p>${metric.description}</p>
         </article>
     `).join('');
 }

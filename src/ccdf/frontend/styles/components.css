@@ -131,7 +131,7 @@ button:disabled { opacity: .45; cursor: not-allowed; }
 
 .steps {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 8px;
 }
 
@@ -197,6 +197,10 @@ button:disabled { opacity: .45; cursor: not-allowed; }
 
 .status.running { background: var(--yellow); }
 .status.done { background: var(--green); }
+.status.queued { background: var(--silver); }
+.status.completed { background: var(--green); }
+.status.failed { background: var(--hot); color: white; }
+.status.cancelled { background: var(--orange); color: white; }
 
 .progress-wrap {
     height: 15px;
@@ -244,6 +248,29 @@ button:disabled { opacity: .45; cursor: not-allowed; }
     line-height: 1.55;
     margin-bottom: 13px;
     overflow-wrap: anywhere;
+}
+
+.live-terminal {
+    white-space: pre-wrap;
+    min-height: 128px;
+    max-height: 260px;
+    overflow-y: auto;
+}
+
+.live-model-badge {
+    display: inline-block;
+    margin-top: 12px;
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    background: var(--green);
+    padding: 7px 11px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.live-summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .metrics {
@@ -357,6 +384,7 @@ button:disabled { opacity: .45; cursor: not-allowed; }
     position: absolute;
     top: 10px;
     right: 12px;
+    color: var(--black);
     font-family: var(--mono);
     font-size: 12px;
     font-weight: 900;

@@ -1,125 +1,118 @@
-"""
-FastAPI application for the CC-DFlash three-way comparison demo API.
+"""FastAPI surface for the arbitrary-prompt live streaming demo."""
 
-All SSE events are emitted as dicts; sse-starlette encodes them correctly.
-"""
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, Request
+import torch
+from fastapi import FastAPI, Header, HTTPException, Request
+from fastapi.responses import StreamingResponse
 
-try:
-    import torch as _torch
-
-    def _cuda_available() -> bool:
-        return _torch.cuda.is_available()
-
-    def _gpu_name() -> str | None:
-        return _torch.cuda.get_device_name(0) if _cuda_available() else None
-
-except ImportError:  # pragma: no cover
-    def _cuda_available() -> bool:
-        return False
-
-    def _gpu_name() -> str | None:
-        return None
+from .jobs import DemoRunManager
+from .runtime_adapter import RealDemoBackend
+from .schemas import CreateRunRequest, CreateRunResponse
 
 
-from sse_starlette.sse import EventSourceResponse
-
-from .jobs import job_manager
-from .orchestrator import run_comparison_job
-from .schemas import CompareRequest, JobStatusResponse
-
-
-def _comparison_unavailable_reason() -> str | None:
-    """Return a user-facing prerequisite error before a job is accepted.
-
-    The configured Qwen checkpoints use bitsandbytes 4-bit quantization, so
-    accepting a comparison without CUDA only defers an inevitable worker
-    failure until after the browser has opened its SSE stream.
-    """
-    if not _cuda_available():
-        return "CUDA is required for the configured 4-bit Qwen comparison models."
-    return None
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):  # noqa: ARG001
-    yield
-    # Ensure any leftover active job is cleared on shutdown.
-    await job_manager.complete_job(job_manager.active_job_id or "")
-
-
-app = FastAPI(title="CC-DFlash Demo API", lifespan=lifespan)
-
-
-@app.get("/api/health")
-async def health_check() -> dict:
-    return {"status": "ok", "version": "1.1"}
-
-
-@app.get("/api/capabilities")
-async def get_capabilities() -> dict:
-    cuda = _cuda_available()
-    unavailable_reason = _comparison_unavailable_reason()
-    return {
-        "cuda_available": cuda,
-        "gpu_name": _gpu_name(),
-        "compressor_options": ["cpu", "cuda"] if cuda else ["cpu"],
-        "comparison_available": unavailable_reason is None,
-        "comparison_unavailable_reason": unavailable_reason,
-        "job_active": await job_manager.is_busy(),
-    }
-
-
-@app.post("/api/compare", status_code=202)
-async def create_compare_job(req: CompareRequest) -> JobStatusResponse:
-    if not req.input.strip():
-        raise HTTPException(status_code=400, detail="Input cannot be empty")
-
-    if req.compression_device not in ("cpu", "cuda"):
-        raise HTTPException(status_code=400, detail="Invalid compression_device")
-
-    if req.compression_device == "cuda" and not _cuda_available():
-        raise HTTPException(status_code=400, detail="CUDA is not available on this server")
-
-    unavailable_reason = _comparison_unavailable_reason()
-    if unavailable_reason is not None:
-        raise HTTPException(status_code=503, detail=unavailable_reason)
-
-    try:
-        job_id = await job_manager.create_job()
-    except ValueError as exc:
-        raise HTTPException(status_code=409, detail=str(exc)) from exc
-
-    job = await job_manager.get_job(job_id)
-    job["request"] = {"input": req.input, "compression_device": req.compression_device}
-
-    return JobStatusResponse(job_id=job_id, status="queued")
-
-
-@app.get("/api/compare/{job_id}")
-async def get_job_status(job_id: str) -> dict:
-    """Snapshot recovery — allows frontend to poll or reconnect."""
-    job = await job_manager.get_job(job_id)
-    if job is None:
-        raise HTTPException(status_code=404, detail="Job not found")
-    return job
-
-
-@app.get("/api/compare/{job_id}/events")
-async def get_job_events(job_id: str, request: Request) -> EventSourceResponse:
-    job = await job_manager.get_job(job_id)
-    if job is None:
-        raise HTTPException(status_code=404, detail="Job not found")
-
-    return EventSourceResponse(
-        run_comparison_job(
-            job_id,
-            job["request"]["input"],
-            job["request"]["compression_device"],
+PROMPT_SAMPLES = [
+    {
+        "id": "concise-explanation",
+        "label": "Giải thích ngắn",
+        "prompt": "Explain speculative decoding in three concise bullet points.",
+    },
+    {
+        "id": "context-question",
+        "label": "Context + câu hỏi",
+        "prompt": (
+            "A small inference service runs an autoregressive target model. A draft model "
+            "proposes several tokens, and the target verifies the proposal before output is "
+            "committed. Context compression happens before target prefill.\n\n"
+            "Why must unverified proposal tokens stay hidden from the user?"
         ),
-        ping=20,  # keepalive comment every 20 s to prevent proxy timeouts
-    )
+    },
+]
+
+
+def create_app(*, backend: object | None = None) -> FastAPI:
+    run_manager = DemoRunManager(backend or RealDemoBackend())
+
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        await run_manager.start()
+        yield
+        await run_manager.stop()
+
+    demo_app = FastAPI(title="CCDF Live Streaming Demo", version="1.0", lifespan=lifespan)
+    demo_app.state.run_manager = run_manager
+
+    @demo_app.get("/api/demo/capabilities")
+    async def capabilities() -> dict:
+        cuda_available = torch.cuda.is_available()
+        return {
+            "real_model": True,
+            "token_streaming": True,
+            "sequential_execution": True,
+            "cuda_available": cuda_available,
+            "gpu_name": torch.cuda.get_device_name(0) if cuda_available else None,
+            "compression_devices": ["cuda", "cpu"],
+            "default_compression_device": "cuda",
+            "max_new_tokens": {"minimum": 1, "maximum": 256, "default": 64},
+        }
+
+    @demo_app.get("/api/demo/prompt-samples")
+    async def prompt_samples() -> dict:
+        return {"samples": PROMPT_SAMPLES}
+
+    @demo_app.post("/api/demo/runs", response_model=CreateRunResponse, status_code=202)
+    async def create_run(payload: CreateRunRequest) -> CreateRunResponse:
+        if payload.compression_device == "cuda" and not torch.cuda.is_available():
+            raise HTTPException(
+                status_code=400,
+                detail="CUDA compression was requested but CUDA is unavailable",
+            )
+        run_id = await run_manager.create_run(
+            prompt=payload.prompt,
+            compression_device=payload.compression_device,
+            max_new_tokens=payload.max_new_tokens,
+        )
+        return CreateRunResponse(run_id=run_id, status="queued")
+
+    @demo_app.get("/api/demo/runs/{run_id}/events")
+    async def run_events(
+        run_id: str,
+        request: Request,
+        last_event_id: str | None = Header(default=None, alias="Last-Event-ID"),
+    ) -> StreamingResponse:
+        if not await run_manager.exists(run_id):
+            raise HTTPException(status_code=404, detail="Run not found")
+        try:
+            after_sequence = int(last_event_id or "0")
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Last-Event-ID must be an integer") from exc
+        return StreamingResponse(
+            run_manager.stream_sse(run_id, request=request, after_sequence=after_sequence),
+            media_type="text/event-stream",
+            headers={
+                "Cache-Control": "no-cache, no-transform",
+                "Connection": "keep-alive",
+                "X-Accel-Buffering": "no",
+            },
+        )
+
+    @demo_app.get("/api/demo/runs/{run_id}")
+    async def get_run(run_id: str) -> dict:
+        snapshot = await run_manager.snapshot(run_id)
+        if snapshot is None:
+            raise HTTPException(status_code=404, detail="Run not found")
+        return snapshot
+
+    @demo_app.post("/api/demo/runs/{run_id}/cancel")
+    async def cancel_run(run_id: str) -> dict:
+        snapshot = await run_manager.cancel(run_id)
+        if snapshot is None:
+            raise HTTPException(status_code=404, detail="Run not found")
+        return snapshot
+
+    return demo_app
+
+
+app = create_app()

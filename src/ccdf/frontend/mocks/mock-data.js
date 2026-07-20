@@ -253,18 +253,3 @@ export const demoPresets = {
         prompt: 'Tối thứ Bảy tôi mời 8 người ăn tối. Có 2 người ăn chay, 1 người dị ứng đậu phộng và 1 người không ăn cay. Nhà có 2 vùng nấu, 1 nồi và 1 chảo; mọi người thích món Việt, dễ chia phần và chuẩn bị nhanh.\n\nHãy đề xuất thực đơn 3 món, tổng chi phí không quá 1.500.000đ. Bắt đầu lúc 18:30, xong trước 21:00. Trả lời đúng 4 gạch đầu dòng và không dùng đậu phộng.'
     }
 };
-
-export const metricDefs = [
-    ['Original input tokens', 'Estimated tokens in the full prompt before any compression.'],
-    ['Effective prefill tokens', 'Tokens actually processed during target prefill. Baseline-AR and D-Flash use the full input; CC-DFlash uses the compressed prompt.'],
-    ['Compression ratio', 'Original input tokens divided by compressed input tokens. Only applies to CC-DFlash.'],
-    ['Compression overhead', 'CPU time spent compressing the context before model inference.'],
-    ['Prefill latency', 'Time required for the target model to process the input prompt and initialize the cache.'],
-    ['Generation latency', 'Time spent generating output tokens after prefill.'],
-    ['End-to-end latency', 'Compression overhead + prefill + generation. This is the conservative comparison metric.'],
-    ['Generation throughput', 'Output tokens divided by generation latency. It does not include compression or prefill.'],
-    ['Acceptance length τ', 'Average number of draft tokens accepted per DFlash verification step. Not applicable to Baseline-AR.'],
-    ['Numeric quality proxy', 'GSM8K uses final numeric answer matching as a deterministic quality signal.'],
-    ['Lexical overlap proxy', 'QMSum uses normalized overlap as diagnostic evidence, not semantic correctness.'],
-    ['Workload class', 'Short, medium, or long context. Compression becomes more useful as prefill savings can offset its overhead.']
-];

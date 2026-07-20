@@ -205,6 +205,10 @@
     max-width: 100%;
 }
 
+.token-flow--simple {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+
 .tf-stage {
     background: #e0e0e0;
     border: 3px solid #000;
@@ -294,6 +298,16 @@
     background: #b19cd9;
 }
 
+.token-reduction-summary strong,
+.token-reduction-summary span {
+    display: block;
+}
+
+.token-reduction-summary span {
+    margin-top: 6px;
+    font-size: 1rem;
+}
+
 @media (max-width: 620px) {
     .token-flow {
         grid-template-columns: 1fr;
@@ -330,6 +344,10 @@
     color: #fff;
     border-bottom: 4px solid #000;
     text-transform: uppercase;
+}
+
+.quality-plot-frame {
+    padding: 0;
 }
 
 .quality-bars {
@@ -492,6 +510,13 @@
 
 .latency-delta-wrap {
     text-align: center;
+}
+
+.latency-components {
+    margin: 0 0 18px;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 900;
 }
 
 /* KPI Strip */

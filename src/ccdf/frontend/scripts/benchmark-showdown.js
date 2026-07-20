@@ -1,396 +1,262 @@
-/**
- * benchmark-showdown.js
- *
- * Connects the comparison UI to the real FastAPI backend.
- * No mock/random/fallback production data.
- * SSE events must be emitted by the server as proper SSE frames:
- *   event: condition.started
- *   data: {"condition_id":"baseline-ar"}
- */
+/** Live arbitrary-prompt comparison driven only by backend SSE events. */
 
-import { demoPresets } from '../mocks/mock-data.js';
+const CONDITIONS = ['baseline-ar', 'd-flash', 'cc-dflash'];
+const IDS = {
+    'baseline-ar': { status: 'baselineStatus', output: 'baselineResponse', metrics: 'baselineMetrics', progress: 'baselineProgress' },
+    'd-flash': { status: 'dflashStatus', output: 'dflashResponse', metrics: 'dflashMetrics', progress: 'dflashProgress' },
+    'cc-dflash': { status: 'ccStatus', output: 'ccResponse', metrics: 'ccMetrics', progress: 'ccProgress' },
+};
 
-const round = (value, digits = 0) => Number(value.toFixed(digits));
+const round = (value, digits = 1) => Number(value).toFixed(digits);
+const formatMs = value => value == null ? '—' : value >= 1000 ? `${round(value / 1000, 2)} s` : `${round(value, 1)} ms`;
+const formatRate = value => value == null ? '—' : `${round(value * 100, 1)}%`;
 
-function formatMs(value) {
-    if (value == null) return '—';
-    if (value >= 1000) return `${round(value / 1000, 2)} s`;
-    return `${Math.round(value)} ms`;
+function setStatus(conditionId, status) {
+    const element = document.getElementById(IDS[conditionId].status);
+    element.textContent = status.toUpperCase();
+    element.className = `status ${status}`;
 }
 
-function analyzePromptLocally(prompt) {
-    const trimmed = prompt.trim();
-    const words = trimmed ? trimmed.split(/\s+/).length : 0;
-    const characters = trimmed.length;
-    const estimatedTokens = Math.max(8, Math.ceil(characters / 4.2 + words * 0.18));
-    return { words, characters, estimatedTokens };
-}
-
-function metricClass(label) {
-    const n = label.toLowerCase();
-    if (n.includes('warm end-to-end') || n.includes('e2e vs')) return 'm-speed';
-    if (n.includes('throughput')) return 'm-tps';
-    if (n.includes('prefill')) return 'm-lat';
-    if (n.includes('generation latency')) return 'm-cyan';
-    if (n.includes('compression')) return 'm-compress';
-    if (n.includes('tau') || n.includes('acceptance')) return 'm-accept';
-    return 'm-token';
-}
-
-function metricsFor(row, baselineE2E) {
-    const cmpLabel = row.condition_id === 'baseline-ar'
-        ? '(reference)'
-        : baselineE2E && row.warm_request_e2e_ms != null
-            ? `${round((baselineE2E - row.warm_request_e2e_ms) / baselineE2E * 100, 1)}% ${baselineE2E > row.warm_request_e2e_ms ? 'faster' : 'slower'} than Baseline`
-            : '—';
-
-    const compressionRatioLabel = !row.compression_applied && !row.compression_bypassed
-        ? 'not applied'
-        : row.compression_bypassed
-            ? `bypassed (${row.compression_bypass_reason || 'unknown'})`
-            : row.compression_ratio != null
-                ? `${round(row.compression_ratio, 2)}×`
-                : '—';
-
-    return [
-        ['Input tokens', row.input_tokens_precompression != null ? row.input_tokens_precompression.toLocaleString('en-US') : '—'],
-        ['Effective prefill', row.input_tokens_final != null ? row.input_tokens_final.toLocaleString('en-US') : '—'],
-        ['Compression ratio', compressionRatioLabel],
-        ['Compression overhead', row.compression_total_ms != null ? formatMs(row.compression_total_ms) : '0 ms'],
-        ['Prefill latency', formatMs(row.target_prefill_ms)],
-        ['Generation latency', formatMs(row.decode_total_ms)],
-        ['Warm end-to-end', formatMs(row.warm_request_e2e_ms)],
-        ['Generation throughput', row.generation_tok_s != null ? `${round(row.generation_tok_s, 1)} tok/s` : '—'],
-        ['Acceptance τ', row.effective_tau != null ? round(row.effective_tau, 2) : '—'],
-        ['Warm E2E vs Baseline', cmpLabel],
-    ];
-}
-
-function renderMetrics(elementId, row, baselineE2E) {
-    const metrics = metricsFor(row, baselineE2E);
-    document.getElementById(elementId).innerHTML = metrics.map(([label, value]) =>
-        `<div class="metric ${metricClass(label)}"><span>${label}</span><b>${value}</b></div>`
-    ).join('');
-}
-
-function setStatus(id, text) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = text;
-    el.className = `status ${
-        text === 'RUNNING' ? 'running' : text === 'DONE' ? 'done' : text === 'FAILED' ? 'failed' : ''
-    }`;
-}
-
-function setSteps(index) {
-    const steps = document.getElementById('compareSteps');
-    if (!steps) return;
-    [...steps.children].forEach((step, i) => {
-        step.className = `step ${i < index ? 'done' : i === index ? 'active' : ''}`;
+function setStep(index) {
+    const steps = [...document.getElementById('compareSteps').children];
+    steps.forEach((step, position) => {
+        step.className = `step ${position < index ? 'done' : position === index ? 'active' : ''}`;
     });
 }
 
-function showConditionError(conditionId, errorMsg) {
-    // Show error in the relevant card's response area.
-    const cardMap = {
-        'baseline-ar': { resp: 'baselineResponse', status: 'baselineStatus', progress: 'baselineProgress' },
-        'dflash-r1': { resp: 'dflashResponse', status: 'dflashStatus', progress: 'dflashProgress' },
-        'cc-dflash-r2': { resp: 'ccResponse', status: 'ccStatus', progress: 'ccProgress' },
-        'cc-dflash-r2-gpu': { resp: 'ccResponse', status: 'ccStatus', progress: 'ccProgress' },
-    };
-    // Show in all running cards if we don't know which one failed
-    for (const [, ids] of Object.entries(cardMap)) {
-        const statusEl = document.getElementById(ids.status);
-        if (statusEl && statusEl.textContent === 'RUNNING') {
-            setStatus(ids.status, 'FAILED');
-            const respEl = document.getElementById(ids.resp);
-            if (respEl) respEl.textContent = `Error: ${errorMsg}`;
-            const progEl = document.getElementById(ids.progress);
-            if (progEl) progEl.style.display = 'none';
-        }
-    }
+function metric(label, value, cssClass = 'm-token') {
+    return `<div class="metric ${cssClass}"><span>${label}</span><b>${value}</b></div>`;
 }
 
-function summaryMarkup(results) {
+function renderConditionMetrics(conditionId, values) {
+    const rows = [
+        metric('Input tokens', values.input_tokens ?? '—'),
+        metric('Output tokens', values.output_tokens ?? '—'),
+        metric('TTFT', formatMs(values.ttft_ms), 'm-lat'),
+        metric('Decode tok/s', values.decode_tok_s == null ? '—' : `${round(values.decode_tok_s)} tok/s`, 'm-tps'),
+        metric('Pipeline E2E', formatMs(values.pipeline_e2e_ms), 'm-speed'),
+        metric('Stop reason', values.stop_reason || '—'),
+    ];
+    if (conditionId !== 'baseline-ar') {
+        rows.push(
+            metric('Draft proposed', values.proposed_draft_tokens ?? '—', 'm-accept'),
+            metric('Draft accepted', values.accepted_draft_tokens ?? '—', 'm-accept'),
+            metric('Draft rejected', values.rejected_draft_tokens ?? '—', 'm-accept'),
+            metric('Acceptance rate', formatRate(values.acceptance_rate), 'm-accept'),
+            metric('Verify loops', values.verify_loops ?? '—', 'm-accept'),
+            metric('Mean accepted / loop', values.mean_accepted_tokens_per_loop == null ? '—' : round(values.mean_accepted_tokens_per_loop, 2), 'm-accept'),
+        );
+    }
+    if (conditionId === 'cc-dflash') {
+        rows.push(
+            metric('Original → compressed', `${values.original_input_tokens ?? '—'} → ${values.compressed_input_tokens ?? '—'}`, 'm-compress'),
+            metric('Compression reduction', formatRate(values.reduction_rate), 'm-compress'),
+            metric('Compression latency', formatMs(values.compression_latency_ms), 'm-compress'),
+            metric('Compression device', values.compression_device || '—', 'm-compress'),
+            metric('Compression status', values.compression_status || '—', 'm-compress'),
+            metric('E2E split', `${formatMs(values.compression_latency_ms)} + ${formatMs(values.generation_component_ms)}`, 'm-compress'),
+        );
+    }
+    document.getElementById(IDS[conditionId].metrics).innerHTML = rows.join('');
+}
+
+function renderLiveSummary(results) {
     const baseline = results['baseline-ar'];
-    const dflash = results['dflash-r1'];
-    const cc = results['cc-dflash-r2-gpu'] || results['cc-dflash-r2'];
-
-    if (!baseline || !dflash || !cc) {
-        return '<p>Incomplete results — one or more conditions did not complete.</p>';
-    }
-
-    const arr = [baseline, dflash, cc];
-    const fastest = arr.reduce((a, b) =>
-        (a.warm_request_e2e_ms ?? Infinity) < (b.warm_request_e2e_ms ?? Infinity) ? a : b
-    );
-
-    const isContextless = cc.compression_bypassed && cc.compression_bypass_reason === 'empty_context';
-    const isBypass = cc.compression_bypassed;
-    const workload = isContextless
-        ? 'question-only (compressor not loaded)'
-        : isBypass
-            ? `compression bypass (${cc.compression_bypass_reason || 'short context'})`
-            : 'compressed context';
-
-    const gainDflashGen = (baseline.decode_total_ms && dflash.decode_total_ms)
-        ? baseline.decode_total_ms / dflash.decode_total_ms
-        : null;
-
-    const ccReduction = cc.prompt_reduction_pct != null
-        ? `${round(cc.prompt_reduction_pct, 1)}%`
-        : 'n/a';
-
-    const ccE2E = cc.warm_request_e2e_ms;
-    const dflashE2E = dflash.warm_request_e2e_ms;
-
-    let interpretation;
-    if (isContextless) {
-        interpretation = 'Workload is question-only. CC-DFlash gracefully bypasses compression; compressor was not loaded.';
-    } else if (isBypass) {
-        interpretation = 'Context was too short to compress. Passthrough was used.';
-    } else if (ccE2E != null && dflashE2E != null && ccE2E < dflashE2E) {
-        interpretation = 'Compression savings offset overhead. CC-DFlash is faster end-to-end than D-Flash.';
-    } else {
-        interpretation = 'Compression overhead exceeds savings. D-Flash is faster end-to-end than CC-DFlash for this workload.';
-    }
-
-    return `
-        <div class="summary-grid">
-            <div><span>Workload</span><b>${workload}</b></div>
-            <div><span>Fastest warm E2E</span><b>${fastest.display_name}</b></div>
-            <div><span>CC prompt reduction</span><b>${ccReduction}</b></div>
-            <div><span>DFlash gen speedup</span><b>${gainDflashGen != null ? round(gainDflashGen, 2) + '×' : 'n/a'}</b></div>
+    const dflash = results['d-flash'];
+    const cc = results['cc-dflash'];
+    const summary = document.getElementById('comparisonSummary');
+    const body = document.getElementById('comparisonSummaryBody');
+    summary.style.display = 'block';
+    body.innerHTML = `
+        <div class="summary-grid live-summary-grid">
+            <div><span>Input Tokens</span><b>${cc ? `${cc.original_input_tokens} → ${cc.compressed_input_tokens}` : baseline?.input_tokens ?? '—'}</b></div>
+            <div><span>TTFT · AR / DF / CC</span><b>${[baseline, dflash, cc].map(v => v ? formatMs(v.ttft_ms) : '—').join(' · ')}</b></div>
+            <div><span>Decode Tok/s · AR / DF / CC</span><b>${[baseline, dflash, cc].map(v => v ? round(v.decode_tok_s) : '—').join(' · ')}</b></div>
+            <div><span>Pipeline E2E · AR / DF / CC</span><b>${[baseline, dflash, cc].map(v => v ? formatMs(v.pipeline_e2e_ms) : '—').join(' · ')}</b></div>
+            <div><span>Compression Reduction</span><b>${cc ? formatRate(cc.reduction_rate) : '—'}</b></div>
+            <div><span>D-Flash Acceptance Rate · DF / CC</span><b>${[dflash, cc].map(v => v ? formatRate(v.acceptance_rate) : '—').join(' · ')}</b></div>
         </div>
-        <p>${interpretation}</p>
-        <p class="summary-caveat">Results generated from real model execution using a generic demo policy. Not a canonical benchmark run.</p>
+        <p class="summary-caveat">Arbitrary-prompt telemetry from this run only: performance, acceptance, and compression.</p>
     `;
 }
 
+function parseEvent(event) {
+    return JSON.parse(event.data).data;
+}
+
 export async function initBenchmarkShowdown() {
-    const preset = document.getElementById('demoPreset');
-    const promptEl = document.getElementById('comparePrompt');
-    const inputStats = document.getElementById('inputStats');
-    const deviceSelect = document.getElementById('compressionDevice');
-    const startBtn = document.getElementById('compareStart');
-    const resetBtn = document.getElementById('compareReset');
-    const summary = document.getElementById('comparisonSummary');
-    const summaryBody = document.getElementById('comparisonSummaryBody');
-
-    let eventSource = null;
-    let baselineE2E = null;
+    const sampleSelect = document.getElementById('demoPreset');
+    const prompt = document.getElementById('comparePrompt');
+    const device = document.getElementById('compressionDevice');
+    const maxTokens = document.getElementById('maxNewTokens');
+    const start = document.getElementById('compareStart');
+    const reset = document.getElementById('compareReset');
+    const stats = document.getElementById('inputStats');
+    let samples = {};
+    let source = null;
+    let activeRunId = null;
     let results = {};
-    let comparisonAvailable = true;
+    let comparisonAvailable = false;
 
-    // Probe capabilities and disable CUDA if unavailable.
-    try {
-        const caps = await fetch('/api/capabilities').then(r => r.json());
-        if (!caps.cuda_available) {
-            deviceSelect.value = 'cpu';
-            const cudaOpt = deviceSelect.querySelector('option[value="cuda"]');
-            if (cudaOpt) cudaOpt.disabled = true;
-        }
-        if (!caps.comparison_available) {
-            comparisonAvailable = false;
-            startBtn.disabled = true;
-            startBtn.title = caps.comparison_unavailable_reason || 'Comparison runtime is unavailable.';
-            if (summaryBody) {
-                summaryBody.innerHTML = `<p class="error-msg">${caps.comparison_unavailable_reason || 'Comparison runtime is unavailable.'}</p>`;
-            }
-            if (summary) summary.style.display = 'block';
-        }
-    } catch (e) {
-        console.warn('Could not fetch /api/capabilities:', e);
+    function updateLocalStats() {
+        const value = prompt.value.trim();
+        stats.innerHTML = `<span>Words: ${value ? value.split(/\s+/).length : 0}</span><span>Characters: ${value.length}</span><span>Tokens: measured by the live runtime</span>`;
     }
 
-    function updateStats() {
-        const analysis = analyzePromptLocally(promptEl.value);
-        inputStats.innerHTML = `
-            <span>Words: ${analysis.words}</span>
-            <span>Est. tokens: ${analysis.estimatedTokens.toLocaleString('en-US')}</span>
-        `;
-    }
-
-    function applyPreset(key) {
-        const p = demoPresets[key];
-        if (p) promptEl.value = p.prompt;
-        updateStats();
-    }
-
-    function cancelRun() {
-        if (eventSource) {
-            eventSource.close();
-            eventSource = null;
-        }
-        startBtn.disabled = !comparisonAvailable;
-    }
-
-    function resetComparison() {
-        cancelRun();
-        setSteps(-1);
+    function clearRunDisplay() {
         results = {};
-        baselineE2E = null;
-        ['baselineMetrics', 'dflashMetrics', 'ccMetrics'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerHTML = '';
+        setStep(-1);
+        CONDITIONS.forEach(conditionId => {
+            setStatus(conditionId, 'idle');
+            document.getElementById(IDS[conditionId].output).textContent = 'Waiting for committed tokens...';
+            document.getElementById(IDS[conditionId].metrics).innerHTML = '';
+            document.getElementById(IDS[conditionId].progress).style.display = 'none';
         });
-        ['baselineResponse', 'dflashResponse', 'ccResponse'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.textContent = 'Waiting for comparison...';
+        document.getElementById('comparisonSummary').style.display = 'none';
+    }
+
+    async function cancelActiveRun() {
+        if (source) {
+            source.close();
+            source = null;
+        }
+        if (activeRunId) {
+            await fetch(`/api/demo/runs/${activeRunId}/cancel`, { method: 'POST' }).catch(() => {});
+            activeRunId = null;
+        }
+    }
+
+    async function loadCapabilitiesAndSamples() {
+        const [capabilities, samplePayload] = await Promise.all([
+            fetch('/api/demo/capabilities').then(response => response.json()),
+            fetch('/api/demo/prompt-samples').then(response => response.json()),
+        ]);
+        comparisonAvailable = Boolean(capabilities.cuda_available);
+        start.disabled = !comparisonAvailable;
+        start.title = comparisonAvailable ? '' : 'CUDA is required by the configured target and draft models.';
+        device.value = capabilities.default_compression_device;
+        sampleSelect.innerHTML = '';
+        samplePayload.samples.forEach(sample => {
+            samples[sample.id] = sample;
+            const option = document.createElement('option');
+            option.value = sample.id;
+            option.textContent = sample.label;
+            sampleSelect.appendChild(option);
         });
-        ['baselineStatus', 'dflashStatus', 'ccStatus'].forEach(id => setStatus(id, 'IDLE'));
-        ['baselineProgress', 'dflashProgress', 'ccProgress'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.style.display = 'none';
+        const custom = document.createElement('option');
+        custom.value = 'custom';
+        custom.textContent = 'Prompt tùy chỉnh';
+        sampleSelect.appendChild(custom);
+        const first = samplePayload.samples[0];
+        if (first) {
+            sampleSelect.value = first.id;
+            prompt.value = first.prompt;
+        }
+        updateLocalStats();
+    }
+
+    function attachEventSource(runId) {
+        source = new EventSource(`/api/demo/runs/${runId}/events`);
+        source.addEventListener('run.started', () => setStep(0));
+        source.addEventListener('input.analyzed', () => setStep(1));
+        source.addEventListener('condition.queued', event => setStatus(parseEvent(event).condition_id, 'queued'));
+        source.addEventListener('condition.started', event => {
+            const conditionId = parseEvent(event).condition_id;
+            setStep(conditionId === 'baseline-ar' ? 1 : conditionId === 'd-flash' ? 2 : 4);
+            setStatus(conditionId, 'running');
+            document.getElementById(IDS[conditionId].output).textContent = '';
+            document.getElementById(IDS[conditionId].progress).style.display = 'block';
         });
-        if (summary) summary.style.display = 'none';
-        applyPreset(preset.value || 'gsm8k');
+        source.addEventListener('condition.token_delta', event => {
+            const data = parseEvent(event);
+            document.getElementById(IDS[data.condition_id].output).textContent += data.text_delta;
+        });
+        source.addEventListener('condition.metrics', event => {
+            const data = parseEvent(event);
+            results[data.condition_id] = data;
+            renderConditionMetrics(data.condition_id, data);
+            renderLiveSummary(results);
+        });
+        source.addEventListener('condition.completed', event => {
+            const data = parseEvent(event);
+            const output = document.getElementById(IDS[data.condition_id].output);
+            if (!output.textContent) output.textContent = data.text;
+            setStatus(data.condition_id, 'completed');
+            document.getElementById(IDS[data.condition_id].progress).style.display = 'none';
+        });
+        source.addEventListener('compression.started', () => setStep(3));
+        source.addEventListener('comparison.completed', () => {
+            setStep(5);
+            renderLiveSummary(results);
+        });
+        source.addEventListener('run.completed', () => {
+            source.close();
+            source = null;
+            activeRunId = null;
+            start.disabled = !comparisonAvailable;
+        });
+        source.addEventListener('run.failed', event => {
+            const data = parseEvent(event);
+            CONDITIONS.forEach(conditionId => {
+                if (document.getElementById(IDS[conditionId].status).textContent === 'RUNNING') setStatus(conditionId, 'failed');
+            });
+            const summary = document.getElementById('comparisonSummary');
+            summary.style.display = 'block';
+            document.getElementById('comparisonSummaryBody').textContent = `Run failed at ${data.stage}: ${data.error}`;
+            source.close();
+            source = null;
+            activeRunId = null;
+            start.disabled = !comparisonAvailable;
+        });
+        source.addEventListener('run.cancelled', () => {
+            CONDITIONS.forEach(conditionId => {
+                if (document.getElementById(IDS[conditionId].status).textContent === 'RUNNING') setStatus(conditionId, 'cancelled');
+            });
+            source.close();
+            source = null;
+            activeRunId = null;
+            start.disabled = !comparisonAvailable;
+        });
     }
 
     async function runComparison() {
-        cancelRun();
-        const value = promptEl.value.trim();
-        if (!value) { promptEl.focus(); return; }
-
-        startBtn.disabled = true;
-        if (summary) summary.style.display = 'none';
-        setSteps(0);
-
-        try {
-            const resp = await fetch('/api/compare', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ input: value, compression_device: deviceSelect.value }),
-            });
-
-            if (resp.status === 409) {
-                alert('Server is busy with another comparison. Please wait and retry.');
-                startBtn.disabled = !comparisonAvailable;
-                return;
-            }
-            if (!resp.ok) {
-                const err = await resp.json().catch(() => ({ detail: resp.statusText }));
-                alert('Error starting job: ' + (err.detail || resp.statusText));
-                startBtn.disabled = !comparisonAvailable;
-                return;
-            }
-
-            const { job_id } = await resp.json();
-            results = {};
-            baselineE2E = null;
-
-            eventSource = new EventSource('/api/compare/' + job_id + '/events');
-
-            eventSource.addEventListener('input.parsed', () => {
-                setSteps(1);
-            });
-
-            eventSource.addEventListener('condition.started', e => {
-                // data is JSON: {"condition_id": "baseline-ar"}
-                let conditionId;
-                try {
-                    conditionId = JSON.parse(e.data).condition_id;
-                } catch {
-                    conditionId = e.data; // fallback for plain string
-                }
-                if (conditionId === 'baseline-ar') {
-                    setSteps(1);
-                    setStatus('baselineStatus', 'RUNNING');
-                    const el = document.getElementById('baselineProgress');
-                    if (el) el.style.display = 'block';
-                } else if (conditionId === 'dflash-r1') {
-                    setSteps(2);
-                    setStatus('dflashStatus', 'RUNNING');
-                    const el = document.getElementById('dflashProgress');
-                    if (el) el.style.display = 'block';
-                } else {
-                    setSteps(3);
-                    setStatus('ccStatus', 'RUNNING');
-                    const el = document.getElementById('ccProgress');
-                    if (el) el.style.display = 'block';
-                }
-            });
-
-            eventSource.addEventListener('condition.completed', e => {
-                let data;
-                try { data = JSON.parse(e.data); } catch { return; }
-                results[data.condition_id] = data;
-
-                let statusId, metricsId, respId, progressId;
-                if (data.condition_id === 'baseline-ar') {
-                    statusId = 'baselineStatus'; metricsId = 'baselineMetrics';
-                    respId = 'baselineResponse'; progressId = 'baselineProgress';
-                    baselineE2E = data.warm_request_e2e_ms;
-                } else if (data.condition_id === 'dflash-r1') {
-                    statusId = 'dflashStatus'; metricsId = 'dflashMetrics';
-                    respId = 'dflashResponse'; progressId = 'dflashProgress';
-                } else {
-                    statusId = 'ccStatus'; metricsId = 'ccMetrics';
-                    respId = 'ccResponse'; progressId = 'ccProgress';
-                }
-
-                setStatus(statusId, 'DONE');
-                const progEl = document.getElementById(progressId);
-                if (progEl) progEl.style.display = 'none';
-                const respEl = document.getElementById(respId);
-                if (respEl) respEl.textContent = data.generated_text;
-                renderMetrics(metricsId, data, baselineE2E);
-            });
-
-            eventSource.addEventListener('comparison.completed', e => {
-                setSteps(4);
-                let allResults;
-                try { allResults = JSON.parse(e.data); } catch { allResults = results; }
-                if (summaryBody) summaryBody.innerHTML = summaryMarkup(allResults);
-                if (summary) summary.style.display = 'block';
-            });
-
-            eventSource.addEventListener('job.completed', () => {
-                eventSource.close();
-                eventSource = null;
-                startBtn.disabled = !comparisonAvailable;
-            });
-
-            eventSource.addEventListener('condition.failed', e => {
-                let data;
-                try { data = JSON.parse(e.data); } catch { data = { error: e.data }; }
-                showConditionError(null, data.error || 'Unknown error');
-            });
-
-            eventSource.addEventListener('job.failed', e => {
-                let data;
-                try { data = JSON.parse(e.data); } catch { data = { error: e.data }; }
-                if (summaryBody) {
-                    summaryBody.innerHTML = `<p class="error-msg">Job failed: ${data.error || 'Unknown error'}</p>`;
-                }
-                if (summary) summary.style.display = 'block';
-                if (eventSource) { eventSource.close(); eventSource = null; }
-                startBtn.disabled = !comparisonAvailable;
-            });
-
-            eventSource.onerror = () => {
-                // Connection lost after job completed is normal; don't alert.
-                if (startBtn.disabled) {
-                    startBtn.disabled = !comparisonAvailable;
-                }
-            };
-
-        } catch (err) {
-            console.error('runComparison error:', err);
-            alert('Network error: ' + err.message);
-            startBtn.disabled = !comparisonAvailable;
+        await cancelActiveRun();
+        if (!prompt.value.trim()) {
+            prompt.focus();
+            return;
         }
+        clearRunDisplay();
+        start.disabled = true;
+        const response = await fetch('/api/demo/runs', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                prompt: prompt.value,
+                compression_device: device.value,
+                max_new_tokens: Number(maxTokens.value),
+            }),
+        });
+        if (!response.ok) {
+            const error = await response.json().catch(() => ({ detail: response.statusText }));
+            start.disabled = !comparisonAvailable;
+            window.alert(error.detail || response.statusText);
+            return;
+        }
+        const created = await response.json();
+        activeRunId = created.run_id;
+        attachEventSource(activeRunId);
     }
 
-    preset.addEventListener('change', () => applyPreset(preset.value));
-    promptEl.addEventListener('input', () => {
-        if (promptEl.value !== (demoPresets[preset.value] || {}).prompt) {
-            preset.value = 'custom';
-        }
-        updateStats();
+    sampleSelect.addEventListener('change', () => {
+        if (samples[sampleSelect.value]) prompt.value = samples[sampleSelect.value].prompt;
+        updateLocalStats();
     });
-    startBtn.addEventListener('click', runComparison);
-    resetBtn.addEventListener('click', resetComparison);
-
-    resetComparison();
+    prompt.addEventListener('input', () => {
+        if (!samples[sampleSelect.value] || prompt.value !== samples[sampleSelect.value].prompt) sampleSelect.value = 'custom';
+        updateLocalStats();
+    });
+    start.addEventListener('click', () => runComparison().catch(error => window.alert(error.message)));
+    reset.addEventListener('click', () => cancelActiveRun().finally(clearRunDisplay));
+    clearRunDisplay();
+    await loadCapabilitiesAndSamples();
 }
