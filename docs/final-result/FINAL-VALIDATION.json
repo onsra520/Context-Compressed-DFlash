@@ -1,0 +1,35 @@
+{
+  "classification_audit_pass": true,
+  "decision": "FINAL_BENCHMARK_COMPLETE_WITH_FAILED_CLAIMS",
+  "full_regression": "97 passed in 2.20s",
+  "gsm8k": {
+    "checkpoint_sha256_sidecars_pass": true,
+    "compression_cache_rows": 20,
+    "compression_cache_sha256_sidecars_pass": true,
+    "compression_cache_unique_sample_ids": 20,
+    "condition_rows": {
+      "C1": 21,
+      "C2": 21,
+      "C3": 21,
+      "C4": 21
+    },
+    "raw_matches_ordered_checkpoints": true,
+    "raw_rows": 84
+  },
+  "pass": true,
+  "qmsum": {
+    "checkpoint_sha256_sidecars_pass": true,
+    "compression_cache_rows": 20,
+    "compression_cache_sha256_sidecars_pass": true,
+    "compression_cache_unique_sample_ids": 20,
+    "condition_rows": {
+      "C1": 21,
+      "C2": 21,
+      "C3": 21,
+      "C4": 21
+    },
+    "raw_matches_ordered_checkpoints": true,
+    "raw_rows": 84
+  },
+  "qmsum_selection_rows": 20
+}

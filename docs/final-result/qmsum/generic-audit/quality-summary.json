@@ -1,0 +1,58 @@
+{
+  "C1": {
+    "empty_output_count": 0,
+    "parse_failure_count": 0,
+    "quality_pass_rate": null,
+    "quality_score": {
+      "count": 20,
+      "max": 0.3157894736842105,
+      "mean": 0.19143806836076255,
+      "median": 0.16784037558685447,
+      "min": 0.0,
+      "stdev": 0.08009643370260253
+    },
+    "scope": "QMSum quality is deterministic ROUGE-L F1 lexical overlap; semantic correctness is not claimed."
+  },
+  "C2": {
+    "empty_output_count": 0,
+    "parse_failure_count": 0,
+    "quality_pass_rate": null,
+    "quality_score": {
+      "count": 20,
+      "max": 0.3157894736842105,
+      "mean": 0.19841714156468362,
+      "median": 0.18441257424308272,
+      "min": 0.0,
+      "stdev": 0.08117242984409419
+    },
+    "scope": "QMSum quality is deterministic ROUGE-L F1 lexical overlap; semantic correctness is not claimed."
+  },
+  "C3": {
+    "empty_output_count": 0,
+    "parse_failure_count": 0,
+    "quality_pass_rate": null,
+    "quality_score": {
+      "count": 20,
+      "max": 0.31746031746031744,
+      "mean": 0.19326958592879812,
+      "median": 0.20926007975188302,
+      "min": 0.0,
+      "stdev": 0.09593004645760597
+    },
+    "scope": "QMSum quality is deterministic ROUGE-L F1 lexical overlap; semantic correctness is not claimed."
+  },
+  "C4": {
+    "empty_output_count": 0,
+    "parse_failure_count": 0,
+    "quality_pass_rate": null,
+    "quality_score": {
+      "count": 20,
+      "max": 0.3088235294117647,
+      "mean": 0.19215339210813284,
+      "median": 0.2098182466143977,
+      "min": 0.0,
+      "stdev": 0.09493747906435047
+    },
+    "scope": "QMSum quality is deterministic ROUGE-L F1 lexical overlap; semantic correctness is not claimed."
+  }
+}

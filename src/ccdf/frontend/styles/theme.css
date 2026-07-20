@@ -1,0 +1,66 @@
+:root {
+    --black: #080808;
+    --ink: #171717;
+    --cream: #fff3c7;
+    --paper: #fffaf0;
+    --white: #ffffff;
+    --hot: #ff1f7a;
+    --pink: #ff6eb4;
+    --cyan: #00dffc;
+    --blue: #004cff;
+    --green: #83ff00;
+    --lime: #c7ff00;
+    --yellow: #ffee00;
+    --orange: #ff6a00;
+    --purple: #8d00ff;
+    --violet: #c000ff;
+    --red: #ff2438;
+    --silver: #d9d9e8;
+    --border: 4px solid var(--black);
+    --shadow: 7px 7px 0 var(--black);
+    --shadow-lg: 11px 11px 0 var(--black);
+    --display: "Arial Black", Impact, Haettenschweiler, sans-serif;
+    --body: Inter, "Segoe UI", Arial, sans-serif;
+    --mono: "Courier New", Courier, monospace;
+}
+
+body {
+    background: var(--cream);
+    color: var(--black);
+}
+
+
+.s-hot { background: var(--hot); color: white; }
+.s-cyan { background: var(--cyan); }
+.s-yellow { background: var(--yellow); }
+.s-green { background: var(--green); }
+.s-orange { background: var(--orange); color: white; }
+.s-purple { background: var(--purple); color: white; }
+.s-blue { background: var(--blue); color: white; }
+.s-red { background: var(--red); color: white; }
+.s-silver { background: var(--silver); }
+
+.hero {
+    background: linear-gradient(135deg, var(--hot) 0%, var(--blue) 34%, var(--yellow) 68%, var(--cyan) 100%);
+}
+
+.hero::before {
+    background: radial-gradient(circle, var(--yellow) 0 4px, transparent 5px);
+}
+
+
+.hero-subtitle { background: var(--yellow); }
+.hero-desc { background: rgba(0, 0, 0, .88); color: var(--paper); }
+.notice { background: var(--paper); color: var(--black); }
+
+.section-architecture { background: #e8fbff; }
+.section-comparison { background: #fff3cd; }
+.section-metrics { background: #e8ffd8; }
+.section-evidence { background: #f2e6ff; }
+.section-conclusion { background: #ffe7f1; }
+
+footer {
+    background: var(--black);
+    color: white;
+    border-top: 5px solid var(--hot);
+}

@@ -1,0 +1,558 @@
+{
+  "comparisons": {
+    "C1_vs_C2_dflash_uncompressed": {
+      "decode_tok_s_delta": 82.65961419830751,
+      "decode_tok_s_delta_percent": 258.4845126266368,
+      "left": "C1",
+      "pipeline_e2e_latency_delta_ms": -2648.123131299144,
+      "pipeline_e2e_latency_delta_percent": -70.16423867517264,
+      "pipeline_e2e_tok_s_delta": 73.78183428527147,
+      "pipeline_e2e_tok_s_delta_percent": 235.13501907085308,
+      "right": "C2"
+    },
+    "C1_vs_C3_compression_on_ar": {
+      "decode_tok_s_delta": -0.33433799754925886,
+      "decode_tok_s_delta_percent": -1.0455068679821564,
+      "left": "C1",
+      "pipeline_e2e_latency_delta_ms": -235.05792059877422,
+      "pipeline_e2e_latency_delta_percent": -6.228056334861979,
+      "pipeline_e2e_tok_s_delta": -1.217436861888956,
+      "pipeline_e2e_tok_s_delta_percent": -3.8798444428883436,
+      "right": "C3"
+    },
+    "C2_vs_C4_cc_dflash_vs_dflash": {
+      "decode_tok_s_delta": -4.192200757384086,
+      "decode_tok_s_delta_percent": -3.656897834396,
+      "left": "C2",
+      "pipeline_e2e_latency_delta_ms": 50.2218048521172,
+      "pipeline_e2e_latency_delta_percent": 4.459979209313983,
+      "pipeline_e2e_tok_s_delta": -12.609769721862222,
+      "pipeline_e2e_tok_s_delta_percent": -11.99099470242642,
+      "right": "C4"
+    },
+    "C3_vs_C4_dflash_compressed": {
+      "decode_tok_s_delta": 78.80175143847268,
+      "decode_tok_s_delta_percent": 249.02417193625973,
+      "left": "C3",
+      "pipeline_e2e_latency_delta_ms": -2362.8434058482526,
+      "pipeline_e2e_latency_delta_percent": -66.76358742423926,
+      "pipeline_e2e_tok_s_delta": 62.38950142529821,
+      "pipeline_e2e_tok_s_delta_percent": 206.8544729027635,
+      "right": "C4"
+    }
+  },
+  "compression": {
+    "compressor_compressed_tokens": {
+      "count": 20,
+      "max": 138.0,
+      "mean": 102.25,
+      "median": 99.5,
+      "min": 88.0,
+      "stdev": 12.714993221845576
+    },
+    "compressor_latency_ms": {
+      "count": 20,
+      "max": 185.76920100167627,
+      "mean": 87.1612137008924,
+      "median": 82.1752625015506,
+      "min": 0.9070969972526655,
+      "stdev": 35.4995215228875
+    },
+    "compressor_original_tokens": {
+      "count": 20,
+      "max": 140.0,
+      "mean": 105.25,
+      "median": 102.5,
+      "min": 90.0,
+      "stdev": 12.891755831579058
+    },
+    "compressor_token_keep_rate": {
+      "count": 20,
+      "max": 1.0,
+      "mean": 0.9714127171587353,
+      "median": 0.96999699969997,
+      "min": 0.9565217391304348,
+      "stdev": 0.009091211326991753
+    },
+    "fallback_count": 0,
+    "fallback_rate": 0.0,
+    "llmlingua_keep_rate": null,
+    "overall_keep_rate": null,
+    "peak_allocated_bytes": 2269494784,
+    "peak_reserved_bytes": 2285895680,
+    "policy": {
+      "enabled": true,
+      "long_keep_rate": 0.55,
+      "medium_keep_rate": 0.7,
+      "medium_max_target_user_tokens": 512,
+      "mode": "adaptive_target_user_tokens",
+      "retry_keep_rate": 0.9,
+      "short_keep_rate": 0.85,
+      "short_max_target_user_tokens": 127
+    },
+    "selection_keep_rate": null,
+    "successful_compressions": 20,
+    "target_full_compressed_tokens": {
+      "count": 20,
+      "max": 195.0,
+      "mean": 165.05,
+      "median": 165.5,
+      "min": 147.0,
+      "stdev": 11.422392596631362
+    },
+    "target_full_keep_rate": {
+      "count": 20,
+      "max": 1.0,
+      "mean": 0.9869372651090738,
+      "median": 0.9879144150722945,
+      "min": 0.9710982658959537,
+      "stdev": 0.005881737949138425
+    },
+    "target_full_original_tokens": {
+      "count": 20,
+      "max": 197.0,
+      "mean": 167.25,
+      "median": 167.5,
+      "min": 149.0,
+      "stdev": 11.755737680854088
+    },
+    "target_user_compressed_tokens": {
+      "count": 20,
+      "max": 124.0,
+      "mean": 94.05,
+      "median": 94.5,
+      "min": 76.0,
+      "stdev": 11.422392596631362
+    },
+    "target_user_keep_rate": {
+      "count": 20,
+      "max": 1.0,
+      "mean": 0.9772919515432396,
+      "median": 0.9788306451612903,
+      "min": 0.9509803921568627,
+      "stdev": 0.009853608175958924
+    },
+    "target_user_original_tokens": {
+      "count": 20,
+      "max": 126.0,
+      "mean": 96.25,
+      "median": 96.5,
+      "min": 78.0,
+      "stdev": 11.755737680854088
+    }
+  },
+  "conditions": {
+    "C1": {
+      "compressor_latency_ms": null,
+      "correct": 18,
+      "decode_tok_s": {
+        "count": 20,
+        "max": 33.02835443213925,
+        "mean": 31.9785558362267,
+        "median": 32.1461941297331,
+        "min": 30.749709806687726,
+        "stdev": 0.8286229732670717
+      },
+      "empty_outputs": 0,
+      "failed_rows": 0,
+      "fallback_count": 0,
+      "generation_latency_ms": {
+        "count": 20,
+        "max": 6044.135420997918,
+        "mean": 3774.1778166491713,
+        "median": 3861.340745996131,
+        "min": 1691.9335220009089,
+        "stdev": 1304.0233422476938
+      },
+      "measured_rows": 20,
+      "numeric_em": 0.9,
+      "parser_failures": 0,
+      "pipeline_e2e_latency_ms": {
+        "count": 20,
+        "max": 6044.135420997918,
+        "mean": 3774.1778166491713,
+        "median": 3861.340745996131,
+        "min": 1691.9335220009089,
+        "stdev": 1304.0233422476938
+      },
+      "pipeline_e2e_tok_s": {
+        "count": 20,
+        "max": 32.593578117989004,
+        "mean": 31.378496736395885,
+        "median": 31.361751183219795,
+        "min": 30.312521337204934,
+        "stdev": 0.8153521910247401
+      },
+      "quality": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9,
+        "median": 1.0,
+        "min": 0.0,
+        "stdev": 0.30779350562554625
+      },
+      "successful_rows": 20,
+      "target_full_compressed_tokens": {
+        "count": 20,
+        "max": 195.0,
+        "mean": 165.05,
+        "median": 165.5,
+        "min": 147.0,
+        "stdev": 11.422392596631362
+      },
+      "target_full_keep_rate": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9869372651090738,
+        "median": 0.9879144150722945,
+        "min": 0.9710982658959537,
+        "stdev": 0.005881737949138425
+      },
+      "target_full_original_tokens": {
+        "count": 20,
+        "max": 197.0,
+        "mean": 167.25,
+        "median": 167.5,
+        "min": 149.0,
+        "stdev": 11.755737680854088
+      },
+      "target_user_compressed_tokens": {
+        "count": 20,
+        "max": 124.0,
+        "mean": 94.05,
+        "median": 94.5,
+        "min": 76.0,
+        "stdev": 11.422392596631362
+      },
+      "target_user_keep_rate": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9772919515432396,
+        "median": 0.9788306451612903,
+        "min": 0.9509803921568627,
+        "stdev": 0.009853608175958924
+      },
+      "target_user_original_tokens": {
+        "count": 20,
+        "max": 126.0,
+        "mean": 96.25,
+        "median": 96.5,
+        "min": 78.0,
+        "stdev": 11.755737680854088
+      }
+    },
+    "C2": {
+      "compressor_latency_ms": null,
+      "correct": 18,
+      "decode_tok_s": {
+        "count": 20,
+        "max": 156.5381004520101,
+        "mean": 114.63817003453421,
+        "median": 113.65698263650626,
+        "min": 77.89947937064855,
+        "stdev": 21.58558239901724
+      },
+      "empty_outputs": 0,
+      "failed_rows": 0,
+      "fallback_count": 0,
+      "generation_latency_ms": {
+        "count": 20,
+        "max": 1692.1479169977829,
+        "mean": 1126.0546853500273,
+        "median": 1043.318668998836,
+        "min": 674.9104289992829,
+        "stdev": 332.85223159320583
+      },
+      "measured_rows": 20,
+      "numeric_em": 0.9,
+      "parser_failures": 0,
+      "pipeline_e2e_latency_ms": {
+        "count": 20,
+        "max": 1692.1479169977829,
+        "mean": 1126.0546853500273,
+        "median": 1043.318668998836,
+        "min": 674.9104289992829,
+        "stdev": 332.85223159320583
+      },
+      "pipeline_e2e_tok_s": {
+        "count": 20,
+        "max": 141.50723107965803,
+        "mean": 105.16033102166736,
+        "median": 105.25413102141843,
+        "min": 72.98742317099958,
+        "stdev": 20.06042933348764
+      },
+      "quality": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9,
+        "median": 1.0,
+        "min": 0.0,
+        "stdev": 0.30779350562554625
+      },
+      "successful_rows": 20,
+      "target_full_compressed_tokens": {
+        "count": 20,
+        "max": 195.0,
+        "mean": 165.05,
+        "median": 165.5,
+        "min": 147.0,
+        "stdev": 11.422392596631362
+      },
+      "target_full_keep_rate": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9869372651090738,
+        "median": 0.9879144150722945,
+        "min": 0.9710982658959537,
+        "stdev": 0.005881737949138425
+      },
+      "target_full_original_tokens": {
+        "count": 20,
+        "max": 197.0,
+        "mean": 167.25,
+        "median": 167.5,
+        "min": 149.0,
+        "stdev": 11.755737680854088
+      },
+      "target_user_compressed_tokens": {
+        "count": 20,
+        "max": 124.0,
+        "mean": 94.05,
+        "median": 94.5,
+        "min": 76.0,
+        "stdev": 11.422392596631362
+      },
+      "target_user_keep_rate": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9772919515432396,
+        "median": 0.9788306451612903,
+        "min": 0.9509803921568627,
+        "stdev": 0.009853608175958924
+      },
+      "target_user_original_tokens": {
+        "count": 20,
+        "max": 126.0,
+        "mean": 96.25,
+        "median": 96.5,
+        "min": 78.0,
+        "stdev": 11.755737680854088
+      }
+    },
+    "C3": {
+      "compressor_latency_ms": {
+        "count": 20,
+        "max": 185.76920100167627,
+        "mean": 87.1612137008924,
+        "median": 82.1752625015506,
+        "min": 0.9070969972526655,
+        "stdev": 35.4995215228875
+      },
+      "correct": 15,
+      "decode_tok_s": {
+        "count": 20,
+        "max": 32.22772687796962,
+        "mean": 31.64421783867744,
+        "median": 31.69600154060949,
+        "min": 30.431286359535665,
+        "stdev": 0.4157122424595889
+      },
+      "empty_outputs": 0,
+      "failed_rows": 0,
+      "fallback_count": 0,
+      "generation_latency_ms": {
+        "count": 20,
+        "max": 5713.4701930044685,
+        "mean": 3451.9586823495047,
+        "median": 3557.7339054980257,
+        "min": 1544.2928659977042,
+        "stdev": 1183.0522015419222
+      },
+      "measured_rows": 20,
+      "numeric_em": 0.75,
+      "parser_failures": 1,
+      "pipeline_e2e_latency_ms": {
+        "count": 20,
+        "max": 5797.7222640038235,
+        "mean": 3539.119896050397,
+        "median": 3637.6488224996137,
+        "min": 1626.9203539995942,
+        "stdev": 1183.446440701619
+      },
+      "pipeline_e2e_tok_s": {
+        "count": 20,
+        "max": 31.201389601452362,
+        "mean": 30.16105987450693,
+        "median": 30.1664292821016,
+        "min": 28.861000512383885,
+        "stdev": 0.6851969267904282
+      },
+      "quality": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.75,
+        "median": 1.0,
+        "min": 0.0,
+        "stdev": 0.44426165831931924
+      },
+      "successful_rows": 20,
+      "target_full_compressed_tokens": {
+        "count": 20,
+        "max": 195.0,
+        "mean": 165.05,
+        "median": 165.5,
+        "min": 147.0,
+        "stdev": 11.422392596631362
+      },
+      "target_full_keep_rate": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9869372651090738,
+        "median": 0.9879144150722945,
+        "min": 0.9710982658959537,
+        "stdev": 0.005881737949138425
+      },
+      "target_full_original_tokens": {
+        "count": 20,
+        "max": 197.0,
+        "mean": 167.25,
+        "median": 167.5,
+        "min": 149.0,
+        "stdev": 11.755737680854088
+      },
+      "target_user_compressed_tokens": {
+        "count": 20,
+        "max": 124.0,
+        "mean": 94.05,
+        "median": 94.5,
+        "min": 76.0,
+        "stdev": 11.422392596631362
+      },
+      "target_user_keep_rate": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9772919515432396,
+        "median": 0.9788306451612903,
+        "min": 0.9509803921568627,
+        "stdev": 0.009853608175958924
+      },
+      "target_user_original_tokens": {
+        "count": 20,
+        "max": 126.0,
+        "mean": 96.25,
+        "median": 96.5,
+        "min": 78.0,
+        "stdev": 11.755737680854088
+      }
+    },
+    "C4": {
+      "compressor_latency_ms": {
+        "count": 20,
+        "max": 185.76920100167627,
+        "mean": 87.1612137008924,
+        "median": 82.1752625015506,
+        "min": 0.9070969972526655,
+        "stdev": 35.4995215228875
+      },
+      "correct": 15,
+      "decode_tok_s": {
+        "count": 20,
+        "max": 172.87377720842957,
+        "mean": 110.44596927715013,
+        "median": 114.19357367871982,
+        "min": 68.5031664596006,
+        "stdev": 27.860933355187854
+      },
+      "empty_outputs": 0,
+      "failed_rows": 0,
+      "fallback_count": 0,
+      "generation_latency_ms": {
+        "count": 20,
+        "max": 1895.0648379977793,
+        "mean": 1089.115276501252,
+        "median": 1005.5504690026282,
+        "min": 604.3044670004747,
+        "stdev": 364.5787725896357
+      },
+      "measured_rows": 20,
+      "numeric_em": 0.75,
+      "parser_failures": 1,
+      "pipeline_e2e_latency_ms": {
+        "count": 20,
+        "max": 1977.1607219954603,
+        "mean": 1176.2764902021445,
+        "median": 1085.4653860042163,
+        "min": 686.4182620047359,
+        "stdev": 363.6440276803587
+      },
+      "pipeline_e2e_tok_s": {
+        "count": 20,
+        "max": 140.00578420855987,
+        "mean": 92.55056129980514,
+        "median": 96.07766508387991,
+        "min": 62.40592679938793,
+        "stdev": 22.3587618629458
+      },
+      "quality": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.75,
+        "median": 1.0,
+        "min": 0.0,
+        "stdev": 0.44426165831931924
+      },
+      "successful_rows": 20,
+      "target_full_compressed_tokens": {
+        "count": 20,
+        "max": 195.0,
+        "mean": 165.05,
+        "median": 165.5,
+        "min": 147.0,
+        "stdev": 11.422392596631362
+      },
+      "target_full_keep_rate": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9869372651090738,
+        "median": 0.9879144150722945,
+        "min": 0.9710982658959537,
+        "stdev": 0.005881737949138425
+      },
+      "target_full_original_tokens": {
+        "count": 20,
+        "max": 197.0,
+        "mean": 167.25,
+        "median": 167.5,
+        "min": 149.0,
+        "stdev": 11.755737680854088
+      },
+      "target_user_compressed_tokens": {
+        "count": 20,
+        "max": 124.0,
+        "mean": 94.05,
+        "median": 94.5,
+        "min": 76.0,
+        "stdev": 11.422392596631362
+      },
+      "target_user_keep_rate": {
+        "count": 20,
+        "max": 1.0,
+        "mean": 0.9772919515432396,
+        "median": 0.9788306451612903,
+        "min": 0.9509803921568627,
+        "stdev": 0.009853608175958924
+      },
+      "target_user_original_tokens": {
+        "count": 20,
+        "max": 126.0,
+        "mean": 96.25,
+        "median": 96.5,
+        "min": 78.0,
+        "stdev": 11.755737680854088
+      }
+    }
+  },
+  "dataset": "gsm8k",
+  "schema": "ccdf.final-benchmark-n20.metrics.v1"
+}

@@ -1,0 +1,1328 @@
+diff --git a/.gitignore b/.gitignore
+index 370572b..ed53d8a 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -20,4 +20,6 @@ docs/reviews/*
+ !docs/reviews/history/
+ !docs/reviews/history/.gitkeep
+ docs/audit/
+-scripts/
++.worktrees/
++node_modules/
++screenshots/
+\ No newline at end of file
+diff --git a/config.yml b/config.yml
+index 7f3e2d0..b3ba282 100644
+--- a/config.yml
++++ b/config.yml
+@@ -13,7 +13,7 @@ paths:
+     dflash_target_model: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-AWQ"
+     dflash_target_fallback_model: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-bnb-4bit"
+     dflash_drafter_model: "${PROJECT_ROOT}/models/dflash/drafter/Qwen3-4B-DFlash-b16"
+-    compressor_model: "${PROJECT_ROOT}/models/compressor/llmlingua-2-bert-base-multilingual-cased-meetingbank"
++    compressor_model: "${PROJECT_ROOT}/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank"
+     data_root: "${PROJECT_ROOT}/data"
+     artifacts_root: "${PROJECT_ROOT}/docs/artifacts"
+     benchmark_inputs: "${PROJECT_ROOT}/data/benchmark"
+@@ -24,10 +24,11 @@ models:
+         local_path: "${PROJECT_ROOT}/models/baseline/Qwen3-4B-AWQ"
+         revision: null
+         quantization: awq-int4
+-        dtype: bfloat16
++        dtype: float16
+         tokenizer_path: "${PROJECT_ROOT}/models/baseline/Qwen3-4B-AWQ"
+         allow_cpu_offload: false
+         device_map: cuda:0
++        trust_remote_code: true
+ 
+     dflash:
+         target:
+@@ -38,10 +39,11 @@ models:
+             revision: null
+             quantization: awq-int4
+             fallback_quantization: bitsandbytes-nf4-bfloat16
+-            dtype: bfloat16
++            dtype: float16
+             tokenizer_path: "${PROJECT_ROOT}/models/dflash/target/Qwen3-4B-AWQ"
+             allow_cpu_offload: false
+             device_map: cuda:0
++            trust_remote_code: true
+ 
+         drafter:
+             model_id: local-dflash-drafter
+@@ -53,10 +55,10 @@ models:
+             trust_remote_code: true
+ 
+     compressor:
+-        model_id: microsoft/llmlingua-2-bert-base-multilingual-cased-meetingbank
+-        local_path: "${PROJECT_ROOT}/models/compressor/llmlingua-2-bert-base-multilingual-cased-meetingbank"
++        model_id: microsoft/llmlingua-2-xlm-roberta-large-meetingbank
++        local_path: "${PROJECT_ROOT}/models/compressor/llmlingua-2-xlm-roberta-large-meetingbank"
+         device: cuda:0
+-        reserved_budget_gib: 2.0
++        reserved_budget_gib: 2.25
+         load_in_rec2: false
+ 
+ runtime:
+@@ -73,10 +75,15 @@ runtime:
+     seed: 42
+     allow_tf32: false
+     matmul_precision: high
++    cuda_allocator_conf: null
+ 
+ memory:
+     dflash_peak_reserved_limit_gib: 6.0
+-    compressor_reserved_budget_gib: 2.0
++    compressor_reserved_budget_gib: 2.25
++    device_capacity_gib: 8.0
++    compressor_residency_mode: staged
++    generation_residency_mode: staged
++    request_cache_policy: preserve
+     enforce_after_model_load: true
+     enforce_after_generation: true
+     baseline_peak_reserved_limit_gib: null
+@@ -146,3 +153,195 @@ prompts:
+     gsm8k_instruction: >-
+         Compute using concise essential calculations. End with exactly one separate line in the form
+         "Final answer: <result>" and then stop.
++
++datasets:
++    seed: 42
++    sample_size: 10
++    qmsum_context_policy: full_transcript
++    qmsum_query_policy: specific_only
++
++dataset_smoke:
++    version: qmsum-single-request.dataset-smoke.v2
++    artifact_directory: "${PROJECT_ROOT}/docs/artifacts/qmsum-single-request-parity-smoke-n10/dataset-smoke"
++    review_archive: "${PROJECT_ROOT}/docs/reviews/review-pack-qmsum-single-request-parity-smoke-n10.zip"
++    config_overrides:
++        prompts:
++            system: "Answer the user request from the provided input. Follow the required output format exactly and stop when the answer is complete."
++        runtime:
++            attention_backend: sdpa
++            sdpa_kernel: auto
++        optimization:
++            block_policy:
++                mode: fixed
++                fixed_block_size: 8
++        memory:
++            request_cache_policy: release_unused
++    platform_overrides:
++        win32:
++            runtime:
++                cuda_allocator_conf: null
++        linux:
++            runtime:
++                cuda_allocator_conf: "expandable_segments:True,garbage_collection_threshold:0.5"
++        default:
++            runtime:
++                cuda_allocator_conf: null
++    cohorts:
++        gsm8k: "${PROJECT_ROOT}/data/eval/gsm8k/gsm8k_n10.jsonl"
++        qmsum: "${PROJECT_ROOT}/data/eval/qmsum/qmsum_n10.jsonl"
++        manifest: "${PROJECT_ROOT}/data/manifests/dataset_manifest.json"
++        selection_manifest: "${PROJECT_ROOT}/data/manifests/dataset_smoke_selection.json"
++        expected_rows_per_dataset: 10
++    compression:
++        keep_rate: 0.5
++        min_context_tokens: 1
++        chunk_size_tokens: 480
++        chunk_overlap_tokens: 32
++        tokenizer: compressor
++        merge_policy: newline_preserve_order
++    prompts:
++        gsm8k_context_header: ""
++        gsm8k_question_header: "Question:"
++        qmsum_context_header: "Meeting transcript:"
++        qmsum_question_header: "Question:"
++    generation:
++        gsm8k_max_new_tokens: 256
++        qmsum_max_new_tokens: 512
++        warmup_requests: 1
++        repetitions: 1
++        qmsum_request_protocol: single_final_generation
++        qmsum_original_context_overflow_policy: fail
++        condition_worker_max_attempts: 1
++    watchdog:
++        dataset_wall_clock_timeout_seconds: 3000
++        condition_wall_clock_timeout_seconds: 900
++        no_progress_timeout_seconds: 600
++        poll_interval_seconds: 1
++        terminate_grace_seconds: 10
++    conditions:
++        - {name: baseline-ar, runtime_condition: baseline, prompt_kind: original}
++        - {name: dflash-r1, runtime_condition: dflash, prompt_kind: original}
++        - {name: llmlingua-ar-r2, runtime_condition: baseline, prompt_kind: compressed}
++        - {name: cc-dflash-r2, runtime_condition: dflash, prompt_kind: compressed}
++    parity_pairs:
++        - {name: original, left: baseline-ar, right: dflash-r1}
++        - {name: compressed, left: llmlingua-ar-r2, right: cc-dflash-r2}
++    evaluators:
++        gsm8k:
++            version: gsm8k-numeric.v1
++            final_answer_prefix: "Final answer:"
++            fixture_cases:
++                - {generated: "work\nFinal answer: +1,200", reference: "1200", label: correct}
++                - {generated: "Final answer: 1/2", reference: "0.5", label: correct}
++                - {generated: "Final answer: 7", reference: "8", label: wrong_numeric}
++                - {generated: "Final answer: seven", reference: "7", label: invalid_format}
++                - {generated: "no final line", reference: "7", label: missing_answer}
++        qmsum:
++            version: qmsum-overlap.v1
++            word_pattern: "[A-Za-z0-9]+"
++            semantic_correctness: NOT_CLAIMED
++            fixture_cases:
++                - {generated: "Alpha beta beta", reference: "beta gamma", recall: 0.5, precision: 0.5}
++                - {generated: "", reference: "beta", recall: 0.0, precision: 0.0}
++    hard_gates:
++        successful_condition_runs: 80
++        logical_sample_generation_requests: 1
++        final_outputs_per_sample: 1
++        pair_input_token_parity_rate: 1.0
++        pair_generated_token_parity_rate: 1.0
++        protected_fields_rate: 1.0
++        gsm8k_evaluator_valid_count: 10
++        qmsum_evaluator_valid_count: 10
++        qmsum_precompression_coverage_rate: 1.0
++        hidden_truncated_tokens: 0
++        dflash_peak_reserved_vram_gib: 6.0
++        metric_validity_rate: 1.0
++        max_oom_events: 0
++        max_error_events: 0
++        max_timeout_events: 0
++        max_no_progress_timeouts: 0
++        max_retry_events: 0
++        max_resume_events: 0
++        max_crash_events: 0
++    validation_commands:
++        compileall: [".venv/Scripts/python.exe", "-m", "compileall", "-q", "src"]
++        pytest: [".venv/Scripts/python.exe", "-m", "pytest", "-q"]
++        pip_check: [".venv/Scripts/python.exe", "-m", "pip", "check"]
++        diff_check: ["git", "diff", "--check"]
++        artifact_verify: [".venv/Scripts/python.exe", "-m", "ccdf.benchmark.dataset_smoke_verify", "--config", "config.yml"]
++
++protocol_profiles:
++    active: rec3
++    profiles:
++        rec3:
++            description: "REC-3 four-condition mock10 validation profile"
++            dataset: rec3_mock
++            artifact_directory: "${PROJECT_ROOT}/docs/artifacts/qmsum-single-request-parity-smoke-n10/mock10"
++            review_archive: "${PROJECT_ROOT}/docs/reviews/review-pack-rec3-protocol-four-conditions-mock10-final.zip"
++            config_overrides:
++                prompts:
++                    system: "You are an information extraction assistant. Return only the requested output format."
++                runtime:
++                    max_new_tokens: 32
++                    temperature: 0.0
++                    attention_backend: sdpa
++                    sdpa_kernel: auto
++                optimization:
++                    block_policy:
++                        mode: fixed
++                        fixed_block_size: 8
++            compression:
++                keep_rate: 0.5
++                min_context_tokens: 1
++                chunk_size_tokens: 480
++                chunk_overlap_tokens: 32
++                tokenizer: compressor
++                merge_policy: newline_preserve_order
++            prompt_contract:
++                question: "According to the FINAL APPROVED FACT, who is the owner, what is the approval code, and what exact quantity was approved?"
++                output_instruction: "Return exactly: Owner: <name>; Approval code: <code>; Quantity: <integer>"
++                strict_output_pattern: '^Owner: (?P<owner>[^;\r\n]+); Approval code: (?P<approval_code>[^;\r\n]+); Quantity: (?P<quantity>[0-9]+)$'
++                tolerant_field_pattern: 'Owner:\s*(?P<owner>[^;\r\n]+);\s*Approval code:\s*(?P<approval_code>[^;\r\n]+);\s*Quantity:\s*(?P<quantity>[0-9]+)'
++                distractor_template: "Meeting turn {turn}: unapproved proposal says owner Candidate-{candidate}, code ZX-{fixture_index}{turn_padded}, quantity {distractor_quantity}; this is a distractor."
++                evidence_template: "FINAL APPROVED FACT: the approved owner is {owner}; the approval code is {approval_code}; the exact approved quantity is {quantity}."
++            conditions:
++                - name: baseline-ar
++                  runtime_condition: baseline
++                  prompt_kind: original
++                - name: dflash-r1
++                  runtime_condition: dflash
++                  prompt_kind: original
++                - name: llmlingua-ar-r2
++                  runtime_condition: baseline
++                  prompt_kind: compressed
++                  reduction_reference_condition: baseline-ar
++                - name: cc-dflash-r2
++                  runtime_condition: dflash
++                  prompt_kind: compressed
++                  reduction_reference_condition: dflash-r1
++            parity_pairs:
++                - name: original_baseline_ar_vs_dflash_r1
++                  left: baseline-ar
++                  right: dflash-r1
++                - name: compressed_llmlingua_ar_r2_vs_cc_dflash_r2
++                  left: llmlingua-ar-r2
++                  right: cc-dflash-r2
++            hard_gates:
++                condition_success_rate: 1.0
++                pair_generated_token_parity_rate: 1.0
++                exact_field_quality_rate: 1.0
++                protected_input_rate: 1.0
++                metric_validity_rate: 1.0
++                max_oom_events: 0
++                dflash_peak_reserved_vram_gib: 6.0
++            fixtures:
++                - {turns: 16, evidence_position_fraction: 0.15, owner: Asha, approval_code: AP-701, quantity: '41'}
++                - {turns: 16, evidence_position_fraction: 0.15, owner: Binh, approval_code: AP-702, quantity: '58'}
++                - {turns: 20, evidence_position_fraction: 0.30, owner: Chen, approval_code: AP-703, quantity: '73'}
++                - {turns: 24, evidence_position_fraction: 0.45, owner: Dara, approval_code: AP-704, quantity: '89'}
++                - {turns: 28, evidence_position_fraction: 0.60, owner: Elena, approval_code: AP-705, quantity: '104'}
++                - {turns: 32, evidence_position_fraction: 0.75, owner: Farid, approval_code: AP-706, quantity: '126'}
++                - {turns: 30, evidence_position_fraction: 0.90, owner: Gia, approval_code: AP-707, quantity: '147'}
++                - {turns: 30, evidence_position_fraction: 1.00, owner: Hana, approval_code: AP-708, quantity: '168'}
++                - {turns: 18, evidence_position_fraction: 0.50, owner: Ivo, approval_code: AP-709, quantity: '193'}
++                - {turns: 32, evidence_position_fraction: 0.70, owner: Juno, approval_code: AP-710, quantity: '215'}
+diff --git a/docs/reviews/history/.gitkeep b/docs/reviews/history/.gitkeep
+deleted file mode 100644
+index 8b13789..0000000
+--- a/docs/reviews/history/.gitkeep
++++ /dev/null
+@@ -1 +0,0 @@
+-
+diff --git a/src/ccdf/benchmark.py b/src/ccdf/benchmark.py
+deleted file mode 100644
+index 9b9a918..0000000
+--- a/src/ccdf/benchmark.py
++++ /dev/null
+@@ -1,106 +0,0 @@
+-"""Process-local JSONL benchmark helper."""
+-
+-from __future__ import annotations
+-
+-import json
+-import statistics
+-from pathlib import Path
+-from typing import Any, Iterable
+-
+-from .config import Rec2Config
+-from .runtime.engine import RuntimeEngine
+-
+-
+-def read_jsonl(path: str | Path) -> list[dict[str, Any]]:
+-    rows = []
+-    for line_number, line in enumerate(Path(path).read_text(encoding="utf-8").splitlines(), start=1):
+-        if not line.strip():
+-            continue
+-        row = json.loads(line)
+-        if "id" not in row or "prompt" not in row:
+-            raise ValueError(f"line {line_number} must contain id and prompt")
+-        rows.append(row)
+-    return rows
+-
+-
+-def write_jsonl(path: str | Path, rows: Iterable[dict[str, Any]]) -> None:
+-    output = Path(path)
+-    output.parent.mkdir(parents=True, exist_ok=True)
+-    with output.open("w", encoding="utf-8") as handle:
+-        for row in rows:
+-            handle.write(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n")
+-
+-
+-def run_benchmark(
+-    config: Rec2Config,
+-    *,
+-    input_path: str | Path,
+-    conditions: list[str],
+-    target_profile: str = "primary",
+-) -> dict[str, Any]:
+-    inputs = read_jsonl(input_path)
+-    repetitions = int(config.get("benchmark.repetitions", 1))
+-    warmups = int(config.get("benchmark.warmup_requests", 0))
+-    all_rows: list[dict[str, Any]] = []
+-    summaries: list[dict[str, Any]] = []
+-    for condition in conditions:
+-        engine = RuntimeEngine(config, condition=condition, target_profile=target_profile)
+-        try:
+-            for index in range(warmups):
+-                engine.generate(inputs[index % len(inputs)]["prompt"], max_new_tokens=32)
+-            condition_rows: list[dict[str, Any]] = []
+-            for repetition in range(repetitions):
+-                for item in inputs:
+-                    result = engine.generate(
+-                        item["prompt"],
+-                        dataset=str(item.get("dataset", "general")),
+-                        max_new_tokens=int(item.get("max_new_tokens", config.require("runtime.max_new_tokens"))),
+-                    )
+-                    record = {
+-                        "id": item["id"],
+-                        "repetition": repetition,
+-                        **result.to_dict(),
+-                    }
+-                    all_rows.append(record)
+-                    condition_rows.append(record)
+-            summaries.append(_summarize(condition, condition_rows))
+-        finally:
+-            engine.close()
+-    output = config.path_for("benchmark.output_jsonl")
+-    write_jsonl(output, all_rows)
+-    summary = {"conditions": summaries, "rows": len(all_rows), "output_jsonl": str(output)}
+-    summary_path = config.path_for("benchmark.summary_json")
+-    summary_path.parent.mkdir(parents=True, exist_ok=True)
+-    summary_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+-    return summary
+-
+-
+-def _summarize(condition: str, rows: list[dict[str, Any]]) -> dict[str, Any]:
+-    metrics = [row["metrics"] for row in rows]
+-    timing = [row["timing"] for row in rows]
+-    memory = [row["memory"] for row in rows]
+-    summary = {
+-        "condition": condition,
+-        "rows": len(rows),
+-        "mean_decode_tok_s": statistics.fmean(float(value["decode_tok_s"]) for value in metrics),
+-        "mean_generation_tok_s": statistics.fmean(float(value["generation_tok_s"]) for value in metrics),
+-        "mean_warm_request_tok_s": statistics.fmean(float(value["warm_request_tok_s"]) for value in metrics),
+-        "mean_target_prefill_ms": statistics.fmean(float(value["target_prefill_ms"]) for value in timing),
+-        "mean_decode_total_ms": statistics.fmean(float(value["decode_total_ms"]) for value in timing),
+-        "peak_reserved_bytes": max(int(value["peak_reserved_bytes"]) for value in memory),
+-        "memory_gate_pass": all(value.get("gate_pass") is not False for value in memory),
+-    }
+-    if condition == "dflash":
+-        dflash = [row["dflash"] for row in rows]
+-        summary.update(
+-            {
+-                "mean_effective_tau": statistics.fmean(float(value["effective_tau"]) for value in dflash),
+-                "mean_draft_acceptance_rate": statistics.fmean(
+-                    float(value["draft_acceptance_rate"]) for value in dflash
+-                ),
+-                "mean_target_forwards_per_output_token": statistics.fmean(
+-                    float(value["target_forwards_per_output_token"]) for value in dflash
+-                ),
+-            }
+-        )
+-    return summary
+diff --git a/src/ccdf/cli.py b/src/ccdf/cli.py
+deleted file mode 100644
+index 14282f8..0000000
+--- a/src/ccdf/cli.py
++++ /dev/null
+@@ -1,98 +0,0 @@
+-"""Command-line entrypoint."""
+-
+-from __future__ import annotations
+-
+-import argparse
+-import json
+-import sys
+-from .benchmark import run_benchmark
+-from .config import load_config
+-from .models.loaders import load_dflash_models
+-from .runtime.engine import RuntimeEngine
+-from .validation.environment import validate_environment
+-
+-
+-def _print(payload) -> None:
+-    print(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True))
+-
+-
+-def build_parser() -> argparse.ArgumentParser:
+-    parser = argparse.ArgumentParser(prog="ccdf-rec2")
+-    sub = parser.add_subparsers(dest="command", required=True)
+-    for name in ("validate-config", "validate-env", "validate-models", "validation-cycle"):
+-        item = sub.add_parser(name)
+-        item.add_argument("--config", default="config.yml")
+-    run = sub.add_parser("run")
+-    run.add_argument("--config", default="config.yml")
+-    run.add_argument("--condition", choices=("baseline", "dflash"), required=True)
+-    run.add_argument("--target-profile", choices=("primary", "fallback"), default="primary")
+-    run.add_argument("--prompt", required=True)
+-    run.add_argument("--dataset", default="general")
+-    run.add_argument("--max-new-tokens", type=int)
+-    bench = sub.add_parser("benchmark")
+-    bench.add_argument("--config", default="config.yml")
+-    bench.add_argument("--input", required=True)
+-    bench.add_argument("--conditions", default="baseline,dflash")
+-    bench.add_argument("--target-profile", choices=("primary", "fallback"), default="primary")
+-    return parser
+-
+-
+-def main(argv: list[str] | None = None) -> int:
+-    args = build_parser().parse_args(argv)
+-    config = load_config(args.config)
+-    if args.command == "validate-config":
+-        _print({"pass": True, "warnings": config.validate(False), "root": str(config.root)})
+-        return 0
+-    if args.command == "validate-env":
+-        _print(validate_environment(config))
+-        return 0
+-    if args.command == "validate-models":
+-        target, drafter, _, metadata = load_dflash_models(config)
+-        _print({"pass": True, "metadata": metadata})
+-        del target, drafter
+-        return 0
+-    if args.command == "validation-cycle":
+-        payload = {
+-            "config": {"pass": True, "warnings": config.validate(False)},
+-            "environment": validate_environment(config),
+-        }
+-        target, drafter, tokenizer, metadata = load_dflash_models(config)
+-        payload["models"] = {"pass": True, "metadata": metadata}
+-        del target, drafter, tokenizer
+-        import gc
+-        import torch
+-
+-        gc.collect()
+-        if torch.cuda.is_available():
+-            torch.cuda.empty_cache()
+-            torch.cuda.ipc_collect()
+-        _print(payload)
+-        return 0
+-    if args.command == "run":
+-        engine = RuntimeEngine(config, condition=args.condition, target_profile=args.target_profile)
+-        try:
+-            result = engine.generate(
+-                args.prompt,
+-                dataset=args.dataset,
+-                max_new_tokens=args.max_new_tokens,
+-            )
+-            _print(result.to_dict())
+-        finally:
+-            engine.close()
+-        return 0
+-    if args.command == "benchmark":
+-        conditions = [value.strip() for value in args.conditions.split(",") if value.strip()]
+-        _print(
+-            run_benchmark(
+-                config,
+-                input_path=args.input,
+-                conditions=conditions,
+-                target_profile=args.target_profile,
+-            )
+-        )
+-        return 0
+-    raise AssertionError(args.command)
+-
+-
+-if __name__ == "__main__":
+-    sys.exit(main())
+diff --git a/src/ccdf/config.py b/src/ccdf/config.py
+deleted file mode 100644
+index 152bda8..0000000
+--- a/src/ccdf/config.py
++++ /dev/null
+@@ -1,138 +0,0 @@
+-"""Root configuration loader with deterministic path expansion."""
+-
+-from __future__ import annotations
+-
+-import os
+-from dataclasses import dataclass
+-from pathlib import Path
+-from typing import Any, Mapping
+-
+-import yaml
+-
+-from .errors import ConfigurationError
+-
+-
+-def _expand(value: Any, project_root: Path) -> Any:
+-    if isinstance(value, str):
+-        expanded = value.replace("${PROJECT_ROOT}", str(project_root))
+-        return os.path.expandvars(os.path.expanduser(expanded))
+-    if isinstance(value, list):
+-        return [_expand(item, project_root) for item in value]
+-    if isinstance(value, dict):
+-        return {key: _expand(item, project_root) for key, item in value.items()}
+-    return value
+-
+-
+-def _require(mapping: Mapping[str, Any], dotted: str) -> Any:
+-    current: Any = mapping
+-    for part in dotted.split("."):
+-        if not isinstance(current, Mapping) or part not in current:
+-            raise ConfigurationError(f"missing required config key: {dotted}")
+-        current = current[part]
+-    return current
+-
+-
+-@dataclass(frozen=True)
+-class Rec2Config:
+-    path: Path
+-    root: Path
+-    data: dict[str, Any]
+-
+-    def get(self, dotted: str, default: Any = None) -> Any:
+-        current: Any = self.data
+-        for part in dotted.split("."):
+-            if not isinstance(current, Mapping) or part not in current:
+-                return default
+-            current = current[part]
+-        return current
+-
+-    def require(self, dotted: str) -> Any:
+-        return _require(self.data, dotted)
+-
+-    def path_for(self, dotted: str) -> Path:
+-        value = self.require(dotted)
+-        if not isinstance(value, str):
+-            raise ConfigurationError(f"config key is not a path string: {dotted}")
+-        return Path(value).resolve()
+-
+-    def model_profile(self, condition: str, target_profile: str = "primary") -> dict[str, Any]:
+-        if condition == "baseline":
+-            return dict(self.require("models.baseline"))
+-        if condition != "dflash":
+-            raise ConfigurationError(f"unknown condition: {condition}")
+-        target = dict(self.require("models.dflash.target"))
+-        if target_profile == "fallback":
+-            target = {
+-                **target,
+-                "model_id": target["fallback_model_id"],
+-                "local_path": target["fallback_local_path"],
+-                "quantization": target["fallback_quantization"],
+-                "tokenizer_path": target["fallback_local_path"],
+-            }
+-        elif target_profile != "primary":
+-            raise ConfigurationError(f"unknown target profile: {target_profile}")
+-        return target
+-
+-    def validate(self, require_model_files: bool = False) -> list[str]:
+-        required = [
+-            "paths.project_root",
+-            "paths.baseline_model",
+-            "paths.dflash_target_model",
+-            "paths.dflash_drafter_model",
+-            "paths.compressor_model",
+-            "models.baseline.model_id",
+-            "models.baseline.local_path",
+-            "models.dflash.target.model_id",
+-            "models.dflash.target.local_path",
+-            "models.dflash.drafter.model_id",
+-            "models.dflash.drafter.local_path",
+-            "memory.dflash_peak_reserved_limit_gib",
+-            "runtime.attention_backend",
+-            "runtime.sdpa_kernel",
+-            "runtime.awq_split_k_iters",
+-        ]
+-        for key in required:
+-            self.require(key)
+-        warnings: list[str] = []
+-        limit = float(self.require("memory.dflash_peak_reserved_limit_gib"))
+-        reserve = float(self.require("memory.compressor_reserved_budget_gib"))
+-        if limit <= 0 or reserve < 0:
+-            raise ConfigurationError("memory limits must be positive")
+-        if limit + reserve > 8.001:
+-            warnings.append("D-Flash limit plus compressor reserve exceeds 8 GiB")
+-        if self.require("runtime.attention_backend") != "sdpa":
+-            raise ConfigurationError("canonical runtime requires attention_backend=sdpa")
+-        if self.require("runtime.sdpa_kernel") != "math":
+-            raise ConfigurationError("canonical runtime requires sdpa_kernel=math")
+-        if int(self.require("runtime.awq_split_k_iters")) != 1:
+-            raise ConfigurationError("canonical runtime requires awq_split_k_iters=1")
+-        allowed = list(self.require("optimization.block_policy.allowed_block_sizes"))
+-        checkpoint = int(self.require("models.dflash.drafter.checkpoint_block_size"))
+-        if sorted(set(allowed)) != sorted(allowed):
+-            raise ConfigurationError("allowed block sizes must be unique and sorted")
+-        if any(int(size) < 2 or int(size) > checkpoint for size in allowed):
+-            raise ConfigurationError("allowed block sizes must be in [2, checkpoint_block_size]")
+-        if require_model_files:
+-            for key in (
+-                "models.baseline.local_path",
+-                "models.dflash.target.local_path",
+-                "models.dflash.drafter.local_path",
+-            ):
+-                path = Path(self.require(key))
+-                if not path.exists():
+-                    raise ConfigurationError(f"model path does not exist: {path}")
+-        return warnings
+-
+-
+-def load_config(path: str | Path = "config.yml") -> Rec2Config:
+-    config_path = Path(path).expanduser().resolve()
+-    if not config_path.is_file():
+-        raise ConfigurationError(f"config file not found: {config_path}")
+-    raw = yaml.safe_load(config_path.read_text(encoding="utf-8"))
+-    if not isinstance(raw, dict):
+-        raise ConfigurationError("root config must be a mapping")
+-    project_root = Path(os.environ.get("PROJECT_ROOT", config_path.parent)).expanduser().resolve()
+-    expanded = _expand(raw, project_root)
+-    config = Rec2Config(path=config_path, root=project_root, data=expanded)
+-    config.validate(require_model_files=False)
+-    return config
+diff --git a/src/ccdf/determinism.py b/src/ccdf/determinism.py
+deleted file mode 100644
+index 177ef12..0000000
+--- a/src/ccdf/determinism.py
++++ /dev/null
+@@ -1,67 +0,0 @@
+-"""Process and request-level reproducibility controls."""
+-
+-from __future__ import annotations
+-
+-import os
+-import random
+-from typing import Any
+-
+-import torch
+-
+-
+-def configure_determinism(
+-    *,
+-    seed: int,
+-    deterministic: bool,
+-    allow_tf32: bool,
+-    matmul_precision: str,
+-    sdpa_kernel: str = "math",
+-) -> dict[str, Any]:
+-    """Apply all supported Python, Torch, and CUDA reproducibility controls."""
+-    seed = int(seed)
+-    os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+-    os.environ["PYTHONHASHSEED"] = str(seed)
+-    random.seed(seed)
+-    torch.manual_seed(seed)
+-    if torch.cuda.is_available():
+-        torch.cuda.manual_seed(seed)
+-        torch.cuda.manual_seed_all(seed)
+-
+-    torch.use_deterministic_algorithms(bool(deterministic))
+-    if hasattr(torch.backends, "cudnn"):
+-        torch.backends.cudnn.deterministic = bool(deterministic)
+-        torch.backends.cudnn.benchmark = not bool(deterministic)
+-
+-    if deterministic and sdpa_kernel != "math":
+-        raise ValueError("deterministic canonical runtime requires sdpa_kernel=math")
+-    effective_tf32 = bool(allow_tf32) and not bool(deterministic)
+-    if hasattr(torch.backends, "cuda") and hasattr(torch.backends.cuda, "matmul"):
+-        torch.backends.cuda.matmul.allow_tf32 = effective_tf32
+-        if deterministic:
+-            # Keep the public Transformers backend on SDPA while selecting its
+-            # deterministic math implementation for sequence-shape parity.
+-            torch.backends.cuda.enable_flash_sdp(False)
+-            torch.backends.cuda.enable_mem_efficient_sdp(False)
+-            torch.backends.cuda.enable_math_sdp(True)
+-    if hasattr(torch.backends, "cudnn"):
+-        torch.backends.cudnn.allow_tf32 = effective_tf32
+-    torch.set_float32_matmul_precision(str(matmul_precision))
+-
+-    return {
+-        "seed": seed,
+-        "python_random_seeded": True,
+-        "python_hash_seed_environment": os.environ["PYTHONHASHSEED"],
+-        "torch_initial_seed": int(torch.initial_seed()),
+-        "cuda_seeded": bool(torch.cuda.is_available()),
+-        "deterministic_algorithms": bool(torch.are_deterministic_algorithms_enabled()),
+-        "cudnn_deterministic": bool(torch.backends.cudnn.deterministic),
+-        "cudnn_benchmark": bool(torch.backends.cudnn.benchmark),
+-        "cublas_workspace_config": os.environ["CUBLAS_WORKSPACE_CONFIG"],
+-        "allow_tf32_requested": bool(allow_tf32),
+-        "allow_tf32_effective": effective_tf32,
+-        "matmul_precision": str(matmul_precision),
+-        "sdpa_kernel_policy": sdpa_kernel if deterministic and torch.cuda.is_available() else None,
+-        "flash_sdp_enabled": bool(torch.backends.cuda.flash_sdp_enabled()) if torch.cuda.is_available() else None,
+-        "mem_efficient_sdp_enabled": bool(torch.backends.cuda.mem_efficient_sdp_enabled()) if torch.cuda.is_available() else None,
+-        "math_sdp_enabled": bool(torch.backends.cuda.math_sdp_enabled()) if torch.cuda.is_available() else None,
+-    }
+diff --git a/src/ccdf/device.py b/src/ccdf/device.py
+deleted file mode 100644
+index 51ca06b..0000000
+--- a/src/ccdf/device.py
++++ /dev/null
+@@ -1,129 +0,0 @@
+-"""CUDA placement, timing, and memory gates."""
+-
+-from __future__ import annotations
+-
+-from dataclasses import dataclass
+-from typing import Any
+-
+-import torch
+-
+-from .errors import MemoryBudgetError, ModelContractError
+-from .schemas import MemoryStats
+-
+-GIB = 1024**3
+-
+-
+-def synchronize(device: Any | None = None) -> None:
+-    if torch.cuda.is_available():
+-        torch.cuda.synchronize(device=device)
+-
+-
+-def reset_peak_memory() -> None:
+-    if torch.cuda.is_available():
+-        synchronize()
+-        torch.cuda.reset_peak_memory_stats()
+-        synchronize()
+-
+-
+-def current_memory_state() -> dict[str, int | None]:
+-    """Return the non-peak CUDA allocator state at a request boundary."""
+-    if not torch.cuda.is_available():
+-        return {"allocated_bytes": None, "reserved_bytes": None}
+-    synchronize()
+-    return {
+-        "allocated_bytes": int(torch.cuda.memory_allocated()),
+-        "reserved_bytes": int(torch.cuda.memory_reserved()),
+-    }
+-
+-
+-def collect_memory(limit_gib: float | None = None) -> MemoryStats:
+-    if not torch.cuda.is_available():
+-        return MemoryStats(limit_bytes=int(limit_gib * GIB) if limit_gib else None)
+-    synchronize()
+-    free, total = torch.cuda.mem_get_info()
+-    peak_allocated = int(torch.cuda.max_memory_allocated())
+-    peak_reserved = int(torch.cuda.max_memory_reserved())
+-    limit = int(limit_gib * GIB) if limit_gib is not None else None
+-    return MemoryStats(
+-        peak_allocated_bytes=peak_allocated,
+-        peak_reserved_bytes=peak_reserved,
+-        allocated_after_bytes=int(torch.cuda.memory_allocated()),
+-        reserved_after_bytes=int(torch.cuda.memory_reserved()),
+-        free_bytes_after_request=int(free),
+-        total_device_bytes=int(total),
+-        limit_bytes=limit,
+-        gate_pass=(peak_reserved <= limit) if limit is not None else None,
+-    )
+-
+-
+-def enforce_memory_gate(stats: MemoryStats, *, label: str) -> None:
+-    if stats.limit_bytes is not None and not bool(stats.gate_pass):
+-        raise MemoryBudgetError(
+-            f"{label} peak reserved memory exceeded gate: "
+-            f"{stats.peak_reserved_bytes / GIB:.3f} GiB > {stats.limit_bytes / GIB:.3f} GiB"
+-        )
+-
+-
+-def assert_cuda_only(model: Any, *, label: str) -> None:
+-    devices = {str(parameter.device) for parameter in model.parameters()}
+-    if not devices:
+-        raise ModelContractError(f"{label} has no parameters")
+-    if any(not device.startswith("cuda") for device in devices):
+-        raise ModelContractError(f"{label} is not fully CUDA resident: {sorted(devices)}")
+-    device_map = getattr(model, "hf_device_map", None)
+-    if isinstance(device_map, dict):
+-        forbidden = {str(value) for value in device_map.values() if str(value) in {"cpu", "disk"}}
+-        if forbidden:
+-            raise ModelContractError(f"{label} uses CPU/disk offload: {sorted(forbidden)}")
+-
+-
+-def attention_runtime_state(model: Any) -> dict[str, Any]:
+-    config = getattr(model, "config", None)
+-    state = {
+-        "attn_implementation": getattr(config, "_attn_implementation", None),
+-        "flash_sdp_enabled": bool(torch.backends.cuda.flash_sdp_enabled()) if torch.cuda.is_available() else False,
+-        "mem_efficient_sdp_enabled": bool(torch.backends.cuda.mem_efficient_sdp_enabled()) if torch.cuda.is_available() else False,
+-        "math_sdp_enabled": bool(torch.backends.cuda.math_sdp_enabled()) if torch.cuda.is_available() else False,
+-    }
+-    return state
+-
+-
+-@dataclass
+-class EventSpan:
+-    """Non-invasive CUDA event span; elapsed time is read after final synchronization."""
+-
+-    enabled: bool
+-
+-    def __post_init__(self) -> None:
+-        self._cpu_start: float | None = None
+-        self._cpu_end: float | None = None
+-        self._start = torch.cuda.Event(enable_timing=True) if self.enabled and torch.cuda.is_available() else None
+-        self._end = torch.cuda.Event(enable_timing=True) if self.enabled and torch.cuda.is_available() else None
+-
+-    def start(self) -> None:
+-        import time
+-
+-        if not self.enabled:
+-            return
+-        if self._start is not None:
+-            self._start.record()
+-        else:
+-            self._cpu_start = time.perf_counter()
+-
+-    def stop(self) -> None:
+-        import time
+-
+-        if not self.enabled:
+-            return
+-        if self._end is not None:
+-            self._end.record()
+-        else:
+-            self._cpu_end = time.perf_counter()
+-
+-    def elapsed_ms(self) -> float | None:
+-        if self._start is not None and self._end is not None:
+-            synchronize()
+-            return float(self._start.elapsed_time(self._end))
+-        if self._cpu_start is not None and self._cpu_end is not None:
+-            return (self._cpu_end - self._cpu_start) * 1000.0
+-        return None
+diff --git a/src/ccdf/dflash/acceptance.py b/src/ccdf/dflash/acceptance.py
+index 1e461c8..e2b28c6 100644
+--- a/src/ccdf/dflash/acceptance.py
++++ b/src/ccdf/dflash/acceptance.py
+@@ -6,6 +6,8 @@ from dataclasses import dataclass
+ 
+ import torch
+ 
++from ..inference.sampling import sample_verifier_logits
++
+ 
+ @dataclass(frozen=True)
+ class AcceptanceSummary:
+@@ -31,11 +33,19 @@ def compact_acceptance_transfer(
+     proposals: torch.Tensor,
+     posterior_ids: torch.Tensor,
+     full_audit: bool,
++    correction_logits: torch.Tensor | None = None,
++    temperature: float = 0.0,
+ ) -> AcceptanceSummary:
+     """Compute the prefix on GPU and perform one compact host transfer per block."""
+     verifier_ids = posterior_ids[: proposals.numel()]
+     accepted = accepted_prefix_tensor(proposals, verifier_ids)
+-    correction = posterior_ids.gather(0, accepted.reshape(1))[0]
++    correction = (
++        sample_verifier_logits(
++            correction_logits.index_select(0, accepted.reshape(1)), temperature
++        ).reshape(())
++        if correction_logits is not None
++        else posterior_ids.gather(0, accepted.reshape(1))[0]
++    )
+     payload = [accepted.reshape(1), correction.reshape(1), proposals.to(torch.long)]
+     if full_audit:
+         payload.append(verifier_ids.to(torch.long))
+@@ -53,6 +63,8 @@ def host_acceptance_transfer(
+     proposals: torch.Tensor,
+     posterior_ids: torch.Tensor,
+     full_audit: bool,
++    correction_logits: torch.Tensor | None = None,
++    temperature: float = 0.0,
+ ) -> AcceptanceSummary:
+     """Reference-style host acceptance path retained for controlled ablation."""
+     proposal_ids = [int(value) for value in proposals.detach().cpu().tolist()]
+@@ -62,6 +74,14 @@ def host_acceptance_transfer(
+         if proposal != target:
+             break
+         accepted += 1
+-    correction = int(posterior_host[accepted])
++    correction = (
++        int(
++            sample_verifier_logits(
++                correction_logits[accepted : accepted + 1], temperature
++            )[0].item()
++        )
++        if correction_logits is not None
++        else int(posterior_host[accepted])
++    )
+     verifier = posterior_host[: len(proposal_ids)] if full_audit else None
+     return AcceptanceSummary(accepted, correction, proposal_ids, verifier)
+diff --git a/src/ccdf/dflash/generate.py b/src/ccdf/dflash/generate.py
+index 0aa39f1..d5be006 100644
+--- a/src/ccdf/dflash/generate.py
++++ b/src/ccdf/dflash/generate.py
+@@ -8,10 +8,10 @@ from typing import Any
+ import torch
+ from transformers import DynamicCache
+ 
+-from ..device import EventSpan, collect_memory, current_memory_state, enforce_memory_gate, reset_peak_memory, synchronize
++from ..infrastructure.device import EventSpan, collect_memory, current_memory_state, enforce_memory_gate, reset_peak_memory, synchronize
+ from ..inference.sampling import sample
+ from ..inference.stopping import BlockStopController
+-from ..schemas import DFlashStats, GenerationOutput, GenerationSettings, TimingBreakdown
++from ..runtime.schemas import DFlashStats, GenerationOutput, GenerationSettings, TimingBreakdown
+ from .policy import BlockPolicy
+ from .verifier import TargetVerifier
+ 
+@@ -72,6 +72,7 @@ def generate_dflash(
+     reference_decode_started = False
+     first_draft_recorded = False
+     first_block_advance = 0
++    pending_block_profiles: list[tuple[dict[str, float | int], EventSpan, EventSpan]] = []
+ 
+     synchronize(target.device)
+     decode_start = time.perf_counter()
+@@ -107,9 +108,10 @@ def generate_dflash(
+         block_profile: dict[str, float | int] = {"block_size": physical_block_size}
+         if not first_draft_recorded:
+             first_draft_span.start()
++        draft_span = EventSpan(enabled=profile_components)
++        verify_span = EventSpan(enabled=profile_components)
+         if profile_components:
+-            synchronize(target.device)
+-            draft_start = time.perf_counter()
++            draft_span.start()
+         draft_hidden = drafter(
+             target_hidden=target_hidden.to(dtype=drafter_dtype),
+             noise_embedding=noise_embedding,
+@@ -131,9 +133,8 @@ def generate_dflash(
+             reference_decode_span.start()
+             reference_decode_started = True
+         if profile_components:
+-            synchronize(target.device)
+-            block_profile["draft_ms"] = (time.perf_counter() - draft_start) * 1000.0
+-            verify_start = time.perf_counter()
++            draft_span.stop()
++            verify_span.start()
+ 
+         verification = verifier.verify(
+             block_ids=block_ids,
+@@ -142,8 +143,7 @@ def generate_dflash(
+             full_audit=full_structural_audit,
+         )
+         if profile_components:
+-            synchronize(target.device)
+-            block_profile["verify_and_accept_ms"] = (time.perf_counter() - verify_start) * 1000.0
++            verify_span.stop()
+ 
+         stats.target_verification_calls += 1
+         stats.draft_tokens_proposed += proposal_count
+@@ -219,7 +219,7 @@ def generate_dflash(
+ 
+         if profile_components:
+             block_profile["tokens_advanced"] = emitted_from_block
+-            stats.block_profiles.append(block_profile)
++            pending_block_profiles.append((block_profile, draft_span, verify_span))
+ 
+         if stop_reason is None and settings.output_contract_mode == "block_boundary":
+             boundary = controller.block_boundary(generated)
+@@ -232,6 +232,10 @@ def generate_dflash(
+     if reference_decode_started:
+         reference_decode_span.stop()
+     synchronize(target.device)
++    for block_profile, draft_span, verify_span in pending_block_profiles:
++        block_profile["draft_ms"] = float(draft_span.elapsed_ms() or 0.0)
++        block_profile["verify_and_accept_ms"] = float(verify_span.elapsed_ms() or 0.0)
++        stats.block_profiles.append(block_profile)
+     decode_total_ms = (time.perf_counter() - decode_start) * 1000.0
+     generation_total_ms = (time.perf_counter() - request_start) * 1000.0
+     draft_prefill_ms = first_draft_span.elapsed_ms() if first_draft_recorded else None
+@@ -257,7 +261,7 @@ def generate_dflash(
+             steady_state_decode_ms=steady_state_decode_ms,
+             generation_total_ms=generation_total_ms,
+             warm_request_ms=generation_total_ms,
+-            profiling_invasive=profile_components,
++            profiling_invasive=False,
+         ),
+         memory=memory,
+         dflash=stats,
+@@ -269,5 +273,6 @@ def generate_dflash(
+             "first_block_advance": first_block_advance,
+             "gpu_resident_acceptance": gpu_resident_acceptance,
+             "allow_subblock_shapes": allow_subblock_shapes,
++            "component_profiling_enabled": profile_components,
+         },
+     )
+diff --git a/src/ccdf/dflash/verifier.py b/src/ccdf/dflash/verifier.py
+index f637f6a..2aef2b3 100644
+--- a/src/ccdf/dflash/verifier.py
++++ b/src/ccdf/dflash/verifier.py
+@@ -108,6 +108,8 @@ class TargetVerifier:
+             proposals=proposed,
+             posterior_ids=posterior_ids,
+             full_audit=full_audit,
++            correction_logits=output.logits[0],
++            temperature=self.temperature,
+         )
+         accepted = int(summary.accepted_count)
+         emitted = summary.proposals[:accepted] + [int(summary.correction_token_id)]
+diff --git a/src/ccdf/errors.py b/src/ccdf/errors.py
+deleted file mode 100644
+index a4d2ace..0000000
+--- a/src/ccdf/errors.py
++++ /dev/null
+@@ -1,21 +0,0 @@
+-"""Domain-specific exceptions."""
+-
+-
+-class Rec2Error(RuntimeError):
+-    """Base runtime error."""
+-
+-
+-class ConfigurationError(Rec2Error):
+-    """Configuration is missing or internally inconsistent."""
+-
+-
+-class ModelContractError(Rec2Error):
+-    """Loaded models do not satisfy the D-Flash contract."""
+-
+-
+-class MemoryBudgetError(Rec2Error):
+-    """The D-Flash stack exceeded its reserved-memory gate."""
+-
+-
+-class ReferenceValidationError(Rec2Error):
+-    """Rec-2 diverged from the pinned deterministic reference path."""
+diff --git a/src/ccdf/inference/baseline.py b/src/ccdf/inference/baseline.py
+index 26bd177..746ead5 100644
+--- a/src/ccdf/inference/baseline.py
++++ b/src/ccdf/inference/baseline.py
+@@ -8,8 +8,8 @@ from typing import Any
+ import torch
+ from transformers import DynamicCache
+ 
+-from ..device import collect_memory, current_memory_state, reset_peak_memory, synchronize
+-from ..schemas import GenerationOutput, GenerationSettings, TimingBreakdown
++from ..infrastructure.device import collect_memory, current_memory_state, reset_peak_memory, synchronize
++from ..runtime.schemas import GenerationOutput, GenerationSettings, TimingBreakdown
+ from .sampling import sample
+ from .stopping import BlockStopController
+ 
+diff --git a/src/ccdf/inference/sampling.py b/src/ccdf/inference/sampling.py
+index 03022f0..f77a4a3 100644
+--- a/src/ccdf/inference/sampling.py
++++ b/src/ccdf/inference/sampling.py
+@@ -11,3 +11,14 @@ def sample(logits: torch.Tensor, temperature: float = 0.0) -> torch.Tensor:
+     batch, sequence, vocab = logits.shape
+     probs = torch.softmax(logits.reshape(-1, vocab) / temperature, dim=-1)
+     return torch.multinomial(probs, num_samples=1).reshape(batch, sequence)
++
++
++def sample_verifier_logits(logits: torch.Tensor, temperature: float = 0.0) -> torch.Tensor:
++    """Greedy verifier selection stable across one-ULP block-shape rounding."""
++
++    if temperature >= 1e-5:
++        return sample(logits, temperature)
++    maximum = logits.amax(dim=-1, keepdim=True)
++    previous = torch.nextafter(maximum, torch.full_like(maximum, -torch.inf))
++    candidates = logits >= previous
++    return candidates.to(torch.uint8).argmax(dim=-1)
+diff --git a/src/ccdf/models/loaders.py b/src/ccdf/models/loaders.py
+index 108cfc7..31c4812 100644
+--- a/src/ccdf/models/loaders.py
++++ b/src/ccdf/models/loaders.py
+@@ -10,8 +10,8 @@ from typing import Any
+ import torch
+ 
+ from ..config import Rec2Config
+-from ..device import assert_cuda_only, attention_runtime_state
+-from ..errors import ConfigurationError, ModelContractError
++from ..infrastructure.device import assert_cuda_only, attention_runtime_state
++from ..core.errors import ConfigurationError, ModelContractError
+ 
+ 
+ def _dtype(name: str) -> torch.dtype:
+diff --git a/src/ccdf/runtime/__init__.py b/src/ccdf/runtime/__init__.py
+index 19bd3d5..533e545 100644
+--- a/src/ccdf/runtime/__init__.py
++++ b/src/ccdf/runtime/__init__.py
+@@ -1,5 +1,22 @@
+-"""Public runtime integration surface."""
++"""Public runtime integration surface.
+ 
+-from .engine import RuntimeEngine
++The engine is loaded lazily so low-level runtime schemas can be imported by
++infrastructure code without executing the full runtime dependency graph.
++"""
++
++from __future__ import annotations
++
++from typing import TYPE_CHECKING, Any
++
++if TYPE_CHECKING:
++    from .engine import RuntimeEngine
+ 
+ __all__ = ["RuntimeEngine"]
++
++
++def __getattr__(name: str) -> Any:
++    if name == "RuntimeEngine":
++        from .engine import RuntimeEngine
++
++        return RuntimeEngine
++    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+diff --git a/src/ccdf/runtime/engine.py b/src/ccdf/runtime/engine.py
+index bdef242..1aaf718 100644
+--- a/src/ccdf/runtime/engine.py
++++ b/src/ccdf/runtime/engine.py
+@@ -10,13 +10,13 @@ from typing import Any
+ import torch
+ 
+ from ..config import Rec2Config, load_config
+-from ..determinism import configure_determinism
+-from ..device import collect_memory, enforce_memory_gate, reset_peak_memory, synchronize
++from ..infrastructure.determinism import configure_determinism
++from ..infrastructure.device import collect_memory, enforce_memory_gate, reset_peak_memory, synchronize
+ from ..dflash.generate import generate_dflash
+ from ..dflash.policy import BlockPolicy
+ from ..inference.baseline import generate_baseline
+ from ..models.loaders import load_baseline, load_dflash_models, maybe_compile
+-from ..schemas import GenerationOutput, GenerationSettings
++from .schemas import GenerationOutput, GenerationSettings
+ 
+ 
+ class RuntimeEngine:
+diff --git a/src/ccdf/schemas.py b/src/ccdf/schemas.py
+deleted file mode 100644
+index 4f187be..0000000
+--- a/src/ccdf/schemas.py
++++ /dev/null
+@@ -1,138 +0,0 @@
+-"""Stable runtime result schemas."""
+-
+-from __future__ import annotations
+-
+-from dataclasses import asdict, dataclass, field
+-from typing import Any
+-
+-
+-@dataclass(frozen=True)
+-class GenerationSettings:
+-    max_new_tokens: int
+-    temperature: float
+-    stop_token_ids: tuple[int, ...]
+-    dataset: str = "general"
+-    block_size: int = 16
+-    output_contract_mode: str = "finalize_only"
+-
+-
+-@dataclass
+-class TimingBreakdown:
+-    prompt_prepare_ms: float = 0.0
+-    target_prefill_ms: float = 0.0
+-    draft_prefill_ms: float | None = None
+-    decode_total_ms: float = 0.0
+-    steady_state_decode_ms: float | None = None
+-    generation_total_ms: float = 0.0
+-    warm_request_ms: float = 0.0
+-    profiling_invasive: bool = False
+-
+-
+-@dataclass
+-class MemoryStats:
+-    allocated_before_bytes: int | None = None
+-    reserved_before_bytes: int | None = None
+-    peak_allocated_bytes: int = 0
+-    peak_reserved_bytes: int = 0
+-    allocated_after_bytes: int | None = None
+-    reserved_after_bytes: int | None = None
+-    free_bytes_after_request: int | None = None
+-    total_device_bytes: int | None = None
+-    limit_bytes: int | None = None
+-    gate_pass: bool | None = None
+-
+-
+-@dataclass
+-class DFlashStats:
+-    target_prefill_calls: int = 0
+-    target_verification_calls: int = 0
+-    target_single_token_calls: int = 0
+-    draft_forward_calls: int = 0
+-    acceptance_lengths: list[int] = field(default_factory=list)
+-    accepted_draft_tokens: int = 0
+-    draft_tokens_proposed: int = 0
+-    rollback_tokens: int = 0
+-    correction_tokens: int = 0
+-    bonus_tokens: int = 0
+-    block_sizes: list[int] = field(default_factory=list)
+-    block_profiles: list[dict[str, float | int]] = field(default_factory=list)
+-    structural_audit: list[dict[str, Any]] = field(default_factory=list)
+-
+-    @property
+-    def effective_tau(self) -> float:
+-        if not self.target_verification_calls:
+-            return 0.0
+-        return sum(self.acceptance_lengths) / self.target_verification_calls
+-
+-    @property
+-    def acceptance_rate(self) -> float:
+-        if not self.draft_tokens_proposed:
+-            return 0.0
+-        return self.accepted_draft_tokens / self.draft_tokens_proposed
+-
+-
+-@dataclass
+-class GenerationOutput:
+-    condition: str
+-    text: str
+-    prompt_tokens: int
+-    output_tokens: int
+-    generated_token_ids: list[int]
+-    stop_reason: str
+-    timing: TimingBreakdown
+-    memory: MemoryStats
+-    dflash: DFlashStats | None = None
+-    model: dict[str, Any] = field(default_factory=dict)
+-    runtime: dict[str, Any] = field(default_factory=dict)
+-
+-    @property
+-    def decode_tokens(self) -> int:
+-        """Tokens emitted after the first token produced by target prefill."""
+-        return max(self.output_tokens - 1, 0)
+-
+-    @property
+-    def decode_tok_s(self) -> float:
+-        if self.timing.decode_total_ms <= 0:
+-            return 0.0
+-        return self.decode_tokens / (self.timing.decode_total_ms / 1000.0)
+-
+-    @property
+-    def generation_tok_s(self) -> float:
+-        if self.timing.generation_total_ms <= 0:
+-            return 0.0
+-        return self.output_tokens / (self.timing.generation_total_ms / 1000.0)
+-
+-    @property
+-    def warm_request_tok_s(self) -> float:
+-        if self.timing.warm_request_ms <= 0:
+-            return 0.0
+-        return self.output_tokens / (self.timing.warm_request_ms / 1000.0)
+-
+-    @property
+-    def steady_state_decode_tok_s(self) -> float | None:
+-        elapsed = self.timing.steady_state_decode_ms
+-        if elapsed is None or elapsed <= 0:
+-            return None
+-        return self.decode_tokens / (elapsed / 1000.0) if self.decode_tokens else None
+-
+-    def to_dict(self) -> dict[str, Any]:
+-        payload = asdict(self)
+-        payload["metrics"] = {
+-            "decode_tokens": self.decode_tokens,
+-            "decode_tok_s": self.decode_tok_s,
+-            "generation_tok_s": self.generation_tok_s,
+-            "warm_request_tok_s": self.warm_request_tok_s,
+-            "steady_state_decode_tok_s": self.steady_state_decode_tok_s,
+-        }
+-        if self.dflash is not None:
+-            payload["dflash"]["effective_tau"] = self.dflash.effective_tau
+-            payload["dflash"]["draft_acceptance_rate"] = self.dflash.acceptance_rate
+-            total_target = (
+-                self.dflash.target_prefill_calls
+-                + self.dflash.target_verification_calls
+-                + self.dflash.target_single_token_calls
+-            )
+-            payload["dflash"]["target_forwards_per_output_token"] = (
+-                total_target / self.output_tokens if self.output_tokens else 0.0
+-            )
+-        return payload
+diff --git a/src/ccdf/validation/environment.py b/src/ccdf/validation/environment.py
+index b45e77f..333dc20 100644
+--- a/src/ccdf/validation/environment.py
++++ b/src/ccdf/validation/environment.py
+@@ -12,7 +12,7 @@ from typing import Any
+ import torch
+ 
+ from ..config import Rec2Config
+-from ..errors import ConfigurationError
++from ..core.errors import ConfigurationError
+ 
+ 
+ def _package_version(*names: str) -> str | None:
+diff --git a/src/ccdf/validation/quality.py b/src/ccdf/validation/quality.py
+index fb5832a..d286340 100644
+--- a/src/ccdf/validation/quality.py
++++ b/src/ccdf/validation/quality.py
+@@ -99,9 +99,15 @@ def _answer_checks(prompt_index: int, answer: str) -> dict[str, bool]:
+     checks_by_prompt = (
+         {"answer_value_12": _number(answer, "12")},
+         {
+-            "answer_general_zero_rule": _phrase(
+-                answer,
+-                rf"\b(?:any|every|all)\s+(?:number|value)s?\b.*\bmultipl(?:y|ied|ying)\b.*\bby\s+{zero}\b.*\b(?:equals?|is|gives?|results?\s+in)\s+{zero}\b",
++            "answer_general_zero_rule": (
++                _phrase(
++                    answer,
++                    rf"\b(?:any|every|all)\s+(?:number|value)s?\b.*\bmultipl(?:y|ied|ying)\b.*\bby\s+{zero}\b.*\b(?:equals?|is|gives?|results?\s+in)\s+{zero}\b",
++                )
++                or _phrase(
++                    answer,
++                    rf"\bproduct\s+of\s+(?:any|every|all)\s+(?:number|value)s?\s+and\s+{zero}\s+(?:equals?|is)\s+{zero}\b",
++                )
+             )
+         },
+         {"answer_value_20": _number(answer, "20")},

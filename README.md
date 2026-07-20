@@ -1,150 +1,383 @@
-# CCDF — Context-Compressed Decoding Flash
+# CC-DFlash
 
-CCDF is an offline, artifact-first research runtime for measuring context compression with a locked local Qwen3 target. It compares cached autoregressive decoding with target-verified DFlash decoding, with optional LLMLingua2 context compression. It is designed to make timing, output health, token reduction, resource peaks, evaluator inputs, and source provenance inspectable after a run.
+**Context-Compressed DFlash** là project nghiên cứu kết hợp **prompt/context compression** với **DFlash speculative decoding** nhằm giảm lượng token đầu vào và tăng tốc quá trình sinh văn bản trên GPU phổ thông.
 
-## Architecture
+Project sử dụng:
 
-`ccdf` resolves a locked condition from `configs/reconstruction.yml`, loads local models, renders a structured prompt, optionally compresses only its context, generates with Baseline-AR or DFlash, and writes immutable JSONL plus manifests. Benchmark conditions run one per process, so model cleanup and resource accounting are isolated per condition.
+- **Target model:** Qwen3-4B-AWQ
+- **Draft model:** Qwen3-4B-DFlash-b16
+- **Compressor:** LLMLingua-2 XLM-RoBERTa Large MeetingBank
+- **Backend:** PyTorch + Hugging Face Transformers
+- **Demo:** FastAPI + Vite/React
+- **Phần cứng kiểm thử:** NVIDIA GeForce RTX 4070 Laptop GPU, khoảng 8 GB VRAM
 
-- Baseline-AR: quantized target cached autoregressive decoding.
-- DFlash: target-verified block decoding with a locked drafter.
-- LLMLingua-AR: LLMLingua2 context compression followed by Baseline-AR.
-- CC-DFlash: LLMLingua2 context compression followed by DFlash.
-- `*-gpu` variants request a CUDA-resident compressor. Every discovered compressor parameter and buffer must be CUDA; mixed or CPU placement is rejected.
+> Final benchmark đã hoàn tất với `n=20` trên GSM8K và QMSum. Kết quả cho thấy DFlash tăng tốc decode rõ rệt, nhưng CC-DFlash chưa tạo lợi ích end-to-end do compression overhead và chưa giữ được chất lượng trên GSM8K short prompts.
 
-GSM8K short contexts may bypass compression. In that case the compressor is not loaded and the result records this fact.
+---
 
-## Verified Rec-T06D / Rec-T07 results
+## 1. Kiến trúc
 
-The preserved Rec-T06D CPU evidence and final synchronized Rec-T07 GPU rerun show QMSum GPU compression reducing mean LLMLingua compression time from 2858.357 ms to 177.925 ms (16.06x) and CC-DFlash compression from 2810.884 ms to 177.467 ms (15.84x). The long-context GPU rows retain 52.066% mean full-prompt reduction and 100/100 observed output and compressed-input hash matches with their CPU counterpart; QMSum semantic correctness remains `NOT_CLAIMED`. GPU compression increases process VRAM; see [the final synchronized report](results/Rec-T07-Final/final_report.md) and [comparison table](results/Rec-T07-Final/final_cpu_gpu_summary.csv). The older unsynchronized analysis remains preserved in [Rec-T07](results/Rec-T07/combined_report.md).
+<p align="center">
+  <img src="docs/imgs/ccdf-arc.png" alt="CC-DFlash Architecture" width="900">
+</p>
 
-These are benchmark observations, not universal performance guarantees. QMSum semantic correctness is **NOT_CLAIMED**; its evaluator reports lexical/reference proxy metrics only. Exact cached-AR token equivalence and lossless quantization are not claimed.
+| Kiến trúc | Input | Decoding |
+|---|---|---|
+| Baseline-AR | Prompt gốc | Autoregressive |
+| DFlash | Prompt gốc | Draft + Verify |
+| CC-DFlash | Prompt đã nén | Draft + Verify |
 
-## Requirements
+Trong benchmark nghiên cứu, project dùng đủ bốn điều kiện:
 
-- Linux with Python 3.10–3.12.
-- A local checkout, local fixture data, and local locked target/drafter/compressor directories referenced by `configs/reconstruction.yml`.
-- PyTorch, Transformers, bitsandbytes, LLMLingua, and their compatible CUDA stack for model execution. The project package itself declares only its lightweight dependency; ML dependencies are environment-specific.
-- For GPU compressor variants: a visible CUDA device and a locally cached tiktoken `cl100k_base` encoding. CCDF does not download models or tokenizer assets at runtime.
+| ID | Điều kiện | Compression | Decoding |
+|---|---|---|---|
+| C1 | Baseline-AR | Không | Autoregressive |
+| C2 | DFlash-R1 | Không | DFlash |
+| C3 | LLMLingua-AR-R2 | Có | Autoregressive |
+| C4 | CC-DFlash-R2 | Có | DFlash |
 
-## Fresh-clone installation
+C3 được giữ lại để tách riêng ảnh hưởng của compression khỏi ảnh hưởng của DFlash.
 
-Clone the repository, provision the local model/data directories required by `configs/reconstruction.yml`, then create an environment and install the package. Install the ML stack appropriate to the target CUDA environment before using inference.
+---
 
-```bash
-git clone <repository-url> CCDF
-cd CCDF
-python -m venv .venv
-. .venv/bin/activate
-python -m pip install -e .
-python -m ccdf --help
-python -m ccdf paths
+## 2. Điểm nổi bật
+
+- Runtime DFlash độc lập cho target model AWQ.
+- Four-condition benchmark với raw JSONL, manifest, checksum và audit.
+- Prompt compression bằng LLMLingua-2 trên CPU hoặc CUDA.
+- Fact safeguard cho short mathematical prompts.
+- Query-aware context selection cho QMSum long context.
+- Compression cache dùng chung giữa C3 và C4.
+- Resume/checkpoint theo từng condition.
+- Live demo chạy prompt bất kỳ.
+- Streaming token thật từ generation loop qua Server-Sent Events.
+- Metric live tách riêng generation latency, compression latency và pipeline E2E.
+
+---
+
+## 3. Kết quả final benchmark n=20
+
+### 3.1 Chất lượng
+
+| Dataset | C1 Baseline-AR | C2 DFlash-R1 | C3 LLMLingua-AR-R2 | C4 CC-DFlash-R2 |
+|---|---:|---:|---:|---:|
+| GSM8K Numeric EM | **18/20** | **18/20** | **15/20** | **15/20** |
+| QMSum ROUGE-L F1 | 0.1914 | **0.1984** | 0.1933 | 0.1922 |
+
+Diễn giải:
+
+- DFlash giữ cùng Numeric EM với Baseline-AR trên GSM8K.
+- Compression làm GSM8K giảm từ `18/20` xuống `15/20`.
+- QMSum giữ lexical-overlap proxy gần baseline.
+- ROUGE-L chỉ đo mức trùng khớp chuỗi từ với reference; điểm gần nhau không chứng minh semantic correctness.
+
+### 3.2 Decode throughput
+
+Đơn vị: `tok/s`, chỉ tính generation path và không bao gồm compression overhead.
+
+| Dataset | C1 | C2 | C3 | C4 |
+|---|---:|---:|---:|---:|
+| GSM8K | 31.98 | **114.64** | 31.64 | 110.45 |
+| QMSum | 22.74 | **41.60** | 23.86 | 40.90 |
+
+DFlash đạt khoảng:
+
+- **3.58×** throughput của Baseline-AR trên GSM8K.
+- **1.83×** throughput của Baseline-AR trên QMSum.
+
+### 3.3 Input-token reduction
+
+#### GSM8K
+
+```text
+96.25 → 94.05 tokens/sample
+Giảm 2.20 tokens/sample
+Reduction: 2.27%
 ```
 
-`python -m ccdf paths` reports the resolved logical/worktree path metadata. It is a safe first check that does not load a model.
+Short prompts chứa ít phần dư nên LLMLingua-2 chỉ giảm rất ít token.
 
-## Configuration and model/dataset setup
+#### QMSum
 
-`configs/reconstruction.yml` is the source of truth for conditions, fixed model identities, local paths, prompt policies, fixtures, and execution settings. Do not edit raw result manifests to redirect paths. Place local assets at the configured locations (or update the configuration deliberately and rerun a noncanonical validation); CCDF does not fetch them.
-
-The required condition names are `baseline-ar`, `dflash-r1`, `llmlingua-ar-r2`, `cc-dflash-r2`, `llmlingua-ar-r2-gpu`, and `cc-dflash-r2-gpu`. GPU variants are valid only when CUDA placement verification succeeds.
-
-## Quick start and single-prompt demo
-
-After activation, use the module entry point (or the equivalent installed `ccdf` script). Set `PYTHONPATH=src` only when running directly from an uninstalled checkout.
-
-```bash
-. .venv/bin/activate
-python -m ccdf paths
-python -m ccdf run --condition baseline-ar --prompt 'What is 2 + 2?'
-python -m ccdf run --condition baseline-ar --prompt 'What is 2 + 2?' --format json
+```text
+Full transcript:           11,675.65 tokens/sample
+Query-selected context:       932.35 tokens/sample
+Final effective context:      846.80 tokens/sample
 ```
 
-To run the full three-way comparison interactive UI:
+Tính từ hai mean token counts đầu–cuối:
 
-1. Start the FastAPI backend server on `127.0.0.1:8000` (disabling internet access as required for offline execution):
-
-```bash
-. .venv/bin/activate
-PYTHONPATH="$PWD/src:$PWD" TRANSFORMERS_OFFLINE=1 HF_HUB_OFFLINE=1 python -m uvicorn frontend.api.app:app --host 127.0.0.1 --port 8000
+```text
+11,675.65 → 846.80 tokens/sample
+Giữ lại: 7.25%
+Loại khỏi final input: 92.75%
 ```
 
-1. Start the Vite frontend development server in a new terminal:
+Phần lớn mức giảm đến từ **query-aware context selection**. LLMLingua-2 chỉ nén thêm context đã được chọn:
+
+```text
+932.35 → 846.80 tokens/sample
+Giảm thêm khoảng 9.18%
+```
+
+Không nên diễn giải rằng LLMLingua-2 tự nén toàn bộ transcript xuống 846.80 token.
+
+### 3.4 Pipeline E2E latency
+
+| Dataset | DFlash-R1 | CC-DFlash-R2 | Delta |
+|---|---:|---:|---:|
+| GSM8K | 1126.05 ms | 1176.28 ms | **+4.46% chậm hơn** |
+| QMSum | 2012.81 ms | 2843.05 ms | **+41.25% chậm hơn** |
+
+Chi tiết CC-DFlash:
+
+| Dataset | Compression | Generation | Pipeline E2E |
+|---|---:|---:|---:|
+| GSM8K | 87.16 ms | 1089.12 ms | 1176.28 ms |
+| QMSum | 619.75 ms | 2223.29 ms | 2843.05 ms |
+
+Kết luận: decode có thể nhanh, nhưng lợi ích generation chưa đủ bù compression overhead trong cấu hình final.
+
+---
+
+## 4. Trạng thái kết quả
+
+```text
+FINAL_BENCHMARK_COMPLETE
+```
+
+Các kết luận được hỗ trợ:
+
+- DFlash tăng decode throughput so với autoregressive decoding.
+- DFlash giảm generation latency trên cùng target model.
+- Query-aware selection giảm mạnh long-context input.
+- QMSum lexical overlap gần baseline trong protocol hiện tại.
+
+Các kết luận không được khẳng định:
+
+- CC-DFlash nhanh hơn DFlash end-to-end.
+- GSM8K quality được bảo toàn sau compression.
+- LLMLingua-2 tạo ra toàn bộ mức giảm context trên QMSum.
+- QMSum semantic correctness được bảo toàn.
+- Dataset exact-token parity luôn đạt tuyệt đối.
+
+---
+
+## 5. Yêu cầu hệ thống
+
+### Phần cứng tham chiếu
+
+- NVIDIA GPU hỗ trợ CUDA.
+- Khoảng 8 GB VRAM cho cấu hình đã kiểm thử.
+- RAM đủ để tải target, draft và compressor theo policy hiện tại.
+
+### Phần mềm
+
+- Linux hoặc WSL2.
+- Python `3.10–3.12`.
+- Conda được khuyến nghị.
+- CUDA-compatible PyTorch.
+- Node.js cho frontend Vite.
+
+Môi trường final đã kiểm thử với:
+
+```text
+Python       3.12.x
+PyTorch      2.9.1 + CUDA 12.6
+Transformers 4.57.3
+GPU          RTX 4070 Laptop GPU
+```
+
+---
+
+## 6. Cấu trúc thư mục
+
+```text
+CCDF-Rework/
+├── config.yml
+├── pyproject.toml
+├── requirements.txt
+├── README.md
+├── instruction.md
+│
+├── src/ccdf/
+│   ├── api/                    # FastAPI live-demo backend
+│   ├── benchmark/
+│   │   └── four_condition/     # C1–C4 runner, manifest và audit
+│   ├── compression/            # LLMLingua-2 và safeguard
+│   ├── datasets/               # GSM8K/QMSum prompt pipeline
+│   ├── dflash/                 # Draft, verify và acceptance
+│   ├── evaluation/             # Dataset evaluators
+│   ├── frontend/               # Vite + React frontend
+│   └── runtime/                # Model/runtime engine
+│
+├── scripts/
+│   ├── run_four_condition.py
+│   ├── run_demo_backend.sh
+│   └── run_demo_frontend.sh
+│
+├── tests/
+├── data/eval/
+├── docs/
+│   ├── CC-DFlash-Overview.html
+│   ├── Roadmap.html
+│   ├── final-benchmark-n20/
+│   └── reviews/
+│
+└── models/
+    ├── baseline/
+    ├── dflash/
+    └── compressor/
+```
+
+`models/`, caches, local environments và `.worktrees/` không nên được commit lên Git.
+
+---
+
+## 7. Cài đặt
+
+### 7.1 Tạo môi trường Conda
 
 ```bash
-cd frontend
+conda create -n CCDF python=3.12 -y
+conda activate CCDF
+```
+
+### 7.2 Cài PyTorch CUDA
+
+Cài bản PyTorch phù hợp với driver/CUDA của máy trước. Không nên để `pip` tự thay bản CUDA đã hoạt động ổn định.
+
+Kiểm tra:
+
+```bash
+python - <<'PY'
+import torch
+
+print("torch:", torch.__version__)
+print("cuda runtime:", torch.version.cuda)
+print("cuda available:", torch.cuda.is_available())
+
+if torch.cuda.is_available():
+    print("device:", torch.cuda.get_device_name(0))
+PY
+```
+
+### 7.3 Cài dependencies
+
+Cách đơn giản:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Hoặc cài editable theo nhóm:
+
+```bash
+python -m pip install -e ".[awq,demo,dev,data,profile]"
+```
+
+Kiểm tra package:
+
+```bash
+python -c "import ccdf; print('CCDF import: PASS')"
+```
+
+> AutoAWQ trong môi trường final sử dụng compatibility patch cho Transformers 4.57.3. Không tự ý nâng Transformers mà chưa chạy lại model-loading tests.
+
+---
+
+## 8. Chuẩn bị model
+
+### Tải model từ Hugging Face
+
+Cài hoặc cập nhật Hugging Face CLI:
+
+```bash
+python -m pip install -U huggingface_hub
+```
+
+### Tải các mô hình cần thiết:
+
+```bash
+mkdir -p \
+  models/baseline \
+  models/dflash \
+  models/compressor
+
+hf download Qwen/Qwen3-4B-AWQ \
+  --local-dir models/baseline/Qwen3-4B-AWQ
+
+hf download z-lab/Qwen3-4B-DFlash-b16 \
+  --local-dir models/dflash/Qwen3-4B-DFlash-b16
+
+hf download microsoft/llmlingua-2-xlm-roberta-large-meetingbank \
+  --local-dir models/compressor/llmlingua-2-xlm-roberta-large-meetingbank
+```
+
+Các đường dẫn mặc định được quản lý trong `config.yml`. Cấu trúc tham chiếu:
+
+```text
+models/
+├── baseline/
+│   └── Qwen3-4B-AWQ/
+├── dflash/
+│   └── Qwen3-4B-DFlash-b16/
+└── compressor/
+    └── llmlingua-2-xlm-roberta-large-meetingbank/
+```
+
+Model weights không được phân phối trong repository.
+
+Trước khi chạy benchmark, kiểm tra:
+
+- model path tồn tại;
+- tokenizer/config tương thích;
+- CUDA khả dụng;
+- target model load bằng AWQ;
+- compressor chạy đúng CPU/CUDA theo config.
+
+---
+
+## 9. Live demo
+
+Live demo nhận **prompt bất kỳ** và chạy tuần tự:
+
+```text
+Baseline-AR → DFlash → Compression → CC-DFlash → Compare
+```
+
+Output được stream từ model loop thật:
+
+- Baseline-AR stream token ngay sau khi target commit.
+- DFlash/CC-DFlash chỉ stream token đã accepted hoặc correction token sau verify.
+- Không stream draft proposal chưa được xác minh.
+- Không giả lập streaming bằng timer.
+
+### 9.1 Chạy backend
+
+```bash
+conda activate CCDF
+python -m src.ccdf.api
+```
+
+Hoặc:
+
+```bash
+uvicorn src.ccdf.api.app:app \
+  --host 127.0.0.1 \
+  --port 8000 \
+  --reload
+```
+
+### 9.2 Chạy frontend
+
+Dùng package manager tương ứng với lockfile hiện tại:
+
+```bash
+cd src/ccdf/frontend
+npm install
 npm run dev
 ```
 
-Open the provided local URL (e.g. `http://localhost:5173`) in your browser.
+Vite proxy `/api` tới backend tại `http://127.0.0.1:8000`.
 
-The last two commands load the local target model. A context/question demo uses the QMSum prompt shape:
-
-```bash
-python -m ccdf run --condition llmlingua-ar-r2 \
-  --context-file meeting.txt --question 'What decision was made?'
-```
-
-## CLI reference
-
-```text
-python -m ccdf run --condition CONDITION (--prompt TEXT | --context-file FILE --question TEXT | --dataset DATASET --fixture-id ID)
-                    [--profile] [--save] [--format text|json]
-python -m ccdf benchmark --dataset gsm8k|qmsum --subset n10|n30|n100
-                          --conditions CONDITION[,CONDITION...] --output DIRECTORY
-                          [--limit N] [--evaluate] [--task-id ID]
-                          [--execution-mode benchmark|profiling|smoke]
-python -m ccdf evaluate --run-dir DIRECTORY
-python -m ccdf paths
-```
-
-`run --profile` selects profiling measurement mode. `run --save` writes the CLI artifact under the configured results root. `benchmark --evaluate` evaluates the newly created run directory; `evaluate` recomputes summaries from stored raw outputs and references without loading inference models. A limited run or a dirty source tree is noncanonical by design.
-
-## Benchmark and evaluation examples
-
-The following commands are valid CLI forms, but n=100 is intentionally expensive and should not overwrite preserved evidence directories.
-
-```bash
-python -m ccdf benchmark --dataset gsm8k --subset n10 \
-  --conditions baseline-ar,dflash-r1 --output /tmp/ccdf-gsm8k-n10 \
-  --limit 3 --task-id local-smoke --execution-mode smoke --evaluate
-python -m ccdf evaluate --run-dir /tmp/ccdf-gsm8k-n10
-```
-
-## Artifact layout
-
-A benchmark output directory contains `benchmark_manifest.json`, `resolved_config.json` and its hash, one condition JSONL plus worker manifest per condition, `evaluation_manifest.json`, `performance_summary.json`, `resource_summary.json`, `compression_summary.json`, quality summaries, failure samples, and CSV summaries. Parent/worker hashes bind source/configuration/fixture order and evaluation inputs.
-
-`results/Rec-T06D` and `results/Rec-T07` are preserved n=100 evidence. `results/Rec-T07-Final` contains the synchronized n=3 validation, the final n=100 GPU-only rerun, audit, comparison, and freeze evidence.
-
-## Testing and reproducibility
-
-From an activated development environment:
-
-```bash
-python -m compileall -q src
-python -m pytest -q
-python -m pytest -q tests/test_rec_t07_gpu_hotfix.py
-```
-
-The focused hotfix tests cover all-tensor CUDA placement, rejected CPU fallback, bypass composition, GPU allocation-delta fields, and execution metadata. Reproduction must retain the locked model/data identities and record source state through the canonical benchmark workflow.
-
-## Limitations and claim boundaries
-
-- QMSum semantic correctness is **NOT_CLAIMED**.
-- GPU compressor performance cannot be inferred from GSM8K bypass rows.
-- CUDA peak allocation/reservation are process measurements. Isolated target and drafter byte attribution is explicitly unsupported.
-- The runtime will fail rather than silently use a CPU compressor for a requested GPU condition.
-- Model/data acquisition and ML dependency installation are operator responsibilities; no runtime download path is documented or supported.
-
-## Project structure
-
-- `src/ccdf/` — runtime, compression, DFlash, benchmark, evaluator, config, and CLI implementation.
-- `configs/` — locked reconstruction configuration.
-- `data/` and `models/` — locally provisioned fixtures and checkpoints (not fetched by CCDF).
-- `results/` — benchmark evidence, reports, and audits.
-- `tests/` — contract and regression tests.
-
-## License, citation, and contributing
-
-See the repository license and metadata for the applicable license. When citing results, cite the exact run directories and manifests, including model/data hashes and source provenance. Contributions should preserve the offline contract, canonical provenance checks, and claim boundaries; run the test suite and avoid replacing preserved benchmark evidence without an explicit benchmark task.

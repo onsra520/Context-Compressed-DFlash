@@ -1,0 +1,24 @@
+{
+  "datasets": {
+    "gsm8k": {
+      "condition_quality_means": {
+        "C1": 0.9,
+        "C2": 0.9,
+        "C3": 0.75,
+        "C4": 0.75
+      },
+      "recompute_failures": []
+    },
+    "qmsum": {
+      "condition_quality_means": {
+        "C1": 0.19143806836076255,
+        "C2": 0.19841714156468362,
+        "C3": 0.19326958592879812,
+        "C4": 0.19215339210813284
+      },
+      "recompute_failures": []
+    }
+  },
+  "pass": true,
+  "schema": "ccdf.final-benchmark-n20.recomputed-metrics.v1"
+}

@@ -1,0 +1,33 @@
+{
+  "checks": {
+    "compressor_requests_cuda": true,
+    "config_matches_promoted_v5_run": true,
+    "cuda_available": true,
+    "deterministic_n20_counts": true,
+    "fresh_final_cache_paths": true,
+    "generation_limits_frozen": true,
+    "gpu_compute_owner_free": true,
+    "gpu_query_healthy": true,
+    "gsm8k_instruction_v5_frozen": true,
+    "gsm8k_not_v4_prompt_hashes": true,
+    "model_identities_frozen": true,
+    "n10_prefix_preserved": true,
+    "qmsum_query_aware_evidence_complete": true,
+    "runtime_sdpa_math": true,
+    "runtime_seed_42": true,
+    "runtime_temperature_zero": true,
+    "runtime_thinking_disabled": true,
+    "sample_files_match_manifest": true,
+    "selection_does_not_accept_reference": true
+  },
+  "compute_processes": [],
+  "gpu": [
+    "0, NVIDIA GeForce RTX 4070 Laptop GPU, 8188 MiB, 10 MiB, 7799 MiB, 0 %"
+  ],
+  "pass": true,
+  "sample_file_sha256": {
+    "gsm8k": "2b54cf657d3e0baf95f8c558868d6fea65d83e9d7edf9838605dbc7fa84b4270",
+    "qmsum": "3bb3265dd0c614cf4ae625aba75bfb4f56221e0a3d6e2056ce1a715aec05ec76"
+  },
+  "schema": "ccdf.final-benchmark-n20.preflight.v1"
+}

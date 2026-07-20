@@ -1,0 +1,241 @@
+{
+  "datasets": {
+    "gsm8k": {
+      "coordinates": [
+        {
+          "upstream_row_index": 784
+        },
+        {
+          "upstream_row_index": 807
+        },
+        {
+          "upstream_row_index": 446
+        },
+        {
+          "upstream_row_index": 629
+        },
+        {
+          "upstream_row_index": 307
+        },
+        {
+          "upstream_row_index": 51
+        },
+        {
+          "upstream_row_index": 664
+        },
+        {
+          "upstream_row_index": 104
+        },
+        {
+          "upstream_row_index": 766
+        },
+        {
+          "upstream_row_index": 733
+        },
+        {
+          "upstream_row_index": 453
+        },
+        {
+          "upstream_row_index": 772
+        },
+        {
+          "upstream_row_index": 1083
+        },
+        {
+          "upstream_row_index": 1272
+        },
+        {
+          "upstream_row_index": 725
+        },
+        {
+          "upstream_row_index": 1247
+        },
+        {
+          "upstream_row_index": 245
+        },
+        {
+          "upstream_row_index": 954
+        },
+        {
+          "upstream_row_index": 796
+        },
+        {
+          "upstream_row_index": 221
+        }
+      ],
+      "extension": [
+        {
+          "upstream_row_index": 453
+        },
+        {
+          "upstream_row_index": 772
+        },
+        {
+          "upstream_row_index": 1083
+        },
+        {
+          "upstream_row_index": 1272
+        },
+        {
+          "upstream_row_index": 725
+        },
+        {
+          "upstream_row_index": 1247
+        },
+        {
+          "upstream_row_index": 245
+        },
+        {
+          "upstream_row_index": 954
+        },
+        {
+          "upstream_row_index": 796
+        },
+        {
+          "upstream_row_index": 221
+        }
+      ],
+      "locked_prefix_count": 10
+    },
+    "qmsum": {
+      "coordinates": [
+        {
+          "meeting_index": 29,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 18,
+          "query_index": 0
+        },
+        {
+          "meeting_index": 33,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 1,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 13,
+          "query_index": 1
+        },
+        {
+          "meeting_index": 15,
+          "query_index": 5
+        },
+        {
+          "meeting_index": 3,
+          "query_index": 1
+        },
+        {
+          "meeting_index": 0,
+          "query_index": 5
+        },
+        {
+          "meeting_index": 25,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 13,
+          "query_index": 9
+        },
+        {
+          "meeting_index": 33,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 21,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 24,
+          "query_index": 6
+        },
+        {
+          "meeting_index": 0,
+          "query_index": 10
+        },
+        {
+          "meeting_index": 15,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 27,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 10,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 14,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 20,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 10,
+          "query_index": 2
+        }
+      ],
+      "extension": [
+        {
+          "meeting_index": 33,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 21,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 24,
+          "query_index": 6
+        },
+        {
+          "meeting_index": 0,
+          "query_index": 10
+        },
+        {
+          "meeting_index": 15,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 27,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 10,
+          "query_index": 4
+        },
+        {
+          "meeting_index": 14,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 20,
+          "query_index": 2
+        },
+        {
+          "meeting_index": 10,
+          "query_index": 2
+        }
+      ],
+      "locked_prefix_count": 10
+    }
+  },
+  "policy": "locked_n10_prefix_then_seed42_sha256_coordinate_rank",
+  "ranking_payload": {
+    "encoding": "canonical-json-utf8",
+    "keys": [
+      "dataset",
+      "seed",
+      "coordinate"
+    ]
+  },
+  "reference_used_for_selection": false,
+  "schema": "ccdf.final-benchmark-n20.selection.v1",
+  "seed": 42,
+  "target_count": 20
+}

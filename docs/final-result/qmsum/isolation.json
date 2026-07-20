@@ -1,0 +1,93 @@
+{
+  "boundaries": [
+    {
+      "captured_at": "2026-07-19T20:35:00.607121+00:00",
+      "command": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "compute_processes": [],
+      "label": "before-qmsum-C1",
+      "schema": "ccdf.gpu-boundary-state.v1"
+    },
+    {
+      "captured_at": "2026-07-19T20:36:11.005815+00:00",
+      "command": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "compute_processes": [],
+      "label": "after-qmsum-C1",
+      "schema": "ccdf.gpu-boundary-state.v1"
+    },
+    {
+      "captured_at": "2026-07-19T20:36:12.324056+00:00",
+      "command": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "compute_processes": [],
+      "label": "before-qmsum-C2",
+      "schema": "ccdf.gpu-boundary-state.v1"
+    },
+    {
+      "captured_at": "2026-07-19T20:37:02.325884+00:00",
+      "command": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "compute_processes": [],
+      "label": "after-qmsum-C2",
+      "schema": "ccdf.gpu-boundary-state.v1"
+    },
+    {
+      "captured_at": "2026-07-19T20:37:03.720479+00:00",
+      "command": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "compute_processes": [],
+      "label": "before-qmsum-C3",
+      "schema": "ccdf.gpu-boundary-state.v1"
+    },
+    {
+      "captured_at": "2026-07-19T20:38:16.955979+00:00",
+      "command": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "compute_processes": [],
+      "label": "after-qmsum-C3",
+      "schema": "ccdf.gpu-boundary-state.v1"
+    },
+    {
+      "captured_at": "2026-07-19T20:38:18.274743+00:00",
+      "command": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "compute_processes": [],
+      "label": "before-qmsum-C4",
+      "schema": "ccdf.gpu-boundary-state.v1"
+    },
+    {
+      "captured_at": "2026-07-19T20:39:12.236775+00:00",
+      "command": [
+        "nvidia-smi",
+        "--query-compute-apps=pid,process_name,used_memory",
+        "--format=csv,noheader"
+      ],
+      "compute_processes": [],
+      "label": "after-qmsum-C4",
+      "schema": "ccdf.gpu-boundary-state.v1"
+    }
+  ],
+  "schema": "ccdf.condition-isolation.v1"
+}
