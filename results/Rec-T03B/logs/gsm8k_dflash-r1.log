@@ -1,1 +1,0 @@
-{"condition": "dflash-r1", "dataset": "gsm8k", "dataset_manifest_hash": "45d50bac9cd425b509bdcda119c5b7ce295e1acac655ffec1eb0ca3ab21240b7", "model_init_ms": 3625.432330998592, "output": "results/Rec-T03B/runs/gsm8k_dflash_r1.jsonl", "rows": 10, "source_commit": "5601265da18b321b454ea5e42ffdf77caf9519be"}

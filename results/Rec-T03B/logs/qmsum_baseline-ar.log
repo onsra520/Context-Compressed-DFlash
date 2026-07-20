@@ -1,1 +1,0 @@
-{"condition": "baseline-ar", "dataset": "qmsum", "dataset_manifest_hash": "429a8aac613a9def9e81761d510df68a2c38d6e8fb097b8ffb1b2cfb11160152", "model_init_ms": 3260.9029529994586, "output": "results/Rec-T03B/runs/qmsum_baseline_ar.jsonl", "rows": 10, "source_commit": "5601265da18b321b454ea5e42ffdf77caf9519be"}

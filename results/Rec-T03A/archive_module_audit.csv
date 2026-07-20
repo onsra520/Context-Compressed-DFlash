@@ -1,4 +1,0 @@
-module,source,decision,notes
-dflash/utils.py,models/drafter/z-lab--Qwen3-4B-DFlash-b16/utils.py,selectively_reimplemented,"build_target_layer_ids, sample, extract_context_feature audited; dataset glue excluded"
-dflash/generate.py,models/drafter/z-lab--Qwen3-4B-DFlash-b16/dflash.py,selectively_reimplemented,spec_generate adapted to return counters; no archive import
-dflash/loader.py,models/drafter/z-lab--Qwen3-4B-DFlash-b16/config.json,new_local_loader,local_files_only config/model loading

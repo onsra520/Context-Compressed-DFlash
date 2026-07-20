@@ -1,1 +1,0 @@
-{"gsm8k":{"baseline-ar":{"strict_correct":4,"wrong_numeric":6},"dflash-r1":{"invalid":2,"strict_correct":4,"wrong_numeric":4}},"qmsum":{"baseline-ar":{"proxy_not_semantic":10},"dflash-r1":{"proxy_not_semantic":10}}}

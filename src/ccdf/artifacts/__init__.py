@@ -1,1 +1,0 @@
-"""Artifact writer utilities."""

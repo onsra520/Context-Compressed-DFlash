@@ -1,4 +1,0 @@
-fixture,backend,segment_original_tokens,segment_compressed_tokens,segment_tokenizer_id,target_tokenizer_id,precompression_target_prompt_tokens,final_target_prompt_tokens,full_prompt_retained_ratio,full_prompt_reduction_pct,tokenizer_scopes_separate
-gsm8k_fixture,passthrough_short_context,3,3,passthrough-whitespace,models/target/unsloth--Qwen3-4B-bnb-4bit,87,87,1.0,0.0,True
-qmsum_short,llmlingua,1975,908,llmlingua2:models/llmlingua-2-bert-base-multilingual-cased-meetingbank,models/target/unsloth--Qwen3-4B-bnb-4bit,1921,915,0.47631441957313897,52.3685580426861,True
-qmsum_long,llmlingua,1975,908,llmlingua2:models/llmlingua-2-bert-base-multilingual-cased-meetingbank,models/target/unsloth--Qwen3-4B-bnb-4bit,1918,912,0.4754953076120959,52.45046923879041,True

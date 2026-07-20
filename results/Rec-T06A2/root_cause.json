@@ -1,6 +1,0 @@
-{
-  "status": "UNRESOLVED",
-  "decision": "NF4 efficient exact-parity DFlash compatibility unsupported on the tested SDPA/bfloat16 path.",
-  "root_cause": "A one-forward-per-block target verifier diverges from cached autoregressive Baseline before any cache-state invariant fails. The frozen QMSum fixture first diverged at emitted token 16 with SDPA and token 56 with eager attention.",
-  "next_action": "Use an upstream-supported target/backend for an efficient exact-parity DFlash claim, or retain NF4 only as an ablation with a revised claim boundary."
-}

@@ -1,4 +1,0 @@
- M .gitignore
-?? frontend/
-?? results/Rec-T06A2/
-?? results/current-source-review/

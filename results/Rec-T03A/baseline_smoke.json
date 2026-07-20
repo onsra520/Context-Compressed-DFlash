@@ -1,1 +1,0 @@
-{"device":"cuda:0","elapsed_ms":3421.363300003577,"generated_text":" 4","output_token_count":2,"pass":true,"prompt":"What is 2+2? Answer:","stop_reason":"max_new_tokens"}

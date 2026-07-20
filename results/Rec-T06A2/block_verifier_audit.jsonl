@@ -1,2 +1,0 @@
-{"fixture_id":"gsm8k_test_000000_12c0b583","status":"PASS_SMOKE","emitted_output_tokens":8,"target_prefill_calls":1,"target_block_verification_calls":6,"accepted_block_length":4,"cache_crop_verified":true}
-{"fixture_id":"qmsum_test_meeting0000_specific_02_86570dc2","status":"FAIL_PARITY","first_token_mismatch":16,"cache_crop_verified":true,"correction_index_verified":true}

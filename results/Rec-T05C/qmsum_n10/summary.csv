@@ -1,4 +1,0 @@
-condition,rows,success,cap_hits,gsm8k_strict_correct,mean_e2e_ms,semantic_correctness
-baseline-ar,10,10,10,,12439.165666698682,NOT_CLAIMED
-dflash-r1,10,10,10,,8933.003633299813,NOT_CLAIMED
-cc-dflash-r2,10,10,10,,8826.389194300282,NOT_CLAIMED

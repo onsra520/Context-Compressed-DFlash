@@ -1,1 +1,0 @@
-{"compressor_device":"cpu","compressor_path":"models/llmlingua-2-bert-base-multilingual-cased-meetingbank","drafter_path":"models/drafter/z-lab--Qwen3-4B-DFlash-b16","target_path":"models/target/unsloth--Qwen3-4B-bnb-4bit"}
